@@ -1,0 +1,9 @@
+/* HEADER: START */
+
+(function(window, undefined)
+{
+	function create()
+	{
+	
+/* HEADER: END */
+
