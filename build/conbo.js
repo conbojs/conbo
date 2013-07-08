@@ -2508,7 +2508,7 @@ conbo.History = conbo.EventDispatcher.extend
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options
 	 */
-	constructor: function()
+	constructor: function(options)
 	{
 		this.handlers = [];
 		this.bindAll('checkUrl');
@@ -2520,7 +2520,7 @@ conbo.History = conbo.EventDispatcher.extend
 			this.history = window.history;
 		}
 		
-		this._inject(options);
+		if (_.isObject(options) && !!options.context) this._inject(options);
 		this.initialize.apply(this, arguments);
 	},
 	
@@ -2656,22 +2656,19 @@ conbo.History = conbo.EventDispatcher.extend
 	},
 	
 	/**
-	 * Disable conbo.history, perhaps temporarily. Not useful in a real
-	 * app,
+	 * Disable conbo.history, perhaps temporarily. Not useful in a real app,
 	 * but possibly useful for unit testing Routers.
 	 */
 	stop: function()
 	{
-		conbo.$(window).off('popstate', this.checkUrl).off(
-				'hashchange', this.checkUrl);
+		conbo.$(window).off('popstate', this.checkUrl).off('hashchange', this.checkUrl);
 		clearInterval(this._checkUrlInterval);
 		this.started = false;
 	},
 	
 	/**
 	 * Add a route to be tested when the fragment changes. Routes added
-	 * later
-	 * may override previous routes.
+	 * later may override previous routes.
 	 */
 	route: function(route, callback)
 	{
@@ -2806,6 +2803,9 @@ conbo.History = conbo.EventDispatcher.extend
 	}
 
 });
+
+// Create default instance of the History class
+conbo.history = new conbo.History();
 var optionalParam = /\((.*?)\)/g;
 var namedParam		= /(\(\?)?:\w+/g;
 var splatParam		= /\*\w+/g;
@@ -2829,8 +2829,9 @@ conbo.Router = conbo.EventDispatcher.extend
 	{
 		options || (options = {});
 		if (options.routes) this.routes = options.routes;
-		this._inject(options);
 		this._bindRoutes();
+		
+		if (_.isObject(options) && !!options.context) this._inject(options);
 		this.initialize.apply(this, arguments);
 	},
 	

@@ -21,8 +21,9 @@ conbo.Router = conbo.EventDispatcher.extend
 	{
 		options || (options = {});
 		if (options.routes) this.routes = options.routes;
-		this._inject(options);
 		this._bindRoutes();
+		
+		if (_.isObject(options) && !!options.context) this._inject(options);
 		this.initialize.apply(this, arguments);
 	},
 	
