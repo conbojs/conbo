@@ -63,6 +63,7 @@ conbo.Router = conbo.EventDispatcher.extend
 				type:		'route:' + name, 
 				router:		this,
 				route:		route,
+				name:		name,
 				parameters:	args
 			}));
 			
@@ -70,7 +71,7 @@ conbo.Router = conbo.EventDispatcher.extend
 			({
 				type:		conbo.ConboEvent.ROUTE, 
 				router:		this,
-				route:		name,
+				name:		name,
 				parameters:	args
 			});
 			
