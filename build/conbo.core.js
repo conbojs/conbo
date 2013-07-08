@@ -19,7 +19,7 @@
 /**
  * CONBO.JS
  * 
- * Conbo.JS is a lightweight MVC application framework for JavaScript featuring 
+ * Conbo.js is a lightweight MVC application framework for JavaScript featuring 
  * dependency injection, context and encapsulation, command pattern and event 
  * model which enables callback scoping and consistent event handling
  * 
@@ -34,6 +34,7 @@ var conbo = {},
 	_ = conbo._ = useRequire ? require('underscore') : window._,
 	$;
 
+// JQuery is optional for server-side applications, so don't panic if it's not available
 try {
 	$ = conbo.$ = useRequire ? require('jquery') : (window.jQuery || window.Zepto || window.ender);
 } catch (e) {}
@@ -42,12 +43,12 @@ try {
  * Info
  */
 
-conbo.VERSION = '1.0.10';
+conbo.VERSION = '1.0.11';
 conbo.toString = function() { return '[Conbo '+this.VERSION+']'; };
 
 /**
  * Class
- * Base class from which all others extend
+ * Extendable base class from which all others extend
  */
 conbo.Class = function(options) 
 {
@@ -113,11 +114,20 @@ conbo.Class.prototype =
 		return this;
 	},
 	
+	/**
+	 * Scope one or more methods to this class instance
+	 * @param 	method
+	 * @returns
+	 */
 	bind: function(method)
 	{
 		return _.bind.apply(_, [method, this].concat(_.rest(arguments)));
 	},
 	
+	/**
+	 * Scope all methods of this class instance to this class instance
+	 * @returns this
+	 */
 	bindAll: function()
 	{
 		_.bindAll.apply(_, [this].concat(_.toArray(arguments)))
@@ -126,6 +136,8 @@ conbo.Class.prototype =
 	
 	/**
 	 * Injector
+	 * Add context to this class instance and inject specified dependencies
+	 * (properties of undefined value which match registered singetons)
 	 * @private
 	 */
 	_inject: function(options)
@@ -148,17 +160,21 @@ conbo.Class.extend = function(protoProps, staticProps)
 {
 	var child, parent=this;
 	
-	// The constructor function for the new subclass is either defined by you
-	// (the "constructor" property in your `extend` definition), or defaulted
-	// by us to simply call the parent's constructor.
+	/**
+	 * The constructor function for the new subclass is either defined by you
+	 * (the "constructor" property in your `extend` definition), or defaulted
+	 * by us to simply call the parent's constructor.
+	 */
 	child = protoProps && _.has(protoProps, 'constructor')
 		? protoProps.constructor
 		: function(){ return parent.apply(this, arguments); };
 	
 	_.extend(child, parent, staticProps);
 	
-	// Set the prototype chain to inherit from parent, without calling
-	// parent's constructor
+	/**
+	 * Set the prototype chain to inherit from parent, without calling
+	 * parent's constructor
+	 */
 	var Surrogate = function(){ this.constructor = child; };
 	Surrogate.prototype = parent.prototype;
 	child.prototype = new Surrogate;
@@ -171,6 +187,9 @@ conbo.Class.extend = function(protoProps, staticProps)
 
 /*
  * Polyfills for common HTML5/JS methods
+ * 
+ * Only include the minimum possible number here: we don't want to end 
+ * up bloated with stuff most people will never use
  */
 
 if (!Array.prototype.indexOf) {
@@ -200,7 +219,11 @@ if (!window.requestAnimationFrame) {
 	})();
 }
 *//**
- * Event class (should probably merge with jQuery's Event class?)
+ * Event class
+ * 
+ * Base class for all events triggered in Conbo.js
+ * 
+ * @author		Neil Rackett
  */
 conbo.Event = conbo.Class.extend
 ({
@@ -212,6 +235,10 @@ conbo.Event = conbo.Class.extend
 	target: undefined,
 	type: undefined,
 	
+	/**
+	 * Constructor: DO NOT override! (Use initialize instead)
+	 * @param options
+	 */
 	constructor: function(type)
 	{
 		if (_.isString(type)) this.type = type;
@@ -220,23 +247,40 @@ conbo.Event = conbo.Class.extend
 		this.initialize.apply(this, arguments);
 	},
 	
+	/**
+	 * Initialize: Override this!
+	 * @param type
+	 */
 	initialize: function(type) {},
 	
+	/**
+	 * Create an identical clone of this event
+	 * @returns 	Event
+	 */
 	clone: function()
 	{
 		return _.clone(this);
 	},
 	
+	/**
+	 * Prevent whatever the default framework action for this event is
+	 */
 	preventDefault: function() 
 	{
 		this.defaultPrevented = true;
 	},
 	
+	/**
+	 * Not currently used
+	 */
 	stopPropagation: function() 
 	{
 		this.cancelBubble = true;
 	},
 	
+	/**
+	 * Keep the rest of the handlers from being executed
+	 */
 	stopImmediatePropagation: function() 
 	{
 		this.immediatePropagationStopped = true;
@@ -269,7 +313,14 @@ conbo.Event = conbo.Class.extend
 	}
 });
 /**
- * Conbo Event
+ * conbo.Event
+ * 
+ * Default event class for events fired by Conbo.js
+ * 
+ * For consistency, callback parameters of Backbone.js derived classes 
+ * are event object properties in Conbo.js
+ * 
+ * @author		Neil Rackett
  */
 conbo.ConboEvent = conbo.Event.extend
 ({
@@ -279,30 +330,36 @@ conbo.ConboEvent = conbo.Event.extend
 	}
 },
 {
-	ERROR:		"error", 	// (model, xhr, options) — when a model's save call fails on the server.
-	INVALID:	"invalid", 	// (model, error, options) — when a model's validation fails on the client.
-	CHANGE:		"change", 	// (model, options) — when a model's attributes have changed.
-							// "change:[attribute]" // (model, value, options) — when a specific attribute has been updated.
-	ADD:		"add", 		// (model, collection, options) — when a model is added to a collection.
-	REMOVE:		"remove", 	// (model, collection, options) — when a model is removed from a collection.
-	DESTROY:	"destroy", 	// (model, collection, options) — when a model is destroyed.
-	RESET:		"reset", 	// (collection, options) — when the collection's entire contents have been replaced.
-	SORT:		"sort", 	// (collection, options) — when the collection has been re-sorted.
+	ERROR:		"error", 	// (Properties: model, xhr, options) — when a model's save call fails on the server.
+	INVALID:	"invalid", 	// (Properties: model, error, options) — when a model's validation fails on the client.
+	CHANGE:		"change", 	// (Properties: model, options) — when a Bindable instance's attributes have changed.
+							// "change:[attribute]" (Properties: model, value, options — when a specific attribute has been updated.
+	ADD:		"add", 		// (Properties: model, collection, options) — when a model is added to a collection.
+	REMOVE:		"remove", 	// (Properties: model, collection, options) — when a model is removed from a collection.
+	DESTROY:	"destroy", 	// (Properties: model, collection, options) — when a model is destroyed.
+	RESET:		"reset", 	// (Properties: collection, options) — when the collection's entire contents have been replaced.
+	SORT:		"sort", 	// (Properties: collection, options) — when the collection has been re-sorted.
 	
-	REQUEST:	"request", 	// (model, xhr, options) — when a model (or collection) has started a request to the server.
-	SYNC:		"sync", 	// (model, resp, options) — when a model (or collection) has been successfully synced with the server.
+	REQUEST:	"request", 	// (Properties: model, xhr, options) — when a model (or collection) has started a request to the server.
+	SYNC:		"sync", 	// (Properties: model, response, options) — when a model (or collection) has been successfully synced with the server.
 	
-	ROUTE:		"route", 	// (router, route, params) — Fired by history (or router) when any route has been matched.
-							// "route:[name]" // (params) — Fired by the router when a specific route is matched.
+	ROUTE:		"route", 	// (Properties: router, route, params) — Fired by history (or router) when any route has been matched.
+							// "route:[name]" // (Properties: params) — Fired by the router when a specific route is matched.
 	
-	ALL:		"all", 		// special event fires for any triggered event, passing the event name as the first argument.
+	ALL:		"all", 		// special event fires for any triggered event
 });
 /**
  * Event Dispatcher
  * 
- * Event model designed to bring events into line with DOM events 
- * and those found in ActionScript 2 & 3, offering a more predictable, 
- * object based approach to event dispatching and handling
+ * Event model designed to bring events into line with DOM events and those 
+ * found in HTML DOM, jQuery and ActionScript 2 & 3, offering a more 
+ * predictable, object based approach to event dispatching and handling
+ * 
+ * Should be used as the base class for any class that won't be used for 
+ * data binding
+ * 
+ * @author	Neil Rackett
+ * @see		conbo.Bindable
  */
 conbo.EventDispatcher = conbo.Class.extend
 ({
@@ -449,8 +506,16 @@ conbo.EventDispatcher = conbo.Class.extend
 	}
 });
 /**
- * Base class for anything that you want to use as a data provider,
- * e.g. using BindingUtils
+ * Bindable
+ * 
+ * Base class for anything that you want to be able to use as a data provider for HTML,
+ * e.g. as part of a View, or otherwise be able to track property changes on
+ * 
+ * By default, classes extending Bindable will trigger 'change:[property name]' and 
+ * 'change' events when a property (including jQuery-style accessors) is changed
+ * via the set(...) method
+ * 
+ * @author		Neil Rackett
  */
 conbo.Bindable = conbo.EventDispatcher.extend
 ({
@@ -555,10 +620,20 @@ conbo.Bindable = conbo.EventDispatcher.extend
 	}
 });
 /**
- * Context
+ * conbo.Context
+ * 
+ * This is your application's event bus and dependency injector, and is
+ * usually where all your models and web service classes are registered,
+ * using mapSingleton(...), and Command classes are mapped to events 
+ * 
+ * @author		Neil Rackett
  */
 conbo.Context = conbo.EventDispatcher.extend
 ({
+	/**
+	 * Constructor: DO NOT override! (Use initialize instead)
+	 * @param options
+	 */
 	constructor: function(options)
 	{
 		this._commands = {};
@@ -573,6 +648,10 @@ conbo.Context = conbo.EventDispatcher.extend
 		return this;
 	},
 	
+	/**
+	 * Initialize: Override this
+	 * @param options
+	 */
 	initialize: function(options) {},
 	
 	/**
@@ -729,18 +808,31 @@ conbo.Context = conbo.EventDispatcher.extend
 	
 });
 /**
- * Map: A simple, bindable Object class for when a Model is overkill
- * @deprecated
+ * conbo.Map
+ * 
+ * A simple, lightweight, bindable Object class for when a Model is overkill,
+ * e.g. when you don't need to sync your data with a web service
+ * 
+ * @author		Neil Rackett
  */
 conbo.Map = conbo.Bindable.extend
 ({
+	/**
+	 * Constructor: DO NOT override! (Use initialize instead)
+	 * @param options
+	 */
 	constructor: function(options)
 	{
 		if (_.isObject(options) && !!options.context) this._inject(options);
 		this.initialize.apply(this, arguments);
-		_.defaults(this, this.defaults);
+		_.defaults(this._attributes(), this.defaults);
 	},
 	
+	/**
+	 * Returns an object ready to be converted to JSON
+	 * TODO Ensure we return only user's props and accessors (converted to props)
+	 * @returns
+	 */
 	toJSON: function()
 	{
 		return _.clone(this._attributes());
@@ -753,14 +845,19 @@ conbo.Map = conbo.Bindable.extend
 });
 /**
  * Binding utility class
- * @author Neil
+ * 
+ * Used to bind properties of Bindable class instances to DOM elements, 
+ * other Bindable class instances or setter functions
+ * 
+ * @author Neil Rackett
  */
 conbo.BindingUtils = conbo.Class.extend({},
 {
 	/**
-	 * Bind a property of a Model or EventDispatcher to a DOM element's value/content 
+	 * Bind a property of a Bindable class instance  (e.g. Map or Model) 
+	 * to a DOM element's value/content 
 	 * 
-	 * @param source			Class instance which extends from conbo.Bindable
+	 * @param source			Class instance which extends from conbo.Bindable (e.g. Map or Model)
 	 * @param property			Property name to bind
 	 * @param element			DOM element to bind value to (two-way bind on input/form elements)
 	 * @param parseFunction		Optional method used to parse values before outputting as HTML
@@ -857,11 +954,11 @@ conbo.BindingUtils = conbo.Class.extend({},
 	},
 	
 	/**
-	 * Bind the property of one Model or EventDispatcher to another
+	 * Bind the property of one Bindable class instance (e.g. Map or Model) to another
 	 * 
 	 * @param source					Class instance which extends from conbo.Bindable
 	 * @param sourcePropertyName		String
-	 * @param destination				conbo.Model or conbo.EventDispatcher instance
+	 * @param destination				Class instance which extends from conbo.Bindable
 	 * @param destinationPropertyName	String (default: sourcePropertyName)
 	 * @param twoWay					Boolean (default: false)
 	 */
@@ -880,7 +977,8 @@ conbo.BindingUtils = conbo.Class.extend({},
 	},
 	
 	/**
-	 * Call a setter function when the specified property is changed
+	 * Call a setter function when the specified property of a Bindable 
+	 * class instance (e.g. Map or Model) is changed
 	 * 
 	 * @param source			Class instance which extends from conbo.Bindable
 	 * @param propertyName
@@ -896,19 +994,25 @@ conbo.BindingUtils = conbo.Class.extend({},
 		return this;
 	}
 });
-//conbo.View
-//-------------
-
-//Cached regex to split keys for `delegate`.
 var delegateEventSplitter = /^(\S+)\s*(.*)$/;
 
 //List of view options to be merged as properties.
 var viewOptions = ['model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events'];
 
-//Creating a conbo.View creates its initial element outside of the DOM,
-//if an existing element is not provided...
+/**
+ * View
+ * 
+ * Creating a conbo.View creates its initial element outside of the DOM,
+ * if an existing element is not provided...
+ * 
+ * Some methods derived from the Backbone.js class of the same name
+ */
 conbo.View = conbo.Bindable.extend
 ({
+	/**
+	 * Constructor: DO NOT override! (Use initialize instead)
+	 * @param options
+	 */
 	constructor: function(options)
 	{
 		this.cid = _.uniqueId('view');
@@ -922,30 +1026,40 @@ conbo.View = conbo.Bindable.extend
 		this.delegateEvents();
 	},
 	
-	// The default `tagName` of a View's element is `"div"`.
+	/**
+	 * The default `tagName` of a View's element is `"div"`.
+	 */
 	tagName: 'div',
 	
-	// jQuery delegate for element lookup, scoped to DOM elements within the
-	// current view. This should be prefered to global lookups where possible.
+	/**
+	 * jQuery delegate for element lookup, scoped to DOM elements within the
+	 * current view. This should be prefered to global lookups where possible.
+	 */
 	$: function(selector)
 	{
 		return this.$el.find(selector);
 	},
 	
-	// Initialize is an empty function by default. Override it with your own
-	// initialization logic.
+	/**
+	 * Initialize is an empty function by default. Override it with your own
+	 * initialization logic.
+	 */
 	initialize: function(){},
 	
-	// **render** is the core function that your view should override, in order
-	// to populate its element (`this.el`), with the appropriate HTML. The
-	// convention is for **render** to always return `this`.
+	/**
+	 * **render** is the core function that your view should override, in order
+	 * to populate its element (`this.el`), with the appropriate HTML. The
+	 * convention is for **render** to always return `this`.
+	 */
 	render: function() 
 	{
 		return this;
 	},
 	
-	// Remove this view by taking the element out of the DOM, and removing any
-	// applicable events listeners.
+	/**
+	 * Remove this view by taking the element out of the DOM, and removing any
+	 * applicable events listeners.
+	 */
 	remove: function() 
 	{
 		this.$el.remove();
@@ -956,8 +1070,10 @@ conbo.View = conbo.Bindable.extend
 		return this;
 	},
 	
-	// Change the view's element (`this.el` property), including event
-	// re-delegation.
+	/**
+	 * Change the view's element (`this.el` property), including event
+	 * re-delegation.
+	 */
 	setElement: function(element, delegate)
 	{
 		if (this.$el)
@@ -977,6 +1093,13 @@ conbo.View = conbo.Bindable.extend
 		return this;
 	},
 	
+	/**
+	 * Append this DOM element from one View class instance this class 
+	 * instances DOM element
+	 * 
+	 * @param 		view
+	 * @returns 	this
+	 */
 	appendView: function(view)
 	{
 		if (arguments.length > 1)
@@ -995,6 +1118,13 @@ conbo.View = conbo.Bindable.extend
 		return this;
 	},
 	
+	/**
+	 * Prepend this DOM element from one View class instance this class 
+	 * instances DOM element
+	 * 
+	 * @param 		view
+	 * @returns 	this
+	 */
 	prependView: function(view)
 	{
 		if (arguments.length > 1)
@@ -1097,25 +1227,25 @@ conbo.View = conbo.Bindable.extend
 	},
 	
 	/**
+	 * Set callbacks, where `this.events` is a hash of
+	 * 
+	 * *{"event selector": "callback"}*
+	 *
+	 *     {
+	 *       'mousedown .title':  'edit',
+	 *       'click .button':     'save'
+	 *       'click .open':       function(e) { ... }
+	 *     }
+	 *
+	 * pairs. Callbacks will be bound to the view, with `this` set properly.
+	 * Uses event delegation for efficiency.
+	 * Omitting the selector binds the event to `this.el`.
+	 * This only works for delegate-able events: not `focus`, `blur`, and
+	 * not `change`, `submit`, and `reset` in Internet Explorer.
 	 * 
 	 * @param	events
 	 * @returns this
 	 */
-	// Set callbacks, where `this.events` is a hash of
-	//
-	// *{"event selector": "callback"}*
-	//
-	//     {
-	//       'mousedown .title':  'edit',
-	//       'click .button':     'save'
-	//       'click .open':       function(e) { ... }
-	//     }
-	//
-	// pairs. Callbacks will be bound to the view, with `this` set properly.
-	// Uses event delegation for efficiency.
-	// Omitting the selector binds the event to `this.el`.
-	// This only works for delegate-able events: not `focus`, `blur`, and
-	// not `change`, `submit`, and `reset` in Internet Explorer.
 	delegateEvents: function(events) 
 	{
 		if (!(events || (events = _.result(this, 'events')))) return;
@@ -1141,9 +1271,11 @@ conbo.View = conbo.Bindable.extend
 		return this;
 	},
 	
-	// Clears all callbacks previously bound to the view with `delegateEvents`.
-	// You usually don't need to use this, but may wish to if you have multiple
-	// conbo views attached to the same DOM element.
+	/**
+	 * Clears all callbacks previously bound to the view with `delegateEvents`.
+	 * You usually don't need to use this, but may wish to if you have multiple
+	 * conbo views attached to the same DOM element.
+	 */
 	undelegateEvents: function() {
 		this.$el.off('.delegateEvents' + this.cid);
 		return this;
@@ -1154,7 +1286,10 @@ conbo.View = conbo.Bindable.extend
 		return '[conbo.View]';
 	},
 	
-	// TODO Put this elsewhere, but still enable user to inject conbo.$ manually
+	/**
+	 * TODO Put this elsewhere, but still enable user to inject conbo.$ manually
+	 * @private
+	 */
 	_addStyle: function()
 	{
 		if (!!conbo.style) return this;
@@ -1172,9 +1307,13 @@ conbo.View = conbo.Bindable.extend
 		return this;
 	},
 	
-	// Performs the initial configuration of a View with a set of options.
-	// Keys with special meaning *(model, collection, id, className)*, are
-	// attached directly to the view.
+	/**
+	 * Performs the initial configuration of a View with a set of options.
+	 * Keys with special meaning *(model, collection, id, className)*, are
+	 * attached directly to the view.
+	 * 
+	 * @private
+	 */
 	_configure: function(options) 
 	{
 		if (this.options) options = _.extend({}, _.result(this, 'options'), options);
@@ -1182,10 +1321,14 @@ conbo.View = conbo.Bindable.extend
 		this.options = options;
 	},
 	
-	// Ensure that the View has a DOM element to render into.
-	// If `this.el` is a string, pass it through `$()`, take the first
-	// matching element, and re-assign it to `el`. Otherwise, create
-	// an element from the `id`, `className` and `tagName` properties.
+	/**
+	 * Ensure that the View has a DOM element to render into.
+	 * If `this.el` is a string, pass it through `$()`, take the first
+	 * matching element, and re-assign it to `el`. Otherwise, create
+	 * an element from the `id`, `className` and `tagName` properties.
+	 * 
+	 * @private
+	 */
 	_ensureElement: function() 
 	{
 		if (!this.el) {
@@ -1200,6 +1343,9 @@ conbo.View = conbo.Bindable.extend
 		}
 	},
 	
+	/**
+	 * @private
+	 */
 	_setClass: function(className, value)
 	{
 		var a = _.rest(arguments);
@@ -1218,8 +1364,20 @@ conbo.View = conbo.Bindable.extend
 		return this;
 	}
 });
+/**
+ * Actor
+ * 
+ * Suggested base class for web services to be included as singletons 
+ * in your Context, using mapSingleton(...)
+ * 
+ * @author		Neil Rackett
+ */
 conbo.Actor = conbo.Bindable.extend
 ({
+	/**
+	 * Constructor: DO NOT override! (Use initialize instead)
+	 * @param options
+	 */
 	constructor: function(options)
 	{
 		this._inject(options);
@@ -1228,11 +1386,23 @@ conbo.Actor = conbo.Bindable.extend
 });
 /**
  * Application
+ * 
+ * Base application class for client-side applications
+ * 
+ * @author		Neil Rackett
  */
 conbo.Application = conbo.View.extend
 ({
+	/**
+	 * Default context class to use
+	 * You'll normally want to override this with your own
+	 */
 	contextClass: conbo.Context,
 	
+	/**
+	 * Constructor: DO NOT override! (Use initialize instead)
+	 * @param options
+	 */
 	constructor: function(options)
 	{
 		options = options || {};
@@ -1249,35 +1419,39 @@ conbo.Application = conbo.View.extend
 	},
 });
 /**
- * Command
- * @param options
- * @returns {conbo.Command}
+ * conbo.Command
+ * 
+ * Base class for commands to be registered in your Context 
+ * using mapCommand(...)
+ * 
+ * @author		Neil Rackett
  */
 conbo.Command = conbo.EventDispatcher.extend
 ({
+	/**
+	 * Constructor: DO NOT override! (Use initialize instead)
+	 * @param options
+	 */
 	constructor: function(options)
 	{
 		this._inject(options);
-		
 		this.event = this.options.event || {};
 		this.initialize.apply(this, arguments);
 	},
 	
 	/**
-	 * Initialiser included just for consistency
+	 * Initialiser included for consistency, but should probably never be used
 	 */
-	initialize: function() 
-	{
-		return this;
-	},
+	initialize: function() {},
 	
 	/**
 	 * Execute: should be overridden
+	 * 
+	 * When a Command is called in response to an event registered with the
+	 * Context, the class is instantiated, this method is called then the 
+	 * class instance is destroyed
 	 */
-	execute: function() 
-	{
-		return this;
-	},
+	execute: function() {},
 	
 	toString: function()
 	{
@@ -1286,12 +1460,24 @@ conbo.Command = conbo.EventDispatcher.extend
 	
 });
 /**
- * Server Application (e.g. Node.js)
+ * Server Application 
+ * 
+ * Base class for applications that don't require DOM, e.g. Node.js
+ * 
+ * @author		Neil Rackett
  */
 conbo.ServerApplication = conbo.Bindable.extend
 ({
+	/**
+	 * Default context class to use
+	 * You'll normally want to override this with your own
+	 */
 	contextClass: conbo.Context,
 	
+	/**
+	 * Constructor: DO NOT override! (Use initialize instead)
+	 * @param options
+	 */
 	constructor: function(options)
 	{
 		options = options || {};

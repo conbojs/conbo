@@ -10,7 +10,7 @@
 /**
  * CONBO.JS
  * 
- * Conbo.JS is a lightweight MVC application framework for JavaScript featuring 
+ * Conbo.js is a lightweight MVC application framework for JavaScript featuring 
  * dependency injection, context and encapsulation, command pattern and event 
  * model which enables callback scoping and consistent event handling
  * 
@@ -25,6 +25,7 @@ var conbo = {},
 	_ = conbo._ = useRequire ? require('underscore') : window._,
 	$;
 
+// JQuery is optional for server-side applications, so don't panic if it's not available
 try {
 	$ = conbo.$ = useRequire ? require('jquery') : (window.jQuery || window.Zepto || window.ender);
 } catch (e) {}
@@ -33,12 +34,12 @@ try {
  * Info
  */
 
-conbo.VERSION = '1.0.10';
+conbo.VERSION = '1.0.11';
 conbo.toString = function() { return '[Conbo '+this.VERSION+']'; };
 
 /**
  * Class
- * Base class from which all others extend
+ * Extendable base class from which all others extend
  */
 conbo.Class = function(options) 
 {
@@ -104,11 +105,20 @@ conbo.Class.prototype =
 		return this;
 	},
 	
+	/**
+	 * Scope one or more methods to this class instance
+	 * @param 	method
+	 * @returns
+	 */
 	bind: function(method)
 	{
 		return _.bind.apply(_, [method, this].concat(_.rest(arguments)));
 	},
 	
+	/**
+	 * Scope all methods of this class instance to this class instance
+	 * @returns this
+	 */
 	bindAll: function()
 	{
 		_.bindAll.apply(_, [this].concat(_.toArray(arguments)))
@@ -117,6 +127,8 @@ conbo.Class.prototype =
 	
 	/**
 	 * Injector
+	 * Add context to this class instance and inject specified dependencies
+	 * (properties of undefined value which match registered singetons)
 	 * @private
 	 */
 	_inject: function(options)
@@ -139,17 +151,21 @@ conbo.Class.extend = function(protoProps, staticProps)
 {
 	var child, parent=this;
 	
-	// The constructor function for the new subclass is either defined by you
-	// (the "constructor" property in your `extend` definition), or defaulted
-	// by us to simply call the parent's constructor.
+	/**
+	 * The constructor function for the new subclass is either defined by you
+	 * (the "constructor" property in your `extend` definition), or defaulted
+	 * by us to simply call the parent's constructor.
+	 */
 	child = protoProps && _.has(protoProps, 'constructor')
 		? protoProps.constructor
 		: function(){ return parent.apply(this, arguments); };
 	
 	_.extend(child, parent, staticProps);
 	
-	// Set the prototype chain to inherit from parent, without calling
-	// parent's constructor
+	/**
+	 * Set the prototype chain to inherit from parent, without calling
+	 * parent's constructor
+	 */
 	var Surrogate = function(){ this.constructor = child; };
 	Surrogate.prototype = parent.prototype;
 	child.prototype = new Surrogate;
@@ -162,6 +178,9 @@ conbo.Class.extend = function(protoProps, staticProps)
 
 /*
  * Polyfills for common HTML5/JS methods
+ * 
+ * Only include the minimum possible number here: we don't want to end 
+ * up bloated with stuff most people will never use
  */
 
 if (!Array.prototype.indexOf) {

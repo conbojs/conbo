@@ -1,13 +1,18 @@
 /**
  * Binding utility class
- * @author Neil
+ * 
+ * Used to bind properties of Bindable class instances to DOM elements, 
+ * other Bindable class instances or setter functions
+ * 
+ * @author Neil Rackett
  */
 conbo.BindingUtils = conbo.Class.extend({},
 {
 	/**
-	 * Bind a property of a Model or EventDispatcher to a DOM element's value/content 
+	 * Bind a property of a Bindable class instance  (e.g. Map or Model) 
+	 * to a DOM element's value/content 
 	 * 
-	 * @param source			Class instance which extends from conbo.Bindable
+	 * @param source			Class instance which extends from conbo.Bindable (e.g. Map or Model)
 	 * @param property			Property name to bind
 	 * @param element			DOM element to bind value to (two-way bind on input/form elements)
 	 * @param parseFunction		Optional method used to parse values before outputting as HTML
@@ -104,11 +109,11 @@ conbo.BindingUtils = conbo.Class.extend({},
 	},
 	
 	/**
-	 * Bind the property of one Model or EventDispatcher to another
+	 * Bind the property of one Bindable class instance (e.g. Map or Model) to another
 	 * 
 	 * @param source					Class instance which extends from conbo.Bindable
 	 * @param sourcePropertyName		String
-	 * @param destination				conbo.Model or conbo.EventDispatcher instance
+	 * @param destination				Class instance which extends from conbo.Bindable
 	 * @param destinationPropertyName	String (default: sourcePropertyName)
 	 * @param twoWay					Boolean (default: false)
 	 */
@@ -127,7 +132,8 @@ conbo.BindingUtils = conbo.Class.extend({},
 	},
 	
 	/**
-	 * Call a setter function when the specified property is changed
+	 * Call a setter function when the specified property of a Bindable 
+	 * class instance (e.g. Map or Model) is changed
 	 * 
 	 * @param source			Class instance which extends from conbo.Bindable
 	 * @param propertyName

@@ -1,6 +1,14 @@
 /**
- * Base class for anything that you want to use as a data provider,
- * e.g. using BindingUtils
+ * Bindable
+ * 
+ * Base class for anything that you want to be able to use as a data provider for HTML,
+ * e.g. as part of a View, or otherwise be able to track property changes on
+ * 
+ * By default, classes extending Bindable will trigger 'change:[property name]' and 
+ * 'change' events when a property (including jQuery-style accessors) is changed
+ * via the set(...) method
+ * 
+ * @author		Neil Rackett
  */
 conbo.Bindable = conbo.EventDispatcher.extend
 ({

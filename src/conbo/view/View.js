@@ -1,16 +1,22 @@
-//conbo.View
-//-------------
-
-//Cached regex to split keys for `delegate`.
 var delegateEventSplitter = /^(\S+)\s*(.*)$/;
 
 //List of view options to be merged as properties.
 var viewOptions = ['model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events'];
 
-//Creating a conbo.View creates its initial element outside of the DOM,
-//if an existing element is not provided...
+/**
+ * View
+ * 
+ * Creating a conbo.View creates its initial element outside of the DOM,
+ * if an existing element is not provided...
+ * 
+ * Some methods derived from the Backbone.js class of the same name
+ */
 conbo.View = conbo.Bindable.extend
 ({
+	/**
+	 * Constructor: DO NOT override! (Use initialize instead)
+	 * @param options
+	 */
 	constructor: function(options)
 	{
 		this.cid = _.uniqueId('view');
@@ -24,30 +30,40 @@ conbo.View = conbo.Bindable.extend
 		this.delegateEvents();
 	},
 	
-	// The default `tagName` of a View's element is `"div"`.
+	/**
+	 * The default `tagName` of a View's element is `"div"`.
+	 */
 	tagName: 'div',
 	
-	// jQuery delegate for element lookup, scoped to DOM elements within the
-	// current view. This should be prefered to global lookups where possible.
+	/**
+	 * jQuery delegate for element lookup, scoped to DOM elements within the
+	 * current view. This should be prefered to global lookups where possible.
+	 */
 	$: function(selector)
 	{
 		return this.$el.find(selector);
 	},
 	
-	// Initialize is an empty function by default. Override it with your own
-	// initialization logic.
+	/**
+	 * Initialize is an empty function by default. Override it with your own
+	 * initialization logic.
+	 */
 	initialize: function(){},
 	
-	// **render** is the core function that your view should override, in order
-	// to populate its element (`this.el`), with the appropriate HTML. The
-	// convention is for **render** to always return `this`.
+	/**
+	 * **render** is the core function that your view should override, in order
+	 * to populate its element (`this.el`), with the appropriate HTML. The
+	 * convention is for **render** to always return `this`.
+	 */
 	render: function() 
 	{
 		return this;
 	},
 	
-	// Remove this view by taking the element out of the DOM, and removing any
-	// applicable events listeners.
+	/**
+	 * Remove this view by taking the element out of the DOM, and removing any
+	 * applicable events listeners.
+	 */
 	remove: function() 
 	{
 		this.$el.remove();
@@ -58,8 +74,10 @@ conbo.View = conbo.Bindable.extend
 		return this;
 	},
 	
-	// Change the view's element (`this.el` property), including event
-	// re-delegation.
+	/**
+	 * Change the view's element (`this.el` property), including event
+	 * re-delegation.
+	 */
 	setElement: function(element, delegate)
 	{
 		if (this.$el)
@@ -79,6 +97,13 @@ conbo.View = conbo.Bindable.extend
 		return this;
 	},
 	
+	/**
+	 * Append this DOM element from one View class instance this class 
+	 * instances DOM element
+	 * 
+	 * @param 		view
+	 * @returns 	this
+	 */
 	appendView: function(view)
 	{
 		if (arguments.length > 1)
@@ -97,6 +122,13 @@ conbo.View = conbo.Bindable.extend
 		return this;
 	},
 	
+	/**
+	 * Prepend this DOM element from one View class instance this class 
+	 * instances DOM element
+	 * 
+	 * @param 		view
+	 * @returns 	this
+	 */
 	prependView: function(view)
 	{
 		if (arguments.length > 1)
@@ -199,25 +231,25 @@ conbo.View = conbo.Bindable.extend
 	},
 	
 	/**
+	 * Set callbacks, where `this.events` is a hash of
+	 * 
+	 * *{"event selector": "callback"}*
+	 *
+	 *     {
+	 *       'mousedown .title':  'edit',
+	 *       'click .button':     'save'
+	 *       'click .open':       function(e) { ... }
+	 *     }
+	 *
+	 * pairs. Callbacks will be bound to the view, with `this` set properly.
+	 * Uses event delegation for efficiency.
+	 * Omitting the selector binds the event to `this.el`.
+	 * This only works for delegate-able events: not `focus`, `blur`, and
+	 * not `change`, `submit`, and `reset` in Internet Explorer.
 	 * 
 	 * @param	events
 	 * @returns this
 	 */
-	// Set callbacks, where `this.events` is a hash of
-	//
-	// *{"event selector": "callback"}*
-	//
-	//     {
-	//       'mousedown .title':  'edit',
-	//       'click .button':     'save'
-	//       'click .open':       function(e) { ... }
-	//     }
-	//
-	// pairs. Callbacks will be bound to the view, with `this` set properly.
-	// Uses event delegation for efficiency.
-	// Omitting the selector binds the event to `this.el`.
-	// This only works for delegate-able events: not `focus`, `blur`, and
-	// not `change`, `submit`, and `reset` in Internet Explorer.
 	delegateEvents: function(events) 
 	{
 		if (!(events || (events = _.result(this, 'events')))) return;
@@ -243,9 +275,11 @@ conbo.View = conbo.Bindable.extend
 		return this;
 	},
 	
-	// Clears all callbacks previously bound to the view with `delegateEvents`.
-	// You usually don't need to use this, but may wish to if you have multiple
-	// conbo views attached to the same DOM element.
+	/**
+	 * Clears all callbacks previously bound to the view with `delegateEvents`.
+	 * You usually don't need to use this, but may wish to if you have multiple
+	 * conbo views attached to the same DOM element.
+	 */
 	undelegateEvents: function() {
 		this.$el.off('.delegateEvents' + this.cid);
 		return this;
@@ -256,7 +290,10 @@ conbo.View = conbo.Bindable.extend
 		return '[conbo.View]';
 	},
 	
-	// TODO Put this elsewhere, but still enable user to inject conbo.$ manually
+	/**
+	 * TODO Put this elsewhere, but still enable user to inject conbo.$ manually
+	 * @private
+	 */
 	_addStyle: function()
 	{
 		if (!!conbo.style) return this;
@@ -274,9 +311,13 @@ conbo.View = conbo.Bindable.extend
 		return this;
 	},
 	
-	// Performs the initial configuration of a View with a set of options.
-	// Keys with special meaning *(model, collection, id, className)*, are
-	// attached directly to the view.
+	/**
+	 * Performs the initial configuration of a View with a set of options.
+	 * Keys with special meaning *(model, collection, id, className)*, are
+	 * attached directly to the view.
+	 * 
+	 * @private
+	 */
 	_configure: function(options) 
 	{
 		if (this.options) options = _.extend({}, _.result(this, 'options'), options);
@@ -284,10 +325,14 @@ conbo.View = conbo.Bindable.extend
 		this.options = options;
 	},
 	
-	// Ensure that the View has a DOM element to render into.
-	// If `this.el` is a string, pass it through `$()`, take the first
-	// matching element, and re-assign it to `el`. Otherwise, create
-	// an element from the `id`, `className` and `tagName` properties.
+	/**
+	 * Ensure that the View has a DOM element to render into.
+	 * If `this.el` is a string, pass it through `$()`, take the first
+	 * matching element, and re-assign it to `el`. Otherwise, create
+	 * an element from the `id`, `className` and `tagName` properties.
+	 * 
+	 * @private
+	 */
 	_ensureElement: function() 
 	{
 		if (!this.el) {
@@ -302,6 +347,9 @@ conbo.View = conbo.Bindable.extend
 		}
 	},
 	
+	/**
+	 * @private
+	 */
 	_setClass: function(className, value)
 	{
 		var a = _.rest(arguments);

@@ -1,6 +1,3 @@
-// conbo.History
-// ----------------
-
 // Cached regex for stripping a leading hash/slash and trailing space.
 var routeStripper = /^[#\/]|\s+$/g;
 
@@ -13,20 +10,34 @@ var isExplorer = /msie [\w.]+/;
 // Cached regex for removing a trailing slash.
 var trailingSlash = /\/$/;
 
-// Handles cross-browser history management, based on either
-// [pushState](http://diveintohtml5.info/history.html) and real URLs, or
-// [onhashchange](https://developer.mozilla.org/en-US/docs/DOM/window.onhashchange)
-// and URL fragments. If the browser supports neither (old IE, natch),
-// falls back to polling.
+/**
+ * conbo.History
+ * 
+ * Handles cross-browser history management, based on either
+ * [pushState](http://diveintohtml5.info/history.html) and real URLs, or
+ * [onhashchange](https://developer.mozilla.org/en-US/docs/DOM/window.onhashchange)
+ * and URL fragments. If the browser supports neither (old IE, natch),
+ * falls back to polling.
+ * 
+ * Derived from the Backbone.js class of the same name
+ */
 conbo.History = conbo.EventDispatcher.extend(
 {
-	// Has the history handling already been started?
+	/**
+	 * Has the history handling already been started?
+	 */
 	started: false,
 	
-	// The default interval to poll for hash changes, if necessary, is
-	// twenty times a second.
+	/**
+	 * The default interval to poll for hash changes, if necessary, is
+	 * twenty times a second.
+	 */
 	interval: 50,
 	
+	/**
+	 * Constructor: DO NOT override! (Use initialize instead)
+	 * @param options
+	 */
 	constructor: function()
 	{
 		this.handlers = [];
@@ -40,18 +51,22 @@ conbo.History = conbo.EventDispatcher.extend(
 		}
 	},
 	
-	// Gets the true hash value. Cannot use location.hash directly due
-	// to bug
-	// in Firefox where location.hash will always be decoded.
+	/**
+	 * Gets the true hash value. Cannot use location.hash directly due
+	 * to bug
+	 * in Firefox where location.hash will always be decoded.
+	 */
 	getHash: function(window)
 	{
 		var match = (window || this).location.href.match(/#(.*)$/);
 		return match ? match[1]: '';
 	},
 	
-	// Get the cross-browser normalized URL fragment, either from the
-	// URL,
-	// the hash, or the override.
+	/**
+	 * Get the cross-browser normalized URL fragment, either from the
+	 * URL,
+	 * the hash, or the override.
+	 */
 	getFragment: function(fragment, forcePushState)
 	{
 		if (fragment == null)
@@ -72,9 +87,11 @@ conbo.History = conbo.EventDispatcher.extend(
 		return fragment.replace(routeStripper, '');
 	},
 	
-	// Start the hash change handling, returning `true` if the current
-	// URL matches
-	// an existing route, and `false` otherwise.
+	/**
+	 * Start the hash change handling, returning `true` if the current
+	 * URL matches
+	 * an existing route, and `false` otherwise.
+	 */
 	start: function(options)
 	{
 		if (this.started) throw new Error(
@@ -108,10 +125,8 @@ conbo.History = conbo.EventDispatcher.extend(
 			this.navigate(fragment);
 		}
 		
-		// Depending on whether we're using pushState or hashes, and
-		// whether
-		// 'onhashchange' is supported, determine how we check the URL
-		// state.
+		// Depending on whether we're using pushState or hashes, and whether 
+		// 'onhashchange' is supported, determine how we check the URL state.
 		if (this._hasPushState)
 		{
 			conbo.$(window).on('popstate', this.checkUrl);
@@ -162,9 +177,11 @@ conbo.History = conbo.EventDispatcher.extend(
 		if (!this.options.silent) return this.loadUrl();
 	},
 	
-	// Disable conbo.history, perhaps temporarily. Not useful in a real
-	// app,
-	// but possibly useful for unit testing Routers.
+	/**
+	 * Disable conbo.history, perhaps temporarily. Not useful in a real
+	 * app,
+	 * but possibly useful for unit testing Routers.
+	 */
 	stop: function()
 	{
 		conbo.$(window).off('popstate', this.checkUrl).off(
@@ -173,9 +190,11 @@ conbo.History = conbo.EventDispatcher.extend(
 		this.started = false;
 	},
 	
-	// Add a route to be tested when the fragment changes. Routes added
-	// later
-	// may override previous routes.
+	/**
+	 * Add a route to be tested when the fragment changes. Routes added
+	 * later
+	 * may override previous routes.
+	 */
 	route: function(route, callback)
 	{
 		this.handlers.unshift(
@@ -185,8 +204,10 @@ conbo.History = conbo.EventDispatcher.extend(
 		});
 	},
 	
-	// Checks the current URL to see if it has changed, and if it has,
-	// calls `loadUrl`, normalizing across the hidden iframe.
+	/**
+	 * Checks the current URL to see if it has changed, and if it has,
+	 * calls `loadUrl`, normalizing across the hidden iframe.
+	 */
 	checkUrl: function(e)
 	{
 		var current = this.getFragment();
@@ -199,10 +220,12 @@ conbo.History = conbo.EventDispatcher.extend(
 		this.loadUrl() || this.loadUrl(this.getHash());
 	},
 	
-	// Attempt to load the current URL fragment. If a route succeeds
-	// with a
-	// match, returns `true`. If no defined routes matches the fragment,
-	// returns `false`.
+	/**
+	 * Attempt to load the current URL fragment. If a route succeeds
+	 * with a
+	 * match, returns `true`. If no defined routes matches the fragment,
+	 * returns `false`.
+	 */
 	loadUrl: function(fragmentOverride)
 	{
 		var fragment = this.fragment = this
@@ -218,18 +241,20 @@ conbo.History = conbo.EventDispatcher.extend(
 		return matched;
 	},
 	
-	// Save a fragment into the hash history, or replace the URL state
-	// if the
-	// 'replace' option is passed. You are responsible for properly
-	// URL-encoding
-	// the fragment in advance.
-	//
-	// The options object can contain `trigger: true` if you wish to
-	// have the
-	// route callback be fired (not usually desirable), or `replace:
-	// true`, if
-	// you wish to modify the current URL without adding an entry to the
-	// history.
+	/**
+	 * Save a fragment into the hash history, or replace the URL state
+	 * if the
+	 * 'replace' option is passed. You are responsible for properly
+	 * URL-encoding
+	 * the fragment in advance.
+	 * 
+	 * The options object can contain `trigger: true` if you wish to
+	 * have the
+	 * route callback be fired (not usually desirable), or `replace:
+	 * true`, if
+	 * you wish to modify the current URL without adding an entry to the
+	 * history.
+	 */
 	navigate: function(fragment, options)
 	{
 		if (!this.started) return false;
@@ -283,9 +308,11 @@ conbo.History = conbo.EventDispatcher.extend(
 		if (options.trigger) this.loadUrl(fragment);
 	},
 	
-	// Update the hash location, either replacing the current entry, or
-	// adding
-	// a new one to the browser history.
+	/**
+	 * Update the hash location, either replacing the current entry, or
+	 * adding
+	 * a new one to the browser history.
+	 */
 	_updateHash: function(location, fragment, replace)
 	{
 		if (replace)

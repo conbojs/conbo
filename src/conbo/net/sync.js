@@ -1,21 +1,24 @@
-// conbo.sync
-// -------------
-
-// Override this function to change the manner in which conbo persists
-// models to the server. You will be passed the type of request, and the
-// model in question. By default, makes a RESTful Ajax request
-// to the model's `url()`. Some possible customizations could be:
-//
-// * Use `setTimeout` to batch rapid-fire updates into a single request.
-// * Send up the models as XML instead of JSON.
-// * Persist models via WebSockets instead of Ajax.
-//
-// Turn on `conbo.emulateHTTP` in order to send `PUT` and `DELETE` requests
-// as `POST`, with a `_method` parameter containing the true HTTP method,
-// as well as all requests with the body as `application/x-www-form-urlencoded`
-// instead of `application/json` with the model in a param named `model`.
-// Useful when interfacing with server-side languages like **PHP** that make
-// it difficult to read the body of `PUT` requests.
+/**
+ * Sync
+ * 
+ * Override this function to change the manner in which conbo persists
+ * models to the server. You will be passed the type of request, and the
+ * model in question. By default, makes a RESTful Ajax request
+ * to the model's `url()`. Some possible customizations could be:
+ * 
+ * - Use `setTimeout` to batch rapid-fire updates into a single request.
+ * - Send up the models as XML instead of JSON.
+ * - Persist models via WebSockets instead of Ajax.
+ * 
+ * Turn on `conbo.emulateHTTP` in order to send `PUT` and `DELETE` requests
+ * as `POST`, with a `_method` parameter containing the true HTTP method,
+ * as well as all requests with the body as `application/x-www-form-urlencoded`
+ * instead of `application/json` with the model in a param named `model`.
+ * Useful when interfacing with server-side languages like **PHP** that make
+ * it difficult to read the body of `PUT` requests.
+ * 
+ * Derived from the Backbone.js method of the same name
+ */
 conbo.sync = function(method, model, options) 
 {
 	var type = methodMap[method];
@@ -91,7 +94,9 @@ conbo.sync = function(method, model, options)
 	return xhr;
 };
 
-// Map from CRUD to HTTP for our default `conbo.sync` implementation.
+/** 
+ * Map from CRUD to HTTP for our default `conbo.sync` implementation.
+ */
 var methodMap = 
 {
 	'create':	'POST',
@@ -101,8 +106,10 @@ var methodMap =
 	'read':		'GET'
 };
 
-// Set the default implementation of `conbo.ajax` to proxy through to `$`.
-// Override this if you'd like to use a different library.
+/**
+ * Set the default implementation of `conbo.ajax` to proxy through to `$`.
+ * Override this if you'd like to use a different library.
+ */
 conbo.ajax = function() 
 {
 	return conbo.$.ajax.apply(conbo.$, arguments);

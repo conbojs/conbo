@@ -1,9 +1,15 @@
 /**
  * Event Dispatcher
  * 
- * Event model designed to bring events into line with DOM events 
- * and those found in ActionScript 2 & 3, offering a more predictable, 
- * object based approach to event dispatching and handling
+ * Event model designed to bring events into line with DOM events and those 
+ * found in HTML DOM, jQuery and ActionScript 2 & 3, offering a more 
+ * predictable, object based approach to event dispatching and handling
+ * 
+ * Should be used as the base class for any class that won't be used for 
+ * data binding
+ * 
+ * @author	Neil Rackett
+ * @see		conbo.Bindable
  */
 conbo.EventDispatcher = conbo.Class.extend
 ({

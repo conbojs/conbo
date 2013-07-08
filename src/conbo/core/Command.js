@@ -1,33 +1,37 @@
 /**
- * Command
- * @param options
- * @returns {conbo.Command}
+ * conbo.Command
+ * 
+ * Base class for commands to be registered in your Context 
+ * using mapCommand(...)
+ * 
+ * @author		Neil Rackett
  */
 conbo.Command = conbo.EventDispatcher.extend
 ({
+	/**
+	 * Constructor: DO NOT override! (Use initialize instead)
+	 * @param options
+	 */
 	constructor: function(options)
 	{
 		this._inject(options);
-		
 		this.event = this.options.event || {};
 		this.initialize.apply(this, arguments);
 	},
 	
 	/**
-	 * Initialiser included just for consistency
+	 * Initialiser included for consistency, but should probably never be used
 	 */
-	initialize: function() 
-	{
-		return this;
-	},
+	initialize: function() {},
 	
 	/**
 	 * Execute: should be overridden
+	 * 
+	 * When a Command is called in response to an event registered with the
+	 * Context, the class is instantiated, this method is called then the 
+	 * class instance is destroyed
 	 */
-	execute: function() 
-	{
-		return this;
-	},
+	execute: function() {},
 	
 	toString: function()
 	{

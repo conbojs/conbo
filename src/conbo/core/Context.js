@@ -1,8 +1,18 @@
 /**
- * Context
+ * conbo.Context
+ * 
+ * This is your application's event bus and dependency injector, and is
+ * usually where all your models and web service classes are registered,
+ * using mapSingleton(...), and Command classes are mapped to events 
+ * 
+ * @author		Neil Rackett
  */
 conbo.Context = conbo.EventDispatcher.extend
 ({
+	/**
+	 * Constructor: DO NOT override! (Use initialize instead)
+	 * @param options
+	 */
 	constructor: function(options)
 	{
 		this._commands = {};
@@ -17,6 +27,10 @@ conbo.Context = conbo.EventDispatcher.extend
 		return this;
 	},
 	
+	/**
+	 * Initialize: Override this
+	 * @param options
+	 */
 	initialize: function(options) {},
 	
 	/**
