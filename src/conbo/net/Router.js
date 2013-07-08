@@ -23,7 +23,7 @@ conbo.Router = conbo.EventDispatcher.extend
 		if (options.routes) this.routes = options.routes;
 		this._bindRoutes();
 		
-		if (_.isObject(options) && !!options.context) this._inject(options);
+		this._inject(options);
 		this.initialize.apply(this, arguments);
 	},
 	
@@ -58,23 +58,17 @@ conbo.Router = conbo.EventDispatcher.extend
 			var args = this._extractParameters(route, fragment);
 			callback && callback.apply(this, args);
 			
-			this.trigger(new conbo.ConboEvent
-			({
-				type:		'route:' + name, 
+			var options = 
+			{
 				router:		this,
 				route:		route,
 				name:		name,
 				parameters:	args
-			}));
+			}
 			
-			var event = new conbo.ConboEvent
-			({
-				type:		conbo.ConboEvent.ROUTE, 
-				router:		this,
-				name:		name,
-				parameters:	args
-			});
+			this.trigger(new conbo.ConboEvent('route:'+name, options));
 			
+			var event = new conbo.ConboEvent(conbo.ConboEvent.ROUTE, options);
 			this.trigger(event);
 			conbo.history.trigger(event);
 		}));

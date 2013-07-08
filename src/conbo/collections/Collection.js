@@ -28,9 +28,8 @@ conbo.Collection = conbo.EventDispatcher.extend
 	    this._reset();
 	    
 		this._inject(options);
-	    
-		this.initialize.apply(this, arguments);
 	    if (models) this.reset(models, _.extend({silent: true}, options));
+	    this.initialize.apply(this, arguments);
 	},
 
 	/**
@@ -84,9 +83,8 @@ conbo.Collection = conbo.EventDispatcher.extend
 			{
 				options.index = index;
 			      
-		    	this.trigger(new conbo.ConboEvent
-		    	({
-		    		type: conbo.ConboEvent.REMOVE, 
+		    	this.trigger(new conbo.ConboEvent(conbo.ConboEvent.REMOVE,
+		    	{
 		    		model: model,
 		    		collection: this,
 		    		options: options
@@ -191,9 +189,8 @@ conbo.Collection = conbo.EventDispatcher.extend
 	      
 		if (!options.silent) 
 		{
-	    	this.trigger(new conbo.ConboEvent
-	    	({
-	    		type: conbo.ConboEvent.RESET, 
+	    	this.trigger(new conbo.ConboEvent(conbo.ConboEvent.RESET,
+	    	{
 	    		collection: this,
 	    		options: options
 	    	}));
@@ -305,9 +302,8 @@ conbo.Collection = conbo.EventDispatcher.extend
 
 		if (!options.silent) 
 		{
-	    	this.trigger(new conbo.ConboEvent
-	    	({
-	    		type: conbo.ConboEvent.SORT, 
+	    	this.trigger(new conbo.ConboEvent(conbo.ConboEvent.SORT,
+	    	{
 	    		collection: this,
 	    		options: options
 	    	}));
@@ -354,9 +350,8 @@ conbo.Collection = conbo.EventDispatcher.extend
         collection[method](resp, options);
         if (success) success(collection, resp, options);
         
-        collection.trigger(new conbo.ConboEvent
-        ({
-        	type: 		conbo.ConboEvent.SYNC,
+        collection.trigger(new conbo.ConboEvent(conbo.ConboEvent.SYNC,
+        {
         	collection:	collection,
         	response:	resp,
         	options:	options
@@ -424,9 +419,8 @@ conbo.Collection = conbo.EventDispatcher.extend
       options.collection = this;
       var model = new this.model(attrs, options);
       if (!model._validate(attrs, options)) {
-    	this.trigger(new conbo.ConboEvent
-    	({
-    		type: 		conbo.ConboEvent.INVALID,
+    	this.trigger(new conbo.ConboEvent(conbo.ConboEvent.INVALID,
+    	{
     		collection:	this,
     		attrs:		attrs,
     		options:	options

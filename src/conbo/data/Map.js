@@ -14,7 +14,7 @@ conbo.Map = conbo.Bindable.extend
 	 */
 	constructor: function(options)
 	{
-		if (_.isObject(options) && !!options.context) this._inject(options);
+		this._inject(options);
 		this.initialize.apply(this, arguments);
 		_.defaults(this._attributes(), this.defaults);
 	},

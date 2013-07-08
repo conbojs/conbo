@@ -43,7 +43,7 @@ try {
  * Info
  */
 
-conbo.VERSION = '1.0.12';
+conbo.VERSION = '1.0.13';
 conbo.toString = function() { return '[Conbo '+this.VERSION+']'; };
 
 /**
@@ -143,13 +143,9 @@ conbo.Class.prototype =
 	_inject: function(options)
 	{
 		this.options = _.defaults(options || {}, this.options);
+		this.context || (this.context = this.options.context);
 		
-		this.context = this.context ||
-			(this.options.context
-			? this.options.context
-			: new conbo.Context(options));
-		
-		this.context.injectSingletons(this);
+		if (this.context) this.context.injectSingletons(this);
 		
 		return this;
 	}
@@ -206,19 +202,7 @@ if (!String.prototype.trim) {
 	String.prototype.trim = function () 
 		{ return this.replace(/^\s+|\s+$/g,''); };
 }
-
-/*
-if (!window.requestAnimationFrame) {
-	window.requestAnimationFrame = (function()
-	{
-		return window.webkitRequestAnimationFrame
-			|| window.mozRequestAnimationFrame
-			|| window.oRequestAnimationFrame
-			|| window.msRequestAnimationFrame
-			|| function(callback) { setTimeout(callback, 1000/60); };
-	})();
-}
-*//**
+/**
  * Event class
  * 
  * Base class for all events triggered in Conbo.js
@@ -242,7 +226,9 @@ conbo.Event = conbo.Class.extend
 	constructor: function(type)
 	{
 		if (_.isString(type)) this.type = type;
-		else _.defaults(this, type);
+		else _.defaults(this, type)
+		
+		if (!this.type) throw 'Invalid event type';
 		
 		this.initialize.apply(this, arguments);
 	},
@@ -324,6 +310,11 @@ conbo.Event = conbo.Class.extend
  */
 conbo.ConboEvent = conbo.Event.extend
 ({
+	initialize: function(type, options)
+	{
+		_.defaults(this, options);
+	},
+	
 	toString: function()
 	{
 		return '[conbo.ConboEvent]';
@@ -579,14 +570,10 @@ conbo.Bindable = conbo.EventDispatcher.extend
 		
 		if (changed && !options.silent)
 		{
-			var event = {type:'change:'+attributes, attribute:attributes, value:value, options:options};
+			var options = {attribute:attributes, value:value, options:options};
 			
-			try
-			{
-				this.trigger(new conbo.ConboEvent(event));
-				this.trigger(new conbo.ConboEvent(_.extend(event, {type:conbo.ConboEvent.CHANGE})));
-			}
-			catch (e) {}
+			this.trigger(new conbo.ConboEvent('change:'+attributes, options));
+			this.trigger(new conbo.ConboEvent(conbo.ConboEvent.CHANGE, options));
 		}
 		
 		return this;
@@ -823,7 +810,7 @@ conbo.Map = conbo.Bindable.extend
 	 */
 	constructor: function(options)
 	{
-		if (_.isObject(options) && !!options.context) this._inject(options);
+		this._inject(options);
 		this.initialize.apply(this, arguments);
 		_.defaults(this._attributes(), this.defaults);
 	},

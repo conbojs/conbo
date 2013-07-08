@@ -22,7 +22,9 @@ conbo.Event = conbo.Class.extend
 	constructor: function(type)
 	{
 		if (_.isString(type)) this.type = type;
-		else _.defaults(this, type);
+		else _.defaults(this, type)
+		
+		if (!this.type) throw 'Invalid event type';
 		
 		this.initialize.apply(this, arguments);
 	},

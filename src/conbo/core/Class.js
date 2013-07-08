@@ -34,7 +34,7 @@ try {
  * Info
  */
 
-conbo.VERSION = '1.0.12';
+conbo.VERSION = '1.0.13';
 conbo.toString = function() { return '[Conbo '+this.VERSION+']'; };
 
 /**
@@ -134,13 +134,9 @@ conbo.Class.prototype =
 	_inject: function(options)
 	{
 		this.options = _.defaults(options || {}, this.options);
+		this.context || (this.context = this.options.context);
 		
-		this.context = this.context ||
-			(this.options.context
-			? this.options.context
-			: new conbo.Context(options));
-		
-		this.context.injectSingletons(this);
+		if (this.context) this.context.injectSingletons(this);
 		
 		return this;
 	}
@@ -197,16 +193,3 @@ if (!String.prototype.trim) {
 	String.prototype.trim = function () 
 		{ return this.replace(/^\s+|\s+$/g,''); };
 }
-
-/*
-if (!window.requestAnimationFrame) {
-	window.requestAnimationFrame = (function()
-	{
-		return window.webkitRequestAnimationFrame
-			|| window.mozRequestAnimationFrame
-			|| window.oRequestAnimationFrame
-			|| window.msRequestAnimationFrame
-			|| function(callback) { setTimeout(callback, 1000/60); };
-	})();
-}
-*/

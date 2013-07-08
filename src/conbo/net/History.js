@@ -50,7 +50,7 @@ conbo.History = conbo.EventDispatcher.extend
 			this.history = window.history;
 		}
 		
-		if (_.isObject(options) && !!options.context) this._inject(options);
+		this._inject(options);
 		this.initialize.apply(this, arguments);
 	},
 	
@@ -202,11 +202,7 @@ conbo.History = conbo.EventDispatcher.extend
 	 */
 	route: function(route, callback)
 	{
-		this.handlers.unshift(
-		{
-			route: route,
-			callback: callback
-		});
+		this.handlers.unshift({route:route, callback:callback});
 	},
 	
 	/**
@@ -226,15 +222,13 @@ conbo.History = conbo.EventDispatcher.extend
 	},
 	
 	/**
-	 * Attempt to load the current URL fragment. If a route succeeds
-	 * with a
-	 * match, returns `true`. If no defined routes matches the fragment,
-	 * returns `false`.
+	 * Attempt to load the current URL fragment. If a route succeeds with a
+	 * match, returns `true`. If no defined routes matches the fragment, returns `false`.
 	 */
 	loadUrl: function(fragmentOverride)
 	{
-		var fragment = this.fragment = this
-				.getFragment(fragmentOverride);
+		var fragment = this.fragment = this.getFragment(fragmentOverride);
+		
 		var matched = _.any(this.handlers, function(handler)
 		{
 			if (handler.route.test(fragment))
@@ -248,17 +242,12 @@ conbo.History = conbo.EventDispatcher.extend
 	
 	/**
 	 * Save a fragment into the hash history, or replace the URL state
-	 * if the
-	 * 'replace' option is passed. You are responsible for properly
-	 * URL-encoding
-	 * the fragment in advance.
+	 * if the 'replace' option is passed. You are responsible for properly
+	 * URL-encoding the fragment in advance.
 	 * 
-	 * The options object can contain `trigger: true` if you wish to
-	 * have the
-	 * route callback be fired (not usually desirable), or `replace:
-	 * true`, if
-	 * you wish to modify the current URL without adding an entry to the
-	 * history.
+	 * The options object can contain `trigger: true` if you wish to have the
+	 * route callback be fired (not usually desirable), or `replace: true`, if
+	 * you wish to modify the current URL without adding an entry to the history.
 	 */
 	navigate: function(fragment, options)
 	{
@@ -276,9 +265,7 @@ conbo.History = conbo.EventDispatcher.extend
 		// real URL.
 		if (this._hasPushState)
 		{
-			this.history[options.replace ? 'replaceState': 'pushState']
-					(
-					{}, document.title, url);
+			this.history[options.replace ? 'replaceState': 'pushState']({}, document.title, url);
 			
 			// If hash changes haven't been explicitly disabled, update
 			// the hash
@@ -287,48 +274,42 @@ conbo.History = conbo.EventDispatcher.extend
 		else if (this._wantsHashChange)
 		{
 			this._updateHash(this.location, fragment, options.replace);
-			if (this.iframe
-					&& (fragment !== this.getFragment(this
-							.getHash(this.iframe))))
+			
+			if (this.iframe && (fragment !== this.getFragment(this.getHash(this.iframe))))
 			{
 				// Opening and closing the iframe tricks IE7 and earlier
-				// to push a
-				// history entry on hash-tag change. When replace is
-				// true, we don't
-				// want this.
-				if (!options.replace) this.iframe.document.open()
-						.close();
-				this._updateHash(this.iframe.location, fragment,
-						options.replace);
+				// to push a history entry on hash-tag change. When replace is
+				// true, we don't want this.
+				if (!options.replace) this.iframe.document.open().close();
+				this._updateHash(this.iframe.location, fragment, options.replace);
 			}
 			
 			// If you've told us that you explicitly don't want fallback
-			// hashchange-
-			// based history, then `navigate` becomes a page refresh.
+			// hashchange-based history, then `navigate` becomes a page refresh.
 		}
 		else
 		{
 			return this.location.assign(url);
 		}
+		
 		if (options.trigger) this.loadUrl(fragment);
 	},
 	
 	/**
 	 * Update the hash location, either replacing the current entry, or
-	 * adding
-	 * a new one to the browser history.
+	 * adding a new one to the browser history.
 	 */
 	_updateHash: function(location, fragment, replace)
 	{
 		if (replace)
 		{
 			var href = location.href.replace(/(javascript:|#).*$/, '');
-			location.replace(href + '#' + fragment);
+			location.replace(href + '#/' + fragment);
 		}
 		else
 		{
 			// Some browsers require that `hash` contains a leading #.
-			location.hash = '#' + fragment;
+			location.hash = '#/' + fragment;
 		}
 	}
 

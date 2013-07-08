@@ -10,6 +10,11 @@
  */
 conbo.ConboEvent = conbo.Event.extend
 ({
+	initialize: function(type, options)
+	{
+		_.defaults(this, options);
+	},
+	
 	toString: function()
 	{
 		return '[conbo.ConboEvent]';
