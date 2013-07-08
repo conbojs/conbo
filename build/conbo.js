@@ -2853,8 +2853,8 @@ conbo.Router = conbo.EventDispatcher.extend
 		if (!_.isRegExp(route)) route = this._routeToRegExp(route);
 		if (!callback) callback = this[name];
 		
-		if (!_.isRegExp(route)) route = this._routeToRegExp(route);
-		if (_.isFunction(name)) {
+		if (_.isFunction(name)) 
+		{
 			callback = name;
 			name = '';
 		}
@@ -2868,19 +2868,19 @@ conbo.Router = conbo.EventDispatcher.extend
 			
 			this.trigger(new conbo.ConboEvent
 			({
-				type: 'route:' + name, 
-				router: this,
-				route: route,
-				params: options
+				type:	'route:' + name, 
+				router:	this,
+				route:	route,
+				params:	args
 			}));
 			
 			var event = new conbo.ConboEvent
 			({
-				type: conbo.ConboEvent.ROUTE, 
-				router: this,
-				route: name,
-				params: args
-				});
+				type:	conbo.ConboEvent.ROUTE, 
+				router:	this,
+				route:	name,
+				params:	args
+			});
 			
 			this.trigger(event);
 			conbo.history.trigger(event);
