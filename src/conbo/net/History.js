@@ -21,8 +21,8 @@ var trailingSlash = /\/$/;
  * 
  * Derived from the Backbone.js class of the same name
  */
-conbo.History = conbo.EventDispatcher.extend(
-{
+conbo.History = conbo.EventDispatcher.extend
+({
 	/**
 	 * Has the history handling already been started?
 	 */
@@ -41,7 +41,7 @@ conbo.History = conbo.EventDispatcher.extend(
 	constructor: function()
 	{
 		this.handlers = [];
-		_.bindAll(this, 'checkUrl');
+		this.bindAll('checkUrl');
 		
 		// Ensure that `History` can be used outside of the browser.
 		if (typeof window !== 'undefined')
@@ -49,7 +49,15 @@ conbo.History = conbo.EventDispatcher.extend(
 			this.location = window.location;
 			this.history = window.history;
 		}
+		
+		this._inject(options);
+		this.initialize.apply(this, arguments);
 	},
+	
+	/**
+	 * Initialize: Override this!
+	 */
+	initialize: function(){},
 	
 	/**
 	 * Gets the true hash value. Cannot use location.hash directly due

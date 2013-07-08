@@ -21,10 +21,11 @@ conbo.Router = conbo.EventDispatcher.extend
 	{
 		options || (options = {});
 		if (options.routes) this.routes = options.routes;
+		this._inject(options);
 		this._bindRoutes();
 		this.initialize.apply(this, arguments);
 	},
-
+	
 	/**
 	 * Initialize: Override this!
 	 */
