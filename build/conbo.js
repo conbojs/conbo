@@ -2868,18 +2868,18 @@ conbo.Router = conbo.EventDispatcher.extend
 			
 			this.trigger(new conbo.ConboEvent
 			({
-				type:	'route:' + name, 
-				router:	this,
-				route:	route,
-				params:	args
+				type:		'route:' + name, 
+				router:		this,
+				route:		route,
+				parameters:	args
 			}));
 			
 			var event = new conbo.ConboEvent
 			({
-				type:	conbo.ConboEvent.ROUTE, 
-				router:	this,
-				route:	name,
-				params:	args
+				type:		conbo.ConboEvent.ROUTE, 
+				router:		this,
+				route:		name,
+				parameters:	args
 			});
 			
 			this.trigger(event);
