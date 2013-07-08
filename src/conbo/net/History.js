@@ -97,13 +97,11 @@ conbo.History = conbo.EventDispatcher.extend
 	
 	/**
 	 * Start the hash change handling, returning `true` if the current
-	 * URL matches
-	 * an existing route, and `false` otherwise.
+	 * URL matches an existing route, and `false` otherwise.
 	 */
 	start: function(options)
 	{
-		if (this.started) throw new Error(
-				"conbo.history has already been started");
+		if (this.started) throw new Error("conbo.history has already been started");
 		this.started = true;
 		
 		// Figure out the initial configuration. Do we need an iframe?

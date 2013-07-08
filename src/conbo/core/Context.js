@@ -38,8 +38,8 @@ conbo.Context = conbo.EventDispatcher.extend
 	 */
 	mapCommand: function(eventType, commandClass)
 	{
-		if (!eventType) throw 'eventType cannot be undefined';
-		if (!commandClass) throw 'commandClass cannot be undefined';
+		if (!eventType) throw new Error('eventType cannot be undefined');
+		if (!commandClass) throw new Error('commandClass cannot be undefined');
 		
 		if (this._mapMulti(eventType, commandClass, this.mapCommand)) return;
 		
@@ -59,7 +59,7 @@ conbo.Context = conbo.EventDispatcher.extend
 	 */
 	unmapCommand: function(eventType, commandClass)
 	{
-		if (!eventType) throw 'eventType cannot be undefined';
+		if (!eventType) throw new Error('eventType cannot be undefined');
 		if (this._mapMulti(eventType, commandClass, this.unmapCommand)) return;
 		
 		if (commandClass === undefined)
@@ -88,8 +88,8 @@ conbo.Context = conbo.EventDispatcher.extend
 	 */
 	mapSingleton: function(propertyName, singletonClass)
 	{
-		if (!propertyName) throw 'propertyName cannot be undefined';
-		if (!singletonClass) throw 'singletonClass cannot be undefined';
+		if (!propertyName) throw new Error('propertyName cannot be undefined');
+		if (!singletonClass) throw new Error('singletonClass cannot be undefined');
 		
 		if (this._mapMulti(propertyName, singletonClass, this.mapSingleton)) return;
 		
@@ -107,7 +107,7 @@ conbo.Context = conbo.EventDispatcher.extend
 	 */
 	unmapSingleton: function(propertyName)
 	{
-		if (!propertyName) throw 'propertyName cannot be undefined';
+		if (!propertyName) throw new Error('propertyName cannot be undefined');
 		if (this._mapMulti(propertyName, null, this.unmapSingleton)) return;
 		
 		if (!this._singletons[propertyName]) return;

@@ -34,7 +34,7 @@ try {
  * Info
  */
 
-conbo.VERSION = '1.0.13';
+conbo.VERSION = '1.0.14';
 conbo.toString = function() { return '[Conbo '+this.VERSION+']'; };
 
 /**
@@ -77,7 +77,7 @@ conbo.Class.prototype =
 	 */
 	defineProperty: function(name, getter, setter, initialValue)
 	{
-		if (!('defineProperty' in Object)) throw 'Object.defineProperty is not supported by the current browser';
+		if (!('defineProperty' in Object)) throw new Error('Object.defineProperty is not supported by the current browser');
 		
 		getter = getter || function() { return this['_'+name]; };
 		setter = setter || function(value) { this['_'+name] = value; };

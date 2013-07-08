@@ -11,9 +11,9 @@ conbo.Event = conbo.Class.extend
 	//defaultPrevented: false,
 	//immediatePropagationStopped: false,
 	
-	currentTarget: undefined,
-	target: undefined,
-	type: undefined,
+	//currentTarget: undefined,
+	//target: undefined,
+	//type: undefined,
 	
 	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
@@ -22,9 +22,9 @@ conbo.Event = conbo.Class.extend
 	constructor: function(type)
 	{
 		if (_.isString(type)) this.type = type;
-		else _.defaults(this, type)
+		else _.defaults(this, type);
 		
-		if (!this.type) throw 'Invalid event type';
+		if (!this.type) throw new Error('Invalid or undefined event type');
 		
 		this.initialize.apply(this, arguments);
 	},

@@ -116,7 +116,7 @@ conbo.View = conbo.Bindable.extend
 		}
 		
 		if (!(view instanceof conbo.View))
-			throw 'Parameter must be instance of conbo.View class';
+			throw new Error('Parameter must be instance of conbo.View class');
 		
 		this.$el.append(view.el);
 		return this;
@@ -141,7 +141,7 @@ conbo.View = conbo.Bindable.extend
 		}
 		
 		if (!(view instanceof conbo.View))
-			throw 'Parameter must be instance of conbo.View class';
+			throw new Error('Parameter must be instance of conbo.View class');
 		
 		this.$el.prepend(view.el);
 		return this;

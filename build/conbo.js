@@ -43,7 +43,7 @@ try {
  * Info
  */
 
-conbo.VERSION = '1.0.13';
+conbo.VERSION = '1.0.14';
 conbo.toString = function() { return '[Conbo '+this.VERSION+']'; };
 
 /**
@@ -86,7 +86,7 @@ conbo.Class.prototype =
 	 */
 	defineProperty: function(name, getter, setter, initialValue)
 	{
-		if (!('defineProperty' in Object)) throw 'Object.defineProperty is not supported by the current browser';
+		if (!('defineProperty' in Object)) throw new Error('Object.defineProperty is not supported by the current browser');
 		
 		getter = getter || function() { return this['_'+name]; };
 		setter = setter || function(value) { this['_'+name] = value; };
@@ -215,9 +215,9 @@ conbo.Event = conbo.Class.extend
 	//defaultPrevented: false,
 	//immediatePropagationStopped: false,
 	
-	currentTarget: undefined,
-	target: undefined,
-	type: undefined,
+	//currentTarget: undefined,
+	//target: undefined,
+	//type: undefined,
 	
 	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
@@ -226,9 +226,9 @@ conbo.Event = conbo.Class.extend
 	constructor: function(type)
 	{
 		if (_.isString(type)) this.type = type;
-		else _.defaults(this, type)
+		else _.defaults(this, type);
 		
-		if (!this.type) throw 'Invalid event type';
+		if (!this.type) throw new Error('Invalid or undefined event type');
 		
 		this.initialize.apply(this, arguments);
 	},
@@ -360,10 +360,10 @@ conbo.EventDispatcher = conbo.Class.extend
 	 */
 	trigger: function(event)
 	{
-		if (!event) throw 'Event undefined';
+		if (!event) throw new Error('Event undefined');
 		
-		if (_.isString(event)) event = new conbo.Event(event);
-		if (!(event instanceof conbo.Event)) event = _.defaults(new conbo.Event, event);
+		if (_.isString(event) || !(event instanceof conbo.Event)) 
+			event = new conbo.Event(event);
 		
 		if (!this._queue || (!(event.type in this._queue) && !this._queue.all)) return this;
 		
@@ -391,8 +391,8 @@ conbo.EventDispatcher = conbo.Class.extend
 	 */
 	on: function(type, handler, scope, priority)
 	{
-		if (!type) throw 'Event type undefined';
-		if (!handler) throw 'Event handler undefined';
+		if (!type) throw new Error('Event type undefined');
+		if (!handler) throw new Error('Event handler undefined');
 
 		if (_.isString(type)) type = type.split(' ');
 		if (_.isArray(type)) _.each(type, function(value, index, list) { this._on(value, handler, scope, priority, false); }, this);
@@ -408,8 +408,8 @@ conbo.EventDispatcher = conbo.Class.extend
 	 */
 	one: function(type, handler, scope, priority)
 	{
-		if (!type) throw 'Event type undefined';
-		if (!handler) throw 'Event handler undefined';
+		if (!type) throw new Error('Event type undefined');
+		if (!handler) throw new Error('Event handler undefined');
 
 		if (_.isString(type)) type = type.split(' ');
 		if (_.isArray(type)) _.each(type, function(value, index, list) { this._on(value, handler, scope, priority, true); }, this);
@@ -432,7 +432,7 @@ conbo.EventDispatcher = conbo.Class.extend
 			return this;
 		}
 		
-		if (!type) throw 'Event type undefined';
+		if (!type) throw new Error('Event type undefined');
 		if (arguments.length == 2 && !handler) return this;
 		
 		var a = arguments;
@@ -646,8 +646,8 @@ conbo.Context = conbo.EventDispatcher.extend
 	 */
 	mapCommand: function(eventType, commandClass)
 	{
-		if (!eventType) throw 'eventType cannot be undefined';
-		if (!commandClass) throw 'commandClass cannot be undefined';
+		if (!eventType) throw new Error('eventType cannot be undefined');
+		if (!commandClass) throw new Error('commandClass cannot be undefined');
 		
 		if (this._mapMulti(eventType, commandClass, this.mapCommand)) return;
 		
@@ -667,7 +667,7 @@ conbo.Context = conbo.EventDispatcher.extend
 	 */
 	unmapCommand: function(eventType, commandClass)
 	{
-		if (!eventType) throw 'eventType cannot be undefined';
+		if (!eventType) throw new Error('eventType cannot be undefined');
 		if (this._mapMulti(eventType, commandClass, this.unmapCommand)) return;
 		
 		if (commandClass === undefined)
@@ -696,8 +696,8 @@ conbo.Context = conbo.EventDispatcher.extend
 	 */
 	mapSingleton: function(propertyName, singletonClass)
 	{
-		if (!propertyName) throw 'propertyName cannot be undefined';
-		if (!singletonClass) throw 'singletonClass cannot be undefined';
+		if (!propertyName) throw new Error('propertyName cannot be undefined');
+		if (!singletonClass) throw new Error('singletonClass cannot be undefined');
 		
 		if (this._mapMulti(propertyName, singletonClass, this.mapSingleton)) return;
 		
@@ -715,7 +715,7 @@ conbo.Context = conbo.EventDispatcher.extend
 	 */
 	unmapSingleton: function(propertyName)
 	{
-		if (!propertyName) throw 'propertyName cannot be undefined';
+		if (!propertyName) throw new Error('propertyName cannot be undefined');
 		if (this._mapMulti(propertyName, null, this.unmapSingleton)) return;
 		
 		if (!this._singletons[propertyName]) return;
@@ -1099,7 +1099,7 @@ conbo.View = conbo.Bindable.extend
 		}
 		
 		if (!(view instanceof conbo.View))
-			throw 'Parameter must be instance of conbo.View class';
+			throw new Error('Parameter must be instance of conbo.View class');
 		
 		this.$el.append(view.el);
 		return this;
@@ -1124,7 +1124,7 @@ conbo.View = conbo.Bindable.extend
 		}
 		
 		if (!(view instanceof conbo.View))
-			throw 'Parameter must be instance of conbo.View class';
+			throw new Error('Parameter must be instance of conbo.View class');
 		
 		this.$el.prepend(view.el);
 		return this;
@@ -2561,13 +2561,11 @@ conbo.History = conbo.EventDispatcher.extend
 	
 	/**
 	 * Start the hash change handling, returning `true` if the current
-	 * URL matches
-	 * an existing route, and `false` otherwise.
+	 * URL matches an existing route, and `false` otherwise.
 	 */
 	start: function(options)
 	{
-		if (this.started) throw new Error(
-				"conbo.history has already been started");
+		if (this.started) throw new Error("conbo.history has already been started");
 		this.started = true;
 		
 		// Figure out the initial configuration. Do we need an iframe?
