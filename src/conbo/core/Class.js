@@ -34,7 +34,7 @@ try {
  * Info
  */
 
-conbo.VERSION = '1.0.14';
+conbo.VERSION = '1.0.15';
 conbo.toString = function() { return '[Conbo '+this.VERSION+']'; };
 
 /**

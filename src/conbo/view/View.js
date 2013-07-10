@@ -335,13 +335,16 @@ conbo.View = conbo.Bindable.extend
 	 */
 	_ensureElement: function() 
 	{
-		if (!this.el) {
+		if (!this.el) 
+		{
 			var attrs = _.extend({}, _.result(this, 'attributes'));
 			if (this.id) attrs.id = _.result(this, 'id');
 			if (this.className) attrs['class'] = _.result(this, 'className');
 			var $el = conbo.$('<' + _.result(this, 'tagName') + '>').attr(attrs);
 			this.setElement($el, false);
-		} else {
+		}
+		else 
+		{
 			this.setElement(_.result(this, 'el'), false);
 			if (this.className) this.$el.addClass(this.className);
 		}

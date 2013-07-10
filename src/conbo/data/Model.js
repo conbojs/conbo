@@ -18,14 +18,14 @@ conbo.Model = conbo.Bindable.extend
 		var attrs = attributes || {};
 		options || (options = {});
 		this.cid = _.uniqueId('c');
-		this.attributes = {};
+		this._attributes = {};
 		_.extend(this, _.pick(options, ['url','urlRoot','collection']));
 		if (options.parse) attrs = this.parse(attrs, options) || {};
 		if (defaults = _.result(this, 'defaults')) {
 			attrs = _.defaults({}, attrs, defaults);
 		}
 		this.set(attrs, options);
-			
+		
 		this._inject(options);
 		this.initialize.apply(this, arguments);
 	},
@@ -55,29 +55,33 @@ conbo.Model = conbo.Bindable.extend
 	/**
 	 * Return a copy of the model's `attributes` object.
 	 */
-	toJSON: function(options) {
-		return _.clone(this.attributes);
+	toJSON: function(options)
+	{
+		return _.clone(this._attributes);
 	},
 
 	/**
 	 * Proxy `conbo.sync` by default -- but override this if you need
 	 * custom syncing semantics for *this* particular model.
 	 */
-	sync: function() {
+	sync: function() 
+	{
 		return conbo.sync.apply(this, arguments);
 	},
 
 	/**
 	 * Get the value of an attribute.
 	 */
-	get: function(attr) {
-		return this.attributes[attr];
+	get: function(attr) 
+	{
+		return this._attributes[attr];
 	},
 
 	/**
 	 * Get the HTML-escaped value of an attribute.
 	 */
-	escape: function(attr) {
+	escape: function(attr) 
+	{
 		return _.escape(this.get(attr));
 	},
 
@@ -85,7 +89,8 @@ conbo.Model = conbo.Bindable.extend
 	 * Returns `true` if the attribute contains a value that is not null
 	 * or undefined.
 	 */
-	has: function(attr) {
+	has: function(attr) 
+	{
 		return this.get(attr) != null;
 	},
 
@@ -124,10 +129,10 @@ conbo.Model = conbo.Bindable.extend
 			
 		if (!changing) 
 		{
-			this._previousAttributes = _.clone(this.attributes);
+			this._previousAttributes = _.clone(this._attributes);
 			this.changed = {};
 		}
-		current = this.attributes, prev = this._previousAttributes;
+		current = this._attributes, prev = this._previousAttributes;
 
 		// Check for changes of `id`.
 		if (this.idAttribute in attrs) this.id = attrs[this.idAttribute];
@@ -188,16 +193,18 @@ conbo.Model = conbo.Bindable.extend
 	 * Remove an attribute from the model, firing `"change"`. `unset` is a noop
 	 * if the attribute doesn't exist.
 	 */
-	unset: function(attr, options) {
+	unset: function(attr, options) 
+	{
 		return this.set(attr, void 0, _.extend({}, options, {unset: true}));
 	},
 
 	/**
 	 * Clear all attributes on the model, firing `"change"`.
 	 */
-	clear: function(options) {
+	clear: function(options) 
+	{
 		var attrs = {};
-		for (var key in this.attributes) attrs[key] = void 0;
+		for (var key in this._attributes) attrs[key] = void 0;
 		return this.set(attrs, _.extend({}, options, {unset: true}));
 	},
 
@@ -205,7 +212,8 @@ conbo.Model = conbo.Bindable.extend
 	 * Determine if the model has changed since the last `"change"` event.
 	 * If you specify an attribute name, determine if that attribute has changed.
 	 */
-	hasChanged: function(attr) {
+	hasChanged: function(attr) 
+	{
 		if (attr == null) return !_.isEmpty(this.changed);
 		return _.has(this.changed, attr);
 	},
@@ -222,7 +230,7 @@ conbo.Model = conbo.Bindable.extend
 	{
 		if (!diff) return this.hasChanged() ? _.clone(this.changed) : false;
 		var val, changed = false;
-		var old = this._changing ? this._previousAttributes : this.attributes;
+		var old = this._changing ? this._previousAttributes : this._attributes;
 		for (var attr in diff) {
 			if (_.isEqual(old[attr], (val = diff[attr]))) continue;
 			(changed || (changed = {}))[attr] = val;
@@ -234,7 +242,8 @@ conbo.Model = conbo.Bindable.extend
 	 * Get the previous value of an attribute, recorded at the time the last
 	 * `"change"` event was fired.
 	 */
-	previous: function(attr) {
+	previous: function(attr) 
+	{
 		if (attr == null || !this._previousAttributes) return null;
 		return this._previousAttributes[attr];
 	},
@@ -243,7 +252,8 @@ conbo.Model = conbo.Bindable.extend
 	 * Get all of the attributes of the model at the time of the previous
 	 * `"change"` event.
 	 */
-	previousAttributes: function() {
+	previousAttributes: function() 
+	{
 		return _.clone(this._previousAttributes);
 	},
 
@@ -283,7 +293,7 @@ conbo.Model = conbo.Bindable.extend
 	 */
 	save: function(key, val, options) 
 	{
-		var attrs, method, xhr, attributes = this.attributes;
+		var attrs, method, xhr, attributes = this._attributes;
 		
 		// Handle both `"key", value` and `{key: value}` -style arguments.
 		if (key == null || typeof key === 'object')
@@ -306,7 +316,7 @@ conbo.Model = conbo.Bindable.extend
 
 		// Set temporary attributes if `{wait: true}`.
 		if (attrs && options.wait) {
-			this.attributes = _.extend({}, attributes, attrs);
+			this._attributes = _.extend({}, attributes, attrs);
 		}
 
 		// After a successful server-side save, the client is (optionally)
@@ -319,7 +329,7 @@ conbo.Model = conbo.Bindable.extend
 		options.success = function(resp) 
 		{
 			// Ensure attributes are restored during synchronous saves.
-			model.attributes = attributes;
+			model._attributes = attributes;
 			var serverAttrs = model.parse(resp, options);
 			if (options.wait) serverAttrs = _.extend(attrs || {}, serverAttrs);
 			if (_.isObject(serverAttrs) && !model.set(serverAttrs, options)) {
@@ -336,7 +346,7 @@ conbo.Model = conbo.Bindable.extend
 		xhr = this.sync(method, this, options);
 
 		// Restore attributes.
-		if (attrs && options.wait) this.attributes = attributes;
+		if (attrs && options.wait) this._attributes = attributes;
 		
 		return xhr;
 	},
@@ -385,7 +395,8 @@ conbo.Model = conbo.Bindable.extend
 	 * using conbo's restful methods, override this to change the endpoint
 	 * that will be called.
 	 */
-	url: function() {
+	url: function() 
+	{
 		var base = _.result(this, 'urlRoot') || _.result(this.collection, 'url') || urlError();
 		if (this.isNew()) return base;
 		return base + (base.charAt(base.length - 1) === '/' ? '' : '/') + encodeURIComponent(this.id);
@@ -395,28 +406,32 @@ conbo.Model = conbo.Bindable.extend
 	 * Converts a response into the hash of attributes to be `set` on
 	 * the model. The default implementation is just to pass the response along.
 	 */
-	parse: function(resp, options) {
+	parse: function(resp, options) 
+	{
 		return resp;
 	},
 
 	/**
 	 * Create a new model with identical attributes to this one.
 	 */
-	clone: function() {
-		return new this.constructor(this.attributes);
+	clone: function() 
+	{
+		return new this.constructor(this._attributes);
 	},
 
 	/**
 	 * A model is new if it has never been saved to the server, and lacks an id.
 	 */
-	isNew: function() {
+	isNew: function() 
+	{
 		return this.id == null;
 	},
 
 	/**
 	 * Check if the model is currently in a valid state.
 	 */
-	isValid: function(options) {
+	isValid: function(options) 
+	{
 		return this._validate({}, _.extend(options || {}, { validate: true }));
 	},
 
@@ -427,7 +442,7 @@ conbo.Model = conbo.Bindable.extend
 	_validate: function(attrs, options) 
 	{
 		if (!options.validate || !this.validate) return true;
-		attrs = _.extend({}, this.attributes, attrs);
+		attrs = _.extend({}, this._attributes, attrs);
 		var error = this.validationError = this.validate(attrs, options) || null;
 		if (!error) return true;
 		
@@ -439,14 +454,6 @@ conbo.Model = conbo.Bindable.extend
 		}));
 		
 		return false;
-	},
-		
-	/**
-	 * @private
-	 */
-	_attributes: function()
-	{
-		return this.attributes;
 	}
 });
 
@@ -459,7 +466,7 @@ _.each(modelMethods, function(method)
 	conbo.Model.prototype[method] = function() 
 	{
 		var args = [].slice.call(arguments);
-		args.unshift(this.attributes);
+		args.unshift(this._attributes);
 		return _[method].apply(_, args);
 	};
 });

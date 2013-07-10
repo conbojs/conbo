@@ -51,7 +51,7 @@ conbo.EventDispatcher = conbo.Class.extend
 	on: function(type, handler, scope, priority)
 	{
 		if (!type) throw new Error('Event type undefined');
-		if (!handler) throw new Error('Event handler undefined');
+		if (!handler || !_.isFunction(handler)) throw new Error('Event handler is undefined or not a function');
 
 		if (_.isString(type)) type = type.split(' ');
 		if (_.isArray(type)) _.each(type, function(value, index, list) { this._on(value, handler, scope, priority, false); }, this);
@@ -68,8 +68,8 @@ conbo.EventDispatcher = conbo.Class.extend
 	one: function(type, handler, scope, priority)
 	{
 		if (!type) throw new Error('Event type undefined');
-		if (!handler) throw new Error('Event handler undefined');
-
+		if (!handler || !_.isFunction(handler)) throw new Error('Event handler is undefined or not a function');
+		
 		if (_.isString(type)) type = type.split(' ');
 		if (_.isArray(type)) _.each(type, function(value, index, list) { this._on(value, handler, scope, priority, true); }, this);
 		else _.each(type, function(value, key, list) { this._on(key, value, scope, priority, true); }, this); 

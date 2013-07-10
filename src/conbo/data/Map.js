@@ -12,11 +12,11 @@ conbo.Map = conbo.Bindable.extend
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options
 	 */
-	constructor: function(options)
+	constructor: function(attributes, options)
 	{
 		this._inject(options);
+		this._attributes = _.defaults({}, attributes, this.defaults);
 		this.initialize.apply(this, arguments);
-		_.defaults(this._attributes(), this.defaults);
 	},
 	
 	/**
@@ -26,7 +26,7 @@ conbo.Map = conbo.Bindable.extend
 	 */
 	toJSON: function()
 	{
-		return _.clone(this._attributes());
+		return _.clone(this._attributes);
 	},
 	
 	toString: function()

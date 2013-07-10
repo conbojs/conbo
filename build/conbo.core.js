@@ -43,7 +43,7 @@ try {
  * Info
  */
 
-conbo.VERSION = '1.0.14';
+conbo.VERSION = '1.0.15';
 conbo.toString = function() { return '[Conbo '+this.VERSION+']'; };
 
 /**
@@ -392,7 +392,7 @@ conbo.EventDispatcher = conbo.Class.extend
 	on: function(type, handler, scope, priority)
 	{
 		if (!type) throw new Error('Event type undefined');
-		if (!handler) throw new Error('Event handler undefined');
+		if (!handler || !_.isFunction(handler)) throw new Error('Event handler is undefined or not a function');
 
 		if (_.isString(type)) type = type.split(' ');
 		if (_.isArray(type)) _.each(type, function(value, index, list) { this._on(value, handler, scope, priority, false); }, this);
@@ -409,8 +409,8 @@ conbo.EventDispatcher = conbo.Class.extend
 	one: function(type, handler, scope, priority)
 	{
 		if (!type) throw new Error('Event type undefined');
-		if (!handler) throw new Error('Event handler undefined');
-
+		if (!handler || !_.isFunction(handler)) throw new Error('Event handler is undefined or not a function');
+		
 		if (_.isString(type)) type = type.split(' ');
 		if (_.isArray(type)) _.each(type, function(value, index, list) { this._on(value, handler, scope, priority, true); }, this);
 		else _.each(type, function(value, key, list) { this._on(key, value, scope, priority, true); }, this); 
@@ -518,7 +518,9 @@ conbo.Bindable = conbo.EventDispatcher.extend
 	 */
 	get: function(attribute)
 	{
-		var a = this._attributes();
+		console.log(this.toString(), this);
+		
+		var a = _.result(this, '_attributes');
 		
 		if (!(attribute in a)) return undefined;
 		if (_.isFunction(a[attribute])) return this[attribute]();
@@ -540,7 +542,7 @@ conbo.Bindable = conbo.EventDispatcher.extend
 	 */
 	set: function(attributes, value, options)
 	{
-		var a = this._attributes();
+		var a = _.result(this, '_attributes');
 		
 		if (_.isObject(attributes))
 		{
@@ -808,11 +810,11 @@ conbo.Map = conbo.Bindable.extend
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options
 	 */
-	constructor: function(options)
+	constructor: function(attributes, options)
 	{
 		this._inject(options);
+		this._attributes = _.defaults({}, attributes, this.defaults);
 		this.initialize.apply(this, arguments);
-		_.defaults(this._attributes(), this.defaults);
 	},
 	
 	/**
@@ -822,7 +824,7 @@ conbo.Map = conbo.Bindable.extend
 	 */
 	toJSON: function()
 	{
-		return _.clone(this._attributes());
+		return _.clone(this._attributes);
 	},
 	
 	toString: function()
@@ -1318,13 +1320,16 @@ conbo.View = conbo.Bindable.extend
 	 */
 	_ensureElement: function() 
 	{
-		if (!this.el) {
+		if (!this.el) 
+		{
 			var attrs = _.extend({}, _.result(this, 'attributes'));
 			if (this.id) attrs.id = _.result(this, 'id');
 			if (this.className) attrs['class'] = _.result(this, 'className');
 			var $el = conbo.$('<' + _.result(this, 'tagName') + '>').attr(attrs);
 			this.setElement($el, false);
-		} else {
+		}
+		else 
+		{
 			this.setElement(_.result(this, 'el'), false);
 			if (this.className) this.$el.addClass(this.className);
 		}
