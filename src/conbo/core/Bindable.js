@@ -20,13 +20,8 @@ conbo.Bindable = conbo.EventDispatcher.extend
 	 */
 	get: function(attribute)
 	{
-		console.log(this.toString(), this);
-		
 		var a = _.result(this, '_attributes');
-		
-		if (!(attribute in a)) return undefined;
-		if (_.isFunction(a[attribute])) return this[attribute]();
-		return a[attribute];
+		return _.result(a, attribute);
 	},
 	
 	/**
