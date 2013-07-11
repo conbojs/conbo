@@ -123,7 +123,8 @@ conbo.BindingUtils = conbo.Class.extend({},
 		
 		source.on('change:'+sourcePropertyName, function(event)
 		{
-			conbo.EventDispatcher.prototype.set.call(destination, destinationPropertyName, event.value);
+			if (destination.get(destinationPropertyName) === event.value) return;
+			destination.set(destinationPropertyName, event.value);
 		});
 		
 		if (twoWay) this.bindProperty(destination, destinationPropertyName, source, sourcePropertyName);
