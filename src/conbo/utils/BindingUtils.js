@@ -19,6 +19,8 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 */
 	bindElement: function(source, propertyName, element, parseFunction)
 	{
+		if (!(source instanceof conbo.Bindable)) throw new Error('Source is not Bindable');
+		
 		parseFunction = parseFunction || function(value)
 			{ return typeof(value) == 'undefined' ? '' : String(value); };
 		
@@ -119,6 +121,8 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 */
 	bindProperty: function(source, sourcePropertyName, destination, destinationPropertyName, twoWay)
 	{
+		if (!(source instanceof conbo.Bindable)) throw new Error('Source is not Bindable');
+		
 		destinationPropertyName = destinationPropertyName || sourcePropertyName;
 		
 		source.on('change:'+sourcePropertyName, function(event)
@@ -142,6 +146,8 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 */
 	bindSetter: function(source, propertyName, setterFunction)
 	{
+		if (!(source instanceof conbo.Bindable)) throw new Error('Source is not Bindable');
+		
 		source.on('change:'+propertyName, function(event)
 		{
 			setterFunction(event.value);
@@ -149,4 +155,5 @@ conbo.BindingUtils = conbo.Class.extend({},
 		
 		return this;
 	}
+	
 });
