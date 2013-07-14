@@ -6,7 +6,7 @@
  * 
  * Derived from the Backbone.js class of the same name
  */
-conbo.Model = conbo.Bindable.extend
+conbo.Model = conbo.Map.extend
 ({
 	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
@@ -21,9 +21,7 @@ conbo.Model = conbo.Bindable.extend
 		this._attributes = {};
 		_.extend(this, _.pick(options, ['url','urlRoot','collection']));
 		if (options.parse) attrs = this.parse(attrs, options) || {};
-		if (defaults = _.result(this, 'defaults')) {
-			attrs = _.defaults({}, attrs, defaults);
-		}
+		attrs = _.defaults({}, attrs, _.result(this, 'defaults'));
 		this.set(attrs, options);
 		
 		this._inject(options);
@@ -51,14 +49,6 @@ conbo.Model = conbo.Bindable.extend
 	 * initialization logic.
 	 */
 	initialize: function(){},
-
-	/**
-	 * Return a copy of the model's `attributes` object.
-	 */
-	toJSON: function(options)
-	{
-		return _.clone(this._attributes);
-	},
 
 	/**
 	 * Proxy `conbo.sync` by default -- but override this if you need
@@ -433,6 +423,11 @@ conbo.Model = conbo.Bindable.extend
 	isValid: function(options) 
 	{
 		return this._validate({}, _.extend(options || {}, { validate: true }));
+	},
+	
+	toString: function()
+	{
+		return '[conbo.Model]';
 	},
 
 	/**

@@ -1,7 +1,7 @@
 /**
  * conbo.Map
  * 
- * A map is a bindable object that associates keys and values
+ * A Map is a bindable object that associates keys and values
  * 
  * @example	
  * 	this.set('fun', 123};
@@ -18,7 +18,7 @@ conbo.Map = conbo.Bindable.extend
 	constructor: function(attributes, options)
 	{
 		this._inject(options);
-		this._attributes = _.defaults({}, attributes, this.defaults);
+		this._attributes = _.defaults({}, attributes, _.result(this, 'defaults'));
 		this.initialize.apply(this, arguments);
 	},
 	

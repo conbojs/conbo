@@ -789,8 +789,11 @@ conbo.Context = conbo.EventDispatcher.extend
 /**
  * conbo.Map
  * 
- * A simple, lightweight, bindable Object class for when a Model is overkill,
- * e.g. when you don't need to sync your data with a web service
+ * A Map is a bindable object that associates keys and values
+ * 
+ * @example	
+ * 	this.set('fun', 123};
+ * 	this.get('fun');
  * 
  * @author		Neil Rackett
  */
@@ -1494,7 +1497,7 @@ conbo.ServerApplication = conbo.Bindable.extend
  * 
  * Derived from the Backbone.js class of the same name
  */
-conbo.Model = conbo.Bindable.extend
+conbo.Model = conbo.Map.extend
 ({
 	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
@@ -1539,14 +1542,6 @@ conbo.Model = conbo.Bindable.extend
 	 * initialization logic.
 	 */
 	initialize: function(){},
-
-	/**
-	 * Return a copy of the model's `attributes` object.
-	 */
-	toJSON: function(options)
-	{
-		return _.clone(this._attributes);
-	},
 
 	/**
 	 * Proxy `conbo.sync` by default -- but override this if you need
@@ -1921,6 +1916,11 @@ conbo.Model = conbo.Bindable.extend
 	isValid: function(options) 
 	{
 		return this._validate({}, _.extend(options || {}, { validate: true }));
+	},
+	
+	toString: function()
+	{
+		return '[conbo.Model]';
 	},
 
 	/**
