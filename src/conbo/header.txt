@@ -2,7 +2,7 @@
 
 (function(window, undefined)
 {
-	function create()
+	var create = function(_, $)
 	{
 	
 /* HEADER: END */

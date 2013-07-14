@@ -20,15 +20,14 @@
  * @see			http://www.mesmotronic.com/
  */
 
-var conbo = {},
-	useRequire = (typeof require === 'function'),
-	_ = conbo._ = useRequire ? require('underscore') : window._,
-	$;
+var conbo = {}
 
-// JQuery is optional for server-side applications, so don't panic if it's not available
-try {
-	$ = conbo.$ = useRequire ? require('jquery') : (window.jQuery || window.Zepto || window.ender);
-} catch (e) {}
+/*
+ * References
+ */
+
+conbo._ = _;
+conbo.$ = $;
 
 /*
  * Info

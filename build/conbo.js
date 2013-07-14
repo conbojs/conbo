@@ -2,7 +2,7 @@
 
 (function(window, undefined)
 {
-	function create()
+	var create = function(_, $)
 	{
 	
 /* HEADER: END */
@@ -29,15 +29,14 @@
  * @see			http://www.mesmotronic.com/
  */
 
-var conbo = {},
-	useRequire = (typeof require === 'function'),
-	_ = conbo._ = useRequire ? require('underscore') : window._,
-	$;
+var conbo = {}
 
-// JQuery is optional for server-side applications, so don't panic if it's not available
-try {
-	$ = conbo.$ = useRequire ? require('jquery') : (window.jQuery || window.Zepto || window.ender);
-} catch (e) {}
+/*
+ * References
+ */
+
+conbo._ = _;
+conbo.$ = $;
 
 /*
  * Info
@@ -3061,17 +3060,29 @@ conbo.ajax = function()
 	// Node.js?
 	if (typeof module !== 'undefined' && module.exports)
 	{
-    	module.exports = create();
+		var _, $;
+		
+		try { _ = require('underscore'); } catch (e) {
+		try { _ = require('lodash'); } catch (e) 
+			{ throw new Error('Conbo.js requires either underscore or lodash'); }}
+		
+		try { $ = require('jQuery'); } catch (e) {
+		try { $ = require('jquery'); } catch (e) {}}
+		
+    	module.exports = create(_, $);
     }
     // AMD?
     else if (typeof define === 'function' && define.amd) 
 	{
-		define('conbo', ['jquery','underscore'], function () { return create(); } );
+		define('conbo', ['underscore','jquery'], function (_, $)
+		{
+			return create(_, $);
+		});
 	}
     // Global
     else
     {
-    	window.conbo = create();
+    	window.conbo = create(window._, window.jQuery || window.Zepto || window.ender);
     }
 	
 })(this);
