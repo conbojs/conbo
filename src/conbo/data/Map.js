@@ -1,8 +1,11 @@
 /**
  * conbo.Map
  * 
- * A simple, lightweight, bindable Object class for when a Model is overkill,
- * e.g. when you don't need to sync your data with a web service
+ * A map is a bindable object that associates keys and values
+ * 
+ * @example	
+ * 	this.set('fun', 123};
+ * 	this.get('fun');
  * 
  * @author		Neil Rackett
  */
