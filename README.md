@@ -12,7 +12,7 @@ Server-side dependencies: Underscore.js 1.4.3+
 History
 -------
 
-Conbo.js started life as a **con**text and **con**troller add-on for Back**bo**ne.js, but as more of Backbone.js was removed, replaced or otherwise hacked into, the project took on a life of its own, what remained of Backbone.js was merged into the codebase and Conbo.js was born. 
+Conbo.js started life as a context and controller add-on for Backbone.js, but as more of Backbone.js was removed, replaced or otherwise hacked into, the project took on a life of its own, what remained of Backbone.js was merged in and Conbo.js was born. 
 
 Builds
 ------
