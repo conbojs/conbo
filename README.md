@@ -1,13 +1,18 @@
 Conbo.js
 ========
 
-Conbo.JS is a lightweight MVC application framework for JavaScript featuring dependency injection, context and encapsulation, command pattern and an event model which enables callback scoping and consistent event handling.
+Conbo.JS is a lightweight MVC application framework for JavaScript featuring extendible classes, dependency injection, context and encapsulation, command pattern and an event model which enables callback consistent, scoped event handling.
 
-Conbo.js can be used both client side, either stand-alone or as an AMD module, or as a Node.js module on the server (NPM installer coming soon).
+Conbo.js can be used client side, either stand-alone or as an AMD module, or as a Node.js module on the server (NPM installer coming soon).
 
 Client-side dependencies: jQuery 1.7.0+, Underscore.js 1.4.3+
 
 Server-side dependencies: Underscore.js 1.4.3+
+
+History
+-------
+
+Conbo.js started life as a **con**text and **con**troller add-on for Back**bo**ne.js, but as more of Backbone.js was removed, replaced or otherwise hacked into, the project took on a life of its own, what remained of Backbone.js was merged into the codebase and Conbo.js was born. 
 
 Builds
 ------
