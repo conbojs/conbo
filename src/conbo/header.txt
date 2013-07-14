@@ -1,9 +1,5 @@
-/* HEADER: START */
-
 (function(window, undefined)
 {
 	var create = function(_, $)
 	{
-	
-/* HEADER: END */
 

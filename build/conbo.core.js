@@ -1,11 +1,7 @@
-/* HEADER: START */
-
 (function(window, undefined)
 {
 	var create = function(_, $)
 	{
-	
-/* HEADER: END */
 
 /*! 
  * Conbo.js: Lightweight MVC application framework for JavaScript
@@ -1491,8 +1487,6 @@ conbo.ServerApplication = conbo.Bindable.extend
 	},
 });
 
-/* FOOTER: START */
-
 		return conbo;
 	}
 	
@@ -1525,5 +1519,3 @@ conbo.ServerApplication = conbo.Bindable.extend
     }
 	
 })(this);
-
-/* FOOTER: END */
