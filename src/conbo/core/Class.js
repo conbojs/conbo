@@ -120,7 +120,7 @@ conbo.Class.prototype =
 	/**
 	 * Injector
 	 * Add context to this class instance and inject specified dependencies
-	 * (properties of undefined value which match registered singetons)
+	 * (properties of undefined value which match registered singletons)
 	 * @private
 	 */
 	_inject: function(options)
