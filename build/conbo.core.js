@@ -38,7 +38,7 @@ conbo.$ = $;
  * Info
  */
 
-conbo.VERSION = '1.0.15';
+conbo.VERSION = '1.0.16';
 conbo.toString = function() { return '[Conbo '+this.VERSION+']'; };
 
 /**
@@ -806,7 +806,7 @@ conbo.Map = conbo.Bindable.extend
 	constructor: function(attributes, options)
 	{
 		this._inject(options);
-		this._attributes = _.defaults({}, attributes, this.defaults);
+		this._attributes = _.defaults({}, attributes, _.result(this, 'defaults'));
 		this.initialize.apply(this, arguments);
 	},
 	
@@ -824,6 +824,18 @@ conbo.Map = conbo.Bindable.extend
 	{
 		return '[conbo.Map]';
 	}
+});
+
+//Underscore methods that we want to implement on the Model.
+var mapMethods = ['keys', 'values', 'pairs', 'invert', 'pick', 'omit', 'size'];
+
+//Mix in each Underscore method as a proxy to `Model#attributes`.
+_.each(mapMethods, function(method)
+{
+	conbo.Map.prototype[method] = function() 
+	{
+		return _[method].apply(_, [this._attributes].concat(_.rest(arguments)));
+	};
 });
 /**
  * Binding utility class
@@ -1500,7 +1512,7 @@ conbo.ServerApplication = conbo.Bindable.extend
 		
 		try { _ = require('underscore'); } catch (e) {
 		try { _ = require('lodash'); } catch (e) 
-			{ throw new Error('Conbo.js requires either underscore or lodash'); }}
+			{ throw new Error('Conbo.js requires underscore or lodash'); }}
 		
 		try { $ = require('jQuery'); } catch (e) {
 		try { $ = require('jquery'); } catch (e) {}}

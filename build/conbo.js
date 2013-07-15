@@ -38,7 +38,7 @@ conbo.$ = $;
  * Info
  */
 
-conbo.VERSION = '1.0.15';
+conbo.VERSION = '1.0.16';
 conbo.toString = function() { return '[Conbo '+this.VERSION+']'; };
 
 /**
@@ -806,7 +806,7 @@ conbo.Map = conbo.Bindable.extend
 	constructor: function(attributes, options)
 	{
 		this._inject(options);
-		this._attributes = _.defaults({}, attributes, this.defaults);
+		this._attributes = _.defaults({}, attributes, _.result(this, 'defaults'));
 		this.initialize.apply(this, arguments);
 	},
 	
@@ -824,6 +824,18 @@ conbo.Map = conbo.Bindable.extend
 	{
 		return '[conbo.Map]';
 	}
+});
+
+//Underscore methods that we want to implement on the Model.
+var mapMethods = ['keys', 'values', 'pairs', 'invert', 'pick', 'omit', 'size'];
+
+//Mix in each Underscore method as a proxy to `Model#attributes`.
+_.each(mapMethods, function(method)
+{
+	conbo.Map.prototype[method] = function() 
+	{
+		return _[method].apply(_, [this._attributes].concat(_.rest(arguments)));
+	};
 });
 /**
  * Binding utility class
@@ -1512,9 +1524,7 @@ conbo.Model = conbo.Map.extend
 		this._attributes = {};
 		_.extend(this, _.pick(options, ['url','urlRoot','collection']));
 		if (options.parse) attrs = this.parse(attrs, options) || {};
-		if (defaults = _.result(this, 'defaults')) {
-			attrs = _.defaults({}, attrs, defaults);
-		}
+		attrs = _.defaults({}, attrs, _.result(this, 'defaults'));
 		this.set(attrs, options);
 		
 		this._inject(options);
@@ -1945,27 +1955,16 @@ conbo.Model = conbo.Map.extend
 	}
 });
 
-// Underscore methods that we want to implement on the Model.
-var modelMethods = ['keys', 'values', 'pairs', 'invert', 'pick', 'omit'];
-
-// Mix in each Underscore method as a proxy to `Model#attributes`.
-_.each(modelMethods, function(method)
-{
-	conbo.Model.prototype[method] = function() 
-	{
-		var args = [].slice.call(arguments);
-		args.unshift(this._attributes);
-		return _[method].apply(_, args);
-	};
-});
-
-//TODO Don't have this here!
+//TODO Don't have this here?
 //Wrap an optional error callback with a fallback error event.
-var wrapError = function (model, options) {
-	var error = options.error;
-	options.error = function(resp) {
-	 if (error) error(model, resp, options);
-	 model.trigger('error', model, resp, options);
+var wrapError = function (model, options)
+{
+	var callback = options.error;
+	
+	options.error = function(resp) 
+	{
+		if (!!callback) callback(model, resp, options);
+		model.trigger(new conbo.ConboEvent('error', {model:model, response:resp, options:options}));
 	};
 };
 /**
@@ -3058,7 +3057,7 @@ conbo.ajax = function()
 		
 		try { _ = require('underscore'); } catch (e) {
 		try { _ = require('lodash'); } catch (e) 
-			{ throw new Error('Conbo.js requires either underscore or lodash'); }}
+			{ throw new Error('Conbo.js requires underscore or lodash'); }}
 		
 		try { $ = require('jQuery'); } catch (e) {
 		try { $ = require('jquery'); } catch (e) {}}

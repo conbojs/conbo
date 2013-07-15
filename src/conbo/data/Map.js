@@ -37,3 +37,15 @@ conbo.Map = conbo.Bindable.extend
 		return '[conbo.Map]';
 	}
 });
+
+//Underscore methods that we want to implement on the Model.
+var mapMethods = ['keys', 'values', 'pairs', 'invert', 'pick', 'omit', 'size'];
+
+//Mix in each Underscore method as a proxy to `Model#attributes`.
+_.each(mapMethods, function(method)
+{
+	conbo.Map.prototype[method] = function() 
+	{
+		return _[method].apply(_, [this._attributes].concat(_.rest(arguments)));
+	};
+});

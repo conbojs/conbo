@@ -33,7 +33,7 @@ conbo.$ = $;
  * Info
  */
 
-conbo.VERSION = '1.0.15';
+conbo.VERSION = '1.0.16';
 conbo.toString = function() { return '[Conbo '+this.VERSION+']'; };
 
 /**

@@ -9,7 +9,7 @@
 		
 		try { _ = require('underscore'); } catch (e) {
 		try { _ = require('lodash'); } catch (e) 
-			{ throw new Error('Conbo.js requires either underscore or lodash'); }}
+			{ throw new Error('Conbo.js requires underscore or lodash'); }}
 		
 		try { $ = require('jQuery'); } catch (e) {
 		try { $ = require('jquery'); } catch (e) {}}
