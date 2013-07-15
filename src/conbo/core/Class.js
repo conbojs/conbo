@@ -20,20 +20,8 @@
  * @see			http://www.mesmotronic.com/
  */
 
-var conbo = {}
+var conbo = {VERSION:'1.0.16', _:_, $:$};
 
-/*
- * References
- */
-
-conbo._ = _;
-conbo.$ = $;
-
-/*
- * Info
- */
-
-conbo.VERSION = '1.0.16';
 conbo.toString = function() { return '[Conbo '+this.VERSION+']'; };
 
 /**
