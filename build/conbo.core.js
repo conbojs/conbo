@@ -117,6 +117,11 @@ conbo.Class.prototype =
 		return this;
 	},
 	
+	toString: function()
+	{
+		return '[conbo.Class]';
+	},
+	
 	/**
 	 * Injector
 	 * Add context to this class instance and inject specified dependencies
@@ -132,7 +137,7 @@ conbo.Class.prototype =
 		
 		return this;
 	}
-	
+		
 };
 
 conbo.Class.extend = function(protoProps, staticProps)
