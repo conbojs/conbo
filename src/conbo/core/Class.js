@@ -30,7 +30,7 @@ conbo.toString = function() { return '[Conbo '+this.VERSION+']'; };
  */
 conbo.Class = function(options) 
 {
-	if (_.isObject(options) && !!options.context) this._inject(options);
+	this._inject(options);
 	this.initialize.apply(this, arguments);
 };
 

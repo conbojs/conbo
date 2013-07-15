@@ -25,20 +25,8 @@
  * @see			http://www.mesmotronic.com/
  */
 
-var conbo = {}
+var conbo = {VERSION:'1.0.16', _:_, $:$};
 
-/*
- * References
- */
-
-conbo._ = _;
-conbo.$ = $;
-
-/*
- * Info
- */
-
-conbo.VERSION = '1.0.16';
 conbo.toString = function() { return '[Conbo '+this.VERSION+']'; };
 
 /**
@@ -47,7 +35,7 @@ conbo.toString = function() { return '[Conbo '+this.VERSION+']'; };
  */
 conbo.Class = function(options) 
 {
-	if (_.isObject(options) && !!options.context) this._inject(options);
+	this._inject(options);
 	this.initialize.apply(this, arguments);
 };
 
