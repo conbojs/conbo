@@ -20,7 +20,7 @@
  * @see			http://www.mesmotronic.com/
  */
 
-var conbo = {VERSION:'1.0.16', _:_, $:$};
+var conbo = {VERSION:'1.0.17', _:_, $:$};
 
 conbo.toString = function() { return '[Conbo '+this.VERSION+']'; };
 

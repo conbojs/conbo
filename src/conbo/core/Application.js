@@ -19,7 +19,7 @@ conbo.Application = conbo.View.extend
 	 */
 	constructor: function(options)
 	{
-		options = options || {};
+		options = _.clone(options) || {};
 		options.view = options.view || this;
 		
 		this.context = options.context || new this.contextClass(options);

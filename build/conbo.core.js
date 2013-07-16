@@ -25,7 +25,7 @@
  * @see			http://www.mesmotronic.com/
  */
 
-var conbo = {VERSION:'1.0.16', _:_, $:$};
+var conbo = {VERSION:'1.0.17', _:_, $:$};
 
 conbo.toString = function() { return '[Conbo '+this.VERSION+']'; };
 
@@ -125,7 +125,7 @@ conbo.Class.prototype =
 	/**
 	 * Injector
 	 * Add context to this class instance and inject specified dependencies
-	 * (properties of undefined value which match registered singetons)
+	 * (properties of undefined value which match registered singletons)
 	 * @private
 	 */
 	_inject: function(options)
@@ -1010,10 +1010,12 @@ conbo.View = conbo.Bindable.extend
 	 */
 	constructor: function(options)
 	{
+		options = _.clone(options) || {};
+		
 		this.cid = _.uniqueId('view');
 		
 		this._addStyle();
-		this._configure(options || {});
+		this._configure(options);
 		this._ensureElement();
 		this._inject(options);
 		
@@ -1403,7 +1405,7 @@ conbo.Application = conbo.View.extend
 	 */
 	constructor: function(options)
 	{
-		options = options || {};
+		options = _.clone(options) || {};
 		options.view = options.view || this;
 		
 		this.context = options.context || new this.contextClass(options);
@@ -1520,10 +1522,10 @@ conbo.ServerApplication = conbo.Bindable.extend
 			return create(_, $);
 		});
 	}
-    // Global
-    else
-    {
-    	window.conbo = create(window._, window.jQuery || window.Zepto || window.ender);
-    }
+	// Global
+	else
+	{
+		window.conbo = create(window._, window.jQuery || window.Zepto || window.ender);
+	}
 	
 })(this);

@@ -19,10 +19,12 @@ conbo.View = conbo.Bindable.extend
 	 */
 	constructor: function(options)
 	{
+		options = _.clone(options) || {};
+		
 		this.cid = _.uniqueId('view');
 		
 		this._addStyle();
-		this._configure(options || {});
+		this._configure(options);
 		this._ensureElement();
 		this._inject(options);
 		

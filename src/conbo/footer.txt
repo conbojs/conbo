@@ -24,10 +24,10 @@
 			return create(_, $);
 		});
 	}
-    // Global
-    else
-    {
-    	window.conbo = create(window._, window.jQuery || window.Zepto || window.ender);
-    }
+	// Global
+	else
+	{
+		window.conbo = create(window._, window.jQuery || window.Zepto || window.ender);
+	}
 	
 })(this);
