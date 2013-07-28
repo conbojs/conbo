@@ -33,6 +33,8 @@ conbo.Application = conbo.View.extend
 	 */
 	bindViews: function(ns)
 	{
+		if (!_.isObject(ns)) throw new Error('Invalid namespace');
+		
 		this.$('[data-view]').each(this.bind(function(index, el)
 		{
 			var view = this.$(el).data('view'),
