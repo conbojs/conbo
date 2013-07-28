@@ -20,9 +20,17 @@
  * @see			http://www.mesmotronic.com/
  */
 
-var conbo = {VERSION:'1.0.17', _:_, $:$};
-
-conbo.toString = function() { return '[Conbo '+this.VERSION+']'; };
+var conbo = 
+{
+	VERSION:'1.0.18',
+	_:_, 
+	$:$,
+	
+	toString: function() 
+	{ 
+		return '[Conbo '+this.VERSION+']'; 
+	}
+};
 
 /**
  * Class
@@ -173,12 +181,12 @@ conbo.Class.extend = function(protoProps, staticProps)
 
 if (!Array.prototype.indexOf) {
 	Array.prototype.indexOf = function(value, fromIndex) 
-		{ return _.indexOf(this, obj, fromIndex); };
+		{ return _.indexOf(this, value, fromIndex); };
 }
 
 if (!Array.prototype.forEach) {
 	Array.prototype.forEach = function(callback, thisArg)
-		{ _.each(this, callback, thisArg) };
+		{ _.each(this, callback, thisArg); };
 }
 
 if (!String.prototype.trim) {

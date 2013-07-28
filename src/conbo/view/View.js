@@ -85,7 +85,7 @@ conbo.View = conbo.Bindable.extend
 		if (this.$el)
 		{
 			this.undelegateEvents()
-			.unbindView();
+				.unbindView();
 		}
 		this.$el = element instanceof conbo.$ ? element : conbo.$(element);
 		this.el = this.$el[0];
