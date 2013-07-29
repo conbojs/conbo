@@ -113,9 +113,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 	/**
 	 * Bind the property of one Bindable class instance (e.g. Map or Model) to another
 	 * 
-	 * @param source					Class instance which extends from conbo.Bindable
+	 * @param source					Class instance which extends conbo.Bindable
 	 * @param sourcePropertyName		String
-	 * @param destination				Class instance which extends from conbo.Bindable
+	 * @param destination				Object or class instance which extends conbo.Bindable
 	 * @param destinationPropertyName	String (default: sourcePropertyName)
 	 * @param twoWay					Boolean (default: false)
 	 */
@@ -127,6 +127,12 @@ conbo.BindingUtils = conbo.Class.extend({},
 		
 		source.on('change:'+sourcePropertyName, function(event)
 		{
+			if (!(destination instanceof conbo.Bindable))
+			{
+				destination[destinationPropertyName] = event.value;
+				return;
+			}
+			
 			if (destination.get(destinationPropertyName) === event.value) return;
 			destination.set(destinationPropertyName, event.value);
 		});

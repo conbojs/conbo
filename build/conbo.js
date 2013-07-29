@@ -953,9 +953,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 	/**
 	 * Bind the property of one Bindable class instance (e.g. Map or Model) to another
 	 * 
-	 * @param source					Class instance which extends from conbo.Bindable
+	 * @param source					Class instance which extends conbo.Bindable
 	 * @param sourcePropertyName		String
-	 * @param destination				Class instance which extends from conbo.Bindable
+	 * @param destination				Object or class instance which extends conbo.Bindable
 	 * @param destinationPropertyName	String (default: sourcePropertyName)
 	 * @param twoWay					Boolean (default: false)
 	 */
@@ -967,6 +967,12 @@ conbo.BindingUtils = conbo.Class.extend({},
 		
 		source.on('change:'+sourcePropertyName, function(event)
 		{
+			if (!(destination instanceof conbo.Bindable))
+			{
+				destination[destinationPropertyName] = event.value;
+				return;
+			}
+			
 			if (destination.get(destinationPropertyName) === event.value) return;
 			destination.set(destinationPropertyName, event.value);
 		});
@@ -1086,7 +1092,7 @@ conbo.View = conbo.Bindable.extend
 			this.undelegateEvents()
 				.unbindView();
 		}
-		this.$el = element instanceof conbo.$ ? element : conbo.$(element);
+		this.$el = conbo.$(element);
 		this.el = this.$el[0];
 		if (delegate !== false) this.delegateEvents();
 		
@@ -1179,21 +1185,31 @@ conbo.View = conbo.Bindable.extend
 	},
 	
 	/**
-	 * Automatically bind elements to class properties
+	 * Automatically bind elements to properties of this View
 	 * @returns	this
 	 */
 	bindView: function()
 	{
-		this.$('[data-property]').each(this.bind(function(index, el)
+		this.$('[data-source]').each(this.bind(function(index, el)
 		{
-			var d = this.$(el).data()
-			p = d.property,
-			s = d.source;
-			f = typeof this[d.parse] == 'function' ? this[d.parse] : undefined;
+			var d = this.$(el).data(),
+				s = d.source.split('.'),
+				f = _.isFunction(this[d.parse]) ? this[d.parse] : undefined,
+				m, p;
+				
+			if (s.length > 1)
+			{
+				m = this[s[0]];
+				p = s[1];
+			}
+			else
+			{
+				m = this;
+				p = s[0];
+			}
 			
-			if (!!s && !(s in this)) throw new Error('Unable to bind element to undefined source: '+s);
-			
-			var m = !!s ? this[s] : this;
+			if (!m) throw new Error(d.source+' is not defined in this View');
+			if (!p) throw new Error('Cannot bind to undefined property');
 			
 			conbo.BindingUtils.bindElement(m, p, el, f);
 		}));
