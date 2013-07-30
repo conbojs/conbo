@@ -1,8 +1,3 @@
-(function(window, undefined)
-{
-	var create = function(_, $)
-	{
-
 /*! 
  * Conbo.js: Lightweight MVC application framework for JavaScript
  * http://conbojs.mesmotronic.com/
@@ -16,26 +11,33 @@
  * CONBO.JS
  * 
  * Conbo.js is a lightweight MVC application framework for JavaScript featuring 
- * dependency injection, context and encapsulation, command pattern and event 
- * model which enables callback scoping and consistent event handling
+ * dependency injection, context and encapsulation, data binding, command 
+ * pattern and an event model which enables callback scoping and consistent 
+ * event handling
  * 
- * Dependencies: jQuery 1.7+, Underscore.js 1.4.3+
+ * Dependencies: jQuery 1.7+, Underscore.js 1.4+
  * 
  * @author		Neil Rackett
  * @see			http://www.mesmotronic.com/
  */
 
-var conbo = 
+(function(window, undefined)
 {
-	VERSION:'1.0.18',
-	_:_, 
-	$:$,
-	
-	toString: function() 
-	{ 
-		return '[Conbo '+this.VERSION+']'; 
-	}
-};
+	var create = function(_, $)
+	{
+		var conbo = 
+		{
+			VERSION:'1.0.19',
+			_:_, 
+			$:$,
+			
+			toString: function() 
+			{ 
+				return '[Conbo '+this.VERSION+']'; 
+			}
+		};
+		
+		
 
 /**
  * Class
@@ -977,7 +979,8 @@ conbo.BindingUtils = conbo.Class.extend({},
 			destination.set(destinationPropertyName, event.value);
 		});
 		
-		if (twoWay) this.bindProperty(destination, destinationPropertyName, source, sourcePropertyName);
+		if (twoWay && destination instanceof conbo.Bindable)
+			this.bindProperty(destination, destinationPropertyName, source, sourcePropertyName);
 		
 		return this;
 	},

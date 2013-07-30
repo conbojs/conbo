@@ -137,7 +137,8 @@ conbo.BindingUtils = conbo.Class.extend({},
 			destination.set(destinationPropertyName, event.value);
 		});
 		
-		if (twoWay) this.bindProperty(destination, destinationPropertyName, source, sourcePropertyName);
+		if (twoWay && destination instanceof conbo.Bindable)
+			this.bindProperty(destination, destinationPropertyName, source, sourcePropertyName);
 		
 		return this;
 	},

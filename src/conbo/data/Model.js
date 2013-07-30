@@ -185,7 +185,7 @@ conbo.Model = conbo.Map.extend
 	 */
 	unset: function(attr, options) 
 	{
-		return this.set(attr, void 0, _.extend({}, options, {unset: true}));
+		return this.set(attr, undefined, _.extend({}, options, {unset: true}));
 	},
 
 	/**
@@ -194,7 +194,7 @@ conbo.Model = conbo.Map.extend
 	clear: function(options) 
 	{
 		var attrs = {};
-		for (var key in this._attributes) attrs[key] = void 0;
+		for (var key in this._attributes) attrs[key] = undefined;
 		return this.set(attrs, _.extend({}, options, {unset: true}));
 	},
 
@@ -255,7 +255,7 @@ conbo.Model = conbo.Map.extend
 	fetch: function(options) 
 	{
 		options = options ? _.clone(options) : {};
-		if (options.parse === void 0) options.parse = true;
+		if (options.parse === undefined) options.parse = true;
 		var model = this;
 		var success = options.success;
 		
@@ -311,7 +311,7 @@ conbo.Model = conbo.Map.extend
 
 		// After a successful server-side save, the client is (optionally)
 		// updated with the server-side state.
-		if (options.parse === void 0) options.parse = true;
+		if (options.parse === undefined) options.parse = true;
 			
 		var model = this;
 		var success = options.success;

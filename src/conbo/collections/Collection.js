@@ -24,7 +24,7 @@ conbo.Collection = conbo.EventDispatcher.extend
 	    options || (options = {});
 	    if (options.url) this.url = options.url;
 	    if (options.model) this.model = options.model;
-	    if (options.comparator !== void 0) this.comparator = options.comparator;
+	    if (options.comparator !== undefined) this.comparator = options.comparator;
 	    this._reset();
 	    
 		this._inject(options);
@@ -249,7 +249,7 @@ conbo.Collection = conbo.EventDispatcher.extend
 	 * Get a model from the set by id.
 	 */
 	get: function(obj) {
-		if (obj == null) return void 0;
+		if (obj == null) return undefined;
 		this._idAttr || (this._idAttr = this.model.prototype.idAttribute);
 		return this._byId[obj.id || obj.cid || obj[this._idAttr] || obj];
 	},
@@ -266,7 +266,7 @@ conbo.Collection = conbo.EventDispatcher.extend
 	 */
     where: function(attrs, first) 
     {
-        if (_.isEmpty(attrs)) return first ? void 0 : [];
+        if (_.isEmpty(attrs)) return first ? undefined : [];
         return this[first ? 'find' : 'filter'](function(model) {
           for (var key in attrs) {
             if (attrs[key] !== model.get(key)) return false;
@@ -339,7 +339,7 @@ conbo.Collection = conbo.EventDispatcher.extend
     {
       options = options ? _.clone(options) : {};
       
-      if (options.parse === void 0) options.parse = true;
+      if (options.parse === undefined) options.parse = true;
       
       var success = options.success;
       var collection = this;

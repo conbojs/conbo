@@ -1,8 +1,3 @@
-(function(window, undefined)
-{
-	var create = function(_, $)
-	{
-
 /*! 
  * Conbo.js: Lightweight MVC application framework for JavaScript
  * http://conbojs.mesmotronic.com/
@@ -16,26 +11,33 @@
  * CONBO.JS
  * 
  * Conbo.js is a lightweight MVC application framework for JavaScript featuring 
- * dependency injection, context and encapsulation, command pattern and event 
- * model which enables callback scoping and consistent event handling
+ * dependency injection, context and encapsulation, data binding, command 
+ * pattern and an event model which enables callback scoping and consistent 
+ * event handling
  * 
- * Dependencies: jQuery 1.7+, Underscore.js 1.4.3+
+ * Dependencies: jQuery 1.7+, Underscore.js 1.4+
  * 
  * @author		Neil Rackett
  * @see			http://www.mesmotronic.com/
  */
 
-var conbo = 
+(function(window, undefined)
 {
-	VERSION:'1.0.18',
-	_:_, 
-	$:$,
-	
-	toString: function() 
-	{ 
-		return '[Conbo '+this.VERSION+']'; 
-	}
-};
+	var create = function(_, $)
+	{
+		var conbo = 
+		{
+			VERSION:'1.0.19',
+			_:_, 
+			$:$,
+			
+			toString: function() 
+			{ 
+				return '[Conbo '+this.VERSION+']'; 
+			}
+		};
+		
+		
 
 /**
  * Class
@@ -977,7 +979,8 @@ conbo.BindingUtils = conbo.Class.extend({},
 			destination.set(destinationPropertyName, event.value);
 		});
 		
-		if (twoWay) this.bindProperty(destination, destinationPropertyName, source, sourcePropertyName);
+		if (twoWay && destination instanceof conbo.Bindable)
+			this.bindProperty(destination, destinationPropertyName, source, sourcePropertyName);
 		
 		return this;
 	},
@@ -1727,7 +1730,7 @@ conbo.Model = conbo.Map.extend
 	 */
 	unset: function(attr, options) 
 	{
-		return this.set(attr, void 0, _.extend({}, options, {unset: true}));
+		return this.set(attr, undefined, _.extend({}, options, {unset: true}));
 	},
 
 	/**
@@ -1736,7 +1739,7 @@ conbo.Model = conbo.Map.extend
 	clear: function(options) 
 	{
 		var attrs = {};
-		for (var key in this._attributes) attrs[key] = void 0;
+		for (var key in this._attributes) attrs[key] = undefined;
 		return this.set(attrs, _.extend({}, options, {unset: true}));
 	},
 
@@ -1797,7 +1800,7 @@ conbo.Model = conbo.Map.extend
 	fetch: function(options) 
 	{
 		options = options ? _.clone(options) : {};
-		if (options.parse === void 0) options.parse = true;
+		if (options.parse === undefined) options.parse = true;
 		var model = this;
 		var success = options.success;
 		
@@ -1853,7 +1856,7 @@ conbo.Model = conbo.Map.extend
 
 		// After a successful server-side save, the client is (optionally)
 		// updated with the server-side state.
-		if (options.parse === void 0) options.parse = true;
+		if (options.parse === undefined) options.parse = true;
 			
 		var model = this;
 		var success = options.success;
@@ -2032,7 +2035,7 @@ conbo.Collection = conbo.EventDispatcher.extend
 	    options || (options = {});
 	    if (options.url) this.url = options.url;
 	    if (options.model) this.model = options.model;
-	    if (options.comparator !== void 0) this.comparator = options.comparator;
+	    if (options.comparator !== undefined) this.comparator = options.comparator;
 	    this._reset();
 	    
 		this._inject(options);
@@ -2257,7 +2260,7 @@ conbo.Collection = conbo.EventDispatcher.extend
 	 * Get a model from the set by id.
 	 */
 	get: function(obj) {
-		if (obj == null) return void 0;
+		if (obj == null) return undefined;
 		this._idAttr || (this._idAttr = this.model.prototype.idAttribute);
 		return this._byId[obj.id || obj.cid || obj[this._idAttr] || obj];
 	},
@@ -2274,7 +2277,7 @@ conbo.Collection = conbo.EventDispatcher.extend
 	 */
     where: function(attrs, first) 
     {
-        if (_.isEmpty(attrs)) return first ? void 0 : [];
+        if (_.isEmpty(attrs)) return first ? undefined : [];
         return this[first ? 'find' : 'filter'](function(model) {
           for (var key in attrs) {
             if (attrs[key] !== model.get(key)) return false;
@@ -2347,7 +2350,7 @@ conbo.Collection = conbo.EventDispatcher.extend
     {
       options = options ? _.clone(options) : {};
       
-      if (options.parse === void 0) options.parse = true;
+      if (options.parse === undefined) options.parse = true;
       
       var success = options.success;
       var collection = this;
