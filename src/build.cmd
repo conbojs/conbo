@@ -12,7 +12,6 @@ type ^
 	"%~dp0conbo\data\Map.js" ^
 	"%~dp0conbo\utils\BindingUtils.js" ^
 	"%~dp0conbo\view\View.js" ^
-	"%~dp0conbo\core\Actor.js" ^
 	"%~dp0conbo\core\Application.js" ^
 	"%~dp0conbo\core\Command.js" ^
 	"%~dp0conbo\core\ServerApplication.js" ^
