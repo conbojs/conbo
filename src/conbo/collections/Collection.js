@@ -477,8 +477,11 @@ var methods = ['forEach', 'each', 'map', 'collect', 'reduce', 'foldl',
 	'tail', 'drop', 'last', 'without', 'indexOf', 'shuffle', 'lastIndexOf',
 	'isEmpty', 'chain'];
 
-// Mix in each Underscore method as a proxy to `Collection#models`.
-_.each(methods, function(method) {
+// Mix in each available Underscore/Lo-Dash method as a proxy to `Collection#models`.
+_.each(methods, function(method) 
+{
+	if (!_.has(_, method)) return;
+	
 	conbo.Collection.prototype[method] = function() {
 		var args = [].slice.call(arguments);
 		args.unshift(this.models);
@@ -492,6 +495,8 @@ var attributeMethods = ['groupBy', 'countBy', 'sortBy'];
 // Use attributes instead of properties.
 _.each(attributeMethods, function(method)
 {
+	if (!_.has(_, method)) return;
+	
 	conbo.Collection.prototype[method] = function(value, context) 
 	{
 		var iterator = _.isFunction(value) ? value : function(model) 

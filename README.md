@@ -5,9 +5,14 @@ Conbo.JS is a lightweight MVC application framework for JavaScript featuring ext
 
 Conbo.js can be used client side, either stand-alone or as an AMD module, or as a Node.js module on the server (NPM installer coming soon).
 
-Client-side dependencies: jQuery 1.7.0+, Underscore.js 1.4.3+
+Dependencies
+------------
 
-Server-side dependencies: Underscore.js 1.4.3+
+Client-side: jQuery 1.7.0+, Lo-Dash or Underscore.js 1.4+
+
+Server-side: Lo-Dash or Underscore.js 1.4+
+
+Over time, we're hoping to reduce dependencies to the point where they're either optional or only a minimal custom build is required.
 
 History
 -------
@@ -19,6 +24,6 @@ Builds
 
 Core (38KB uncompressed, 4KB minified+gzipped): Core framework for applications that don't require web service functionality baked in.
 
-Complete (83KB uncompressed, 9KB minified+gzipped): Complete framework, including syncable Collection and Model, plus History and Router classes derived from Backbone.js classes of the same name.
+Complete (83KB uncompressed, 9KB minified+gzipped): Complete framework, including syncable Collection, Model, History and Router derived from Backbone.js classes of the same name.
 
 Windows build script requires Microsoft Ajax Minifier: http://ajaxmin.codeplex.com/.

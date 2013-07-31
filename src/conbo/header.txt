@@ -15,7 +15,7 @@
  * pattern and an event model which enables callback scoping and consistent 
  * event handling
  * 
- * Dependencies: jQuery 1.7+, Underscore.js 1.4+
+ * Dependencies: jQuery 1.7+, Lo-Dash or Underscore.js 1.4+
  * 
  * @author		Neil Rackett
  * @see			http://www.mesmotronic.com/
@@ -27,7 +27,7 @@
 	{
 		var conbo = 
 		{
-			VERSION:'1.0.19',
+			VERSION:'1.0.20',
 			_:_, 
 			$:$,
 			

@@ -15,7 +15,7 @@
  * pattern and an event model which enables callback scoping and consistent 
  * event handling
  * 
- * Dependencies: jQuery 1.7+, Underscore.js 1.4+
+ * Dependencies: jQuery 1.7+, Lo-Dash or Underscore.js 1.4+
  * 
  * @author		Neil Rackett
  * @see			http://www.mesmotronic.com/
@@ -27,7 +27,7 @@
 	{
 		var conbo = 
 		{
-			VERSION:'1.0.19',
+			VERSION:'1.0.20',
 			_:_, 
 			$:$,
 			
@@ -832,9 +832,11 @@ conbo.Map = conbo.Bindable.extend
 //Underscore methods that we want to implement on the Model.
 var mapMethods = ['keys', 'values', 'pairs', 'invert', 'pick', 'omit', 'size'];
 
-//Mix in each Underscore method as a proxy to `Model#attributes`.
+//Mix in each available Lo-Dash/Underscore method as a proxy to `Model#attributes`.
 _.each(mapMethods, function(method)
 {
+	if (!_.has(_, method)) return;
+	
 	conbo.Map.prototype[method] = function() 
 	{
 		return _[method].apply(_, [this._attributes].concat(_.rest(arguments)));
@@ -2468,8 +2470,11 @@ var methods = ['forEach', 'each', 'map', 'collect', 'reduce', 'foldl',
 	'tail', 'drop', 'last', 'without', 'indexOf', 'shuffle', 'lastIndexOf',
 	'isEmpty', 'chain'];
 
-// Mix in each Underscore method as a proxy to `Collection#models`.
-_.each(methods, function(method) {
+// Mix in each available Underscore/Lo-Dash method as a proxy to `Collection#models`.
+_.each(methods, function(method) 
+{
+	if (!_.has(_, method)) return;
+	
 	conbo.Collection.prototype[method] = function() {
 		var args = [].slice.call(arguments);
 		args.unshift(this.models);
@@ -2483,6 +2488,8 @@ var attributeMethods = ['groupBy', 'countBy', 'sortBy'];
 // Use attributes instead of properties.
 _.each(attributeMethods, function(method)
 {
+	if (!_.has(_, method)) return;
+	
 	conbo.Collection.prototype[method] = function(value, context) 
 	{
 		var iterator = _.isFunction(value) ? value : function(model) 
