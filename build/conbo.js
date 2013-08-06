@@ -37,8 +37,6 @@
 			}
 		};
 		
-		
-
 /**
  * Class
  * Extendable base class from which all others extend
@@ -535,15 +533,14 @@ conbo.Bindable = conbo.EventDispatcher.extend
 	 */
 	set: function(attributes, value, options)
 	{
-		var a = _.result(this, '_attributes');
-		
 		if (_.isObject(attributes))
 		{
 			_.each(attributes, function(value, key) { this.set(key, value, options); }, this);
 			return this;
 		}
 		
-		var changed = false;
+		var a = _.result(this, '_attributes'),
+			changed = false;
 		
 		options || (options = {silent:false});
 		
@@ -552,10 +549,13 @@ conbo.Bindable = conbo.EventDispatcher.extend
 			changed = _.has(a, attributes);
 			delete a[attributes];
 		}
-		else if (_.isFunction(a[attributes]) && a[attributes]() != value)
+		else if (_.isFunction(a[attributes]))
 		{
-			a[attributes](value);
-			changed = true;
+			if (a[attributes]() !== value)
+			{
+				a[attributes](value);
+				changed = true;
+			}
 		}
 		else if (a[attributes] != value)
 		{
@@ -967,7 +967,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	{
 		if (!(source instanceof conbo.Bindable)) throw new Error('Source is not Bindable');
 		
-		destinationPropertyName = destinationPropertyName || sourcePropertyName;
+		destinationPropertyName || (destinationPropertyName = sourcePropertyName);
 		
 		source.on('change:'+sourcePropertyName, function(event)
 		{
@@ -977,7 +977,6 @@ conbo.BindingUtils = conbo.Class.extend({},
 				return;
 			}
 			
-			if (destination.get(destinationPropertyName) === event.value) return;
 			destination.set(destinationPropertyName, event.value);
 		});
 		
@@ -998,6 +997,12 @@ conbo.BindingUtils = conbo.Class.extend({},
 	bindSetter: function(source, propertyName, setterFunction)
 	{
 		if (!(source instanceof conbo.Bindable)) throw new Error('Source is not Bindable');
+		
+		if (!_.isFunction(setterFunction))
+		{
+			if (!setterFunction || !_.has(setterFunction, propertyName)) throw new Error('Invalid setter function');
+			setterFunction = setterFunction[propertyName];
+		}
 		
 		source.on('change:'+propertyName, function(event)
 		{
@@ -3079,13 +3084,13 @@ conbo.ajax = function()
 		return conbo;
 	}
 	
-	// Node.js?
+	// Node.js
 	if (typeof module !== 'undefined' && module.exports)
 	{
 		var _, $;
 		
-		try { _ = require('underscore'); } catch (e) {
-		try { _ = require('lodash'); } catch (e) 
+		try { _ = require('lodash'); } catch (e) {
+		try { _ = require('underscore'); } catch (e)
 			{ throw new Error('Conbo.js requires underscore or lodash'); }}
 		
 		try { $ = require('jQuery'); } catch (e) {
@@ -3093,7 +3098,7 @@ conbo.ajax = function()
 		
     	module.exports = create(_, $);
     }
-    // AMD?
+    // AMD
     else if (typeof define === 'function' && define.amd) 
 	{
 		define('conbo', ['underscore','jquery'], function (_, $)

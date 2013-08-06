@@ -39,15 +39,14 @@ conbo.Bindable = conbo.EventDispatcher.extend
 	 */
 	set: function(attributes, value, options)
 	{
-		var a = _.result(this, '_attributes');
-		
 		if (_.isObject(attributes))
 		{
 			_.each(attributes, function(value, key) { this.set(key, value, options); }, this);
 			return this;
 		}
 		
-		var changed = false;
+		var a = _.result(this, '_attributes'),
+			changed = false;
 		
 		options || (options = {silent:false});
 		
@@ -56,10 +55,13 @@ conbo.Bindable = conbo.EventDispatcher.extend
 			changed = _.has(a, attributes);
 			delete a[attributes];
 		}
-		else if (_.isFunction(a[attributes]) && a[attributes]() != value)
+		else if (_.isFunction(a[attributes]))
 		{
-			a[attributes](value);
-			changed = true;
+			if (a[attributes]() !== value)
+			{
+				a[attributes](value);
+				changed = true;
+			}
 		}
 		else if (a[attributes] != value)
 		{

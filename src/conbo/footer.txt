@@ -2,13 +2,13 @@
 		return conbo;
 	}
 	
-	// Node.js?
+	// Node.js
 	if (typeof module !== 'undefined' && module.exports)
 	{
 		var _, $;
 		
-		try { _ = require('underscore'); } catch (e) {
-		try { _ = require('lodash'); } catch (e) 
+		try { _ = require('lodash'); } catch (e) {
+		try { _ = require('underscore'); } catch (e)
 			{ throw new Error('Conbo.js requires underscore or lodash'); }}
 		
 		try { $ = require('jQuery'); } catch (e) {
@@ -16,7 +16,7 @@
 		
     	module.exports = create(_, $);
     }
-    // AMD?
+    // AMD
     else if (typeof define === 'function' && define.amd) 
 	{
 		define('conbo', ['underscore','jquery'], function (_, $)

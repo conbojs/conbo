@@ -123,7 +123,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	{
 		if (!(source instanceof conbo.Bindable)) throw new Error('Source is not Bindable');
 		
-		destinationPropertyName = destinationPropertyName || sourcePropertyName;
+		destinationPropertyName || (destinationPropertyName = sourcePropertyName);
 		
 		source.on('change:'+sourcePropertyName, function(event)
 		{
@@ -133,7 +133,6 @@ conbo.BindingUtils = conbo.Class.extend({},
 				return;
 			}
 			
-			if (destination.get(destinationPropertyName) === event.value) return;
 			destination.set(destinationPropertyName, event.value);
 		});
 		
@@ -154,6 +153,12 @@ conbo.BindingUtils = conbo.Class.extend({},
 	bindSetter: function(source, propertyName, setterFunction)
 	{
 		if (!(source instanceof conbo.Bindable)) throw new Error('Source is not Bindable');
+		
+		if (!_.isFunction(setterFunction))
+		{
+			if (!setterFunction || !_.has(setterFunction, propertyName)) throw new Error('Invalid setter function');
+			setterFunction = setterFunction[propertyName];
+		}
 		
 		source.on('change:'+propertyName, function(event)
 		{
