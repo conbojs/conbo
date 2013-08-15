@@ -185,10 +185,10 @@ conbo.View = conbo.Bindable.extend
 	 */
 	bindView: function()
 	{
-		this.$('[data-source]').each(this.bind(function(index, el)
+		this.$('[data-src]').each(this.bind(function(index, el)
 		{
 			var d = this.$(el).data(),
-				s = d.source.split('.'),
+				s = d.src.split('.'),
 				f = _.isFunction(this[d.parse]) ? this[d.parse] : undefined,
 				m, p;
 				
@@ -203,7 +203,7 @@ conbo.View = conbo.Bindable.extend
 				p = s[0];
 			}
 			
-			if (!m) throw new Error(d.source+' is not defined in this View');
+			if (!m) throw new Error(d.src+' is not defined in this View');
 			if (!p) throw new Error('Cannot bind to undefined property');
 			
 			conbo.BindingUtils.bindElement(m, p, el, f);
@@ -226,20 +226,41 @@ conbo.View = conbo.Bindable.extend
 	 * Loads a CSS and apply it
 	 * @param	url		The URL of the CSS
 	 */
-	loadCSS: function(url)
+	loadCSS: function(url, callback)
 	{
-		if (!('document' in window)) return;
+		if (!('document' in window)) return this;
 		
-	    var link;
-	    
-	    link = document.createElement('link');
-	    link.type = 'text/css';
-	    link.rel = 'stylesheet';
-	    link.href = url;
-	    
-	    document.getElementsByTagName('head')[0].appendChild(link);
-	    
-	    return this;
+		var $link = conbo.$('<link>').attr({rel:"stylesheet", type: "text/css", href:url}),
+			link = $link[0],
+			hasSheet = ('sheet' in link),
+			sheet = hasSheet ? 'sheet' : 'styleSheet', 
+			rules = hasSheet ? 'cssRules' : 'rules';
+		
+		var successInterval = setInterval(function()
+		{
+			try 
+			{
+				if (link[sheet] && link[sheet][rules].length) 
+				{
+					clearInterval(successInterval);
+					clearTimeout(errorTimeout);
+					callback(true);
+				}
+			}
+			catch(e) {}
+		}, 10);
+		
+		var errorTimeout = setTimeout( function() 
+		{
+			clearInterval(successInterval);
+			clearTimeout(errorTimeout);
+			$link.remove();
+			callback(false);
+		}, 15000);
+		
+		conbo.$('head').append($link);
+		
+		return this;
 	},
 	
 	/**
@@ -292,7 +313,8 @@ conbo.View = conbo.Bindable.extend
 	 * You usually don't need to use this, but may wish to if you have multiple
 	 * conbo views attached to the same DOM element.
 	 */
-	undelegateEvents: function() {
+	undelegateEvents: function() 
+	{
 		this.$el.off('.delegateEvents' + this.cid);
 		return this;
 	},

@@ -131,8 +131,8 @@ conbo.EventDispatcher = conbo.Class.extend
 	 */
 	_off: function(type, handler, scope)
 	{
-		if (!this._queue) return this;
-		if (!(type in this._queue)) return this;
+		if (!this._queue || !(type in this._queue)) return this;
+		
 		var queue = this._queue[type];
 		
 		if (arguments.length == 1)
