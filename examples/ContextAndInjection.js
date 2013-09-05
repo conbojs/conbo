@@ -71,7 +71,8 @@
 	({
 		/**
 		 * Application will automatically use an instance of this class as 
-		 * the application's context (event bus)
+		 * the application's context (event bus); uses vanilla conbo.Context
+		 * if not specified
 		 */
 		contextClass: MyContext,
 		
