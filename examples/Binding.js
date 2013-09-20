@@ -5,9 +5,9 @@
 (function()
 {
 	/**
-	 * Switch conbo.Map for conbo.Model if you need web services
+	 * Switch conbo.Hash for conbo.Model if you need web services
 	 */
-	var MyModel = conbo.Map.extend
+	var MyModel = conbo.Hash.extend
 	({
 		defaults: 
 		{

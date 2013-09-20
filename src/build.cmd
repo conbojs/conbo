@@ -9,7 +9,7 @@ type ^
 	"%~dp0conbo\events\EventDispatcher.js" ^
 	"%~dp0conbo\core\Bindable.js" ^
 	"%~dp0conbo\core\Context.js" ^
-	"%~dp0conbo\data\Map.js" ^
+	"%~dp0conbo\data\Hash.js" ^
 	"%~dp0conbo\utils\BindingUtils.js" ^
 	"%~dp0conbo\view\View.js" ^
 	"%~dp0conbo\core\Application.js" ^

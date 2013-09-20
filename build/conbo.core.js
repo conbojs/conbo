@@ -27,7 +27,7 @@
 	{
 		var conbo = 
 		{
-			VERSION:'1.0.21',
+			VERSION:'1.0.22',
 			_:_, 
 			$:$,
 			
@@ -790,9 +790,9 @@ conbo.Context = conbo.EventDispatcher.extend
 	
 });
 /**
- * conbo.Map
+ * conbo.Hash
  * 
- * A Map is a bindable object that associates keys and values
+ * A Hash is a bindable object of associated keys and values
  * 
  * @example	
  * 	this.set('fun', 123};
@@ -800,7 +800,8 @@ conbo.Context = conbo.EventDispatcher.extend
  * 
  * @author		Neil Rackett
  */
-conbo.Map = conbo.Bindable.extend
+
+conbo.Hash = conbo.Bindable.extend
 ({
 	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
@@ -825,7 +826,7 @@ conbo.Map = conbo.Bindable.extend
 	
 	toString: function()
 	{
-		return '[conbo.Map]';
+		return '[conbo.Hash]';
 	}
 });
 
@@ -842,7 +843,9 @@ _.each(mapMethods, function(method)
 		return _[method].apply(_, [this._attributes].concat(_.rest(arguments)));
 	};
 });
-/**
+
+// For backward compatibility
+conbo.Map = conbo.Hash;/**
  * Binding utility class
  * 
  * Used to bind properties of Bindable class instances to DOM elements, 
