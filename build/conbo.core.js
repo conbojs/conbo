@@ -27,7 +27,7 @@
 	{
 		var conbo = 
 		{
-			VERSION:'1.0.22',
+			VERSION:'1.0.23',
 			_:_, 
 			$:$,
 			
@@ -831,14 +831,14 @@ conbo.Hash = conbo.Bindable.extend
 });
 
 //Underscore methods that we want to implement on the Model.
-var mapMethods = ['keys', 'values', 'pairs', 'invert', 'pick', 'omit', 'size'];
+var hashMethods = ['keys', 'values', 'pairs', 'invert', 'pick', 'omit', 'size'];
 
 //Mix in each available Lo-Dash/Underscore method as a proxy to `Model#attributes`.
-_.each(mapMethods, function(method)
+_.each(hashMethods, function(method)
 {
 	if (!_.has(_, method)) return;
 	
-	conbo.Map.prototype[method] = function() 
+	conbo.Hash.prototype[method] = function() 
 	{
 		return _[method].apply(_, [this._attributes].concat(_.rest(arguments)));
 	};
