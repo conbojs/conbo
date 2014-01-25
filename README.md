@@ -26,4 +26,6 @@ Core (38KB uncompressed, 4KB minified+gzipped): Core framework for applications 
 
 Complete (83KB uncompressed, 9KB minified+gzipped): Complete framework, including syncable Collection, Model, History and Router derived from Backbone.js classes of the same name.
 
-Windows build script requires Microsoft Ajax Minifier: http://ajaxmin.codeplex.com/.
+Project builds are created using Grunt, which requires Node.js; all required modules can be installed by running "npm install" from the command line in the project folder.
+
+All builds can be created using the command line "grunt".
