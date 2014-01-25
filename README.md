@@ -28,4 +28,4 @@ Complete (83KB uncompressed, 9KB minified+gzipped): Complete framework, includin
 
 Project builds are created using Grunt, which requires Node.js; all required modules can be installed by running "npm install" from the command line in the project folder.
 
-All builds can be created using the command line "grunt".
+All builds can be created using the command line "grunt". Use "grunt watch" to auto-build as you edit.
