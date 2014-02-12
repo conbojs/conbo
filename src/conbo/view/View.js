@@ -3,6 +3,43 @@ var delegateEventSplitter = /^(\S+)\s*(.*)$/;
 //List of view options to be merged as properties.
 var viewOptions = ['model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events'];
 
+/*
+ * jQuery plug-ins
+ */
+
+$.fn.cbData = function()
+{
+	var data = {},
+		attrs = this.get()[0].attributes,
+		count = 0;
+	
+	for (var i=0; i<attrs.length; ++i)
+	{
+		if (attrs[i].name.indexOf('cb-') != 0) continue;
+		data[attrs[i].name.substr(3)] = attrs[i].value;
+		++count;
+	}
+	
+	return !!count ? data : undefined;
+}
+
+/*
+ * jQuery expressions
+ */
+
+$.expr[':'].cbAttr = function(el, index, meta, stack)
+{
+	var $el = $(el),
+		args = meta[3].split(','),
+		cb = $el.cbData();
+	
+	if (!cb) return false;
+	if (!!cb && !args.length) return true;
+	if (!!args[0] && !args[1]) return cb.hasOwnProperty(args[0]);
+	if (!!args[0] && !!args[1]) return cb[args[0]] == args[1];
+	return false;
+};
+
 /**
  * View
  * 
@@ -185,11 +222,11 @@ conbo.View = conbo.Bindable.extend
 	 */
 	bindView: function()
 	{
-		this.$('[data-src]').each(this.bind(function(index, el)
+		this.$('[cb-bind]').each(this.bind(function(index, el)
 		{
-			var d = this.$(el).data(),
-				s = d.src.split('.'),
-				f = _.isFunction(this[d.parse]) ? this[d.parse] : undefined,
+			var d = this.$(el).cbData(),
+				s = d.bind.split('.'),
+				f = _.isFunction(this[d.filter]) ? this[d.parse] : undefined,
 				m, p;
 				
 			if (s.length > 1)
@@ -203,10 +240,10 @@ conbo.View = conbo.Bindable.extend
 				p = s[0];
 			}
 			
-			if (!m) throw new Error(d.src+' is not defined in this View');
-			if (!p) throw new Error('Cannot bind to undefined property');
+			if (!m) throw new Error(d.bind+' is not defined in this View');
+			if (!p) throw new Error('Unable to bind to undefined property');
 			
-			conbo.BindingUtils.bindElement(m, p, el, f);
+			conbo.BindingUtils.bindEl(m, p, el, f);
 		}));
 		
 		return this;

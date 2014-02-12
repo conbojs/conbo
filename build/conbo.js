@@ -27,7 +27,7 @@
 	{
 		var conbo = 
 		{
-			VERSION:'1.0.23',
+			VERSION:'1.1.0',
 			_:_, 
 			$:$,
 			
@@ -864,7 +864,7 @@ conbo.Map = conbo.Hash;
 conbo.BindingUtils = conbo.Class.extend({},
 {
 	/**
-	 * Bind a property of a Bindable class instance  (e.g. Map or Model) 
+	 * Bind a property of a Bindable class instance (e.g. Map or Model) 
 	 * to a DOM element's value/content 
 	 * 
 	 * @param source			Class instance which extends from conbo.Bindable (e.g. Map or Model)
@@ -872,12 +872,17 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * @param element			DOM element to bind value to (two-way bind on input/form elements)
 	 * @param parseFunction		Optional method used to parse values before outputting as HTML
 	 */
-	bindElement: function(source, propertyName, element, parseFunction)
+	bindEl: function(source, propertyName, element, parseFunction)
 	{
-		if (!(source instanceof conbo.Bindable)) throw new Error('Source is not Bindable');
+		if (!(source instanceof conbo.Bindable))
+		{
+			throw new Error('Source is not Bindable');
+		}
 		
 		parseFunction = parseFunction || function(value)
-			{ return typeof(value) == 'undefined' ? '' : String(value); };
+		{
+			return typeof(value) == 'undefined' ? '' : String(value); 
+		};
 		
 		$(element).each(function(index, el)
 		{
@@ -1029,6 +1034,43 @@ var delegateEventSplitter = /^(\S+)\s*(.*)$/;
 
 //List of view options to be merged as properties.
 var viewOptions = ['model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events'];
+
+/*
+ * jQuery plug-ins
+ */
+
+$.fn.cbData = function()
+{
+	var data = {},
+		attrs = this.get()[0].attributes,
+		count = 0;
+	
+	for (var i=0; i<attrs.length; ++i)
+	{
+		if (attrs[i].name.indexOf('cb-') != 0) continue;
+		data[attrs[i].name.substr(3)] = attrs[i].value;
+		++count;
+	}
+	
+	return !!count ? data : undefined;
+}
+
+/*
+ * jQuery expressions
+ */
+
+$.expr[':'].cbAttr = function(el, index, meta, stack)
+{
+	var $el = $(el),
+		args = meta[3].split(','),
+		cb = $el.cbData();
+	
+	if (!cb) return false;
+	if (!!cb && !args.length) return true;
+	if (!!args[0] && !args[1]) return cb.hasOwnProperty(args[0]);
+	if (!!args[0] && !!args[1]) return cb[args[0]] == args[1];
+	return false;
+};
 
 /**
  * View
@@ -1212,11 +1254,11 @@ conbo.View = conbo.Bindable.extend
 	 */
 	bindView: function()
 	{
-		this.$('[data-src]').each(this.bind(function(index, el)
+		this.$('[cb-bind]').each(this.bind(function(index, el)
 		{
-			var d = this.$(el).data(),
-				s = d.src.split('.'),
-				f = _.isFunction(this[d.parse]) ? this[d.parse] : undefined,
+			var d = this.$(el).cbData(),
+				s = d.bind.split('.'),
+				f = _.isFunction(this[d.filter]) ? this[d.parse] : undefined,
 				m, p;
 				
 			if (s.length > 1)
@@ -1230,10 +1272,10 @@ conbo.View = conbo.Bindable.extend
 				p = s[0];
 			}
 			
-			if (!m) throw new Error(d.src+' is not defined in this View');
-			if (!p) throw new Error('Cannot bind to undefined property');
+			if (!m) throw new Error(d.bind+' is not defined in this View');
+			if (!p) throw new Error('Unable to bind to undefined property');
 			
-			conbo.BindingUtils.bindElement(m, p, el, f);
+			conbo.BindingUtils.bindEl(m, p, el, f);
 		}));
 		
 		return this;
@@ -2981,11 +3023,12 @@ conbo.Router = conbo.EventDispatcher.extend
 	_routeToRegExp: function(route) 
 	{
 		route = route.replace(escapeRegExp, '\\$&')
-								 .replace(optionalParam, '(?:$1)?')
-								 .replace(namedParam, function(match, optional){
-									 return optional ? match : '([^\/]+)';
-								 })
-								 .replace(splatParam, '(.*?)');
+			.replace(optionalParam, '(?:$1)?')
+			.replace(namedParam, function(match, optional){
+				return optional ? match : '([^\/]+)';
+			})
+			.replace(splatParam, '(.*?)');
+		
 		return new RegExp('^' + route + '$');
 	},
 

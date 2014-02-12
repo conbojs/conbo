@@ -9,7 +9,7 @@
 conbo.BindingUtils = conbo.Class.extend({},
 {
 	/**
-	 * Bind a property of a Bindable class instance  (e.g. Map or Model) 
+	 * Bind a property of a Bindable class instance (e.g. Map or Model) 
 	 * to a DOM element's value/content 
 	 * 
 	 * @param source			Class instance which extends from conbo.Bindable (e.g. Map or Model)
@@ -17,12 +17,17 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * @param element			DOM element to bind value to (two-way bind on input/form elements)
 	 * @param parseFunction		Optional method used to parse values before outputting as HTML
 	 */
-	bindElement: function(source, propertyName, element, parseFunction)
+	bindEl: function(source, propertyName, element, parseFunction)
 	{
-		if (!(source instanceof conbo.Bindable)) throw new Error('Source is not Bindable');
+		if (!(source instanceof conbo.Bindable))
+		{
+			throw new Error('Source is not Bindable');
+		}
 		
 		parseFunction = parseFunction || function(value)
-			{ return typeof(value) == 'undefined' ? '' : String(value); };
+		{
+			return typeof(value) == 'undefined' ? '' : String(value); 
+		};
 		
 		$(element).each(function(index, el)
 		{
