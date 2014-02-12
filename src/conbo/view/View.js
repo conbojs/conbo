@@ -7,7 +7,7 @@ var viewOptions = ['model', 'collection', 'el', 'id', 'attributes', 'className',
  * jQuery plug-ins
  */
 
-$.fn.cbData = function()
+conbo.$.fn.cbData = function()
 {
 	var data = {},
 		attrs = this.get()[0].attributes,
@@ -27,9 +27,9 @@ $.fn.cbData = function()
  * jQuery expressions
  */
 
-$.expr[':'].cbAttr = function(el, index, meta, stack)
+conbo.$.expr[':'].cbAttr = function(el, index, meta, stack)
 {
-	var $el = $(el),
+	var $el = conbo.$(el),
 		args = meta[3].split(','),
 		cb = $el.cbData();
 	
@@ -226,7 +226,7 @@ conbo.View = conbo.Bindable.extend
 		{
 			var d = this.$(el).cbData(),
 				s = d.bind.split('.'),
-				f = _.isFunction(this[d.filter]) ? this[d.parse] : undefined,
+				f = _.isFunction(this[d.parse]) ? this[d.parse] : undefined,
 				m, p;
 				
 			if (s.length > 1)
