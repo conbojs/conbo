@@ -1156,8 +1156,10 @@ conbo.View = conbo.Bindable.extend
 			this.undelegateEvents()
 				.unbindView();
 		}
+		
 		this.$el = conbo.$(element);
 		this.el = this.$el[0];
+		
 		if (delegate !== false) this.delegateEvents();
 		
 		if (!(this instanceof conbo.Application))
@@ -1499,22 +1501,30 @@ conbo.Application = conbo.View.extend
 		options = _.clone(options) || {};
 		options.view = options.view || this;
 		
+		if (!options.el)
+		{
+			var appName = this.toString().replace(/[\[\]']+/g, ''),
+				el = conbo.$('[cb-app='+appName+']')[0];
+			
+			if (!!el) options.el = el;
+		}
+		
 		this.context = options.context || new this.contextClass(options);
 		
 		conbo.View.prototype.constructor.apply(this, arguments);
 	},
 	
 	/**
-	 * Apply View classes to HTML elements based on their data-view attribute
+	 * Apply View classes to HTML elements based on their cb-view attribute
 	 * @param	ns	Namespace of the view classes
 	 */
 	bindViews: function(ns)
 	{
 		if (!_.isObject(ns)) throw new Error('Invalid namespace');
 		
-		this.$('[data-view]').each(this.bind(function(index, el)
+		this.$('[cb-view]').each(this.bind(function(index, el)
 		{
-			var view = this.$(el).data('view'),
+			var view = this.$(el).cbData('view'),
 				viewClass = ns[view];
 			
 			if (!_.isFunction(viewClass)) return;

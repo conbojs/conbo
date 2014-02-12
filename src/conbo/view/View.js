@@ -124,8 +124,10 @@ conbo.View = conbo.Bindable.extend
 			this.undelegateEvents()
 				.unbindView();
 		}
+		
 		this.$el = conbo.$(element);
 		this.el = this.$el[0];
+		
 		if (delegate !== false) this.delegateEvents();
 		
 		if (!(this instanceof conbo.Application))
