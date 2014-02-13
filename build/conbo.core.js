@@ -1504,7 +1504,7 @@ conbo.Application = conbo.View.extend
 		if (!options.el)
 		{
 			var appName = this.toString().replace(/[\[\]']+/g, ''),
-				el = conbo.$('[cb-app='+appName+']')[0];
+				el = conbo.$('[cb-app="'+appName+'"]')[0];
 			
 			if (!!el) options.el = el;
 		}
