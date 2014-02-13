@@ -27,7 +27,7 @@
 	{
 		var conbo = 
 		{
-			VERSION:'1.1.1',
+			VERSION:'1.1.2',
 			_:_, 
 			$:$,
 			
@@ -1252,16 +1252,21 @@ conbo.View = conbo.Bindable.extend
 	
 	/**
 	 * Automatically bind elements to properties of this View
+	 * 
+	 * @example	<div cb-bind="name|parseName"></div> 
 	 * @returns	this
 	 */
 	bindView: function()
 	{
 		this.$('[cb-bind]').each(this.bind(function(index, el)
 		{
-			var d = this.$(el).cbData(),
-				s = d.bind.split('.'),
-				f = _.isFunction(this[d.parse]) ? this[d.parse] : undefined,
+			var d = this.$(el).cbData().bind,
+				b = d.split('|'),
+				s = b[0].split('.'),
+				f = !!b[1] && _.isFunction(this[b[1]]) ? this[b[1]] : undefined,
 				m, p;
+			
+			console.log(d, b);
 				
 			if (s.length > 1)
 			{
@@ -1274,7 +1279,7 @@ conbo.View = conbo.Bindable.extend
 				p = s[0];
 			}
 			
-			if (!m) throw new Error(d.bind+' is not defined in this View');
+			if (!m) throw new Error(b[0]+' is not defined in this View');
 			if (!p) throw new Error('Unable to bind to undefined property');
 			
 			conbo.BindingUtils.bindEl(m, p, el, f);

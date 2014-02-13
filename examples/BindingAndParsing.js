@@ -44,13 +44,15 @@
 		
 		initialize: function()
 		{
-			this.$el.html('It cost <span cb-bind="myModel.price" cb-parse="parseCurrency" />!');
+			this.$el.html('It cost <span cb-bind="myModel.price|parseCurrency" />? That\'s <span cb-bind="myModel.price|parseDescription" />!');
 			this.bindView(); // Automatically binds cb-bind values in HTML to class properties
 			
 			/*
 			// This could also be written as:
-			this.$el.html('Hello <span/>!');
-			conbo.BindingUtils.bindElement(this.myModel, 'name', this.$('span'), this.parseCurrency);
+			this.$el.html('It cost <span/>? That\'s <span/>!');
+			conbo.BindingUtils
+				.bindElement(this.myModel, 'name', this.$('span')[0], this.parseCurrency)
+				.bindElement(this.myModel, 'name', this.$('span')[1], this.parseDescription);
 			*/
 		},
 		
@@ -70,7 +72,22 @@
 				j = (j = i.length) > 3 ? j % 3 : 0;
 			
 			return '&pound;' + s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
-		 }
+		},
+		
+		/**
+		 * Parses the input value into a description of how expensive it is
+		 * @param 	value
+		 * @returns {String}
+		 */
+		parseDescription: function(value)
+		{
+			var n = parseFloat(value);
+			
+			if (n < 10) return "cheap";
+			if (n < 100) return "good";
+			if (n < 1000) return "a lot";
+			return "expensive";
+		}
 	});
 	
 	var MyContext = conbo.Context.extend
