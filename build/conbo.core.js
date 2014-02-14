@@ -450,6 +450,7 @@ conbo.EventDispatcher = conbo.Class.extend
 	},
 	
 	// Aliases
+	dispatchEvent: function() { this.trigger.apply(this, arguments); },
 	addEventListener: function() { this.on.apply(this, arguments); },
 	removeEventListener: function() { this.off.apply(this, arguments); },
 	
