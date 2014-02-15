@@ -87,7 +87,7 @@ conbo.Router = conbo.EventDispatcher.extend
 	
 	toString: function()
 	{
-		return '[conbo.Router]';
+		return 'conbo.Router';
 	},
 	
 	/**

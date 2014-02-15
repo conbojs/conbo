@@ -171,6 +171,10 @@ conbo.BindingUtils = conbo.Class.extend({},
 		});
 		
 		return this;
-	}
+	},
 	
+	toString: function()
+	{
+		return 'conbo.BindingUtils';
+	}
 });

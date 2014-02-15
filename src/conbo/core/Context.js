@@ -19,7 +19,10 @@ conbo.Context = conbo.EventDispatcher.extend
 		this._singletons = {};
 		
 		this.options = options || {};
-		this.view = this.options.view;
+		this.application = this.options.application;
+		
+		// @deprecated
+		this.view = this.application;
 		
 		this.on(conbo.Event.ALL, this._allHandler);
 		this.initialize.apply(this, arguments);
@@ -140,7 +143,7 @@ conbo.Context = conbo.EventDispatcher.extend
 	
 	toString: function()
 	{
-		return '[conbo.Context]';
+		return 'conbo.Context';
 	},
 	
 	/**

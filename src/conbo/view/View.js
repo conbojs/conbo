@@ -365,7 +365,7 @@ conbo.View = conbo.Bindable.extend
 	
 	toString: function()
 	{
-		return '[conbo.View]';
+		return 'conbo.View';
 	},
 	
 	/**

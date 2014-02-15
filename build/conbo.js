@@ -27,7 +27,7 @@
 	{
 		var conbo = 
 		{
-			VERSION:'1.1.2',
+			VERSION:'1.1.3',
 			_:_, 
 			$:$,
 			
@@ -128,7 +128,7 @@ conbo.Class.prototype =
 	
 	toString: function()
 	{
-		return '[conbo.Class]';
+		return 'conbo.Class';
 	},
 	
 	/**
@@ -273,7 +273,7 @@ conbo.Event = conbo.Class.extend
 	
 	toString: function()
 	{
-		return '[conbo.Event]';
+		return 'conbo.Event';
 	}
 },
 {
@@ -316,7 +316,7 @@ conbo.ConboEvent = conbo.Event.extend
 	
 	toString: function()
 	{
-		return '[conbo.ConboEvent]';
+		return 'conbo.ConboEvent';
 	}
 },
 {
@@ -446,7 +446,7 @@ conbo.EventDispatcher = conbo.Class.extend
 	
 	toString: function()
 	{
-		return '[conbo.EventDispatcher]';
+		return 'conbo.EventDispatcher';
 	},
 	
 	// Aliases
@@ -593,7 +593,7 @@ conbo.Bindable = conbo.EventDispatcher.extend
 	
 	toString: function()
 	{
-		return '[conbo.Bindable]';
+		return 'conbo.Bindable';
 	},
 	
 	/**
@@ -629,7 +629,10 @@ conbo.Context = conbo.EventDispatcher.extend
 		this._singletons = {};
 		
 		this.options = options || {};
-		this.view = this.options.view;
+		this.application = this.options.application;
+		
+		// @deprecated
+		this.view = this.application;
 		
 		this.on(conbo.Event.ALL, this._allHandler);
 		this.initialize.apply(this, arguments);
@@ -750,7 +753,7 @@ conbo.Context = conbo.EventDispatcher.extend
 	
 	toString: function()
 	{
-		return '[conbo.Context]';
+		return 'conbo.Context';
 	},
 	
 	/**
@@ -834,7 +837,7 @@ conbo.Hash = conbo.Bindable.extend
 	
 	toString: function()
 	{
-		return '[conbo.Hash]';
+		return 'conbo.Hash';
 	}
 });
 
@@ -1027,8 +1030,12 @@ conbo.BindingUtils = conbo.Class.extend({},
 		});
 		
 		return this;
-	}
+	},
 	
+	toString: function()
+	{
+		return 'conbo.BindingUtils';
+	}
 });
 
 var delegateEventSplitter = /^(\S+)\s*(.*)$/;
@@ -1398,7 +1405,7 @@ conbo.View = conbo.Bindable.extend
 	
 	toString: function()
 	{
-		return '[conbo.View]';
+		return 'conbo.View';
 	},
 	
 	/**
@@ -1505,36 +1512,67 @@ conbo.Application = conbo.View.extend
 	constructor: function(options)
 	{
 		options = _.clone(options) || {};
-		options.view = options.view || this;
+		options.application = this;
+		options.namespace = options.namespace || window;
+		
+		this.prefix = options.prefix || this.prefix || '';
+		this.context = options.context || new this.contextClass(options);
+		this.namespace = options.namespace;
 		
 		if (!options.el)
 		{
-			var appName = this.toString().replace(/[\[\]']+/g, ''),
-				el = conbo.$('[cb-app="'+appName+'"]')[0];
+			var appClassName;
+			
+			for (var a in this.namespace)
+			{
+				if (this instanceof this.namespace[a])
+				{
+					appClassName = a;
+					break;
+				}
+			}
+			
+			var selector = '[cb-app="'+this.addPrefix(appClassName)+'"]';
+			var el = conbo.$(selector)[0];
 			
 			if (!!el) options.el = el;
 		}
-		
-		this.context = options.context || new this.contextClass(options);
 		
 		conbo.View.prototype.constructor.apply(this, arguments);
 	},
 	
 	/**
-	 * Apply View classes to HTML elements based on their cb-view attribute
-	 * @param	ns	Namespace of the view classes
+	 * Get the prefixed class name
+	 * @param 	name
+	 * @returns
 	 */
-	bindViews: function(ns)
+	addPrefix: function(name)
 	{
-		if (!_.isObject(ns)) throw new Error('Invalid namespace');
+		name = name || '';
+		return !!this.prefix ? this.prefix+'.'+name : name;
+	},
+	
+	/**
+	 * Apply View classes to HTML elements based on their cb-view attribute
+	 */
+	bindViews: function()
+	{
+		var selector = !!this.prefix
+			? '[cb-view^="'+this.addPrefix()+'"]'
+			: '[cb-view]';
 		
-		this.$('[cb-view]').each(this.bind(function(index, el)
+		this.$(selector).each(this.bind(function(index, el)
 		{
-			var view = this.$(el).cbData('view'),
-				viewClass = ns[view];
+			var view = this.$(el).cbData().view.replace(this.addPrefix(), ''),
+				viewClass = this.namespace[view];
 			
-			if (!_.isFunction(viewClass)) return;
+			if (!_.isFunction(viewClass)) 
+			{
+				return;
+			}
+			
 			new viewClass(this.context.addTo({el:el}));
+			
 		}));
 		
 		return this;
@@ -1542,7 +1580,7 @@ conbo.Application = conbo.View.extend
 	
 	toString: function()
 	{
-		return '[conbo.Application]';
+		return 'conbo.Application';
 	},
 });
 
@@ -1583,7 +1621,7 @@ conbo.Command = conbo.EventDispatcher.extend
 	
 	toString: function()
 	{
-		return '[conbo.Command]';
+		return 'conbo.Command';
 	}
 	
 });
@@ -1610,7 +1648,7 @@ conbo.ServerApplication = conbo.Bindable.extend
 	constructor: function(options)
 	{
 		options = options || {};
-		options.view = options.view || this;
+		options.application = this;
 		
 		this.context = options.context || new this.contextClass(options);
 		this._inject(options);
@@ -1622,7 +1660,7 @@ conbo.ServerApplication = conbo.Bindable.extend
 	
 	toString: function()
 	{
-		return '[conbo.ServerApplication]';
+		return 'conbo.ServerApplication';
 	},
 });
 
@@ -2055,7 +2093,7 @@ conbo.Model = conbo.Map.extend
 	
 	toString: function()
 	{
-		return '[conbo.Model]';
+		return 'conbo.Model';
 	},
 
 	/**
@@ -2560,7 +2598,7 @@ conbo.Collection = conbo.EventDispatcher.extend
 
 	toString: function()
 	{
-		return '[conbo.Collection]';
+		return 'conbo.Collection';
 	}
 });
 
@@ -2898,6 +2936,12 @@ conbo.History = conbo.EventDispatcher.extend
 		if (options.trigger) this.loadUrl(fragment);
 	},
 	
+	toString: function()
+	{
+		return 'conbo.History';
+	},
+	
+	
 	/**
 	 * Update the hash location, either replacing the current entry, or
 	 * adding a new one to the browser history.
@@ -2915,7 +2959,7 @@ conbo.History = conbo.EventDispatcher.extend
 			location.hash = '#/' + fragment;
 		}
 	}
-
+	
 });
 
 // Create default instance of the History class
@@ -3010,7 +3054,7 @@ conbo.Router = conbo.EventDispatcher.extend
 	
 	toString: function()
 	{
-		return '[conbo.Router]';
+		return 'conbo.Router';
 	},
 	
 	/**

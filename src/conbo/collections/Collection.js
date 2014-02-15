@@ -465,7 +465,7 @@ conbo.Collection = conbo.EventDispatcher.extend
 
 	toString: function()
 	{
-		return '[conbo.Collection]';
+		return 'conbo.Collection';
 	}
 });
 

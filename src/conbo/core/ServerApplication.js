@@ -20,7 +20,7 @@ conbo.ServerApplication = conbo.Bindable.extend
 	constructor: function(options)
 	{
 		options = options || {};
-		options.view = options.view || this;
+		options.application = this;
 		
 		this.context = options.context || new this.contextClass(options);
 		this._inject(options);
@@ -32,6 +32,6 @@ conbo.ServerApplication = conbo.Bindable.extend
 	
 	toString: function()
 	{
-		return '[conbo.ServerApplication]';
+		return 'conbo.ServerApplication';
 	},
 });

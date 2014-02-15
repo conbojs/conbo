@@ -20,36 +20,67 @@ conbo.Application = conbo.View.extend
 	constructor: function(options)
 	{
 		options = _.clone(options) || {};
-		options.view = options.view || this;
+		options.application = this;
+		options.namespace = options.namespace || window;
+		
+		this.prefix = options.prefix || this.prefix || '';
+		this.context = options.context || new this.contextClass(options);
+		this.namespace = options.namespace;
 		
 		if (!options.el)
 		{
-			var appName = this.toString().replace(/[\[\]']+/g, ''),
-				el = conbo.$('[cb-app="'+appName+'"]')[0];
+			var appClassName;
+			
+			for (var a in this.namespace)
+			{
+				if (this instanceof this.namespace[a])
+				{
+					appClassName = a;
+					break;
+				}
+			}
+			
+			var selector = '[cb-app="'+this.addPrefix(appClassName)+'"]';
+			var el = conbo.$(selector)[0];
 			
 			if (!!el) options.el = el;
 		}
-		
-		this.context = options.context || new this.contextClass(options);
 		
 		conbo.View.prototype.constructor.apply(this, arguments);
 	},
 	
 	/**
-	 * Apply View classes to HTML elements based on their cb-view attribute
-	 * @param	ns	Namespace of the view classes
+	 * Get the prefixed class name
+	 * @param 	name
+	 * @returns
 	 */
-	bindViews: function(ns)
+	addPrefix: function(name)
 	{
-		if (!_.isObject(ns)) throw new Error('Invalid namespace');
+		name = name || '';
+		return !!this.prefix ? this.prefix+'.'+name : name;
+	},
+	
+	/**
+	 * Apply View classes to HTML elements based on their cb-view attribute
+	 */
+	bindViews: function()
+	{
+		var selector = !!this.prefix
+			? '[cb-view^="'+this.addPrefix()+'"]'
+			: '[cb-view]';
 		
-		this.$('[cb-view]').each(this.bind(function(index, el)
+		this.$(selector).each(this.bind(function(index, el)
 		{
-			var view = this.$(el).cbData('view'),
-				viewClass = ns[view];
+			var view = this.$(el).cbData().view.replace(this.addPrefix(), ''),
+				viewClass = this.namespace[view];
 			
-			if (!_.isFunction(viewClass)) return;
+			if (!_.isFunction(viewClass)) 
+			{
+				return;
+			}
+			
 			new viewClass(this.context.addTo({el:el}));
+			
 		}));
 		
 		return this;
@@ -57,6 +88,6 @@ conbo.Application = conbo.View.extend
 	
 	toString: function()
 	{
-		return '[conbo.Application]';
+		return 'conbo.Application';
 	},
 });

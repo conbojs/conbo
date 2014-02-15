@@ -35,7 +35,7 @@ conbo.Hash = conbo.Bindable.extend
 	
 	toString: function()
 	{
-		return '[conbo.Hash]';
+		return 'conbo.Hash';
 	}
 });
 

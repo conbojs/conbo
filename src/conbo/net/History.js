@@ -293,6 +293,12 @@ conbo.History = conbo.EventDispatcher.extend
 		if (options.trigger) this.loadUrl(fragment);
 	},
 	
+	toString: function()
+	{
+		return 'conbo.History';
+	},
+	
+	
 	/**
 	 * Update the hash location, either replacing the current entry, or
 	 * adding a new one to the browser history.
@@ -310,7 +316,7 @@ conbo.History = conbo.EventDispatcher.extend
 			location.hash = '#/' + fragment;
 		}
 	}
-
+	
 });
 
 // Create default instance of the History class

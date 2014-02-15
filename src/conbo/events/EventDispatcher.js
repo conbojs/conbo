@@ -105,7 +105,7 @@ conbo.EventDispatcher = conbo.Class.extend
 	
 	toString: function()
 	{
-		return '[conbo.EventDispatcher]';
+		return 'conbo.EventDispatcher';
 	},
 	
 	// Aliases

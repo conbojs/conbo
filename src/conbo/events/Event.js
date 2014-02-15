@@ -71,7 +71,7 @@ conbo.Event = conbo.Class.extend
 	
 	toString: function()
 	{
-		return '[conbo.Event]';
+		return 'conbo.Event';
 	}
 },
 {

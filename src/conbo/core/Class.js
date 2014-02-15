@@ -88,7 +88,7 @@ conbo.Class.prototype =
 	
 	toString: function()
 	{
-		return '[conbo.Class]';
+		return 'conbo.Class';
 	},
 	
 	/**

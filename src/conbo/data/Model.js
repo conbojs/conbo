@@ -427,7 +427,7 @@ conbo.Model = conbo.Map.extend
 	
 	toString: function()
 	{
-		return '[conbo.Model]';
+		return 'conbo.Model';
 	},
 
 	/**

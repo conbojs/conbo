@@ -93,7 +93,7 @@ conbo.Bindable = conbo.EventDispatcher.extend
 	
 	toString: function()
 	{
-		return '[conbo.Bindable]';
+		return 'conbo.Bindable';
 	},
 	
 	/**

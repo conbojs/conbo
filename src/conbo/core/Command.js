@@ -35,7 +35,7 @@ conbo.Command = conbo.EventDispatcher.extend
 	
 	toString: function()
 	{
-		return '[conbo.Command]';
+		return 'conbo.Command';
 	}
 	
 });
