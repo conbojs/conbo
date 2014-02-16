@@ -20,7 +20,7 @@ conbo.Application = conbo.View.extend
 	constructor: function(options)
 	{
 		options = _.clone(options) || {};
-		options.application = this;
+		options.app = this;
 		options.namespace = options.namespace || window;
 		
 		this.prefix = options.prefix || this.prefix || '';

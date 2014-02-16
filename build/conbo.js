@@ -27,7 +27,7 @@
 	{
 		var conbo = 
 		{
-			VERSION:'1.1.4',
+			VERSION:'1.1.5',
 			_:_, 
 			$:$,
 			
@@ -629,10 +629,10 @@ conbo.Context = conbo.EventDispatcher.extend
 		this._singletons = {};
 		
 		this.options = options || {};
-		this.application = this.options.application;
+		this.app = this.options.app;
 		
-		// @deprecated
-		this.view = this.application;
+		// @deprecated	Use this.app
+		this.view = this.app;
 		
 		this.on(conbo.Event.ALL, this._allHandler);
 		this.initialize.apply(this, arguments);
@@ -1512,7 +1512,7 @@ conbo.Application = conbo.View.extend
 	constructor: function(options)
 	{
 		options = _.clone(options) || {};
-		options.application = this;
+		options.app = this;
 		options.namespace = options.namespace || window;
 		
 		this.prefix = options.prefix || this.prefix || '';
@@ -1661,7 +1661,7 @@ conbo.ServerApplication = conbo.Bindable.extend
 	constructor: function(options)
 	{
 		options = options || {};
-		options.application = this;
+		options.app = this;
 		
 		this.context = options.context || new this.contextClass(options);
 		this._inject(options);

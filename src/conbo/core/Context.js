@@ -19,10 +19,10 @@ conbo.Context = conbo.EventDispatcher.extend
 		this._singletons = {};
 		
 		this.options = options || {};
-		this.application = this.options.application;
+		this.app = this.options.app;
 		
-		// @deprecated
-		this.view = this.application;
+		// @deprecated	Use this.app
+		this.view = this.app;
 		
 		this.on(conbo.Event.ALL, this._allHandler);
 		this.initialize.apply(this, arguments);
