@@ -1,7 +1,7 @@
 /**
- * Hello Namespaces example for Conbo.js
+ * Hello Prefix example for Conbo.js
  * 
- * Demonstrates how to use a namespace prefix to specify which existing DOM elements
+ * Demonstrates the use of a prefix to specify which existing DOM elements
  * should have Application and View classes automatically applied to them
  * 
  * @author	Neil Rackett
@@ -17,7 +17,8 @@
 		 */
 		initialize: function()
 		{
-			this.bindViews();
+			// DOM elements are automatically bound to Application and View classes
+			// unless options.autoBind === false
 		},
 		
 	});

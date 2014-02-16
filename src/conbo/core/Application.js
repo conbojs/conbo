@@ -27,26 +27,17 @@ conbo.Application = conbo.View.extend
 		this.context = options.context || new this.contextClass(options);
 		this.namespace = options.namespace;
 		
-		if (!options.el)
+		if (!options.el && options.autoBind !== false)
 		{
-			var appClassName;
-			
-			for (var a in this.namespace)
-			{
-				if (this instanceof this.namespace[a])
-				{
-					appClassName = a;
-					break;
-				}
-			}
-			
-			var selector = '[cb-app="'+this.addPrefix(appClassName)+'"]';
-			var el = conbo.$(selector)[0];
-			
-			if (!!el) options.el = el;
+			this.bindApp();
 		}
 		
 		conbo.View.prototype.constructor.apply(this, arguments);
+		
+		if (options.autoBind !== false)
+		{
+			bindViews();
+		}
 	},
 	
 	/**
@@ -58,6 +49,28 @@ conbo.Application = conbo.View.extend
 	{
 		name = name || '';
 		return !!this.prefix ? this.prefix+'.'+name : name;
+	},
+	
+	/**
+	 * Apply this Application class to DOM element with matching cb-app attribute
+	 */
+	bindApp: function()
+	{
+		var appClassName;
+		
+		for (var a in this.namespace)
+		{
+			if (this instanceof this.namespace[a])
+			{
+				appClassName = a;
+				break;
+			}
+		}
+		
+		var selector = '[cb-app="'+this.addPrefix(appClassName)+'"]';
+		var el = conbo.$(selector)[0];
+		
+		if (!!el) this.el = el;
 	},
 	
 	/**
