@@ -27,7 +27,7 @@
 	{
 		var conbo = 
 		{
-			VERSION:'1.1.5',
+			VERSION:'1.1.6',
 			_:_, 
 			$:$,
 			
@@ -1274,8 +1274,6 @@ conbo.View = conbo.Bindable.extend
 				f = !!b[1] && _.isFunction(this[b[1]]) ? this[b[1]] : undefined,
 				m, p;
 			
-			console.log(d, b);
-				
 			if (s.length > 1)
 			{
 				m = this[s[0]];
@@ -1298,11 +1296,11 @@ conbo.View = conbo.Bindable.extend
 	
 	/**
 	 * Unbind elements from class properties
-	 * TODO Implement unbindView()
 	 * @returns	this
 	 */
 	unbindView: function() 
 	{
+		// TODO Implement unbindView()
 		return this;
 	},
 	
@@ -1519,34 +1517,23 @@ conbo.Application = conbo.View.extend
 		this.context = options.context || new this.contextClass(options);
 		this.namespace = options.namespace;
 		
-		if (!options.el && options.autoBind !== false)
+		if (!options.el && options.autoApply !== false)
 		{
 			this.bindApp();
 		}
 		
 		conbo.View.prototype.constructor.apply(this, arguments);
 		
-		if (options.autoBind !== false)
+		if (options.autoApply !== false)
 		{
 			bindViews();
 		}
 	},
 	
 	/**
-	 * Get the prefixed class name
-	 * @param 	name
-	 * @returns
-	 */
-	addPrefix: function(name)
-	{
-		name = name || '';
-		return !!this.prefix ? this.prefix+'.'+name : name;
-	},
-	
-	/**
 	 * Apply this Application class to DOM element with matching cb-app attribute
 	 */
-	bindApp: function()
+	applyApp: function()
 	{
 		var appClassName;
 		
@@ -1559,24 +1546,26 @@ conbo.Application = conbo.View.extend
 			}
 		}
 		
-		var selector = '[cb-app="'+this.addPrefix(appClassName)+'"]';
+		var selector = '[cb-app="'+this._prefix(appClassName)+'"]';
 		var el = conbo.$(selector)[0];
 		
 		if (!!el) this.el = el;
+		
+		return this;
 	},
 	
 	/**
-	 * Apply View classes to HTML elements based on their cb-view attribute
+	 * Apply View classes to DOM elements based on their cb-view attribute
 	 */
-	bindViews: function()
+	applyViews: function()
 	{
 		var selector = !!this.prefix
-			? '[cb-view^="'+this.addPrefix()+'"]'
+			? '[cb-view^="'+this._prefix()+'"]'
 			: '[cb-view]';
 		
 		this.$(selector).each(this.bind(function(index, el)
 		{
-			var view = this.$(el).cbData().view.replace(this.addPrefix(), ''),
+			var view = this.$(el).cbData().view.replace(this._prefix(), ''),
 				viewClass = this.namespace[view];
 			
 			if (!_.isFunction(viewClass)) 
@@ -1595,6 +1584,18 @@ conbo.Application = conbo.View.extend
 	{
 		return 'conbo.Application';
 	},
+	
+	/**
+	 * Returns prefixed class name
+	 * @param 	name
+	 * @returns
+	 */
+	_prefix: function(name)
+	{
+		name = name || '';
+		return !!this.prefix ? this.prefix+'.'+name : name;
+	}
+	
 });
 
 /**

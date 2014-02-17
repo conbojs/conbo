@@ -234,8 +234,6 @@ conbo.View = conbo.Bindable.extend
 				f = !!b[1] && _.isFunction(this[b[1]]) ? this[b[1]] : undefined,
 				m, p;
 			
-			console.log(d, b);
-				
 			if (s.length > 1)
 			{
 				m = this[s[0]];
@@ -258,11 +256,11 @@ conbo.View = conbo.Bindable.extend
 	
 	/**
 	 * Unbind elements from class properties
-	 * TODO Implement unbindView()
 	 * @returns	this
 	 */
 	unbindView: function() 
 	{
+		// TODO Implement unbindView()
 		return this;
 	},
 	
