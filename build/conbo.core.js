@@ -27,7 +27,7 @@
 	{
 		var conbo = 
 		{
-			VERSION:'1.1.6',
+			VERSION:'1.1.7',
 			_:_, 
 			$:$,
 			
@@ -38,13 +38,54 @@
 		};
 		
 
+/*
+ * Polyfills for common JavaScript methods that are missing from
+ * older browsers (yes, IE, I'm looking at you!)
+ * 
+ * We're only include the minimum possible number here as we don't want 
+ * to end up bloated with stuff most people will never use
+ * 
+ * @author		Neil Rackett
+ */
+
+if (!Array.prototype.indexOf) 
+{
+	Array.prototype.indexOf = function(value, fromIndex)
+	{
+		return _.indexOf(this, value, fromIndex); 
+	};
+}
+
+if (!Array.prototype.forEach) 
+{
+	Array.prototype.forEach = function(callback, thisArg)
+	{
+		return _.each(this, callback, thisArg); 
+	};
+}
+
+if (!String.prototype.trim) 
+{
+	String.prototype.trim = function () 
+	{
+		return this.replace(/^\s+|\s+$/g,''); 
+	};
+}
+
+if (!Object.prototype.hasOwnProperty) 
+{
+	Object.prototype.hasOwnProperty = function(prop) 
+	{
+		return _.has(this, prop);
+	};
+}
+
 /**
  * Class
  * Extendable base class from which all others extend
  */
 conbo.Class = function(options) 
 {
-	this._inject(options);
 	this.initialize.apply(this, arguments);
 };
 
@@ -129,22 +170,6 @@ conbo.Class.prototype =
 	toString: function()
 	{
 		return 'conbo.Class';
-	},
-	
-	/**
-	 * Injector
-	 * Add context to this class instance and inject specified dependencies
-	 * (properties of undefined value which match registered singletons)
-	 * @private
-	 */
-	_inject: function(options)
-	{
-		this.options = _.defaults(options || {}, this.options);
-		this.context || (this.context = this.options.context);
-		
-		if (this.context) this.context.injectSingletons(this);
-		
-		return this;
 	}
 		
 };
@@ -178,27 +203,42 @@ conbo.Class.extend = function(protoProps, staticProps)
 	return child;
 };
 
-/*
- * Polyfills for common HTML5/JS methods
+/**
+ * Injectable
  * 
- * Only include the minimum possible number here: we don't want to end 
- * up bloated with stuff most people will never use
+ * Base class that enables the Conbo.js framework to add context to this 
+ * class instance and inject specified dependencies (properties of undefined
+ * value which match registered singletons)
+ * 
+ * @author		Neil Rackett
  */
-
-if (!Array.prototype.indexOf) {
-	Array.prototype.indexOf = function(value, fromIndex) 
-		{ return _.indexOf(this, value, fromIndex); };
-}
-
-if (!Array.prototype.forEach) {
-	Array.prototype.forEach = function(callback, thisArg)
-		{ _.each(this, callback, thisArg); };
-}
-
-if (!String.prototype.trim) {
-	String.prototype.trim = function () 
-		{ return this.replace(/^\s+|\s+$/g,''); };
-}
+conbo.Injectable = conbo.Class.extend
+({
+	constructor: function(options)
+	{
+		this._inject(options);
+		this.initialize.apply(this, arguments);
+	},
+	
+	toString: function()
+	{
+		return 'conbo.Injectable';
+	},
+	
+	/**
+	 * Inject
+	 * @private
+	 */
+	_inject: function(options)
+	{
+		this.options = _.defaults(options || {}, this.options);
+		this.context || (this.context = this.options.context);
+		
+		if (this.context) this.context.injectSingletons(this);
+		
+		return this;
+	}
+});
 
 /**
  * Event class
@@ -207,7 +247,7 @@ if (!String.prototype.trim) {
  * 
  * @author		Neil Rackett
  */
-conbo.Event = conbo.Class.extend
+conbo.Event = conbo.Injectable.extend
 ({
 	//cancelBubble: false,
 	//defaultPrevented: false,
@@ -352,7 +392,7 @@ conbo.ConboEvent = conbo.Event.extend
  * @author	Neil Rackett
  * @see		conbo.Bindable
  */
-conbo.EventDispatcher = conbo.Class.extend
+conbo.EventDispatcher = conbo.Injectable.extend
 ({
 	/**
 	 * Dispatch the event to listeners
@@ -745,7 +785,11 @@ conbo.Context = conbo.EventDispatcher.extend
 		for (var a in obj)
 		{
 			if (obj[a] !== undefined) continue;
-			obj[a] = this._singletons[a];
+			
+			if (this._singletons.hasOwnProperty(a))
+			{
+				obj[a] = this._singletons[a];
+			}
 		}
 		
 		return this;
@@ -1106,7 +1150,18 @@ conbo.View = conbo.Bindable.extend
 		this._inject(options);
 		
 		this.initialize.apply(this, arguments);
-		this.delegateEvents();
+		
+		var url = options.url || this.url;
+		
+		if (!!url)
+		{
+			this.load(url);
+		}
+		else
+		{
+			this.bindView();
+			this.delegateEvents();
+		}
 	},
 	
 	/**
@@ -1115,6 +1170,12 @@ conbo.View = conbo.Bindable.extend
 	tagName: 'div',
 	
 	/**
+	 * Initialize is an empty function by default. Override it with your own
+	 * initialization logic.
+	 */
+	
+	initialize: function(){},
+	/**
 	 * jQuery delegate for element lookup, scoped to DOM elements within the
 	 * current view. This should be prefered to global lookups where possible.
 	 */
@@ -1122,12 +1183,6 @@ conbo.View = conbo.Bindable.extend
 	{
 		return this.$el.find(selector);
 	},
-	
-	/**
-	 * Initialize is an empty function by default. Override it with your own
-	 * initialization logic.
-	 */
-	initialize: function(){},
 	
 	/**
 	 * **render** is the core function that your view should override, in order
@@ -1261,7 +1316,7 @@ conbo.View = conbo.Bindable.extend
 	/**
 	 * Automatically bind elements to properties of this View
 	 * 
-	 * @example	<div cb-bind="name|parseName"></div> 
+	 * @example	<div cb-bind="name|parseMethod"></div> 
 	 * @returns	this
 	 */
 	bindView: function()
@@ -1302,6 +1357,31 @@ conbo.View = conbo.Bindable.extend
 	{
 		// TODO Implement unbindView()
 		return this;
+	},
+	
+	/**
+	 * Loads HTML content into this.el
+	 * 
+	 * @param 	url			A string containing the URL to which the request is sent
+	 * @param 	data		A plain object or string that is sent to the server with the request
+	 * @param 	complete	Callback in format function(responseText, textStatus, xmlHttpRequest)
+	 * 
+	 * @see					https://api.jquery.com/load/
+	 */
+	load: function(url, data, callbackFunction)
+	{
+		this.unbindView();
+		this.undelegateEvents();
+		
+		var completeHandler = this.bind(function(responseText, textStatus, xmlHttpRequest)
+		{
+			this.bindView();
+			this.delegateEvents();
+			
+			if (!!callbackFunction) callbackFunction.apply(this, arguments);
+		});
+		
+		this.$el.load(url, data, completeHandler);
 	},
 	
 	/**
@@ -1519,14 +1599,14 @@ conbo.Application = conbo.View.extend
 		
 		if (!options.el && options.autoApply !== false)
 		{
-			this.bindApp();
+			this.applyApp();
 		}
 		
 		conbo.View.prototype.constructor.apply(this, arguments);
 		
 		if (options.autoApply !== false)
 		{
-			bindViews();
+			this.applyViews();
 		}
 	},
 	
@@ -1562,6 +1642,8 @@ conbo.Application = conbo.View.extend
 		var selector = !!this.prefix
 			? '[cb-view^="'+this._prefix()+'"]'
 			: '[cb-view]';
+		
+		console.log(selector, this.$(selector).length)
 		
 		this.$(selector).each(this.bind(function(index, el)
 		{

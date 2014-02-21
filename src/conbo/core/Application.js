@@ -29,14 +29,14 @@ conbo.Application = conbo.View.extend
 		
 		if (!options.el && options.autoApply !== false)
 		{
-			this.bindApp();
+			this.applyApp();
 		}
 		
 		conbo.View.prototype.constructor.apply(this, arguments);
 		
 		if (options.autoApply !== false)
 		{
-			bindViews();
+			this.applyViews();
 		}
 	},
 	
@@ -72,6 +72,8 @@ conbo.Application = conbo.View.extend
 		var selector = !!this.prefix
 			? '[cb-view^="'+this._prefix()+'"]'
 			: '[cb-view]';
+		
+		console.log(selector, this.$(selector).length)
 		
 		this.$(selector).each(this.bind(function(index, el)
 		{

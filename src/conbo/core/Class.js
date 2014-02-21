@@ -4,7 +4,6 @@
  */
 conbo.Class = function(options) 
 {
-	this._inject(options);
 	this.initialize.apply(this, arguments);
 };
 
@@ -89,22 +88,6 @@ conbo.Class.prototype =
 	toString: function()
 	{
 		return 'conbo.Class';
-	},
-	
-	/**
-	 * Injector
-	 * Add context to this class instance and inject specified dependencies
-	 * (properties of undefined value which match registered singletons)
-	 * @private
-	 */
-	_inject: function(options)
-	{
-		this.options = _.defaults(options || {}, this.options);
-		this.context || (this.context = this.options.context);
-		
-		if (this.context) this.context.injectSingletons(this);
-		
-		return this;
 	}
 		
 };
@@ -137,25 +120,3 @@ conbo.Class.extend = function(protoProps, staticProps)
 	
 	return child;
 };
-
-/*
- * Polyfills for common HTML5/JS methods
- * 
- * Only include the minimum possible number here: we don't want to end 
- * up bloated with stuff most people will never use
- */
-
-if (!Array.prototype.indexOf) {
-	Array.prototype.indexOf = function(value, fromIndex) 
-		{ return _.indexOf(this, value, fromIndex); };
-}
-
-if (!Array.prototype.forEach) {
-	Array.prototype.forEach = function(callback, thisArg)
-		{ _.each(this, callback, thisArg); };
-}
-
-if (!String.prototype.trim) {
-	String.prototype.trim = function () 
-		{ return this.replace(/^\s+|\s+$/g,''); };
-}

@@ -66,7 +66,18 @@ conbo.View = conbo.Bindable.extend
 		this._inject(options);
 		
 		this.initialize.apply(this, arguments);
-		this.delegateEvents();
+		
+		var url = options.url || this.url;
+		
+		if (!!url)
+		{
+			this.load(url);
+		}
+		else
+		{
+			this.bindView();
+			this.delegateEvents();
+		}
 	},
 	
 	/**
@@ -75,6 +86,12 @@ conbo.View = conbo.Bindable.extend
 	tagName: 'div',
 	
 	/**
+	 * Initialize is an empty function by default. Override it with your own
+	 * initialization logic.
+	 */
+	
+	initialize: function(){},
+	/**
 	 * jQuery delegate for element lookup, scoped to DOM elements within the
 	 * current view. This should be prefered to global lookups where possible.
 	 */
@@ -82,12 +99,6 @@ conbo.View = conbo.Bindable.extend
 	{
 		return this.$el.find(selector);
 	},
-	
-	/**
-	 * Initialize is an empty function by default. Override it with your own
-	 * initialization logic.
-	 */
-	initialize: function(){},
 	
 	/**
 	 * **render** is the core function that your view should override, in order
@@ -221,7 +232,7 @@ conbo.View = conbo.Bindable.extend
 	/**
 	 * Automatically bind elements to properties of this View
 	 * 
-	 * @example	<div cb-bind="name|parseName"></div> 
+	 * @example	<div cb-bind="name|parseMethod"></div> 
 	 * @returns	this
 	 */
 	bindView: function()
@@ -262,6 +273,31 @@ conbo.View = conbo.Bindable.extend
 	{
 		// TODO Implement unbindView()
 		return this;
+	},
+	
+	/**
+	 * Loads HTML content into this.el
+	 * 
+	 * @param 	url			A string containing the URL to which the request is sent
+	 * @param 	data		A plain object or string that is sent to the server with the request
+	 * @param 	complete	Callback in format function(responseText, textStatus, xmlHttpRequest)
+	 * 
+	 * @see					https://api.jquery.com/load/
+	 */
+	load: function(url, data, callbackFunction)
+	{
+		this.unbindView();
+		this.undelegateEvents();
+		
+		var completeHandler = this.bind(function(responseText, textStatus, xmlHttpRequest)
+		{
+			this.bindView();
+			this.delegateEvents();
+			
+			if (!!callbackFunction) callbackFunction.apply(this, arguments);
+		});
+		
+		this.$el.load(url, data, completeHandler);
 	},
 	
 	/**
