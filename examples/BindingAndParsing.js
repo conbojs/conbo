@@ -27,7 +27,7 @@
 		
 		render: function()
 		{
-			this.$el.html('Type a number here: <input type="text" cb-bind="myModel.price" />');
+			this.html('Type a number here: <input type="text" cb-bind="myModel.price" />');
 			return this;
 		}
 	});
@@ -44,7 +44,7 @@
 		
 		render: function()
 		{
-			this.$el.html('It cost <span cb-bind="myModel.price|parseCurrency" />? That\'s <span cb-bind="myModel.price|parseDescription" />!');
+			this.html('It cost <span cb-bind="myModel.price|parseCurrency" />? That\'s <span cb-bind="myModel.price|parseDescription" />!');
 			return this;
 		},
 		

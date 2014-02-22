@@ -38,7 +38,7 @@
 		
 		render: function()
 		{
-			this.$el.html('My name is <input type="text" cb-bind="myModel.name" />');
+			this.html('My name is <input type="text" cb-bind="myModel.name" />');
 			return this;
 		},
 		
@@ -61,7 +61,7 @@
 		
 		render: function()
 		{
-			this.$el.html('Hello <span><span><span cb-bind="myModel.name" /></span></span>!');
+			this.html('Hello <span><span><span cb-bind="myModel.name" /></span></span>!');
 			return this;
 		},
 		

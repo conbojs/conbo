@@ -1616,15 +1616,12 @@ conbo.View = conbo.Bindable.extend
 	}
 });
 
-
-// jQuery method shortcuts
+//jQuery method shortcuts
 var viewMethods = ['html'];
 
 //Mix in each available Lo-Dash/Underscore method as a proxy to `Model#attributes`.
 _.each(viewMethods, function(method)
 {
-	if (!_.has($, method)) return;
-	
 	conbo.View.prototype[method] = function() 
 	{
 		return this.$el[method].apply(this.$el, arguments);
