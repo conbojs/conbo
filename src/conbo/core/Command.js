@@ -15,7 +15,7 @@ conbo.Command = conbo.EventDispatcher.extend
 	constructor: function(options)
 	{
 		this._inject(options);
-		this.defineAccessor('event', undefined, undefined, this.options.event || {});
+		this.defineAccessor('event', undefined, undefined, options.event || {});
 		this.initialize.apply(this, arguments);
 	},
 	

@@ -1144,14 +1144,17 @@ conbo.View = conbo.Bindable.extend
 		this._ensureElement();
 		this._inject(options);
 		
-		this.initialize.apply(this, arguments);
-		
 		var templateUrl = options.templateUrl || _.result(this, 'templateUrl'),
 			template = options.template || _.result(this, 'template');
 		
+		var init = this.bind(function()
+		{
+			this.initialize.apply(this, arguments);
+		});
+		
 		if (!!templateUrl)
 		{
-			this.load(templateUrl);
+			this.load(templateUrl, undefined, init);
 		}
 		else
 		{
@@ -1159,11 +1162,8 @@ conbo.View = conbo.Bindable.extend
 			{
 				this.$el.html(template);
 			}
-			else
-			{
-				this.render();
-			}
 			
+			init();
 			this.bindView();
 			this.delegateEvents();
 		}
@@ -1193,6 +1193,8 @@ conbo.View = conbo.Bindable.extend
 	 * If you're not using a template, you should override **render** to
 	 * populate your View's element (`this.el`) with the appropriate HTML. The
 	 * convention is for **render** to always return `this`.
+	 * 
+	 * @deprecated
 	 */
 	render: function() 
 	{
@@ -1398,12 +1400,12 @@ conbo.View = conbo.Bindable.extend
 		this.unbindView();
 		this.undelegateEvents();
 		
-		var completeHandler = this.bind(function(responseText, textStatus, xmlHttpRequest)
+		var completeHandler = this.bind(function(response, status, xhr)
 		{
+			if (!!callbackFunction) callbackFunction.apply(this, arguments);
+			
 			this.bindView();
 			this.delegateEvents();
-			
-			if (!!callbackFunction) callbackFunction.apply(this, arguments);
 		});
 		
 		this.$el.load(url, data, completeHandler);
@@ -1721,7 +1723,7 @@ conbo.Command = conbo.EventDispatcher.extend
 	constructor: function(options)
 	{
 		this._inject(options);
-		this.defineAccessor('event', undefined, undefined, this.options.event || {});
+		this.defineAccessor('event', undefined, undefined, options.event || {});
 		this.initialize.apply(this, arguments);
 	},
 	

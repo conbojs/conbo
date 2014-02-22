@@ -33,24 +33,20 @@
 		 */
 		myModel: undefined,
 		
+		template: 'My name is <input type="text" cb-bind="myModel.name" /><button>Submit</button>',
+		
 		initialize: function()
 		{
-			this.bindAll();
-			this.template = _.template('My name is <input type="text" value="<%=name%>" /><button>Submit</button>');
-			this.render();
+			//
 		},
 		
-		render: function()
+		events:
 		{
-			this.$el.html(this.template(this.myModel.toJSON()));
-			this.$('button').on('click', this.button_clickHandler);
-			
-			return this;
+			'click button': 'button_clickHandler'
 		},
 		
 		button_clickHandler: function()
 		{
-			this.myModel.set('name', this.$('input').val())
 			this.context().trigger(new conbo.Event('warning'));
 		}
 	});
@@ -82,12 +78,8 @@
 		initialize: function()
 		{
 			this.inputView = new InputView(this.context().addTo());
-			this.render();
-		},
-	
-		render: function()
-		{
 			this.appendView(this.inputView);
+			
 			return this;
 		}
 	});

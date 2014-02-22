@@ -115,11 +115,6 @@
 		 */
 		initialize: function()
 		{
-			this.render();
-		},
-		
-		render: function()
-		{
 			this.appendView
 			(
 				new InputView(this.context().addTo()), 

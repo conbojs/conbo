@@ -84,18 +84,11 @@
 		 */
 		initialize: function()
 		{
-			//this.render();
-		},
-		
-		render: function()
-		{
 			this.appendView
 			(
 				new InputView(this.context().addTo()), 
 				new OutputView(this.context().addTo())
 			);
-			
-			return this;
 		},
 		
 		toString: function()
