@@ -56,7 +56,7 @@ conbo.Application = conbo.View.extend
 		}
 		
 		var selector = '[cb-app="'+this._addPrefix(appClassName)+'"]';
-		var el = conbo.$(selector)[0];
+		var el = $(selector)[0];
 		
 		if (!!el) this.el = el;
 		

@@ -1087,7 +1087,7 @@ conbo.BindingUtils = conbo.Class.extend({},
  * @author		Neil Rackett
  */
 
-conbo.$.fn.cbData = function()
+$.fn.cbData = function()
 {
 	var data = {},
 		attrs = this.get()[0].attributes,
@@ -1104,9 +1104,9 @@ conbo.$.fn.cbData = function()
 	return !!count ? data : undefined;
 }
 
-conbo.$.expr[':'].cbAttr = function(el, index, meta, stack)
+$.expr[':'].cbAttr = function(el, index, meta, stack)
 {
-	var $el = conbo.$(el),
+	var $el = $(el),
 		args = meta[3].split(','),
 		cb = $el.cbData();
 	
@@ -1243,7 +1243,7 @@ conbo.View = conbo.Bindable.extend
 				.unbindView();
 		}
 		
-		this.$el = conbo.$(element);
+		this.$el = $(element);
 		this.el = this.$el[0];
 		
 		if (delegate !== false) this.delegateEvents();
@@ -1428,7 +1428,7 @@ conbo.View = conbo.Bindable.extend
 	{
 		if (!('document' in window)) return this;
 		
-		var $link = conbo.$('<link>').attr({rel:"stylesheet", type: "text/css", href:url}),
+		var $link = $('<link>').attr({rel:"stylesheet", type: "text/css", href:url}),
 			link = $link[0],
 			hasSheet = ('sheet' in link),
 			sheet = hasSheet ? 'sheet' : 'styleSheet', 
@@ -1456,7 +1456,7 @@ conbo.View = conbo.Bindable.extend
 			callback(false);
 		}, 15000);
 		
-		conbo.$('head').append($link);
+		$('head').append($link);
 		
 		return this;
 	},
@@ -1517,20 +1517,6 @@ conbo.View = conbo.Bindable.extend
 		return this;
 	},
 	
-	/**
-	 * Get or set the HTML content of this View
-	 * 
-	 * @param 		value	HTML String
-	 * @returns		
-	 */
-	html: function(value)
-	{
-		if (!arguments.length) return this.$el.html();
-		
-		this.$el.html(value);
-		return this;
-	},
-	
 	toString: function()
 	{
 		return 'conbo.View';
@@ -1547,21 +1533,21 @@ conbo.View = conbo.Bindable.extend
 	},
 	
 	/**
-	 * TODO Put this elsewhere, but still enable user to inject conbo.$ manually
+	 * TODO Put this elsewhere, but still enable user to inject $ manually
 	 * @private
 	 */
 	_addStyle: function()
 	{
 		if (!!conbo.style) return this;
 		
-		var style = conbo.$(
+		var style = $(
 			'<style type="text/css">'+
 				'.conbo-invisible { visibility:hidden !important; }'+
 				'.conbo-excludeFromLayout { display:none !important; }'+
 				'.conbo-disabled { pointer-events:none !important; }'+
 			'</style>');
 		
-		conbo.$('head').append(style);
+		$('head').append(style);
 		conbo.style = style;
 		
 		return this;
@@ -1596,7 +1582,7 @@ conbo.View = conbo.Bindable.extend
 			var attrs = _.extend({}, _.result(this, 'attributes'));
 			if (this.id) attrs.id = _.result(this, 'id');
 			if (this.className) attrs['class'] = _.result(this, 'className');
-			var $el = conbo.$('<' + _.result(this, 'tagName') + '>').attr(attrs);
+			var $el = $('<' + _.result(this, 'tagName') + '>').attr(attrs);
 			this.setElement($el, false);
 		}
 		else 
@@ -1617,7 +1603,7 @@ conbo.View = conbo.Bindable.extend
 		
 		if (!a.length) return !this.$el.hasClass(className);
 		
-		var isElement = _.isString(value) || _.isElement(value) || value instanceof conbo.$;
+		var isElement = _.isString(value) || _.isElement(value) || value instanceof $;
 		var $el = isElement ? this.$(value) : this.$el;
 		
 		if (a.length == 1 && isElement) return !$el.hasClass(className);
@@ -1630,6 +1616,20 @@ conbo.View = conbo.Bindable.extend
 	}
 });
 
+
+// jQuery method shortcuts
+var viewMethods = ['html'];
+
+//Mix in each available Lo-Dash/Underscore method as a proxy to `Model#attributes`.
+_.each(viewMethods, function(method)
+{
+	if (!_.has($, method)) return;
+	
+	conbo.View.prototype[method] = function() 
+	{
+		return this.$el[method].apply(this.$el, arguments);
+	};
+});
 /**
  * Application
  * 
@@ -1688,7 +1688,7 @@ conbo.Application = conbo.View.extend
 		}
 		
 		var selector = '[cb-app="'+this._addPrefix(appClassName)+'"]';
-		var el = conbo.$(selector)[0];
+		var el = $(selector)[0];
 		
 		if (!!el) this.el = el;
 		
@@ -2923,7 +2923,7 @@ conbo.History = conbo.EventDispatcher.extend
 		
 		if (oldIE && this._wantsHashChange)
 		{
-			this.iframe = conbo.$(
+			this.iframe = $(
 					'<iframe src="javascript:0" tabindex="-1" />')
 					.hide().appendTo('body')[0].contentWindow;
 			this.navigate(fragment);
@@ -2933,12 +2933,12 @@ conbo.History = conbo.EventDispatcher.extend
 		// 'onhashchange' is supported, determine how we check the URL state.
 		if (this._hasPushState)
 		{
-			conbo.$(window).on('popstate', this.checkUrl);
+			$(window).on('popstate', this.checkUrl);
 		}
 		else if (this._wantsHashChange && ('onhashchange' in window)
 				&& !oldIE)
 		{
-			conbo.$(window).on('hashchange', this.checkUrl);
+			$(window).on('hashchange', this.checkUrl);
 		}
 		else if (this._wantsHashChange)
 		{
@@ -2987,7 +2987,7 @@ conbo.History = conbo.EventDispatcher.extend
 	 */
 	stop: function()
 	{
-		conbo.$(window).off('popstate', this.checkUrl).off('hashchange', this.checkUrl);
+		$(window).off('popstate', this.checkUrl).off('hashchange', this.checkUrl);
 		clearInterval(this._checkUrlInterval);
 		this.started = false;
 	},
@@ -3378,7 +3378,7 @@ var methodMap =
  */
 conbo.ajax = function() 
 {
-	return conbo.$.ajax.apply(conbo.$, arguments);
+	return $.ajax.apply($, arguments);
 };
 
 

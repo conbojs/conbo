@@ -125,7 +125,7 @@ conbo.History = conbo.EventDispatcher.extend
 		
 		if (oldIE && this._wantsHashChange)
 		{
-			this.iframe = conbo.$(
+			this.iframe = $(
 					'<iframe src="javascript:0" tabindex="-1" />')
 					.hide().appendTo('body')[0].contentWindow;
 			this.navigate(fragment);
@@ -135,12 +135,12 @@ conbo.History = conbo.EventDispatcher.extend
 		// 'onhashchange' is supported, determine how we check the URL state.
 		if (this._hasPushState)
 		{
-			conbo.$(window).on('popstate', this.checkUrl);
+			$(window).on('popstate', this.checkUrl);
 		}
 		else if (this._wantsHashChange && ('onhashchange' in window)
 				&& !oldIE)
 		{
-			conbo.$(window).on('hashchange', this.checkUrl);
+			$(window).on('hashchange', this.checkUrl);
 		}
 		else if (this._wantsHashChange)
 		{
@@ -189,7 +189,7 @@ conbo.History = conbo.EventDispatcher.extend
 	 */
 	stop: function()
 	{
-		conbo.$(window).off('popstate', this.checkUrl).off('hashchange', this.checkUrl);
+		$(window).off('popstate', this.checkUrl).off('hashchange', this.checkUrl);
 		clearInterval(this._checkUrlInterval);
 		this.started = false;
 	},

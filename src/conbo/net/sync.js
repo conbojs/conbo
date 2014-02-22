@@ -112,5 +112,5 @@ var methodMap =
  */
 conbo.ajax = function() 
 {
-	return conbo.$.ajax.apply(conbo.$, arguments);
+	return $.ajax.apply($, arguments);
 };
