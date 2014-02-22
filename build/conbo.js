@@ -1623,13 +1623,12 @@ conbo.Application = conbo.View.extend
 		this.defineAccessor('prefix', undefined, undefined, options.prefix || this.prefix || '');
 		this.defineAccessor('namespace', undefined, undefined, options.namespace);
 		
-		conbo.View.prototype.constructor.apply(this, arguments);
-		
-		
 		if (!options.el && options.autoApply !== false)
 		{
 			this.applyApp();
 		}
+		
+		conbo.View.prototype.constructor.apply(this, arguments);
 		
 		if (options.autoApply !== false)
 		{

@@ -11,11 +11,6 @@
 		 */
 		initialize: function()
 		{
-			this.render();
-		},
-	
-		render: function()
-		{
 			this.el.innerHTML = "Hello World!";
 		}
 	});

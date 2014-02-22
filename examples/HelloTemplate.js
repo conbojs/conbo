@@ -17,8 +17,8 @@
 		 */
 		initialize: function()
 		{
-			// DOM elements are automatically bound to Application and View classes
-			// unless options.autoApply === false
+			// DOM elements are automatically bound to Application and View 
+			// classes unless options.autoApply === false
 		},
 		
 	});
