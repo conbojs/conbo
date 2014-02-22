@@ -1169,13 +1169,8 @@ conbo.View = conbo.Bindable.extend
 				this.render();
 			}
 			
-			this.$el.addClass('cb-view');
-			
-//			this.callLater(function()
-//			{
-				this.bindView();
-				this.delegateEvents();
-//			});
+			this.bindView();
+			this.delegateEvents();
 		}
 	},
 	
@@ -1577,8 +1572,10 @@ conbo.View = conbo.Bindable.extend
 		else 
 		{
 			this.setElement(_.result(this, 'el'), false);
-			if (this.className) this.$el.addClass(this.className);
+			if (!!this.className) this.$el.addClass(this.className);
 		}
+		
+		this.$el.addClass('cb-view');
 	},
 	
 	/**
