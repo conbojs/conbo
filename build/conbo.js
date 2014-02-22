@@ -1172,7 +1172,7 @@ conbo.View = conbo.Bindable.extend
 		{
 			if (!!template)
 			{
-				this.$el.html(template);
+				this.html(template);
 			}
 			
 			this.render();
