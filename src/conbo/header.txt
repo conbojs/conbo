@@ -21,7 +21,7 @@
  * @see			http://www.mesmotronic.com/
  */
 
-(function(window, undefined)
+(function(window, document, undefined)
 {
 	var create = function(_, $)
 	{
@@ -33,7 +33,7 @@
 			
 			toString: function() 
 			{ 
-				return '[Conbo '+this.VERSION+']'; 
+				return 'Conbo '+this.VERSION; 
 			}
 		};
 		

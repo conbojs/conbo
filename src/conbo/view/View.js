@@ -1,10 +1,6 @@
-var delegateEventSplitter = /^(\S+)\s*(.*)$/;
-
-//List of view options to be merged as properties.
-var viewOptions = ['model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events'];
-
 /*
- * jQuery plug-ins
+ * jQuery plug-ins and pseudo-selectors
+ * @author		Neil Rackett
  */
 
 conbo.$.fn.cbData = function()
@@ -23,10 +19,6 @@ conbo.$.fn.cbData = function()
 	return !!count ? data : undefined;
 }
 
-/*
- * jQuery expressions
- */
-
 conbo.$.expr[':'].cbAttr = function(el, index, meta, stack)
 {
 	var $el = conbo.$(el),
@@ -39,6 +31,9 @@ conbo.$.expr[':'].cbAttr = function(el, index, meta, stack)
 	if (!!args[0] && !!args[1]) return cb[args[0]] == args[1];
 	return false;
 };
+
+//List of view options to be merged as properties.
+var viewOptions = ['model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events'];
 
 /**
  * View
@@ -402,7 +397,7 @@ conbo.View = conbo.Bindable.extend
 			var method = events[key];
 			if (!_.isFunction(method)) method = this[events[key]];
 			if (!method) throw new Error('Method "' + events[key] + '" does not exist');
-			var match = key.match(delegateEventSplitter);
+			var match = key.match(/^(\S+)\s*(.*)$/);
 			var eventName = match[1], selector = match[2];
 			method = _.bind(method, this);
 			eventName += '.delegateEvents' + this.cid;
