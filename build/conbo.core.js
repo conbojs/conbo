@@ -27,7 +27,7 @@
 	{
 		var conbo = 
 		{
-			VERSION:'1.1.7',
+			VERSION:'1.1.8',
 			_:_, 
 			$:$,
 			
@@ -1096,7 +1096,8 @@ conbo.$.fn.cbData = function()
 	for (var i=0; i<attrs.length; ++i)
 	{
 		if (attrs[i].name.indexOf('cb-') != 0) continue;
-		data[attrs[i].name.substr(3)] = attrs[i].value;
+		var propertyName = attrs[i].name.substr(3).replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
+		data[propertyName] = attrs[i].value;
 		++count;
 	}
 	
@@ -1116,8 +1117,22 @@ conbo.$.expr[':'].cbAttr = function(el, index, meta, stack)
 	return false;
 };
 
-//List of view options to be merged as properties.
-var viewOptions = ['model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events'];
+/**
+ * List of view options to be merged as properties.
+ */
+var viewOptions = 
+[
+	'model', 
+	'collection', 
+	'el', 
+	'id', 
+	'attributes', 
+	'className', 
+	'tagName', 
+	'events',
+	'template',
+	'templateUrl'
+];
 
 /**
  * View
@@ -1144,17 +1159,14 @@ conbo.View = conbo.Bindable.extend
 		this._ensureElement();
 		this._inject(options);
 		
-		var templateUrl = options.templateUrl || _.result(this, 'templateUrl'),
-			template = options.template || _.result(this, 'template');
+		this.initialize.apply(this, arguments);
 		
-		var init = this.bind(function()
-		{
-			this.initialize.apply(this, arguments);
-		});
+		var templateUrl = _.result(this, 'templateUrl'),
+			template = _.result(this, 'template');
 		
 		if (!!templateUrl)
 		{
-			this.load(templateUrl, undefined, init);
+			this.load(templateUrl);
 		}
 		else
 		{
@@ -1163,7 +1175,7 @@ conbo.View = conbo.Bindable.extend
 				this.$el.html(template);
 			}
 			
-			init();
+			this.render();
 			this.bindView();
 			this.delegateEvents();
 		}
@@ -1178,8 +1190,8 @@ conbo.View = conbo.Bindable.extend
 	 * Initialize is an empty function by default. Override it with your own
 	 * initialization logic.
 	 */
-	
 	initialize: function(){},
+	
 	/**
 	 * jQuery delegate for element lookup, scoped to DOM elements within the
 	 * current view. This should be prefered to global lookups where possible.
@@ -1190,11 +1202,15 @@ conbo.View = conbo.Bindable.extend
 	},
 	
 	/**
-	 * If you're not using a template, you should override **render** to
-	 * populate your View's element (`this.el`) with the appropriate HTML. The
-	 * convention is for **render** to always return `this`.
+	 * Your class should override **render**, which is called automatically 
+	 * after your View is initialized. If you're using a template, this means
+	 * **render** is called immediately after the template is applied to your
+	 * View's element (`this.el`).
 	 * 
-	 * @deprecated
+	 * If you want to apply Lo-Dash, Mustache or any other third party
+	 * templating to your View, this is the place to do it.
+	 * 
+	 * The convention is for **render** to always return `this`.
 	 */
 	render: function() 
 	{
@@ -1367,16 +1383,6 @@ conbo.View = conbo.Bindable.extend
 	},
 	
 	/**
-	 * Remove everything except alphanumberic and dots from Strings
-	 * @param 		value
-	 * @returns		String
-	 */
-	_cleanPropName: function(value)
-	{
-		return (value || '').replace(/[^\w,\.]/g, '');
-	},
-	
-	/**
 	 * Unbind elements from class properties
 	 * @returns	this
 	 */
@@ -1402,8 +1408,11 @@ conbo.View = conbo.Bindable.extend
 		
 		var completeHandler = this.bind(function(response, status, xhr)
 		{
+			this.template = response;
+			
 			if (!!callbackFunction) callbackFunction.apply(this, arguments);
 			
+			this.render();
 			this.bindView();
 			this.delegateEvents();
 		});
@@ -1508,9 +1517,33 @@ conbo.View = conbo.Bindable.extend
 		return this;
 	},
 	
+	/**
+	 * Get or set the HTML content of this View
+	 * 
+	 * @param 		value	HTML String
+	 * @returns		
+	 */
+	html: function(value)
+	{
+		if (!arguments.length) return this.$el.html();
+		
+		this.$el.html(value);
+		return this;
+	},
+	
 	toString: function()
 	{
 		return 'conbo.View';
+	},
+	
+	/**
+	 * Remove everything except alphanumberic and dots from Strings
+	 * @param 		value
+	 * @returns		String
+	 */
+	_cleanPropName: function(value)
+	{
+		return (value || '').replace(/[^\w,\.\[\]\'\"]/g, '');
 	},
 	
 	/**

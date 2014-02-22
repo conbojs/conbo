@@ -35,11 +35,6 @@
 		
 		template: 'My name is <input type="text" cb-bind="myModel.name" /><button>Submit</button>',
 		
-		initialize: function()
-		{
-			//
-		},
-		
 		events:
 		{
 			'click button': 'button_clickHandler'
@@ -79,8 +74,6 @@
 		{
 			this.inputView = new InputView(this.context().addTo());
 			this.appendView(this.inputView);
-			
-			return this;
 		}
 	});
 	

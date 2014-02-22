@@ -12,32 +12,17 @@
 	
 	example.MyApp = conbo.Application.extend
 	({
-		/**
-		 * Entry point
-		 */
-		initialize: function()
-		{
-			// DOM elements are automatically bound to Application and View classes
-			// unless options.autoApply === false
-		},
-		
+		// DOM elements are automatically bound to Application and View classes
+		// unless options.autoApply === false
 	});
 	
 	example.MyView = conbo.View.extend
 	({
-		/**
-		 * Entry point
-		 */
-		initialize: function()
-		{
-			this.render();
-		},
-		
 		render: function()
 		{
 			this.el.innerHTML = 'Hello from '+this.context().app().prefix()+'!';
+			return this;
 		}
-		
 	});
 	
 	new example.MyApp({namespace:example, prefix:'ns1'});

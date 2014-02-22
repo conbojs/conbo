@@ -25,10 +25,10 @@
 		 */
 		myModel: undefined,
 		
-		initialize: function()
+		render: function()
 		{
 			this.$el.html('Type a number here: <input type="text" cb-bind="myModel.price" />');
-			this.bindView();
+			return this;
 		}
 	});
 	
@@ -42,18 +42,10 @@
 		 */
 		myModel: undefined,
 		
-		initialize: function()
+		render: function()
 		{
 			this.$el.html('It cost <span cb-bind="myModel.price|parseCurrency" />? That\'s <span cb-bind="myModel.price|parseDescription" />!');
-			this.bindView(); // Automatically binds cb-bind values in HTML to class properties
-			
-			/*
-			// This could also be written as:
-			this.$el.html('It cost <span/>? That\'s <span/>!');
-			conbo.BindingUtils
-				.bindElement(this.myModel, 'name', this.$('span')[0], this.parseCurrency)
-				.bindElement(this.myModel, 'name', this.$('span')[1], this.parseDescription);
-			*/
+			return this;
 		},
 		
 		/**

@@ -12,15 +12,8 @@
 	
 	example.MyApp = conbo.Application.extend
 	({
-		/**
-		 * Entry point
-		 */
-		initialize: function()
-		{
-			// DOM elements are automatically bound to Application and View 
-			// classes unless options.autoApply === false
-		},
-		
+		// DOM elements are automatically bound to Application and View 
+		// classes unless options.autoApply === false
 	});
 	
 	example.MyLoadedView = conbo.View.extend
@@ -36,14 +29,6 @@
 		 */
 		templateUrl: 'HelloTemplate-MyLoadedView.html',
 		
-		/**
-		 * Entry point
-		 */
-		initialize: function(options)
-		{
-			// Nothing to do here!
-		},
-		
 	});
 	
 	example.MyOtherView = conbo.View.extend
@@ -57,14 +42,6 @@
 		 * HTML template
 		 */
 		template: '<p>This is an internal template whose favourite colour is <span cb-bind="favoriteColor"></span></p>',
-		
-		/**
-		 * Entry point
-		 */
-		initialize: function(options)
-		{
-			// Nothing to do here!
-		},
 		
 	});
 	

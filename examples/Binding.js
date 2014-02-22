@@ -36,9 +36,10 @@
 		 */
 		myModel: undefined,
 		
-		initialize: function()
+		render: function()
 		{
 			this.$el.html('My name is <input type="text" cb-bind="myModel.name" />');
+			return this;
 		},
 		
 		toString: function()
@@ -58,9 +59,10 @@
 		 */
 		myModel: undefined,
 		
-		initialize: function()
+		render: function()
 		{
 			this.$el.html('Hello <span><span><span cb-bind="myModel.name" /></span></span>!');
+			return this;
 		},
 		
 		toString: function()
