@@ -15,14 +15,12 @@ conbo.Context = conbo.EventDispatcher.extend
 	 */
 	constructor: function(options)
 	{
+		options = options || {};
+		
 		this._commands = {};
 		this._singletons = {};
 		
-		this.options = options || {};
-		this.app = this.options.app;
-		
-		// @deprecated	Use this.app
-		this.view = this.app;
+		this.defineAccessor('app', undefined, undefined, options.app);
 		
 		this.on(conbo.Event.ALL, this._allHandler);
 		this.initialize.apply(this, arguments);

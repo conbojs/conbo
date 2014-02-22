@@ -52,6 +52,3 @@ _.each(hashMethods, function(method)
 		return _[method].apply(_, [this._attributes].concat(_.rest(arguments)));
 	};
 });
-
-// For backward compatibility
-conbo.Map = conbo.Hash;

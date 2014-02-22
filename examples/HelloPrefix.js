@@ -35,7 +35,7 @@
 		
 		render: function()
 		{
-			this.el.innerHTML = 'Hello from '+this.context.application.prefix+'!';
+			this.el.innerHTML = 'Hello from '+this.context().app.prefix+'!';
 		}
 		
 	});

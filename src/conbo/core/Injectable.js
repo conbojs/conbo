@@ -26,10 +26,10 @@ conbo.Injectable = conbo.Class.extend
 	 */
 	_inject: function(options)
 	{
-		this.options = _.defaults(options || {}, this.options);
-		this.context || (this.context = this.options.context);
+		options || (options = {});
 		
-		if (this.context) this.context.injectSingletons(this);
+		this.defineAccessor('context', undefined, undefined, _.result(this, 'context') || options.context);
+		if (!!this.context()) this.context().injectSingletons(this);
 		
 		return this;
 	}

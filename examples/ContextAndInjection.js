@@ -51,7 +51,7 @@
 		button_clickHandler: function()
 		{
 			this.myModel.set('name', this.$('input').val())
-			this.context.trigger(new conbo.Event('warning'));
+			this.context().trigger(new conbo.Event('warning'));
 		}
 	});
 	
@@ -81,7 +81,7 @@
 		 */
 		initialize: function()
 		{
-			this.inputView = new InputView(this.context.addTo());
+			this.inputView = new InputView(this.context().addTo());
 			this.render();
 		},
 	

@@ -23,7 +23,7 @@
 		
 	});
 	
-	example.MyView = conbo.View.extend
+	example.MyLoadedView = conbo.View.extend
 	({
 		/**
 		 * Someone's favourite colour
@@ -31,10 +31,32 @@
 		favoriteColor: 'blue',
 		
 		/**
-		 * URL of external template
-		 * Could also be passed in via options.url or loaded using this.load('url/of/my.html');
+		 * URL of template to load
+		 * Could also be passed in via options.templateUrl or loaded using this.load('url/of/my.html');
 		 */
-		url: 'HelloTemplate-MyView.html',
+		templateUrl: 'HelloTemplate-MyLoadedView.html',
+		
+		/**
+		 * Entry point
+		 */
+		initialize: function(options)
+		{
+			// Nothing to do here!
+		},
+		
+	});
+	
+	example.MyOtherView = conbo.View.extend
+	({
+		/**
+		 * Someone's favourite colour
+		 */
+		favoriteColor: 'pink',
+		
+		/**
+		 * HTML template
+		 */
+		template: '<p>This is an internal template whose favourite colour is <span cb-bind="favoriteColor"></span></p>',
 		
 		/**
 		 * Entry point

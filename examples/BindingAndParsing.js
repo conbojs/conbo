@@ -57,7 +57,7 @@
 		},
 		
 		/**
-		 * Parses the input value into a formatted currency value, e.g. 1234.56 --> £1,234.56
+		 * Parses the input value into a formatted currency value, e.g. 1234.56 --> ï¿½1,234.56
 		 * @param 	value
 		 * @returns	{String}
 		 */
@@ -122,8 +122,8 @@
 		{
 			this.appendView
 			(
-				new InputView(this.context.addTo()), 
-				new OutputView(this.context.addTo())
+				new InputView(this.context().addTo()), 
+				new OutputView(this.context().addTo())
 			);
 			
 			return this;

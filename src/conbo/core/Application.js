@@ -21,18 +21,18 @@ conbo.Application = conbo.View.extend
 	{
 		options = _.clone(options) || {};
 		options.app = this;
-		options.namespace = options.namespace || window;
 		
-		this.prefix = options.prefix || this.prefix || '';
-		this.context = options.context || new this.contextClass(options);
-		this.namespace = options.namespace;
+		this.defineAccessor('context', undefined, undefined, new this.contextClass(options)); 
+		this.defineAccessor('prefix', undefined, undefined, options.prefix || this.prefix || '');
+		this.defineAccessor('namespace', undefined, undefined, options.namespace);
+		
+		conbo.View.prototype.constructor.apply(this, arguments);
+		
 		
 		if (!options.el && options.autoApply !== false)
 		{
 			this.applyApp();
 		}
-		
-		conbo.View.prototype.constructor.apply(this, arguments);
 		
 		if (options.autoApply !== false)
 		{
@@ -47,16 +47,16 @@ conbo.Application = conbo.View.extend
 	{
 		var appClassName;
 		
-		for (var a in this.namespace)
+		for (var a in this.namespace())
 		{
-			if (this instanceof this.namespace[a])
+			if (this instanceof this.namespace()[a])
 			{
 				appClassName = a;
 				break;
 			}
 		}
 		
-		var selector = '[cb-app="'+this._prefix(appClassName)+'"]';
+		var selector = '[cb-app="'+this._addPrefix(appClassName)+'"]';
 		var el = conbo.$(selector)[0];
 		
 		if (!!el) this.el = el;
@@ -69,23 +69,21 @@ conbo.Application = conbo.View.extend
 	 */
 	applyViews: function()
 	{
-		var selector = !!this.prefix
-			? '[cb-view^="'+this._prefix()+'"]'
+		var selector = !!this.prefix()
+			? '[cb-view^="'+this._addPrefix()+'"]'
 			: '[cb-view]';
-		
-		console.log(selector, this.$(selector).length)
 		
 		this.$(selector).each(this.bind(function(index, el)
 		{
-			var view = this.$(el).cbData().view.replace(this._prefix(), ''),
-				viewClass = this.namespace[view];
+			var view = this.$(el).cbData().view.replace(this._addPrefix(), ''),
+				viewClass = this.namespace()[view];
 			
 			if (!_.isFunction(viewClass)) 
 			{
 				return;
 			}
 			
-			new viewClass(this.context.addTo({el:el}));
+			new viewClass(this.context().addTo({el:el}));
 			
 		}));
 		
@@ -102,10 +100,10 @@ conbo.Application = conbo.View.extend
 	 * @param 	name
 	 * @returns
 	 */
-	_prefix: function(name)
+	_addPrefix: function(name)
 	{
 		name = name || '';
-		return !!this.prefix ? this.prefix+'.'+name : name;
+		return !!this.prefix() ? this.prefix()+'.'+name : name;
 	}
 	
 });

@@ -67,14 +67,26 @@ conbo.View = conbo.Bindable.extend
 		
 		this.initialize.apply(this, arguments);
 		
-		var url = options.url || this.url;
+		var templateUrl = options.templateUrl || _.result(this, 'templateUrl'),
+			template = options.template || _.result(this, 'template');
 		
-		if (!!url)
+		if (!!templateUrl)
 		{
-			this.load(url);
+			this.load(templateUrl);
 		}
 		else
 		{
+			if (!!template)
+			{
+				this.$el.html(template);
+			}
+			else
+			{
+				this.render();
+			}
+			
+			this.$el.addClass('cb-view');
+			
 			this.bindView();
 			this.delegateEvents();
 		}
@@ -101,8 +113,8 @@ conbo.View = conbo.Bindable.extend
 	},
 	
 	/**
-	 * **render** is the core function that your view should override, in order
-	 * to populate its element (`this.el`), with the appropriate HTML. The
+	 * If you're not using a template, you should override **render** to
+	 * populate your View's element (`this.el`) with the appropriate HTML. The
 	 * convention is for **render** to always return `this`.
 	 */
 	render: function() 
@@ -237,7 +249,8 @@ conbo.View = conbo.Bindable.extend
 	 */
 	bindView: function()
 	{
-		this.$('[cb-bind]').each(this.bind(function(index, el)
+		//this.$('[cb-bind]').each(this.bind(function(index, el)
+		this.$el.children().not('.cb-view').each(this.bind(function(index, el)
 		{
 			var d = this.$(el).cbData().bind,
 				b = d.split('|'),
@@ -259,7 +272,7 @@ conbo.View = conbo.Bindable.extend
 			if (!m) throw new Error(b[0]+' is not defined in this View');
 			if (!p) throw new Error('Unable to bind to undefined property');
 			
-			conbo.BindingUtils.bindEl(m, p, el, f);
+			conbo.BindingUtils.bindElement(m, p, el, f);
 		}));
 		
 		return this;

@@ -28,13 +28,6 @@
 		initialize: function()
 		{
 			this.$el.html('My name is <input type="text" cb-bind="myModel.name" />');
-			this.bindView();
-			
-			/*
-			// This could also be written as:
-			this.$el.html('My name is <input type="text" />');
-			conbo.BindingUtils.bindElement(this.myModel, 'name', this.$('input'));
-			*/
 		}
 	});
 	
@@ -51,13 +44,6 @@
 		initialize: function()
 		{
 			this.$el.html('Hello <span cb-bind="myModel.name" />!');
-			this.bindView(); // Automatically binds cb-bind values in HTML to class properties
-			
-			/*
-			// This could also be written as:
-			this.$el.html('Hello <span/>!');
-			conbo.BindingUtils.bindElement(this.myModel, 'name', this.$('span'));
-			*/
 		}
 	});
 	
@@ -86,15 +72,15 @@
 		 */
 		initialize: function()
 		{
-			this.render();
+			//this.render();
 		},
 		
 		render: function()
 		{
 			this.appendView
 			(
-				new InputView(this.context.addTo()), 
-				new OutputView(this.context.addTo())
+				new InputView(this.context().addTo()), 
+				new OutputView(this.context().addTo())
 			);
 			
 			return this;

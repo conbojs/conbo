@@ -6,7 +6,7 @@
  * 
  * Derived from the Backbone.js class of the same name
  */
-conbo.Model = conbo.Map.extend
+conbo.Model = conbo.Hash.extend
 ({
 	/**
 	 * Constructor: DO NOT override! (Use initialize instead)

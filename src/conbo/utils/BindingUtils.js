@@ -17,7 +17,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * @param element			DOM element to bind value to (two-way bind on input/form elements)
 	 * @param parseFunction		Optional method used to parse values before outputting as HTML
 	 */
-	bindEl: function(source, propertyName, element, parseFunction)
+	bindElement: function(source, propertyName, element, parseFunction)
 	{
 		if (!(source instanceof conbo.Bindable))
 		{

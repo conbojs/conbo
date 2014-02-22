@@ -143,7 +143,11 @@ conbo.Class.prototype =
 			return (arguments.length ? setter : getter).apply(this, arguments);
 		};
 		
-		if (initialValue !== undefined) this[name](initialValue);
+		if (initialValue !== undefined)
+		{
+			this[name](initialValue);
+		}
+		
 		return this;
 	},
 	
@@ -231,10 +235,10 @@ conbo.Injectable = conbo.Class.extend
 	 */
 	_inject: function(options)
 	{
-		this.options = _.defaults(options || {}, this.options);
-		this.context || (this.context = this.options.context);
+		options || (options = {});
 		
-		if (this.context) this.context.injectSingletons(this);
+		this.defineAccessor('context', undefined, undefined, _.result(this, 'context') || options.context);
+		if (!!this.context()) this.context().injectSingletons(this);
 		
 		return this;
 	}
@@ -665,14 +669,12 @@ conbo.Context = conbo.EventDispatcher.extend
 	 */
 	constructor: function(options)
 	{
+		options = options || {};
+		
 		this._commands = {};
 		this._singletons = {};
 		
-		this.options = options || {};
-		this.app = this.options.app;
-		
-		// @deprecated	Use this.app
-		this.view = this.app;
+		this.defineAccessor('app', undefined, undefined, options.app);
 		
 		this.on(conbo.Event.ALL, this._allHandler);
 		this.initialize.apply(this, arguments);
@@ -899,8 +901,6 @@ _.each(hashMethods, function(method)
 	};
 });
 
-// For backward compatibility
-conbo.Map = conbo.Hash;
 /**
  * Binding utility class
  * 
@@ -920,7 +920,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * @param element			DOM element to bind value to (two-way bind on input/form elements)
 	 * @param parseFunction		Optional method used to parse values before outputting as HTML
 	 */
-	bindEl: function(source, propertyName, element, parseFunction)
+	bindElement: function(source, propertyName, element, parseFunction)
 	{
 		if (!(source instanceof conbo.Bindable))
 		{
@@ -1151,14 +1151,26 @@ conbo.View = conbo.Bindable.extend
 		
 		this.initialize.apply(this, arguments);
 		
-		var url = options.url || this.url;
+		var templateUrl = options.templateUrl || _.result(this, 'templateUrl'),
+			template = options.template || _.result(this, 'template');
 		
-		if (!!url)
+		if (!!templateUrl)
 		{
-			this.load(url);
+			this.load(templateUrl);
 		}
 		else
 		{
+			if (!!template)
+			{
+				this.$el.html(template);
+			}
+			else
+			{
+				this.render();
+			}
+			
+			this.$el.addClass('cb-view');
+			
 			this.bindView();
 			this.delegateEvents();
 		}
@@ -1185,8 +1197,8 @@ conbo.View = conbo.Bindable.extend
 	},
 	
 	/**
-	 * **render** is the core function that your view should override, in order
-	 * to populate its element (`this.el`), with the appropriate HTML. The
+	 * If you're not using a template, you should override **render** to
+	 * populate your View's element (`this.el`) with the appropriate HTML. The
 	 * convention is for **render** to always return `this`.
 	 */
 	render: function() 
@@ -1321,7 +1333,8 @@ conbo.View = conbo.Bindable.extend
 	 */
 	bindView: function()
 	{
-		this.$('[cb-bind]').each(this.bind(function(index, el)
+		//this.$('[cb-bind]').each(this.bind(function(index, el)
+		this.$el.children().not('.cb-view').each(this.bind(function(index, el)
 		{
 			var d = this.$(el).cbData().bind,
 				b = d.split('|'),
@@ -1343,7 +1356,7 @@ conbo.View = conbo.Bindable.extend
 			if (!m) throw new Error(b[0]+' is not defined in this View');
 			if (!p) throw new Error('Unable to bind to undefined property');
 			
-			conbo.BindingUtils.bindEl(m, p, el, f);
+			conbo.BindingUtils.bindElement(m, p, el, f);
 		}));
 		
 		return this;
@@ -1591,18 +1604,18 @@ conbo.Application = conbo.View.extend
 	{
 		options = _.clone(options) || {};
 		options.app = this;
-		options.namespace = options.namespace || window;
 		
-		this.prefix = options.prefix || this.prefix || '';
-		this.context = options.context || new this.contextClass(options);
-		this.namespace = options.namespace;
+		this.defineAccessor('context', undefined, undefined, new this.contextClass(options)); 
+		this.defineAccessor('prefix', undefined, undefined, options.prefix || this.prefix || '');
+		this.defineAccessor('namespace', undefined, undefined, options.namespace);
+		
+		conbo.View.prototype.constructor.apply(this, arguments);
+		
 		
 		if (!options.el && options.autoApply !== false)
 		{
 			this.applyApp();
 		}
-		
-		conbo.View.prototype.constructor.apply(this, arguments);
 		
 		if (options.autoApply !== false)
 		{
@@ -1617,16 +1630,16 @@ conbo.Application = conbo.View.extend
 	{
 		var appClassName;
 		
-		for (var a in this.namespace)
+		for (var a in this.namespace())
 		{
-			if (this instanceof this.namespace[a])
+			if (this instanceof this.namespace()[a])
 			{
 				appClassName = a;
 				break;
 			}
 		}
 		
-		var selector = '[cb-app="'+this._prefix(appClassName)+'"]';
+		var selector = '[cb-app="'+this._addPrefix(appClassName)+'"]';
 		var el = conbo.$(selector)[0];
 		
 		if (!!el) this.el = el;
@@ -1639,23 +1652,21 @@ conbo.Application = conbo.View.extend
 	 */
 	applyViews: function()
 	{
-		var selector = !!this.prefix
-			? '[cb-view^="'+this._prefix()+'"]'
+		var selector = !!this.prefix()
+			? '[cb-view^="'+this._addPrefix()+'"]'
 			: '[cb-view]';
-		
-		console.log(selector, this.$(selector).length)
 		
 		this.$(selector).each(this.bind(function(index, el)
 		{
-			var view = this.$(el).cbData().view.replace(this._prefix(), ''),
-				viewClass = this.namespace[view];
+			var view = this.$(el).cbData().view.replace(this._addPrefix(), ''),
+				viewClass = this.namespace()[view];
 			
 			if (!_.isFunction(viewClass)) 
 			{
 				return;
 			}
 			
-			new viewClass(this.context.addTo({el:el}));
+			new viewClass(this.context().addTo({el:el}));
 			
 		}));
 		
@@ -1672,10 +1683,10 @@ conbo.Application = conbo.View.extend
 	 * @param 	name
 	 * @returns
 	 */
-	_prefix: function(name)
+	_addPrefix: function(name)
 	{
 		name = name || '';
-		return !!this.prefix ? this.prefix+'.'+name : name;
+		return !!this.prefix() ? this.prefix()+'.'+name : name;
 	}
 	
 });
@@ -1697,7 +1708,7 @@ conbo.Command = conbo.EventDispatcher.extend
 	constructor: function(options)
 	{
 		this._inject(options);
-		this.event = this.options.event || {};
+		this.defineAccessor('event', undefined, undefined, this.options.event || {});
 		this.initialize.apply(this, arguments);
 	},
 	
@@ -1743,10 +1754,10 @@ conbo.ServerApplication = conbo.Bindable.extend
 	 */
 	constructor: function(options)
 	{
-		options = options || {};
+		options = _.clone(options) || {};
 		options.app = this;
+		options.context || (options.context = new this.contextClass(options));
 		
-		this.context = options.context || new this.contextClass(options);
 		this._inject(options);
 		this.options = options;
 		this.initialize.apply(this, arguments);
@@ -1768,7 +1779,7 @@ conbo.ServerApplication = conbo.Bindable.extend
  * 
  * Derived from the Backbone.js class of the same name
  */
-conbo.Model = conbo.Map.extend
+conbo.Model = conbo.Hash.extend
 ({
 	/**
 	 * Constructor: DO NOT override! (Use initialize instead)

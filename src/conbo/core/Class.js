@@ -61,7 +61,11 @@ conbo.Class.prototype =
 			return (arguments.length ? setter : getter).apply(this, arguments);
 		};
 		
-		if (initialValue !== undefined) this[name](initialValue);
+		if (initialValue !== undefined)
+		{
+			this[name](initialValue);
+		}
+		
 		return this;
 	},
 	
