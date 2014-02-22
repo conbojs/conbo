@@ -15,6 +15,17 @@
 		}
 	});
 	
+	var MyContext = conbo.Context.extend
+	({
+		/**
+		 * Entry point
+		 */
+		initialize: function()
+		{
+			this.mapSingleton('myModel', MyModel);
+		}
+	});
+	
 	var InputView = conbo.View.extend
 	({
 		tagName: 'p',
@@ -28,7 +39,13 @@
 		initialize: function()
 		{
 			this.$el.html('My name is <input type="text" cb-bind="myModel.name" />');
+		},
+		
+		toString: function()
+		{
+			return 'InputView';
 		}
+
 	});
 	
 	var OutputView = conbo.View.extend
@@ -43,19 +60,14 @@
 		
 		initialize: function()
 		{
-			this.$el.html('Hello <span cb-bind="myModel.name" />!');
-		}
-	});
-	
-	var MyContext = conbo.Context.extend
-	({
-		/**
-		 * Entry point
-		 */
-		initialize: function()
+			this.$el.html('Hello <span><span><span cb-bind="myModel.name" /></span></span>!');
+		},
+		
+		toString: function()
 		{
-			this.mapSingleton('myModel', MyModel);
+			return 'OutputView';
 		}
+	
 	});
 	
 	var MyApp = conbo.Application.extend
@@ -84,6 +96,11 @@
 			);
 			
 			return this;
+		},
+		
+		toString: function()
+		{
+			return 'MyApp';
 		}
 	});
 	

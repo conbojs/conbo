@@ -1171,8 +1171,11 @@ conbo.View = conbo.Bindable.extend
 			
 			this.$el.addClass('cb-view');
 			
-			this.bindView();
-			this.delegateEvents();
+//			this.callLater(function()
+//			{
+				this.bindView();
+				this.delegateEvents();
+//			});
 		}
 	},
 	
@@ -1333,33 +1336,52 @@ conbo.View = conbo.Bindable.extend
 	 */
 	bindView: function()
 	{
-		//this.$('[cb-bind]').each(this.bind(function(index, el)
-		this.$el.children().not('.cb-view').each(this.bind(function(index, el)
+		var nestedViews = this.$('.cb-view');
+		
+		this.$('[cb-bind]').filter(function()
+		{
+			return !nestedViews.find(this).length;
+		})
+		.each(this.bind(function(index, el)
 		{
 			var d = this.$(el).cbData().bind,
 				b = d.split('|'),
-				s = b[0].split('.'),
-				f = !!b[1] && _.isFunction(this[b[1]]) ? this[b[1]] : undefined,
-				m, p;
+				s = this._cleanPropName(b[0]).split('.'),
+				p = s.pop(),
+				m,
+				f;
 			
-			if (s.length > 1)
+			try
 			{
-				m = this[s[0]];
-				p = s[1];
+				m = !!s.length ? eval('this.'+s.join('.')) : this;
 			}
-			else
+			catch (e) {}
+			
+			try
 			{
-				m = this;
-				p = s[0];
+				f = !!b[1] ? eval('this.'+this._cleanPropName(b[1])) : undefined;
+				f = _.isFunction(f) ? f : undefined;
 			}
+			catch (e) {}
 			
 			if (!m) throw new Error(b[0]+' is not defined in this View');
 			if (!p) throw new Error('Unable to bind to undefined property');
 			
 			conbo.BindingUtils.bindElement(m, p, el, f);
+			
 		}));
 		
 		return this;
+	},
+	
+	/**
+	 * Remove everything except alphanumberic and dots from Strings
+	 * @param 		value
+	 * @returns		String
+	 */
+	_cleanPropName: function(value)
+	{
+		return (value || '').replace(/[^\w,\.]/g, '');
 	},
 	
 	/**
