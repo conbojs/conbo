@@ -86,7 +86,7 @@ conbo.View = conbo.Bindable.extend
 		}
 		else
 		{
-			if (!!template)
+			if (!!template && _.isSring(template))
 			{
 				this.html(template);
 			}
