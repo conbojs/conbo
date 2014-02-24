@@ -27,7 +27,7 @@
 	{
 		var conbo = 
 		{
-			VERSION:'1.1.8',
+			VERSION:'1.1.9',
 			_:_, 
 			$:$,
 			
@@ -39,7 +39,7 @@
 		
 
 /*
- * Polyfills for common JavaScript methods that are missing from
+ * Polyfills for native JavaScript methods that are missing from
  * older browsers (yes, IE, I'm looking at you!)
  * 
  * We're only include the minimum possible number here as we don't want 
@@ -80,6 +80,60 @@ if (!Object.prototype.hasOwnProperty)
 	};
 }
 
+/* 
+ * A quick tweak for Lo-Dash/Underscore.js to enable it to differentiate
+ * between functions and classes
+ * 
+ * @author		Neil Rackett
+ */
+
+var _isFunction = _.isFunction;
+
+_.isClass = function(value)
+{
+	return value instanceof conbo.Class;
+};
+
+_.isFunction = function(value)
+{
+	return _isFunction(value) && !_.isClass(value);
+};
+
+/*
+ * jQuery plug-ins and expressions
+ * @author		Neil Rackett
+ */
+
+$.fn.cbData = function()
+{
+	var data = {},
+		attrs = this.get()[0].attributes,
+		count = 0;
+	
+	for (var i=0; i<attrs.length; ++i)
+	{
+		if (attrs[i].name.indexOf('cb-') != 0) continue;
+		var propertyName = attrs[i].name.substr(3).replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
+		data[propertyName] = attrs[i].value;
+		++count;
+	}
+	
+	return !!count ? data : undefined;
+}
+
+$.expr[':'].cbAttr = function(el, index, meta, stack)
+{
+	var $el = $(el),
+		args = meta[3].split(','),
+		cb = $el.cbData();
+	
+	if (!cb) return false;
+	if (!!cb && !args.length) return true;
+	if (!!args[0] && !args[1]) return cb.hasOwnProperty(args[0]);
+	if (!!args[0] && !!args[1]) return cb[args[0]] == args[1];
+	return false;
+};
+
 /**
  * Class
  * Extendable base class from which all others extend
@@ -91,6 +145,12 @@ conbo.Class = function(options)
 
 conbo.Class.prototype =
 {
+	/**
+	 * Entry point
+	 * 
+	 * In most circumstances, custom classes should override initialize 
+	 * and use it as your class constructor
+	 */
 	initialize: function() {},
 	
 	/**
@@ -251,7 +311,7 @@ conbo.Injectable = conbo.Class.extend
  * 
  * @author		Neil Rackett
  */
-conbo.Event = conbo.Injectable.extend
+conbo.Event = conbo.Class.extend
 ({
 	//cancelBubble: false,
 	//defaultPrevented: false,
@@ -363,6 +423,7 @@ conbo.ConboEvent = conbo.Event.extend
 		return 'conbo.ConboEvent';
 	}
 },
+// Static properties
 {
 	ERROR:		"error", 	// (Properties: model, xhr, options) � when a model's save call fails on the server.
 	INVALID:	"invalid", 	// (Properties: model, error, options) � when a model's validation fails on the client.
@@ -1082,41 +1143,6 @@ conbo.BindingUtils = conbo.Class.extend({},
 	}
 });
 
-/*
- * jQuery plug-ins and pseudo-selectors
- * @author		Neil Rackett
- */
-
-$.fn.cbData = function()
-{
-	var data = {},
-		attrs = this.get()[0].attributes,
-		count = 0;
-	
-	for (var i=0; i<attrs.length; ++i)
-	{
-		if (attrs[i].name.indexOf('cb-') != 0) continue;
-		var propertyName = attrs[i].name.substr(3).replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
-		data[propertyName] = attrs[i].value;
-		++count;
-	}
-	
-	return !!count ? data : undefined;
-}
-
-$.expr[':'].cbAttr = function(el, index, meta, stack)
-{
-	var $el = $(el),
-		args = meta[3].split(','),
-		cb = $el.cbData();
-	
-	if (!cb) return false;
-	if (!!cb && !args.length) return true;
-	if (!!args[0] && !args[1]) return cb.hasOwnProperty(args[0]);
-	if (!!args[0] && !!args[1]) return cb[args[0]] == args[1];
-	return false;
-};
-
 /**
  * List of view options to be merged as properties.
  */
@@ -1162,7 +1188,13 @@ conbo.View = conbo.Bindable.extend
 		this.initialize.apply(this, arguments);
 		
 		var templateUrl = _.result(this, 'templateUrl'),
+			template;
+		
+		try
+		{
 			template = _.result(this, 'template');
+		}
+		catch (e) {}
 		
 		if (!!templateUrl)
 		{
@@ -1170,7 +1202,7 @@ conbo.View = conbo.Bindable.extend
 		}
 		else
 		{
-			if (!!template && _.isSring(template))
+			if (!!template && _.isString(template))
 			{
 				this.html(template);
 			}
@@ -1490,16 +1522,22 @@ conbo.View = conbo.Bindable.extend
 		for (var key in events)
 		{
 			var method = events[key];
+			
 			if (!_.isFunction(method)) method = this[events[key]];
 			if (!method) throw new Error('Method "' + events[key] + '" does not exist');
+			
 			var match = key.match(/^(\S+)\s*(.*)$/);
 			var eventName = match[1], selector = match[2];
+			
 			method = _.bind(method, this);
 			eventName += '.delegateEvents' + this.cid;
 			
-			if (selector === '') {
+			if (selector === '') 
+			{
 				this.$el.on(eventName, method);
-			} else {
+			}
+			else
+			{
 				this.$el.on(eventName, selector, method);
 			}
 		}
@@ -1529,7 +1567,7 @@ conbo.View = conbo.Bindable.extend
 	 */
 	_cleanPropName: function(value)
 	{
-		return (value || '').replace(/[^\w,\.\[\]\'\"]/g, '');
+		return (value || '').replace(/[^\w\.]/g, '');
 	},
 	
 	/**
@@ -1834,12 +1872,21 @@ conbo.Model = conbo.Hash.extend
 	{
 		var defaults;
 		var attrs = attributes || {};
+		
 		options || (options = {});
+		
 		this.cid = _.uniqueId('c');
 		this._attributes = {};
+		
 		_.extend(this, _.pick(options, ['url','urlRoot','collection']));
-		if (options.parse) attrs = this.parse(attrs, options) || {};
+		
+		if (options.parse)
+		{
+			attrs = this.parse(attrs, options) || {};
+		}
+		
 		attrs = _.defaults({}, attrs, _.result(this, 'defaults'));
+		
 		this.set(attrs, options);
 		
 		this._inject(options);
@@ -1910,7 +1957,11 @@ conbo.Model = conbo.Hash.extend
 	set: function(key, val, options) 
 	{
 		var attr, attrs, unset, changes, silent, changing, prev, current;
-		if (key == null) return this;
+		
+		if (key == null)
+		{
+			return this;
+		}
 
 		// Handle both `"key", value` and `{key: value}` -style arguments.
 		if (typeof key === 'object')
@@ -1926,7 +1977,10 @@ conbo.Model = conbo.Hash.extend
 		options || (options = {});
 
 		// Run validation.
-		if (!this._validate(attrs, options)) return false;
+		if (!this._validate(attrs, options))
+		{
+			return false;
+		}
 		
 		// Extract attributes and options.
 		unset					 = options.unset;
@@ -1934,27 +1988,41 @@ conbo.Model = conbo.Hash.extend
 		changes				 = [];
 		changing				= this._changing;
 		this._changing	= true;
-			
+		
 		if (!changing) 
 		{
 			this._previousAttributes = _.clone(this._attributes);
 			this.changed = {};
 		}
-		current = this._attributes, prev = this._previousAttributes;
+		
+		current = this._attributes;
+		prev = this._previousAttributes;
 
 		// Check for changes of `id`.
-		if (this.idAttribute in attrs) this.id = attrs[this.idAttribute];
+		if (this.idAttribute in attrs)
+		{
+			this.id = attrs[this.idAttribute];
+		}
 
 		// For each `set` attribute, update or delete the current value.
 		for (attr in attrs) 
 		{
 			val = attrs[attr];
-			if (!_.isEqual(current[attr], val)) changes.push(attr);
-			if (!_.isEqual(prev[attr], val)) {
+			
+			if (!_.isEqual(current[attr], val)) 
+			{
+				changes.push(attr);
+			}
+			
+			if (!_.isEqual(prev[attr], val)) 
+			{
 				this.changed[attr] = val;
-			} else {
+			}
+			else 
+			{
 				delete this.changed[attr];
 			}
+			
 			unset ? delete current[attr] : current[attr] = val;
 		}
 		
@@ -1977,12 +2045,17 @@ conbo.Model = conbo.Hash.extend
 		
 		// You might be wondering why there's a `while` loop here. Changes can
 		// be recursively nested within `"change"` events.
-		if (changing) return this;
+		if (changing)
+		{
+			return this;
+		}
+		
 		if (!silent) 
 		{
 			while (this._pending) 
 			{
 				this._pending = false;
+				
 				this.trigger(new conbo.ConboEvent(conbo.ConboEvent.CHANGE,
 				{
 					model: this,
@@ -2073,7 +2146,9 @@ conbo.Model = conbo.Hash.extend
 	fetch: function(options) 
 	{
 		options = options ? _.clone(options) : {};
+		
 		if (options.parse === undefined) options.parse = true;
+		
 		var model = this;
 		var success = options.success;
 		
@@ -2091,6 +2166,7 @@ conbo.Model = conbo.Hash.extend
 		};
 		
 		wrapError(this, options);
+		
 		return this.sync('read', this, options);
 	},
 	
@@ -2115,21 +2191,31 @@ conbo.Model = conbo.Hash.extend
 		}
 
 		// If we're not waiting and attributes exist, save acts as `set(attr).save(null, opts)`.
-		if (attrs && (!options || !options.wait) && !this.set(attrs, options)) return false;
+		if (attrs && (!options || !options.wait) && !this.set(attrs, options)) 
+		{
+			return false;
+		}
 
 		options = _.extend({validate: true}, options);
 
 		// Do not persist invalid models.
-		if (!this._validate(attrs, options)) return false;
+		if (!this._validate(attrs, options)) 
+		{
+			return false;
+		}
 
 		// Set temporary attributes if `{wait: true}`.
-		if (attrs && options.wait) {
+		if (attrs && options.wait)
+		{
 			this._attributes = _.extend({}, attributes, attrs);
 		}
 
 		// After a successful server-side save, the client is (optionally)
 		// updated with the server-side state.
-		if (options.parse === undefined) options.parse = true;
+		if (options.parse === undefined) 
+		{
+			options.parse = true;
+		}
 			
 		var model = this;
 		var success = options.success;
@@ -2138,13 +2224,30 @@ conbo.Model = conbo.Hash.extend
 		{
 			// Ensure attributes are restored during synchronous saves.
 			model._attributes = attributes;
+			
 			var serverAttrs = model.parse(resp, options);
-			if (options.wait) serverAttrs = _.extend(attrs || {}, serverAttrs);
-			if (_.isObject(serverAttrs) && !model.set(serverAttrs, options)) {
+			
+			if (options.wait) 
+			{
+				serverAttrs = _.extend(attrs || {}, serverAttrs);
+			}
+			
+			if (_.isObject(serverAttrs) && !model.set(serverAttrs, options)) 
+			{
 				return false;
 			}
-			if (success) success(model, resp, options);
-			model.trigger('sync', model, resp, options);
+			
+			if (success) 
+			{
+				success(model, resp, options);
+			}
+			
+			model.trigger(new conbo.ConboEvent(conbo.ConboEvent.SYNC,
+			{
+				model: model,
+				response: resp, 
+				options: options
+			}));
 		};
 			
 		wrapError(this, options);
@@ -2167,10 +2270,11 @@ conbo.Model = conbo.Hash.extend
 	destroy: function(options) 
 	{
 		options = options ? _.clone(options) : {};
+		
 		var model = this;
 		var success = options.success;
-
-		var destroy = function() 
+		
+		var destroy = this.bind(function() 
 		{
 			this.trigger(new conbo.ConboEvent(conbo.ConboEvent.DESTROY,
 			{
@@ -2178,23 +2282,42 @@ conbo.Model = conbo.Hash.extend
 				collection: model.collection,
 				options: options
 			}));
-		};
+		});
 		
 		options.success = function(resp)
 		{
-			if (options.wait || model.isNew()) destroy();
-			if (success) success(model, resp, options);
-			if (!model.isNew()) model.trigger('sync', model, resp, options);
+			if (options.wait || model.isNew())
+			{
+				destroy();
+			}
+			
+			if (success) 
+			{
+				success(model, resp, options);
+			}
+			
+			if (!model.isNew()) 
+			{
+				model.trigger(new conbo.ConboEvent(conbo.ConboEvent.SYNC, 
+				{
+					model: model, 
+					response: resp, 
+					options: options
+				}));
+			}
 		};
-
-		if (this.isNew()) {
+		
+		if (this.isNew()) 
+		{
 			options.success();
 			return false;
 		}
+		
 		wrapError(this, options);
 
 		var xhr = this.sync('delete', this, options);
 		if (!options.wait) destroy();
+		
 		return xhr;
 	},
 
@@ -2279,7 +2402,13 @@ var wrapError = function (model, options)
 	options.error = function(resp) 
 	{
 		if (!!callback) callback(model, resp, options);
-		model.trigger(new conbo.ConboEvent('error', {model:model, response:resp, options:options}));
+		
+		model.trigger(new conbo.ConboEvent(conbo.ConboEvent.ERROR,
+		{
+			model:model, 
+			response:resp, 
+			options:options
+		}));
 	};
 };
 
@@ -2306,15 +2435,21 @@ conbo.Collection = conbo.EventDispatcher.extend
 	 */
 	constructor: function(models, options) 
 	{
-	    options || (options = {});
-	    if (options.url) this.url = options.url;
-	    if (options.model) this.model = options.model;
-	    if (options.comparator !== undefined) this.comparator = options.comparator;
-	    this._reset();
-	    
+		options || (options = {});
+		
+		if (options.url) this.url = options.url;
+		if (options.model) this.model = options.model;
+		if (options.comparator !== undefined) this.comparator = options.comparator;
+		
+		this._reset();
 		this._inject(options);
-	    if (models) this.reset(models, _.extend({silent: true}, options));
-	    this.initialize.apply(this, arguments);
+		
+		if (models) 
+		{
+			this.reset(models, _.extend({silent: true}, options));
+		}
+		
+		this.initialize.apply(this, arguments);
 	},
 
 	/**
@@ -2355,107 +2490,164 @@ conbo.Collection = conbo.EventDispatcher.extend
 	{
 		models = _.isArray(models) ? models.slice() : [models];
 		options || (options = {});
+		
 		var i, l, index, model;
-		for (i = 0, l = models.length; i < l; i++) {
+		
+		for (i = 0, l = models.length; i < l; i++) 
+		{
 			model = this.get(models[i]);
-			if (!model) continue;
+			
+			if (!model) 
+			{
+				continue;
+			}
+			
 			delete this._byId[model.id];
 			delete this._byId[model.cid];
+			
 			index = this.indexOf(model);
+			
 			this.models.splice(index, 1);
 			this.length--;
+			
 			if (!options.silent) 
 			{
 				options.index = index;
-			      
-		    	this.trigger(new conbo.ConboEvent(conbo.ConboEvent.REMOVE,
-		    	{
-		    		model: model,
-		    		collection: this,
-		    		options: options
-		    	}));
+						
+				this.trigger(new conbo.ConboEvent(conbo.ConboEvent.REMOVE,
+				{
+					model: model,
+					collection: this,
+					options: options
+				}));
 			}
+			
 			this._removeReference(model);
 		}
+		
 		return this;
 	},
 	
 	/**
-     * Update a collection by `set`-ing a new list of models, adding new ones,
-     * removing models that are no longer present, and merging models that
-     * already exist in the collection, as necessary. Similar to Model#set,
-     * the core operation for updating the data contained by the collection.
+	 * Update a collection by `set`-ing a new list of models, adding new ones,
+	 * removing models that are no longer present, and merging models that
+	 * already exist in the collection, as necessary. Similar to Model#set,
+	 * the core operation for updating the data contained by the collection.
 	 */
-    set: function(models, options) 
-    {
-      options = _.defaults(options || {}, {add: true, remove: true, merge: true});
-      if (options.parse) models = this.parse(models, options);
-      if (!_.isArray(models)) models = models ? [models] : [];
-      var i, l, model, existing, sort = false;
-      var at = options.at;
-      var sortable = this.comparator && (at == null) && options.sort !== false;
-      var sortAttr = _.isString(this.comparator) ? this.comparator : null;
-      var toAdd = [], toRemove = [], modelMap = {};
+	set: function(models, options) 
+	{
+		options = _.defaults(options || {}, {add: true, remove: true, merge: true});
+		
+		if (options.parse) models = this.parse(models, options);
+		if (!_.isArray(models)) models = models ? [models] : [];
+		
+		var i, l, model, existing, sort = false;
+		var at = options.at;
+		var sortable = this.comparator && (at == null) && options.sort !== false;
+		var sortAttr = _.isString(this.comparator) ? this.comparator : null;
+		var toAdd = [], toRemove = [], modelMap = {};
 
-      // Turn bare objects into model references, and prevent invalid models
-      // from being added.
-      for (i = 0, l = models.length; i < l; i++) {
-        if (!(model = this._prepareModel(models[i], options))) continue;
+		// Turn bare objects into model references, and prevent invalid models
+		// from being added.
+		for (i=0, l=models.length; i<l; i++) 
+		{
+			if (!(model = this._prepareModel(models[i], options))) continue;
 
-        // If a duplicate is found, prevent it from being added and
-        // optionally merge it into the existing model.
-        if (existing = this.get(model)) {
-          if (options.remove) modelMap[existing.cid] = true;
-          if (options.merge) {
-            existing.set(model.attributes, options);
-            if (sortable && !sort && existing.hasChanged(sortAttr)) sort = true;
-          }
+			// If a duplicate is found, prevent it from being added and
+			// optionally merge it into the existing model.
+			if (existing = this.get(model)) 
+			{
+				if (options.remove) 
+				{
+					modelMap[existing.cid] = true;
+				}
+				
+				if (options.merge) 
+				{
+					existing.set(model.attributes, options);
+					if (sortable && !sort && existing.hasChanged(sortAttr)) sort = true;
+				}
 
-        // This is a new model, push it to the `toAdd` list.
-        } else if (options.add) {
-          toAdd.push(model);
+			} 
+			// This is a new model, push it to the `toAdd` list.
+			else if (options.add) 
+			{
+				toAdd.push(model);
 
-          // Listen to added models' events, and index models for lookup by
-          // `id` and by `cid`.
-          model.on('all', this._onModelEvent, this);
-          this._byId[model.cid] = model;
-          if (model.id != null) this._byId[model.id] = model;
-        }
-      }
+				// Listen to added models' events, and index models for lookup by
+				// `id` and by `cid`.
+				model.on('all', this._onModelEvent, this);
+				
+				this._byId[model.cid] = model;
+				
+				if (model.id != null) 
+				{
+					this._byId[model.id] = model;
+				}
+			}
+		}
 
-      // Remove nonexistent models if appropriate.
-      if (options.remove) {
-        for (i = 0, l = this.length; i < l; ++i) {
-          if (!modelMap[(model = this.models[i]).cid]) toRemove.push(model);
-        }
-        if (toRemove.length) this.remove(toRemove, options);
-      }
+		// Remove nonexistent models if appropriate.
+		if (options.remove) 
+		{
+			for (i = 0, l = this.length; i < l; ++i) 
+			{
+				if (!modelMap[(model = this.models[i]).cid]) toRemove.push(model);
+			}
+			
+			if (toRemove.length) 
+			{
+				this.remove(toRemove, options);
+			}
+		}
 
-      // See if sorting is needed, update `length` and splice in new models.
-      if (toAdd.length) {
-        if (sortable) sort = true;
-        this.length += toAdd.length;
-        if (at != null) {
-          [].splice.apply(this.models, [at, 0].concat(toAdd));
-        } else {
-          [].push.apply(this.models, toAdd);
-        }
-      }
-      
-      // Silently sort the collection if appropriate.
-      if (sort) this.sort({silent: true});
+		// See if sorting is needed, update `length` and splice in new models.
+		if (toAdd.length) 
+		{
+			if (sortable) sort = true;
+			
+			this.length += toAdd.length;
+			
+			if (at != null) 
+			{
+				[].splice.apply(this.models, [at, 0].concat(toAdd));
+			}
+			else 
+			{
+				[].push.apply(this.models, toAdd);
+			}
+		}
+		
+		// Silently sort the collection if appropriate.
+		if (sort) this.sort({silent: true});
 
-      if (options.silent) return this;
+		if (options.silent) return this;
 
-      // Trigger `add` events.
-      for (i = 0, l = toAdd.length; i < l; i++) {
-        (model = toAdd[i]).trigger('add', model, this, options);
-      }
-
-      // Trigger `sort` if the collection was sorted.
-      if (sort) this.trigger('sort', this, options);
-      return this;
-    },
+		// Trigger `add` events.
+		for (i=0, l=toAdd.length; i<l; i++) 
+		{
+			var model = toAdd[i];
+			
+			model.trigger(new conbo.ConboEvent(conbo.ConboEvent.ADD, 
+			{
+				model:model, 
+				collection:this, 
+				options:options
+			}));
+		}
+		
+		// Trigger `sort` if the collection was sorted.
+		if (sort)
+		{
+			this.trigger(new conbo.ConboEvent(conbo.ConboEvent.SORT, 
+   			{
+   				collection:this, 
+   				options:options
+   			}));
+		}
+		
+		return this;
+	},
 
 	/**
 	 * When you have more items than you want to add or remove individually,
@@ -2465,20 +2657,24 @@ conbo.Collection = conbo.EventDispatcher.extend
 	reset: function(models, options) 
 	{
 		options || (options = {});
-		for (var i = 0, l = this.models.length; i < l; i++) {
+		
+		for (var i = 0, l = this.models.length; i < l; i++) 
+		{
 			this._removeReference(this.models[i]);
 		}
+		
 		options.previousModels = this.models;
+		
 		this._reset();
 		this.add(models, _.extend({silent: true}, options));
-	      
+				
 		if (!options.silent) 
 		{
-	    	this.trigger(new conbo.ConboEvent(conbo.ConboEvent.RESET,
-	    	{
-	    		collection: this,
-	    		options: options
-	    	}));
+			this.trigger(new conbo.ConboEvent(conbo.ConboEvent.RESET,
+			{
+				collection: this,
+				options: options
+			}));
 		}
 		
 		return this;
@@ -2517,7 +2713,8 @@ conbo.Collection = conbo.EventDispatcher.extend
 	/**
 	 * Remove a model from the beginning of the collection.
 	 */
-	shift: function(options) {
+	shift: function(options) 
+	{
 		var model = this.at(0);
 		this.remove(model, options);
 		return model;
@@ -2526,14 +2723,16 @@ conbo.Collection = conbo.EventDispatcher.extend
 	/**
 	 * Slice out a sub-array of models from the collection.
 	 */
-	slice: function(begin, end) {
+	slice: function(begin, end) 
+	{
 		return this.models.slice(begin, end);
 	},
 
 	/**
 	 * Get a model from the set by id.
 	 */
-	get: function(obj) {
+	get: function(obj) 
+	{
 		if (obj == null) return undefined;
 		this._idAttr || (this._idAttr = this.model.prototype.idAttribute);
 		return this._byId[obj.id || obj.cid || obj[this._idAttr] || obj];
@@ -2542,32 +2741,38 @@ conbo.Collection = conbo.EventDispatcher.extend
 	/**
 	 * Get the model at the given index.
 	 */
-	at: function(index) {
+	at: function(index) 
+	{
 		return this.models[index];
 	},
 
 	/**
 	 * Return models with matching attributes. Useful for simple cases of `filter`.
 	 */
-    where: function(attrs, first) 
-    {
-        if (_.isEmpty(attrs)) return first ? undefined : [];
-        return this[first ? 'find' : 'filter'](function(model) {
-          for (var key in attrs) {
-            if (attrs[key] !== model.get(key)) return false;
-          }
-          return true;
-        });
-    },
+	where: function(attrs, first) 
+	{
+		if (_.isEmpty(attrs)) return first ? undefined : [];
+		
+		return this[first ? 'find' : 'filter'](function(model) 
+		{
+			for (var key in attrs) 
+			{
+				if (attrs[key] !== model.get(key)) return false;
+			}
+			
+			return true;
+		});
+	},
 
 	/**
-     * Return the first model with matching attributes. Useful for simple cases
-     * of `find`.
+	 * Return the first model with matching attributes. Useful for simple cases
+	 * of `find`.
 	 */
-    findWhere: function(attrs) {
-      return this.where(attrs, true);
-    },
-    
+	findWhere: function(attrs) 
+	{
+		return this.where(attrs, true);
+	},
+		
 	/**
 	 * Force the collection to re-sort itself. You don't need to call this under
 	 * normal circumstances, as the set will maintain sort order as each item
@@ -2579,149 +2784,182 @@ conbo.Collection = conbo.EventDispatcher.extend
 		options || (options = {});
 		
 		// Run sort based on type of `comparator`.
-		if (_.isString(this.comparator) || this.comparator.length === 1) {
+		if (_.isString(this.comparator) || this.comparator.length === 1) 
+		{
 			this.models = this.sortBy(this.comparator, this);
-		} else {
+		}
+		else 
+		{
 			this.models.sort(_.bind(this.comparator, this));
 		}
 
 		if (!options.silent) 
 		{
-	    	this.trigger(new conbo.ConboEvent(conbo.ConboEvent.SORT,
-	    	{
-	    		collection: this,
-	    		options: options
-	    	}));
+			this.trigger(new conbo.ConboEvent(conbo.ConboEvent.SORT,
+			{
+				collection: this,
+				options: options
+			}));
 		}
+		
 		return this;
 	},
 
 	/**
-     * Figure out the smallest index at which a model should be inserted so as
-     * to maintain order.
+	 * Figure out the smallest index at which a model should be inserted so as
+	 * to maintain order.
 	 */
-    sortedIndex: function(model, value, context) {
-      value || (value = this.comparator);
-      var iterator = _.isFunction(value) ? value : function(model) {
-        return model.get(value);
-      };
-      return _.sortedIndex(this.models, model, iterator, context);
-    },
+	sortedIndex: function(model, value, context) 
+	{
+		value || (value = this.comparator);
+		
+		var iterator = _.isFunction(value) ? value : function(model) 
+		{
+			return model.get(value);
+		};
+		
+		return _.sortedIndex(this.models, model, iterator, context);
+	},
 
 	/**
 	 * Pluck an attribute from each model in the collection.
 	 */
-	pluck: function(attr) {
+	pluck: function(attr)
+	{
 		return _.invoke(this.models, 'get', attr);
 	},
 
 	/**
-     * Fetch the default set of models for this collection, resetting the
-     * collection when they arrive. If `reset: true` is passed, the response
-     * data will be passed through the `reset` method instead of `set`.
+	 * Fetch the default set of models for this collection, resetting the
+	 * collection when they arrive. If `reset: true` is passed, the response
+	 * data will be passed through the `reset` method instead of `set`.
 	 */
-    fetch: function(options) 
-    {
-      options = options ? _.clone(options) : {};
-      
-      if (options.parse === undefined) options.parse = true;
-      
-      var success = options.success;
-      var collection = this;
-      
-      options.success = function(resp)
-      {
-        var method = options.reset ? 'reset' : 'set';
-        collection[method](resp, options);
-        if (success) success(collection, resp, options);
-        
-        collection.trigger(new conbo.ConboEvent(conbo.ConboEvent.SYNC,
-        {
-        	collection:	collection,
-        	response:	resp,
-        	options:	options
-        }));
-      };
-      
-      wrapError(this, options);
-      
-      return this.sync('read', this, options);
-    },
-    
+	fetch: function(options) 
+	{
+		options = options ? _.clone(options) : {};
+		
+		if (options.parse === undefined) options.parse = true;
+		
+		var success = options.success;
+		var collection = this;
+		
+		options.success = function(resp)
+		{
+			var method = options.reset ? 'reset' : 'set';
+			
+			collection[method](resp, options);
+			
+			if (success)
+			{
+				success(collection, resp, options);
+			}
+			
+			collection.trigger(new conbo.ConboEvent(conbo.ConboEvent.SYNC,
+			{
+				collection:	collection,
+				response:	resp,
+				options:	options
+			}));
+		};
+		
+		wrapError(this, options);
+		
+		return this.sync('read', this, options);
+	},
+		
 	/**
-     * Create a new instance of a model in this collection. Add the model to the
-     * collection immediately, unless `wait: true` is passed, in which case we
-     * wait for the server to agree.
+	 * Create a new instance of a model in this collection. Add the model to the
+	 * collection immediately, unless `wait: true` is passed, in which case we
+	 * wait for the server to agree.
 	 */
-    create: function(model, options) {
-      options = options ? _.clone(options) : {};
-      if (!(model = this._prepareModel(model, options))) return false;
-      if (!options.wait) this.add(model, options);
-      var collection = this;
-      var success = options.success;
-      options.success = function(resp) {
-        if (options.wait) collection.add(model, options);
-        if (success) success(model, resp, options);
-      };
-      model.save(null, options);
-      return model;
-    },
-    
+	create: function(model, options) 
+	{
+		options = options ? _.clone(options) : {};
+		
+		if (!(model = this._prepareModel(model, options))) return false;
+		if (!options.wait) this.add(model, options);
+		
+		var collection = this;
+		var success = options.success;
+		
+		options.success = function(resp) 
+		{
+			if (options.wait) collection.add(model, options);
+			if (success) success(model, resp, options);
+		};
+		
+		model.save(null, options);
+		
+		return model;
+	},
+		
 	/**
 	 * parse converts a response into a list of models to be added to the
 	 * collection. The default implementation is just to pass it through.
 	 */
-	parse: function(resp, options) {
+	parse: function(resp, options) 
+	{
 		return resp;
 	},
 
 	/**
 	 * Create a new collection with an identical list of models as this one.
-	clone: function() {
+	 */
+	clone: function() 
+	{
 		return new this.constructor(this.models);
 	},
 
 	/**
-     * Private method to reset all internal state. Called when the collection
-     * is first initialized or reset.
+	 * Private method to reset all internal state. Called when the collection
+	 * is first initialized or reset.
 	 */
-    _reset: function() {
-      this.length = 0;
-      this.models = [];
-      this._byId  = {};
-    },
-
+	_reset: function() 
+	{
+		this.length = 0;
+		this.models = [];
+		this._byId	= {};
+	},
+	
 	/**
-     * Prepare a hash of attributes (or other model) to be added to this
-     * collection.
+	 * Prepare a hash of attributes (or other model) to be added to this
+	 * collection.
 	 */
-    _prepareModel: function(attrs, options) {
-      if (attrs instanceof conbo.Model) {
-        if (!attrs.collection) attrs.collection = this;
-        return attrs;
-      }
-      options || (options = {});
-      options.collection = this;
-      var model = new this.model(attrs, options);
-      if (!model._validate(attrs, options)) {
-    	this.trigger(new conbo.ConboEvent(conbo.ConboEvent.INVALID,
-    	{
-    		collection:	this,
-    		attrs:		attrs,
-    		options:	options
-    	}));
-        return false;
-      }
-      return model;
-    },
-    
+	_prepareModel: function(attrs, options) 
+	{
+		if (attrs instanceof conbo.Model) 
+		{
+			if (!attrs.collection) attrs.collection = this;
+			return attrs;
+		}
+		
+		options || (options = {});
+		options.collection = this;
+		
+		var model = new this.model(attrs, options);
+		
+		if (!model._validate(attrs, options)) 
+		{
+			this.trigger(new conbo.ConboEvent(conbo.ConboEvent.INVALID,
+			{
+				collection:	this,
+				attrs:		attrs,
+				options:	options
+			}));
+			
+			return false;
+		}
+		
+		return model;
+	},
+		
 	/**
-     * Internal method to sever a model's ties to a collection.
-     */
-    _removeReference: function(model) {
-      if (this === model.collection) delete model.collection;
-      model.off('all', this._onModelEvent, this);
-    },
+	 * Internal method to sever a model's ties to a collection.
+	 */
+	_removeReference: function(model) {
+		if (this === model.collection) delete model.collection;
+		model.off('all', this._onModelEvent, this);
+	},
 
 	/**
 	 * Internal method called every time a model in the set fires an event.
@@ -2734,18 +2972,29 @@ conbo.Collection = conbo.EventDispatcher.extend
 	_onModelEvent: function(event)
 	{
 		if ((event.type == conbo.ConboEvent.ADD 
-			|| event.type == conbo.ConboEvent.REMOVE) && event.collection != this) return;
+			|| event.type == conbo.ConboEvent.REMOVE) && event.collection != this)
+		{
+			return;
+		}
+		
+		var model = event.model;
 		
 		if (event.type == conbo.ConboEvent.DESTROY) 
-			this.remove(event.model, event.options);
-		
-		if (event.model && event.type == 'change:' + event.model.idAttribute) 
 		{
-			delete this._byId[event.model.previous(event.model.idAttribute)];
-			if (model.id != null) this._byId[model.id] = model;
+			this.remove(model, event.options);
 		}
-	    
-    	this.trigger(event);
+		
+		if (model && event.type == 'change:' + model.idAttribute) 
+		{
+			delete this._byId[event.model.previous(model.idAttribute)];
+			
+			if (model.id != null) 
+			{
+				this._byId[model.id] = model;
+			}
+		}
+		
+		this.trigger(event);
 	},
 
 	toString: function()
@@ -2755,19 +3004,23 @@ conbo.Collection = conbo.EventDispatcher.extend
 });
 
 // Underscore methods that we want to implement on the Collection.
-var methods = ['forEach', 'each', 'map', 'collect', 'reduce', 'foldl',
+var methods = 
+[
+	'forEach', 'each', 'map', 'collect', 'reduce', 'foldl',
 	'inject', 'reduceRight', 'foldr', 'find', 'detect', 'filter', 'select',
 	'reject', 'every', 'all', 'some', 'any', 'include', 'contains', 'invoke',
 	'max', 'min', 'toArray', 'size', 'first', 'head', 'take', 'initial', 'rest',
 	'tail', 'drop', 'last', 'without', 'indexOf', 'shuffle', 'lastIndexOf',
-	'isEmpty', 'chain'];
+	'isEmpty', 'chain'
+];
 
 // Mix in each available Underscore/Lo-Dash method as a proxy to `Collection#models`.
 _.each(methods, function(method) 
 {
 	if (!_.has(_, method)) return;
 	
-	conbo.Collection.prototype[method] = function() {
+	conbo.Collection.prototype[method] = function() 
+	{
 		var args = [].slice.call(arguments);
 		args.unshift(this.models);
 		return _[method].apply(_, args);
@@ -3161,8 +3414,15 @@ conbo.Router = conbo.EventDispatcher.extend
 	 */ 
 	route: function(route, name, callback) 
 	{
-		if (!_.isRegExp(route)) route = this._routeToRegExp(route);
-		if (!callback) callback = this[name];
+		if (!_.isRegExp(route)) 
+		{
+			route = this._routeToRegExp(route);
+		}
+		
+		if (!callback) 
+		{
+			callback = this[name];
+		}
 		
 		if (_.isFunction(name)) 
 		{
@@ -3170,7 +3430,10 @@ conbo.Router = conbo.EventDispatcher.extend
 			name = '';
 		}
 		
-		if (!callback) callback = this[name];
+		if (!callback) 
+		{
+			callback = this[name];
+		}
 		
 		conbo.history.route(route, this.bind(function(fragment)
 		{
@@ -3186,10 +3449,9 @@ conbo.Router = conbo.EventDispatcher.extend
 			}
 			
 			this.trigger(new conbo.ConboEvent('route:'+name, options));
+			this.trigger(new conbo.ConboEvent(conbo.ConboEvent.ROUTE, options));
 			
-			var event = new conbo.ConboEvent(conbo.ConboEvent.ROUTE, options);
-			this.trigger(event);
-			conbo.history.trigger(event);
+			conbo.history.trigger(new conbo.ConboEvent(conbo.ConboEvent.ROUTE, options));
 		}));
 		
 		return this;
@@ -3301,36 +3563,50 @@ conbo.sync = function(method, model, options)
 	};
 
 	// Ensure that we have a URL.
-	if (!options.url) {
-		params.url = _.result(model, 'url') || urlError();
+	if (!options.url) 
+	{
+		var url = _.result(model, 'url');
+		if (!url) throw new Error('"url" must be specified');
+		params.url = url;
 	}
-
+	
 	// Ensure that we have the appropriate request data.
-	if (options.data == null && model && (method === 'create' || method === 'update' || method === 'patch')) {
+	if (options.data == null && model && (method === 'create' || method === 'update' || method === 'patch')) 
+	{
 		params.contentType = 'application/json';
 		params.data = JSON.stringify(options.attrs || model.toJSON(options));
 	}
 
 	// For older servers, emulate JSON by encoding the request into an HTML-form.
-	if (options.emulateJSON) {
+	if (options.emulateJSON)
+	{
 		params.contentType = 'application/x-www-form-urlencoded';
 		params.data = params.data ? {model: params.data} : {};
 	}
 
 	// For older servers, emulate HTTP by mimicking the HTTP method with `_method`
 	// And an `X-HTTP-Method-Override` header.
-	if (options.emulateHTTP && (type === 'PUT' || type === 'DELETE' || type === 'PATCH')) {
+	if (options.emulateHTTP && (type === 'PUT' || type === 'DELETE' || type === 'PATCH')) 
+	{
 		params.type = 'POST';
-		if (options.emulateJSON) params.data._method = type;
+		
+		if (options.emulateJSON)
+		{
+			params.data._method = type;
+		}
+		
 		var beforeSend = options.beforeSend;
-		options.beforeSend = function(xhr) {
+		
+		options.beforeSend = function(xhr) 
+		{
 			xhr.setRequestHeader('X-HTTP-Method-Override', type);
 			if (beforeSend) return beforeSend.apply(this, arguments);
 		};
 	}
 
 	// Don't process data on a non-GET request.
-	if (params.type !== 'GET' && !options.emulateJSON) {
+	if (params.type !== 'GET' && !options.emulateJSON) 
+	{
 		params.processData = false;
 	}
 	
@@ -3345,15 +3621,24 @@ conbo.sync = function(method, model, options)
 	// that still has ActiveX enabled by default, override jQuery to use that
 	// for XHR instead. Remove this line when jQuery supports `PATCH` on IE8.
 	if (params.type === 'PATCH' && window.ActiveXObject &&
-				!(window.external && window.external.msActiveXFilteringEnabled)) {
-		params.xhr = function() {
+		!(window.external && window.external.msActiveXFilteringEnabled)) 
+	{
+		params.xhr = function()
+		{
 			return new ActiveXObject("Microsoft.XMLHTTP");
 		};
 	}
 
 	// Make the request, allowing the user to override any Ajax options.
 	var xhr = options.xhr = conbo.ajax(_.extend(params, options));
-	model.trigger('request', model, xhr, options);
+	
+	model.trigger(new conbo.ConboEvent(conbo.ConboEvent.REQUEST,
+	{
+		model: model, 
+		xhr: xhr, 
+		options: options
+	}));
+	
 	return xhr;
 };
 
@@ -3410,4 +3695,4 @@ conbo.ajax = function()
 		window.conbo = create(window._, window.jQuery || window.Zepto || window.ender);
 	}
 	
-})(this);
+})(this, document);

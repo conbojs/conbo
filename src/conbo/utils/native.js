@@ -1,5 +1,5 @@
 /*
- * Polyfills for common JavaScript methods that are missing from
+ * Polyfills for native JavaScript methods that are missing from
  * older browsers (yes, IE, I'm looking at you!)
  * 
  * We're only include the minimum possible number here as we don't want 

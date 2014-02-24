@@ -27,7 +27,7 @@
 	{
 		var conbo = 
 		{
-			VERSION:'1.1.8',
+			VERSION:'1.1.9',
 			_:_, 
 			$:$,
 			
@@ -39,7 +39,7 @@
 		
 
 /*
- * Polyfills for common JavaScript methods that are missing from
+ * Polyfills for native JavaScript methods that are missing from
  * older browsers (yes, IE, I'm looking at you!)
  * 
  * We're only include the minimum possible number here as we don't want 
@@ -80,6 +80,60 @@ if (!Object.prototype.hasOwnProperty)
 	};
 }
 
+/* 
+ * A quick tweak for Lo-Dash/Underscore.js to enable it to differentiate
+ * between functions and classes
+ * 
+ * @author		Neil Rackett
+ */
+
+var _isFunction = _.isFunction;
+
+_.isClass = function(value)
+{
+	return value instanceof conbo.Class;
+};
+
+_.isFunction = function(value)
+{
+	return _isFunction(value) && !_.isClass(value);
+};
+
+/*
+ * jQuery plug-ins and expressions
+ * @author		Neil Rackett
+ */
+
+$.fn.cbData = function()
+{
+	var data = {},
+		attrs = this.get()[0].attributes,
+		count = 0;
+	
+	for (var i=0; i<attrs.length; ++i)
+	{
+		if (attrs[i].name.indexOf('cb-') != 0) continue;
+		var propertyName = attrs[i].name.substr(3).replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
+		data[propertyName] = attrs[i].value;
+		++count;
+	}
+	
+	return !!count ? data : undefined;
+}
+
+$.expr[':'].cbAttr = function(el, index, meta, stack)
+{
+	var $el = $(el),
+		args = meta[3].split(','),
+		cb = $el.cbData();
+	
+	if (!cb) return false;
+	if (!!cb && !args.length) return true;
+	if (!!args[0] && !args[1]) return cb.hasOwnProperty(args[0]);
+	if (!!args[0] && !!args[1]) return cb[args[0]] == args[1];
+	return false;
+};
+
 /**
  * Class
  * Extendable base class from which all others extend
@@ -91,6 +145,12 @@ conbo.Class = function(options)
 
 conbo.Class.prototype =
 {
+	/**
+	 * Entry point
+	 * 
+	 * In most circumstances, custom classes should override initialize 
+	 * and use it as your class constructor
+	 */
 	initialize: function() {},
 	
 	/**
@@ -251,7 +311,7 @@ conbo.Injectable = conbo.Class.extend
  * 
  * @author		Neil Rackett
  */
-conbo.Event = conbo.Injectable.extend
+conbo.Event = conbo.Class.extend
 ({
 	//cancelBubble: false,
 	//defaultPrevented: false,
@@ -363,6 +423,7 @@ conbo.ConboEvent = conbo.Event.extend
 		return 'conbo.ConboEvent';
 	}
 },
+// Static properties
 {
 	ERROR:		"error", 	// (Properties: model, xhr, options) � when a model's save call fails on the server.
 	INVALID:	"invalid", 	// (Properties: model, error, options) � when a model's validation fails on the client.
@@ -1082,41 +1143,6 @@ conbo.BindingUtils = conbo.Class.extend({},
 	}
 });
 
-/*
- * jQuery plug-ins and pseudo-selectors
- * @author		Neil Rackett
- */
-
-$.fn.cbData = function()
-{
-	var data = {},
-		attrs = this.get()[0].attributes,
-		count = 0;
-	
-	for (var i=0; i<attrs.length; ++i)
-	{
-		if (attrs[i].name.indexOf('cb-') != 0) continue;
-		var propertyName = attrs[i].name.substr(3).replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
-		data[propertyName] = attrs[i].value;
-		++count;
-	}
-	
-	return !!count ? data : undefined;
-}
-
-$.expr[':'].cbAttr = function(el, index, meta, stack)
-{
-	var $el = $(el),
-		args = meta[3].split(','),
-		cb = $el.cbData();
-	
-	if (!cb) return false;
-	if (!!cb && !args.length) return true;
-	if (!!args[0] && !args[1]) return cb.hasOwnProperty(args[0]);
-	if (!!args[0] && !!args[1]) return cb[args[0]] == args[1];
-	return false;
-};
-
 /**
  * List of view options to be merged as properties.
  */
@@ -1162,7 +1188,13 @@ conbo.View = conbo.Bindable.extend
 		this.initialize.apply(this, arguments);
 		
 		var templateUrl = _.result(this, 'templateUrl'),
+			template;
+		
+		try
+		{
 			template = _.result(this, 'template');
+		}
+		catch (e) {}
 		
 		if (!!templateUrl)
 		{
@@ -1170,7 +1202,7 @@ conbo.View = conbo.Bindable.extend
 		}
 		else
 		{
-			if (!!template && _.isSring(template))
+			if (!!template && _.isString(template))
 			{
 				this.html(template);
 			}
@@ -1490,16 +1522,22 @@ conbo.View = conbo.Bindable.extend
 		for (var key in events)
 		{
 			var method = events[key];
+			
 			if (!_.isFunction(method)) method = this[events[key]];
 			if (!method) throw new Error('Method "' + events[key] + '" does not exist');
+			
 			var match = key.match(/^(\S+)\s*(.*)$/);
 			var eventName = match[1], selector = match[2];
+			
 			method = _.bind(method, this);
 			eventName += '.delegateEvents' + this.cid;
 			
-			if (selector === '') {
+			if (selector === '') 
+			{
 				this.$el.on(eventName, method);
-			} else {
+			}
+			else
+			{
 				this.$el.on(eventName, selector, method);
 			}
 		}
@@ -1529,7 +1567,7 @@ conbo.View = conbo.Bindable.extend
 	 */
 	_cleanPropName: function(value)
 	{
-		return (value || '').replace(/[^\w,\.\[\]\'\"]/g, '');
+		return (value || '').replace(/[^\w\.]/g, '');
 	},
 	
 	/**
@@ -1848,4 +1886,4 @@ conbo.ServerApplication = conbo.Bindable.extend
 		window.conbo = create(window._, window.jQuery || window.Zepto || window.ender);
 	}
 	
-})(this);
+})(this, document);

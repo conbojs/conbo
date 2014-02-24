@@ -16,12 +16,21 @@ conbo.Model = conbo.Hash.extend
 	{
 		var defaults;
 		var attrs = attributes || {};
+		
 		options || (options = {});
+		
 		this.cid = _.uniqueId('c');
 		this._attributes = {};
+		
 		_.extend(this, _.pick(options, ['url','urlRoot','collection']));
-		if (options.parse) attrs = this.parse(attrs, options) || {};
+		
+		if (options.parse)
+		{
+			attrs = this.parse(attrs, options) || {};
+		}
+		
 		attrs = _.defaults({}, attrs, _.result(this, 'defaults'));
+		
 		this.set(attrs, options);
 		
 		this._inject(options);
@@ -92,7 +101,11 @@ conbo.Model = conbo.Hash.extend
 	set: function(key, val, options) 
 	{
 		var attr, attrs, unset, changes, silent, changing, prev, current;
-		if (key == null) return this;
+		
+		if (key == null)
+		{
+			return this;
+		}
 
 		// Handle both `"key", value` and `{key: value}` -style arguments.
 		if (typeof key === 'object')
@@ -108,7 +121,10 @@ conbo.Model = conbo.Hash.extend
 		options || (options = {});
 
 		// Run validation.
-		if (!this._validate(attrs, options)) return false;
+		if (!this._validate(attrs, options))
+		{
+			return false;
+		}
 		
 		// Extract attributes and options.
 		unset					 = options.unset;
@@ -116,27 +132,41 @@ conbo.Model = conbo.Hash.extend
 		changes				 = [];
 		changing				= this._changing;
 		this._changing	= true;
-			
+		
 		if (!changing) 
 		{
 			this._previousAttributes = _.clone(this._attributes);
 			this.changed = {};
 		}
-		current = this._attributes, prev = this._previousAttributes;
+		
+		current = this._attributes;
+		prev = this._previousAttributes;
 
 		// Check for changes of `id`.
-		if (this.idAttribute in attrs) this.id = attrs[this.idAttribute];
+		if (this.idAttribute in attrs)
+		{
+			this.id = attrs[this.idAttribute];
+		}
 
 		// For each `set` attribute, update or delete the current value.
 		for (attr in attrs) 
 		{
 			val = attrs[attr];
-			if (!_.isEqual(current[attr], val)) changes.push(attr);
-			if (!_.isEqual(prev[attr], val)) {
+			
+			if (!_.isEqual(current[attr], val)) 
+			{
+				changes.push(attr);
+			}
+			
+			if (!_.isEqual(prev[attr], val)) 
+			{
 				this.changed[attr] = val;
-			} else {
+			}
+			else 
+			{
 				delete this.changed[attr];
 			}
+			
 			unset ? delete current[attr] : current[attr] = val;
 		}
 		
@@ -159,12 +189,17 @@ conbo.Model = conbo.Hash.extend
 		
 		// You might be wondering why there's a `while` loop here. Changes can
 		// be recursively nested within `"change"` events.
-		if (changing) return this;
+		if (changing)
+		{
+			return this;
+		}
+		
 		if (!silent) 
 		{
 			while (this._pending) 
 			{
 				this._pending = false;
+				
 				this.trigger(new conbo.ConboEvent(conbo.ConboEvent.CHANGE,
 				{
 					model: this,
@@ -255,7 +290,9 @@ conbo.Model = conbo.Hash.extend
 	fetch: function(options) 
 	{
 		options = options ? _.clone(options) : {};
+		
 		if (options.parse === undefined) options.parse = true;
+		
 		var model = this;
 		var success = options.success;
 		
@@ -273,6 +310,7 @@ conbo.Model = conbo.Hash.extend
 		};
 		
 		wrapError(this, options);
+		
 		return this.sync('read', this, options);
 	},
 	
@@ -297,21 +335,31 @@ conbo.Model = conbo.Hash.extend
 		}
 
 		// If we're not waiting and attributes exist, save acts as `set(attr).save(null, opts)`.
-		if (attrs && (!options || !options.wait) && !this.set(attrs, options)) return false;
+		if (attrs && (!options || !options.wait) && !this.set(attrs, options)) 
+		{
+			return false;
+		}
 
 		options = _.extend({validate: true}, options);
 
 		// Do not persist invalid models.
-		if (!this._validate(attrs, options)) return false;
+		if (!this._validate(attrs, options)) 
+		{
+			return false;
+		}
 
 		// Set temporary attributes if `{wait: true}`.
-		if (attrs && options.wait) {
+		if (attrs && options.wait)
+		{
 			this._attributes = _.extend({}, attributes, attrs);
 		}
 
 		// After a successful server-side save, the client is (optionally)
 		// updated with the server-side state.
-		if (options.parse === undefined) options.parse = true;
+		if (options.parse === undefined) 
+		{
+			options.parse = true;
+		}
 			
 		var model = this;
 		var success = options.success;
@@ -320,13 +368,30 @@ conbo.Model = conbo.Hash.extend
 		{
 			// Ensure attributes are restored during synchronous saves.
 			model._attributes = attributes;
+			
 			var serverAttrs = model.parse(resp, options);
-			if (options.wait) serverAttrs = _.extend(attrs || {}, serverAttrs);
-			if (_.isObject(serverAttrs) && !model.set(serverAttrs, options)) {
+			
+			if (options.wait) 
+			{
+				serverAttrs = _.extend(attrs || {}, serverAttrs);
+			}
+			
+			if (_.isObject(serverAttrs) && !model.set(serverAttrs, options)) 
+			{
 				return false;
 			}
-			if (success) success(model, resp, options);
-			model.trigger('sync', model, resp, options);
+			
+			if (success) 
+			{
+				success(model, resp, options);
+			}
+			
+			model.trigger(new conbo.ConboEvent(conbo.ConboEvent.SYNC,
+			{
+				model: model,
+				response: resp, 
+				options: options
+			}));
 		};
 			
 		wrapError(this, options);
@@ -349,10 +414,11 @@ conbo.Model = conbo.Hash.extend
 	destroy: function(options) 
 	{
 		options = options ? _.clone(options) : {};
+		
 		var model = this;
 		var success = options.success;
-
-		var destroy = function() 
+		
+		var destroy = this.bind(function() 
 		{
 			this.trigger(new conbo.ConboEvent(conbo.ConboEvent.DESTROY,
 			{
@@ -360,23 +426,42 @@ conbo.Model = conbo.Hash.extend
 				collection: model.collection,
 				options: options
 			}));
-		};
+		});
 		
 		options.success = function(resp)
 		{
-			if (options.wait || model.isNew()) destroy();
-			if (success) success(model, resp, options);
-			if (!model.isNew()) model.trigger('sync', model, resp, options);
+			if (options.wait || model.isNew())
+			{
+				destroy();
+			}
+			
+			if (success) 
+			{
+				success(model, resp, options);
+			}
+			
+			if (!model.isNew()) 
+			{
+				model.trigger(new conbo.ConboEvent(conbo.ConboEvent.SYNC, 
+				{
+					model: model, 
+					response: resp, 
+					options: options
+				}));
+			}
 		};
-
-		if (this.isNew()) {
+		
+		if (this.isNew()) 
+		{
 			options.success();
 			return false;
 		}
+		
 		wrapError(this, options);
 
 		var xhr = this.sync('delete', this, options);
 		if (!options.wait) destroy();
+		
 		return xhr;
 	},
 
@@ -461,6 +546,12 @@ var wrapError = function (model, options)
 	options.error = function(resp) 
 	{
 		if (!!callback) callback(model, resp, options);
-		model.trigger(new conbo.ConboEvent('error', {model:model, response:resp, options:options}));
+		
+		model.trigger(new conbo.ConboEvent(conbo.ConboEvent.ERROR,
+		{
+			model:model, 
+			response:resp, 
+			options:options
+		}));
 	};
 };

@@ -42,8 +42,15 @@ conbo.Router = conbo.EventDispatcher.extend
 	 */ 
 	route: function(route, name, callback) 
 	{
-		if (!_.isRegExp(route)) route = this._routeToRegExp(route);
-		if (!callback) callback = this[name];
+		if (!_.isRegExp(route)) 
+		{
+			route = this._routeToRegExp(route);
+		}
+		
+		if (!callback) 
+		{
+			callback = this[name];
+		}
 		
 		if (_.isFunction(name)) 
 		{
@@ -51,7 +58,10 @@ conbo.Router = conbo.EventDispatcher.extend
 			name = '';
 		}
 		
-		if (!callback) callback = this[name];
+		if (!callback) 
+		{
+			callback = this[name];
+		}
 		
 		conbo.history.route(route, this.bind(function(fragment)
 		{
@@ -67,10 +77,9 @@ conbo.Router = conbo.EventDispatcher.extend
 			}
 			
 			this.trigger(new conbo.ConboEvent('route:'+name, options));
+			this.trigger(new conbo.ConboEvent(conbo.ConboEvent.ROUTE, options));
 			
-			var event = new conbo.ConboEvent(conbo.ConboEvent.ROUTE, options);
-			this.trigger(event);
-			conbo.history.trigger(event);
+			conbo.history.trigger(new conbo.ConboEvent(conbo.ConboEvent.ROUTE, options));
 		}));
 		
 		return this;

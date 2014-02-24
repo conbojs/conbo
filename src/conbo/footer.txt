@@ -30,4 +30,4 @@
 		window.conbo = create(window._, window.jQuery || window.Zepto || window.ender);
 	}
 	
-})(this);
+})(this, document);

@@ -5,7 +5,7 @@
  * 
  * @author		Neil Rackett
  */
-conbo.Event = conbo.Injectable.extend
+conbo.Event = conbo.Class.extend
 ({
 	//cancelBubble: false,
 	//defaultPrevented: false,

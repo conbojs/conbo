@@ -25,6 +25,22 @@ Unless you have a good reason for using Underscore.js, we recommend using Lo-Das
 
 In the future, dependencies will most likely be reduced to the point where they're either optional or only minimal custom builds are required.
 
+Extendible classes
+------------------
+
+There's no messing about with prototypes in Conbo.js, instead all of your classes extend from another, for example:
+
+```js
+var MyClass = conbo.Class.extend
+({
+	initialize: function()
+	{
+		console.log('Welcome to my class!');
+	}
+});
+```
+
+
 Builds
 ------
 

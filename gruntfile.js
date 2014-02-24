@@ -10,7 +10,9 @@ module.exports = function (grunt)
 				{
 					"temp/conbo.core.tmp":
 					[
-					 	"src/conbo/utils/polyfills.js",
+					 	"src/conbo/utils/native.js",
+					 	"src/conbo/utils/underscore.js",
+					 	"src/conbo/utils/jquery.js",
 					 	"src/conbo/core/Class.js",
 					 	"src/conbo/core/Injectable.js",
 						"src/conbo/events/Event.js",

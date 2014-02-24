@@ -20,6 +20,7 @@ conbo.ConboEvent = conbo.Event.extend
 		return 'conbo.ConboEvent';
 	}
 },
+// Static properties
 {
 	ERROR:		"error", 	// (Properties: model, xhr, options) — when a model's save call fails on the server.
 	INVALID:	"invalid", 	// (Properties: model, error, options) — when a model's validation fails on the client.

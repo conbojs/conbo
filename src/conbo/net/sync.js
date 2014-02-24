@@ -38,36 +38,50 @@ conbo.sync = function(method, model, options)
 	};
 
 	// Ensure that we have a URL.
-	if (!options.url) {
-		params.url = _.result(model, 'url') || urlError();
+	if (!options.url) 
+	{
+		var url = _.result(model, 'url');
+		if (!url) throw new Error('"url" must be specified');
+		params.url = url;
 	}
-
+	
 	// Ensure that we have the appropriate request data.
-	if (options.data == null && model && (method === 'create' || method === 'update' || method === 'patch')) {
+	if (options.data == null && model && (method === 'create' || method === 'update' || method === 'patch')) 
+	{
 		params.contentType = 'application/json';
 		params.data = JSON.stringify(options.attrs || model.toJSON(options));
 	}
 
 	// For older servers, emulate JSON by encoding the request into an HTML-form.
-	if (options.emulateJSON) {
+	if (options.emulateJSON)
+	{
 		params.contentType = 'application/x-www-form-urlencoded';
 		params.data = params.data ? {model: params.data} : {};
 	}
 
 	// For older servers, emulate HTTP by mimicking the HTTP method with `_method`
 	// And an `X-HTTP-Method-Override` header.
-	if (options.emulateHTTP && (type === 'PUT' || type === 'DELETE' || type === 'PATCH')) {
+	if (options.emulateHTTP && (type === 'PUT' || type === 'DELETE' || type === 'PATCH')) 
+	{
 		params.type = 'POST';
-		if (options.emulateJSON) params.data._method = type;
+		
+		if (options.emulateJSON)
+		{
+			params.data._method = type;
+		}
+		
 		var beforeSend = options.beforeSend;
-		options.beforeSend = function(xhr) {
+		
+		options.beforeSend = function(xhr) 
+		{
 			xhr.setRequestHeader('X-HTTP-Method-Override', type);
 			if (beforeSend) return beforeSend.apply(this, arguments);
 		};
 	}
 
 	// Don't process data on a non-GET request.
-	if (params.type !== 'GET' && !options.emulateJSON) {
+	if (params.type !== 'GET' && !options.emulateJSON) 
+	{
 		params.processData = false;
 	}
 	
@@ -82,15 +96,24 @@ conbo.sync = function(method, model, options)
 	// that still has ActiveX enabled by default, override jQuery to use that
 	// for XHR instead. Remove this line when jQuery supports `PATCH` on IE8.
 	if (params.type === 'PATCH' && window.ActiveXObject &&
-				!(window.external && window.external.msActiveXFilteringEnabled)) {
-		params.xhr = function() {
+		!(window.external && window.external.msActiveXFilteringEnabled)) 
+	{
+		params.xhr = function()
+		{
 			return new ActiveXObject("Microsoft.XMLHTTP");
 		};
 	}
 
 	// Make the request, allowing the user to override any Ajax options.
 	var xhr = options.xhr = conbo.ajax(_.extend(params, options));
-	model.trigger('request', model, xhr, options);
+	
+	model.trigger(new conbo.ConboEvent(conbo.ConboEvent.REQUEST,
+	{
+		model: model, 
+		xhr: xhr, 
+		options: options
+	}));
+	
 	return xhr;
 };
 

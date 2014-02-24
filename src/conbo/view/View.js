@@ -1,38 +1,3 @@
-/*
- * jQuery plug-ins and pseudo-selectors
- * @author		Neil Rackett
- */
-
-$.fn.cbData = function()
-{
-	var data = {},
-		attrs = this.get()[0].attributes,
-		count = 0;
-	
-	for (var i=0; i<attrs.length; ++i)
-	{
-		if (attrs[i].name.indexOf('cb-') != 0) continue;
-		var propertyName = attrs[i].name.substr(3).replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
-		data[propertyName] = attrs[i].value;
-		++count;
-	}
-	
-	return !!count ? data : undefined;
-}
-
-$.expr[':'].cbAttr = function(el, index, meta, stack)
-{
-	var $el = $(el),
-		args = meta[3].split(','),
-		cb = $el.cbData();
-	
-	if (!cb) return false;
-	if (!!cb && !args.length) return true;
-	if (!!args[0] && !args[1]) return cb.hasOwnProperty(args[0]);
-	if (!!args[0] && !!args[1]) return cb[args[0]] == args[1];
-	return false;
-};
-
 /**
  * List of view options to be merged as properties.
  */
@@ -78,7 +43,13 @@ conbo.View = conbo.Bindable.extend
 		this.initialize.apply(this, arguments);
 		
 		var templateUrl = _.result(this, 'templateUrl'),
+			template;
+		
+		try
+		{
 			template = _.result(this, 'template');
+		}
+		catch (e) {}
 		
 		if (!!templateUrl)
 		{
@@ -86,7 +57,7 @@ conbo.View = conbo.Bindable.extend
 		}
 		else
 		{
-			if (!!template && _.isSring(template))
+			if (!!template && _.isString(template))
 			{
 				this.html(template);
 			}
@@ -406,16 +377,22 @@ conbo.View = conbo.Bindable.extend
 		for (var key in events)
 		{
 			var method = events[key];
+			
 			if (!_.isFunction(method)) method = this[events[key]];
 			if (!method) throw new Error('Method "' + events[key] + '" does not exist');
+			
 			var match = key.match(/^(\S+)\s*(.*)$/);
 			var eventName = match[1], selector = match[2];
+			
 			method = _.bind(method, this);
 			eventName += '.delegateEvents' + this.cid;
 			
-			if (selector === '') {
+			if (selector === '') 
+			{
 				this.$el.on(eventName, method);
-			} else {
+			}
+			else
+			{
 				this.$el.on(eventName, selector, method);
 			}
 		}
@@ -445,7 +422,7 @@ conbo.View = conbo.Bindable.extend
 	 */
 	_cleanPropName: function(value)
 	{
-		return (value || '').replace(/[^\w,\.\[\]\'\"]/g, '');
+		return (value || '').replace(/[^\w\.]/g, '');
 	},
 	
 	/**

@@ -9,6 +9,12 @@ conbo.Class = function(options)
 
 conbo.Class.prototype =
 {
+	/**
+	 * Entry point
+	 * 
+	 * In most circumstances, custom classes should override initialize 
+	 * and use it as your class constructor
+	 */
 	initialize: function() {},
 	
 	/**
