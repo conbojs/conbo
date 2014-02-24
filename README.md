@@ -30,7 +30,7 @@ Extendible classes
 
 There's no messing about with prototypes in Conbo.js, instead all of your classes extend from another, for example:
 
-```js
+```javascript
 var MyClass = conbo.Class.extend
 ({
 	initialize: function()
@@ -40,6 +40,12 @@ var MyClass = conbo.Class.extend
 });
 ```
 
+Consistent event model
+----------------------
+
+You don't have to remember how many arguments each event handler should have, or in which order their in, because Conbo.js has a single, consistent event model that offers predictable results.
+
+All events fired by the framework are `conbo.ConboEvent` event objects, and you can easily create events of your own by using or extending the `conbo.Event` class in the same way you would extend any other.
 
 Builds
 ------
