@@ -21,7 +21,7 @@ Dependencies
 
 **Server-side**: Lo-Dash or Underscore.js 1.4+
 
-Unless you have a good reason for using Underscore.js, we recommend using Lo-Dash as we've found it's more consistent between releases (updates are generally drop-in replacements, Underscore.js not so much) and it supports AMD out of the box.
+We generally recommend Lo-Dash over Underscore.js because it supports AMD out of the box.
 
 In the future, dependencies will most likely be reduced to the point where they're either optional or only minimal custom builds are required.
 

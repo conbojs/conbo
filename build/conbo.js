@@ -27,7 +27,7 @@
 	{
 		var conbo = 
 		{
-			VERSION:'1.1.9',
+			VERSION:'1.1.10',
 			_:_, 
 			$:$,
 			
@@ -2147,23 +2147,32 @@ conbo.Model = conbo.Hash.extend
 	{
 		options = options ? _.clone(options) : {};
 		
-		if (options.parse === undefined) options.parse = true;
+		if (options.parse === undefined)
+		{
+			options.parse = true;
+		}
 		
-		var model = this;
 		var success = options.success;
 		
-		options.success = function(resp)
+		options.success = this.bind(function(resp)
 		{
-			if (!model.set(model.parse(resp, options), options)) return false;
-			if (success) success(model, resp, options);
-			
-			collection.trigger(new conbo.ConboEvent(conbo.ConboEvent.SYNC,
+			if (!this.set(this.parse(resp, options), options))
 			{
-				model:		model,
+				return false;
+			}
+			
+			if (!!success) 
+			{
+				success(this, resp, options);
+			}
+			
+			this.trigger(new conbo.ConboEvent(conbo.ConboEvent.SYNC,
+			{
+				model:		this,
 				response:	resp,
 				options:	options
 			}));
-		};
+		});
 		
 		wrapError(this, options);
 		
