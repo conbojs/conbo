@@ -137,8 +137,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * @param property			Property name to bind
 	 * @param element			DOM element to bind value to (two-way bind on input/form elements)
 	 * @param attributeName		The cb-* property to bind against in camelCase, e.g. "propName" for "cb-prop-name"
+	 * @param parseFunction		Optional method used to parse values before outputting as HTML
 	 */
-	bindAttribute: function(source, propertyName, element, attributeName)
+	bindAttribute: function(source, propertyName, element, attributeName, parseFunction)
 	{
 		if (!(source instanceof conbo.Bindable))
 		{
@@ -150,6 +151,11 @@ conbo.BindingUtils = conbo.Class.extend({},
 			throw new Error('element is undefined');
 		}
 		
+		parseFunction = parseFunction || function(value)
+		{
+			return value; 
+		};
+		
 		var isConbo = conbo.AttributeBindings.hasOwnProperty(attributeName),
 			isNative = element.hasOwnProperty(attributeName),
 			updateAttribute;
@@ -159,7 +165,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 		{
 			updateAttribute = function()
 			{
-				conbo.AttributeBindings[attributeName](source.get(propertyName), element);
+				conbo.AttributeBindings[attributeName](parseFunction(source.get(propertyName)), element);
 			}
 			
 			source.on('change:'+propertyName, updateAttribute);
@@ -170,13 +176,14 @@ conbo.BindingUtils = conbo.Class.extend({},
 		{
 			updateAttribute = function()
 			{
-				var value = _.isBoolean(element[attributeName])
-					? !!source.get(propertyName)
-					: source.get(propertyName);
+				var value;
+				
+				value = parseFunction(source.get(propertyName));
+				value = _.isBoolean(element[attributeName]) ? !!value : value;
 				
 				element[attributeName] = value;
 			}
-		             			
+		    
 			source.on('change:'+propertyName, updateAttribute);
 			updateAttribute();
 		}
@@ -209,18 +216,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 		var nestedViews = view.$('.cb-view'),
 			scope = this;
 		
-		/*
-		 * Apply bindElement
-		 */
-		
-		view.$('[cb-bind]').filter(function()
+		var getParameters = function(d, a)
 		{
-			return !nestedViews.find(this).length;
-		})
-		.each(function(index, el)
-		{
-			var d = view.$(el).cbData().bind,
-				b = d.split('|'),
+			var b = d.split('|'),
 				s = scope._cleanPropName(b[0]).split('.'),
 				p = s.pop(),
 				m,
@@ -242,7 +240,20 @@ conbo.BindingUtils = conbo.Class.extend({},
 			if (!m) throw new Error(b[0]+' is not defined in this View');
 			if (!p) throw new Error('Unable to bind to undefined property');
 			
-			scope.bindElement(m, p, el, f);
+			return [m, p].concat(a).concat([f]);
+		};
+		
+		/*
+		 * Apply bindElement
+		 */
+		
+		view.$('[cb-bind]').filter(function()
+		{
+			return !nestedViews.find(this).length;
+		})
+		.each(function(index, el)
+		{
+			scope.bindElement.apply(scope, getParameters(view.$(el).cbData().bind, [el]));
 		});
 		
 		/*
@@ -260,25 +271,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 			
 			keys.forEach(function(key)
 			{
-				//if (availableAttributes.indexOf(key) == -1) return;
-				
-				var d = cbData[key],
-					s = scope._cleanPropName(d).split('.'),
-					p = s.pop(),
-					m;
-			
-				try
-				{
-					m = !!s.length ? eval('view.'+s.join('.')) : view;
-				}
-				catch (e) {}
-				
-				if (!m) throw new Error(b[0]+' is not defined in this View');
-				if (!p) throw new Error('Unable to bind to undefined property: '+p);
-				
-				scope.bindAttribute(m, p, el, key);
-				
-			}, view);
+				scope.bindAttribute.apply(scope, getParameters(cbData[key], [el, key]));
+			}, 
+			view);
 		});
 	},
 	
