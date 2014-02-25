@@ -10,7 +10,11 @@ conbo.BindingUtils = conbo.Class.extend({},
 {
 	/**
 	 * Bind a property of a Bindable class instance (e.g. Map or Model) 
-	 * to a DOM element's value/content 
+	 * to a DOM element's value/content, using Conbo's best judgement to
+	 * work out how the value should be bound to the element.
+	 * 
+	 * This method of binding also allows for the use of a parse function,
+	 * which can be used to manipulate bound data in real time
 	 * 
 	 * @param source			Class instance which extends from conbo.Bindable (e.g. Hash or Model)
 	 * @param property			Property name to bind
@@ -121,8 +125,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 	},
 	
 	/**
-	 * Bind a DOM element's cb-* attribute to the property of a Bindable class
-	 * instance (e.g. Map or Model)
+	 * Bind a DOM element to the property of a Bindable class instance,
+	 * e.g. Hash or Model, using cb-* attributes to specify how the binding
+	 * should be made.
 	 * 
 	 * Two way bindings will automatically be applied where the attribute name 
 	 * matches a property on the target element, meaning your Bindable object 
@@ -146,6 +151,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 		}
 		
 		var isConbo = conbo.AttributeBindings.hasOwnProperty(attributeName),
+			isNative = element.hasOwnProperty(attributeName),
 			updateAttribute;
 		
 		// If we have a bespoke handler for this attribute, use it
@@ -159,8 +165,8 @@ conbo.BindingUtils = conbo.Class.extend({},
 			source.on('change:'+propertyName, updateAttribute);
 			updateAttribute();
 		}
-		// ... otherwise, is there a native element property we can bind to?
-		else if (element.hasOwnProperty(attributeName))
+		// ... otherwise, bind directly to the native property if there is one
+		else if (isNative)
 		{
 			updateAttribute = function()
 			{
@@ -170,14 +176,18 @@ conbo.BindingUtils = conbo.Class.extend({},
 				
 				element[attributeName] = value;
 			}
-			
-			element.addEventListener('change', function(event)
-  			{
-  				source.set(propertyName, element[attributeName]);
-  			});
 		             			
 			source.on('change:'+propertyName, updateAttribute);
 			updateAttribute();
+		}
+		
+		// If it's a native property, add a reverse binding too
+		if (isNative)
+		{
+			$(element).on('input change', function()
+   			{
+   				source.set(propertyName, element[attributeName]);
+   			});
 		}
 		
 		return this;
