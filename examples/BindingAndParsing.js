@@ -42,6 +42,13 @@
 		 */
 		myModel: undefined,
 		
+		/**
+		 * Creates some HTML for our view with 2 bindable DOM elements.
+		 * The format for cb-bind is "propertyToBindTo|functionParseData", where
+		 * the parse function is optional
+		 * 
+		 * @returns {this}
+		 */
 		render: function()
 		{
 			this.html('It cost <span cb-bind="myModel.price|parseCurrency" />? That\'s <span cb-bind="myModel.price|parseDescription" />!');
@@ -117,8 +124,6 @@
 		}
 	});
 	
-	var app = new MyApp();
-	
-	document.body.appendChild(app.el);
+	new MyApp({el:document.body});
 	
 })();

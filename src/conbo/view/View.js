@@ -200,7 +200,7 @@ conbo.View = conbo.Bindable.extend
 	 */
 	mouseEnabled: function(value)
 	{
-		return this._setClass.apply(this, _.union(['conbo-disabled'], _.toArray(arguments)));
+		return this._setClass.apply(this, _.union(['cb-disable'], _.toArray(arguments)));
 	},
 	
 	/**
@@ -210,7 +210,7 @@ conbo.View = conbo.Bindable.extend
 	 */
 	visible: function(value)
 	{
-		return this._setClass.apply(this, _.union(['conbo-invisible'], _.toArray(arguments)));
+		return this._setClass.apply(this, _.union(['cb-hide'], _.toArray(arguments)));
 	},
 	
 	/**
@@ -220,52 +220,18 @@ conbo.View = conbo.Bindable.extend
 	 */
 	includeInLayout: function(value)
 	{
-		return this._setClass.apply(this, _.union(['conbo-excludeFromLayout'], _.toArray(arguments)));
+		return this._setClass.apply(this, _.union(['cb-exclude'], _.toArray(arguments)));
 	},
 	
 	/**
 	 * Automatically bind elements to properties of this View
 	 * 
-	 * @example	<div cb-bind="name|parseMethod"></div> 
+	 * @example	<div cb-bind="property|parseMethod" cb-hide="property">Hello!</div> 
 	 * @returns	this
 	 */
 	bindView: function()
 	{
-		var nestedViews = this.$('.cb-view');
-		
-		this.$('[cb-bind]').filter(function()
-		{
-			return !nestedViews.find(this).length;
-		})
-		.each(this.bind(function(index, el)
-		{
-			var d = this.$(el).cbData().bind,
-				b = d.split('|'),
-				s = this._cleanPropName(b[0]).split('.'),
-				p = s.pop(),
-				m,
-				f;
-			
-			try
-			{
-				m = !!s.length ? eval('this.'+s.join('.')) : this;
-			}
-			catch (e) {}
-			
-			try
-			{
-				f = !!b[1] ? eval('this.'+this._cleanPropName(b[1])) : undefined;
-				f = _.isFunction(f) ? f : undefined;
-			}
-			catch (e) {}
-			
-			if (!m) throw new Error(b[0]+' is not defined in this View');
-			if (!p) throw new Error('Unable to bind to undefined property');
-			
-			conbo.BindingUtils.bindElement(m, p, el, f);
-			
-		}));
-		
+		conbo.BindingUtils.bindView(this);
 		return this;
 	},
 	
@@ -416,16 +382,6 @@ conbo.View = conbo.Bindable.extend
 	},
 	
 	/**
-	 * Remove everything except alphanumberic and dots from Strings
-	 * @param 		value
-	 * @returns		String
-	 */
-	_cleanPropName: function(value)
-	{
-		return (value || '').replace(/[^\w\.]/g, '');
-	},
-	
-	/**
 	 * TODO Put this elsewhere, but still enable user to inject $ manually
 	 * @private
 	 */
@@ -435,9 +391,9 @@ conbo.View = conbo.Bindable.extend
 		
 		var style = $(
 			'<style type="text/css">'+
-				'.conbo-invisible { visibility:hidden !important; }'+
-				'.conbo-excludeFromLayout { display:none !important; }'+
-				'.conbo-disabled { pointer-events:none !important; }'+
+				'.cb-hide { visibility:hidden !important; }'+
+				'.cb-exclude { display:none !important; }'+
+				'.cb-disable { pointer-events:none !important; cursor:default !important; }'+
 			'</style>');
 		
 		$('head').append(style);

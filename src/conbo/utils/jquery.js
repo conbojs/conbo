@@ -23,7 +23,7 @@ $.fn.cbData = function()
 $.expr[':'].cbAttr = function(el, index, meta, stack)
 {
 	var $el = $(el),
-		args = meta[3].split(','),
+		args = (meta[3] || '').split(','),
 		cb = $el.cbData();
 	
 	if (!cb) return false;

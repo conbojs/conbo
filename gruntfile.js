@@ -21,6 +21,7 @@ module.exports = function (grunt)
 						"src/conbo/core/Bindable.js",
 						"src/conbo/core/Context.js",
 						"src/conbo/data/Hash.js",
+						"src/conbo/utils/AttributeBindings.js",
 						"src/conbo/utils/BindingUtils.js",
 						"src/conbo/view/View.js",
 						"src/conbo/core/Application.js",

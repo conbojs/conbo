@@ -77,8 +77,6 @@
 		}
 	});
 	
-	var app = new MyApp();
-	
-	document.body.appendChild(app.el);
+	var app = new MyApp({el:document.body});
 	
 })();

@@ -12,7 +12,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * Bind a property of a Bindable class instance (e.g. Map or Model) 
 	 * to a DOM element's value/content 
 	 * 
-	 * @param source			Class instance which extends from conbo.Bindable (e.g. Map or Model)
+	 * @param source			Class instance which extends from conbo.Bindable (e.g. Hash or Model)
 	 * @param property			Property name to bind
 	 * @param element			DOM element to bind value to (two-way bind on input/form elements)
 	 * @param parseFunction		Optional method used to parse values before outputting as HTML
@@ -22,6 +22,11 @@ conbo.BindingUtils = conbo.Class.extend({},
 		if (!(source instanceof conbo.Bindable))
 		{
 			throw new Error('Source is not Bindable');
+		}
+		
+		if (!element)
+		{
+			throw new Error('element is undefined');
 		}
 		
 		parseFunction = parseFunction || function(value)
@@ -46,11 +51,11 @@ conbo.BindingUtils = conbo.Class.extend({},
 					{
 						case 'checkbox':
 						{
-							$el.prop('checked', Boolean(source.get(propertyName)));
+							$el.prop('checked', !!source.get(propertyName));
 							
 							source.on('change:'+propertyName, function(event)
 							{
-								$el.prop('checked', Boolean(event.value));
+								$el.prop('checked', !!event.value);
 							});
 							
 							$el.on('input change', function(event)
@@ -116,6 +121,174 @@ conbo.BindingUtils = conbo.Class.extend({},
 	},
 	
 	/**
+	 * Bind a DOM element's cb-* attribute to the property of a Bindable class
+	 * instance (e.g. Map or Model)
+	 * 
+	 * Two way bindings will automatically be applied where the attribute name 
+	 * matches a property on the target element, meaning your Bindable object 
+	 * will automatically be updated when the property changes.
+	 * 
+	 * @param source			Class instance which extends from conbo.Bindable (e.g. Hash or Model)
+	 * @param property			Property name to bind
+	 * @param element			DOM element to bind value to (two-way bind on input/form elements)
+	 * @param attributeName		The cb-* property to bind against in camelCase, e.g. "propName" for "cb-prop-name"
+	 */
+	bindAttribute: function(source, propertyName, element, attributeName)
+	{
+		if (!(source instanceof conbo.Bindable))
+		{
+			throw new Error('Source is not Bindable');
+		}
+		
+		if (!element)
+		{
+			throw new Error('element is undefined');
+		}
+		
+		var updateAttribute;
+		
+		// Bind to native element properties
+		if (element.hasOwnProperty(attributeName))
+		{
+			updateAttribute = function()
+			{
+				var value = _.isBoolean(element[attributeName])
+					? !!source.get(propertyName)
+					: source.get(propertyName);
+				
+				element[attributeName] = value;
+			}
+			
+			element.addEventListener('change', function(event)
+  			{
+  				source.set(propertyName, element[attributeName]);
+  			});
+		             			
+			source.on('change:'+propertyName, updateAttribute);
+			updateAttribute();
+		}
+		// Bind to bespoke attribute handler
+		else
+		{
+			if (!conbo.AttributeBindings.hasOwnProperty(attributeName))
+			{
+				return;
+			}
+			
+			updateAttribute = function()
+			{
+				conbo.AttributeBindings[attributeName](source.get(propertyName), element);
+			}
+			
+			source.on('change:'+propertyName, updateAttribute);
+			updateAttribute();
+		}
+		
+		return this;
+	},
+	
+	/**
+	 * Bind everything within the DOM scope of a View to the specified 
+	 * properties of Bindable class instances (e.g. Map or Model)
+	 * 
+	 * @param source			Class instance which extends from conbo.Bindable (e.g. Hash or Model)
+	 * @param property			Property name to bind
+	 * @param view				The View class controlling the element
+	 */
+	bindView: function(view)
+	{
+		if (!view)
+			throw new Error('view is undefined');
+		
+		var nestedViews = view.$('.cb-view'),
+			scope = this;
+		
+		/*
+		 * Apply bindElement
+		 */
+		
+		view.$('[cb-bind]').filter(function()
+		{
+			return !nestedViews.find(this).length;
+		})
+		.each(function(index, el)
+		{
+			var d = view.$(el).cbData().bind,
+				b = d.split('|'),
+				s = scope._cleanPropName(b[0]).split('.'),
+				p = s.pop(),
+				m,
+				f;
+			
+			try
+			{
+				m = !!s.length ? eval('view.'+s.join('.')) : view;
+			}
+			catch (e) {}
+			
+			try
+			{
+				f = !!b[1] ? eval('view.'+scope._cleanPropName(b[1])) : undefined;
+				f = _.isFunction(f) ? f : undefined;
+			}
+			catch (e) {}
+			
+			if (!m) throw new Error(b[0]+' is not defined in this View');
+			if (!p) throw new Error('Unable to bind to undefined property');
+			
+			scope.bindElement(m, p, el, f);
+		});
+		
+		/*
+		 * Apply bindAttribute
+		 */
+		
+		view.$('*').each(function(index, el)
+		{
+			if (nestedViews.find(el).length) return;
+			
+			var cbData = $(el).cbData();
+			if (!cbData) return;
+			
+			var keys = _.keys(cbData);
+			
+			keys.forEach(function(key)
+			{
+				//if (availableAttributes.indexOf(key) == -1) return;
+				
+				var d = cbData[key],
+					s = scope._cleanPropName(d).split('.'),
+					p = s.pop(),
+					m;
+			
+				try
+				{
+					m = !!s.length ? eval('view.'+s.join('.')) : view;
+				}
+				catch (e) {}
+				
+				if (!m) throw new Error(b[0]+' is not defined in this View');
+				if (!p) throw new Error('Unable to bind to undefined property: '+p);
+				
+				scope.bindAttribute(m, p, el, key);
+				
+			}, view);
+		});
+	},
+	
+	/**
+	 * Remove everything except alphanumberic and dots from Strings
+	 * 
+	 * @private
+	 * @param 		value
+	 * @returns		String
+	 */
+	_cleanPropName: function(value)
+	{
+		return (value || '').replace(/[^\w\.]/g, '');
+	},
+	
+	/**
 	 * Bind the property of one Bindable class instance (e.g. Map or Model) to another
 	 * 
 	 * @param source					Class instance which extends conbo.Bindable
@@ -142,7 +315,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 		});
 		
 		if (twoWay && destination instanceof conbo.Bindable)
+		{
 			this.bindProperty(destination, destinationPropertyName, source, sourcePropertyName);
+		}
 		
 		return this;
 	},
