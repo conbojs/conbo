@@ -1154,10 +1154,22 @@ conbo.BindingUtils = conbo.Class.extend({},
 			throw new Error('element is undefined');
 		}
 		
-		var updateAttribute;
+		var isConbo = conbo.AttributeBindings.hasOwnProperty(attributeName),
+			updateAttribute;
 		
-		// Bind to native element properties
-		if (element.hasOwnProperty(attributeName))
+		// If we have a bespoke handler for this attribute, use it
+		if (isConbo)
+		{
+			updateAttribute = function()
+			{
+				conbo.AttributeBindings[attributeName](source.get(propertyName), element);
+			}
+			
+			source.on('change:'+propertyName, updateAttribute);
+			updateAttribute();
+		}
+		// ... otherwise, is there a native element property we can bind to?
+		else if (element.hasOwnProperty(attributeName))
 		{
 			updateAttribute = function()
 			{
@@ -1173,22 +1185,6 @@ conbo.BindingUtils = conbo.Class.extend({},
   				source.set(propertyName, element[attributeName]);
   			});
 		             			
-			source.on('change:'+propertyName, updateAttribute);
-			updateAttribute();
-		}
-		// Bind to bespoke attribute handler
-		else
-		{
-			if (!conbo.AttributeBindings.hasOwnProperty(attributeName))
-			{
-				return;
-			}
-			
-			updateAttribute = function()
-			{
-				conbo.AttributeBindings[attributeName](source.get(propertyName), element);
-			}
-			
 			source.on('change:'+propertyName, updateAttribute);
 			updateAttribute();
 		}
