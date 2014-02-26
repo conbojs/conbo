@@ -603,7 +603,7 @@ var methods =
 // Mix in each available Underscore/Lo-Dash method as a proxy to `Collection#models`.
 _.each(methods, function(method) 
 {
-	if (!_.has(_, method)) return;
+	if (!(method in _)) return;
 	
 	conbo.Collection.prototype[method] = function() 
 	{
@@ -619,7 +619,7 @@ var attributeMethods = ['groupBy', 'countBy', 'sortBy'];
 // Use attributes instead of properties.
 _.each(attributeMethods, function(method)
 {
-	if (!_.has(_, method)) return;
+	if (!(method in _)) return;
 	
 	conbo.Collection.prototype[method] = function(value, context) 
 	{

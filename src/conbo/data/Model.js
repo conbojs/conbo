@@ -240,9 +240,9 @@ conbo.Model = conbo.Hash.extend
 	hasChanged: function(attr) 
 	{
 		if (attr == null) return !_.isEmpty(this.changed);
-		return _.has(this.changed, attr);
+		return attr in this.changed;
 	},
-
+	
 	/**
 	 * Return an object containing all the attributes that have changed, or
 	 * false if there are no changed attributes. Useful for determining what
