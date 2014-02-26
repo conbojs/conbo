@@ -13,6 +13,7 @@ module.exports = function (grunt)
 					 	"src/conbo/utils/native.js",
 					 	"src/conbo/utils/underscore.js",
 					 	"src/conbo/utils/jquery.js",
+					 	"src/conbo/utils/css.js",
 					 	"src/conbo/core/Class.js",
 					 	"src/conbo/core/Injectable.js",
 						"src/conbo/events/Event.js",
@@ -44,7 +45,7 @@ module.exports = function (grunt)
 						"temp/conbo.core.tmp",
 						"src/conbo/footer.txt"
 					],
-						
+					
 					"build/conbo.js":
 					[
 						"src/conbo/header.txt",

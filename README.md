@@ -5,7 +5,9 @@ Conbo.js is a lightweight MVC application framework for JavaScript featuring ext
 
 Conbo.js enables JavaScript developers a take a structured, decoupled, class based approach to application development, in a way that should be be familiar to anyone with experience of languages like ActionScript or Java.
 
-Development of Conbo.js is currently focussed on its use in client side apps, including single page applications (SPA) and self-contained modules like widgets and media players, where it can be used stand-alone or as an AMD module. However, it can also be used with Node.js on the server (NPM installer coming soon).
+Development of Conbo.js is currently focussed on its use in client side apps, including single page applications (SPA) and self-contained modules like widgets and media players, where it can be used stand-alone or as an AMD module.
+
+While Conbo.js offers a great base for server-side Node.js applications, and we've created a specific ServerApplication class for this purpose, this is not a core development focus at present.
 
 Brief History
 -------------
@@ -13,17 +15,6 @@ Brief History
 Conbo started life as a [con]text and [con]troller add-on for Back[bo]ne.js, but as more of Backbone.js was removed, replaced or updated, the project took on a life of its own and what remained of Backbone.js was merged in, and Conbo.js was born.
 
 With the exception of the base Class and parts of View, the Core release of Conbo.js contains now very little code derived from Backbone.js, although we have largely retained method syntax for consistency.
-
-Dependencies
-------------
-
-**Client-side**: jQuery 1.7+, Lo-Dash or Underscore.js 1.4+
-
-**Server-side**: Lo-Dash or Underscore.js 1.4+
-
-We generally recommend Lo-Dash over Underscore.js because it supports AMD out of the box.
-
-In the future, dependencies will most likely be reduced to the point where they're either optional or only minimal custom builds are required.
 
 Extendible classes
 ------------------
@@ -40,12 +31,52 @@ var MyClass = conbo.Class.extend
 });
 ```
 
+Decoupling & data binding
+-------------------------
+
+One of Conbo.js's core aims is to enable developers to create highly decoupled, testable code.
+
+To this end, the framework's ever expanding data binding features enable you to separate your HTML from your JavaScript, removing the need for direct references between the them by using `cb-*` attributes to automatically bind properties and events in the DOM to your View classes, for example:
+
+**In your View class**
+
+```javascript
+example.MyView = conbo.View.extend
+({
+	myButtonLabel: 'Click me!',
+	
+	myClickHandler: function(event)
+	{
+		alert('You clicked a button!');
+	}
+});
+```
+
+**In your HTML**
+
+```html
+<div cb-view="MyView">
+	<button cb-click="myClickHandler" cb-html="myButtonLabel"></button>
+</div>
+```
+
 Consistent event model
 ----------------------
 
 You don't have to remember how many arguments each event handler should have, or in which order their in, because Conbo.js has a single, consistent event model that offers predictable results.
 
 All events fired by the framework are `conbo.ConboEvent` event objects, and you can easily create events of your own by using or extending the `conbo.Event` class in the same way you would extend any other.
+
+Dependencies
+------------
+
+**Client-side**: jQuery 1.7+, Lo-Dash or Underscore.js 1.4+
+
+**Server-side**: Lo-Dash or Underscore.js 1.4+
+
+We generally recommend Lo-Dash over Underscore.js because it supports AMD out of the box.
+
+In the future, dependencies will most likely be reduced to the point where they're either optional or only minimal custom builds are required.
 
 Builds
 ------
