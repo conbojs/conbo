@@ -56,7 +56,7 @@ example.MyView = conbo.View.extend
 
 ```html
 <div cb-view="MyView">
-	<button cb-click="myClickHandler" cb-html="myButtonLabel"></button>
+	<button cb-onclick="myClickHandler" cb-html="myButtonLabel"></button>
 </div>
 ```
 

@@ -44,7 +44,7 @@
 		myValue: "I love binding!",
 		
 		/**
-		 * Event handler that's bound to the DOM using cb-click
+		 * Event handler that's bound to the DOM using cb-onclick
 		 */
 		myClick: function(event)
 		{

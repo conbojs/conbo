@@ -27,7 +27,7 @@
 	{
 		var conbo = 
 		{
-			VERSION:'1.2.4',
+			VERSION:'1.2.5',
 			_:_, 
 			$:$,
 			
@@ -289,7 +289,7 @@ conbo.Class.extend = function(protoProps, staticProps)
 	 * (the "constructor" property in your `extend` definition), or defaulted
 	 * by us to simply call the parent's constructor.
 	 */
-	child = protoProps && 'constructor' in protoProps
+	child = protoProps && _.has(protoProps, 'constructor')
 		? protoProps.constructor
 		: function(){ return parent.apply(this, arguments); };
 	
@@ -1202,21 +1202,6 @@ conbo.BindingUtils = conbo.Class.extend({},
 			return this;
 		}
 		
-		var isProperty = attributeName in conbo.AttributeBindings,
-			isEvent = 'on'+attributeName in element,
-			isNative = attributeName in element,
-			updateAttribute;
-		
-		if (!isProperty && isEvent && !_.isFunction(source[propertyName]))
-		{
-			throw new Error('DOM events can only be bound to functions');
-		}
-		
-		if (!isEvent && !(source instanceof conbo.Bindable))
-		{
-			throw new Error('Source is not Bindable');
-		}
-		
 		if (!element)
 		{
 			throw new Error('element is undefined');
@@ -1228,6 +1213,28 @@ conbo.BindingUtils = conbo.Class.extend({},
 			return this;
 		}
 		
+		var isConbo = false,
+			isNative = false,
+			updateAttribute;
+		
+		var split = attributeName.replace(/([A-Z])/g, ' $1').toLowerCase().split(' ');
+		
+		switch (true)
+		{
+			case split[0] == 'attr':
+			{
+				attributeName = attributeName.substr(4);
+				isNative = attributeName in element;
+				break;
+			}
+			
+			default:
+			{
+				isConbo = attributeName in conbo.AttributeBindings;
+				isNative = !isConbo && attributeName in element;
+			}
+		}
+		
 		parseFunction = parseFunction || function(value)
 		{
 			return value; 
@@ -1236,8 +1243,13 @@ conbo.BindingUtils = conbo.Class.extend({},
 		switch (true)
 		{
 			// If we have a bespoke handler for this attribute, use it
-			case isProperty:
+			case isConbo:
 			{
+				if (!(source instanceof conbo.Bindable))
+				{
+					throw new Error('Source is not Bindable');
+				}
+				
 				updateAttribute = function()
 				{
 					conbo.AttributeBindings[attributeName](parseFunction(source.get(propertyName)), element);
@@ -1249,39 +1261,55 @@ conbo.BindingUtils = conbo.Class.extend({},
 				break;
 			}
 			
-			// ... if it's an event, add a listener
-			case isEvent:
-			{
-				$(element).on(attributeName.toLowerCase(), source[propertyName]);
-				return this;
-			}
-			
-			// ... otherwise, bind directly to the native property if there is one
 			case isNative:
 			{
-				updateAttribute = function()
+				switch (true)
 				{
-					var value;
+					// If it's an event, add a listener
+					case attributeName.indexOf('on') == 0:
+					{
+						if (!_.isFunction(source[propertyName]))
+						{
+							throw new Error('DOM events can only be bound to functions');
+						}
+						
+						$(element).on(attributeName.substr(2), source[propertyName]);
+						return this;
+					}
 					
-					value = parseFunction(source.get(propertyName));
-					value = _.isBoolean(element[attributeName]) ? !!value : value;
-					
-					element[attributeName] = value;
+					// ... otherwise, bind to the native property
+					default:
+					{
+						if (!(source instanceof conbo.Bindable))
+						{
+							throw new Error('Source is not Bindable');
+						}
+						
+						updateAttribute = function()
+						{
+							var value;
+							
+							value = parseFunction(source.get(propertyName));
+							value = _.isBoolean(element[attributeName]) ? !!value : value;
+							
+							element[attributeName] = value;
+						}
+					    
+						source.on('change:'+propertyName, updateAttribute);
+						updateAttribute();
+						
+						$(element).on('input change', function()
+		     			{
+		     				source.set(propertyName, element[attributeName]);
+		     			});
+						
+						break;
+					}
 				}
-			    
-				source.on('change:'+propertyName, updateAttribute);
-				updateAttribute();
 				
 				break;
 			}
-		}
-		// If it's a native property, add a reverse binding too
-		if (isNative)
-		{
-			$(element).on('input change', function()
-   			{
-   				source.set(propertyName, element[attributeName]);
-   			});
+			
 		}
 		
 		return this;

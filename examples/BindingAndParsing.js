@@ -51,7 +51,7 @@
 		 */
 		render: function()
 		{
-			this.html('It cost <span cb-bind="myModel.price|parseCurrency" />? That\'s <span cb-bind="myModel.price|parseDescription" />!');
+			this.html('It cost <span cb-html="myModel.price|parseCurrency" />? That\'s <span cb-html="myModel.price|parseDescription" />!');
 			return this;
 		},
 		
