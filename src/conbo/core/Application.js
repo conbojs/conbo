@@ -74,8 +74,11 @@ conbo.Application = conbo.View.extend
 		
 		this.$(selector).each(this.bind(function(index, el)
 		{
-			var view = this.$(el).cbData().view.replace(this._addPrefix(), ''),
-				viewClass = this.namespace()[view];
+			var view = this.$(el).cbData().view.replace(this._addPrefix(), '');
+			
+			var viewClass = !!this.namespace()
+				? this.namespace()[view]
+				: eval(view);
 			
 			if (!_.isFunction(viewClass)) 
 			{

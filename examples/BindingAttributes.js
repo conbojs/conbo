@@ -30,27 +30,26 @@
 	
 	app.MyView = conbo.View.extend
 	({
-		tagName: 'div',
-		
 		/**
 		 * Properties with a value of undefined that have been mapped to 
 		 * singletons in the context are automatically injected
+		 * 
+		 * Properties of this model can be bound using the magic of cb-* attributes
 		 */
 		myModel: undefined,
 		
+		/**
+		 * Value that's bound to the DOM using cb-value
+		 */
 		myValue: "I love binding!",
 		
-		render: function()
+		/**
+		 * Event handler that's bound to the DOM using cb-click
+		 */
+		myClick: function(event)
 		{
-			var html =
-				'<label><input type="checkbox" cb-checked="myModel.selected" cb-value="myValue"> Tick the box to toggle text visibility</label>'+
-				'<h1 cb-hide="myModel.selected">Not selected :-(</h1>'+
-				'<h1 cb-show="myModel.selected">SELECTED! :-)</h1>';
-			
-			this.html(html);
-			return this;
+			alert("WOW! No code needed!");
 		}
-	
 	});
 	
 	app.MyApp = conbo.Application.extend
@@ -61,16 +60,8 @@
 		 * if not specified
 		 */
 		contextClass: app.MyContext,
-		
-		/**
-		 * Entry point
-		 */
-		initialize: function()
-		{
-			this.appendView(new app.MyView(this.context().addTo()));
-		}
 	});
 	
-	new app.MyApp({el:document.body});
+	new app.MyApp({namespace:app});
 	
 })();

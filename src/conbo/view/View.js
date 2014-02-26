@@ -124,7 +124,9 @@ conbo.View = conbo.Bindable.extend
 	 */
 	setElement: function(element, delegate)
 	{
-		if (this.$el)
+		var isReplacement = !!this.$el;
+		
+		if (isReplacement)
 		{
 			this.undelegateEvents()
 				.unbindView();
@@ -133,9 +135,12 @@ conbo.View = conbo.Bindable.extend
 		this.$el = $(element);
 		this.el = this.$el[0];
 		
-		if (delegate !== false) this.delegateEvents();
+		if (delegate !== false)
+		{
+			this.delegateEvents();
+		}
 		
-		if (!(this instanceof conbo.Application))
+		if (isReplacement && !(this instanceof conbo.Application))
 		{
 			this.bindView();
 		}

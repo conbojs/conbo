@@ -41,5 +41,4 @@ conbo.AttributeBindings = conbo.Class.extend({},
 	{
 		$(el).html(value);
 	}
-	
 });

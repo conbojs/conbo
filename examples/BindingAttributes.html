@@ -1,12 +1,24 @@
 <!DOCTYPE html>
 <html>
+	
 	<head>
 		<title>Conbo.js - Binding Attributes</title>
 	</head>
-	<body>
+	
+	<body cb-app="MyApp">
+	
+		<div cb-view="MyView">
+			<p><label><input type="checkbox" cb-checked="myModel.selected" cb-value="myValue"> Tick the box to toggle text visibility</label></p>
+			<h1 cb-hide="myModel.selected">Not selected :-(</h1>
+			<h1 cb-show="myModel.selected">SELECTED! :-)</h1>
+			<p><button cb-click="myClick">Click me!</button></p>
+		</div>
+		
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
 		<script src="../build/conbo.js"></script>
 		<script src="BindingAttributes.js"></script>
+		
 	</body>
+
 </html>

@@ -16,10 +16,14 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * This method of binding also allows for the use of a parse function,
 	 * which can be used to manipulate bound data in real time
 	 * 
-	 * @param source			Class instance which extends from conbo.Bindable (e.g. Hash or Model)
-	 * @param property			Property name to bind
-	 * @param element			DOM element to bind value to (two-way bind on input/form elements)
-	 * @param parseFunction		Optional method used to parse values before outputting as HTML
+	 * @param 		{conbo.Bindable}	source			Class instance which extends from conbo.Bindable (e.g. Hash or Model)
+	 * @param 		{String} 			propertyName	Property name to bind
+	 * @param 		{DOMElement} 		element			DOM element to bind value to (two-way bind on input/form elements)
+	 * @param 		{Function}			parseFunction	Optional method used to parse values before outputting as HTML
+	 * 
+	 * @deprecated						Use bindAttribute
+	 * @see								bindAttribute
+	 * @returns		{this}
 	 */
 	bindElement: function(source, propertyName, element, parseFunction)
 	{
@@ -133,15 +137,29 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * matches a property on the target element, meaning your Bindable object 
 	 * will automatically be updated when the property changes.
 	 * 
-	 * @param source			Class instance which extends from conbo.Bindable (e.g. Hash or Model)
-	 * @param property			Property name to bind
-	 * @param element			DOM element to bind value to (two-way bind on input/form elements)
-	 * @param attributeName		The cb-* property to bind against in camelCase, e.g. "propName" for "cb-prop-name"
-	 * @param parseFunction		Optional method used to parse values before outputting as HTML
+	 * @param 	{conbo.Bindable}	source			Class instance which extends from conbo.Bindable (e.g. Hash or Model)
+	 * @param 	{String}			propertyName	Property name to bind
+	 * @param 	{DOMElement}		element			DOM element to bind value to (two-way bind on input/form elements)
+	 * @param 	{String}			attributeName	The cb-* property to bind against in camelCase, e.g. "propName" for "cb-prop-name"
+	 * @param 	{Function} 			parseFunction	Optional method used to parse values before outputting as HTML
+	 * 
+	 * @returns	{this}
 	 */
 	bindAttribute: function(source, propertyName, element, attributeName, parseFunction)
 	{
-		if (!(source instanceof conbo.Bindable))
+		if (this._isReservedAttribute(attributeName))
+		{
+			return this;
+		}
+		
+		var isEvent = this._isEvent(attributeName);
+		
+		if (isEvent && !_.isFunction(source[propertyName]))
+		{
+			throw new Error('DOM events can only be bound to functions');
+		}
+		
+		if (!isEvent && !(source instanceof conbo.Bindable))
 		{
 			throw new Error('Source is not Bindable');
 		}
@@ -151,43 +169,63 @@ conbo.BindingUtils = conbo.Class.extend({},
 			throw new Error('element is undefined');
 		}
 		
+		if (attributeName == "bind")
+		{
+			this.bindElement(source, propertyName, element, parseFunction);
+			return this;
+		}
+		
 		parseFunction = parseFunction || function(value)
 		{
 			return value; 
 		};
 		
-		var isConbo = conbo.AttributeBindings.hasOwnProperty(attributeName),
+		var isProperty = conbo.AttributeBindings.hasOwnProperty(attributeName),
 			isNative = element.hasOwnProperty(attributeName),
 			updateAttribute;
 		
-		// If we have a bespoke handler for this attribute, use it
-		if (isConbo)
+		switch (true)
 		{
-			updateAttribute = function()
+			// If we have a bespoke handler for this attribute, use it
+			case isProperty:
 			{
-				conbo.AttributeBindings[attributeName](parseFunction(source.get(propertyName)), element);
+				updateAttribute = function()
+				{
+					conbo.AttributeBindings[attributeName](parseFunction(source.get(propertyName)), element);
+				}
+				
+				source.on('change:'+propertyName, updateAttribute);
+				updateAttribute();
+				
+				break;
 			}
 			
-			source.on('change:'+propertyName, updateAttribute);
-			updateAttribute();
-		}
-		// ... otherwise, bind directly to the native property if there is one
-		else if (isNative)
-		{
-			updateAttribute = function()
+			// ... if it's an event, add a listener
+			case isEvent:
 			{
-				var value;
-				
-				value = parseFunction(source.get(propertyName));
-				value = _.isBoolean(element[attributeName]) ? !!value : value;
-				
-				element[attributeName] = value;
+				$(element).on(attributeName.toLowerCase(), source[propertyName]);
+				return this;
 			}
-		    
-			source.on('change:'+propertyName, updateAttribute);
-			updateAttribute();
+			
+			// ... otherwise, bind directly to the native property if there is one
+			case isNative:
+			{
+				updateAttribute = function()
+				{
+					var value;
+					
+					value = parseFunction(source.get(propertyName));
+					value = _.isBoolean(element[attributeName]) ? !!value : value;
+					
+					element[attributeName] = value;
+				}
+			    
+				source.on('change:'+propertyName, updateAttribute);
+				updateAttribute();
+				
+				break;
+			}
 		}
-		
 		// If it's a native property, add a reverse binding too
 		if (isNative)
 		{
@@ -204,66 +242,25 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * Bind everything within the DOM scope of a View to the specified 
 	 * properties of Bindable class instances (e.g. Map or Model)
 	 * 
-	 * @param source			Class instance which extends from conbo.Bindable (e.g. Hash or Model)
-	 * @param property			Property name to bind
-	 * @param view				The View class controlling the element
+	 * @param 	{conbo.View}		view		The View class controlling the element
+	 * @returns	{this}
 	 */
 	bindView: function(view)
 	{
 		if (!view)
+		{
 			throw new Error('view is undefined');
+		}
 		
-		var nestedViews = view.$('.cb-view'),
+		var nestedViews = view.$('.cb-view, [cb-view]'),
 			scope = this;
 		
-		var getParameters = function(d, a)
-		{
-			var b = d.split('|'),
-				s = scope._cleanPropName(b[0]).split('.'),
-				p = s.pop(),
-				m,
-				f;
-			
-			try
-			{
-				m = !!s.length ? eval('view.'+s.join('.')) : view;
-			}
-			catch (e) {}
-			
-			try
-			{
-				f = !!b[1] ? eval('view.'+scope._cleanPropName(b[1])) : undefined;
-				f = _.isFunction(f) ? f : undefined;
-			}
-			catch (e) {}
-			
-			if (!m) throw new Error(b[0]+' is not defined in this View');
-			if (!p) throw new Error('Unable to bind to undefined property');
-			
-			return [m, p].concat(a).concat([f]);
-		};
-		
-		/*
-		 * Apply bindElement
-		 */
-		
-		view.$('[cb-bind]').filter(function()
+		view.$('*').filter(function()
 		{
 			return !nestedViews.find(this).length;
 		})
 		.each(function(index, el)
 		{
-			scope.bindElement.apply(scope, getParameters(view.$(el).cbData().bind, [el]));
-		});
-		
-		/*
-		 * Apply bindAttribute
-		 */
-		
-		view.$('*').each(function(index, el)
-		{
-			if (nestedViews.find(el).length) return;
-			
 			var cbData = $(el).cbData();
 			if (!cbData) return;
 			
@@ -271,32 +268,45 @@ conbo.BindingUtils = conbo.Class.extend({},
 			
 			keys.forEach(function(key)
 			{
-				scope.bindAttribute.apply(scope, getParameters(cbData[key], [el, key]));
-			}, 
-			view);
+				var d = cbData[key],
+					b = d.split('|'),
+					s = scope._cleanPropName(b[0]).split('.'),
+					p = s.pop(),
+					m,
+					f;
+				
+				try
+				{
+					m = !!s.length ? eval('view.'+s.join('.')) : view;
+				}
+				catch (e) {}
+				
+				try
+				{
+					f = !!b[1] ? eval('view.'+scope._cleanPropName(b[1])) : undefined;
+					f = _.isFunction(f) ? f : undefined;
+				}
+				catch (e) {}
+				
+				if (!m) throw new Error(b[0]+' is not defined in this View');
+				if (!p) throw new Error('Unable to bind to undefined property: '+p);
+				
+				scope.bindAttribute(m, p, el, key, f);
+				
+			}, view);
 		});
-	},
-	
-	/**
-	 * Remove everything except alphanumberic and dots from Strings
-	 * 
-	 * @private
-	 * @param 		value
-	 * @returns		String
-	 */
-	_cleanPropName: function(value)
-	{
-		return (value || '').replace(/[^\w\.]/g, '');
 	},
 	
 	/**
 	 * Bind the property of one Bindable class instance (e.g. Map or Model) to another
 	 * 
-	 * @param source					Class instance which extends conbo.Bindable
-	 * @param sourcePropertyName		String
-	 * @param destination				Object or class instance which extends conbo.Bindable
-	 * @param destinationPropertyName	String (default: sourcePropertyName)
-	 * @param twoWay					Boolean (default: false)
+	 * @param 	{conbo.Bindable}	source						Class instance which extends conbo.Bindable
+	 * @param 	{String}			sourcePropertyName			Source property name
+	 * @param 	{any}				destination					Object or class instance which extends conbo.Bindable
+	 * @param 	{String}			destinationPropertyName		Optional (default: sourcePropertyName)
+	 * @param 	{Boolean}			twoWay						Optional (default: false)
+	 * 
+	 * @returns	{this}
 	 */
 	bindProperty: function(source, sourcePropertyName, destination, destinationPropertyName, twoWay)
 	{
@@ -327,9 +337,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * Call a setter function when the specified property of a Bindable 
 	 * class instance (e.g. Map or Model) is changed
 	 * 
-	 * @param source			Class instance which extends from conbo.Bindable
-	 * @param propertyName
-	 * @param setterFunction
+	 * @param 	{conbo.Bindable}	source				Class instance which extends conbo.Bindable
+	 * @param 	{String}			propertyName
+	 * @param 	{Function}			setterFunction
 	 */
 	bindSetter: function(source, propertyName, setterFunction)
 	{
@@ -352,5 +362,58 @@ conbo.BindingUtils = conbo.Class.extend({},
 	toString: function()
 	{
 		return 'conbo.BindingUtils';
+	},
+	
+	/**
+	 * Bindable events
+	 * TODO Add as many as possible!
+	 * @private
+	 */
+	_events: 
+	[
+		'click', 'dblclick', 
+		'mousedown', 'mouseup', 'mouseenter', 'mouseleave', 'mousemove', 
+		'keydown', 'keypress', 'keyup',
+		'focus', 'blur'
+	],
+	
+	/**
+	 * Is the specified String a supported event?
+	 * @param {String}	value
+	 */
+	_isEvent: function(value)
+	{
+		return this._events.indexOf(value.toLowerCase()) != -1;
+	},
+	
+	/**
+	 * Reserved attributes
+	 * @private
+	 */
+	_reservedAttributes: ['app', 'view'],
+	
+	/**
+	 * Is the specified attribute reserved for another purpose?
+	 * 
+	 * @private
+	 * @param 		{String}	value
+	 * @returns		{Boolean}
+	 */
+	_isReservedAttribute: function(value)
+	{
+		this._reservedAttributes.indexOf(value) != -1;
+	},
+	
+	/**
+	 * Remove everything except alphanumberic and dots from Strings
+	 * 
+	 * @private
+	 * @param 		{String}	view		String value to clean
+	 * @returns		{String}
+	 */
+	_cleanPropName: function(value)
+	{
+		return (value || '').replace(/[^\w\.]/g, '');
 	}
+	
 });
