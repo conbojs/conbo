@@ -335,8 +335,9 @@ conbo.View = conbo.Bindable.extend
 	 * This only works for delegate-able events: not `focus`, `blur`, and
 	 * not `change`, `submit`, and `reset` in Internet Explorer.
 	 * 
-	 * @param	events
-	 * @returns this
+	 * @deprecated	Use cb-* attributes and bindView() instead
+	 * @param		events
+	 * @returns 	this
 	 */
 	delegateEvents: function(events) 
 	{

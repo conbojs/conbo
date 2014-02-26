@@ -1203,8 +1203,8 @@ conbo.BindingUtils = conbo.Class.extend({},
 		}
 		
 		var isProperty = conbo.AttributeBindings.hasOwnProperty(attributeName),
-			isEvent = this._isEvent(attributeName, element),
-			isNative = this._isNative(attributeName, element),
+			isEvent = 'on'+attributeName in element,
+			isNative = attributeName in element,
 			updateAttribute;
 		
 		if (!isProperty && isEvent && !_.isFunction(source[propertyName]))
@@ -1423,50 +1423,6 @@ conbo.BindingUtils = conbo.Class.extend({},
 	toString: function()
 	{
 		return 'conbo.BindingUtils';
-	},
-	
-	/**
-	 * Is the specified String a supported event?
-	 * @param 	{String}	value
-	 * @returns	{Boolean}
-	 */
-	_isEvent: function(value, el)
-	{
-		if (!value) return false;
-		
-		value = value.toLowerCase();
-		
-		for (var a in el)
-		{
-		    if (a.indexOf('on') == -1) continue; 
-		    if (a.substr(2) == value) return true;
-		}
-		
-		return false;
-	},
-	
-	/**
-	 * Is the specified String a native property?
-	 * It's not ideal, but hasOwnProperty doesn't work in IE
-	 * 
-	 * @param 	{String}	value
-	 * @returns	{Boolean}
-	 */
-	_isNative: function(value, el)
-	{
-		// Fine in everything except IE
-		if (el.hasOwnProperty(value))
-		{
-			return true;
-		}
-		
-		// IE
-		for (var a in el)
-		{
-		    if (a == value) return true;
-		}
-		
-		return false;
 	},
 	
 	/**
@@ -1826,8 +1782,9 @@ conbo.View = conbo.Bindable.extend
 	 * This only works for delegate-able events: not `focus`, `blur`, and
 	 * not `change`, `submit`, and `reset` in Internet Explorer.
 	 * 
-	 * @param	events
-	 * @returns this
+	 * @deprecated	Use cb-* attributes and bindView() instead
+	 * @param		events
+	 * @returns 	this
 	 */
 	delegateEvents: function(events) 
 	{
