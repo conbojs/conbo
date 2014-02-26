@@ -169,7 +169,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			throw new Error('element is undefined');
 		}
 		
-		if (attributeName == "bind")
+		if (attributeName == "bind" || attributeName == "model")
 		{
 			this.bindElement(source, propertyName, element, parseFunction);
 			return this;
