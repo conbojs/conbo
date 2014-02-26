@@ -37,5 +37,5 @@ if (!Object.prototype.hasOwnProperty)
 	Object.prototype.hasOwnProperty = function(prop) 
 	{
 		return _.has(this, prop);
-	};
+	}; 
 }

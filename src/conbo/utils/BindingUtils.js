@@ -152,9 +152,12 @@ conbo.BindingUtils = conbo.Class.extend({},
 			return this;
 		}
 		
-		var isEvent = this._isEvent(attributeName);
+		var isProperty = conbo.AttributeBindings.hasOwnProperty(attributeName),
+			isEvent = this._isEvent(attributeName, element),
+			isNative = this._isNative(attributeName, element),
+			updateAttribute;
 		
-		if (isEvent && !_.isFunction(source[propertyName]))
+		if (!isProperty && isEvent && !_.isFunction(source[propertyName]))
 		{
 			throw new Error('DOM events can only be bound to functions');
 		}
@@ -179,10 +182,6 @@ conbo.BindingUtils = conbo.Class.extend({},
 		{
 			return value; 
 		};
-		
-		var isProperty = conbo.AttributeBindings.hasOwnProperty(attributeName),
-			isNative = element.hasOwnProperty(attributeName),
-			updateAttribute;
 		
 		switch (true)
 		{
@@ -270,7 +269,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			{
 				var d = cbData[key],
 					b = d.split('|'),
-					s = scope._cleanPropName(b[0]).split('.'),
+					s = scope.cleanPropertyName(b[0]).split('.'),
 					p = s.pop(),
 					m,
 					f;
@@ -283,7 +282,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 				
 				try
 				{
-					f = !!b[1] ? eval('view.'+scope._cleanPropName(b[1])) : undefined;
+					f = !!b[1] ? eval('view.'+scope.cleanPropertyName(b[1])) : undefined;
 					f = _.isFunction(f) ? f : undefined;
 				}
 				catch (e) {}
@@ -359,31 +358,65 @@ conbo.BindingUtils = conbo.Class.extend({},
 		return this;
 	},
 	
+	/**
+	 * Remove everything except alphanumberic and dots from Strings
+	 * 
+	 * @private
+	 * @param 		{String}	view		String value to clean
+	 * @returns		{String}
+	 */
+	cleanPropertyName: function(value)
+	{
+		return (value || '').replace(/[^\w\.]/g, '');
+	},
+	
 	toString: function()
 	{
 		return 'conbo.BindingUtils';
 	},
 	
 	/**
-	 * Bindable events
-	 * TODO Add as many as possible!
-	 * @private
+	 * Is the specified String a supported event?
+	 * @param 	{String}	value
+	 * @returns	{Boolean}
 	 */
-	_events: 
-	[
-		'click', 'dblclick', 
-		'mousedown', 'mouseup', 'mouseenter', 'mouseleave', 'mousemove', 
-		'keydown', 'keypress', 'keyup',
-		'focus', 'blur'
-	],
+	_isEvent: function(value, el)
+	{
+		if (!value) return false;
+		
+		value = value.toLowerCase();
+		
+		for (var a in el)
+		{
+		    if (a.indexOf('on') == -1) continue; 
+		    if (a.substr(2) == value) return true;
+		}
+		
+		return false;
+	},
 	
 	/**
-	 * Is the specified String a supported event?
-	 * @param {String}	value
+	 * Is the specified String a native property?
+	 * It's not ideal, but hasOwnProperty doesn't work in IE
+	 * 
+	 * @param 	{String}	value
+	 * @returns	{Boolean}
 	 */
-	_isEvent: function(value)
+	_isNative: function(value, el)
 	{
-		return this._events.indexOf(value.toLowerCase()) != -1;
+		// Fine in everything except IE
+		if (el.hasOwnProperty(value))
+		{
+			return true;
+		}
+		
+		// IE
+		for (var a in el)
+		{
+		    if (a == value) return true;
+		}
+		
+		return false;
 	},
 	
 	/**
@@ -402,18 +435,6 @@ conbo.BindingUtils = conbo.Class.extend({},
 	_isReservedAttribute: function(value)
 	{
 		this._reservedAttributes.indexOf(value) != -1;
-	},
-	
-	/**
-	 * Remove everything except alphanumberic and dots from Strings
-	 * 
-	 * @private
-	 * @param 		{String}	view		String value to clean
-	 * @returns		{String}
-	 */
-	_cleanPropName: function(value)
-	{
-		return (value || '').replace(/[^\w\.]/g, '');
 	}
 	
 });
