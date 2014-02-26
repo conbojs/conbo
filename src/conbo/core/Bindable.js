@@ -52,7 +52,7 @@ conbo.Bindable = conbo.EventDispatcher.extend
 		
 		if (options.unset)
 		{
-			changed = _.has(a, attributes);
+			changed = (attributes in a);
 			delete a[attributes];
 		}
 		else if (_.isFunction(a[attributes]))

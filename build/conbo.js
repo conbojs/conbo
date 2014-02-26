@@ -289,7 +289,7 @@ conbo.Class.extend = function(protoProps, staticProps)
 	 * (the "constructor" property in your `extend` definition), or defaulted
 	 * by us to simply call the parent's constructor.
 	 */
-	child = protoProps && _.has(protoProps, 'constructor')
+	child = protoProps && !!_.has(protoProps, 'constructor')
 		? protoProps.constructor
 		: function(){ return parent.apply(this, arguments); };
 	
@@ -699,7 +699,7 @@ conbo.Bindable = conbo.EventDispatcher.extend
 		
 		if (options.unset)
 		{
-			changed = _.has(a, attributes);
+			changed = (attributes in a);
 			delete a[attributes];
 		}
 		else if (_.isFunction(a[attributes]))
@@ -996,7 +996,7 @@ var hashMethods = ['keys', 'values', 'pairs', 'invert', 'pick', 'omit', 'size'];
 //Mix in each available Lo-Dash/Underscore method as a proxy to `Model#attributes`.
 _.each(hashMethods, function(method)
 {
-	if (!_.has(_, method)) return;
+	if (!(method in _)) return;
 	
 	conbo.Hash.prototype[method] = function() 
 	{
@@ -1396,7 +1396,11 @@ conbo.BindingUtils = conbo.Class.extend({},
 		
 		if (!_.isFunction(setterFunction))
 		{
-			if (!setterFunction || !_.has(setterFunction, propertyName)) throw new Error('Invalid setter function');
+			if (!setterFunction || !(propertyName in setterFunction))
+			{
+				throw new Error('Invalid setter function');
+			}
+			
 			setterFunction = setterFunction[propertyName];
 		}
 		
@@ -2341,7 +2345,7 @@ conbo.Model = conbo.Hash.extend
 	hasChanged: function(attr) 
 	{
 		if (attr == null) return !_.isEmpty(this.changed);
-		return _.has(this.changed, attr);
+		return attr in this.changed;
 	},
 
 	/**
@@ -3271,7 +3275,7 @@ var methods =
 // Mix in each available Underscore/Lo-Dash method as a proxy to `Collection#models`.
 _.each(methods, function(method) 
 {
-	if (!_.has(_, method)) return;
+	if (!(method in _)) return;
 	
 	conbo.Collection.prototype[method] = function() 
 	{
@@ -3287,7 +3291,7 @@ var attributeMethods = ['groupBy', 'countBy', 'sortBy'];
 // Use attributes instead of properties.
 _.each(attributeMethods, function(method)
 {
-	if (!_.has(_, method)) return;
+	if (!(method in _)) return;
 	
 	conbo.Collection.prototype[method] = function(value, context) 
 	{

@@ -346,7 +346,11 @@ conbo.BindingUtils = conbo.Class.extend({},
 		
 		if (!_.isFunction(setterFunction))
 		{
-			if (!setterFunction || !_.has(setterFunction, propertyName)) throw new Error('Invalid setter function');
+			if (!setterFunction || !(propertyName in setterFunction))
+			{
+				throw new Error('Invalid setter function');
+			}
+			
 			setterFunction = setterFunction[propertyName];
 		}
 		

@@ -45,7 +45,7 @@ var hashMethods = ['keys', 'values', 'pairs', 'invert', 'pick', 'omit', 'size'];
 //Mix in each available Lo-Dash/Underscore method as a proxy to `Model#attributes`.
 _.each(hashMethods, function(method)
 {
-	if (!_.has(_, method)) return;
+	if (!(method in _)) return;
 	
 	conbo.Hash.prototype[method] = function() 
 	{
