@@ -152,7 +152,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			return this;
 		}
 		
-		var isProperty = conbo.AttributeBindings.hasOwnProperty(attributeName),
+		var isProperty = attributeName in conbo.AttributeBindings,
 			isEvent = 'on'+attributeName in element,
 			isNative = attributeName in element,
 			updateAttribute;

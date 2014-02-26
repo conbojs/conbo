@@ -74,9 +74,9 @@ if (!String.prototype.trim)
 
 if (!Object.prototype.hasOwnProperty) 
 {
-	Object.prototype.hasOwnProperty = function(prop) 
+	Object.prototype.hasOwnProperty = function(value) 
 	{
-		return _.has(this, prop);
+		return value in this;
 	}; 
 }
 
@@ -129,7 +129,7 @@ $.expr[':'].cbAttr = function(el, index, meta, stack)
 	
 	if (!cb) return false;
 	if (!!cb && !args.length) return true;
-	if (!!args[0] && !args[1]) return cb.hasOwnProperty(args[0]);
+	if (!!args[0] && !args[1]) return args[0] in cb;
 	if (!!args[0] && !!args[1]) return cb[args[0]] == args[1];
 	return false;
 };
@@ -891,7 +891,7 @@ conbo.Context = conbo.EventDispatcher.extend
 		{
 			if (obj[a] !== undefined) continue;
 			
-			if (this._singletons.hasOwnProperty(a))
+			if (a in this._singletons)
 			{
 				obj[a] = this._singletons[a];
 			}
@@ -1202,7 +1202,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			return this;
 		}
 		
-		var isProperty = conbo.AttributeBindings.hasOwnProperty(attributeName),
+		var isProperty = attributeName in conbo.AttributeBindings,
 			isEvent = 'on'+attributeName in element,
 			isNative = attributeName in element,
 			updateAttribute;

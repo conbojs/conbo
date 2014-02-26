@@ -34,8 +34,8 @@ if (!String.prototype.trim)
 
 if (!Object.prototype.hasOwnProperty) 
 {
-	Object.prototype.hasOwnProperty = function(prop) 
+	Object.prototype.hasOwnProperty = function(value) 
 	{
-		return _.has(this, prop);
+		return value in this;
 	}; 
 }

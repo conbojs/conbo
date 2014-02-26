@@ -28,7 +28,7 @@ $.expr[':'].cbAttr = function(el, index, meta, stack)
 	
 	if (!cb) return false;
 	if (!!cb && !args.length) return true;
-	if (!!args[0] && !args[1]) return cb.hasOwnProperty(args[0]);
+	if (!!args[0] && !args[1]) return args[0] in cb;
 	if (!!args[0] && !!args[1]) return cb[args[0]] == args[1];
 	return false;
 };

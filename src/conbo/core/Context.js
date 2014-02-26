@@ -134,7 +134,7 @@ conbo.Context = conbo.EventDispatcher.extend
 		{
 			if (obj[a] !== undefined) continue;
 			
-			if (this._singletons.hasOwnProperty(a))
+			if (a in this._singletons)
 			{
 				obj[a] = this._singletons[a];
 			}
