@@ -111,7 +111,7 @@ conbo.Class.extend = function(protoProps, staticProps)
 	 * (the "constructor" property in your `extend` definition), or defaulted
 	 * by us to simply call the parent's constructor.
 	 */
-	child = protoProps && _.has(protoProps, 'constructor')
+	child = protoProps && 'constructor' in protoProps
 		? protoProps.constructor
 		: function(){ return parent.apply(this, arguments); };
 	

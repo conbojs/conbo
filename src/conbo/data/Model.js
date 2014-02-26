@@ -242,7 +242,7 @@ conbo.Model = conbo.Hash.extend
 		if (attr == null) return !_.isEmpty(this.changed);
 		return attr in this.changed;
 	},
-
+	
 	/**
 	 * Return an object containing all the attributes that have changed, or
 	 * false if there are no changed attributes. Useful for determining what

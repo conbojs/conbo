@@ -289,7 +289,7 @@ conbo.Class.extend = function(protoProps, staticProps)
 	 * (the "constructor" property in your `extend` definition), or defaulted
 	 * by us to simply call the parent's constructor.
 	 */
-	child = protoProps && !!_.has(protoProps, 'constructor')
+	child = protoProps && 'constructor' in protoProps
 		? protoProps.constructor
 		: function(){ return parent.apply(this, arguments); };
 	
@@ -2347,7 +2347,7 @@ conbo.Model = conbo.Hash.extend
 		if (attr == null) return !_.isEmpty(this.changed);
 		return attr in this.changed;
 	},
-
+	
 	/**
 	 * Return an object containing all the attributes that have changed, or
 	 * false if there are no changed attributes. Useful for determining what
