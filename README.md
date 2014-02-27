@@ -76,8 +76,6 @@ Dependencies
 
 We generally recommend Lo-Dash over Underscore.js because it supports AMD out of the box.
 
-In the future, dependencies will most likely be reduced to the point where they're either optional or only minimal custom builds are required.
-
 Builds
 ------
 
@@ -87,4 +85,4 @@ Builds
 
 Builds are created using Grunt, which requires Node.js; all required modules can be installed by running "npm install" from the command line in the project folder.
 
-The builds listed above can be created using the command "grunt". Use "grunt watch", or run watch.cmd, to auto-build as you edit.
+The builds listed above can be created using the command "grunt". Use "grunt watch", or run watch.cmd (Windows) or ./watch.sh (Mac, Linux) to auto-build as you edit.

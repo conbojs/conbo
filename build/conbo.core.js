@@ -1332,11 +1332,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 		var nestedViews = view.$('.cb-view, [cb-view]'),
 			scope = this;
 		
-		view.$('*').filter(function()
-		{
-			return !nestedViews.find(this).length;
-		})
-		.each(function(index, el)
+		var bind = function(index, el)
 		{
 			var cbData = $(el).cbData();
 			if (!cbData) return;
@@ -1369,9 +1365,16 @@ conbo.BindingUtils = conbo.Class.extend({},
 				if (!p) throw new Error('Unable to bind to undefined property: '+p);
 				
 				scope.bindAttribute(m, p, el, key, f);
-				
-			}, view);
-		});
+			});
+		};
+		
+		bind(-1, view.el);
+		
+		view.$('*').filter(function()
+		{
+			return !nestedViews.find(this).length;
+		})
+		.each(bind);
 	},
 	
 	/**
