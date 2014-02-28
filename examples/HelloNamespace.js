@@ -18,11 +18,7 @@
 	
 	example.MyView = conbo.View.extend
 	({
-		render: function()
-		{
-			this.el.innerHTML = "Hello Namespace!";
-			return this;
-		}
+		template: 'Hello Namespace!'
 	});
 	
 	new example.MyApp({namespace:example});

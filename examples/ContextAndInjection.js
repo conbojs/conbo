@@ -77,6 +77,6 @@
 		}
 	});
 	
-	var app = new MyApp({el:document.body});
+	new MyApp({el:document.body});
 	
 })();

@@ -24,8 +24,8 @@
 		favoriteColor: 'blue',
 		
 		/**
-		 * URL of template to load
-		 * Could also be passed in via options.templateUrl or loaded using this.load('url/of/my.html');
+		 * HTML templates can be loaded by adding a templateUrl property to your
+		 * class, passing options.templateUrl or loaded a URL using this.load('url/of/my.html');
 		 */
 		templateUrl: 'HelloTemplate-MyLoadedView.html',
 		
@@ -39,7 +39,8 @@
 		favoriteColor: 'pink',
 		
 		/**
-		 * HTML template
+		 * HTML templates can be added directly to your class using the templat
+		 * property or passing in options.template to your constructor
 		 */
 		template: '<p>This is an internal template whose favourite colour is <span cb-bind="favoriteColor"></span></p>',
 		

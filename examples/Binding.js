@@ -1,11 +1,13 @@
 /**
  * Binding example for Conbo.js
+ * 
  * @author	Neil Rackett
  */
 (function()
 {
 	/**
-	 * Switch conbo.Hash for conbo.Model if you need web services
+	 * Switch conbo.Hash (available in Core build) for conbo.Model (requires 
+	 * Complete build) if you need web services
 	 */
 	var MyModel = conbo.Hash.extend
 	({
@@ -31,27 +33,10 @@
 		tagName: 'p',
 		
 		/**
-		 * Properties with a value of undefined that have been mapped to 
-		 * singletons in the context are automatically injected
+		 * cb-bind is Conbo's simplest form of data binding, automatically
+		 * detecting the best way to bind your data to the element
 		 */
-		myModel: undefined,
-		
-		render: function()
-		{
-			this.html('My name is <input type="text" cb-bind="myModel.name" />');
-			return this;
-		},
-		
-		toString: function()
-		{
-			return 'InputView';
-		}
-
-	});
-	
-	var OutputView = conbo.View.extend
-	({
-		tagName: 'h1',
+		template: 'My name is <input type="text" cb-bind="myModel.name" />',
 		
 		/**
 		 * Properties with a value of undefined that have been mapped to 
@@ -61,15 +46,25 @@
 		
 		render: function()
 		{
-			this.html('Hello <span><span><span cb-bind="myModel.name" /></span></span>!');
 			return this;
-		},
-		
-		toString: function()
-		{
-			return 'OutputView';
 		}
+	});
 	
+	var OutputView = conbo.View.extend
+	({
+		tagName: 'h1',
+		
+		/**
+		 * cb-bind is Conbo's simplest form of data binding, automatically
+		 * detecting the best way to bind your data to the element
+		 */
+		template: 'Hello <span cb-bind="myModel.name" />!',
+		
+		/**
+		 * Properties with a value of undefined that have been mapped to 
+		 * singletons in the context are automatically injected
+		 */
+		myModel: undefined,
 	});
 	
 	var MyApp = conbo.Application.extend
@@ -91,16 +86,9 @@
 				new InputView(this.context().addTo()), 
 				new OutputView(this.context().addTo())
 			);
-		},
-		
-		toString: function()
-		{
-			return 'MyApp';
 		}
 	});
 	
-	var app = new MyApp();
-	
-	document.body.appendChild(app.el);
+	new MyApp({el:document.body});
 	
 })();

@@ -8,15 +8,13 @@
 {
 	var MyApp = conbo.Application.extend
 	({
-		render: function()
-		{
-			this.el.innerHTML = "Hello World!";
-			return this;
-		}
+		template: 'Hello World!'
 	});
 	
-	var app = new MyApp();
-	
-	document.body.appendChild(app.el);
+	/**
+	 * Passing el to the constructor will automatically add your
+	 * application to that element
+	 */
+	new MyApp({el:document.body});
 	
 })();
