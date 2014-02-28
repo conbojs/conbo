@@ -61,7 +61,7 @@ conbo.Injectable = conbo.Class.extend
 			return this;
 		}
 		
-		this.context.addTo(value);
+		this.context().addTo(value);
 		return value;
 	}
 });

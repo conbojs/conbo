@@ -59,12 +59,12 @@ conbo.Class.prototype =
 	 */
 	defineAccessor: function(name, getter, setter, initialValue)
 	{
-		getter = getter || function() { return this['_'+name]; };
-		setter = setter || function(value) { this['_'+name] = value; return this; };
+		getter || (getter = function() { return this['_'+name]; });
+		setter || (setter = function(value) { this['_'+name] = value; return this; });
 		
 		this[name] = function()
 		{
-			return (arguments.length ? setter : getter).apply(this, arguments);
+			return (!!arguments.length ? setter : getter).apply(this, arguments);
 		};
 		
 		if (initialValue !== undefined)
