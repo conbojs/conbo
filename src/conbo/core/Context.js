@@ -122,6 +122,12 @@ conbo.Context = conbo.EventDispatcher.extend
 	 */
 	addTo: function(obj)
 	{
+		if (obj instanceof conbo.Injectable)
+		{
+			obj.context(this);
+			return obj;
+		}
+		
 		return _.extend(obj || {}, {context:this});
 	},
 	
