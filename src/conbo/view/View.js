@@ -1,21 +1,4 @@
 /**
- * List of view options to be merged as properties.
- */
-var viewOptions = 
-[
-	'model', 
-	'collection', 
-	'el', 
-	'id', 
-	'attributes', 
-	'className', 
-	'tagName', 
-	'events',
-	'template',
-	'templateUrl'
-];
-
-/**
  * View
  * 
  * Creating a conbo.View creates its initial element outside of the DOM,
@@ -63,7 +46,6 @@ conbo.View = conbo.Bindable.extend
 			
 			this.render();
 			this.bindView();
-			this.delegateEvents();
 		}
 	},
 	
@@ -118,28 +100,21 @@ conbo.View = conbo.Bindable.extend
 	},
 	
 	/**
-	 * Change the view's element (`this.el` property), including event
-	 * re-delegation.
+	 * Change the view's element (`this.el` property) and re-bind events
 	 */
-	setElement: function(element, delegate)
+	setElement: function(element)
 	{
 		var isReplacement = !!this.$el;
 		
 		if (isReplacement)
 		{
-			this.undelegateEvents()
-				.unbindView();
+			this.unbindView();
 		}
 		
 		this.$el = $(element);
 		this.el = this.$el[0];
 		
-		if (delegate !== false)
-		{
-			this.delegateEvents();
-		}
-		
-		if (isReplacement && !(this instanceof conbo.Application))
+		if (isReplacement)// && !(this instanceof conbo.Application))
 		{
 			this.bindView();
 		}
@@ -198,36 +173,6 @@ conbo.View = conbo.Bindable.extend
 	},
 	
 	/**
-	 * Enables or disabled mouse/touch interaction with this view
-	 * @param 	value	Boolean
-	 * @returns
-	 */
-	mouseEnabled: function(value)
-	{
-		return this._setClass.apply(this, _.union(['cb-disable'], _.toArray(arguments)));
-	},
-	
-	/**
-	 * Hides view, but takes up the same space as before
-	 * @param 		value	Boolean
-	 * @returns		
-	 */
-	visible: function(value)
-	{
-		return this._setClass.apply(this, _.union(['cb-hide'], _.toArray(arguments)));
-	},
-	
-	/**
-	 * Hide view and display as if the element is not there
-	 * @param value
-	 * @returns
-	 */
-	includeInLayout: function(value)
-	{
-		return this._setClass.apply(this, _.union(['cb-exclude'], _.toArray(arguments)));
-	},
-	
-	/**
 	 * Automatically bind elements to properties of this View
 	 * 
 	 * @example	<div cb-bind="property|parseMethod" cb-hide="property">Hello!</div> 
@@ -245,23 +190,22 @@ conbo.View = conbo.Bindable.extend
 	 */
 	unbindView: function() 
 	{
-		// TODO Implement unbindView()
+		conbo.BindingUtils.unbindView(this);
 		return this;
 	},
 	
 	/**
 	 * Loads HTML content into this.el
 	 * 
-	 * @param 	url			A string containing the URL to which the request is sent
-	 * @param 	data		A plain object or string that is sent to the server with the request
-	 * @param 	complete	Callback in format function(responseText, textStatus, xmlHttpRequest)
+	 * @param 	{String}	url			A string containing the URL to which the request is sent
+	 * @param 	{Object}	data		A plain object or string that is sent to the server with the request
+	 * @param 	{Function} 	callback	Callback in format function(responseText, textStatus, xmlHttpRequest)
 	 * 
 	 * @see					https://api.jquery.com/load/
 	 */
 	load: function(url, data, callbackFunction)
 	{
 		this.unbindView();
-		this.undelegateEvents();
 		
 		var completeHandler = this.bind(function(response, status, xhr)
 		{
@@ -271,17 +215,18 @@ conbo.View = conbo.Bindable.extend
 			
 			this.render();
 			this.bindView();
-			this.delegateEvents();
 		});
 		
 		this.$el.load(url, data, completeHandler);
 	},
 	
 	/**
-	 * Loads a CSS and apply it
-	 * @param	url		The URL of the CSS
+	 * Loads a CSS and apply it to the DOM
+	 * 
+	 * @param 	{String}	url			A string containing the URL to which the request is sent
+	 * @param 	{Function} 	callback	Callback in format function(success)
 	 */
-	loadCSS: function(url, callback)
+	loadCSS: function(url, callbackFunction)
 	{
 		if (!('document' in window)) return this;
 		
@@ -299,7 +244,7 @@ conbo.View = conbo.Bindable.extend
 				{
 					clearInterval(successInterval);
 					clearTimeout(errorTimeout);
-					callback(true);
+					callbackFunction(true);
 				}
 			}
 			catch(e) {}
@@ -310,7 +255,7 @@ conbo.View = conbo.Bindable.extend
 			clearInterval(successInterval);
 			clearTimeout(errorTimeout);
 			$link.remove();
-			callback(false);
+			callbackFunction(false);
 		}, 15000);
 		
 		$('head').append($link);
@@ -318,73 +263,26 @@ conbo.View = conbo.Bindable.extend
 		return this;
 	},
 	
-	/**
-	 * Set callbacks, where `this.events` is a hash of
-	 * 
-	 * *{"event selector": "callback"}*
-	 *
-	 *     {
-	 *       'mousedown .title':  'edit',
-	 *       'click .button':     'save'
-	 *       'click .open':       function(e) { ... }
-	 *     }
-	 *
-	 * pairs. Callbacks will be bound to the view, with `this` set properly.
-	 * Uses event delegation for efficiency.
-	 * Omitting the selector binds the event to `this.el`.
-	 * This only works for delegate-able events: not `focus`, `blur`, and
-	 * not `change`, `submit`, and `reset` in Internet Explorer.
-	 * 
-	 * @deprecated	Use cb-* attributes and bindView() instead
-	 * @param		events
-	 * @returns 	this
-	 */
-	delegateEvents: function(events) 
-	{
-		if (!(events || (events = _.result(this, 'events')))) return;
-		
-		this.undelegateEvents();
-		
-		for (var key in events)
-		{
-			var method = events[key];
-			
-			if (!_.isFunction(method)) method = this[events[key]];
-			if (!method) throw new Error('Method "' + events[key] + '" does not exist');
-			
-			var match = key.match(/^(\S+)\s*(.*)$/);
-			var eventName = match[1], selector = match[2];
-			
-			method = _.bind(method, this);
-			eventName += '.delegateEvents' + this.cid;
-			
-			if (selector === '') 
-			{
-				this.$el.on(eventName, method);
-			}
-			else
-			{
-				this.$el.on(eventName, selector, method);
-			}
-		}
-		return this;
-	},
-	
-	/**
-	 * Clears all callbacks previously bound to the view with `delegateEvents`.
-	 * You usually don't need to use this, but may wish to if you have multiple
-	 * conbo views attached to the same DOM element.
-	 */
-	undelegateEvents: function() 
-	{
-		this.$el.off('.delegateEvents' + this.cid);
-		return this;
-	},
-	
 	toString: function()
 	{
 		return 'conbo.View';
 	},
+	
+	/**
+	 * List of view options to be merged as properties.
+	 */
+	_viewOptions: 
+	[
+		'model', 
+		'collection', 
+		'el', 
+		'id', 
+		'attributes', 
+		'className', 
+		'tagName', 
+		'template',
+		'templateUrl'
+	],	
 	
 	/**
 	 * Performs the initial configuration of a View with a set of options.
@@ -396,7 +294,7 @@ conbo.View = conbo.Bindable.extend
 	_configure: function(options) 
 	{
 		if (this.options) options = _.extend({}, _.result(this, 'options'), options);
-		_.extend(this, _.pick(options, viewOptions));
+		_.extend(this, _.pick(options, this._viewOptions));
 		this.options = options;
 	},
 	
@@ -416,37 +314,16 @@ conbo.View = conbo.Bindable.extend
 			if (this.id) attrs.id = _.result(this, 'id');
 			if (this.className) attrs['class'] = _.result(this, 'className');
 			var $el = $('<' + _.result(this, 'tagName') + '>').attr(attrs);
-			this.setElement($el, false);
+			this.setElement($el);
 		}
 		else 
 		{
-			this.setElement(_.result(this, 'el'), false);
+			this.setElement(_.result(this, 'el'));
 			if (!!this.className) this.$el.addClass(this.className);
 		}
 		
 		this.$el.addClass('cb-view');
 	},
-	
-	/**
-	 * @private
-	 */
-	_setClass: function(className, value)
-	{
-		var a = _.rest(arguments);
-		
-		if (!a.length) return !this.$el.hasClass(className);
-		
-		var isElement = _.isString(value) || _.isElement(value) || value instanceof $;
-		var $el = isElement ? this.$(value) : this.$el;
-		
-		if (a.length == 1 && isElement) return !$el.hasClass(className);
-		if (a.length == 2 && isElement) value = a[1];
-		
-		$el.removeClass(className);
-		if (!value) $el.addClass(className);
-		
-		return this;
-	}
 });
 
 //jQuery method shortcuts

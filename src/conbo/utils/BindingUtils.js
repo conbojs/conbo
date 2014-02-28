@@ -328,6 +328,16 @@ conbo.BindingUtils = conbo.Class.extend({},
 	},
 	
 	/**
+	 * Removes all data binding from the specified View instance
+	 * @param 	{conbo.View}	view
+	 */
+	unbindView: function(view)
+	{
+		// TODO Implement unbindView, e.g. view.$el.off('.cb-bound'); ???
+		return this;
+	},
+	
+	/**
 	 * Bind the property of one Bindable class instance (e.g. Map or Model) to another
 	 * 
 	 * @param 	{conbo.Bindable}	source						Class instance which extends conbo.Bindable
