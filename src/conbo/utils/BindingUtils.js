@@ -325,6 +325,8 @@ conbo.BindingUtils = conbo.Class.extend({},
 			return !nestedViews.find(this).length;
 		})
 		.each(bind);
+		
+		return this;
 	},
 	
 	/**
@@ -333,7 +335,27 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 */
 	unbindView: function(view)
 	{
-		// TODO Implement unbindView, e.g. view.$el.off('.cb-bound'); ???
+		if (!view)
+		{
+			throw new Error('view is undefined');
+		}
+		
+		var nestedViews = view.$('.cb-view, [cb-view]');
+		
+		var unbind = function(index, el)
+		{
+			var $el = $(el);
+			if (!!$el.cbData()) $el.off();
+		};
+		
+		unbind(-1, view.el);
+		
+		view.$('*').filter(function()
+		{
+			return !nestedViews.find(this).length;
+		})
+		.each(unbind);
+		
 		return this;
 	},
 	
