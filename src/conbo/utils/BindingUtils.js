@@ -37,10 +37,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			throw new Error('element is undefined');
 		}
 		
-		parseFunction = parseFunction || function(value)
-		{
-			return typeof(value) == 'undefined' ? '' : String(value); 
-		};
+		parseFunction || (parseFunction = this.defaultParseFunction);
 		
 		$(element).each(function(index, el)
 		{
@@ -185,10 +182,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			}
 		}
 		
-		parseFunction = parseFunction || function(value)
-		{
-			return value; 
-		};
+		parseFunction || (parseFunction = this.defaultParseFunction);
 		
 		switch (true)
 		{
@@ -430,6 +424,17 @@ conbo.BindingUtils = conbo.Class.extend({},
 		});
 		
 		return this;
+	},
+	
+	/**
+	 * Default parse function
+	 * 
+	 * @param	value
+	 * @returns	{any}
+	 */
+	defaultParseFunction: function(value)
+	{
+		return typeof(value) == 'undefined' ? '' : value;
 	},
 	
 	/**
