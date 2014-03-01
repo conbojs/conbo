@@ -404,24 +404,28 @@ conbo.BindingUtils = conbo.Class.extend({},
 		
 		var bindings = view._bindings;
 		
-		bindings.forEach(function(value)
+		while (bindings.length)
 		{
+			var binding = bindings.pop();
+			
 			switch (true)
 			{
-				case value[0] instanceof $:
-				case value[0] instanceof conbo.EventDispatcher:
+				case binding[0] instanceof $:
+				case binding[0] instanceof conbo.EventDispatcher:
 				{
-					value[0].off(value[1], value[2]);
+					binding[0].off(binding[1], binding[2]);
 					break;
 				}
 				
 				default:
 				{
-					value[0].removeEventListener(value[1], value[2]);
+					binding[0].removeEventListener(binding[1], binding[2]);
 					break;
 				}
 			}
-		});
+		}
+		
+		delete view._bindings;
 		
 		return this;
 	},
