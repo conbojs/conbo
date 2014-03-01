@@ -75,9 +75,9 @@ conbo.AttributeBindings = conbo.Class.extend({},
 	},
 	
 	/**
-	 * Inserts text into the element so that it appears on screen
-	 * exactly as it's written by converting invalid characters into
-	 * HTML entities before rendering them, e.g. "8 < 10" -> "8 &lt; 10"
+	 * Inserts text into the element so that it appears on screen exactly as
+	 * it's written by converting special characters (<, >, &, etc) into HTML
+	 * entities before rendering them, e.g. "8 < 10" -> "8 &lt; 10"
 	 * 
 	 * @param value
 	 * @param el

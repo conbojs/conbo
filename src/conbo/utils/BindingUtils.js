@@ -9,7 +9,7 @@
 conbo.BindingUtils = conbo.Class.extend({},
 {
 	/**
-	 * Bind a property of a Bindable class instance (e.g. Map or Model) 
+	 * Bind a property of a Bindable class instance (e.g. Hash or Model) 
 	 * to a DOM element's value/content, using Conbo's best judgement to
 	 * work out how the value should be bound to the element.
 	 * 
@@ -267,7 +267,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	
 	/**
 	 * Bind everything within the DOM scope of a View to the specified 
-	 * properties of Bindable class instances (e.g. Map or Model)
+	 * properties of Bindable class instances (e.g. Hash or Model)
 	 * 
 	 * @param 	{conbo.View}		view		The View class controlling the element
 	 * @returns	{this}
@@ -282,15 +282,28 @@ conbo.BindingUtils = conbo.Class.extend({},
 		var nestedViews = view.$('.cb-view, [cb-view]'),
 			scope = this;
 		
-		var bind = function(index, el)
+		view.$('*').add(view.$el).filter(function()
+		{
+			return !nestedViews.find(this).length;
+		})
+		.each(function(index, el)
 		{
 			var cbData = $(el).cbData();
-			if (!cbData) return;
+			
+			if (!cbData) 
+			{
+				return;
+			}
 			
 			var keys = _.keys(cbData);
 			
 			keys.forEach(function(key)
 			{
+				if (scope._isReservedAttribute(key))
+				{
+					return;
+				}
+				
 				var d = cbData[key],
 					b = d.split('|'),
 					s = scope.cleanPropertyName(b[0]).split('.'),
@@ -316,15 +329,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 				
 				scope.bindAttribute(m, p, el, key, f);
 			});
-		};
-		
-		bind(-1, view.el);
-		
-		view.$('*').filter(function()
-		{
-			return !nestedViews.find(this).length;
-		})
-		.each(bind);
+		});
 		
 		return this;
 	},
@@ -342,25 +347,27 @@ conbo.BindingUtils = conbo.Class.extend({},
 		
 		var nestedViews = view.$('.cb-view, [cb-view]');
 		
-		var unbind = function(index, el)
-		{
-			var $el = $(el);
-			if (!!$el.cbData()) $el.off();
-		};
-		
 		unbind(-1, view.el);
 		
-		view.$('*').filter(function()
+		view.$('*').add(view.$el).filter(function()
 		{
 			return !nestedViews.find(this).length;
 		})
-		.each(unbind);
+		.each(function(index, el)
+		{
+			var $el = $(el);
+			
+			if (!!$el.cbData()) 
+			{
+				$el.off();
+			}
+		});
 		
 		return this;
 	},
 	
 	/**
-	 * Bind the property of one Bindable class instance (e.g. Map or Model) to another
+	 * Bind the property of one Bindable class instance (e.g. Hash or Model) to another
 	 * 
 	 * @param 	{conbo.Bindable}	source						Class instance which extends conbo.Bindable
 	 * @param 	{String}			sourcePropertyName			Source property name
@@ -397,7 +404,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	
 	/**
 	 * Call a setter function when the specified property of a Bindable 
-	 * class instance (e.g. Map or Model) is changed
+	 * class instance (e.g. Hash or Model) is changed
 	 * 
 	 * @param 	{conbo.Bindable}	source				Class instance which extends conbo.Bindable
 	 * @param 	{String}			propertyName
@@ -457,7 +464,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 */
 	_isReservedAttribute: function(value)
 	{
-		this._reservedAttributes.indexOf(value) != -1;
+		return this._reservedAttributes.indexOf(value) != -1;
 	}
 	
 });
