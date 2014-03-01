@@ -185,7 +185,8 @@ conbo.View = conbo.Bindable.extend
 	},
 	
 	/**
-	 * Loads HTML content into this.el
+	 * Loads HTML template and apply it to this.el, storing the loaded
+	 * template will in this.template
 	 * 
 	 * @param 	{String}	url			A string containing the URL to which the request is sent
 	 * @param 	{Object}	data		A plain object or string that is sent to the server with the request
@@ -193,7 +194,7 @@ conbo.View = conbo.Bindable.extend
 	 * 
 	 * @see					https://api.jquery.com/load/
 	 */
-	load: function(url, data, callbackFunction)
+	loadTemplate: function(url, data, callbackFunction)
 	{
 		this.unbindView();
 		
