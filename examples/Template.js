@@ -21,7 +21,7 @@
 		 * HTML templates can be loaded by adding a templateUrl property to your
 		 * class, passing options.templateUrl or loaded a URL using this.load('url/of/my.html');
 		 */
-		templateUrl: 'HelloTemplate-1.html',
+		templateUrl: 'Templates-1.html',
 		
 	});
 	
@@ -49,7 +49,7 @@
 		{
 			this.appendView
 			(
-				new example.MyLoadedView(this.context({templateUrl:'HelloTemplate-2.html'})),
+				new example.MyLoadedView(this.context({templateUrl:'Templates-2.html'})),
 				new example.MyOtherView(this.context({template:'This is an internal template using <b>options.template</b> that hates <span cb-bind="favoriteColor"></span>'}))
 			);
 		}
