@@ -16,14 +16,14 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * This method of binding also allows for the use of a parse function,
 	 * which can be used to manipulate bound data in real time
 	 * 
-	 * @param 		{conbo.Bindable}	source			Class instance which extends from conbo.Bindable (e.g. Hash or Model)
-	 * @param 		{String} 			propertyName	Property name to bind
-	 * @param 		{DOMElement} 		element			DOM element to bind value to (two-way bind on input/form elements)
-	 * @param 		{Function}			parseFunction	Optional method used to parse values before outputting as HTML
+	 * @param 		{conbo.Bindable}	source				Class instance which extends from conbo.Bindable (e.g. Hash or Model)
+	 * @param 		{String} 			propertyName		Property name to bind
+	 * @param 		{DOMElement} 		element				DOM element to bind value to (two-way bind on input/form elements)
+	 * @param 		{Function}			parseFunction		Optional method used to parse values before outputting as HTML
 	 * 
 	 * @deprecated						Use bindAttribute
 	 * @see								bindAttribute
-	 * @returns		{this}
+	 * @returns		{Array}									Array of bindings
 	 */
 	bindElement: function(source, propertyName, element, parseFunction)
 	{
@@ -36,6 +36,10 @@ conbo.BindingUtils = conbo.Class.extend({},
 		{
 			throw new Error('element is undefined');
 		}
+		
+		var bindings = [],
+			eventType,
+			eventHandler;
 		
 		parseFunction || (parseFunction = this.defaultParseFunction);
 		
@@ -58,15 +62,25 @@ conbo.BindingUtils = conbo.Class.extend({},
 						{
 							$el.prop('checked', !!source.get(propertyName));
 							
-							source.on('change:'+propertyName, function(event)
+							eventType = 'change:'+propertyName;
+							
+							eventHandler = function(event)
 							{
 								$el.prop('checked', !!event.value);
-							});
+							};
 							
-							$el.on('input change', function(event)
+							source.on(eventType, eventHandler);
+							bindings.push([source, eventType, eventHandler]);
+							
+							eventType = 'input change';
+							
+							eventHandler = function(event)
 							{	
 								source.set(propertyName, $el.is(':checked'));
-							});
+							};
+							
+							$el.on(eventType, eventHandler);
+							bindings.push([$el, eventType, eventHandler]);
 							
 							return;
 						}
@@ -75,11 +89,16 @@ conbo.BindingUtils = conbo.Class.extend({},
 						{
 							if ($el.val() == source.get(propertyName)) $el.prop('checked', true);
 							
-							source.on('change:'+propertyName, function(event)
+							eventType = 'change:'+propertyName;
+							
+							eventHandler = function(event)
 							{
 								if ($el.val() != event.value) return; 
 								$el.prop('checked', true);
-							});
+							};
+							
+							source.on(eventType, eventHandler);
+							bindings.push([source, eventType, eventHandler]);
 							
 							break;
 						}
@@ -88,20 +107,30 @@ conbo.BindingUtils = conbo.Class.extend({},
 						{
 							$el.val(source.get(propertyName));
 						
-							source.on('change:'+propertyName, function(event)
+							eventType = 'change:'+propertyName;
+							
+							eventHandler = function(event)
 							{
 								if ($el.val() == event.value) return;
 								$el.val(event.value);
-							});
+							};
+							
+							source.on(eventType, eventHandler);
+							bindings.push([source, eventType, eventHandler]);
 							
 							break;
 						}
 					}
 					
-					$el.on('input change', function(event)
+					eventType = 'input change';
+					
+					eventHandler = function(event)
 					{	
 						source.set(propertyName, $el.val() || $el.html());
-					});
+					};
+					
+					$el.on(eventType, eventHandler);
+					bindings.push([$el, eventType, eventHandler]);
 					
 					break;
 				}
@@ -110,11 +139,16 @@ conbo.BindingUtils = conbo.Class.extend({},
 				{
 					$el.html(parseFunction(source.get(propertyName)));
 					
-					source.on('change:'+propertyName, function(event) 
+					eventType = 'change:'+propertyName;
+					
+					eventHandler = function(event) 
 					{
 						var html = parseFunction(event.value);
 						$el.html(html);
-					});
+					};
+					
+					source.on(eventType, eventHandler);
+					bindings.push([source, eventType, eventHandler]);
 					
 					break;
 				}
@@ -122,7 +156,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			
 		});
 		
-		return this;
+		return bindings;
 	},
 	
 	/**
@@ -140,13 +174,13 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * @param 	{String}			attributeName	The cb-* property to bind against in camelCase, e.g. "propName" for "cb-prop-name"
 	 * @param 	{Function} 			parseFunction	Optional method used to parse values before outputting as HTML
 	 * 
-	 * @returns	{this}
+	 * @returns	{Array}								Array of bindings
 	 */
 	bindAttribute: function(source, propertyName, element, attributeName, parseFunction)
 	{
 		if (this._isReservedAttribute(attributeName))
 		{
-			return this;
+			return [];
 		}
 		
 		if (!element)
@@ -156,13 +190,14 @@ conbo.BindingUtils = conbo.Class.extend({},
 		
 		if (attributeName == "bind" || attributeName == "model")
 		{
-			this.bindElement(source, propertyName, element, parseFunction);
-			return this;
+			return this.bindElement(source, propertyName, element, parseFunction);
 		}
 		
-		var isConbo = false,
+		var bindings = [],
+			isConbo = false,
 			isNative = false,
-			updateAttribute;
+			eventType,
+			eventHandler;
 		
 		var split = attributeName.replace(/([A-Z])/g, ' $1').toLowerCase().split(' ');
 		
@@ -194,13 +229,17 @@ conbo.BindingUtils = conbo.Class.extend({},
 					throw new Error('Source is not Bindable');
 				}
 				
-				updateAttribute = function()
+				eventHandler = function()
 				{
 					conbo.AttributeBindings[attributeName](parseFunction(source.get(propertyName)), element);
 				}
 				
-				source.on('change:'+propertyName, updateAttribute);
+				eventType = 'change:'+propertyName;
+				
+				source.on(eventType, eventHandler);
 				updateAttribute();
+				
+				bindings.push([source, eventType, eventHandler]);
 				
 				break;
 			}
@@ -229,7 +268,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 							throw new Error('Source is not Bindable');
 						}
 						
-						updateAttribute = function()
+						eventHandler = function()
 						{
 							var value;
 							
@@ -239,13 +278,23 @@ conbo.BindingUtils = conbo.Class.extend({},
 							element[attributeName] = value;
 						}
 					    
-						source.on('change:'+propertyName, updateAttribute);
-						updateAttribute();
+						eventType = 'change:'+propertyName;
+						source.on(eventType, eventHandler);
+						eventHandler();
 						
-						$(element).on('input change', function()
+						bindings.push([source, eventType, eventHandler]);
+						
+						var $el = $(element);
+						
+						eventHandler = function()
 		     			{
 		     				source.set(propertyName, element[attributeName]);
-		     			});
+		     			};
+						
+		     			eventType = 'input change';
+						$el.on(eventType, eventHandler);
+						
+						bindings.push([$el, eventType, updateSource]);
 						
 						break;
 					}
@@ -256,7 +305,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			
 		}
 		
-		return this;
+		return bindings;
 	},
 	
 	/**
@@ -273,7 +322,13 @@ conbo.BindingUtils = conbo.Class.extend({},
 			throw new Error('view is undefined');
 		}
 		
-		var nestedViews = view.$('.cb-view, [cb-view]'),
+		if (!!view._bindings)
+		{
+			this.unbindView(view);
+		}
+		
+		var bindings = [],
+			nestedViews = view.$('.cb-view, [cb-view]'),
 			scope = this;
 		
 		view.$('*').add(view.$el).filter(function()
@@ -321,9 +376,11 @@ conbo.BindingUtils = conbo.Class.extend({},
 				if (!m) throw new Error(b[0]+' is not defined in this View');
 				if (!p) throw new Error('Unable to bind to undefined property: '+p);
 				
-				scope.bindAttribute(m, p, el, key, f);
+				bindings = bindings.concat(scope.bindAttribute(m, p, el, key, f));
 			});
 		});
+		
+		view._bindings = bindings;
 		
 		return this;
 	},
@@ -331,6 +388,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	/**
 	 * Removes all data binding from the specified View instance
 	 * @param 	{conbo.View}	view
+	 * @return	{this}
 	 */
 	unbindView: function(view)
 	{
@@ -339,21 +397,29 @@ conbo.BindingUtils = conbo.Class.extend({},
 			throw new Error('view is undefined');
 		}
 		
-		var nestedViews = view.$('.cb-view, [cb-view]');
-		
-		unbind(-1, view.el);
-		
-		view.$('*').add(view.$el).filter(function()
+		if (!view._bindings || !view._bindings.length)
 		{
-			return !nestedViews.find(this).length;
-		})
-		.each(function(index, el)
+			return this;
+		}
+		
+		var bindings = view._bindings;
+		
+		bindings.forEach(function(value)
 		{
-			var $el = $(el);
-			
-			if (!!$el.cbData()) 
+			switch (true)
 			{
-				$el.off();
+				case value[0] instanceof $:
+				case value[0] instanceof conbo.EventDispatcher:
+				{
+					value[0].off(value[1], value[2]);
+					break;
+				}
+				
+				default:
+				{
+					value[0].removeEventListener(value[1], value[2]);
+					break;
+				}
 			}
 		});
 		

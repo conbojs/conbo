@@ -91,10 +91,10 @@ conbo.View = conbo.Bindable.extend
 	 */
 	remove: function() 
 	{
-		this.$el.remove();
-		
 		this.unbindView()
 			.off();
+		
+		this.$el.remove();
 		
 		return this;
 	},
@@ -104,20 +104,10 @@ conbo.View = conbo.Bindable.extend
 	 */
 	setElement: function(element)
 	{
-		var isReplacement = !!this.$el;
-		
-		if (isReplacement)
-		{
-			this.unbindView();
-		}
-		
+		this.unbindView();
 		this.$el = $(element);
 		this.el = this.$el[0];
-		
-		if (isReplacement)// && !(this instanceof conbo.Application))
-		{
-			this.bindView();
-		}
+		this.bindView();
 		
 		return this;
 	},
