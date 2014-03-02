@@ -72,32 +72,37 @@ conbo.Application = conbo.View.extend
 	 */
 	_findAppElement: function()
 	{
+		var $apps = $('[cb-app]');
+		
+		if (!$apps.length) return undefined;
+		
 		if (!this.namespace())
 		{
-			if (!!$('[cb-app]').length)
+			if (!!$apps.length)
 			{
-				console.warn('Application namespace has not been specified: unable to bind to cb-app element');
+				console.warn('Application namespace not specified: unable to bind to cb-app element');
 			}
 			
 			return undefined;
 		}
 		
-		var appClassName;
+		var appName;
 		
 		for (var a in this.namespace())
 		{
 			if (this instanceof this.namespace()[a])
 			{
-				appClassName = a;
+				appName = a;
 				break;
 			}
 		}
 		
-		var selector = '[cb-app="'+this._addPrefix(appClassName)+'"]';
-		var el = $(selector)[0];
+		if (!appName) return undefined;
 		
-		if (!!el) return  el;
-		return undefined;
+		var selector = '[cb-app="'+this._addPrefix(appName)+'"]',
+			el = $(selector)[0];
+		
+		return !!el ? el : undefined;
 	},
 	
 	/**
