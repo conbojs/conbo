@@ -24,8 +24,8 @@
 		}
 	});
 	
-	new example.MyApp({namespace:example, prefix:'ns1'});
-	new example.MyApp({namespace:example, prefix:'ns2'});
-	new example.MyApp({namespace:example, prefix:'ns3'});
+	new example.MyApp({namespace:example, prefix:'prefix1'});
+	new example.MyApp({namespace:example, prefix:'prefix2'});
+	new example.MyApp({namespace:example, prefix:'prefix3'});
 	
 })();
