@@ -1,8 +1,10 @@
 /**
- * Hello Namespace example for Conbo.js
+ * Namespace example for Conbo.js
  * 
  * Demonstrates how to automatically apply Application and View classes
- * to existing DOM elements using a namespace
+ * to existing DOM elements using a namespace.
+ * 
+ * We suggest that all Conbo.js apps are allocated a namespace.
  * 
  * @author	Neil Rackett
  */

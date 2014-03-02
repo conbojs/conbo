@@ -74,7 +74,11 @@ conbo.Application = conbo.View.extend
 	{
 		if (!this.namespace())
 		{
-			console.warn('Application namespace has not been specified.');
+			if (!!$('[cb-app]').length)
+			{
+				console.warn('Application namespace has not been specified: unable to bind to cb-app element');
+			}
+			
 			return undefined;
 		}
 		
