@@ -14,7 +14,7 @@ Brief History
 
 Conbo started life as a [con]text and [con]troller add-on for Back[bo]ne.js, but as more of Backbone.js was removed, replaced or updated, the project took on a life of its own and what remained of Backbone.js was merged in, and Conbo.js was born.
 
-With the exception of the base Class and parts of View, the Core release of Conbo.js contains now very little code derived from Backbone.js, although we have largely retained method syntax for consistency.
+With the exception of the base Class, the Core release of Conbo.js now contains very little code derived from Backbone.js, although method names have largely been retained for consistency and to ease the transition.
 
 Extendible classes
 ------------------
