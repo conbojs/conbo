@@ -30,9 +30,7 @@ conbo.Injectable = conbo.Class.extend
 		
 		this.defineAccessor
 		(
-			'context', 
-			undefined, 
-			this.bind(this._setContext), 
+			'context', undefined, undefined,
 			_.result(this, 'context') || options.context
 		);
 		
@@ -42,26 +40,6 @@ conbo.Injectable = conbo.Class.extend
 		}
 		
 		return this;
-	},
-	
-	/**
-	 * Enables the shorthand use of this.context(value) to add the current
-	 * context to an object or class instance.
-	 * 
-	 * Where value is an conbo.Context, the current context is changed.
-	 * 
-	 * @param 	{Object}		value
-	 * @returns	{Object|this}
-	 */
-	_setContext: function(value)
-	{
-		if (value instanceof conbo.Context)
-		{
-			this._context = value;
-			return this;
-		}
-		
-		this.context().addTo(value);
-		return value;
 	}
+	
 });

@@ -21,7 +21,7 @@
 		 * HTML templates can be loaded by adding a templateUrl property to your
 		 * class, passing options.templateUrl or loaded a URL using this.load('url/of/my.html');
 		 */
-		templateUrl: 'Templates-1.html',
+		templateUrl: 'template-1.html',
 		
 	});
 	
@@ -42,15 +42,15 @@
 	
 	example.MyApp = conbo.Application.extend
 	({
-		// DOM elements are automatically bound to Application and View 
-		// classes unless options.autoApply === false
-		
+		/**
+		 * All classes have an initialize entry point
+		 */
 		initialize: function()
 		{
 			this.appendView
 			(
-				new example.MyLoadedView(this.context({templateUrl:'Templates-2.html'})),
-				new example.MyOtherView(this.context({template:'This is an internal template using <b>options.template</b> that hates <span cb-bind="favoriteColor"></span>'}))
+				new example.MyLoadedView(this.context.addTo({templateUrl:'template-2.html'})),
+				new example.MyOtherView(this.context.addTo({template:'This is an internal template using <b>options.template</b> that hates <span cb-bind="favoriteColor"></span>'}))
 			);
 		}
 	});

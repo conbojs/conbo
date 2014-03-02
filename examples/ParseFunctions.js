@@ -109,8 +109,8 @@
 		{
 			this.appendView
 			(
-				new InputView(this.context().addTo()), 
-				new OutputView(this.context().addTo())
+				new InputView(this.context.addTo().addTo()), 
+				new OutputView(this.context.addTo().addTo())
 			);
 			
 			return this;

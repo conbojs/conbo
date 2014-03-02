@@ -38,5 +38,7 @@ conbo.ConboEvent = conbo.Event.extend
 	ROUTE:		"route", 	// (Properties: router, route, params) — Fired by history (or router) when any route has been matched.
 							// "route:[name]" // (Properties: params) — Fired by the router when a specific route is matched.
 	
+	TEMPLATE_LOADED:	"templateloaded",
+	
 	ALL:		"all", 		// special event fires for any triggered event
 });

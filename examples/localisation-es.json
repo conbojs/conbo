@@ -1,0 +1,9 @@
+{
+    "hello":"Hola!",
+    "select_language":"Seleccione un idioma utilizando los siguientes botones:",
+    "browser_using":"Su navegador no está localizada en:",
+    "en":"en-GB",
+    "fr":"fr-FR",
+    "de":"de-DE",
+    "es":"es-ES"
+}

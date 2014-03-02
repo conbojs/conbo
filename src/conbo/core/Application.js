@@ -20,47 +20,17 @@ conbo.Application = conbo.View.extend
 	constructor: function(options)
 	{
 		options = _.clone(options) || {};
+		
+		this.defineAccessor('prefix', undefined, undefined, options.prefix || _.result(this, 'prefix') || '');
+		this.defineAccessor('namespace', undefined, undefined, options.namespace || _.result(this, 'namespace'));
+		
 		options.app = this;
-		
-		this.defineAccessor('context', undefined, undefined, new this.contextClass(options)); 
-		this.defineAccessor('prefix', undefined, undefined, options.prefix || this.prefix || '');
-		this.defineAccessor('namespace', undefined, undefined, options.namespace);
-		
-		if (!options.el && options.autoApply !== false)
-		{
-			this.applyApp();
-		}
+		options.context = new this.contextClass();
+		options.el || (options.el = this._findAppElement());
 		
 		conbo.View.prototype.constructor.apply(this, arguments);
 		
-		if (options.autoApply !== false)
-		{
-			this.applyViews();
-		}
-	},
-	
-	/**
-	 * Apply this Application class to DOM element with matching cb-app attribute
-	 */
-	applyApp: function()
-	{
-		var appClassName;
-		
-		for (var a in this.namespace())
-		{
-			if (this instanceof this.namespace()[a])
-			{
-				appClassName = a;
-				break;
-			}
-		}
-		
-		var selector = '[cb-app="'+this._addPrefix(appClassName)+'"]';
-		var el = $(selector)[0];
-		
-		if (!!el) this.el = el;
-		
-		return this;
+		this.applyViews();
 	},
 	
 	/**
@@ -95,6 +65,35 @@ conbo.Application = conbo.View.extend
 	toString: function()
 	{
 		return 'conbo.Application';
+	},
+	
+	/**
+	 * Find element with matching cb-app attribute, if it exists
+	 */
+	_findAppElement: function()
+	{
+		if (!this.namespace())
+		{
+			console.warn('Application namespace has not been specified.');
+			return undefined;
+		}
+		
+		var appClassName;
+		
+		for (var a in this.namespace())
+		{
+			if (this instanceof this.namespace()[a])
+			{
+				appClassName = a;
+				break;
+			}
+		}
+		
+		var selector = '[cb-app="'+this._addPrefix(appClassName)+'"]';
+		var el = $(selector)[0];
+		
+		if (!!el) return  el;
+		return undefined;
 	},
 	
 	/**

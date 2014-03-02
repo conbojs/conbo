@@ -237,7 +237,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 				eventType = 'change:'+propertyName;
 				
 				source.on(eventType, eventHandler);
-				updateAttribute();
+				eventHandler();
 				
 				bindings.push([source, eventType, eventHandler]);
 				
@@ -248,6 +248,10 @@ conbo.BindingUtils = conbo.Class.extend({},
 			{
 				switch (true)
 				{
+					case !attributeName.indexOf('on') == 0 && _.isFunction(element[attributeName]):
+						console.warn('cb-'+attributeName+' is not a recognised attribute, did you mean cb-on'+attributeName+'?');
+						break;
+						
 					// If it's an event, add a listener
 					case attributeName.indexOf('on') == 0:
 					{
@@ -303,6 +307,11 @@ conbo.BindingUtils = conbo.Class.extend({},
 				break;
 			}
 			
+			default:
+			{
+				console.warn('cb-'+attributeName+' is invalid or does not exist on specified element');
+				break;
+			}
 		}
 		
 		return bindings;

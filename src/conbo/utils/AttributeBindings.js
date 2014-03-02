@@ -84,6 +84,8 @@ conbo.AttributeBindings = conbo.Class.extend({},
 	 */
 	text: function(value, el)
 	{
+		if (!value) value = '';
+		
 		var textArea;
 		
 		textArea = document.createElement('textarea');

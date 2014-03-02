@@ -12,8 +12,7 @@
 	
 	example.MyApp = conbo.Application.extend
 	({
-		// DOM elements are automatically bound to Application and View classes
-		// unless options.autoApply === false
+		// :-)
 	});
 	
 	example.MyView = conbo.View.extend

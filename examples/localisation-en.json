@@ -1,0 +1,9 @@
+{
+    "hello":"Hello!",
+    "select_language":"Select a language using the buttons below:",
+    "browser_using":"Your browser is localised to:",
+    "en":"en-GB",
+    "fr":"fr-FR",
+    "de":"de-DE",
+    "es":"es-ES"
+}

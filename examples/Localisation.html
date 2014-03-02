@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Conbo.js - Simple Localisation</title>
+	<meta charset="UTF-8">
+</head>
+<body>
+	
+	<div cb-app="LocalisedApp">
+		<div cb-view="LocalisedView">
+			<h1 cb-text="localisation.hello"></h1>
+			<p cb-text="localisation.select_language"></p>
+			<p>
+				<button data-lang="en" cb-text="localisation.en" cb-onclick="onChangeLocalisation"></button>
+				<button data-lang="fr" cb-text="localisation.fr" cb-onclick="onChangeLocalisation"></button>
+				<button data-lang="de" cb-text="localisation.de" cb-onclick="onChangeLocalisation"></button>
+				<button data-lang="es" cb-text="localisation.es" cb-onclick="onChangeLocalisation"></button>
+			</p>
+			<p><span cb-text="localisation.browser_using"></span> <span cb-text="browserLocale"></span></p>
+		</div>
+	</div>
+	
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+	<script src="../build/conbo.js"></script>
+	<script src="Localisation.js"></script>
+</body>
+</html>

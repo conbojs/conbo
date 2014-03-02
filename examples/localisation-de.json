@@ -1,0 +1,9 @@
+{
+    "hello":"Hallo!",
+    "select_language":"Wählen Sie eine Sprache mit folgenden Tasten: ",
+    "browser_using":"Ihr Browser ist lokalisiert:",
+    "en":"en-GB",
+    "fr":"fr-FR",
+    "de":"de-DE",
+    "es":"es-ES"
+}

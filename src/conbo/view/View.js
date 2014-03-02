@@ -104,12 +104,25 @@ conbo.View = conbo.Bindable.extend
 	 */
 	setElement: function(element)
 	{
-		this.unbindView();
+		var isBound = this.isBound();
+		
+		if (isBound) this.unbindView();
+		
 		this.$el = $(element);
 		this.el = this.$el[0];
-		this.bindView();
+		
+		if (isBound) this.bindView();
 		
 		return this;
+	},
+	
+	/**
+	 * Has this view already been bound to its associated element?
+	 * @returns
+	 */
+	isBound: function()
+	{
+		return !!this._bindings;
 	},
 	
 	/**
@@ -204,6 +217,7 @@ conbo.View = conbo.Bindable.extend
 			
 			if (!!callbackFunction) callbackFunction.apply(this, arguments);
 			
+			this.trigger(new conbo.ConboEvent(conbo.ConboEvent.TEMPLATE_LOADED));
 			this.render();
 			this.bindView();
 		});

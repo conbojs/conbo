@@ -72,7 +72,7 @@
 		 */
 		initialize: function()
 		{
-			this.inputView = new InputView(this.context().addTo());
+			this.inputView = new InputView(this.context.addTo().addTo());
 			this.appendView(this.inputView);
 		}
 	});
