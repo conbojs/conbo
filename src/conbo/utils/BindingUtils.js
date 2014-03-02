@@ -309,7 +309,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			
 			default:
 			{
-				console.warn('cb-'+attributeName+' is invalid or does not exist on specified element');
+				console.warn('cb-'+attributeName+' is not recognised or does not exist on specified element');
 				break;
 			}
 		}
