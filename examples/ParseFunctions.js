@@ -73,8 +73,9 @@
 		 */
 		parseDescription: function(value)
 		{
-			var n = parseFloat(value);
+			var n = Number(value);
 			
+			if (n == 0) return "free";
 			if (n < 10) return "cheap";
 			if (n < 100) return "good";
 			if (n < 1000) return "a lot";
@@ -109,8 +110,8 @@
 		{
 			this.appendView
 			(
-				new InputView(this.context.addTo().addTo()), 
-				new OutputView(this.context.addTo().addTo())
+				new InputView(this.context().addTo()), 
+				new OutputView(this.context().addTo())
 			);
 			
 			return this;

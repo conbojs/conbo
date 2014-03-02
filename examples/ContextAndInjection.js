@@ -4,13 +4,13 @@
  */
 (function()
 {
-	var WarningCommand = conbo.Command.extend
+	var HelloCommand = conbo.Command.extend
 	({
 		myModel: undefined,
 		
 		execute: function()
 		{
-			alert('Watch out '+this.myModel.get('name')+'!');
+			alert('Hello '+this.myModel.get('name')+'!');
 		}
 	});
 	
@@ -33,16 +33,16 @@
 		 */
 		myModel: undefined,
 		
-		template: 'My name is <input type="text" cb-bind="myModel.name" /><button>Submit</button>',
+		template: 'My name is <input type="text" cb-bind="myModel.name" /><button cb-onclick="button_clickHandler">Submit</button>',
 		
-		events:
+		initialize: function()
 		{
-			'click button': 'button_clickHandler'
+			this.bindAll();
 		},
 		
 		button_clickHandler: function()
 		{
-			this.context().trigger(new conbo.Event('warning'));
+			this.context().trigger(new conbo.Event('hello'));
 		}
 	});
 	
@@ -53,7 +53,7 @@
 		 */
 		initialize: function()
 		{
-			this.mapCommand('warning', WarningCommand);
+			this.mapCommand('hello', HelloCommand);
 			this.mapSingleton('myModel', MyModel);
 		}
 	});
@@ -72,7 +72,7 @@
 		 */
 		initialize: function()
 		{
-			this.inputView = new InputView(this.context.addTo().addTo());
+			this.inputView = new InputView(this.context().addTo());
 			this.appendView(this.inputView);
 		}
 	});

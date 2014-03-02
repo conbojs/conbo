@@ -19,7 +19,7 @@
 		
 		/**
 		 * HTML templates can be loaded by adding a templateUrl property to your
-		 * class, passing options.templateUrl or loaded a URL using this.load('url/of/my.html');
+		 * class, passing options.templateUrl or loaded a URL using this.loadTemplate('url/of/my.html');
 		 */
 		templateUrl: 'template-1.html',
 		
@@ -49,8 +49,8 @@
 		{
 			this.appendView
 			(
-				new example.MyLoadedView(this.context.addTo({templateUrl:'template-2.html'})),
-				new example.MyOtherView(this.context.addTo({template:'This is an internal template using <b>options.template</b> that hates <span cb-bind="favoriteColor"></span>'}))
+				new example.MyLoadedView(this.context().addTo({templateUrl:'template-2.html'})),
+				new example.MyOtherView(this.context().addTo({template:'This is an internal template using <b>options.template</b> that hates <span cb-bind="favoriteColor"></span>'}))
 			);
 		}
 	});

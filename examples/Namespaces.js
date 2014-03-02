@@ -22,6 +22,13 @@
 		template: 'Hello Namespace!'
 	});
 	
+	/**
+	 * Adding a namespace to your app enabled Conbo.js to automatically
+	 * apply your app to existing DOM elements using the cb-app attribute
+	 * and guarantees that the correct Views are applies to existing DOM
+	 * elements that use the cb-view attribute, without any additional
+	 * code needing to be written!
+	 */
 	new example.MyApp({namespace:example});
 	
 })();

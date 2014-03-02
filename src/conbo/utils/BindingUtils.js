@@ -298,7 +298,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 		     			eventType = 'input change';
 						$el.on(eventType, eventHandler);
 						
-						bindings.push([$el, eventType, updateSource]);
+						bindings.push([$el, eventType, eventHandler]);
 						
 						break;
 					}

@@ -35,7 +35,7 @@ conbo.View = conbo.Bindable.extend
 		
 		if (!!templateUrl)
 		{
-			this.load(templateUrl);
+			this.loadTemplate(templateUrl);
 		}
 		else
 		{

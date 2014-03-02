@@ -24,6 +24,10 @@
 		}
 	});
 	
+	/**
+	 * Using a prefix enables you to apply the same app to multiple
+	 * existing DOM elements on the same page
+	 */
 	new example.MyApp({namespace:example, prefix:'prefix1'});
 	new example.MyApp({namespace:example, prefix:'prefix2'});
 	new example.MyApp({namespace:example, prefix:'prefix3'});

@@ -25,7 +25,7 @@ conbo.Application = conbo.View.extend
 		this.defineAccessor('namespace', undefined, undefined, options.namespace || _.result(this, 'namespace'));
 		
 		options.app = this;
-		options.context = new this.contextClass();
+		options.context = new this.contextClass(options);
 		options.el || (options.el = this._findAppElement());
 		
 		conbo.View.prototype.constructor.apply(this, arguments);
