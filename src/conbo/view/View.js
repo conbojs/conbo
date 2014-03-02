@@ -328,6 +328,11 @@ conbo.View = conbo.Bindable.extend
 		}
 		
 		this.$el.addClass('cb-view');
+		
+		if (this instanceof conbo.Application)
+		{
+			this.$el.addClass('cb-app');
+		}
 	},
 });
 

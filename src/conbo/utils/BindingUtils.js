@@ -337,7 +337,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 		}
 		
 		var bindings = [],
-			nestedViews = view.$('.cb-view, [cb-view]'),
+			nestedViews = view.$('.cb-view, [cb-view], .cb-app, [cb-app]'),
 			scope = this;
 		
 		view.$('*').add(view.$el).filter(function()
