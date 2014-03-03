@@ -40,7 +40,7 @@
 		
 		initialize: function()
 		{
-			this.bindAll();
+			this.proxyAll();
 		},
 		
 		onChangeLocalisation: function(event)

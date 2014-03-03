@@ -80,7 +80,7 @@ conbo.Class.prototype =
 	 * @param 	method
 	 * @returns
 	 */
-	bind: function(method)
+	proxy: function(method)
 	{
 		return _.bind.apply(_, [method, this].concat(_.rest(arguments)));
 	},
@@ -89,7 +89,7 @@ conbo.Class.prototype =
 	 * Scope all methods of this class instance to this class instance
 	 * @returns this
 	 */
-	bindAll: function()
+	proxyAll: function()
 	{
 		_.bindAll.apply(_, [this].concat(_.toArray(arguments)))
 		return this;

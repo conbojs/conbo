@@ -37,7 +37,7 @@
 		
 		initialize: function()
 		{
-			this.bindAll();
+			this.proxyAll();
 		},
 		
 		button_clickHandler: function()

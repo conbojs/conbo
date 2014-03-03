@@ -211,7 +211,7 @@ conbo.View = conbo.Bindable.extend
 	{
 		this.unbindView();
 		
-		var completeHandler = this.bind(function(response, status, xhr)
+		var completeHandler = this.proxy(function(response, status, xhr)
 		{
 			this.template = response;
 			

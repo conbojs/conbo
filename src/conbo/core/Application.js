@@ -42,7 +42,7 @@ conbo.Application = conbo.View.extend
 			? '[cb-view^="'+this._addPrefix()+'"]'
 			: '[cb-view]';
 		
-		this.$(selector).each(this.bind(function(index, el)
+		this.$(selector).each(this.proxy(function(index, el)
 		{
 			var view = this.$(el).cbData().view.replace(this._addPrefix(), '');
 			

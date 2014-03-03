@@ -63,7 +63,7 @@ conbo.Router = conbo.EventDispatcher.extend
 			callback = this[name];
 		}
 		
-		conbo.history.route(route, this.bind(function(fragment)
+		conbo.history.route(route, this.proxy(function(fragment)
 		{
 			var args = this._extractParameters(route, fragment);
 			callback && callback.apply(this, args);
