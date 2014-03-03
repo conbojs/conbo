@@ -3,39 +3,24 @@
  * @author 	Neil Rackett
  */
 
-conbo.cssClassExists = function (className) 
+if (!!$)
 {
-	var styleSheets = document.styleSheets;
-	
-	for (var s=0; s<styleSheets.length; s++) 
+	$(function()
 	{
-		var classes = styleSheets[s].rules || document.styleSheets[s].cssRules;
+		var $head = $('head');
 		
-		for (var c=0; c<classes.length; c++) 
+		if (!!$head.find('#cb-css').length)
 		{
-			if (classes[c].selectorText == className) 
-			{
-				return true;               
-			}
+			return;
 		}
-	}
-	
-	return false;
-};
-
-$(function()
-{
-	if (conbo.cssClassExists('.cb-hide'))
-	{
-		return;
-	}
-	
-	$('head').append($
-	(
-		'<style type="text/css">'+
-			'.cb-hide { visibility:hidden !important; }'+
-			'.cb-exclude { display:none !important; }'+
-			'.cb-disable { pointer-events:none !important; cursor:default !important; }'+
-		'</style>'
-	));
-});
+		
+		$('head').append($
+		(
+			'<style id="cb-css" type="text/css">'+
+				'.cb-hide { visibility:hidden !important; }'+
+				'.cb-exclude { display:none !important; }'+
+				'.cb-disable { pointer-events:none !important; cursor:default !important; }'+
+			'</style>'
+		));
+	});
+}
