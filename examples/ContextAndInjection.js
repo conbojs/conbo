@@ -42,7 +42,7 @@
 		
 		button_clickHandler: function()
 		{
-			this.context().trigger(new conbo.Event('hello'));
+			this.context.trigger(new conbo.Event('hello'));
 		}
 	});
 	
@@ -72,7 +72,7 @@
 		 */
 		initialize: function()
 		{
-			this.inputView = new InputView(this.context().addTo());
+			this.inputView = new InputView(this.context.addTo());
 			this.appendView(this.inputView);
 		}
 	});

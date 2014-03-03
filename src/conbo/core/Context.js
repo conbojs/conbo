@@ -20,7 +20,7 @@ conbo.Context = conbo.EventDispatcher.extend
 		this._commands = {};
 		this._singletons = {};
 		
-		this.defineAccessor('app', undefined, undefined, options.app);
+		this.app = options.app;
 		
 		this.on(conbo.Event.ALL, this._allHandler);
 		this.initialize.apply(this, arguments);
@@ -122,12 +122,6 @@ conbo.Context = conbo.EventDispatcher.extend
 	 */
 	addTo: function(obj)
 	{
-		if (obj instanceof conbo.Injectable)
-		{
-			obj.context(this);
-			return obj;
-		}
-		
 		return _.extend(obj || {}, {context:this});
 	},
 	

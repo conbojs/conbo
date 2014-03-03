@@ -21,8 +21,8 @@ conbo.Application = conbo.View.extend
 	{
 		options = _.clone(options) || {};
 		
-		this.defineAccessor('prefix', undefined, undefined, options.prefix || _.result(this, 'prefix') || '');
-		this.defineAccessor('namespace', undefined, undefined, options.namespace || _.result(this, 'namespace'));
+		this.prefix = options.prefix || _.result(this, 'prefix') || '';
+		this.namespace = options.namespace || _.result(this, 'namespace');
 		
 		options.app = this;
 		options.context = new this.contextClass(options);
@@ -38,7 +38,7 @@ conbo.Application = conbo.View.extend
 	 */
 	applyViews: function()
 	{
-		var selector = !!this.prefix()
+		var selector = !!this.prefix
 			? '[cb-view^="'+this._addPrefix()+'"]'
 			: '[cb-view]';
 		
@@ -46,8 +46,8 @@ conbo.Application = conbo.View.extend
 		{
 			var view = this.$(el).cbData().view.replace(this._addPrefix(), '');
 			
-			var viewClass = !!this.namespace()
-				? this.namespace()[view]
+			var viewClass = !!this.namespace
+				? this.namespace[view]
 				: eval(view);
 			
 			if (!_.isFunction(viewClass)) 
@@ -55,7 +55,7 @@ conbo.Application = conbo.View.extend
 				return;
 			}
 			
-			new viewClass(this.context().addTo({el:el}));
+			new viewClass(this.context.addTo({el:el}));
 			
 		}));
 		
@@ -76,7 +76,7 @@ conbo.Application = conbo.View.extend
 		
 		if (!$apps.length) return undefined;
 		
-		if (!this.namespace())
+		if (!this.namespace)
 		{
 			if (!!$apps.length)
 			{
@@ -88,9 +88,9 @@ conbo.Application = conbo.View.extend
 		
 		var appName;
 		
-		for (var a in this.namespace())
+		for (var a in this.namespace)
 		{
-			if (this instanceof this.namespace()[a])
+			if (this instanceof this.namespace[a])
 			{
 				appName = a;
 				break;
@@ -113,7 +113,7 @@ conbo.Application = conbo.View.extend
 	_addPrefix: function(name)
 	{
 		name = name || '';
-		return !!this.prefix() ? this.prefix()+'.'+name : name;
+		return !!this.prefix ? this.prefix+'.'+name : name;
 	}
 	
 });

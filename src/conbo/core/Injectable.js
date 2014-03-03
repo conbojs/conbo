@@ -28,15 +28,11 @@ conbo.Injectable = conbo.Class.extend
 	{
 		options || (options = {});
 		
-		this.defineAccessor
-		(
-			'context', undefined, undefined,
-			_.result(this, 'context') || options.context
-		);
+		this.context = _.result(this, 'context') || options.context;
 		
-		if (!!this.context()) 
+		if (!!this.context) 
 		{
-			this.context().injectSingletons(this);
+			this.context.injectSingletons(this);
 		}
 		
 		return this;

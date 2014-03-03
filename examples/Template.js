@@ -49,8 +49,8 @@
 		{
 			this.appendView
 			(
-				new example.MyLoadedView(this.context().addTo({templateUrl:'template-2.html'})),
-				new example.MyOtherView(this.context().addTo({template:'This is an internal template using <b>options.template</b> that hates <span cb-bind="favoriteColor"></span>'}))
+				new example.MyLoadedView(this.context.addTo({templateUrl:'template-2.html'})),
+				new example.MyOtherView(this.context.addTo({template:'This is an internal template using <b>options.template</b> that hates <span cb-bind="favoriteColor"></span>'}))
 			);
 		}
 	});
