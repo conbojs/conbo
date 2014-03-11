@@ -92,6 +92,25 @@ conbo.AttributeBindings = conbo.Class.extend({},
 		textArea.innerHTML = value;
 		
 		$(el).html(textArea.innerHTML);
+	},
+	
+	/**
+	 * Applies or removes a CSS class to the element based on the value of the
+	 * bound property, e.g. cb-css-my-class="myValue" will apply the "my-class"
+	 * CSS class to the element when "myValue" equates to true.
+	 * 
+	 * We use "css" instead of "class" because class is a reserved word in JS.
+	 * 
+	 * @param value
+	 * @param el
+	 */
+	css: function(value, el)
+	{
+		var className = _.toArray(arguments).slice(2).join('-');
+		
+		!!value
+			? $(el).addClass(className)
+			: $(el).removeClass(className);
 	}
 	
 });

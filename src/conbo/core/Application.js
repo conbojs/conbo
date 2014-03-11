@@ -33,35 +33,6 @@ conbo.Application = conbo.View.extend
 		this.applyViews();
 	},
 	
-	/**
-	 * Apply View classes to DOM elements based on their cb-view attribute
-	 */
-	applyViews: function()
-	{
-		var selector = !!this.prefix
-			? '[cb-view^="'+this._addPrefix()+'"]'
-			: '[cb-view]';
-		
-		this.$(selector).each(this.proxy(function(index, el)
-		{
-			var view = this.$(el).cbData().view.replace(this._addPrefix(), '');
-			
-			var viewClass = !!this.namespace
-				? this.namespace[view]
-				: eval(view);
-			
-			if (!_.isFunction(viewClass)) 
-			{
-				return;
-			}
-			
-			new viewClass(this.context.addTo({el:el}));
-			
-		}));
-		
-		return this;
-	},
-	
 	toString: function()
 	{
 		return 'conbo.Application';
@@ -103,17 +74,6 @@ conbo.Application = conbo.View.extend
 			el = $(selector)[0];
 		
 		return !!el ? el : undefined;
-	},
-	
-	/**
-	 * Returns prefixed class name
-	 * @param 	name
-	 * @returns
-	 */
-	_addPrefix: function(name)
-	{
-		name = name || '';
-		return !!this.prefix ? this.prefix+'.'+name : name;
 	}
 	
 });

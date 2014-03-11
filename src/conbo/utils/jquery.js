@@ -5,17 +5,26 @@
 
 if (!!$)
 {
-	$.fn.cbData = function()
+	$.fn.cbData = function(camelCase)
 	{
 		var data = {},
 			attrs = this.get()[0].attributes,
-			count = 0;
+			count = 0,
+			propertyName;
 		
 		for (var i=0; i<attrs.length; ++i)
 		{
 			if (attrs[i].name.indexOf('cb-') != 0) continue;
-			var propertyName = attrs[i].name.substr(3).replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
+			
+			propertyName = attrs[i].name.substr(3);
+			
+			if (camelCase !== false)
+			{
+				propertyName = propertyName.replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
+			}
+			
 			data[propertyName] = attrs[i].value;
+			
 			++count;
 		}
 		

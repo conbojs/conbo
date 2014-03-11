@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	
+	<head>
+		<title>Conbo.js - Binding CSS Classes</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0">
+		
+		<style type="text/css">
+		.bold-red
+		{
+			color: red;
+			font-weight: bold;
+		}
+		
+		.italic-green
+		{
+			color: green;
+			font-style: italic;
+		}
+		
+		.linethrough-orange
+		{
+			color: orange;
+			text-decoration: line-through;
+		}
+		</style>
+		
+	</head>
+	
+	<body cb-app="MyApp">
+	
+		<div>
+			<h1><label><input type="checkbox" cb-checked="isChecked"> Tick the box to toggle CSS classes on text below</label></h1>
+			<p cb-css-bold-red="isChecked">This text will have &quot;bold-red&quot; CSS class applied</p>
+			<p cb-css-italic-green="isChecked">This paragraph will have &quot;italic-green&quot; added</p>
+			<p cb-css-linethrough-orange="isChecked">And this one will use the &quot;linethrough-orange&quot; CSS class</p>
+		</div>
+		
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+		<script src="../build/conbo.js"></script>
+		<script src="BindingCSS.js"></script>
+		
+	</body>
+
+</html>

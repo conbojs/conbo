@@ -268,9 +268,51 @@ conbo.View = conbo.Bindable.extend
 		return this;
 	},
 	
+	/**
+	 * Apply View classes child DOM elements based on their cb-view attribute
+	 */
+	applyViews: function()
+	{
+		var selector = !!this.prefix
+			? '[cb-view^="'+this._addPrefix()+'"]'
+			: '[cb-view]';
+		
+		this.$(selector).not('.cb-view').each(this.proxy(function(index, el)
+		{
+			var view = this.$(el).cbData().view.replace(this._addPrefix(), '');
+			
+			var viewClass = !!this.namespace
+				? this.namespace[view]
+				: eval(view);
+			
+			if (!_.isFunction(viewClass)) 
+			{
+				return;
+			}
+			
+			new viewClass(this.context.addTo({el:el}));
+			
+		}));
+		
+		return this;
+	},
+	
 	toString: function()
 	{
 		return 'conbo.View';
+	},
+	
+	/**
+	 * Returns prefixed class name
+	 * @param 	name
+	 * @returns
+	 */
+	_addPrefix: function(name)
+	{
+		var prefix = this.prefix || (this.context && this.context.app.prefix);
+		name || (name = '');
+		
+		return !!prefix ? prefix+'.'+name : name;
 	},
 	
 	/**

@@ -197,7 +197,8 @@ conbo.BindingUtils = conbo.Class.extend({},
 			isConbo = false,
 			isNative = false,
 			eventType,
-			eventHandler;
+			eventHandler,
+			args = _.toArray(arguments).slice(5);
 		
 		var split = attributeName.replace(/([A-Z])/g, ' $1').toLowerCase().split(' ');
 		
@@ -231,7 +232,11 @@ conbo.BindingUtils = conbo.Class.extend({},
 				
 				eventHandler = function()
 				{
-					conbo.AttributeBindings[attributeName](parseFunction(source.get(propertyName)), element);
+					conbo.AttributeBindings[attributeName].apply
+					(
+						conbo.AttributeBindings, 
+						[parseFunction(source.get(propertyName)), element].concat(args)
+					);
 				}
 				
 				eventType = 'change:'+propertyName;
@@ -346,7 +351,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 		})
 		.each(function(index, el)
 		{
-			var cbData = $(el).cbData();
+			var cbData = $(el).cbData(false);
 			
 			if (!cbData) 
 			{
@@ -362,7 +367,8 @@ conbo.BindingUtils = conbo.Class.extend({},
 					return;
 				}
 				
-				var d = cbData[key],
+				var params = key.split('-'),
+					d = cbData[key],
 					b = d.split('|'),
 					s = scope.cleanPropertyName(b[0]).split('.'),
 					p = s.pop(),
@@ -385,7 +391,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 				if (!m) throw new Error(b[0]+' is not defined in this View');
 				if (!p) throw new Error('Unable to bind to undefined property: '+p);
 				
-				bindings = bindings.concat(scope.bindAttribute(m, p, el, key, f));
+				var args = [m, p, el, params.shift(), f].concat(params);
+
+				bindings = bindings.concat(scope.bindAttribute.apply(scope, args));
 			});
 		});
 		
