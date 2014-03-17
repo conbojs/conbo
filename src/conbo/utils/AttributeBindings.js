@@ -148,14 +148,23 @@ conbo.AttributeBindings = conbo.Class.extend({},
 		$el.removeClass('cb-exclude');
 		$next = $el;
 		
-		while ($next = $next.next('.cb-repeat'))
+		while (true)
 		{
+			$next = $next.next('.cb-repeat')
+			if (!$next.length) break;
 			$next.remove();
 		}
 		
 		a.forEach(function(value)
 		{
-			var view = new conbo.View({model:value, el:$el.clone()});
+			if (!(value instanceof conbo.Model))
+			{
+				value = new conbo.Model(value);
+			}
+			
+			var $clone = $el.clone().removeAttr('cb-repeat');
+			var view = new conbo.View({model:value, el:$clone});
+			
 			views.push(view.el);
 		});
 		

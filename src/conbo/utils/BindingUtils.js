@@ -341,12 +341,16 @@ conbo.BindingUtils = conbo.Class.extend({},
 		}
 		
 		var bindings = [],
-			nestedViews = view.$('.cb-view, [cb-view], .cb-app, [cb-app]'),
+			$nestedViews = view.$('.cb-view, [cb-view], .cb-app, [cb-app]'),
+			$ignored = view.$('[cb-repeat]'),
 			scope = this;
 		
-		view.$('*').add(view.$el).filter(function()
+		view.$('*').add(view.el).filter(function()
 		{
-			return !nestedViews.find(this).length;
+			if (this == view.el) return true;
+			if (!!($nestedViews.find(this).length+$nestedViews.filter(this).length)) return false;
+			if (!!$ignored.find(this).length) return false;
+			return true;
 		})
 		.each(function(index, el)
 		{

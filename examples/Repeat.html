@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	
+	<head>
+		<title>Conbo.js - Repeat</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0">
+		
+		<style type="text/css">
+			ul>:first-child
+			{
+				color: red;
+			}
+		</style>
+		
+	</head>
+	
+	<body cb-app="MyApp">
+	
+		<p cb-view="X" cb-html="test"></p>
+	
+		<ul>
+			<li cb-repeat="myArray">My name is <span cb-html="model.name"></span></li>
+		</li>
+		
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+		<script src="../build/conbo.js"></script>
+		<script src="Repeat.js"></script>
+		
+	</body>
+
+</html>
