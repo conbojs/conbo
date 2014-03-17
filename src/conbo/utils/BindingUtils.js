@@ -21,8 +21,6 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * @param 		{DOMElement} 		element				DOM element to bind value to (two-way bind on input/form elements)
 	 * @param 		{Function}			parseFunction		Optional method used to parse values before outputting as HTML
 	 * 
-	 * @deprecated						Use bindAttribute
-	 * @see								bindAttribute
 	 * @returns		{Array}									Array of bindings
 	 */
 	bindElement: function(source, propertyName, element, parseFunction)
@@ -198,22 +196,23 @@ conbo.BindingUtils = conbo.Class.extend({},
 			isNative = false,
 			eventType,
 			eventHandler,
-			args = _.toArray(arguments).slice(5);
+			args = _.toArray(arguments).slice(5),
+			camelCase = conbo.toCamelCase('cb-'+attributeName);
 		
-		var split = attributeName.replace(/([A-Z])/g, ' $1').toLowerCase().split(' ');
+		var split = attributeName.split('-');//replace(/([A-Z])/g, ' $1').toLowerCase().split(' ');
 		
 		switch (true)
 		{
 			case split[0] == 'attr':
 			{
-				attributeName = attributeName.substr(4);
+				attributeName = attributeName.substr(5);
 				isNative = attributeName in element;
 				break;
 			}
 			
 			default:
 			{
-				isConbo = attributeName in conbo.AttributeBindings;
+				isConbo = camelCase in conbo.AttributeBindings;
 				isNative = !isConbo && attributeName in element;
 			}
 		}
@@ -230,9 +229,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 					throw new Error('Source is not Bindable');
 				}
 				
-				eventHandler = function()
+				eventHandler = function(event)
 				{
-					conbo.AttributeBindings[attributeName].apply
+					conbo.AttributeBindings[camelCase].apply
 					(
 						conbo.AttributeBindings, 
 						[parseFunction(source.get(propertyName)), element].concat(args)
@@ -367,10 +366,10 @@ conbo.BindingUtils = conbo.Class.extend({},
 					return;
 				}
 				
-				var params = key.split('-'),
-					d = cbData[key],
+				var d = cbData[key],
 					b = d.split('|'),
-					s = scope.cleanPropertyName(b[0]).split('.'),
+					params = b[0].split(':'),
+					s = scope.cleanPropertyName(params.shift()).split('.'),
 					p = s.pop(),
 					m,
 					f;
@@ -391,7 +390,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 				if (!m) throw new Error(b[0]+' is not defined in this View');
 				if (!p) throw new Error('Unable to bind to undefined property: '+p);
 				
-				var args = [m, p, el, params.shift(), f].concat(params);
+				var args = [m, p, el, key, f].concat(params);
 
 				bindings = bindings.concat(scope.bindAttribute.apply(scope, args));
 			});

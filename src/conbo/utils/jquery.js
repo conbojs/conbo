@@ -20,7 +20,7 @@ if (!!$)
 			
 			if (camelCase !== false)
 			{
-				propertyName = propertyName.replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
+				propertyName = conbo.toCamelCase(propertyName);
 			}
 			
 			data[propertyName] = attrs[i].value;

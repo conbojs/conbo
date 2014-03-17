@@ -15,7 +15,7 @@ conbo.AttributeBindings = conbo.Class.extend({},
 	 * @param value
 	 * @param el
 	 */
-	show: function(value, el)
+	cbShow: function(value, el)
 	{
 		this.hide(!value, el);
 	},
@@ -27,7 +27,7 @@ conbo.AttributeBindings = conbo.Class.extend({},
 	 * @param value
 	 * @param el
 	 */
-	hide: function(value, el)
+	cbHide: function(value, el)
 	{
 		var $el = $(el);
 		
@@ -42,7 +42,7 @@ conbo.AttributeBindings = conbo.Class.extend({},
 	 * @param value
 	 * @param el
 	 */
-	include: function(value, el)
+	cbInclude: function(value, el)
 	{
 		this.exclude(!value, el);
 	},
@@ -54,7 +54,7 @@ conbo.AttributeBindings = conbo.Class.extend({},
 	 * @param value
 	 * @param el
 	 */
-	exclude: function(value, el)
+	cbExclude: function(value, el)
 	{
 		var $el = $(el);
 		
@@ -69,7 +69,7 @@ conbo.AttributeBindings = conbo.Class.extend({},
 	 * @param value
 	 * @param el
 	 */
-	html: function(value, el)
+	cbHtml: function(value, el)
 	{
 		$(el).html(value);
 	},
@@ -82,7 +82,7 @@ conbo.AttributeBindings = conbo.Class.extend({},
 	 * @param value
 	 * @param el
 	 */
-	text: function(value, el)
+	cbText: function(value, el)
 	{
 		if (!value) value = '';
 		
@@ -95,22 +95,72 @@ conbo.AttributeBindings = conbo.Class.extend({},
 	},
 	
 	/**
-	 * Applies or removes a CSS class to the element based on the value of the
-	 * bound property, e.g. cb-css-my-class="myValue" will apply the "my-class"
-	 * CSS class to the element when "myValue" equates to true.
-	 * 
-	 * We use "css" instead of "class" because class is a reserved word in JS.
+	 * Applies or removes a CSS class to or from the element based on the value
+	 * of the bound property, e.g. cb-css-my-class="myValue" will apply the 
+	 * "my-class" CSS class to the element when "myValue" equates to true.
 	 * 
 	 * @param value
 	 * @param el
 	 */
-	css: function(value, el)
+	cbClass: function(value, el, className)
 	{
-		var className = _.toArray(arguments).slice(2).join('-');
+		if (!className)
+		{
+			console.warn('cb-class attributes must specify one or more CSS classes in the format cb-class="myProperty:className"');
+			return;
+		}
+		
+		var $el = $(el);
 		
 		!!value
-			? $(el).addClass(className)
-			: $(el).removeClass(className);
+			? $el.addClass(className)
+			: $el.removeClass(className);
+	},
+	
+	/**
+	 * Repeat the selected element
+	 * 
+	 * @param value
+	 * @param el
+	 */
+	cbRepeat: function(values, el)
+	{
+		var a, 
+			views = [], 
+			$el = $(el), 
+			$next;
+		
+		switch (true)
+		{
+			case values instanceof Array:
+				a = values;
+				break;
+				
+			case values instanceof conbo.Collection:
+				a = values.toArray();
+				break;
+				
+			default:
+				a = [];
+				break;
+		}
+				
+		$el.removeClass('cb-exclude');
+		$next = $el;
+		
+		while ($next = $next.next('.cb-repeat'))
+		{
+			$next.remove();
+		}
+		
+		a.forEach(function(value)
+		{
+			var view = new conbo.View({model:value, el:$el.clone()});
+			views.push(view.el);
+		});
+		
+		$el.addClass('cb-exclude');
+		$el.after(views);
 	}
 	
 });
