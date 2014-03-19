@@ -14,16 +14,33 @@
 	({
 		initialize: function()
 		{
-			this.mapSingleton('myArray', [{name:'Tom'}, {name:'Dick'}, {name:'Sally'}]);
+			var myCollection = new conbo.Collection([{name:'Tom'}, {name:'Dick'}, {name:'Sally'}]);
+			
+			this.mapSingleton('myCollection', myCollection);
 		}
 	});
 	
 	app.MyApp = conbo.Application.extend
 	({
 		contextClass: app.MyContext,
-		myArray: undefined,
+		myCollection: undefined,
 		
-		test: "Hello"
+		initialize: function()
+		{
+			this.proxyAll();
+		},
+		
+		addItem: function(event)
+		{
+			this.myCollection.push({name:new Date().getTime().toString()});
+			this.trigger('change:myCollection');
+		},
+		
+		removeItem: function(event)
+		{
+			this.myCollection.pop();
+			this.trigger('change:myCollection');
+		}
 	});
 	
 	new app.MyApp({namespace:app});

@@ -126,9 +126,10 @@ conbo.AttributeBindings = conbo.Class.extend({},
 	cbRepeat: function(values, el)
 	{
 		var a, 
-			views = [], 
 			$el = $(el), 
-			$next;
+			views = el.cbViews || [];
+		
+		$el.removeClass('cb-exclude');
 		
 		switch (true)
 		{
@@ -144,15 +145,15 @@ conbo.AttributeBindings = conbo.Class.extend({},
 				a = [];
 				break;
 		}
-				
-		$el.removeClass('cb-exclude');
-		$next = $el;
 		
-		while (true)
+		if (!!views.length)
 		{
-			$next = $next.next('.cb-repeat')
-			if (!$next.length) break;
-			$next.remove();
+			$(views[0]).before($el);
+		}
+		
+		while (views.length)
+		{
+			$(views.pop()).remove();
 		}
 		
 		a.forEach(function(value)
@@ -162,14 +163,19 @@ conbo.AttributeBindings = conbo.Class.extend({},
 				value = new conbo.Model(value);
 			}
 			
-			var $clone = $el.clone().removeAttr('cb-repeat');
-			var view = new conbo.View({model:value, el:$clone});
+			var $clone = $el.clone().removeAttr('cb-repeat'),
+				view = new conbo.View({model:value, el:$clone});
 			
+			view.$el.addClass('cb-repeat');
 			views.push(view.el);
 		});
 		
-		$el.addClass('cb-exclude');
 		$el.after(views);
+		el.cbViews = views;
+		
+		!!views.length
+			? $el.remove()
+			: $el.addClass('cb-exclude');
 	}
 	
 });

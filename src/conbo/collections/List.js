@@ -1,16 +1,17 @@
 /**
- * Collection
- *
+ * List
+ * 
+ * Light(er) weight alternative to conbo.Collection for collections
+ * that don't require web service connectivity.
+ * 
  * Provides a standard collection class for our sets of models, ordered
  * or unordered. If a `comparator` is specified, the Collection will maintain
  * its models in sort order, as they're added and removed.
- * 
- * Derived from the Backbone.js class of the same name
  */
 conbo.Collection = conbo.EventDispatcher.extend
 ({
 	/**
-	 * The default model for a collection is conbo.Model.
+	 * The default model for a collection is just a conbo.Model.
 	 * This should be overridden in most cases.
 	 */
 	model: conbo.Model,
@@ -23,7 +24,6 @@ conbo.Collection = conbo.EventDispatcher.extend
 	{
 		options || (options = {});
 		
-		if (options.url) this.url = options.url;
 		if (options.model) this.model = options.model;
 		if (options.comparator !== undefined) this.comparator = options.comparator;
 		
@@ -37,13 +37,13 @@ conbo.Collection = conbo.EventDispatcher.extend
 		
 		this.initialize.apply(this, arguments);
 	},
-
+	
 	/**
 	 * Initialize is an empty function by default. Override it with your own
 	 * initialization logic.
 	 */
 	initialize: function(){},
-
+	
 	/**
 	 * The JSON representation of a Collection is an array of the
 	 * models' attributes.
@@ -52,21 +52,13 @@ conbo.Collection = conbo.EventDispatcher.extend
 	{
 		return this.map(function(model){ return model.toJSON(options); });
 	},
-
-	/**
-	 * Proxy `conbo.sync` by default.
-	 */
-	sync: function() 
-	{
-		return conbo.sync.apply(this, arguments);
-	},
-
+	
 	/**
 	 * Add a model, or list of models to the set.
 	 */
 	add: function(models, options)
 	{
-		return this.set(models, _.defaults(options || {}, {add:true, merge:false, remove:false}));
+		return this.set(models, _.defaults(options || {}, {add: true, merge: false, remove: false}));
 	},
 
 	/**
@@ -305,7 +297,7 @@ conbo.Collection = conbo.EventDispatcher.extend
 		this.remove(model, options);
 		return model;
 	},
-
+	
 	/**
 	 * Slice out a sub-array of models from the collection.
 	 */
@@ -331,7 +323,7 @@ conbo.Collection = conbo.EventDispatcher.extend
 	{
 		return this.models[index];
 	},
-
+	
 	/**
 	 * Return models with matching attributes. Useful for simple cases of `filter`.
 	 */
@@ -414,80 +406,20 @@ conbo.Collection = conbo.EventDispatcher.extend
 	{
 		return _.invoke(this.models, 'get', attr);
 	},
-
-	/**
-	 * Fetch the default set of models for this collection, resetting the
-	 * collection when they arrive. If `reset: true` is passed, the response
-	 * data will be passed through the `reset` method instead of `set`.
-	 */
-	fetch: function(options) 
-	{
-		options = options ? _.clone(options) : {};
-		
-		if (options.parse === undefined) options.parse = true;
-		
-		var success = options.success;
-		var collection = this;
-		
-		options.success = function(resp)
-		{
-			var method = options.reset ? 'reset' : 'set';
-			
-			collection[method](resp, options);
-			
-			if (success)
-			{
-				success(collection, resp, options);
-			}
-			
-			collection.trigger(new conbo.ConboEvent(conbo.ConboEvent.SYNC,
-			{
-				collection:	collection,
-				response:	resp,
-				options:	options
-			}));
-		};
-		
-		wrapError(this, options);
-		
-		return this.sync('read', this, options);
-	},
-		
+	
 	/**
 	 * Create a new instance of a model in this collection. Add the model to the
-	 * collection immediately, unless `wait: true` is passed, in which case we
-	 * wait for the server to agree.
+	 * collection immediately
 	 */
 	create: function(model, options) 
 	{
 		options = options ? _.clone(options) : {};
 		
 		if (!(model = this._prepareModel(model, options))) return false;
-		if (!options.wait) this.add(model, options);
-		
-		var collection = this;
-		var success = options.success;
-		
-		options.success = function(resp) 
-		{
-			if (options.wait) collection.add(model, options);
-			if (success) success(model, resp, options);
-		};
-		
-		model.save(null, options);
-		
+		this.add(model, options);
 		return model;
 	},
-		
-	/**
-	 * parse converts a response into a list of models to be added to the
-	 * collection. The default implementation is just to pass it through.
-	 */
-	parse: function(resp, options) 
-	{
-		return resp;
-	},
-
+	
 	/**
 	 * Create a new collection with an identical list of models as this one.
 	 */
@@ -538,14 +470,6 @@ conbo.Collection = conbo.EventDispatcher.extend
 		
 		return model;
 	},
-		
-	/**
-	 * Internal method to sever a model's ties to a collection.
-	 */
-	_removeReference: function(model) {
-		if (this === model.collection) delete model.collection;
-		model.off('all', this._onModelEvent, this);
-	},
 
 	/**
 	 * Internal method called every time a model in the set fires an event.
@@ -585,7 +509,7 @@ conbo.Collection = conbo.EventDispatcher.extend
 
 	toString: function()
 	{
-		return 'conbo.Collection';
+		return 'conbo.List';
 	}
 });
 

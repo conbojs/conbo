@@ -197,9 +197,8 @@ conbo.BindingUtils = conbo.Class.extend({},
 			eventType,
 			eventHandler,
 			args = _.toArray(arguments).slice(5),
-			camelCase = conbo.toCamelCase('cb-'+attributeName);
-		
-		var split = attributeName.split('-');//replace(/([A-Z])/g, ' $1').toLowerCase().split(' ');
+			camelCase = conbo.toCamelCase('cb-'+attributeName),
+			split = attributeName.split('-');
 		
 		switch (true)
 		{
@@ -348,7 +347,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 		view.$('*').add(view.el).filter(function()
 		{
 			if (this == view.el) return true;
-			if (!!($nestedViews.find(this).length+$nestedViews.filter(this).length)) return false;
+			if (!!$nestedViews.find(this).length || !!$nestedViews.filter(this).length) return false;
 			if (!!$ignored.find(this).length) return false;
 			return true;
 		})

@@ -10,17 +10,24 @@
 			{
 				color: red;
 			}
+			ul>:last-child
+			{
+				color: blue;
+			}
 		</style>
 		
 	</head>
 	
 	<body cb-app="MyApp">
 	
-		<p cb-view="X" cb-html="test"></p>
-	
+		<p>
+			<button cb-onclick="addItem">Add Item</button>
+			<button cb-onclick="removeItem">Remove Item</button>
+		</p>
+			
 		<ul>
-			<li cb-repeat="myArray">My name is <span cb-html="model.name"></span></li>
-		</li>
+			<li cb-repeat="myCollection">My name is <span cb-html="model.name"></span></li>
+		</ul>
 		
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
