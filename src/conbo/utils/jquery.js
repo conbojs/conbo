@@ -5,7 +5,7 @@
 
 if (!!$)
 {
-	$.fn.cbData = function(camelCase)
+	$.fn.cbAttrs = function(camelCase)
 	{
 		var data = {},
 			attrs = this.get()[0].attributes,
@@ -35,7 +35,7 @@ if (!!$)
 	{
 		var $el = $(el),
 			args = (meta[3] || '').split(','),
-			cb = $el.cbData();
+			cb = $el.cbAttrs();
 		
 		if (!cb) return false;
 		if (!!cb && !args.length) return true;

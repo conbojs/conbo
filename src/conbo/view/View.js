@@ -279,7 +279,7 @@ conbo.View = conbo.Bindable.extend
 		
 		this.$(selector).not('.cb-view').each(this.proxy(function(index, el)
 		{
-			var view = this.$(el).cbData().view.replace(this._addPrefix(), '');
+			var view = this.$(el).cbAttrs().view.replace(this._addPrefix(), '');
 			
 			var viewClass = !!this.namespace
 				? this.namespace[view]

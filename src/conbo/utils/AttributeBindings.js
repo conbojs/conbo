@@ -7,8 +7,13 @@
  * @example		<div cb-hide="property">Hello!</div>
  * @author 		Neil Rackett
  */
-conbo.AttributeBindings = conbo.Class.extend({},
-{
+conbo.AttributeBindings = conbo.Class.extend
+({
+	initialize: function()
+	{
+		this.proxyAll();
+	},
+	
 	/**
 	 * Makes an element visible
 	 * 
@@ -126,10 +131,29 @@ conbo.AttributeBindings = conbo.Class.extend({},
 	cbRepeat: function(values, el)
 	{
 		var a, 
-			$el = $(el), 
-			views = el.cbViews || [];
+			$el = $(el);
+		
+		el.cbData || (el.cbData = {});
+		
+		elements = el.cbData.elements || [];
 		
 		$el.removeClass('cb-exclude');
+		
+		if (el.cbData.collection != values && values instanceof conbo.Collection)
+		{
+			if (!!el.cbData.collection)
+			{
+				el.cbData.collection.off('add remove change', el.cbData.changeHandler);
+			}
+			
+			el.cbData.changeHandler = this.proxy(function(event)
+			{
+				this.cbRepeat(values, el);
+			});
+			
+			values.on('add remove change', el.cbData.changeHandler);
+			el.cbData.collection = values;
+		}
 		
 		switch (true)
 		{
@@ -146,14 +170,14 @@ conbo.AttributeBindings = conbo.Class.extend({},
 				break;
 		}
 		
-		if (!!views.length)
+		if (!!elements.length)
 		{
-			$(views[0]).before($el);
+			$(elements[0]).before($el);
 		}
 		
-		while (views.length)
+		while (elements.length)
 		{
-			$(views.pop()).remove();
+			$(elements.pop()).remove();
 		}
 		
 		a.forEach(function(value)
@@ -167,13 +191,14 @@ conbo.AttributeBindings = conbo.Class.extend({},
 				view = new conbo.View({model:value, el:$clone});
 			
 			view.$el.addClass('cb-repeat');
-			views.push(view.el);
+			
+			elements.push(view.el);
 		});
 		
-		$el.after(views);
-		el.cbViews = views;
+		$el.after(elements);
+		el.cbData.elements = elements;
 		
-		!!views.length
+		!!elements.length
 			? $el.remove()
 			: $el.addClass('cb-exclude');
 	}

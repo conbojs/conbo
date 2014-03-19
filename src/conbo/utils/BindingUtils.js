@@ -8,6 +8,8 @@
  */
 conbo.BindingUtils = conbo.Class.extend({},
 {
+	_attributeBindings: new conbo.AttributeBindings(),
+	
 	/**
 	 * Bind a property of a Bindable class instance (e.g. Hash or Model) 
 	 * to a DOM element's value/content, using Conbo's best judgement to
@@ -191,7 +193,8 @@ conbo.BindingUtils = conbo.Class.extend({},
 			return this.bindElement(source, propertyName, element, parseFunction);
 		}
 		
-		var bindings = [],
+		var scope = this,
+			bindings = [],
 			isConbo = false,
 			isNative = false,
 			eventType,
@@ -211,7 +214,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			
 			default:
 			{
-				isConbo = camelCase in conbo.AttributeBindings;
+				isConbo = camelCase in this._attributeBindings;
 				isNative = !isConbo && attributeName in element;
 			}
 		}
@@ -230,9 +233,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 				
 				eventHandler = function(event)
 				{
-					conbo.AttributeBindings[camelCase].apply
+					scope._attributeBindings[camelCase].apply
 					(
-						conbo.AttributeBindings, 
+						scope._attributeBindings, 
 						[parseFunction(source.get(propertyName)), element].concat(args)
 					);
 				}
@@ -353,7 +356,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 		})
 		.each(function(index, el)
 		{
-			var cbData = $(el).cbData(false);
+			var cbData = $(el).cbAttrs(false);
 			
 			if (!cbData) 
 			{
