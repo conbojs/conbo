@@ -7,7 +7,7 @@
  * 
  * Derived from the Backbone.js class of the same name
  */
-conbo.Collection = conbo.EventDispatcher.extend
+conbo.Collection = conbo.List.extend
 ({
 	/**
 	 * The default model for a collection is conbo.Model.
@@ -587,47 +587,4 @@ conbo.Collection = conbo.EventDispatcher.extend
 	{
 		return 'conbo.Collection';
 	}
-});
-
-// Underscore methods that we want to implement on the Collection.
-var methods = 
-[
-	'forEach', 'each', 'map', 'collect', 'reduce', 'foldl',
-	'inject', 'reduceRight', 'foldr', 'find', 'detect', 'filter', 'select',
-	'reject', 'every', 'all', 'some', 'any', 'include', 'contains', 'invoke',
-	'max', 'min', 'toArray', 'size', 'first', 'head', 'take', 'initial', 'rest',
-	'tail', 'drop', 'last', 'without', 'indexOf', 'shuffle', 'lastIndexOf',
-	'isEmpty', 'chain'
-];
-
-// Mix in each available Underscore/Lo-Dash method as a proxy to `Collection#models`.
-_.each(methods, function(method) 
-{
-	if (!(method in _)) return;
-	
-	conbo.Collection.prototype[method] = function() 
-	{
-		var args = [].slice.call(arguments);
-		args.unshift(this.models);
-		return _[method].apply(_, args);
-	};
-});
-
-// Underscore methods that take a property name as an argument.
-var attributeMethods = ['groupBy', 'countBy', 'sortBy'];
-
-// Use attributes instead of properties.
-_.each(attributeMethods, function(method)
-{
-	if (!(method in _)) return;
-	
-	conbo.Collection.prototype[method] = function(value, context) 
-	{
-		var iterator = _.isFunction(value) ? value : function(model) 
-		{
-			return model.get(value);
-		};
-		
-		return _[method](this.models, iterator, context);
-	};
 });

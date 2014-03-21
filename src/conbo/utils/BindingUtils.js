@@ -8,7 +8,7 @@
  */
 conbo.BindingUtils = conbo.Class.extend({},
 {
-	_attributeBindings: new conbo.AttributeBindings(),
+	_attrBindings: new conbo.AttributeBindings(),
 	
 	/**
 	 * Bind a property of a Bindable class instance (e.g. Hash or Model) 
@@ -214,7 +214,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			
 			default:
 			{
-				isConbo = camelCase in this._attributeBindings;
+				isConbo = camelCase in this._attrBindings;
 				isNative = !isConbo && attributeName in element;
 			}
 		}
@@ -233,9 +233,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 				
 				eventHandler = function(event)
 				{
-					scope._attributeBindings[camelCase].apply
+					scope._attrBindings[camelCase].apply
 					(
-						scope._attributeBindings, 
+						scope._attrBindings, 
 						[parseFunction(source.get(propertyName)), element].concat(args)
 					);
 				}

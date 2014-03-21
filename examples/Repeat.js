@@ -14,7 +14,7 @@
 	({
 		initialize: function()
 		{
-			var myCollection = new conbo.Collection([{name:'Tom'}, {name:'Dick'}, {name:'Sally'}]);
+			var myCollection = new conbo.List([{name:'Tom'}, {name:'Dick'}, {name:'Sally'}]);
 			
 			this.mapSingleton('myCollection', myCollection);
 		}
@@ -43,9 +43,25 @@
 			,'Benson','Bentley','Bernard','Bernardo','Bernie','Bert','Bertie','Bertram','Bevan','Bill'
 			,'Billy','Bladen','Blain','Blaine','Blair','Blaise','Blake','Blaze','Bob','Bobby'
 			,'Bodie','Boris','Boston','Boyd','Brad','Braden','Bradford','Bradley','Bradwin','Brady'
-			,'Braeden','Bram','Branden','Brandon','Brantley','Braxton','Brayan','Brayden','Braydon','Brendan'
-			,'Brenden','Brendon','Brennan','Brent','Bret','Brett','Brevyn','Brian','Brice','Brinley'
-			,'Brock','Brodie','Brody','Brogan','Bronson','Bruce','Bruno','Bryan','Bryant','Bryce'
+		],
+		
+		girlsNames:
+		[
+			'Kalea','Kaleigh','Kali','Kalia','Kamala','Kamryn','Kara','Karen','Kari','Karin'
+			,'Karina','Karissa','Karla','Karlee','Karly','Karolina','Karyn','Kasey','Kassandra','Kassidy'
+			,'Kassie','Kat','Katara','Katarina','Kate','Katelyn','Katelynn','Katerina','Katharine','Katherine'
+			,'Kathleen','Kathryn','Kathy','Katia','Katie','Katlyn','Katrina','Katy','Katya','Kay'
+			,'Kaya','Kaye','Kayla','Kaylee','Kayleigh','Kayley','Kaylie','Kaylin','Keeley','Keely'
+			,'Keira','Keisha','Kelis','Kelley','Kelli','Kellie','Kelly','Kelsey','Kelsie','Kendall'
+			,'Kendra','Kennedy','Kenzie','Keri','Kerian','Kerri','Kerry','Kiana','Kiara','Kiera'
+			,'Kierra','Kiersten','Kiki','Kiley','Kim','Kimberlee','Kimberley','Kimberly','Kimbriella','Kimmy'
+			,'Kinley','Kinsey','Kinsley','Kira','Kirsten','Kirstin','Kirsty','Kiswa','Kitty','Kizzy'
+			,'Kora','Kourtney','Kris','Krista','Kristen','Kristi','Kristie','Kristin','Kristina','Kristine'
+			,'Kristy','Krystal','Kyla','Kylee','Kyleigh','Kylie','Kyra','Lacey','Lacie','Lacy'
+			,'Ladonna','Laila','Lakyn','Lala','Lana','Laney','Lara','Larissa','Latoya','Laura'
+			,'Laurel','Lauren','Lauri','Laurie','Lauryn','Lavana','Lavender','Lavinia','Layla','Lea'
+			,'Leah','Leandra','Leann','Leanna','Leanne','Lee','Leela','Leena','Leia','Leigh'
+			,'Leila','Leilani','Lela','Lena','Lenore','Leona','Leonie','Leora','Lesa','Lesley'
 		],
 		
 		initialize: function()
@@ -55,8 +71,9 @@
 		
 		addItem: function(event)
 		{
-			var name = this.boysNames.shift();
-			this.boysNames.push(name);
+			var array = (Math.random() > 0.5) ? this.boysNames : this.girlsNames,
+				index = Math.floor(Math.random()*array.length),
+				name = array[index];
 			
 			this.myCollection.push({name:name});
 		},

@@ -9,11 +9,6 @@
  */
 conbo.AttributeBindings = conbo.Class.extend
 ({
-	initialize: function()
-	{
-		this.proxyAll();
-	},
-	
 	/**
 	 * Makes an element visible
 	 * 
@@ -139,11 +134,11 @@ conbo.AttributeBindings = conbo.Class.extend
 		
 		$el.removeClass('cb-exclude');
 		
-		if (el.cbData.collection != values && values instanceof conbo.Collection)
+		if (el.cbData.list != values && values instanceof conbo.List)
 		{
-			if (!!el.cbData.collection)
+			if (!!el.cbData.list)
 			{
-				el.cbData.collection.off('add remove change', el.cbData.changeHandler);
+				el.cbData.list.off('add remove change', el.cbData.changeHandler);
 			}
 			
 			el.cbData.changeHandler = this.proxy(function(event)
@@ -152,7 +147,7 @@ conbo.AttributeBindings = conbo.Class.extend
 			});
 			
 			values.on('add remove change', el.cbData.changeHandler);
-			el.cbData.collection = values;
+			el.cbData.list = values;
 		}
 		
 		switch (true)
@@ -161,7 +156,7 @@ conbo.AttributeBindings = conbo.Class.extend
 				a = values;
 				break;
 				
-			case values instanceof conbo.Collection:
+			case values instanceof conbo.List:
 				a = values.toArray();
 				break;
 				
@@ -182,9 +177,9 @@ conbo.AttributeBindings = conbo.Class.extend
 		
 		a.forEach(function(value)
 		{
-			if (!(value instanceof conbo.Model))
+			if (!(value instanceof conbo.Hash))
 			{
-				value = new conbo.Model(value);
+				value = new conbo.Hash(value);
 			}
 			
 			var $clone = $el.clone().removeAttr('cb-repeat'),

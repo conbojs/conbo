@@ -30,6 +30,7 @@ conbo.Hash = conbo.Bindable.extend
 	 */
 	toJSON: function()
 	{
+		console.log(this.toString());
 		return _.clone(this._attributes);
 	},
 	

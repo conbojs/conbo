@@ -22,7 +22,7 @@ conbo.Class.prototype =
 	 */
 	callLater: function(callback)
 	{
-		_.defer(this.bind.apply(this, [callback].concat(_.rest(arguments))));
+		_.defer(this.proxy.apply(this, [callback].concat(_.rest(arguments))));
 		return this;
 	},
 	
