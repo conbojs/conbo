@@ -495,7 +495,19 @@ conbo.Collection = conbo.List.extend
 	{
 		return new this.constructor(this.models);
 	},
-
+	
+	// List methods that aren't available on Collection
+	
+	splice: function()
+	{
+		throw new Error('splice is not available on conbo.Collection');
+	},
+	
+	replace: function()
+	{
+		throw new Error('replace is not available on conbo.Collection');
+	},
+	
 	/**
 	 * Private method to reset all internal state. Called when the collection
 	 * is first initialized or reset.

@@ -4,8 +4,9 @@
  * A bindable Array wrapper that can be used as a lightweight alternative to 
  * conbo.Collection for collections that don't require web service connectivity.
  * 
- * While List is syntactically similar to Collection, the functionality of a 
- * List is far more basic.
+ * Unlike Collection, List doesn't automatically convert added items into
+ * Hash or Model, but does automatically detect if Bindable objects are added
+ * to it and automatically watches them for changes
  */
 conbo.List = conbo.EventDispatcher.extend
 ({
@@ -111,9 +112,13 @@ conbo.List = conbo.EventDispatcher.extend
 	 */
 	splice: function(begin, length)
 	{
-		var models = this.models.splice(begin, length, insert);
+		var inserts = _.rest(arguments,2).length;
+		
+		var models = this.models.splice(begin, length, inserts);
+		this.length = this.models.length;
+		
 		if (models.length) this.trigger(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
-		if (_.rest(arguments,2).length) this.trigger(new conbo.ConboEvent(conbo.ConboEvent.ADD));
+		if (inserts.length) this.trigger(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 		
 		return models;
 	},
@@ -132,13 +137,36 @@ conbo.List = conbo.EventDispatcher.extend
 	},
 
 	/**
-	 * Get the model at the given index.
+	 * Get the model at the given index, similar to array[index]
 	 */
 	at: function(index) 
 	{
 		return this.models[index];
 	},
+	
+	/**
+	 * Replaces the item at the specified index with the one specified,
+	 * similar to array[index] = value;
+	 */
+	replace: function(index, model)
+	{
+		var replaced = this.models[index];
+		this._handleChange(replaced, false);
 		
+		this.models[index] = model
+		this._handleChange(model);
+		
+		if (this.models.length > this.length)
+		{
+			this.length = this.models.length;
+			this.trigger(new conbo.ConboEvent(conbo.ConboEvent.ADD));
+		}
+		
+		this.trigger(new conbo.ConboEvent(conbo.ConboEvent.CHANGE));
+		
+		return replaced;
+	},
+	
 	/**
 	 * Force the collection to re-sort itself. You don't need to call this under
 	 * normal circumstances, as the set will maintain sort order as each item
