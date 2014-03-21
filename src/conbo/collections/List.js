@@ -48,7 +48,7 @@ conbo.List = conbo.EventDispatcher.extend
 	push: function(model)
 	{
 		this.length = this.models.push.apply(this.models, arguments);
-		this._listenTo(_.toArray(arguments));
+		this._handleChange(_.toArray(arguments));
 		this.trigger(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 		
 		return this.length;
@@ -63,7 +63,7 @@ conbo.List = conbo.EventDispatcher.extend
 		
 		var model = this.models.pop();
 		
-		this._listenTo(model, false);
+		this._handleChange(model, false);
 		this.length = this.models.length;
 		this.trigger(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
 		
@@ -76,7 +76,7 @@ conbo.List = conbo.EventDispatcher.extend
 	unshift: function(model) 
 	{
 		this.length = this.models.unshift.apply(this.models, arguments);
-		this._listenTo(_.toArray(arguments));
+		this._handleChange(_.toArray(arguments));
 		this.trigger(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 		
 		return this.length;
@@ -91,7 +91,7 @@ conbo.List = conbo.EventDispatcher.extend
 		
 		var model;
 		
-		this._listenTo(model = this.models.shift(), false);
+		this._handleChange(model = this.models.shift(), false);
 		this.length = this.models.length;
 		this.trigger(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
 		
@@ -167,12 +167,12 @@ conbo.List = conbo.EventDispatcher.extend
 	
 	/**
 	 * Listen to the events of Bindable values so we can detect changes
-	 * @param models
-	 * @param isListen
+	 * @param 	{any}		models
+	 * @param 	{Boolean}	enabled
 	 */
-	_listenTo: function(models, isListen)
+	_handleChange: function(models, enabled)
 	{
-		var method = isListen === false ? 'off' : 'on'
+		var method = enabled === false ? 'off' : 'on'
 		
 		models = (_.isArray(models) ? models : [models]).slice();
 		
@@ -182,7 +182,7 @@ conbo.List = conbo.EventDispatcher.extend
 			
 			if (model instanceof conbo.Bindable)
 			{
-				model[method](conbo.Event.ALL, this._redispatch);
+				model[method](conbo.ConboEvent.CHANGE, this._redispatch);
 			}
 		}
 	},
