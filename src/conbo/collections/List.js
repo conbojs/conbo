@@ -19,10 +19,9 @@ conbo.List = conbo.EventDispatcher.extend
 		options || (options = {});
 		
 		this.proxyAll('_redispatch');
-		
 		this.length = 0;
-		this.models = (models || []).slice();
 		
+		this._models = (models || []).slice();
 		this._inject(options);
 		
 		this.initialize.apply(this, arguments);
@@ -48,7 +47,7 @@ conbo.List = conbo.EventDispatcher.extend
 	 */
 	push: function(model)
 	{
-		this.length = this.models.push.apply(this.models, arguments);
+		this.length = this._models.push.apply(this._models, arguments);
 		this._handleChange(_.toArray(arguments));
 		this.trigger(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 		
@@ -62,10 +61,10 @@ conbo.List = conbo.EventDispatcher.extend
 	{
 		if (!this.length) return;
 		
-		var model = this.models.pop();
+		var model = this._models.pop();
 		
 		this._handleChange(model, false);
-		this.length = this.models.length;
+		this.length = this._models.length;
 		this.trigger(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
 		
 		return model;
@@ -76,7 +75,7 @@ conbo.List = conbo.EventDispatcher.extend
 	 */
 	unshift: function(model) 
 	{
-		this.length = this.models.unshift.apply(this.models, arguments);
+		this.length = this._models.unshift.apply(this._models, arguments);
 		this._handleChange(_.toArray(arguments));
 		this.trigger(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 		
@@ -92,8 +91,8 @@ conbo.List = conbo.EventDispatcher.extend
 		
 		var model;
 		
-		this._handleChange(model = this.models.shift(), false);
-		this.length = this.models.length;
+		this._handleChange(model = this._models.shift(), false);
+		this.length = this._models.length;
 		this.trigger(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
 		
 		return model;
@@ -104,7 +103,7 @@ conbo.List = conbo.EventDispatcher.extend
 	 */
 	slice: function(begin, length)
 	{
-		return this.models.slice(begin, length);
+		return this._models.slice(begin, length);
 	},
 	
 	/**
@@ -114,8 +113,8 @@ conbo.List = conbo.EventDispatcher.extend
 	{
 		var inserts = _.rest(arguments,2).length;
 		
-		var models = this.models.splice(begin, length, inserts);
-		this.length = this.models.length;
+		var models = this._models.splice(begin, length, inserts);
+		this.length = this._models.length;
 		
 		if (models.length) this.trigger(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
 		if (inserts.length) this.trigger(new conbo.ConboEvent(conbo.ConboEvent.ADD));
@@ -124,41 +123,28 @@ conbo.List = conbo.EventDispatcher.extend
 	},
 	
 	/**
-	 * Get a model from the List if it exists, otherwise undefined
+	 * Get the item at the given index; similar to array[index]
 	 */
-	get: function(obj) 
+	get: function(index) 
 	{
-		if (obj == undefined || this.models.indexOf(obj) == -1) 
-		{
-			return undefined;
-		}
-		
-		return obj;
-	},
-
-	/**
-	 * Get the model at the given index, similar to array[index]
-	 */
-	at: function(index) 
-	{
-		return this.models[index];
+		return this._models[index];
 	},
 	
 	/**
-	 * Replaces the item at the specified index with the one specified,
+	 * Add (or replace) item at given index with the one specified,
 	 * similar to array[index] = value;
 	 */
-	replace: function(index, model)
+	set: function(index, model)
 	{
-		var replaced = this.models[index];
+		var replaced = this._models[index];
 		this._handleChange(replaced, false);
 		
-		this.models[index] = model
+		this._models[index] = model
 		this._handleChange(model);
 		
-		if (this.models.length > this.length)
+		if (this._models.length > this.length)
 		{
-			this.length = this.models.length;
+			this.length = this._models.length;
 			this.trigger(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 		}
 		
@@ -168,13 +154,21 @@ conbo.List = conbo.EventDispatcher.extend
 	},
 	
 	/**
+	 * @see	get
+	 */
+	at: function(index) 
+	{
+		return this.get(index);
+	},
+	
+	/**
 	 * Force the collection to re-sort itself. You don't need to call this under
 	 * normal circumstances, as the set will maintain sort order as each item
 	 * is added.
 	 */
 	sort: function(compareFunction) 
 	{
-		this.models.sort(compareFunction);
+		this._models.sort(compareFunction);
 		this.trigger(new conbo.ConboEvent(conbo.ConboEvent.SORT));
 		
 		return this;
@@ -185,7 +179,7 @@ conbo.List = conbo.EventDispatcher.extend
 	 */
 	clone: function() 
 	{
-		return new this.constructor(this.models);
+		return new this.constructor(this._models);
 	},
 
 	toString: function()
@@ -243,7 +237,7 @@ _.each(methods, function(method)
 	conbo.List.prototype[method] = function() 
 	{
 		var args = [].slice.call(arguments);
-		args.unshift(this.models);
+		args.unshift(this._models);
 		return _[method].apply(_, args);
 	};
 });
@@ -263,6 +257,6 @@ _.each(attributeMethods, function(method)
 			return model.get(value);
 		};
 		
-		return _[method](this.models, iterator, context);
+		return _[method](this._models, iterator, context);
 	};
 });

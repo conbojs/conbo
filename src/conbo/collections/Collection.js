@@ -10,10 +10,10 @@
 conbo.Collection = conbo.List.extend
 ({
 	/**
-	 * The default model for a collection is conbo.Model.
+	 * The default model class for a collection is conbo.Model.
 	 * This should be overridden in most cases.
 	 */
-	model: conbo.Model,
+	modelClass: conbo.Model,
 	
 	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
@@ -24,8 +24,13 @@ conbo.Collection = conbo.List.extend
 		options || (options = {});
 		
 		if (options.url) this.url = options.url;
-		if (options.model) this.model = options.model;
 		if (options.comparator !== undefined) this.comparator = options.comparator;
+		
+		// options.model and this.model are deprecated, but included for backward compatibility
+		if (options.modelClass || options.model || this.model)
+		{
+			this.modelClass = options.modelClass || options.model || this.model;
+		}
 		
 		this._reset();
 		this._inject(options);
@@ -93,7 +98,7 @@ conbo.Collection = conbo.List.extend
 			
 			index = this.indexOf(model);
 			
-			this.models.splice(index, 1);
+			this._models.splice(index, 1);
 			this.length--;
 			
 			if (!options.silent) 
@@ -178,7 +183,7 @@ conbo.Collection = conbo.List.extend
 		{
 			for (i = 0, l = this.length; i < l; ++i) 
 			{
-				if (!modelMap[(model = this.models[i]).cid]) toRemove.push(model);
+				if (!modelMap[(model = this._models[i]).cid]) toRemove.push(model);
 			}
 			
 			if (toRemove.length) 
@@ -196,11 +201,11 @@ conbo.Collection = conbo.List.extend
 			
 			if (at != null) 
 			{
-				[].splice.apply(this.models, [at, 0].concat(toAdd));
+				[].splice.apply(this._models, [at, 0].concat(toAdd));
 			}
 			else 
 			{
-				[].push.apply(this.models, toAdd);
+				[].push.apply(this._models, toAdd);
 			}
 		}
 		
@@ -244,12 +249,12 @@ conbo.Collection = conbo.List.extend
 	{
 		options || (options = {});
 		
-		for (var i = 0, l = this.models.length; i < l; i++) 
+		for (var i = 0, l = this._models.length; i < l; i++) 
 		{
-			this._removeReference(this.models[i]);
+			this._removeReference(this._models[i]);
 		}
 		
-		options.previousModels = this.models;
+		options.previousModels = this._models;
 		
 		this._reset();
 		this.add(models, _.extend({silent: true}, options));
@@ -311,7 +316,7 @@ conbo.Collection = conbo.List.extend
 	 */
 	slice: function(begin, end) 
 	{
-		return this.models.slice(begin, end);
+		return this._models.slice(begin, end);
 	},
 
 	/**
@@ -320,7 +325,7 @@ conbo.Collection = conbo.List.extend
 	get: function(obj) 
 	{
 		if (obj == null) return undefined;
-		this._idAttr || (this._idAttr = this.model.prototype.idAttribute);
+		this._idAttr || (this._idAttr = this.modelClass.prototype.idAttribute);
 		return this._byId[obj.id || obj.cid || obj[this._idAttr] || obj];
 	},
 
@@ -329,7 +334,7 @@ conbo.Collection = conbo.List.extend
 	 */
 	at: function(index) 
 	{
-		return this.models[index];
+		return this._models[index];
 	},
 
 	/**
@@ -372,11 +377,11 @@ conbo.Collection = conbo.List.extend
 		// Run sort based on type of `comparator`.
 		if (_.isString(this.comparator) || this.comparator.length === 1) 
 		{
-			this.models = this.sortBy(this.comparator, this);
+			this._models = this.sortBy(this.comparator, this);
 		}
 		else 
 		{
-			this.models.sort(_.bind(this.comparator, this));
+			this._models.sort(_.bind(this.comparator, this));
 		}
 
 		if (!options.silent) 
@@ -404,7 +409,7 @@ conbo.Collection = conbo.List.extend
 			return model.get(value);
 		};
 		
-		return _.sortedIndex(this.models, model, iterator, context);
+		return _.sortedIndex(this._models, model, iterator, context);
 	},
 
 	/**
@@ -412,7 +417,7 @@ conbo.Collection = conbo.List.extend
 	 */
 	pluck: function(attr)
 	{
-		return _.invoke(this.models, 'get', attr);
+		return _.invoke(this._models, 'get', attr);
 	},
 
 	/**
@@ -493,7 +498,7 @@ conbo.Collection = conbo.List.extend
 	 */
 	clone: function() 
 	{
-		return new this.constructor(this.models);
+		return new this.constructor(this._models);
 	},
 	
 	// List methods that aren't available on Collection
@@ -503,11 +508,6 @@ conbo.Collection = conbo.List.extend
 		throw new Error('splice is not available on conbo.Collection');
 	},
 	
-	replace: function()
-	{
-		throw new Error('replace is not available on conbo.Collection');
-	},
-	
 	/**
 	 * Private method to reset all internal state. Called when the collection
 	 * is first initialized or reset.
@@ -515,7 +515,7 @@ conbo.Collection = conbo.List.extend
 	_reset: function() 
 	{
 		this.length = 0;
-		this.models = [];
+		this._models = [];
 		this._byId	= {};
 	},
 	
@@ -534,7 +534,7 @@ conbo.Collection = conbo.List.extend
 		options || (options = {});
 		options.collection = this;
 		
-		var model = new this.model(attrs, options);
+		var model = new this.modelClass(attrs, options);
 		
 		if (!model._validate(attrs, options)) 
 		{
