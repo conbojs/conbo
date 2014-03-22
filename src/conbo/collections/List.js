@@ -148,7 +148,7 @@ conbo.List = conbo.EventDispatcher.extend
 			this.trigger(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 		}
 		
-		this.trigger(new conbo.ConboEvent(conbo.ConboEvent.CHANGE));
+		this.trigger(new conbo.ConboEvent(conbo.ConboEvent.CHANGE, {model:model}));
 		
 		return replaced;
 	},
