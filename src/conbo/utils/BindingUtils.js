@@ -538,7 +538,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 */
 	cleanPropertyName: function(value)
 	{
-		return (value || '').replace(/[^\w\.]/g, '');
+		return (value || '').replace(/[^\w\._]/g, '');
 	},
 	
 	toString: function()
