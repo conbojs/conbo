@@ -94,8 +94,7 @@ conbo.Context = conbo.EventDispatcher.extend
 		
 		if (this._mapMulti(propertyName, singletonClass, this.mapSingleton)) return;
 		
-		this._singletons[propertyName] =
-			_.isFunction(singletonClass)
+		this._singletons[propertyName] = conbo.isClass(singletonClass)
 			// TODO Improved dynamic class instantiation
 			? new singletonClass(arguments[2], arguments[3], arguments[4])
 			: singletonClass;

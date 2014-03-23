@@ -17,7 +17,7 @@ conbo.AttributeBindings = conbo.Class.extend
 	 */
 	cbShow: function(value, el)
 	{
-		this.hide(!value, el);
+		this.cbHide(!value, el);
 	},
 	
 	/**
@@ -44,7 +44,7 @@ conbo.AttributeBindings = conbo.Class.extend
 	 */
 	cbInclude: function(value, el)
 	{
-		this.exclude(!value, el);
+		this.cbExclude(!value, el);
 	},
 	
 	/**
