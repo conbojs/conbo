@@ -102,7 +102,7 @@ conbo.AttributeBindings = conbo.Class.extend
 	 * @param value
 	 * @param el
 	 */
-	cbClass: function(value, el, className)
+	cbClass: function(value, el, options, className)
 	{
 		if (!className)
 		{
@@ -123,11 +123,18 @@ conbo.AttributeBindings = conbo.Class.extend
 	 * @param value
 	 * @param el
 	 */
-	cbRepeat: function(values, el)
+	cbRepeat: function(values, el, options, itemRendererClassName)
 	{
 		var a, 
-			$el = $(el);
+			$el = $(el),
+			viewClass;
 		
+		if (options && options.context && options.context.app)
+		{
+			viewClass = options.context.app.getClass(itemRendererClassName);
+		}
+		
+		viewClass || (viewClass = conbo.View);
 		el.cbData || (el.cbData = {});
 		
 		elements = el.cbData.elements || [];
@@ -183,7 +190,7 @@ conbo.AttributeBindings = conbo.Class.extend
 			}
 			
 			var $clone = $el.clone().removeAttr('cb-repeat'),
-				view = new conbo.View({model:value, el:$clone});
+				view = new viewClass(_.extend({model:value, el:$clone}, options));
 			
 			view.$el.addClass('cb-repeat');
 			

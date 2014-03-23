@@ -22,7 +22,7 @@ conbo.Application = conbo.View.extend
 		options = _.clone(options) || {};
 		
 		this.prefix = options.prefix || _.result(this, 'prefix') || '';
-		this.namespace = options.namespace || _.result(this, 'namespace');
+		this.namespace = options.namespace || _.result(this, 'namespace') || '';
 		
 		options.app = this;
 		options.context = new this.contextClass(options);
@@ -33,6 +33,47 @@ conbo.Application = conbo.View.extend
 		this.applyViews();
 	},
 	
+	/**
+	 * Apply View classes child DOM elements based on their cb-view attribute
+	 */
+	applyViews: function()
+	{
+		var selector = '[cb-view]';
+		
+		this.$(selector).not('.cb-view').each(this.proxy(function(index, el)
+		{
+			var view = this.$(el).cbAttrs().view,
+				viewClass;
+			
+			if (viewClass = this.getClass(view))
+			{
+				new viewClass(this.context.addTo({el:el}));
+			}
+			
+		}));
+		
+		return this;
+	},
+	
+	/**
+	 * Attempt to convert string into a conbo.Class
+	 * @param name
+	 * @returns
+	 */
+	getClass: function(name)
+	{
+		if (!name) return;
+		
+		var viewClass = !!this.namespace
+			? this.namespace[name]
+			: eval(name);
+		
+		if (_.isFunction(viewClass)) 
+		{
+			return viewClass;
+		}		
+	},
+
 	toString: function()
 	{
 		return 'conbo.Application';
@@ -74,6 +115,17 @@ conbo.Application = conbo.View.extend
 			el = $(selector)[0];
 		
 		return !!el ? el : undefined;
-	}
+	},
 	
+	/**
+	 * Returns prefixed class name
+	 * @param 	name
+	 * @returns
+	 */
+	_addPrefix: function(name)
+	{
+		name || (name = '');
+		return !!this.prefix ? this.prefix+'.'+name : name;
+	}
+
 });

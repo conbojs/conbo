@@ -20,6 +20,15 @@
 		}
 	});
 	
+	/**
+	 * Very simple item renderer example that simply applies a CSS class
+	 * (the cb-repeat item renderer parameter is optional)
+	 */
+	app.MyItemRenderer = conbo.View.extend
+	({
+		className: 'item-renderer',
+	}),
+	
 	app.MyApp = conbo.Application.extend
 	({
 		contextClass: app.MyContext,

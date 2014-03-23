@@ -6,27 +6,40 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0">
 		
 		<style type="text/css">
+			
 			ul>:first-child
 			{
 				color: red;
 			}
+			
 			ul>:last-child
 			{
 				color: blue;
 			}
+			
+			.item-renderer:before
+			{
+				content:'"';
+			}
+			
+			.item-renderer:after
+			{
+				content:'"';
+			}
+			
 		</style>
 		
 	</head>
 	
 	<body cb-app="MyApp">
-	
+		
 		<p>
 			<button cb-onclick="addItem">Add Item</button>
 			<button cb-onclick="removeItem">Remove Item</button>
 		</p>
 			
 		<ul>
-			<li cb-repeat="myCollection">My name is <span cb-html="model.name"></span></li>
+			<li cb-repeat="myCollection;MyItemRenderer">My name is <span cb-html="model.name"></span></li>
 		</ul>
 		
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>

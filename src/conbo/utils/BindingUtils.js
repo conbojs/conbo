@@ -172,11 +172,12 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * @param 	{String}			propertyName	Property name to bind
 	 * @param 	{DOMElement}		element			DOM element to bind value to (two-way bind on input/form elements)
 	 * @param 	{String}			attributeName	The cb-* property to bind against in camelCase, e.g. "propName" for "cb-prop-name"
-	 * @param 	{Function} 			parseFunction	Optional method used to parse values before outputting as HTML
+	 * @param 	{Function} 			parseFunction	Method used to parse values before outputting as HTML (optional)
+	 * @param	{Object}			options			Options related to this attribute binding (optional)
 	 * 
 	 * @returns	{Array}								Array of bindings
 	 */
-	bindAttribute: function(source, propertyName, element, attributeName, parseFunction)
+	bindAttribute: function(source, propertyName, element, attributeName, parseFunction, options)
 	{
 		if (this._isReservedAttribute(attributeName))
 		{
@@ -342,7 +343,8 @@ conbo.BindingUtils = conbo.Class.extend({},
 			this.unbindView(view);
 		}
 		
-		var bindings = [],
+		var options = view.context.addTo({view:view}),
+			bindings = [],
 			$nestedViews = view.$('.cb-view, [cb-view], .cb-app, [cb-app]'),
 			$ignored = view.$('[cb-repeat]'),
 			scope = this;
@@ -374,7 +376,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 				
 				var d = cbData[key],
 					b = d.split('|'),
-					params = b[0].split(':'),
+					params = b[0].split(';'),
 					s = scope.cleanPropertyName(params.shift()).split('.'),
 					p = s.pop(),
 					m,
@@ -396,7 +398,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 				if (!m) throw new Error(b[0]+' is not defined in this View');
 				if (!p) throw new Error('Unable to bind to undefined property: '+p);
 				
-				var args = [m, p, el, key, f].concat(params);
+				var args = [m, p, el, key, f, options].concat(params);
 
 				bindings = bindings.concat(scope.bindAttribute.apply(scope, args));
 			});
