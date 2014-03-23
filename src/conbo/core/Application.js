@@ -68,12 +68,12 @@ conbo.Application = conbo.View.extend
 			? this.namespace[name]
 			: eval(name);
 		
-		if (_.isFunction(viewClass)) 
+		if (conbo.isClass(viewClass)) 
 		{
 			return viewClass;
 		}		
 	},
-
+	
 	toString: function()
 	{
 		return 'conbo.Application';

@@ -106,8 +106,7 @@ conbo.AttributeBindings = conbo.Class.extend
 	{
 		if (!className)
 		{
-			console.warn('cb-class attributes must specify one or more CSS classes in the format cb-class="myProperty:className"');
-			return;
+			throw new Error('cb-class attributes must specify one or more CSS classes in the format cb-class="myProperty;class-name"');
 		}
 		
 		var $el = $(el);
@@ -126,6 +125,7 @@ conbo.AttributeBindings = conbo.Class.extend
 	cbRepeat: function(values, el, options, itemRendererClassName)
 	{
 		var a, 
+			args = _.toArray(arguments),
 			$el = $(el),
 			viewClass;
 		
@@ -150,7 +150,7 @@ conbo.AttributeBindings = conbo.Class.extend
 			
 			el.cbData.changeHandler = this.proxy(function(event)
 			{
-				this.cbRepeat(values, el);
+				this.cbRepeat.apply(this, args);
 			});
 			
 			values.on('add remove change', el.cbData.changeHandler);

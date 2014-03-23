@@ -7,12 +7,7 @@
 
 var _isFunction = _.isFunction;
 
-_.isClass = function(value)
-{
-	return value instanceof conbo.Class;
-};
-
 _.isFunction = function(value)
 {
-	return _isFunction(value) && !_.isClass(value);
+	return _isFunction(value) && !conbo.isClass(value);
 };
