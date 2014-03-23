@@ -432,20 +432,27 @@ conbo.BindingUtils = conbo.Class.extend({},
 		{
 			var binding = bindings.pop();
 			
-			switch (true)
+			try
 			{
-				case binding[0] instanceof $:
-				case binding[0] instanceof conbo.EventDispatcher:
+				switch (true)
 				{
-					binding[0].off(binding[1], binding[2]);
-					break;
+					case binding[0] instanceof $:
+					case binding[0] instanceof conbo.EventDispatcher:
+					{
+						binding[0].off(binding[1], binding[2]);
+						break;
+					}
+					
+					default:
+					{
+						binding[0].removeEventListener(binding[1], binding[2]);
+						break;
+					}
 				}
-				
-				default:
-				{
-					binding[0].removeEventListener(binding[1], binding[2]);
-					break;
-				}
+			}
+			catch (e) 
+			{
+				// TODO ?
 			}
 		}
 		
