@@ -443,9 +443,15 @@ conbo.BindingUtils = conbo.Class.extend({},
 						break;
 					}
 					
-					default:
+					case !!binding[0] && !!binding[0].removeEventListener:
 					{
 						binding[0].removeEventListener(binding[1], binding[2]);
+						break;
+					}
+					
+					default:
+					{
+						// Looks like the object's been deleted!
 						break;
 					}
 				}
