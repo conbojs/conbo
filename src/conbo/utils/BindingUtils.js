@@ -374,19 +374,10 @@ conbo.BindingUtils = conbo.Class.extend({},
 					return;
 				}
 				
-				var d = cbData[key],
+				var a, i, f,
+					d = cbData[key],
 					b = d.split('|'),
-					params = b[0].split(';'),
-					s = scope.cleanPropertyName(params.shift()).split('.'),
-					p = s.pop(),
-					m,
-					f;
-				
-				try
-				{
-					m = !!s.length ? eval('view.'+s.join('.')) : view;
-				}
-				catch (e) {}
+					splits = scope._splitAttribute(b[0]);
 				
 				try
 				{
@@ -395,13 +386,29 @@ conbo.BindingUtils = conbo.Class.extend({},
 				}
 				catch (e) {}
 				
-				if (!m) throw new Error(b[0]+' is not defined in this View');
-				if (!p) throw new Error('Unable to bind to undefined property: '+p);
+				for (a in splits)
+				{
+					var param = splits[a],
+						split = scope.cleanPropertyName(a).split('.'),
+						property = split.pop(),
+						model;
+					
+					try
+					{
+						model = !!split.length ? eval('view.'+split.join('.')) : view;
+					}
+					catch (e) {}
+					
+					if (!model) throw new Error(b[0]+' is not defined in this View');
+					if (!property) throw new Error('Unable to bind to undefined property: '+property);
+					
+					var args = [model, property, el, key, f, options, param];
+	
+					bindings = bindings.concat(scope.bindAttribute.apply(scope, args));
+				}
 				
-				var args = [m, p, el, key, f, options].concat(params);
-
-				bindings = bindings.concat(scope.bindAttribute.apply(scope, args));
 			});
+			
 		});
 		
 		view._bindings = bindings;
@@ -577,6 +584,26 @@ conbo.BindingUtils = conbo.Class.extend({},
 	_isReservedAttribute: function(value)
 	{
 		return this._reservedAttributes.indexOf(value) != -1;
+	},
+	
+	/**
+	 * Split JSON-ish attribute values into usable chunks
+	 * @private
+	 * @param value
+	 */
+	_splitAttribute: function(value)
+	{
+		var a = (value || '').split(','),
+			o = {},
+			i, c;
+		
+		for (i=0, c=a.length; i<c; ++i)
+		{
+			s = a[i].split(':');
+			o[s[0]] = s[1];
+		}
+		
+		return o;
 	}
 	
 });

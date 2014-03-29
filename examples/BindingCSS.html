@@ -6,6 +6,16 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0">
 		
 		<style type="text/css">
+		div
+		{
+			margin-bottom: 40px;
+		}
+		
+		h1
+		{
+			font-weight: normal;
+		}
+		
 		.bold-red
 		{
 			color: red;
@@ -23,6 +33,21 @@
 			color: orange;
 			text-decoration: line-through;
 		}
+		
+		.bold
+		{
+			font-weight: bold;
+		}
+		
+		.italic
+		{
+			font-style: italic;
+		}
+		
+		.underlined
+		{
+			text-decoration: underline;
+		}
 		</style>
 		
 	</head>
@@ -31,9 +56,16 @@
 	
 		<div>
 			<h1><label><input type="checkbox" cb-checked="isChecked"> Tick the box to toggle CSS classes on text below</label></h1>
-			<p cb-class="isChecked;bold-red">This text will have &quot;bold-red&quot; CSS class applied</p>
-			<p cb-class="isChecked;italic-green">This paragraph will have &quot;italic-green&quot; added</p>
-			<p cb-class="isChecked;linethrough-orange">And this one will use the &quot;linethrough-orange&quot; CSS class</p>
+			<p cb-class="isChecked:bold-red">This text will have &quot;bold-red&quot; CSS class applied</p>
+			<p cb-class="isChecked:italic-green">This paragraph will have &quot;italic-green&quot; added</p>
+			<p cb-class="isChecked:linethrough-orange">And this one will use the &quot;linethrough-orange&quot; CSS class</p>
+		</div>
+		
+		<div>
+			<h1 cb-class="isBold:bold,isUnderlined:underlined,isItalic:italic">Tick the checkboxes below to add the CSS styles to this sentence</h1>
+			<label><input type="checkbox" cb-checked="isBold"> Bold</label>
+			<label><input type="checkbox" cb-checked="isUnderlined"> Underlined</label>
+			<label><input type="checkbox" cb-checked="isItalic"> Italic</label>
 		</div>
 		
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
