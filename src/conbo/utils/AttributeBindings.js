@@ -9,6 +9,25 @@
  */
 conbo.AttributeBindings = conbo.Class.extend
 ({
+	initialize: function()
+	{
+		this.cbClass.multiple = true;
+	},
+	
+	/**
+	 * Can the given attribute be bound to multiple properties at the same time?
+	 * @param 	{String}	attribute
+	 * @returns {Boolean}
+	 */
+	canHandleMultiple: function(attribute)
+	{
+		var f = conbo.toCamelCase(attribute);
+		
+		return (f in this)
+			? !!this[f].multiple
+			: false;
+	},
+	
 	/**
 	 * Makes an element visible
 	 * 
