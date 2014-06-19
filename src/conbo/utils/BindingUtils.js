@@ -343,11 +343,13 @@ conbo.BindingUtils = conbo.Class.extend({},
 			this.unbindView(view);
 		}
 		
-		var options = view.context.addTo({view:view}),
+		var options = {view:view},
 			bindings = [],
 			$nestedViews = view.$('.cb-view, [cb-view], .cb-app, [cb-app]'),
 			$ignored = view.$('[cb-repeat]'),
 			scope = this;
+		
+		if (!!view.context) view.context.addTo(options);
 		
 		view.$('*').add(view.el).filter(function()
 		{
