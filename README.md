@@ -1,13 +1,13 @@
 Conbo.js
 ========
 
-Conbo.js is a lightweight MVC application framework for JavaScript featuring extendible classes, event bus, dependency injection, data binding, context and encapsulation, command pattern and an event model which enables consistent, scoped event handling.
+Conbo.js is a lightweight MVC application framework for JavaScript featuring extendible classes, event bus, dependency injection, data binding, context and encapsulation, command pattern and an event model that enables consistent, scoped event handling.
 
 Conbo.js enables JavaScript developers a take a structured, decoupled, class based approach to application development, in a way that should be be familiar to anyone with experience of languages like ActionScript or Java.
 
-Development of Conbo.js is currently focussed on its use in client side apps, including single page applications (SPA) and self-contained modules like widgets and media players, where it can be used stand-alone or as an AMD module.
+Development of Conbo.js is currently focussed on single page applications (SPA) and self-contained modules like widgets and media players, where it can be used stand-alone or as an AMD module.
 
-While Conbo.js offers a great base for server-side Node.js applications, and we've created a specific ServerApplication class for this purpose, this is not a core development focus at present.
+While Conbo.js offers a great base for server-side Node.js applications, and there's a ServerApplication class created for just this purpose, this is not a core development focus at this time.
 
 Brief History
 -------------
