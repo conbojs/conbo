@@ -70,9 +70,9 @@ All events fired by the framework are `conbo.ConboEvent` event objects, and you 
 Dependencies
 ------------
 
-**Client-side**: jQuery 1.7+, Lo-Dash or Underscore.js 1.4+
+**Client-side**: jQuery 1.7+
 
-**Server-side**: Lo-Dash or Underscore.js 1.4+
+**Server-side**: None
 
 We generally recommend Lo-Dash over Underscore.js because it supports AMD out of the box.
 

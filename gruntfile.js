@@ -10,8 +10,8 @@ module.exports = function (grunt)
 				{
 					"temp/conbo.core.tmp":
 					[
-					 	"src/conbo/utils/native.js",
 					 	"src/conbo/utils/underscore.js",
+					 	"src/conbo/utils/native.js",
 					 	"src/conbo/utils/jquery.js",
 					 	"src/conbo/utils/css.js",
 					 	"src/conbo/core/Class.js",
@@ -25,7 +25,6 @@ module.exports = function (grunt)
 						"src/conbo/collections/List.js",
 						"src/conbo/utils/AttributeBindings.js",
 						"src/conbo/utils/BindingUtils.js",
-						"src/conbo/utils/isClass.js",
 						"src/conbo/utils/toCamelCase.js",
 						"src/conbo/view/View.js",
 						"src/conbo/core/Application.js",

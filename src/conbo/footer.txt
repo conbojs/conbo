@@ -5,29 +5,25 @@
 	// Node.js
 	if (typeof module !== 'undefined' && module.exports)
 	{
-		var _, $;
-		
-		try { _ = require('lodash'); } catch (e) {
-		try { _ = require('underscore'); } catch (e)
-			{ throw new Error('Conbo.js requires underscore or lodash'); }}
+		var $;
 		
 		try { $ = require('jQuery'); } catch (e) {
 		try { $ = require('jquery'); } catch (e) {}}
 		
-    	module.exports = create(_, $);
+    	module.exports = create($);
     }
     // AMD
     else if (typeof define === 'function' && define.amd) 
 	{
-		define('conbo', ['underscore','jquery'], function (_, $)
+		define('conbo', ['jquery'], function ($)
 		{
-			return create(_, $);
+			return create($);
 		});
 	}
 	// Global
 	else
 	{
-		window.conbo = create(window._, window.jQuery || window.Zepto || window.ender);
+		window.conbo = create(window.jQuery || window.Zepto || window.ender);
 	}
 	
 })(this, document);

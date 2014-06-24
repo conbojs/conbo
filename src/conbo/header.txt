@@ -23,12 +23,11 @@
 
 (function(window, document, undefined)
 {
-	var create = function(_, $)
+	var create = function($)
 	{
 		var conbo = 
 		{
-			VERSION:'1.3.2',
-			_:_, 
+			VERSION:'1.4.0',
 			$:$,
 			
 			toString: function() 
