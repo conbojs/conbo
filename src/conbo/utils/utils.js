@@ -65,7 +65,6 @@ var _ = {};
 
 	// Return the results of applying the iterator to each element.
 	// Delegates to **ECMAScript 5**'s native `map` if available.
-//	_.map = _.collect = function(obj, iterator, context) {
 	_.map = function(obj, iterator, context) {
 		var results = [];
 		if (obj == null) return results;
@@ -127,7 +126,6 @@ var _ = {};
 //	};
 
 	// Return the first value which passes a truth test. Aliased as `detect`.
-//	_.find = _.detect = function(obj, predicate, context) {
 	_.find = function(obj, predicate, context) {
 		var result;
 		any(obj, function(value, index, list) {
@@ -142,7 +140,6 @@ var _ = {};
 	// Return all the elements that pass a truth test.
 	// Delegates to **ECMAScript 5**'s native `filter` if available.
 	// Aliased as `select`.
-//	_.filter = _.select = function(obj, predicate, context) {
 	_.filter = function(obj, predicate, context) {
 		var results = [];
 		if (obj == null) return results;
@@ -163,7 +160,6 @@ var _ = {};
 	// Determine whether all of the elements match a truth test.
 	// Delegates to **ECMAScript 5**'s native `every` if available.
 	// Aliased as `all`.
-	//_.every = _.all = function(obj, predicate, context) {
 	_.every = function(obj, predicate, context) {
 		predicate || (predicate = _.identity);
 		var result = true;
@@ -178,7 +174,6 @@ var _ = {};
 	// Determine if at least one element in the object matches a truth test.
 	// Delegates to **ECMAScript 5**'s native `some` if available.
 	// Aliased as `any`.
-	//var any = _.some = _.any = function(obj, predicate, context) {
 	var any = _.any = function(obj, predicate, context) {
 		predicate || (predicate = _.identity);
 		var result = false;
@@ -191,8 +186,7 @@ var _ = {};
 	};
 
 	// Determine if the array or object contains a given value (using `===`).
-	// Aliased as `include`.
-	_.contains = _.include = function(obj, target) {
+	_.contains = function(obj, target) {
 		if (obj == null) return false;
 		if (nativeIndexOf && obj.indexOf === nativeIndexOf) return obj.indexOf(target) != -1;
 		return any(obj, function(value) {
@@ -451,7 +445,6 @@ var _ = {};
 	// Produce a duplicate-free version of the array. If the array has already
 	// been sorted, you have the option of using a faster algorithm.
 	// Aliased as `unique`.
-//	_.uniq = _.unique = function(array, isSorted, iterator, context) {
 	_.uniq = function(array, isSorted, iterator, context) {
 		if (_.isFunction(isSorted)) {
 			context = iterator;
@@ -1431,13 +1424,13 @@ var _ = {};
 	 * @author		Neil Rackett
 	 */
 
-	if (!Array.prototype.indexOf) 
-	{
-		Array.prototype.indexOf = function(value, fromIndex)
-		{
-			return _.indexOf(this, value, fromIndex); 
-		};
-	}
+//	if (!Array.prototype.indexOf) 
+//	{
+//		Array.prototype.indexOf = function(value, fromIndex)
+//		{
+//			return _.indexOf(this, value, fromIndex); 
+//		};
+//	}
 
 	if (!Array.prototype.forEach) 
 	{
@@ -1464,4 +1457,3 @@ var _ = {};
 	}
 	
 })();
-
