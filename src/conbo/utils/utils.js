@@ -1,17 +1,7 @@
-//		 Underscore.js 1.6.0
-//		 http://underscorejs.org
-//		 (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
-//		 Underscore may be freely distributed under the MIT license.
-
-// TODO Strip out everything we don't use (most of it!)
-
-// Create a safe reference to the Underscore object for use below.
-//var _ = function(obj)
-//{
-//	if (obj instanceof _) return obj;
-//	if (!(this instanceof _)) return new _(obj);
-//	this._wrapped = obj;
-//};
+/*
+ * Utility methods
+ * A subset of underscore.js methods, plus a few of our own
+ */
 
 var _ = {};
 
@@ -1327,4 +1317,56 @@ var _ = {};
 		conbo[name] = _[name];
 	});
 	
+	/*
+	 * Other utility functions
+	 */
+	
+	conbo.toCamelCase = function(string)
+	{
+		return (string || '').replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
+	}	
+	
+	/*
+	 * Use (mostly) _ methods to polyfill methods missing in older browsers
+	 * (yes, IE, I'm looking at you!)
+	 * 
+	 * We're only include the minimum possible number here as we don't want 
+	 * to end up bloated with stuff most people will never use
+	 * 
+	 * @author		Neil Rackett
+	 */
+
+	if (!Array.prototype.indexOf) 
+	{
+		Array.prototype.indexOf = function(value, fromIndex)
+		{
+			return _.indexOf(this, value, fromIndex); 
+		};
+	}
+
+	if (!Array.prototype.forEach) 
+	{
+		Array.prototype.forEach = function(callback, thisArg)
+		{
+			return _.each(this, callback, thisArg); 
+		};
+	}
+
+	if (!String.prototype.trim) 
+	{
+		String.prototype.trim = function () 
+		{
+			return this.replace(/^\s+|\s+$/g,''); 
+		};
+	}
+
+	if (!Object.prototype.hasOwnProperty) 
+	{
+		Object.prototype.hasOwnProperty = function(value) 
+		{
+			return value in this;
+		}; 
+	}
+	
 })();
+
