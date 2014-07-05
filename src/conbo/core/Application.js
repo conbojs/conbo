@@ -40,7 +40,7 @@ conbo.Application = conbo.View.extend
 	{
 		var selector = '[cb-view]';
 		
-		this.$(selector).not('.cb-view').each(this.proxy(function(index, el)
+		this.$(selector).not('.cb-view').each(this.bind(function(index, el)
 		{
 			var view = this.$(el).cbAttrs().view,
 				viewClass;

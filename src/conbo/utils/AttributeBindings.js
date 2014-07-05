@@ -167,7 +167,7 @@ conbo.AttributeBindings = conbo.Class.extend
 				el.cbData.list.off('add remove change', el.cbData.changeHandler);
 			}
 			
-			el.cbData.changeHandler = this.proxy(function(event)
+			el.cbData.changeHandler = this.bind(function(event)
 			{
 				this.cbRepeat.apply(this, args);
 			});

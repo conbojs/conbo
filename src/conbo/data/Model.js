@@ -298,7 +298,7 @@ conbo.Model = conbo.Hash.extend
 		
 		var success = options.success;
 		
-		options.success = this.proxy(function(resp)
+		options.success = this.bind(function(resp)
 		{
 			if (!this.set(this.parse(resp, options), options))
 			{
@@ -427,7 +427,7 @@ conbo.Model = conbo.Hash.extend
 		var model = this;
 		var success = options.success;
 		
-		var destroy = this.proxy(function() 
+		var destroy = this.bind(function() 
 		{
 			this.trigger(new conbo.ConboEvent(conbo.ConboEvent.DESTROY,
 			{

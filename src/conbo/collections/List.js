@@ -18,7 +18,7 @@ conbo.List = conbo.EventDispatcher.extend
 	{
 		options || (options = {});
 		
-		this.proxyAll('_redispatch');
+		this.bindAll('_redispatch');
 		this.length = 0;
 		
 		this._models = (models || []).slice();

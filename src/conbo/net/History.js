@@ -41,7 +41,7 @@ conbo.History = conbo.EventDispatcher.extend
 	constructor: function(options)
 	{
 		this.handlers = [];
-		this.proxyAll('checkUrl');
+		this.bindAll('checkUrl');
 		
 		// Ensure that `History` can be used outside of the browser.
 		if (typeof window !== 'undefined')
