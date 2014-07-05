@@ -33,29 +33,27 @@ module.exports = function (grunt)
 					
 					"temp/conbo-core.tmp":
 					[
+					 	"src/conbo/utils/utils.js",
 					 	"src/conbo/utils/jquery.js",
 					 	"src/conbo/utils/css.js",
+					 	"src/conbo/core/Class.js",
 					 	"src/conbo/core/Injectable.js",
+						"src/conbo/events/Event.js",
+						"src/conbo/events/ConboEvent.js",
+						"src/conbo/events/EventDispatcher.js",
+						"src/conbo/core/Bindable.js",
 						"src/conbo/core/Context.js",
+						"src/conbo/data/Hash.js",
 						"src/conbo/collections/List.js",
 						"src/conbo/utils/AttributeBindings.js",
 						"src/conbo/utils/BindingUtils.js",
 						"src/conbo/utils/toCamelCase.js",
+						"src/conbo/view/Glimpse.js",
 						"src/conbo/view/View.js",
 						"src/conbo/core/Application.js",
 						"src/conbo/core/Command.js",
 						"src/conbo/core/ServerApplication.js"
 					],
-					
-					"build/conbo-core.js":
-					[
-						"src/conbo/header.txt",
-						"temp/conbo-lite.tmp",
-						"temp/conbo-core.tmp",
-						"src/conbo/footer.txt"
-					],
-					
-					// Complete
 					
 					"temp/conbo-net.tmp":
 					[
@@ -66,10 +64,16 @@ module.exports = function (grunt)
 						"src/conbo/net/sync.js"
 					],
 					
+					"build/conbo-core.js":
+					[
+						"src/conbo/header.txt",
+						"temp/conbo-core.tmp",
+						"src/conbo/footer.txt"
+					],
+					
 					"build/conbo-complete.js":
 					[
 						"src/conbo/header.txt",
-						"temp/conbo-lite.tmp",
 						"temp/conbo-core.tmp",
 						"temp/conbo-net.tmp",
 						"src/conbo/footer.txt"

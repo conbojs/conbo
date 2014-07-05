@@ -11,7 +11,7 @@
  * @author	Neil Rackett
  * @see		conbo.Bindable
  */
-conbo.EventDispatcher = conbo.Injectable.extend
+conbo.EventDispatcher = (conbo.Injectable || conbo.Class).extend
 ({
 	/**
 	 * Dispatch the event to listeners
