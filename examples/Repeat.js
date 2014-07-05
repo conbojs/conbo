@@ -75,7 +75,7 @@
 		
 		initialize: function()
 		{
-			this.proxyAll();
+			this.bindAll();
 		},
 		
 		addItem: function(event)
