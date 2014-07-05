@@ -20,7 +20,7 @@ conbo.Class.prototype =
 	/**
 	 * Calls the specified function after the current call stack has cleared
 	 */
-	callLater: function(callback)
+	defer: function(callback)
 	{
 		_.defer(this.bind.apply(this, [callback].concat(_.rest(arguments))));
 		return this;
@@ -35,44 +35,6 @@ conbo.Class.prototype =
 	{
 		if (!this._super[methodName]) return undefined;
 		return this._super[methodName].apply(this, _.rest(arguments));
-	},
-	
-	/**
-	 * Creates an AS3-style accessor when using an ECMAScript 5 compliant browser
-	 * (Latest Chrome, Firefox, Safari and IE9+)
-	 */
-	defineProperty: function(name, getter, setter, initialValue)
-	{
-		if (!('defineProperty' in Object)) throw new Error('Object.defineProperty is not supported by the current browser');
-		
-		getter = getter || function() { return this['_'+name]; };
-		setter = setter || function(value) { this['_'+name] = value; };
-		
-		Object.defineProperty(this, name, {enumerable:true, configurable:true, get:getter, set:setter});
-		if (initialValue !== undefined) this[name] = initialValue;
-		return this;
-	},
-	
-	/**
-	 * Creates a jQuery style, chainable property accessor
-	 * @example		obj.x(123).y(456).visible(true);
-	 */
-	defineAccessor: function(name, getter, setter, initialValue)
-	{
-		getter || (getter = function() { return this['_'+name]; });
-		setter || (setter = function(value) { this['_'+name] = value; return this; });
-		
-		this[name] = function()
-		{
-			return (!!arguments.length ? setter : getter).apply(this, arguments);
-		};
-		
-		if (initialValue !== undefined)
-		{
-			this[name](initialValue);
-		}
-		
-		return this;
 	},
 	
 	/**
