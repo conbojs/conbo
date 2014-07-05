@@ -8,19 +8,35 @@ module.exports = function (grunt)
 			{
 				files:
 				{
-					"temp/conbo.core.tmp":
+					// Lite
+					
+					"temp/conbo-lite.tmp":
 					[
 					 	"src/conbo/utils/utils.js",
-					 	"src/conbo/utils/jquery.js",
-					 	"src/conbo/utils/css.js",
 					 	"src/conbo/core/Class.js",
-					 	"src/conbo/core/Injectable.js",
 						"src/conbo/events/Event.js",
 						"src/conbo/events/ConboEvent.js",
 						"src/conbo/events/EventDispatcher.js",
 						"src/conbo/core/Bindable.js",
-						"src/conbo/core/Context.js",
 						"src/conbo/data/Hash.js",
+						"src/conbo/view/Glimpse.js"
+					],
+					
+					"build/conbo-lite.js":
+					[
+						"src/conbo/header.txt",
+						"temp/conbo-lite.tmp",
+						"src/conbo/footer-lite.txt"
+					],
+					
+					// Core
+					
+					"temp/conbo-core.tmp":
+					[
+					 	"src/conbo/utils/jquery.js",
+					 	"src/conbo/utils/css.js",
+					 	"src/conbo/core/Injectable.js",
+						"src/conbo/core/Context.js",
 						"src/conbo/collections/List.js",
 						"src/conbo/utils/AttributeBindings.js",
 						"src/conbo/utils/BindingUtils.js",
@@ -31,7 +47,17 @@ module.exports = function (grunt)
 						"src/conbo/core/ServerApplication.js"
 					],
 					
-					"temp/conbo.net.tmp":
+					"build/conbo-core.js":
+					[
+						"src/conbo/header.txt",
+						"temp/conbo-lite.tmp",
+						"temp/conbo-core.tmp",
+						"src/conbo/footer.txt"
+					],
+					
+					// Complete
+					
+					"temp/conbo-net.tmp":
 					[
 						"src/conbo/data/Model.js",
 						"src/conbo/collections/Collection.js",
@@ -40,18 +66,12 @@ module.exports = function (grunt)
 						"src/conbo/net/sync.js"
 					],
 					
-					"build/conbo.core.js":
+					"build/conbo-complete.js":
 					[
 						"src/conbo/header.txt",
-						"temp/conbo.core.tmp",
-						"src/conbo/footer.txt"
-					],
-					
-					"build/conbo.js":
-					[
-						"src/conbo/header.txt",
-						"temp/conbo.core.tmp",
-						"temp/conbo.net.tmp",
+						"temp/conbo-lite.tmp",
+						"temp/conbo-core.tmp",
+						"temp/conbo-net.tmp",
 						"src/conbo/footer.txt"
 					]
 				}
@@ -62,16 +82,22 @@ module.exports = function (grunt)
 		
 		uglify: 
 		{
+			lite: 
+			{
+				src: 'build/conbo-lite.js',
+				dest: 'build/conbo-lite.min.js'
+			},
+			
 			core: 
 			{
-				src: 'build/conbo.core.js',
-				dest: 'build/conbo.core.min.js'
+				src: 'build/conbo-core.js',
+				dest: 'build/conbo-core.min.js'
 			},
 			
 			complete:
 			{
-				src: 'build/conbo.js',
-				dest: 'build/conbo.min.js'
+				src: 'build/conbo-complete.js',
+				dest: 'build/conbo-complete.min.js'
 			}
 		},
 		

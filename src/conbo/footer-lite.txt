@@ -1,0 +1,24 @@
+
+		return conbo;
+	}
+	
+	// Node.js
+	if (typeof module !== 'undefined' && module.exports)
+	{
+    	module.exports = create($);
+    }
+    // AMD
+    else if (typeof define === 'function' && define.amd) 
+	{
+		define('conbo', function ()
+		{
+			return create();
+		});
+	}
+	// Global
+	else
+	{
+		window.conbo = create();
+	}
+	
+})(this, document);

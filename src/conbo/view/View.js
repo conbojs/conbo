@@ -6,7 +6,7 @@
  * 
  * Some methods derived from the Backbone.js class of the same name
  */
-conbo.View = conbo.Bindable.extend
+conbo.View = conbo.Glimpse.extend
 ({
 	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
