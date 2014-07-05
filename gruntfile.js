@@ -11,7 +11,6 @@ module.exports = function (grunt)
 					"temp/conbo.core.tmp":
 					[
 					 	"src/conbo/utils/underscore.js",
-					 	"src/conbo/utils/native.js",
 					 	"src/conbo/utils/jquery.js",
 					 	"src/conbo/utils/css.js",
 					 	"src/conbo/core/Class.js",
