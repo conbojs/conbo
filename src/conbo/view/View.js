@@ -50,39 +50,12 @@ conbo.View = conbo.Glimpse.extend
 	},
 	
 	/**
-	 * The default `tagName` of a View's element is `"div"`.
-	 */
-	tagName: 'div',
-	
-	/**
-	 * Initialize is an empty function by default. Override it with your own
-	 * initialization logic.
-	 */
-	initialize: function(){},
-	
-	/**
 	 * jQuery delegate for element lookup, scoped to DOM elements within the
 	 * current view. This should be prefered to global lookups where possible.
 	 */
 	$: function(selector)
 	{
 		return this.$el.find(selector);
-	},
-	
-	/**
-	 * Your class should override **render**, which is called automatically 
-	 * after your View is initialized. If you're using a template, this means
-	 * **render** is called immediately after the template is applied to your
-	 * View's element (`this.el`).
-	 * 
-	 * If you want to apply Lo-Dash, Mustache or any other third party
-	 * templating to your View, this is the place to do it.
-	 * 
-	 * The convention is for **render** to always return `this`.
-	 */
-	render: function() 
-	{
-		return this;
 	},
 	
 	/**
@@ -231,7 +204,7 @@ conbo.View = conbo.Glimpse.extend
 	 * @param 	{String}	url			A string containing the URL to which the request is sent
 	 * @param 	{Function} 	callback	Callback in format function(success)
 	 */
-	loadCSS: function(url, callbackFunction)
+	loadCss: function(url, callbackFunction)
 	{
 		if (!('document' in window)) return this;
 		
