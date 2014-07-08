@@ -177,7 +177,7 @@ conbo.Model = conbo.Hash.extend
 			
 			for (var i=0, l=changes.length; i<l; i++) 
 			{
-				this.trigger(new conbo.ConboEvent('change:'+changes[i],
+				this.dispatchEvent(new conbo.ConboEvent('change:'+changes[i],
 				{
 					model: this,
 					value: current[changes[i]], 
@@ -200,7 +200,7 @@ conbo.Model = conbo.Hash.extend
 			{
 				this._pending = false;
 				
-				this.trigger(new conbo.ConboEvent(conbo.ConboEvent.CHANGE,
+				this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE,
 				{
 					model: this,
 					options: options
@@ -310,7 +310,7 @@ conbo.Model = conbo.Hash.extend
 				success(this, resp, options);
 			}
 			
-			this.trigger(new conbo.ConboEvent(conbo.ConboEvent.SYNC,
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.SYNC,
 			{
 				model:		this,
 				response:	resp,
@@ -395,7 +395,7 @@ conbo.Model = conbo.Hash.extend
 				success(model, resp, options);
 			}
 			
-			model.trigger(new conbo.ConboEvent(conbo.ConboEvent.SYNC,
+			model.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.SYNC,
 			{
 				model: model,
 				response: resp, 
@@ -429,7 +429,7 @@ conbo.Model = conbo.Hash.extend
 		
 		var destroy = this.bind(function() 
 		{
-			this.trigger(new conbo.ConboEvent(conbo.ConboEvent.DESTROY,
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.DESTROY,
 			{
 				model: this,
 				collection: model.collection,
@@ -451,7 +451,7 @@ conbo.Model = conbo.Hash.extend
 			
 			if (!model.isNew()) 
 			{
-				model.trigger(new conbo.ConboEvent(conbo.ConboEvent.SYNC, 
+				model.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.SYNC, 
 				{
 					model: model, 
 					response: resp, 
@@ -535,7 +535,7 @@ conbo.Model = conbo.Hash.extend
 		var error = this.validationError = this.validate(attrs, options) || null;
 		if (!error) return true;
 		
-		this.trigger(new conbo.ConboEvent(conbo.ConboEvent.INVALID,
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.INVALID,
 		{
 			model: 		this,
 			error: 		error,
@@ -556,7 +556,7 @@ var wrapError = function (model, options)
 	{
 		if (!!callback) callback(model, resp, options);
 		
-		model.trigger(new conbo.ConboEvent(conbo.ConboEvent.ERROR,
+		model.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ERROR,
 		{
 			model:model, 
 			response:resp, 

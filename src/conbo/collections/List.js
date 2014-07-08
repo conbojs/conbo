@@ -49,7 +49,7 @@ conbo.List = conbo.EventDispatcher.extend
 	{
 		this.length = this._models.push.apply(this._models, arguments);
 		this._handleChange(_.toArray(arguments));
-		this.trigger(new conbo.ConboEvent(conbo.ConboEvent.ADD));
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 		
 		return this.length;
 	},
@@ -65,7 +65,7 @@ conbo.List = conbo.EventDispatcher.extend
 		
 		this._handleChange(model, false);
 		this.length = this._models.length;
-		this.trigger(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
 		
 		return model;
 	},
@@ -77,7 +77,7 @@ conbo.List = conbo.EventDispatcher.extend
 	{
 		this.length = this._models.unshift.apply(this._models, arguments);
 		this._handleChange(_.toArray(arguments));
-		this.trigger(new conbo.ConboEvent(conbo.ConboEvent.ADD));
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 		
 		return this.length;
 	},
@@ -93,7 +93,7 @@ conbo.List = conbo.EventDispatcher.extend
 		
 		this._handleChange(model = this._models.shift(), false);
 		this.length = this._models.length;
-		this.trigger(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
 		
 		return model;
 	},
@@ -116,8 +116,8 @@ conbo.List = conbo.EventDispatcher.extend
 		var models = this._models.splice(begin, length, inserts);
 		this.length = this._models.length;
 		
-		if (models.length) this.trigger(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
-		if (inserts.length) this.trigger(new conbo.ConboEvent(conbo.ConboEvent.ADD));
+		if (models.length) this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
+		if (inserts.length) this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 		
 		return models;
 	},
@@ -145,10 +145,10 @@ conbo.List = conbo.EventDispatcher.extend
 		if (this._models.length > this.length)
 		{
 			this.length = this._models.length;
-			this.trigger(new conbo.ConboEvent(conbo.ConboEvent.ADD));
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 		}
 		
-		this.trigger(new conbo.ConboEvent(conbo.ConboEvent.CHANGE, {model:model}));
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE, {model:model}));
 		
 		return replaced;
 	},
@@ -169,7 +169,7 @@ conbo.List = conbo.EventDispatcher.extend
 	sort: function(compareFunction) 
 	{
 		this._models.sort(compareFunction);
-		this.trigger(new conbo.ConboEvent(conbo.ConboEvent.SORT));
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.SORT));
 		
 		return this;
 	},
@@ -214,7 +214,7 @@ conbo.List = conbo.EventDispatcher.extend
 	 */
 	_redispatch: function(event)
 	{
-		this.trigger(event);
+		this.dispatchEvent(event);
 	}
 });
 

@@ -105,7 +105,7 @@ conbo.Collection = conbo.List.extend
 			{
 				options.index = index;
 						
-				this.trigger(new conbo.ConboEvent(conbo.ConboEvent.REMOVE,
+				this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE,
 				{
 					model: model,
 					collection: this,
@@ -167,7 +167,7 @@ conbo.Collection = conbo.List.extend
 
 				// Listen to added models' events, and index models for lookup by
 				// `id` and by `cid`.
-				model.on('all', this._onModelEvent, this);
+				model.addEventListener('all', this._onModelEvent, this);
 				
 				this._byId[model.cid] = model;
 				
@@ -219,7 +219,7 @@ conbo.Collection = conbo.List.extend
 		{
 			var model = toAdd[i];
 			
-			model.trigger(new conbo.ConboEvent(conbo.ConboEvent.ADD, 
+			model.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD, 
 			{
 				model:model, 
 				collection:this, 
@@ -230,7 +230,7 @@ conbo.Collection = conbo.List.extend
 		// Trigger `sort` if the collection was sorted.
 		if (sort)
 		{
-			this.trigger(new conbo.ConboEvent(conbo.ConboEvent.SORT, 
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.SORT, 
    			{
    				collection:this, 
    				options:options
@@ -261,7 +261,7 @@ conbo.Collection = conbo.List.extend
 				
 		if (!options.silent) 
 		{
-			this.trigger(new conbo.ConboEvent(conbo.ConboEvent.RESET,
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.RESET,
 			{
 				collection: this,
 				options: options
@@ -386,7 +386,7 @@ conbo.Collection = conbo.List.extend
 
 		if (!options.silent) 
 		{
-			this.trigger(new conbo.ConboEvent(conbo.ConboEvent.SORT,
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.SORT,
 			{
 				collection: this,
 				options: options
@@ -445,7 +445,7 @@ conbo.Collection = conbo.List.extend
 				success(collection, resp, options);
 			}
 			
-			collection.trigger(new conbo.ConboEvent(conbo.ConboEvent.SYNC,
+			collection.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.SYNC,
 			{
 				collection:	collection,
 				response:	resp,
@@ -538,7 +538,7 @@ conbo.Collection = conbo.List.extend
 		
 		if (!model._validate(attrs, options)) 
 		{
-			this.trigger(new conbo.ConboEvent(conbo.ConboEvent.INVALID,
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.INVALID,
 			{
 				collection:	this,
 				attrs:		attrs,
@@ -556,7 +556,7 @@ conbo.Collection = conbo.List.extend
 	 */
 	_removeReference: function(model) {
 		if (this === model.collection) delete model.collection;
-		model.off('all', this._onModelEvent, this);
+		model.removeEventListener('all', this._onModelEvent, this);
 	},
 
 	/**
@@ -592,7 +592,7 @@ conbo.Collection = conbo.List.extend
 			}
 		}
 		
-		this.trigger(event);
+		this.dispatchEvent(event);
 	},
 
 	toString: function()

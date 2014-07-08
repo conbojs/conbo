@@ -73,8 +73,8 @@ conbo.Bindable = conbo.EventDispatcher.extend
 		{
 			var options = {attribute:attributes, value:value, options:options};
 			
-			this.trigger(new conbo.ConboEvent('change:'+attributes, options));
-			this.trigger(new conbo.ConboEvent(conbo.ConboEvent.CHANGE, options));
+			this.dispatchEvent(new conbo.ConboEvent('change:'+attributes, options));
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE, options));
 		}
 		
 		return this;

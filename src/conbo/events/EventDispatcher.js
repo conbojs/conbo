@@ -14,10 +14,53 @@
 conbo.EventDispatcher = (conbo.Injectable || conbo.Class).extend
 ({
 	/**
+	 * Add a listener for a particular event type
+	 * @param type		Type of event ('change') or events ('change blur')
+	 * @param handler	Function that should be called
+	 */
+	addEventListener: function(type, handler, scope, priority, once)
+	{
+		if (!type) throw new Error('Event type undefined');
+		if (!handler || !_.isFunction(handler)) throw new Error('Event handler is undefined or not a function');
+
+		if (_.isString(type)) type = type.split(' ');
+		if (_.isArray(type)) _.each(type, function(value, index, list) { this._addEventListener(value, handler, scope, priority, !!once); }, this);
+		else _.each(type, function(value, key, list) { this._addEventListener(key, value, scope, priority, !!once); }, this); 
+		
+		return this;
+	},
+	
+	/**
+	 * Remove a listener for a particular event type
+	 * @param type		Type of event ('change') or events ('change blur')
+	 * @param handler	Function that should be called
+	 * @param scope	The scope
+	 */
+	removeEventListener: function(type, handler, scope)
+	{
+		if (!arguments.length)
+		{
+			this._queue = {};
+			return this;
+		}
+		
+		if (!type) throw new Error('Event type undefined');
+		if (arguments.length == 2 && !handler) return this;
+		
+		var a = arguments;
+		
+		if (_.isString(type)) type = type.split(' ');
+		if (_.isArray(type)) _.each(type, function(value, index, list) { this._removeEventListener.apply(this, a); }, this);
+		else _.each(type, function(value, key, list) { this._removeEventListener.apply(this, a); }, this);
+		
+		return this;
+	},
+	
+	/**
 	 * Dispatch the event to listeners
 	 * @param event		conbo.Event class instance or event type (e.g. 'change')
 	 */
-	trigger: function(event)
+	dispatchEvent: function(event)
 	{
 		if (!event) throw new Error('Event undefined');
 		
@@ -36,69 +79,9 @@ conbo.EventDispatcher = (conbo.Injectable || conbo.Class).extend
 		{
 			var value = queue[i];
 			var returnValue = value.handler.call(value.scope || this, event);
-			if (value.once) this._off(event.type, value.handler, value.scope);
+			if (value.once) this._removeEventListener(event.type, value.handler, value.scope);
 			if (returnValue === false || event.immediatePropagationStopped) break;
 		}
-		
-		return this;
-	},
-	
-	/**
-	 * Add a listener for a particular event type
-	 * @param type		Type of event ('change') or events ('change blur')
-	 * @param handler	Function that should be called
-	 */
-	on: function(type, handler, scope, priority)
-	{
-		if (!type) throw new Error('Event type undefined');
-		if (!handler || !_.isFunction(handler)) throw new Error('Event handler is undefined or not a function');
-
-		if (_.isString(type)) type = type.split(' ');
-		if (_.isArray(type)) _.each(type, function(value, index, list) { this._on(value, handler, scope, priority, false); }, this);
-		else _.each(type, function(value, key, list) { this._on(key, value, scope, priority, false); }, this); 
-		
-		return this;
-	},
-	
-	/**
-	 * Add a listener for a particular event type that fires once, then removes itself
-	 * @param type		Type of event ('change') or events ('change blur')
-	 * @param handler	Function that should be called
-	 */
-	one: function(type, handler, scope, priority)
-	{
-		if (!type) throw new Error('Event type undefined');
-		if (!handler || !_.isFunction(handler)) throw new Error('Event handler is undefined or not a function');
-		
-		if (_.isString(type)) type = type.split(' ');
-		if (_.isArray(type)) _.each(type, function(value, index, list) { this._on(value, handler, scope, priority, true); }, this);
-		else _.each(type, function(value, key, list) { this._on(key, value, scope, priority, true); }, this); 
-		
-		return this;
-	},
-	
-	/**
-	 * Remove a listener for a particular event type
-	 * @param type		Type of event ('change') or events ('change blur')
-	 * @param handler	Function that should be called
-	 * @param scope	The scope
-	 */
-	off: function(type, handler, scope)
-	{
-		if (!arguments.length)
-		{
-			this._queue = {};
-			return this;
-		}
-		
-		if (!type) throw new Error('Event type undefined');
-		if (arguments.length == 2 && !handler) return this;
-		
-		var a = arguments;
-		
-		if (_.isString(type)) type = type.split(' ');
-		if (_.isArray(type)) _.each(type, function(value, index, list) { this._off.apply(this, a); }, this);
-		else _.each(type, function(value, key, list) { this._off.apply(this, a); }, this);
 		
 		return this;
 	},
@@ -108,19 +91,14 @@ conbo.EventDispatcher = (conbo.Injectable || conbo.Class).extend
 		return 'conbo.EventDispatcher';
 	},
 	
-	// Aliases
-	dispatchEvent: function() { this.trigger.apply(this, arguments); },
-	addEventListener: function() { this.on.apply(this, arguments); },
-	removeEventListener: function() { this.off.apply(this, arguments); },
-	
 	/**
 	 * @private
 	 */
-	_on: function(type, handler, scope, priority, once)
+	_addEventListener: function(type, handler, scope, priority, once)
 	{
 		if (type == '*') type = 'all';
 		if (!this._queue) this._queue = {};
-		this._off(type, handler, scope);
+		this._removeEventListener(type, handler, scope);
 		
 		if (!(type in this._queue)) this._queue[type] = [];
 		this._queue[type].push({handler:handler, scope:scope, once:once, priority:priority||0});
@@ -130,7 +108,7 @@ conbo.EventDispatcher = (conbo.Injectable || conbo.Class).extend
 	/**
 	 * @private
 	 */
-	_off: function(type, handler, scope)
+	_removeEventListener: function(type, handler, scope)
 	{
 		if (!this._queue || !(type in this._queue)) return this;
 		

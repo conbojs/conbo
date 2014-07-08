@@ -69,7 +69,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 								$el.prop('checked', !!event.value);
 							};
 							
-							source.on(eventType, eventHandler);
+							source.addEventListener(eventType, eventHandler);
 							bindings.push([source, eventType, eventHandler]);
 							
 							eventType = 'input change';
@@ -97,7 +97,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 								$el.prop('checked', true);
 							};
 							
-							source.on(eventType, eventHandler);
+							source.addEventListener(eventType, eventHandler);
 							bindings.push([source, eventType, eventHandler]);
 							
 							break;
@@ -115,7 +115,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 								$el.val(event.value);
 							};
 							
-							source.on(eventType, eventHandler);
+							source.addEventListener(eventType, eventHandler);
 							bindings.push([source, eventType, eventHandler]);
 							
 							break;
@@ -147,7 +147,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 						$el.html(html);
 					};
 					
-					source.on(eventType, eventHandler);
+					source.addEventListener(eventType, eventHandler);
 					bindings.push([source, eventType, eventHandler]);
 					
 					break;
@@ -243,7 +243,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 				
 				eventType = 'change:'+propertyName;
 				
-				source.on(eventType, eventHandler);
+				source.addEventListener(eventType, eventHandler);
 				eventHandler();
 				
 				bindings.push([source, eventType, eventHandler]);
@@ -290,7 +290,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 						}
 					    
 						eventType = 'change:'+propertyName;
-						source.on(eventType, eventHandler);
+						source.addEventListener(eventType, eventHandler);
 						eventHandler();
 						
 						bindings.push([source, eventType, eventHandler]);
@@ -451,12 +451,12 @@ conbo.BindingUtils = conbo.Class.extend({},
 				switch (true)
 				{
 					case binding[0] instanceof $:
-					case binding[0] instanceof conbo.EventDispatcher:
 					{
 						binding[0].off(binding[1], binding[2]);
 						break;
 					}
 					
+					case binding[0] instanceof conbo.EventDispatcher:
 					case !!binding[0] && !!binding[0].removeEventListener:
 					{
 						binding[0].removeEventListener(binding[1], binding[2]);
@@ -498,7 +498,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 		
 		destinationPropertyName || (destinationPropertyName = sourcePropertyName);
 		
-		source.on('change:'+sourcePropertyName, function(event)
+		source.addEventListener('change:'+sourcePropertyName, function(event)
 		{
 			if (!(destination instanceof conbo.Bindable))
 			{
@@ -539,7 +539,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			setterFunction = setterFunction[propertyName];
 		}
 		
-		source.on('change:'+propertyName, function(event)
+		source.addEventListener('change:'+propertyName, function(event)
 		{
 			setterFunction(event.value);
 		});

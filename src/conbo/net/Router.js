@@ -76,10 +76,10 @@ conbo.Router = conbo.EventDispatcher.extend
 				parameters:	args
 			}
 			
-			this.trigger(new conbo.ConboEvent('route:'+name, options));
-			this.trigger(new conbo.ConboEvent(conbo.ConboEvent.ROUTE, options));
+			this.dispatchEvent(new conbo.ConboEvent('route:'+name, options));
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ROUTE, options));
 			
-			conbo.history.trigger(new conbo.ConboEvent(conbo.ConboEvent.ROUTE, options));
+			conbo.history.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ROUTE, options));
 		}));
 		
 		return this;

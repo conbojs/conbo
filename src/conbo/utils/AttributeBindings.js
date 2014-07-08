@@ -164,7 +164,7 @@ conbo.AttributeBindings = conbo.Class.extend
 		{
 			if (!!el.cbData.list)
 			{
-				el.cbData.list.off('add remove change', el.cbData.changeHandler);
+				el.cbData.list.removeEventListener('add remove change', el.cbData.changeHandler);
 			}
 			
 			el.cbData.changeHandler = this.bind(function(event)
@@ -172,7 +172,7 @@ conbo.AttributeBindings = conbo.Class.extend
 				this.cbRepeat.apply(this, args);
 			});
 			
-			values.on('add remove change', el.cbData.changeHandler);
+			values.addEventListener('add remove change', el.cbData.changeHandler);
 			el.cbData.list = values;
 		}
 		

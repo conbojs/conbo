@@ -42,7 +42,7 @@
 		
 		button_clickHandler: function()
 		{
-			this.context.trigger(new conbo.Event('hello'));
+			this.context.dispatchEvent(new conbo.Event('hello'));
 		}
 	});
 	

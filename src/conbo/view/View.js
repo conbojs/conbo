@@ -92,7 +92,7 @@ conbo.View = conbo.Glimpse.extend
 	remove: function() 
 	{
 		this.unbindView()
-			.off();
+			.removeEventListener();
 		
 		this.$el.remove();
 		
@@ -217,7 +217,7 @@ conbo.View = conbo.Glimpse.extend
 			
 			if (!!callbackFunction) callbackFunction.apply(this, arguments);
 			
-			this.trigger(new conbo.ConboEvent(conbo.ConboEvent.TEMPLATE_LOADED));
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.TEMPLATE_LOADED));
 			this.render();
 			this.bindView();
 		});

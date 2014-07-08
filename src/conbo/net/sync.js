@@ -107,7 +107,7 @@ conbo.sync = function(method, model, options)
 	// Make the request, allowing the user to override any Ajax options.
 	var xhr = options.xhr = conbo.ajax(_.extend(params, options));
 	
-	model.trigger(new conbo.ConboEvent(conbo.ConboEvent.REQUEST,
+	model.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REQUEST,
 	{
 		model: model, 
 		xhr: xhr, 

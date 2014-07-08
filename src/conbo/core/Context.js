@@ -22,7 +22,7 @@ conbo.Context = conbo.EventDispatcher.extend
 		
 		this.app = options.app;
 		
-		this.on(conbo.Event.ALL, this._allHandler);
+		this.addEventListener(conbo.Event.ALL, this._allHandler);
 		this.initialize.apply(this, arguments);
 		
 		return this;
