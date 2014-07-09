@@ -188,7 +188,10 @@ conbo.View = conbo.Glimpse.extend
 		{
 			this.template = response;
 			
-			if (!!callbackFunction) callbackFunction.apply(this, arguments);
+			if (!!callbackFunction)
+			{
+				callbackFunction.apply(this, arguments);
+			}
 			
 			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.TEMPLATE_LOADED));
 			this.render();

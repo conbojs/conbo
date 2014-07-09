@@ -1421,14 +1421,17 @@ var _ = {};
 	 */
 	conbo.loadCss = function(url, media)
 	{
-		if (!('document' in window)) return this;
+		if (!('document' in window) || ('querySelector' in document && !document.querySelector('[href='+url+']')))
+		{
+			return this;
+		}
 		
 	    var link, head; 
 	    
 	    link = document.createElement('link');
 	    link.rel  = 'stylesheet';
 	    link.type = 'text/css';
-	    link.href = 'http://website.com/css/stylesheet.css';
+	    link.href = url;
 	    link.media = media || 'all';
 	    
 		head = document.getElementsByTagName('head')[0];
