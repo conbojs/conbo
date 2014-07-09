@@ -196,50 +196,7 @@ conbo.View = conbo.Glimpse.extend
 		});
 		
 		this.$el.load(url, data, completeHandler);
-	},
-	
-	/**
-	 * Loads a CSS and apply it to the DOM
-	 * 
-	 * @param 	{String}	url			A string containing the URL to which the request is sent
-	 * @param 	{Function} 	callback	Callback in format function(success)
-	 */
-	loadCss: function(url, callbackFunction)
-	{
-		if (!('document' in window)) return this;
-		
-		var $link = $('<link>').attr({rel:"stylesheet", type: "text/css", href:url}),
-			link = $link[0],
-			hasSheet = ('sheet' in link),
-			sheet = hasSheet ? 'sheet' : 'styleSheet', 
-			rules = hasSheet ? 'cssRules' : 'rules';
-		
-		var successInterval = setInterval(function()
-		{
-			try 
-			{
-				if (link[sheet] && link[sheet][rules].length) 
-				{
-					clearInterval(successInterval);
-					clearTimeout(errorTimeout);
-					callbackFunction(true);
-				}
-			}
-			catch(e) {}
-		}, 10);
-		
-		var errorTimeout = setTimeout( function() 
-		{
-			clearInterval(successInterval);
-			clearTimeout(errorTimeout);
-			$link.remove();
-			callbackFunction(false);
-		}, 15000);
-		
-		$('head').append($link);
-		
-		return this;
-	},
+	},	
 	
 	toString: function()
 	{

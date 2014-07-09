@@ -18,15 +18,6 @@ conbo.Class.prototype =
 	initialize: function() {},
 	
 	/**
-	 * Calls the specified function after the current call stack has cleared
-	 */
-	defer: function(callback)
-	{
-		_.defer(this.bind.apply(this, [callback].concat(_.rest(arguments))));
-		return this;
-	},
-	
-	/**
 	 * Calls the specified method on the _super object, scoped to this
 	 * @param 	methodName		String
 	 * @param	...				Zero or more additional parameters
@@ -35,6 +26,15 @@ conbo.Class.prototype =
 	{
 		if (!this._super[methodName]) return undefined;
 		return this._super[methodName].apply(this, _.rest(arguments));
+	},
+	
+	/**
+	 * Calls the specified function after the current call stack has cleared
+	 */
+	defer: function(callback)
+	{
+		_.defer(this.bind.apply(this, [callback].concat(_.rest(arguments))));
+		return this;
 	},
 	
 	/**

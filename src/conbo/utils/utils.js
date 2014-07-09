@@ -27,18 +27,18 @@ var _ = {};
 	// All **ECMAScript 5** native function implementations that we hope to use
 	// are declared here.
 	var
-		nativeForEach			= ArrayProto.forEach,
-		nativeMap					= ArrayProto.map,
-		nativeReduce			 = ArrayProto.reduce,
+		nativeForEach		= ArrayProto.forEach,
+		nativeMap			= ArrayProto.map,
+		nativeReduce		= ArrayProto.reduce,
 		nativeReduceRight	= ArrayProto.reduceRight,
-		nativeFilter			 = ArrayProto.filter,
-		nativeEvery				= ArrayProto.every,
-		nativeSome				 = ArrayProto.some,
-		nativeIndexOf			= ArrayProto.indexOf,
+		nativeFilter		= ArrayProto.filter,
+		nativeEvery			= ArrayProto.every,
+		nativeSome			= ArrayProto.some,
+		nativeIndexOf		= ArrayProto.indexOf,
 		nativeLastIndexOf	= ArrayProto.lastIndexOf,
-		nativeIsArray			= Array.isArray,
-		nativeKeys				 = Object.keys,
-		nativeBind				 = FuncProto.bind;
+		nativeIsArray		= Array.isArray,
+		nativeKeys			= Object.keys,
+		nativeBind			= FuncProto.bind;
 
 	// Collection Functions
 	// --------------------
@@ -1412,6 +1412,29 @@ var _ = {};
 	conbo.accessorize = function(obj)
 	{
 		_propertize(obj, conbo.defineAccessor);
+	};
+	
+	/**
+	 * Loads a CSS and apply it to the DOM
+	 * @param 	{String}	url		The CSS file's URL
+	 * @param 	{String}	media	The media attribute (defaults to 'all')
+	 */
+	conbo.loadCss = function(url, media)
+	{
+		if (!('document' in window)) return this;
+		
+	    var link, head; 
+	    
+	    link = document.createElement('link');
+	    link.rel  = 'stylesheet';
+	    link.type = 'text/css';
+	    link.href = 'http://website.com/css/stylesheet.css';
+	    link.media = media || 'all';
+	    
+		head = document.getElementsByTagName('head')[0];
+	    head.appendChild(link);
+	    
+		return this;
 	};
 	
 	/*
