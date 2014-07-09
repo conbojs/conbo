@@ -1421,7 +1421,7 @@ var _ = {};
 	 */
 	conbo.loadCss = function(url, media)
 	{
-		if (!('document' in window) || ('querySelector' in document && !document.querySelector('[href='+url+']')))
+		if (!('document' in window) || ('querySelector' in document && !!document.querySelector('[href='+url+']')))
 		{
 			return this;
 		}
