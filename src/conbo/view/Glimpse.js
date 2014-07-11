@@ -48,7 +48,11 @@ conbo.Glimpse = conbo.Bindable.extend
 	 */
 	setElement: function(element)
 	{
+		if (!!this.el) delete this.el.cbView;
+		
 		this.el = element;
+		this.el.cbView = this;
+		
 		return this;
 	},
 	

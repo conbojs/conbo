@@ -79,10 +79,12 @@ conbo.View = conbo.Glimpse.extend
 	{
 		var isBound = this.isBound();
 		
+		if (!!this.el) delete this.el.cbView;
 		if (isBound) this.unbindView();
 		
 		this.$el = $(element);
 		this.el = this.$el[0];
+		this.el.cbView = this;
 		
 		if (isBound) this.bindView();
 		

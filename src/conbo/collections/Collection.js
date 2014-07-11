@@ -318,7 +318,7 @@ conbo.Collection = conbo.List.extend
 	{
 		return this._models.slice(begin, end);
 	},
-
+	
 	/**
 	 * Get a model from the set by id.
 	 */

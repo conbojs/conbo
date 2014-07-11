@@ -1310,176 +1310,181 @@ var _ = {};
 		conbo[name] = _[name];
 	});
 	
-	/*
-	 * Other utility functions
-	 */
-	
-	conbo.toCamelCase = function(string)
-	{
-		return (string || '').replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
-	}	
-	
-	/**
-	 * Creates an AS3-style accessor when using an ECMAScript 5 compliant browser
-	 * (Latest Chrome, Firefox, Safari and IE9+)
-	 */
-	conbo.defineProperty = function(obj, name, getter, setter, initialValue)
-	{
-		if (!('defineProperty' in Object)) 
-		{
-			throw new Error('Object.defineProperty is not supported by the current browser');
-		}
-		
-		Object.defineProperty(obj, name, {enumerable:true, configurable:true, get:getter, set:setter});
-		
-		if (initialValue !== undefined)
-		{
-			obj[name] = initialValue;
-		}
-		
-		return this;
-	};
-	
-	/**
-	 * Creates a jQuery style, chainable property accessor
-	 * @example		obj.x(123).y(456).visible(true);
-	 */
-	conbo.defineAccessor = function(obj, name, getter, setter, initialValue)
-	{
-		obj[name] = function()
-		{
-			return (!!arguments.length ? setter : getter).apply(obj, arguments);
-		};
-		
-		if (initialValue !== undefined)
-		{
-			obj[name](initialValue);
-		}
-		
-		return this;
-	};
-	
-	/**
-	 * Convert methods with get_* and set_* prefix to properties/accessors
-	 */
-	var _propertize = function(obj, method)
-	{
-		var funcs = _.functions(obj),
-			getters = _.filter(funcs, function(value) { return value.indexOf('get_') == 0; }),
-			setters = _.filter(funcs, function(value) { return value.indexOf('set_') == 0; });
-		
-		getters.forEach(function(name)
-		{
-			var propName = name.substr(4),
-				getter = obj[name];
-				setterName = 'set_'+propName,
-				setterIndex = setters.indexOf(setterName),
-				setter = obj[setterName];
-			
-			if (setterIndex != -1)
-			{
-				setters.splice(setterIndex, 1);
-			}
-			
-			method(obj, propName, getter, setter);
-			
-			delete obj[name];
-			delete obj[setterName];
-		});
-		
-		setters.forEach(function(name)
-		{
-			var propName = name.substr(4),
-				setter = obj[name];
-			
-			method(obj, propName, noop, setter);
-			
-			delete obj[name];
-		});
-	};
-	
-	/**
-	 * Convert methods with get_* and set_* prefix to properties
-	 */
-	conbo.propertize = function(obj)
-	{
-		_propertize(obj, conbo.defineProperty);
-	};
-	
-	/**
-	 * Convert methods with get_* and set_* prefix to accessor functions
-	 */
-	conbo.accessorize = function(obj)
-	{
-		_propertize(obj, conbo.defineAccessor);
-	};
-	
-	/**
-	 * Loads a CSS and apply it to the DOM
-	 * @param 	{String}	url		The CSS file's URL
-	 * @param 	{String}	media	The media attribute (defaults to 'all')
-	 */
-	conbo.loadCss = function(url, media)
-	{
-		if (!('document' in window) || ('querySelector' in document && !!document.querySelector('[href='+url+']')))
-		{
-			return this;
-		}
-		
-	    var link, head; 
-	    
-	    link = document.createElement('link');
-	    link.rel  = 'stylesheet';
-	    link.type = 'text/css';
-	    link.href = url;
-	    link.media = media || 'all';
-	    
-		head = document.getElementsByTagName('head')[0];
-	    head.appendChild(link);
-	    
-		return this;
-	};
-	
-	/*
-	 * Use (mostly) _ methods to polyfill methods missing in older browsers
-	 * (yes, IE, I'm looking at you!)
-	 * 
-	 * We're only include the minimum possible number here as we don't want 
-	 * to end up bloated with stuff most people will never use
-	 * 
-	 * @author		Neil Rackett
-	 */
-
-//	if (!Array.prototype.indexOf) 
-//	{
-//		Array.prototype.indexOf = function(value, fromIndex)
-//		{
-//			return _.indexOf(this, value, fromIndex); 
-//		};
-//	}
-
-	if (!Array.prototype.forEach) 
-	{
-		Array.prototype.forEach = function(callback, thisArg)
-		{
-			return _.each(this, callback, thisArg); 
-		};
-	}
-
-	if (!String.prototype.trim) 
-	{
-		String.prototype.trim = function () 
-		{
-			return this.replace(/^\s+|\s+$/g,''); 
-		};
-	}
-
-	if (!Object.prototype.hasOwnProperty) 
-	{
-		Object.prototype.hasOwnProperty = function(value) 
-		{
-			return value in this;
-		}; 
-	}
-	
 })();
+
+
+/**
+ * Convert dash-separated-words into camelCaseWords
+ */
+conbo.toCamelCase = function(string)
+{
+	return (string || '').replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
+}	
+
+/**
+ * Creates an AS3-style accessor when using an ECMAScript 5 compliant browser
+ * (Latest Chrome, Firefox, Safari and IE9+)
+ */
+conbo.defineProperty = function(obj, name, getter, setter, initialValue)
+{
+	if (!('defineProperty' in Object)) 
+	{
+		throw new Error('Object.defineProperty is not supported by the current browser');
+	}
+	
+	Object.defineProperty(obj, name, {enumerable:true, configurable:true, get:getter, set:setter});
+	
+	if (initialValue !== undefined)
+	{
+		obj[name] = initialValue;
+	}
+	
+	return this;
+};
+
+/**
+ * Creates a jQuery style, chainable property accessor
+ * @example		obj.x(123).y(456).visible(true);
+ */
+conbo.defineAccessor = function(obj, name, getter, setter, initialValue)
+{
+	obj[name] = function()
+	{
+		return (!!arguments.length ? setter : getter).apply(obj, arguments);
+	};
+	
+	if (initialValue !== undefined)
+	{
+		obj[name](initialValue);
+	}
+	
+	return this;
+};
+
+/**
+ * Convert methods with get_* and set_* prefix to properties/accessors
+ */
+var _propertize = function(obj, method)
+{
+	var funcs = _.functions(obj),
+		getters = _.filter(funcs, function(value) { return value.indexOf('get_') == 0; }),
+		setters = _.filter(funcs, function(value) { return value.indexOf('set_') == 0; });
+	
+	getters.forEach(function(name)
+	{
+		var propName = name.substr(4),
+			getter = obj[name];
+			setterName = 'set_'+propName,
+			setterIndex = setters.indexOf(setterName),
+			setter = obj[setterName];
+		
+		if (setterIndex != -1)
+		{
+			setters.splice(setterIndex, 1);
+		}
+		
+		method(obj, propName, getter, setter);
+		
+		delete obj[name];
+		delete obj[setterName];
+	});
+	
+	setters.forEach(function(name)
+	{
+		var propName = name.substr(4),
+			setter = obj[name];
+		
+		method(obj, propName, noop, setter);
+		
+		delete obj[name];
+	});
+};
+
+/**
+ * Convert methods with get_* and set_* prefix to properties
+ */
+conbo.propertize = function(obj)
+{
+	_propertize(obj, conbo.defineProperty);
+};
+
+/**
+ * Convert methods with get_* and set_* prefix to accessor functions
+ */
+conbo.accessorize = function(obj)
+{
+	_propertize(obj, conbo.defineAccessor);
+};
+
+/**
+ * Loads a CSS and apply it to the DOM
+ * @param 	{String}	url		The CSS file's URL
+ * @param 	{String}	media	The media attribute (defaults to 'all')
+ */
+conbo.loadCss = function(url, media)
+{
+	if (!('document' in window) || ('querySelector' in document && !!document.querySelector('[href='+url+']')))
+	{
+		return this;
+	}
+	
+    var link, head; 
+    
+    link = document.createElement('link');
+    link.rel  = 'stylesheet';
+    link.type = 'text/css';
+    link.href = url;
+    link.media = media || 'all';
+    
+	head = document.getElementsByTagName('head')[0];
+    head.appendChild(link);
+    
+	return this;
+};
+
+/*
+ * Polyfill methods missing in older browsers (yes, IE, I'm looking at you!)
+ * 
+ * We're only including the minimum possible number here as we don't want 
+ * to end up bloated with stuff most people will never use
+ * 
+ * @author		Neil Rackett
+ */
+
+if (!Array.prototype.forEach) 
+{
+	Array.prototype.forEach = function(callback, thisArg)
+	{
+		return _.each(this, callback, thisArg); 
+	};
+}
+
+if (!String.prototype.trim) 
+{
+	String.prototype.trim = function () 
+	{
+		return this.replace(/^\s+|\s+$/g,''); 
+	};
+}
+
+if (!Object.prototype.hasOwnProperty) 
+{
+	Object.prototype.hasOwnProperty = function(value) 
+	{
+		return value in this;
+	}; 
+}
+
+/**
+ * Enable logging?
+ */
+conbo.logEnabled = true;
+
+/**
+ * Logging
+ */
+conbo.log = function()
+{
+	if (!console || !conbo.logEnabled) return;
+	console.log.apply(console, arguments);
+}

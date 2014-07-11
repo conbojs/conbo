@@ -5,7 +5,7 @@
 	// Node.js
 	if (typeof module !== 'undefined' && module.exports)
 	{
-    	module.exports = create($);
+    	module.exports = create();
     }
     // AMD
     else if (typeof define === 'function' && define.amd) 
