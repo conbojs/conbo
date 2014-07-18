@@ -154,26 +154,26 @@ conbo.AttributeBindings = conbo.Class.extend
 		}
 		
 		viewClass || (viewClass = conbo.View);
-		el.cbData || (el.cbData = {});
+		el.cbRepeat || (el.cbRepeat = {});
 		
-		elements = el.cbData.elements || [];
+		elements = el.cbRepeat.elements || [];
 		
 		$el.removeClass('cb-exclude');
 		
-		if (el.cbData.list != values && values instanceof conbo.List)
+		if (el.cbRepeat.list != values && values instanceof conbo.List)
 		{
-			if (!!el.cbData.list)
+			if (!!el.cbRepeat.list)
 			{
-				el.cbData.list.removeEventListener('add remove change', el.cbData.changeHandler);
+				el.cbRepeat.list.removeEventListener('add remove change', el.cbRepeat.changeHandler);
 			}
 			
-			el.cbData.changeHandler = this.bind(function(event)
+			el.cbRepeat.changeHandler = this.bind(function(event)
 			{
 				this.cbRepeat.apply(this, args);
 			});
 			
-			values.addEventListener('add remove change', el.cbData.changeHandler);
-			el.cbData.list = values;
+			values.addEventListener('add remove change', el.cbRepeat.changeHandler);
+			el.cbRepeat.list = values;
 		}
 		
 		switch (true)
@@ -217,7 +217,7 @@ conbo.AttributeBindings = conbo.Class.extend
 		});
 		
 		$el.after(elements);
-		el.cbData.elements = elements;
+		el.cbRepeat.elements = elements;
 		
 		!!elements.length
 			? $el.remove()

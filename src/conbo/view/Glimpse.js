@@ -10,8 +10,13 @@ conbo.Glimpse = conbo.Bindable.extend
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options
 	 */
-	constructor: function()
+	constructor: function(options)
 	{
+		if (conbo.isObject(options) && !!options.el)
+		{
+			this.el = options.el;
+		}
+		
 		this._ensureElement();
 		this.initialize.apply(this, arguments);
 	},
@@ -52,6 +57,8 @@ conbo.Glimpse = conbo.Bindable.extend
 		
 		this.el = element;
 		this.el.cbView = this;
+		
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ELEMENT_CHANGE));
 		
 		return this;
 	},

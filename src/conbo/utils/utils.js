@@ -1443,21 +1443,13 @@ conbo.loadCss = function(url, media)
 };
 
 /*
- * Polyfill methods missing in older browsers (yes, IE, I'm looking at you!)
+ * Polyfill methods for useful ECMAScript 5 methods
  * 
  * We're only including the minimum possible number here as we don't want 
  * to end up bloated with stuff most people will never use
  * 
  * @author		Neil Rackett
  */
-
-if (!Array.prototype.forEach) 
-{
-	Array.prototype.forEach = function(callback, thisArg)
-	{
-		return _.each(this, callback, thisArg); 
-	};
-}
 
 if (!String.prototype.trim) 
 {

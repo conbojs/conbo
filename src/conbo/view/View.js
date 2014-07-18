@@ -88,6 +88,8 @@ conbo.View = conbo.Glimpse.extend
 		
 		if (isBound) this.bindView();
 		
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ELEMENT_CHANGE));
+		
 		return this;
 	},
 	

@@ -67,6 +67,11 @@ You don't have to remember how many arguments each event handler should have, or
 
 All events fired by the framework are `conbo.ConboEvent` event objects, and you can easily create events of your own by using or extending the `conbo.Event` class in the same way you would extend any other.
 
+Browser Support
+---------------
+
+Conbo.js is designed to support the two most recent major releases of Internet Explorer, Firefox, Chrome (desktop and Android) and Safari (desktop and iOS), although it should work with older browsers, including IE9+.
+
 Dependencies
 ------------
 
