@@ -121,7 +121,7 @@ conbo.Context = conbo.EventDispatcher.extend
 	 */
 	addTo: function(obj)
 	{
-		return _.extend(obj || {}, {context:this});
+		return conbo.extend(obj || {}, {context:this});
 	},
 	
 	/**
@@ -152,10 +152,10 @@ conbo.Context = conbo.EventDispatcher.extend
 	 */
 	_allHandler: function(event)
 	{
-		var commands = _.union(this._commands.all || [], this._commands[event.type] || []);
+		var commands = conbo.union(this._commands.all || [], this._commands[event.type] || []);
 		if (!commands.length) return;
 		
-		_.each(commands, function(commandClass, index, list)
+		conbo.each(commands, function(commandClass, index, list)
 		{
 			this._executeCommand(commandClass, event);
 		}, 
@@ -183,9 +183,9 @@ conbo.Context = conbo.EventDispatcher.extend
 	 */
 	_mapMulti: function(n, c, f)
 	{
-		if (_.isArray(n) || n.indexOf(' ') == -1) return false;
-		var names = _.isArray(n) ? n : n.split(' ');
-		_.each(names, function(e) { f(e,c); }, this);
+		if (conbo.isArray(n) || n.indexOf(' ') == -1) return false;
+		var names = conbo.isArray(n) ? n : n.split(' ');
+		conbo.each(names, function(e) { f(e,c); }, this);
 		return true;
 	}
 	

@@ -200,7 +200,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			isNative = false,
 			eventType,
 			eventHandler,
-			args = _.toArray(arguments).slice(5),
+			args = conbo.toArray(arguments).slice(5),
 			camelCase = conbo.toCamelCase('cb-'+attributeName),
 			split = attributeName.split('-');
 		
@@ -255,16 +255,16 @@ conbo.BindingUtils = conbo.Class.extend({},
 			{
 				switch (true)
 				{
-					case !attributeName.indexOf('on') == 0 && _.isFunction(element[attributeName]):
+					case !attributeName.indexOf('on') == 0 && conbo.isFunction(element[attributeName]):
 						console.warn('cb-'+attributeName+' is not a recognised attribute, did you mean cb-on'+attributeName+'?');
 						break;
 						
 					// If it's an event, add a listener
 					case attributeName.indexOf('on') == 0:
 					{
-						if (!_.isFunction(source[propertyName]))
+						if (!conbo.isFunction(source[propertyName]))
 						{
-							throw new Error('DOM events can only be bound to functions');
+							throw new Error(propertyName+' is not a function and cannot be bound to DOM events');
 						}
 						
 						$(element).on(attributeName.substr(2), source[propertyName]);
@@ -284,7 +284,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 							var value;
 							
 							value = parseFunction(source.get(propertyName));
-							value = _.isBoolean(element[attributeName]) ? !!value : value;
+							value = conbo.isBoolean(element[attributeName]) ? !!value : value;
 							
 							element[attributeName] = value;
 						}
@@ -367,7 +367,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 				return;
 			}
 			
-			var keys = _.keys(cbData);
+			var keys = conbo.keys(cbData);
 			
 			keys.forEach(function(key)
 			{
@@ -389,7 +389,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 				try
 				{
 					f = !!b[1] ? eval('view.'+scope.cleanPropertyName(b[1])) : undefined;
-					f = _.isFunction(f) ? f : undefined;
+					f = conbo.isFunction(f) ? f : undefined;
 				}
 				catch (e) {}
 				
@@ -529,7 +529,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	{
 		if (!(source instanceof conbo.Bindable)) throw new Error('Source is not Bindable');
 		
-		if (!_.isFunction(setterFunction))
+		if (!conbo.isFunction(setterFunction))
 		{
 			if (!setterFunction || !(propertyName in setterFunction))
 			{
@@ -600,7 +600,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 */
 	_splitAttribute: function(attribute, value)
 	{
-		if (!_.isString(value))
+		if (!conbo.isString(value))
 		{
 			return;
 		}

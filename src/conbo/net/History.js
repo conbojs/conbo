@@ -106,7 +106,7 @@ conbo.History = conbo.EventDispatcher.extend
 		
 		// Figure out the initial configuration. Do we need an iframe?
 		// Is pushState desired ... is it available?
-		this.options = _.extend(
+		this.options = conbo.extend(
 		{},
 		{
 			root: '/'
@@ -227,7 +227,7 @@ conbo.History = conbo.EventDispatcher.extend
 	{
 		var fragment = this.fragment = this.getFragment(fragmentOverride);
 		
-		var matched = _.any(this.handlers, function(handler)
+		var matched = conbo.any(this.handlers, function(handler)
 		{
 			if (handler.route.test(fragment))
 			{

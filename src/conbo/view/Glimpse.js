@@ -80,13 +80,13 @@ conbo.Glimpse = conbo.Bindable.extend
 	{
 		if (!this.el) 
 		{
-			var attrs = _.extend({}, _.result(this, 'attributes'));
+			var attrs = conbo.extend({}, conbo.result(this, 'attributes'));
 			var el = document.createElement(this.tagName);
 			
 			if (!!this.id) el.id = this.id;
 			if (!!this.className) el.className = this.className;
 			
-			_.extend(el, attrs);
+			conbo.extend(el, attrs);
 			
 			this.setElement(el);
 		}

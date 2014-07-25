@@ -144,7 +144,7 @@ conbo.AttributeBindings = conbo.Class.extend
 	cbRepeat: function(values, el, options, itemRendererClassName)
 	{
 		var a, 
-			args = _.toArray(arguments),
+			args = conbo.toArray(arguments),
 			$el = $(el),
 			viewClass;
 		
@@ -209,7 +209,7 @@ conbo.AttributeBindings = conbo.Class.extend
 			}
 			
 			var $clone = $el.clone().removeAttr('cb-repeat'),
-				view = new viewClass(_.extend({model:value, el:$clone}, options));
+				view = new viewClass(conbo.extend({model:value, el:$clone}, options));
 			
 			view.$el.addClass('cb-repeat');
 			

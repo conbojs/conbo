@@ -19,7 +19,7 @@ conbo.Hash = conbo.Bindable.extend
 	constructor: function(attributes, options)
 	{
 		this._inject(options);
-		this._attributes = _.defaults({}, attributes, _.result(this, 'defaults'));
+		this._attributes = conbo.defaults({}, attributes, conbo.result(this, 'defaults'));
 		this.initialize.apply(this, arguments);
 	},
 	
@@ -30,7 +30,7 @@ conbo.Hash = conbo.Bindable.extend
 	 */
 	toJSON: function()
 	{
-		return _.clone(this._attributes);
+		return conbo.clone(this._attributes);
 	},
 	
 	toString: function()
@@ -43,12 +43,12 @@ conbo.Hash = conbo.Bindable.extend
 var hashMethods = ['keys', 'values', 'pairs', 'invert', 'pick', 'omit', 'size'];
 
 //Mix in each available Lo-Dash/Underscore method as a proxy to `Model#attributes`.
-_.each(hashMethods, function(method)
+conbo.each(hashMethods, function(method)
 {
 	if (!(method in _)) return;
 	
 	conbo.Hash.prototype[method] = function() 
 	{
-		return _[method].apply(_, [this._attributes].concat(_.rest(arguments)));
+		return _[method].apply(_, [this._attributes].concat(conbo.rest(arguments)));
 	};
 });

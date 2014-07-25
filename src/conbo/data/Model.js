@@ -19,17 +19,17 @@ conbo.Model = conbo.Hash.extend
 		
 		options || (options = {});
 		
-		this.cid = _.uniqueId('c');
+		this.cid = conbo.uniqueId('c');
 		this._attributes = {};
 		
-		_.extend(this, _.pick(options, ['url','urlRoot','collection']));
+		conbo.extend(this, conbo.pick(options, ['url','urlRoot','collection']));
 		
 		if (options.parse)
 		{
 			attrs = this.parse(attrs, options) || {};
 		}
 		
-		attrs = _.defaults({}, attrs, _.result(this, 'defaults'));
+		attrs = conbo.defaults({}, attrs, conbo.result(this, 'defaults'));
 		
 		this.set(attrs, options);
 		
@@ -81,7 +81,7 @@ conbo.Model = conbo.Hash.extend
 	 */
 	escape: function(attr) 
 	{
-		return _.escape(this.get(attr));
+		return conbo.escape(this.get(attr));
 	},
 
 	/**
@@ -135,7 +135,7 @@ conbo.Model = conbo.Hash.extend
 		
 		if (!changing) 
 		{
-			this._previousAttributes = _.clone(this._attributes);
+			this._previousAttributes = conbo.clone(this._attributes);
 			this.changed = {};
 		}
 		
@@ -153,12 +153,12 @@ conbo.Model = conbo.Hash.extend
 		{
 			val = attrs[attr];
 			
-			if (!_.isEqual(current[attr], val)) 
+			if (!conbo.isEqual(current[attr], val)) 
 			{
 				changes.push(attr);
 			}
 			
-			if (!_.isEqual(prev[attr], val)) 
+			if (!conbo.isEqual(prev[attr], val)) 
 			{
 				this.changed[attr] = val;
 			}
@@ -220,7 +220,7 @@ conbo.Model = conbo.Hash.extend
 	 */
 	unset: function(attr, options) 
 	{
-		return this.set(attr, undefined, _.extend({}, options, {unset: true}));
+		return this.set(attr, undefined, conbo.extend({}, options, {unset: true}));
 	},
 
 	/**
@@ -230,7 +230,7 @@ conbo.Model = conbo.Hash.extend
 	{
 		var attrs = {};
 		for (var key in this._attributes) attrs[key] = undefined;
-		return this.set(attrs, _.extend({}, options, {unset: true}));
+		return this.set(attrs, conbo.extend({}, options, {unset: true}));
 	},
 
 	/**
@@ -239,7 +239,7 @@ conbo.Model = conbo.Hash.extend
 	 */
 	hasChanged: function(attr) 
 	{
-		if (attr == null) return !_.isEmpty(this.changed);
+		if (attr == null) return !conbo.isEmpty(this.changed);
 		return attr in this.changed;
 	},
 	
@@ -253,11 +253,11 @@ conbo.Model = conbo.Hash.extend
 	 */
 	changedAttributes: function(diff) 
 	{
-		if (!diff) return this.hasChanged() ? _.clone(this.changed) : false;
+		if (!diff) return this.hasChanged() ? conbo.clone(this.changed) : false;
 		var val, changed = false;
 		var old = this._changing ? this._previousAttributes : this._attributes;
 		for (var attr in diff) {
-			if (_.isEqual(old[attr], (val = diff[attr]))) continue;
+			if (conbo.isEqual(old[attr], (val = diff[attr]))) continue;
 			(changed || (changed = {}))[attr] = val;
 		}
 		return changed;
@@ -279,7 +279,7 @@ conbo.Model = conbo.Hash.extend
 	 */
 	previousAttributes: function() 
 	{
-		return _.clone(this._previousAttributes);
+		return conbo.clone(this._previousAttributes);
 	},
 
 	/**
@@ -289,7 +289,7 @@ conbo.Model = conbo.Hash.extend
 	 */
 	fetch: function(options) 
 	{
-		options = options ? _.clone(options) : {};
+		options = options ? conbo.clone(options) : {};
 		
 		if (options.parse === undefined)
 		{
@@ -349,7 +349,7 @@ conbo.Model = conbo.Hash.extend
 			return false;
 		}
 
-		options = _.extend({validate: true}, options);
+		options = conbo.extend({validate: true}, options);
 
 		// Do not persist invalid models.
 		if (!this._validate(attrs, options)) 
@@ -360,7 +360,7 @@ conbo.Model = conbo.Hash.extend
 		// Set temporary attributes if `{wait: true}`.
 		if (attrs && options.wait)
 		{
-			this._attributes = _.extend({}, attributes, attrs);
+			this._attributes = conbo.extend({}, attributes, attrs);
 		}
 
 		// After a successful server-side save, the client is (optionally)
@@ -382,10 +382,10 @@ conbo.Model = conbo.Hash.extend
 			
 			if (options.wait) 
 			{
-				serverAttrs = _.extend(attrs || {}, serverAttrs);
+				serverAttrs = conbo.extend(attrs || {}, serverAttrs);
 			}
 			
-			if (_.isObject(serverAttrs) && !model.set(serverAttrs, options)) 
+			if (conbo.isObject(serverAttrs) && !model.set(serverAttrs, options)) 
 			{
 				return false;
 			}
@@ -422,7 +422,7 @@ conbo.Model = conbo.Hash.extend
 	 */
 	destroy: function(options) 
 	{
-		options = options ? _.clone(options) : {};
+		options = options ? conbo.clone(options) : {};
 		
 		var model = this;
 		var success = options.success;
@@ -481,7 +481,7 @@ conbo.Model = conbo.Hash.extend
 	 */
 	url: function() 
 	{
-		var base = _.result(this, 'urlRoot') || _.result(this.collection, 'url') || urlError();
+		var base = conbo.result(this, 'urlRoot') || conbo.result(this.collection, 'url') || urlError();
 		if (this.isNew()) return base;
 		return base + (base.charAt(base.length - 1) === '/' ? '' : '/') + encodeURIComponent(this.id);
 	},
@@ -516,7 +516,7 @@ conbo.Model = conbo.Hash.extend
 	 */
 	isValid: function(options) 
 	{
-		return this._validate({}, _.extend(options || {}, { validate: true }));
+		return this._validate({}, conbo.extend(options || {}, { validate: true }));
 	},
 	
 	toString: function()
@@ -531,7 +531,7 @@ conbo.Model = conbo.Hash.extend
 	_validate: function(attrs, options) 
 	{
 		if (!options.validate || !this.validate) return true;
-		attrs = _.extend({}, this._attributes, attrs);
+		attrs = conbo.extend({}, this._attributes, attrs);
 		var error = this.validationError = this.validate(attrs, options) || null;
 		if (!error) return true;
 		
@@ -539,7 +539,7 @@ conbo.Model = conbo.Hash.extend
 		{
 			model: 		this,
 			error: 		error,
-			options: 	_.extend(options || {}, {validationError: error})
+			options: 	conbo.extend(options || {}, {validationError: error})
 		}));
 		
 		return false;

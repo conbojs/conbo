@@ -14,9 +14,9 @@ conbo.View = conbo.Glimpse.extend
 	 */
 	constructor: function(options)
 	{
-		options = _.clone(options) || {};
+		options = conbo.clone(options) || {};
 		
-		this.cid = _.uniqueId('view');
+		this.cid = conbo.uniqueId('view');
 		
 		this._configure(options);
 		this._ensureElement();
@@ -24,12 +24,12 @@ conbo.View = conbo.Glimpse.extend
 		
 		this.initialize.apply(this, arguments);
 		
-		var templateUrl = _.result(this, 'templateUrl'),
+		var templateUrl = conbo.result(this, 'templateUrl'),
 			template;
 		
 		try
 		{
-			template = _.result(this, 'template');
+			template = conbo.result(this, 'template');
 		}
 		catch (e) {}
 		
@@ -39,7 +39,7 @@ conbo.View = conbo.Glimpse.extend
 		}
 		else
 		{
-			if (!!template && _.isString(template))
+			if (!!template && conbo.isString(template))
 			{
 				this.html(template);
 			}
@@ -113,7 +113,7 @@ conbo.View = conbo.Glimpse.extend
 	{
 		if (arguments.length > 1)
 		{
-			_.each(arguments, function(view, index, list) {
+			conbo.each(arguments, function(view, index, list) {
 				this.appendView(view);
 			}, this);
 			
@@ -138,7 +138,7 @@ conbo.View = conbo.Glimpse.extend
 	{
 		if (arguments.length > 1)
 		{
-			_.each(arguments, function(view, index, list) {
+			conbo.each(arguments, function(view, index, list) {
 				this.prependView(view);
 			}, this);
 			
@@ -235,8 +235,8 @@ conbo.View = conbo.Glimpse.extend
 	 */
 	_configure: function(options) 
 	{
-		if (this.options) options = _.extend({}, _.result(this, 'options'), options);
-		_.extend(this, _.pick(options, this._viewOptions));
+		if (this.options) options = conbo.extend({}, conbo.result(this, 'options'), options);
+		conbo.extend(this, conbo.pick(options, this._viewOptions));
 		this.options = options;
 	},
 	
@@ -252,15 +252,15 @@ conbo.View = conbo.Glimpse.extend
 	{
 		if (!this.el) 
 		{
-			var attrs = _.extend({}, _.result(this, 'attributes'));
-			if (this.id) attrs.id = _.result(this, 'id');
-			if (this.className) attrs['class'] = _.result(this, 'className');
-			var $el = $('<' + _.result(this, 'tagName') + '>').attr(attrs);
+			var attrs = conbo.extend({}, conbo.result(this, 'attributes'));
+			if (this.id) attrs.id = conbo.result(this, 'id');
+			if (this.className) attrs['class'] = conbo.result(this, 'className');
+			var $el = $('<' + conbo.result(this, 'tagName') + '>').attr(attrs);
 			this.setElement($el);
 		}
 		else 
 		{
-			this.setElement(_.result(this, 'el'));
+			this.setElement(conbo.result(this, 'el'));
 			if (!!this.className) this.$el.addClass(this.className);
 		}
 		
@@ -277,7 +277,7 @@ conbo.View = conbo.Glimpse.extend
 var viewMethods = ['html'];
 
 //Mix in each available Lo-Dash/Underscore method as a proxy to `Model#attributes`.
-_.each(viewMethods, function(method)
+conbo.each(viewMethods, function(method)
 {
 	conbo.View.prototype[method] = function() 
 	{

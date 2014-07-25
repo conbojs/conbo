@@ -48,7 +48,7 @@ conbo.List = conbo.EventDispatcher.extend
 	push: function(model)
 	{
 		this.length = this._models.push.apply(this._models, arguments);
-		this._handleChange(_.toArray(arguments));
+		this._handleChange(conbo.toArray(arguments));
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 		
 		return this.length;
@@ -76,7 +76,7 @@ conbo.List = conbo.EventDispatcher.extend
 	unshift: function(model) 
 	{
 		this.length = this._models.unshift.apply(this._models, arguments);
-		this._handleChange(_.toArray(arguments));
+		this._handleChange(conbo.toArray(arguments));
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 		
 		return this.length;
@@ -111,7 +111,7 @@ conbo.List = conbo.EventDispatcher.extend
 	 */
 	splice: function(begin, length)
 	{
-		var inserts = _.rest(arguments,2).length;
+		var inserts = conbo.rest(arguments,2).length;
 		
 		var models = this._models.splice(begin, length, inserts);
 		this.length = this._models.length;
@@ -196,7 +196,7 @@ conbo.List = conbo.EventDispatcher.extend
 	{
 		var method = enabled === false ? 'off' : 'on'
 		
-		models = (_.isArray(models) ? models : [models]).slice();
+		models = (conbo.isArray(models) ? models : [models]).slice();
 		
 		while (models.length)
 		{
@@ -230,7 +230,7 @@ var methods =
 ];
 
 // Mix in each available Underscore/Lo-Dash method as a proxy to `Collection#models`.
-_.each(methods, function(method) 
+conbo.each(methods, function(method) 
 {
 	if (!(method in _)) return;
 	
@@ -246,13 +246,13 @@ _.each(methods, function(method)
 var attributeMethods = ['groupBy', 'countBy', 'sortBy'];
 
 // Use attributes instead of properties.
-_.each(attributeMethods, function(method)
+conbo.each(attributeMethods, function(method)
 {
 	if (!(method in _)) return;
 	
 	conbo.List.prototype[method] = function(value, context) 
 	{
-		var iterator = _.isFunction(value) ? value : function(model) 
+		var iterator = conbo.isFunction(value) ? value : function(model) 
 		{
 			return model.get(value);
 		};

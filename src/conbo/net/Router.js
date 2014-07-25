@@ -42,7 +42,7 @@ conbo.Router = conbo.EventDispatcher.extend
 	 */ 
 	route: function(route, name, callback) 
 	{
-		if (!_.isRegExp(route)) 
+		if (!conbo.isRegExp(route)) 
 		{
 			route = this._routeToRegExp(route);
 		}
@@ -52,7 +52,7 @@ conbo.Router = conbo.EventDispatcher.extend
 			callback = this[name];
 		}
 		
-		if (_.isFunction(name)) 
+		if (conbo.isFunction(name)) 
 		{
 			callback = name;
 			name = '';
@@ -109,8 +109,8 @@ conbo.Router = conbo.EventDispatcher.extend
 	_bindRoutes: function() 
 	{
 		if (!this.routes) return;
-		this.routes = _.result(this, 'routes');
-		var route, routes = _.keys(this.routes);
+		this.routes = conbo.result(this, 'routes');
+		var route, routes = conbo.keys(this.routes);
 		while ((route = routes.pop()) != null) {
 			this.route(route, this.routes[route]);
 		}
@@ -144,7 +144,7 @@ conbo.Router = conbo.EventDispatcher.extend
 	_extractParameters: function(route, fragment) 
 	{
 		var params = route.exec(fragment).slice(1);
-		return _.map(params, function(param) {
+		return conbo.map(params, function(param) {
 			return param ? decodeURIComponent(param) : null;
 		});
 	}

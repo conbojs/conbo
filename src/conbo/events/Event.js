@@ -21,8 +21,8 @@ conbo.Event = conbo.Class.extend
 	 */
 	constructor: function(type)
 	{
-		if (_.isString(type)) this.type = type;
-		else _.defaults(this, type);
+		if (conbo.isString(type)) this.type = type;
+		else conbo.defaults(this, type);
 		
 		if (!this.type) throw new Error('Invalid or undefined event type');
 		
@@ -41,7 +41,7 @@ conbo.Event = conbo.Class.extend
 	 */
 	clone: function()
 	{
-		return _.clone(this);
+		return conbo.clone(this);
 	},
 	
 	/**
@@ -86,7 +86,7 @@ conbo.Event = conbo.Class.extend
 		
 		for (var a in this)
 		{
-			if (!_.isString(this[a]) || this[a] == this.ALL) continue;
+			if (!conbo.isString(this[a]) || this[a] == this.ALL) continue;
 			types.push(this[a]);
 		}
 		

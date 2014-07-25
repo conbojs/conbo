@@ -20,8 +20,8 @@ conbo.Bindable = conbo.EventDispatcher.extend
 	 */
 	get: function(attribute)
 	{
-		var a = _.result(this, '_attributes');
-		return _.result(a, attribute);
+		var a = conbo.result(this, '_attributes');
+		return conbo.result(a, attribute);
 	},
 	
 	/**
@@ -39,13 +39,13 @@ conbo.Bindable = conbo.EventDispatcher.extend
 	 */
 	set: function(attributes, value, options)
 	{
-		if (_.isObject(attributes))
+		if (conbo.isObject(attributes))
 		{
-			_.each(attributes, function(value, key) { this.set(key, value, options); }, this);
+			conbo.each(attributes, function(value, key) { this.set(key, value, options); }, this);
 			return this;
 		}
 		
-		var a = _.result(this, '_attributes'),
+		var a = conbo.result(this, '_attributes'),
 			changed = false;
 		
 		options || (options = {silent:false});
@@ -55,7 +55,7 @@ conbo.Bindable = conbo.EventDispatcher.extend
 			changed = (attributes in a);
 			delete a[attributes];
 		}
-		else if (_.isFunction(a[attributes]))
+		else if (conbo.isFunction(a[attributes]))
 		{
 			if (a[attributes]() !== value)
 			{
@@ -87,7 +87,7 @@ conbo.Bindable = conbo.EventDispatcher.extend
 	 */
 	unset: function(value, options)
 	{
-		options = _.defaults({unset:true}, options);
+		options = conbo.defaults({unset:true}, options);
 		return this.set(value, undefined, options);
 	},
 	

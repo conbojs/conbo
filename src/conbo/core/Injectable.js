@@ -28,7 +28,7 @@ conbo.Injectable = conbo.Class.extend
 	{
 		options || (options = {});
 		
-		this.context = _.result(this, 'context') || options.context;
+		this.context = conbo.result(this, 'context') || options.context;
 		
 		if (!!this.context) 
 		{

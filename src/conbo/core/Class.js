@@ -25,7 +25,7 @@ conbo.Class.prototype =
 	callSuper: function(methodName)
 	{
 		if (!this._super[methodName]) return undefined;
-		return this._super[methodName].apply(this, _.rest(arguments));
+		return this._super[methodName].apply(this, conbo.rest(arguments));
 	},
 	
 	/**
@@ -33,7 +33,7 @@ conbo.Class.prototype =
 	 */
 	defer: function(callback)
 	{
-		_.defer(this.bind.apply(this, [callback].concat(_.rest(arguments))));
+		conbo.defer(this.bind.apply(this, [callback].concat(conbo.rest(arguments))));
 		return this;
 	},
 	
@@ -44,7 +44,7 @@ conbo.Class.prototype =
 	 */
 	bind: function(method)
 	{
-		return _.bind.apply(_, [method, this].concat(_.rest(arguments)));
+		return conbo.bind.apply(_, [method, this].concat(conbo.rest(arguments)));
 	},
 	
 	/**
@@ -53,7 +53,7 @@ conbo.Class.prototype =
 	 */
 	bindAll: function()
 	{
-		_.bindAll.apply(_, [this].concat(_.toArray(arguments)))
+		conbo.bindAll.apply(_, [this].concat(conbo.toArray(arguments)))
 		return this;
 	},
 	
@@ -73,11 +73,11 @@ conbo.Class.extend = function(protoProps, staticProps)
 	 * (the "constructor" property in your `extend` definition), or defaulted
 	 * by us to simply call the parent's constructor.
 	 */
-	child = protoProps && _.has(protoProps, 'constructor')
+	child = protoProps && conbo.has(protoProps, 'constructor')
 		? protoProps.constructor
 		: function(){ return parent.apply(this, arguments); };
 	
-	_.extend(child, parent, staticProps);
+	conbo.extend(child, parent, staticProps);
 	
 	/**
 	 * Set the prototype chain to inherit from parent, without calling
@@ -87,7 +87,7 @@ conbo.Class.extend = function(protoProps, staticProps)
 	Surrogate.prototype = parent.prototype;
 	child.prototype = new Surrogate;
 	
-	if (protoProps) _.extend(child.prototype, protoProps);
+	if (protoProps) conbo.extend(child.prototype, protoProps);
 	child.prototype._super = parent.prototype;
 	
 	return child;

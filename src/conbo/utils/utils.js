@@ -1480,3 +1480,9 @@ conbo.log = function()
 	if (!console || !conbo.logEnabled) return;
 	console.log.apply(console, arguments);
 }
+
+conbo.warn = function()
+{
+	if (!console || !conbo.logEnabled) return;
+	console.warn.apply(console, arguments);
+}

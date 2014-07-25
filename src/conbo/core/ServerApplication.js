@@ -19,7 +19,7 @@ conbo.ServerApplication = conbo.Bindable.extend
 	 */
 	constructor: function(options)
 	{
-		options = _.clone(options) || {};
+		options = conbo.clone(options) || {};
 		options.app = this;
 		options.context || (options.context = new this.contextClass(options));
 		

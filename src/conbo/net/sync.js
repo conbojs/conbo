@@ -24,7 +24,7 @@ conbo.sync = function(method, model, options)
 	var type = methodMap[method];
 
 	// Default options, unless specified.
-	_.defaults(options || (options = {}), 
+	conbo.defaults(options || (options = {}), 
 	{
 		emulateHTTP: conbo.emulateHTTP,
 		emulateJSON: conbo.emulateJSON
@@ -40,7 +40,7 @@ conbo.sync = function(method, model, options)
 	// Ensure that we have a URL.
 	if (!options.url) 
 	{
-		var url = _.result(model, 'url');
+		var url = conbo.result(model, 'url');
 		if (!url) throw new Error('"url" must be specified');
 		params.url = url;
 	}
@@ -105,7 +105,7 @@ conbo.sync = function(method, model, options)
 	}
 
 	// Make the request, allowing the user to override any Ajax options.
-	var xhr = options.xhr = conbo.ajax(_.extend(params, options));
+	var xhr = options.xhr = conbo.ajax(conbo.extend(params, options));
 	
 	model.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REQUEST,
 	{

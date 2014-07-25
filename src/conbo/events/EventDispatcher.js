@@ -21,11 +21,11 @@ conbo.EventDispatcher = (conbo.Injectable || conbo.Class).extend
 	addEventListener: function(type, handler, scope, priority, once)
 	{
 		if (!type) throw new Error('Event type undefined');
-		if (!handler || !_.isFunction(handler)) throw new Error('Event handler is undefined or not a function');
+		if (!handler || !conbo.isFunction(handler)) throw new Error('Event handler is undefined or not a function');
 
-		if (_.isString(type)) type = type.split(' ');
-		if (_.isArray(type)) _.each(type, function(value, index, list) { this._addEventListener(value, handler, scope, priority, !!once); }, this);
-		else _.each(type, function(value, key, list) { this._addEventListener(key, value, scope, priority, !!once); }, this); 
+		if (conbo.isString(type)) type = type.split(' ');
+		if (conbo.isArray(type)) conbo.each(type, function(value, index, list) { this._addEventListener(value, handler, scope, priority, !!once); }, this);
+		else conbo.each(type, function(value, key, list) { this._addEventListener(key, value, scope, priority, !!once); }, this); 
 		
 		return this;
 	},
@@ -49,9 +49,9 @@ conbo.EventDispatcher = (conbo.Injectable || conbo.Class).extend
 		
 		var a = arguments;
 		
-		if (_.isString(type)) type = type.split(' ');
-		if (_.isArray(type)) _.each(type, function(value, index, list) { this._removeEventListener.apply(this, a); }, this);
-		else _.each(type, function(value, key, list) { this._removeEventListener.apply(this, a); }, this);
+		if (conbo.isString(type)) type = type.split(' ');
+		if (conbo.isArray(type)) conbo.each(type, function(value, index, list) { this._removeEventListener.apply(this, a); }, this);
+		else conbo.each(type, function(value, key, list) { this._removeEventListener.apply(this, a); }, this);
 		
 		return this;
 	},
@@ -64,7 +64,7 @@ conbo.EventDispatcher = (conbo.Injectable || conbo.Class).extend
 	{
 		if (!event) throw new Error('Event undefined');
 		
-		if (_.isString(event) || !(event instanceof conbo.Event)) 
+		if (conbo.isString(event) || !(event instanceof conbo.Event)) 
 			event = new conbo.Event(event);
 		
 		if (!this._queue || (!(event.type in this._queue) && !this._queue.all)) return this;
@@ -72,7 +72,7 @@ conbo.EventDispatcher = (conbo.Injectable || conbo.Class).extend
 		if (!event.target) event.target = this;
 		event.currentTarget = this;
 		
-		var queue = _.union(this._queue[event.type] || [], this._queue.all || []);
+		var queue = conbo.union(this._queue[event.type] || [], this._queue.all || []);
 		if (!queue || !queue.length) return this;
 		
 		for (var i=0, length=queue.length; i<length; ++i)

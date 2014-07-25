@@ -37,7 +37,7 @@ conbo.Collection = conbo.List.extend
 		
 		if (models) 
 		{
-			this.reset(models, _.extend({silent: true}, options));
+			this.reset(models, conbo.extend({silent: true}, options));
 		}
 		
 		this.initialize.apply(this, arguments);
@@ -71,7 +71,7 @@ conbo.Collection = conbo.List.extend
 	 */
 	add: function(models, options)
 	{
-		return this.set(models, _.defaults(options || {}, {add:true, merge:false, remove:false}));
+		return this.set(models, conbo.defaults(options || {}, {add:true, merge:false, remove:false}));
 	},
 
 	/**
@@ -79,7 +79,7 @@ conbo.Collection = conbo.List.extend
 	 */
 	remove: function(models, options)
 	{
-		models = _.isArray(models) ? models.slice() : [models];
+		models = conbo.isArray(models) ? models.slice() : [models];
 		options || (options = {});
 		
 		var i, l, index, model;
@@ -127,15 +127,15 @@ conbo.Collection = conbo.List.extend
 	 */
 	set: function(models, options) 
 	{
-		options = _.defaults(options || {}, {add: true, remove: true, merge: true});
+		options = conbo.defaults(options || {}, {add: true, remove: true, merge: true});
 		
 		if (options.parse) models = this.parse(models, options);
-		if (!_.isArray(models)) models = models ? [models] : [];
+		if (!conbo.isArray(models)) models = models ? [models] : [];
 		
 		var i, l, model, existing, sort = false;
 		var at = options.at;
 		var sortable = this.comparator && (at == null) && options.sort !== false;
-		var sortAttr = _.isString(this.comparator) ? this.comparator : null;
+		var sortAttr = conbo.isString(this.comparator) ? this.comparator : null;
 		var toAdd = [], toRemove = [], modelMap = {};
 
 		// Turn bare objects into model references, and prevent invalid models
@@ -257,7 +257,7 @@ conbo.Collection = conbo.List.extend
 		options.previousModels = this._models;
 		
 		this._reset();
-		this.add(models, _.extend({silent: true}, options));
+		this.add(models, conbo.extend({silent: true}, options));
 				
 		if (!options.silent) 
 		{
@@ -277,7 +277,7 @@ conbo.Collection = conbo.List.extend
 	push: function(model, options)
 	{
 		model = this._prepareModel(model, options);
-		this.add(model, _.extend({at: this.length}, options));
+		this.add(model, conbo.extend({at: this.length}, options));
 		return model;
 	},
 	
@@ -297,7 +297,7 @@ conbo.Collection = conbo.List.extend
 	unshift: function(model, options) 
 	{
 		model = this._prepareModel(model, options);
-		this.add(model, _.extend({at: 0}, options));
+		this.add(model, conbo.extend({at: 0}, options));
 		return model;
 	},
 
@@ -342,7 +342,7 @@ conbo.Collection = conbo.List.extend
 	 */
 	where: function(attrs, first) 
 	{
-		if (_.isEmpty(attrs)) return first ? undefined : [];
+		if (conbo.isEmpty(attrs)) return first ? undefined : [];
 		
 		return this[first ? 'find' : 'filter'](function(model) 
 		{
@@ -375,13 +375,13 @@ conbo.Collection = conbo.List.extend
 		options || (options = {});
 		
 		// Run sort based on type of `comparator`.
-		if (_.isString(this.comparator) || this.comparator.length === 1) 
+		if (conbo.isString(this.comparator) || this.comparator.length === 1) 
 		{
 			this._models = this.sortBy(this.comparator, this);
 		}
 		else 
 		{
-			this._models.sort(_.bind(this.comparator, this));
+			this._models.sort(conbo.bind(this.comparator, this));
 		}
 
 		if (!options.silent) 
@@ -404,12 +404,12 @@ conbo.Collection = conbo.List.extend
 	{
 		value || (value = this.comparator);
 		
-		var iterator = _.isFunction(value) ? value : function(model) 
+		var iterator = conbo.isFunction(value) ? value : function(model) 
 		{
 			return model.get(value);
 		};
 		
-		return _.sortedIndex(this._models, model, iterator, context);
+		return conbo.sortedIndex(this._models, model, iterator, context);
 	},
 
 	/**
@@ -417,7 +417,7 @@ conbo.Collection = conbo.List.extend
 	 */
 	pluck: function(attr)
 	{
-		return _.invoke(this._models, 'get', attr);
+		return conbo.invoke(this._models, 'get', attr);
 	},
 
 	/**
@@ -427,7 +427,7 @@ conbo.Collection = conbo.List.extend
 	 */
 	fetch: function(options) 
 	{
-		options = options ? _.clone(options) : {};
+		options = options ? conbo.clone(options) : {};
 		
 		if (options.parse === undefined) options.parse = true;
 		
@@ -465,7 +465,7 @@ conbo.Collection = conbo.List.extend
 	 */
 	create: function(model, options) 
 	{
-		options = options ? _.clone(options) : {};
+		options = options ? conbo.clone(options) : {};
 		
 		if (!(model = this._prepareModel(model, options))) return false;
 		if (!options.wait) this.add(model, options);
