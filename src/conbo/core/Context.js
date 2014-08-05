@@ -85,7 +85,7 @@ conbo.Context = conbo.EventDispatcher.extend
 	 * class to 'use inject' 
 	 * 
 	 * @example		context.mapSingleton('myProperty', MyModel);
-	 * @example		myProperty: 'use inject'
+	 * @example		myProperty: undefined
 	 */
 	mapSingleton: function(propertyName, singletonClass)
 	{

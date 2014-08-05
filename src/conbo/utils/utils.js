@@ -1406,6 +1406,7 @@ var _propertize = function(obj, method)
 conbo.propertize = function(obj)
 {
 	_propertize(obj, conbo.defineProperty);
+	return this;
 };
 
 /**
@@ -1414,6 +1415,7 @@ conbo.propertize = function(obj)
 conbo.accessorize = function(obj)
 {
 	_propertize(obj, conbo.defineAccessor);
+	return this;
 };
 
 /**
@@ -1498,4 +1500,10 @@ conbo.warn = function()
 {
 	if (!console || !conbo.logEnabled) return;
 	console.warn.apply(console, arguments);
+}
+
+conbo.info = function()
+{
+	if (!console || !conbo.logEnabled) return;
+	console.info.apply(console, arguments);
 }

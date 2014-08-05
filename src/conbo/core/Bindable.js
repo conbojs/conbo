@@ -13,6 +13,60 @@
 conbo.Bindable = conbo.EventDispatcher.extend
 ({
 	/**
+	 * Create one or more property on this object that can be bound
+	 * without using the get or set methods; if no property names are
+	 * passed, all existing properties will be made bindable
+	 * 
+	 * TODO Resolve double change event when using set(propName) syntax
+	 * 
+	 * @param	(String)	propName
+	 */
+	bindable: function(propName)
+	{
+		var a = conbo.result(this, '_attributes');
+		
+		var propNames = arguments.length > 0
+			? conbo.toArray(arguments)
+			: conbo.keys(a);
+		
+		propNames.forEach(function(propName)
+		{
+			var aName = a == this
+				? '__'+propName
+				: propName;
+			
+			var currentValue = a[propName];
+			
+			conbo.defineProperty
+			(
+				this, 
+				propName,
+				
+				function()
+				{
+					return a[aName];
+				},
+				
+				function(value) 
+				{
+					if (a[aName] == value) return;
+					
+					var options = {attribute:propName, model:this, value:value};
+					
+					a[aName] = value;
+					this.dispatchEvent(new conbo.ConboEvent('change:'+propName, options));
+					this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE, options));
+				}
+			);
+			
+			a[aName] = currentValue;
+			
+		}, this);
+		
+		return this;
+	},
+	
+	/**
 	 * Get the value of a property
 	 * @param	attribute
 	 * @example	instance.get('n');
@@ -30,52 +84,65 @@ conbo.Bindable = conbo.EventDispatcher.extend
 	 * Event handlers, in line with conbo.Model change:[propertyName] handlers, 
 	 * should be in the format handler(source, value) {...}
 	 * 
-	 * @param 	attributes
+	 * @param 	attribute
 	 * @param 	value
 	 * @param 	options
 	 * @example	instance.set('n', 123);
 	 * @example	instance.set({n:123, s:'abc'});
 	 * @returns	this
 	 */
-	set: function(attributes, value, options)
+	set: function(attribute, value, options)
 	{
-		if (conbo.isObject(attributes))
+		if (conbo.isObject(attribute))
 		{
-			conbo.each(attributes, function(value, key) { this.set(key, value, options); }, this);
+			conbo.each(attribute, function(value, key) { this.set(key, value, options); }, this);
 			return this;
 		}
 		
 		var a = conbo.result(this, '_attributes'),
 			changed = false;
 		
-		options || (options = {silent:false});
+		options || (options = {});
+		
+		var changeHandler = function(event)
+		{
+			if (event.attribute == attribute)
+			{
+				changed = false;
+			}
+		};
+		
+		// Prevents change events being fired twice when setting bindable properties
+		this.addEventListener('change:'+attribute, changeHandler);
 		
 		if (options.unset)
 		{
-			changed = (attributes in a);
-			delete a[attributes];
+			changed = (attribute in a);
+			delete a[attribute];
 		}
-		else if (conbo.isFunction(a[attributes]))
+//		else if (conbo.isFunction(a[attribute]))
+//		{
+//			if (a[attribute]() !== value)
+//			{
+//				a[attribute](value);
+//				changed = true;
+//			}
+//		}
+		else if (a[attribute] != value)
 		{
-			if (a[attributes]() !== value)
-			{
-				a[attributes](value);
-				changed = true;
-			}
-		}
-		else if (a[attributes] != value)
-		{
-			a[attributes] = value;
 			changed = true;
+			a[attribute] = value;
 		}
 		
 		if (changed && !options.silent)
 		{
-			var options = {attribute:attributes, value:value, options:options};
+			var options = {attribute:attribute, value:value, options:options};
 			
-			this.dispatchEvent(new conbo.ConboEvent('change:'+attributes, options));
+			this.dispatchEvent(new conbo.ConboEvent('change:'+attribute, options));
 			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE, options));
 		}
+		
+		this.removeEventListener('change:'+attribute, changeHandler);
 		
 		return this;
 	},
@@ -100,6 +167,7 @@ conbo.Bindable = conbo.EventDispatcher.extend
 	 * The object containing the properties you can get/set,
 	 * which defaults to this
 	 * 
+	 * @private
 	 * @returns	Object
 	 */
 	_attributes: function()
