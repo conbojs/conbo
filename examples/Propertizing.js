@@ -52,9 +52,7 @@
 		 */
 		initialize: function()
 		{
-			conbo.log('Init');
-			
-			this._name = 'Conbo';
+			this.name = 'Conbo';
 		},
 		
 		toString: function()
