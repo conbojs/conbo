@@ -46,7 +46,7 @@ var _ = {};
 	// The cornerstone, an `each` implementation, aka `forEach`.
 	// Handles objects with the built-in `forEach`, arrays, and raw objects.
 	// Delegates to **ECMAScript 5**'s native `forEach` if available.
-	var each = _.each = _.forEach = function(obj, iterator, context) {
+	var each = _.each = function(obj, iterator, context) {
 		if (obj == null) return obj;
 		if (nativeForEach && obj.forEach === nativeForEach) {
 			obj.forEach(iterator, context);
@@ -1327,6 +1327,11 @@ conbo.toCamelCase = function(string)
  */
 conbo.defineProperty = function(obj, name, getter, setter, initialValue)
 {
+	if (conbo.isDefinedProperty(obj, name))
+	{
+		return this;
+	}
+	
 	if (!('defineProperty' in Object)) 
 	{
 		throw new Error('Object.defineProperty is not supported by the current browser');
@@ -1337,11 +1342,11 @@ conbo.defineProperty = function(obj, name, getter, setter, initialValue)
 		setter = _.wrap(setter, function(fn, value)
 		{
 			fn.call(obj, value);
-			this.dispatchChangeEvent(name);
+			obj.dispatchChangeEvent(name);
 		});
 	}
 	
-	Object.defineProperty(obj, name, {enumerable:true, configurable:true, get:getter, set:setter});
+	Object.defineProperty(obj, name, {enumerable:false, configurable:false, get:getter, set:setter});
 	
 	if (initialValue !== undefined)
 	{
@@ -1379,10 +1384,10 @@ var _propertize = function(obj, method)
 		getters = _.filter(funcs, function(value) { return value.indexOf('get_') == 0; }),
 		setters = _.filter(funcs, function(value) { return value.indexOf('set_') == 0; });
 	
-	getters.forEach(function(name)
+	getters.forEach(function(getterName)
 	{
-		var propName = name.substr(4),
-			getter = obj[name];
+		var propName = getterName.substr(4),
+			getter = obj[getterName];
 			setterName = 'set_'+propName,
 			setterIndex = setters.indexOf(setterName),
 			setter = obj[setterName];
@@ -1394,18 +1399,18 @@ var _propertize = function(obj, method)
 		
 		method(obj, propName, getter, setter);
 		
-		delete obj[name];
+		delete obj[getterName];
 		delete obj[setterName];
 	});
 	
-	setters.forEach(function(name)
+	setters.forEach(function(setterName)
 	{
-		var propName = name.substr(4),
-			setter = obj[name];
+		var propName = setterName.substr(4),
+			setter = obj[setterName];
 		
-		method(obj, propName, noop, setter);
+		method(obj, propName, undefined, setter);
 		
-		delete obj[name];
+		delete obj[setterName];
 	});
 };
 
@@ -1459,6 +1464,8 @@ conbo.loadCss = function(url, media)
  */
 conbo.isDefinedProperty = function(obj, propName)
 {
+	if (!obj || !(propName in obj)) return false;
+	
 	var descriptor = Object.getOwnPropertyDescriptor(obj, propName)
 	return !!descriptor.get || !!descriptor.set;
 }

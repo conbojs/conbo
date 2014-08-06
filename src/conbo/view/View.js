@@ -24,7 +24,7 @@ conbo.View = conbo.Glimpse.extend
 		this._ensureElement();
 		this._inject(options);
 		
-		this.initialize.apply(this, arguments);
+ 		this.initialize.apply(this, arguments);
 		
 		var templateUrl = conbo.result(this, 'templateUrl'),
 			template;

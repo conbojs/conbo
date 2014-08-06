@@ -30,7 +30,7 @@ conbo.Application = conbo.View.extend
 		options.context = new this.contextClass(options);
 		options.el || (options.el = this._findAppElement());
 		
-		conbo.View.prototype.constructor.apply(this, arguments);
+		conbo.View.prototype.constructor.call(this, options);
 		
 		this.applyViews();
 	},
