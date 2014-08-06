@@ -14,6 +14,8 @@ conbo.Model = conbo.Hash.extend
 	 */
 	constructor: function(attributes, options) 
 	{
+		conbo.propertize(this);
+		
 		var defaults;
 		var attrs = attributes || {};
 		

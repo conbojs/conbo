@@ -1332,6 +1332,15 @@ conbo.defineProperty = function(obj, name, getter, setter, initialValue)
 		throw new Error('Object.defineProperty is not supported by the current browser');
 	}
 	
+	if (!!setter && obj instanceof conbo.Bindable)
+	{
+		setter = _.wrap(setter, function(fn, value)
+		{
+			fn.call(obj, value);
+			this.dispatchChangeEvent(name);
+		});
+	}
+	
 	Object.defineProperty(obj, name, {enumerable:true, configurable:true, get:getter, set:setter});
 	
 	if (initialValue !== undefined)

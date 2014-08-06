@@ -16,6 +16,8 @@ conbo.List = conbo.EventDispatcher.extend
 	 */
 	constructor: function(models, options) 
 	{
+		conbo.propertize(this);
+		
 		options || (options = {});
 		
 		this.bindAll('_redispatch');

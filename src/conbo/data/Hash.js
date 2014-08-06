@@ -18,6 +18,8 @@ conbo.Hash = conbo.Bindable.extend
 	 */
 	constructor: function(attributes, options)
 	{
+		conbo.propertize(this);
+		
 		this._inject(options);
 		this._attributes = conbo.defaults(this, attributes, this.defaults);
 		

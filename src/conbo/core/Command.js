@@ -14,6 +14,8 @@ conbo.Command = conbo.EventDispatcher.extend
 	 */
 	constructor: function(options)
 	{
+		conbo.propertize(this);
+		
 		this._inject(options);
 		this.event = options.event || {};
 		this.initialize.apply(this, arguments);

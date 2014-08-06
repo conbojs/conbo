@@ -40,6 +40,8 @@ conbo.History = conbo.EventDispatcher.extend
 	 */
 	constructor: function(options)
 	{
+		conbo.propertize(this);
+		
 		this.handlers = [];
 		this.bindAll('checkUrl');
 		

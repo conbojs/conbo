@@ -15,6 +15,8 @@ conbo.Context = conbo.EventDispatcher.extend
 	 */
 	constructor: function(options)
 	{
+		conbo.propertize(this);
+		
 		options = options || {};
 		
 		this._commands = {};

@@ -19,6 +19,8 @@ conbo.ServerApplication = conbo.Bindable.extend
 	 */
 	constructor: function(options)
 	{
+		conbo.propertize(this);
+		
 		options = conbo.clone(options) || {};
 		options.app = this;
 		options.context || (options.context = new this.contextClass(options));
@@ -27,8 +29,6 @@ conbo.ServerApplication = conbo.Bindable.extend
 		this.options = options;
 		this.initialize.apply(this, arguments);
 	},
-	
-	initialize: function() {},
 	
 	toString: function()
 	{

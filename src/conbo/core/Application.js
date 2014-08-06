@@ -19,10 +19,12 @@ conbo.Application = conbo.View.extend
 	 */
 	constructor: function(options)
 	{
+		conbo.propertize(this);
+		
 		options = conbo.clone(options) || {};
 		
-		this.prefix = options.prefix || conbo.result(this, 'prefix') || '';
-		this.namespace = options.namespace || conbo.result(this, 'namespace') || '';
+		this.prefix = options.prefix || this.prefix || '';
+		this.namespace = options.namespace || this.namespace;
 		
 		options.app = this;
 		options.context = new this.contextClass(options);

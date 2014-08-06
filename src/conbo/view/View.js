@@ -14,6 +14,8 @@ conbo.View = conbo.Glimpse.extend
 	 */
 	constructor: function(options)
 	{
+		conbo.propertize(this);
+		
 		options = conbo.clone(options) || {};
 		
 		this.cid = conbo.uniqueId('view');

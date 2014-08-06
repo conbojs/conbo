@@ -4,6 +4,7 @@
  */
 conbo.Class = function(options) 
 {
+	conbo.propertize(this);
 	this.initialize.apply(this, arguments);
 };
 

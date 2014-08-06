@@ -19,6 +19,8 @@ conbo.Router = conbo.EventDispatcher.extend
 	 */
 	constructor: function(options) 
 	{
+		conbo.propertize(this);
+		
 		options || (options = {});
 		if (options.routes) this.routes = options.routes;
 		this._bindRoutes();

@@ -12,6 +12,8 @@ conbo.Glimpse = conbo.Bindable.extend
 	 */
 	constructor: function(options)
 	{
+		conbo.propertize(this);
+		
 		if (conbo.isObject(options) && !!options.el)
 		{
 			this.el = options.el;

@@ -11,6 +11,8 @@ conbo.Injectable = conbo.Class.extend
 ({
 	constructor: function(options)
 	{
+		conbo.propertize(this);
+		
 		this._inject(options);
 		this.initialize.apply(this, arguments);
 	},
