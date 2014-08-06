@@ -1444,6 +1444,16 @@ conbo.loadCss = function(url, media)
 	return this;
 };
 
+/**
+ * Was the property created using Object.defineProperty()?
+ * @returns		Boolean
+ */
+conbo.isDefinedProperty = function(obj, propName)
+{
+	var descriptor = Object.getOwnPropertyDescriptor(obj, propName)
+	return !!descriptor.get || !!descriptor.set;
+}
+
 /*
  * Polyfill methods for useful ECMAScript 5 methods
  * 

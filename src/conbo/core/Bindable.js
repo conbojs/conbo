@@ -4,9 +4,9 @@
  * Base class for anything that you want to be able to use as a data provider for HTML,
  * e.g. as part of a View, or otherwise be able to track property changes on
  * 
- * By default, classes extending Bindable will trigger 'change:[property name]' and 
- * 'change' events when a property (including jQuery-style accessors) is changed
- * via the set(...) method
+ * By default, classes extending Bindable will trigger 'change:[name]' and 
+ * 'change' events when a property that flagged as bindable using the bindable('name') 
+ * method is changed or is changed via the set('name', value) method.
  * 
  * @author		Neil Rackett
  */
@@ -17,25 +17,19 @@ conbo.Bindable = conbo.EventDispatcher.extend
 	 * without using the get or set methods; if no property names are
 	 * passed, all existing properties will be made bindable
 	 * 
-	 * TODO Resolve double change event when using set(propName) syntax
-	 * 
 	 * @param	(String)	propName
 	 */
 	bindable: function(propName)
 	{
-		var a = conbo.result(this, '_attributes');
-		
 		var propNames = arguments.length > 0
 			? conbo.toArray(arguments)
-			: conbo.keys(a);
+			: conbo.keys(this);
 		
 		propNames.forEach(function(propName)
 		{
-			var aName = a == this
-				? '__'+propName
-				: propName;
+			if (conbo.isDefinedProperty(this, propName)) return;
 			
-			var currentValue = a[propName];
+			var value = this[propName];
 			
 			conbo.defineProperty
 			(
@@ -44,24 +38,18 @@ conbo.Bindable = conbo.EventDispatcher.extend
 				
 				function()
 				{
-					return a[aName];
+					return value;
 				},
 				
-				function(value) 
+				function(newValue) 
 				{
-					if (a[aName] == value) return;
-					
-					var options = {attribute:propName, model:this, value:value};
-					
-					a[aName] = value;
-					this.dispatchEvent(new conbo.ConboEvent('change:'+propName, options));
-					this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE, options));
+					if (value === newValue) return;
+					value = newValue;
+  					this.dispatchChangeEvent(propName, {attribute:propName, model:this, value:value});
 				}
 			);
 			
-			a[aName] = currentValue;
-			
-		}, this);
+    	}, this);
 		
 		return this;
 	},
@@ -74,8 +62,7 @@ conbo.Bindable = conbo.EventDispatcher.extend
 	 */
 	get: function(attribute)
 	{
-		var a = conbo.result(this, '_attributes');
-		return conbo.result(a, attribute);
+		return this[attribute];
 	},
 	
 	/**
@@ -91,58 +78,22 @@ conbo.Bindable = conbo.EventDispatcher.extend
 	 * @example	instance.set({n:123, s:'abc'});
 	 * @returns	this
 	 */
-	set: function(attribute, value, options)
+	set: function(attribute, value)
 	{
 		if (conbo.isObject(attribute))
 		{
-			conbo.each(attribute, function(value, key) { this.set(key, value, options); }, this);
+			conbo.each(attribute, function(value, key) { this.set(key, value); }, this);
 			return this;
 		}
 		
-		var a = conbo.result(this, '_attributes'),
-			changed = false;
-		
-		options || (options = {});
-		
-		var changeHandler = function(event)
+		// We're assuming defined values will dispatch their own change events
+		if (this[attribute] === value || conbo.isDefinedProperty(this, attribute))
 		{
-			if (event.attribute == attribute)
-			{
-				changed = false;
-			}
-		};
-		
-		// Prevents change events being fired twice when setting bindable properties
-		this.addEventListener('change:'+attribute, changeHandler);
-		
-		if (options.unset)
-		{
-			changed = (attribute in a);
-			delete a[attribute];
-		}
-//		else if (conbo.isFunction(a[attribute]))
-//		{
-//			if (a[attribute]() !== value)
-//			{
-//				a[attribute](value);
-//				changed = true;
-//			}
-//		}
-		else if (a[attribute] != value)
-		{
-			changed = true;
-			a[attribute] = value;
+			return this;
 		}
 		
-		if (changed && !options.silent)
-		{
-			var options = {attribute:attribute, value:value, options:options};
-			
-			this.dispatchEvent(new conbo.ConboEvent('change:'+attribute, options));
-			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE, options));
-		}
-		
-		this.removeEventListener('change:'+attribute, changeHandler);
+		this[attribute] = value;
+		this.dispatchChangeEvent(attribute, {attribute:attribute, value:value});
 		
 		return this;
 	},
@@ -152,26 +103,23 @@ conbo.Bindable = conbo.EventDispatcher.extend
 	 * @param 	value
 	 * @returns	this
 	 */
-	unset: function(value, options)
+	unset: function(attribute)
 	{
-		options = conbo.defaults({unset:true}, options);
-		return this.set(value, undefined, options);
+		delete this[attribute];
+		this.dispatchChangeEvent(attribute)
+		return this;
+	},
+	
+	dispatchChangeEvent: function(attribute, options)
+	{
+		options || (options = {attribute:attribute, value:this.get('attribute'), options:{}});
+		
+		this.dispatchEvent(new conbo.ConboEvent('change:'+attribute, options));
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE, options));
 	},
 	
 	toString: function()
 	{
 		return 'conbo.Bindable';
-	},
-	
-	/**
-	 * The object containing the properties you can get/set,
-	 * which defaults to this
-	 * 
-	 * @private
-	 * @returns	Object
-	 */
-	_attributes: function()
-	{
-		return this;
 	}
 });
