@@ -1312,6 +1312,12 @@ var _ = {};
 	
 })();
 
+/**
+ * Is Conbo supported by the current browser?
+ * 
+ * TODO Make this far more reliable!
+ */
+conbo.isSupported = !!Object.defineProperty;
 
 /**
  * Convert dash-separated-words into camelCaseWords
