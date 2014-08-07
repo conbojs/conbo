@@ -16,7 +16,7 @@ conbo.Glimpse = conbo.Bindable.extend
 		
 		if (conbo.isObject(options) && !!options.el)
 		{
-			this.el = options.el;
+			this.setElement(options.el);
 		}
 		
 		this._ensureElement();
@@ -57,9 +57,9 @@ conbo.Glimpse = conbo.Bindable.extend
 	{
 		if (!!this.el) delete this.el.cbView;
 		
-		this.el = element;
-		this.el.cbView = this;
+		conbo.defineIncalculableProperty(this, 'el', element);
 		
+		this.el.cbView = this;
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ELEMENT_CHANGE));
 		
 		return this;

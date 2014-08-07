@@ -26,8 +26,8 @@ conbo.Application = conbo.View.extend
 		var prefix = options.prefix || this.prefix || '';
 		var namespace = options.namespace || this.namespace;
 		
-		Object.defineProperty(this, 'prefix', {enumerable:false, configurable:true, writable:true, value:prefix});
-		Object.defineProperty(this, 'namespace', {enumerable:false, configurable:true, writable:true, value:namespace});
+		conbo.defineIncalculableProperty(this, 'prefix', prefix);
+		conbo.defineIncalculableProperty(this, 'namespace', namespace);
 		
 		options.app = this;
 		options.context = new this.contextClass(options);

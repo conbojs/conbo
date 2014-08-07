@@ -23,7 +23,7 @@ conbo.Hash = conbo.Bindable.extend
 		this._inject(options);
 		
 		conbo.defaults(this, attributes, this.defaults)		
-		Object.defineProperty(this, '__attributes__', {enumerable:false, configurable:true, writable:true, value:this});
+		conbo.defineIncalculableProperty(this, '__attributes__', this);
 		
 		this.initialize.apply(this, arguments);
 	},

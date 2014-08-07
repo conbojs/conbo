@@ -1356,6 +1356,12 @@ conbo.defineProperty = function(obj, name, getter, setter, initialValue)
 	return this;
 };
 
+conbo.defineIncalculableProperty = function(obj, propName, value)
+{
+	Object.defineProperty(obj, propName, {enumerable:false, configurable:true, writable:true, value:value});
+	return this;
+}
+
 /**
  * Creates a jQuery style, chainable property accessor
  * @example		obj.x(123).y(456).visible(true);

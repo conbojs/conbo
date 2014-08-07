@@ -82,8 +82,8 @@ conbo.View = conbo.Glimpse.extend
 		if (!!this.el) delete this.el.cbView;
 		if (isBound) this.unbindView();
 		
-		Object.defineProperty(this, '$el', {enumerable:false, configurable:true, writable:true, value:$(element)});
-		Object.defineProperty(this, 'el', {enumerable:false, configurable:true, writable:true, value:this.$el[0]});
+		conbo.defineIncalculableProperty(this, '$el', $(element));
+		conbo.defineIncalculableProperty(this, 'el', this.$el[0]);
 		
 		this.el.cbView = this;
 		

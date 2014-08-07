@@ -97,7 +97,7 @@ conbo.EventDispatcher = (conbo.Injectable || conbo.Class).extend
 	_addEventListener: function(type, handler, scope, priority, once)
 	{
 		if (type == '*') type = 'all';
-		if (!this.__queue__) Object.defineProperty(this, '__queue__', {enumerable:false, configurable:true, writable:true, value:{}});
+		if (!this.__queue__) conbo.defineIncalculableProperty(this, '__queue__', {});
 		this._removeEventListener(type, handler, scope);
 		
 		if (!(type in this.__queue__)) this.__queue__[type] = [];

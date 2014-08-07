@@ -23,8 +23,7 @@ conbo.Model = conbo.Hash.extend
 		
 		this.cid = conbo.uniqueId('c');
 		
-		Object.defineProperty(this, '__attributes__', {enumerable:false, configurable:true, writable:true, value:{}});
-		
+		conbo.defineIncalculableProperty(this, '__attributes__', {});
 		conbo.extend(this, conbo.pick(options, ['url','urlRoot','collection']));
 		
 		if (options.parse)
