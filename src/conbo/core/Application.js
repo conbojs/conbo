@@ -23,8 +23,11 @@ conbo.Application = conbo.View.extend
 		
 		options = conbo.clone(options) || {};
 		
-		this.prefix = options.prefix || this.prefix || '';
-		this.namespace = options.namespace || this.namespace;
+		var prefix = options.prefix || this.prefix || '';
+		var namespace = options.namespace || this.namespace;
+		
+		Object.defineProperty(this, 'prefix', {enumerable:false, configurable:true, writable:true, value:prefix});
+		Object.defineProperty(this, 'namespace', {enumerable:false, configurable:true, writable:true, value:namespace});
 		
 		options.app = this;
 		options.context = new this.contextClass(options);
@@ -131,3 +134,5 @@ conbo.Application = conbo.View.extend
 	}
 
 });
+
+conbo.denumerate(conbo.Application.prototype);

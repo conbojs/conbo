@@ -22,7 +22,8 @@ conbo.Model = conbo.Hash.extend
 		options || (options = {});
 		
 		this.cid = conbo.uniqueId('c');
-		this._attributes = {};
+		
+		Object.defineProperty(this, '__attributes__', {enumerable:false, configurable:true, writable:true, value:{}});
 		
 		conbo.extend(this, conbo.pick(options, ['url','urlRoot','collection']));
 		
@@ -75,7 +76,7 @@ conbo.Model = conbo.Hash.extend
 	 */
 	get: function(attr) 
 	{
-		return this._attributes[attr];
+		return this.__attributes__[attr];
 	},
 
 	/**
@@ -137,11 +138,11 @@ conbo.Model = conbo.Hash.extend
 		
 		if (!changing) 
 		{
-			this._previousAttributes = conbo.clone(this._attributes);
+			this._previousAttributes = conbo.clone(this.__attributes__);
 			this.changed = {};
 		}
 		
-		current = this._attributes;
+		current = this.__attributes__;
 		prev = this._previousAttributes;
 
 		// Check for changes of `id`.
@@ -231,7 +232,7 @@ conbo.Model = conbo.Hash.extend
 	clear: function(options) 
 	{
 		var attrs = {};
-		for (var key in this._attributes) attrs[key] = undefined;
+		for (var key in this.__attributes__) attrs[key] = undefined;
 		return this.set(attrs, conbo.extend({}, options, {unset: true}));
 	},
 
@@ -257,7 +258,7 @@ conbo.Model = conbo.Hash.extend
 	{
 		if (!diff) return this.hasChanged() ? conbo.clone(this.changed) : false;
 		var val, changed = false;
-		var old = this._changing ? this._previousAttributes : this._attributes;
+		var old = this._changing ? this._previousAttributes : this.__attributes__;
 		for (var attr in diff) {
 			if (conbo.isEqual(old[attr], (val = diff[attr]))) continue;
 			(changed || (changed = {}))[attr] = val;
@@ -332,7 +333,7 @@ conbo.Model = conbo.Hash.extend
 	 */
 	save: function(key, val, options) 
 	{
-		var attrs, method, xhr, attributes = this._attributes;
+		var attrs, method, xhr, attributes = this.__attributes__;
 		
 		// Handle both `"key", value` and `{key: value}` -style arguments.
 		if (key == null || typeof key === 'object')
@@ -362,7 +363,7 @@ conbo.Model = conbo.Hash.extend
 		// Set temporary attributes if `{wait: true}`.
 		if (attrs && options.wait)
 		{
-			this._attributes = conbo.extend({}, attributes, attrs);
+			this.__attributes__ = conbo.extend({}, attributes, attrs);
 		}
 
 		// After a successful server-side save, the client is (optionally)
@@ -378,7 +379,7 @@ conbo.Model = conbo.Hash.extend
 		options.success = function(resp) 
 		{
 			// Ensure attributes are restored during synchronous saves.
-			model._attributes = attributes;
+			model.__attributes__ = attributes;
 			
 			var serverAttrs = model.parse(resp, options);
 			
@@ -412,7 +413,7 @@ conbo.Model = conbo.Hash.extend
 		xhr = this.sync(method, this, options);
 
 		// Restore attributes.
-		if (attrs && options.wait) this._attributes = attributes;
+		if (attrs && options.wait) this.__attributes__ = attributes;
 		
 		return xhr;
 	},
@@ -502,7 +503,7 @@ conbo.Model = conbo.Hash.extend
 	 */
 	clone: function() 
 	{
-		return new this.constructor(this._attributes);
+		return new this.constructor(this.__attributes__);
 	},
 
 	/**
@@ -533,7 +534,7 @@ conbo.Model = conbo.Hash.extend
 	_validate: function(attrs, options) 
 	{
 		if (!options.validate || !this.validate) return true;
-		attrs = conbo.extend({}, this._attributes, attrs);
+		attrs = conbo.extend({}, this.__attributes__, attrs);
 		var error = this.validationError = this.validate(attrs, options) || null;
 		if (!error) return true;
 		
@@ -566,3 +567,5 @@ var wrapError = function (model, options)
 		}));
 	};
 };
+
+conbo.denumerate(conbo.Model.prototype);

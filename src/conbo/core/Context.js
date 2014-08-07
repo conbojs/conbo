@@ -192,3 +192,5 @@ conbo.Context = conbo.EventDispatcher.extend
 	}
 	
 });
+
+conbo.denumerate(conbo.Context.prototype);

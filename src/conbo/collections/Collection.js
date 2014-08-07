@@ -602,3 +602,6 @@ conbo.Collection = conbo.List.extend
 		return 'conbo.Collection';
 	}
 });
+
+conbo.denumerate(conbo.Collection.prototype);
+

@@ -96,3 +96,5 @@ conbo.Event = conbo.Class.extend
 		return types.join(' ');
 	}
 });
+
+conbo.denumerate(conbo.Event.prototype);

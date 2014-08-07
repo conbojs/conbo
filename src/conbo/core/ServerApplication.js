@@ -33,5 +33,8 @@ conbo.ServerApplication = conbo.Bindable.extend
 	toString: function()
 	{
 		return 'conbo.ServerApplication';
-	},
+	}
+	
 });
+
+conbo.denumerate(conbo.ServerApplication.prototype);

@@ -123,3 +123,5 @@ conbo.Bindable = conbo.EventDispatcher.extend
 		return 'conbo.Bindable';
 	}
 });
+
+conbo.denumerate(conbo.Bindable.prototype);

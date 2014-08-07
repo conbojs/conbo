@@ -152,3 +152,5 @@ conbo.Router = conbo.EventDispatcher.extend
 	}
 
 });
+
+conbo.denumerate(conbo.Router.prototype);

@@ -40,7 +40,7 @@ conbo.EventDispatcher = (conbo.Injectable || conbo.Class).extend
 	{
 		if (!arguments.length)
 		{
-			this._queue = {};
+			this.__queue__ = {};
 			return this;
 		}
 		
@@ -67,12 +67,12 @@ conbo.EventDispatcher = (conbo.Injectable || conbo.Class).extend
 		if (conbo.isString(event) || !(event instanceof conbo.Event)) 
 			event = new conbo.Event(event);
 		
-		if (!this._queue || (!(event.type in this._queue) && !this._queue.all)) return this;
+		if (!this.__queue__ || (!(event.type in this.__queue__) && !this.__queue__.all)) return this;
 		
 		if (!event.target) event.target = this;
 		event.currentTarget = this;
 		
-		var queue = conbo.union(this._queue[event.type] || [], this._queue.all || []);
+		var queue = conbo.union(this.__queue__[event.type] || [], this.__queue__.all || []);
 		if (!queue || !queue.length) return this;
 		
 		for (var i=0, length=queue.length; i<length; ++i)
@@ -97,12 +97,12 @@ conbo.EventDispatcher = (conbo.Injectable || conbo.Class).extend
 	_addEventListener: function(type, handler, scope, priority, once)
 	{
 		if (type == '*') type = 'all';
-		if (!this._queue) this._queue = {};
+		if (!this.__queue__) Object.defineProperty(this, '__queue__', {enumerable:false, configurable:true, writable:true, value:{}});
 		this._removeEventListener(type, handler, scope);
 		
-		if (!(type in this._queue)) this._queue[type] = [];
-		this._queue[type].push({handler:handler, scope:scope, once:once, priority:priority||0});
-		this._queue[type].sort(function(a,b){return b.priority-a.priority});
+		if (!(type in this.__queue__)) this.__queue__[type] = [];
+		this.__queue__[type].push({handler:handler, scope:scope, once:once, priority:priority||0});
+		this.__queue__[type].sort(function(a,b){return b.priority-a.priority});
 	},
 	
 	/**
@@ -110,13 +110,13 @@ conbo.EventDispatcher = (conbo.Injectable || conbo.Class).extend
 	 */
 	_removeEventListener: function(type, handler, scope)
 	{
-		if (!this._queue || !(type in this._queue)) return this;
+		if (!this.__queue__ || !(type in this.__queue__)) return this;
 		
-		var queue = this._queue[type];
+		var queue = this.__queue__[type];
 		
 		if (arguments.length == 1)
 		{
-			delete this._queue[type];
+			delete this.__queue__[type];
 			return this;
 		}
 		
@@ -134,3 +134,5 @@ conbo.EventDispatcher = (conbo.Injectable || conbo.Class).extend
 		return this;
 	}
 });
+
+conbo.denumerate(conbo.EventDispatcher.prototype);

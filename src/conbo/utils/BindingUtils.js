@@ -338,7 +338,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			throw new Error('view is undefined');
 		}
 		
-		if (!!view._bindings)
+		if (!!view.__bindings__)
 		{
 			this.unbindView(view);
 		}
@@ -418,7 +418,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			
 		});
 		
-		view._bindings = bindings;
+		Object.defineProperty(view, '__bindings__', {enumerable:false, configurable:true, writable:true, value:bindings});
 		
 		return this;
 	},
@@ -435,12 +435,12 @@ conbo.BindingUtils = conbo.Class.extend({},
 			throw new Error('view is undefined');
 		}
 		
-		if (!view._bindings || !view._bindings.length)
+		if (!view.__bindings__ || !view.__bindings__.length)
 		{
 			return this;
 		}
 		
-		var bindings = view._bindings;
+		var bindings = view.__bindings__;
 		
 		while (bindings.length)
 		{
@@ -476,7 +476,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			}
 		}
 		
-		delete view._bindings;
+		delete view.__bindings__;
 		
 		return this;
 	},

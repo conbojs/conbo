@@ -99,3 +99,5 @@ conbo.Glimpse = conbo.Bindable.extend
 		}
 	},
 });
+
+conbo.denumerate(conbo.Glimpse.prototype);

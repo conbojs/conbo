@@ -9,8 +9,9 @@
 		<div cb-app="MyApp">
 			<h1>Propertize</h1>
 			<p>Hello, my name is <span cb-html="name"></span> and this is an example of how to use my amazing ability to propertize your classes!</p>
-			<p>Propertizing is when Conbo automatically converts the get_propName and set_propName methods in your class into properties, e.g. propName. If your class extends Bindable, these properties will automatically be bindable, changes can automatically be detected, so there's no need to use set(...).</p>
-			<p>This example app has a read-only method named get_numChildren, which counts the number of DOM elements it contains, so: app.numChildren = <span cb-html="numChildren"></span></p>
+			<p>Propertizing is when Conbo automatically converts the get_propName and set_propName methods in your class into properties, e.g. propName. If your class extends Bindable, these properties will automatically be bindable, so that changes can automatically be detected even when you're not using this.set().</p>
+			<p>This example app has a read-only method named get_numChildren, which counts the number of DOM elements it contains: app.numChildren = <span cb-html="numChildren"></span></p>
+			<p>You can propertize non-Conbo objects using conbo.propertize(obj);</p>
 		</div>
 		
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>

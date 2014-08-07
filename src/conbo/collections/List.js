@@ -262,3 +262,5 @@ conbo.each(attributeMethods, function(method)
 		return _[method](this._models, iterator, context);
 	};
 });
+
+conbo.denumerate(conbo.List.prototype);

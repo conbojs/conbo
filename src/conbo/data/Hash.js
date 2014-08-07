@@ -21,9 +21,22 @@ conbo.Hash = conbo.Bindable.extend
 		conbo.propertize(this);
 		
 		this._inject(options);
-		this._attributes = conbo.defaults(this, attributes, this.defaults);
+		
+		conbo.defaults(this, attributes, this.defaults)		
+		Object.defineProperty(this, '__attributes__', {enumerable:false, configurable:true, writable:true, value:this});
 		
 		this.initialize.apply(this, arguments);
+	},
+	
+	/**
+	 * Return an object that can easily be converted into JSON
+	 */
+	toJSON: function()
+	{
+		var keys = conbo.keys(this.__attributes__),
+			filter = function(value) { return String(value).indexOf('_') != 0; };
+		
+		return conbo.pick(this.__attributes__, conbo.filter(keys, filter));
 	},
 	
 	toString: function()
@@ -42,6 +55,8 @@ conbo.each(hashMethods, function(method)
 	
 	conbo.Hash.prototype[method] = function() 
 	{
-		return conbo[method].apply(conbo, [this._attributes].concat(conbo.rest(arguments)));
+		return conbo[method].apply(conbo, [this.__attributes__].concat(conbo.rest(arguments)));
 	};
 });
+
+conbo.denumerate(conbo.Hash.prototype);

@@ -65,18 +65,20 @@ conbo.Class.prototype =
 		
 };
 
+conbo.denumerate(conbo.Class.prototype);
+
 conbo.Class.extend = function(protoProps, staticProps)
 {
 	var child, parent=this;
 	
 	/**
 	 * The constructor function for the new subclass is either defined by you
-	 * (the "constructor" property in your `extend` definition), or defaulted
+	 * (the 'constructor' property in your `extend` definition), or defaulted
 	 * by us to simply call the parent's constructor.
 	 */
 	child = protoProps && conbo.has(protoProps, 'constructor')
 		? protoProps.constructor
-		: function(){ return parent.apply(this, arguments); };
+		: function() { return parent.apply(this, arguments); };
 	
 	conbo.extend(child, parent, staticProps);
 	
@@ -88,7 +90,12 @@ conbo.Class.extend = function(protoProps, staticProps)
 	Surrogate.prototype = parent.prototype;
 	child.prototype = new Surrogate;
 	
-	if (protoProps) conbo.extend(child.prototype, protoProps);
+	if (protoProps)
+	{
+		conbo.extend(child.prototype, protoProps);
+		//conbo.denumerate.apply(conbo, [child.prototype, '$el', '_bindings', 'cid', 'context', 'el', 'namespace', 'options', 'prefix']);
+	}
+	
 	child.prototype._super = parent.prototype;
 	
 	return child;

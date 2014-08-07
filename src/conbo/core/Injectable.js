@@ -41,3 +41,5 @@ conbo.Injectable = conbo.Class.extend
 	}
 	
 });
+
+conbo.denumerate(conbo.Injectable.prototype);

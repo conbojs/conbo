@@ -1346,7 +1346,7 @@ conbo.defineProperty = function(obj, name, getter, setter, initialValue)
 		});
 	}
 	
-	Object.defineProperty(obj, name, {enumerable:false, configurable:false, get:getter, set:setter});
+	Object.defineProperty(obj, name, {enumerable:true, configurable:true, get:getter, set:setter});
 	
 	if (initialValue !== undefined)
 	{
@@ -1380,6 +1380,8 @@ conbo.defineAccessor = function(obj, name, getter, setter, initialValue)
  */
 var _propertize = function(obj, method)
 {
+	if (obj.__propertized__) return;
+	
 	var funcs = _.functions(obj),
 		getters = _.filter(funcs, function(value) { return value.indexOf('get_') == 0; }),
 		setters = _.filter(funcs, function(value) { return value.indexOf('set_') == 0; });
@@ -1412,6 +1414,8 @@ var _propertize = function(obj, method)
 		
 		delete obj[setterName];
 	});
+	
+	Object.defineProperty(obj, '__propertized__', {enumberable:false, writable:false, value:true});
 };
 
 /**
@@ -1468,6 +1472,23 @@ conbo.isDefinedProperty = function(obj, propName)
 	
 	var descriptor = Object.getOwnPropertyDescriptor(obj, propName)
 	return !!descriptor.get || !!descriptor.set;
+}
+
+conbo.denumerate = function(obj)
+{
+	var props = conbo.rest(arguments);
+	
+	if (!props.length)
+	{
+		for (var a in obj) props.push(a);
+	}
+	
+	props.forEach(function(propName)
+	{
+		Object.defineProperty(obj, propName, {enumerable:false, writeable:true, value:obj[propName]});
+	});
+	
+	return this;
 }
 
 /*

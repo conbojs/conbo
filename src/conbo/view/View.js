@@ -18,8 +18,6 @@ conbo.View = conbo.Glimpse.extend
 		
 		options = conbo.clone(options) || {};
 		
-		this.cid = conbo.uniqueId('view');
-		
 		this._configure(options);
 		this._ensureElement();
 		this._inject(options);
@@ -43,7 +41,7 @@ conbo.View = conbo.Glimpse.extend
 		{
 			if (!!template && conbo.isString(template))
 			{
-				this.html(template);
+				this.$el.html(template);
 			}
 			
 			this.render();
@@ -79,13 +77,14 @@ conbo.View = conbo.Glimpse.extend
 	 */
 	setElement: function(element)
 	{
-		var isBound = this.isBound();
+		var isBound = !!this.__bindings__;
 		
 		if (!!this.el) delete this.el.cbView;
 		if (isBound) this.unbindView();
 		
-		this.$el = $(element);
-		this.el = this.$el[0];
+		Object.defineProperty(this, '$el', {enumerable:false, configurable:true, writable:true, value:$(element)});
+		Object.defineProperty(this, 'el', {enumerable:false, configurable:true, writable:true, value:this.$el[0]});
+		
 		this.el.cbView = this;
 		
 		if (isBound) this.bindView();
@@ -93,15 +92,6 @@ conbo.View = conbo.Glimpse.extend
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ELEMENT_CHANGE));
 		
 		return this;
-	},
-	
-	/**
-	 * Has this view already been bound to its associated element?
-	 * @returns
-	 */
-	isBound: function()
-	{
-		return !!this._bindings;
 	},
 	
 	/**
@@ -275,14 +265,4 @@ conbo.View = conbo.Glimpse.extend
 	},
 });
 
-//jQuery method shortcuts
-var viewMethods = ['html'];
-
-//Mix in each available Lo-Dash/Underscore method as a proxy to `Model#attributes`.
-conbo.each(viewMethods, function(method)
-{
-	conbo.View.prototype[method] = function() 
-	{
-		return this.$el[method].apply(this.$el, arguments);
-	};
-});
+conbo.denumerate(conbo.View.prototype);

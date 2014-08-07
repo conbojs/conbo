@@ -41,3 +41,5 @@ conbo.Command = conbo.EventDispatcher.extend
 	}
 	
 });
+
+conbo.denumerate(conbo.Command.prototype);
