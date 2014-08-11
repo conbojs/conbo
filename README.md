@@ -9,12 +9,19 @@ Development of Conbo.js is currently focussed on single page applications (SPA) 
 
 While Conbo.js offers a great base for server-side Node.js applications, and there's a ServerApplication class created for just this purpose, this is not a core development focus at this time.
 
+Browser Support
+---------------
+
+Starting with version 2.0.0, Conbo.js will only officially support the so-called modern browsers: the two most recent major releases of Firefox, Chrome (desktop and Android) and Safari (desktop and iOS), and Internet Explorer 9+.
+
+While IE9 isn't technically a modern browser, it's still-huge install base means we're persevering with it, for now.
+
 Brief History
 -------------
 
-Conbo started life as a [con]text and [con]troller add-on for Back[bo]ne.js, but as more of Backbone.js was removed, replaced or updated, the project took on a life of its own and what remained of Backbone.js was merged in, and Conbo.js was born.
+Conbo started life as a [con]text and [con]troller add-on for Back[bo]ne.js, but as more of Backbone.js was removed, replaced or updated, the project took on a life of its own and Conbo.js was born.
 
-With the exception of the base Class, the Core release of Conbo.js now contains very little code derived from Backbone.js, although method names have largely been retained for consistency and to ease the transition.
+With the exception of the base Class, the Lite and Core releases of Conbo.js now contains very little of the original code.
 
 Extendible classes
 ------------------
@@ -63,14 +70,9 @@ example.MyView = conbo.View.extend
 Consistent event model
 ----------------------
 
-You don't have to remember how many arguments each event handler should have, or in which order they're in, because Conbo.js has a single, consistent event model that offers predictable results.
+You don't have to remember how many arguments each event handler should have, or in which order they're in, because Conbo.js has a single, consistent DOM-like event model that offers predictable results.
 
 All events fired by the framework are `conbo.ConboEvent` event objects, and you can easily create events of your own by using or extending the `conbo.Event` class in the same way you would extend any other.
-
-Browser Support
----------------
-
-Conbo.js is designed to support the two most recent major releases of Internet Explorer, Firefox, Chrome (desktop and Android) and Safari (desktop and iOS), although it should work with older browsers, including IE9+.
 
 Dependencies
 ------------
@@ -84,7 +86,7 @@ Dependencies
 Builds
 ------
 
-**Conbo.js Lite** (<4KB minified+gzipped): a super-lightweight subset featuring extendible classes and a simple event model which enables consistent, scoped event handling. The aim of this subset is to offer the benefits of Conbo's class structure and event model to users who want to create framework independent modules and code libraries.
+**Conbo.js Lite** (<4KB minified+gzipped): a super-lightweight subset featuring extendible classes and consistent event model. The aim of this subset is to offer the benefits of Conbo's class structure and event model to users who want to create (mostly) framework independent modules and code libraries.
 
 **Conbo.js Core** (16KB minified+gzipped): Core framework for applications and widgets that don't require web service functionality baked in.
 

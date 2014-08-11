@@ -1,8 +1,8 @@
 /**
  * Binding utility class
  * 
- * Used to bind properties of Bindable class instances to DOM elements, 
- * other Bindable class instances or setter functions
+ * Used to bind properties of EventDispatcher class instances to DOM elements, 
+ * other EventDispatcher class instances or setter functions
  * 
  * @author Neil Rackett
  */
@@ -11,25 +11,25 @@ conbo.BindingUtils = conbo.Class.extend({},
 	_attrBindings: new conbo.AttributeBindings(),
 	
 	/**
-	 * Bind a property of a Bindable class instance (e.g. Hash or Model) 
+	 * Bind a property of a EventDispatcher class instance (e.g. Hash or Model) 
 	 * to a DOM element's value/content, using Conbo's best judgement to
 	 * work out how the value should be bound to the element.
 	 * 
 	 * This method of binding also allows for the use of a parse function,
 	 * which can be used to manipulate bound data in real time
 	 * 
-	 * @param 		{conbo.Bindable}	source				Class instance which extends from conbo.Bindable (e.g. Hash or Model)
-	 * @param 		{String} 			propertyName		Property name to bind
-	 * @param 		{DOMElement} 		element				DOM element to bind value to (two-way bind on input/form elements)
-	 * @param 		{Function}			parseFunction		Optional method used to parse values before outputting as HTML
+	 * @param 		{conbo.EventDispatcher}	source				Class instance which extends from conbo.EventDispatcher (e.g. Hash or Model)
+	 * @param 		{String} 				propertyName		Property name to bind
+	 * @param 		{DOMElement} 			element				DOM element to bind value to (two-way bind on input/form elements)
+	 * @param 		{Function}				parseFunction		Optional method used to parse values before outputting as HTML
 	 * 
-	 * @returns		{Array}									Array of bindings
+	 * @returns		{Array}										Array of bindings
 	 */
 	bindElement: function(source, propertyName, element, parseFunction)
 	{
-		if (!(source instanceof conbo.Bindable))
+		if (!(source instanceof conbo.EventDispatcher))
 		{
-			throw new Error('Source is not Bindable');
+			throw new Error('Source is not EventDispatcher');
 		}
 		
 		if (!element)
@@ -160,15 +160,15 @@ conbo.BindingUtils = conbo.Class.extend({},
 	},
 	
 	/**
-	 * Bind a DOM element to the property of a Bindable class instance,
+	 * Bind a DOM element to the property of a EventDispatcher class instance,
 	 * e.g. Hash or Model, using cb-* attributes to specify how the binding
 	 * should be made.
 	 * 
 	 * Two way bindings will automatically be applied where the attribute name 
-	 * matches a property on the target element, meaning your Bindable object 
+	 * matches a property on the target element, meaning your EventDispatcher object 
 	 * will automatically be updated when the property changes.
 	 * 
-	 * @param 	{conbo.Bindable}	source			Class instance which extends from conbo.Bindable (e.g. Hash or Model)
+	 * @param 	{conbo.EventDispatcher}	source			Class instance which extends from conbo.EventDispatcher (e.g. Hash or Model)
 	 * @param 	{String}			propertyName	Property name to bind
 	 * @param 	{DOMElement}		element			DOM element to bind value to (two-way bind on input/form elements)
 	 * @param 	{String}			attributeName	The cb-* property to bind against in camelCase, e.g. "propName" for "cb-prop-name"
@@ -227,9 +227,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 			// If we have a bespoke handler for this attribute, use it
 			case isConbo:
 			{
-				if (!(source instanceof conbo.Bindable))
+				if (!(source instanceof conbo.EventDispatcher))
 				{
-					throw new Error('Source is not Bindable');
+					throw new Error('Source is not EventDispatcher');
 				}
 				
 				eventHandler = function(event)
@@ -274,9 +274,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 					// ... otherwise, bind to the native property
 					default:
 					{
-						if (!(source instanceof conbo.Bindable))
+						if (!(source instanceof conbo.EventDispatcher))
 						{
-							throw new Error('Source is not Bindable');
+							throw new Error('Source is not EventDispatcher');
 						}
 						
 						eventHandler = function()
@@ -326,7 +326,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	
 	/**
 	 * Bind everything within the DOM scope of a View to the specified 
-	 * properties of Bindable class instances (e.g. Hash or Model)
+	 * properties of EventDispatcher class instances (e.g. Hash or Model)
 	 * 
 	 * @param 	{conbo.View}		view		The View class controlling the element
 	 * @returns	{this}
@@ -482,11 +482,11 @@ conbo.BindingUtils = conbo.Class.extend({},
 	},
 	
 	/**
-	 * Bind the property of one Bindable class instance (e.g. Hash or Model) to another
+	 * Bind the property of one EventDispatcher class instance (e.g. Hash or Model) to another
 	 * 
-	 * @param 	{conbo.Bindable}	source						Class instance which extends conbo.Bindable
+	 * @param 	{conbo.EventDispatcher}	source						Class instance which extends conbo.EventDispatcher
 	 * @param 	{String}			sourcePropertyName			Source property name
-	 * @param 	{any}				destination					Object or class instance which extends conbo.Bindable
+	 * @param 	{any}				destination					Object or class instance which extends conbo.EventDispatcher
 	 * @param 	{String}			destinationPropertyName		Optional (default: sourcePropertyName)
 	 * @param 	{Boolean}			twoWay						Optional (default: false)
 	 * 
@@ -494,13 +494,13 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 */
 	bindProperty: function(source, sourcePropertyName, destination, destinationPropertyName, twoWay)
 	{
-		if (!(source instanceof conbo.Bindable)) throw new Error('Source is not Bindable');
+		if (!(source instanceof conbo.EventDispatcher)) throw new Error('Source is not EventDispatcher');
 		
 		destinationPropertyName || (destinationPropertyName = sourcePropertyName);
 		
 		source.addEventListener('change:'+sourcePropertyName, function(event)
 		{
-			if (!(destination instanceof conbo.Bindable))
+			if (!(destination instanceof conbo.EventDispatcher))
 			{
 				destination[destinationPropertyName] = event.value;
 				return;
@@ -509,7 +509,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			destination.set(destinationPropertyName, event.value);
 		});
 		
-		if (twoWay && destination instanceof conbo.Bindable)
+		if (twoWay && destination instanceof conbo.EventDispatcher)
 		{
 			this.bindProperty(destination, destinationPropertyName, source, sourcePropertyName);
 		}
@@ -518,16 +518,16 @@ conbo.BindingUtils = conbo.Class.extend({},
 	},
 	
 	/**
-	 * Call a setter function when the specified property of a Bindable 
+	 * Call a setter function when the specified property of a EventDispatcher 
 	 * class instance (e.g. Hash or Model) is changed
 	 * 
-	 * @param 	{conbo.Bindable}	source				Class instance which extends conbo.Bindable
+	 * @param 	{conbo.EventDispatcher}	source				Class instance which extends conbo.EventDispatcher
 	 * @param 	{String}			propertyName
 	 * @param 	{Function}			setterFunction
 	 */
 	bindSetter: function(source, propertyName, setterFunction)
 	{
-		if (!(source instanceof conbo.Bindable)) throw new Error('Source is not Bindable');
+		if (!(source instanceof conbo.EventDispatcher)) throw new Error('Source is not EventDispatcher');
 		
 		if (!conbo.isFunction(setterFunction))
 		{

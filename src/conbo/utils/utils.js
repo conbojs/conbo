@@ -1315,53 +1315,99 @@ var _ = {};
 /**
  * Is Conbo supported by the current browser?
  * 
- * TODO Make this far more reliable!
+ * TODO Can we make this more reliable?
  */
-conbo.isSupported = !!Object.defineProperty;
+conbo.isSupported = !!Object.defineProperty && !!Object.getOwnPropertyDescriptor;
 
 /**
  * Convert dash-separated-words into camelCaseWords
  */
 conbo.toCamelCase = function(string)
 {
-	return (string || '').replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
-}	
+	return (string || '').replace(/([-_])([a-z])/g, function (g) { return g[1].toUpperCase(); });
+};
 
 /**
- * Creates an AS3-style accessor when using an ECMAScript 5 compliant browser
- * (Latest Chrome, Firefox, Safari and IE9+)
+ * Dispatch a property change event
+ * @private
  */
-conbo.defineProperty = function(obj, name, getter, setter, initialValue)
+var _dispatchChange = function(obj, propName, value)
 {
-	if (conbo.isDefinedProperty(obj, name))
+	var options = {attribute:propName, value:value};
+	
+	obj.dispatchEvent(new conbo.ConboEvent('change:'+propName, options));
+	obj.dispatchEvent(new conbo.ConboEvent('change', options));
+};
+
+/**
+ * Creates a property which can be bound to DOM elements and others
+ * 
+ * @param	(Object)	obj			The EventDispatcher object on which the property will be defined
+ * @param	(String)	propName	The name of the property to be defined
+ * @param	(*)			value		The initial value of the property (optional)
+ * @param	(Function)	getter		The getter function (optional)
+ * @param	(Function)	setter		The setter function (optional)
+ * @param	(Boolean)	enumerable	Whether of not the property should be enumerable (optional, default: true)
+ */
+conbo.defineProperty = function(obj, propName, getter, setter, enumerable)
+{
+	if (conbo.isDefinedProperty(obj, propName))
 	{
 		return this;
 	}
 	
-	if (!('defineProperty' in Object)) 
-	{
-		throw new Error('Object.defineProperty is not supported by the current browser');
-	}
+	var value = obj[propName],
+		nogs = !getter && !setter;
 	
-	if (!!setter && obj instanceof conbo.Bindable)
+	enumerable = (enumerable !== false);
+	
+	if (nogs)
 	{
-		setter = _.wrap(setter, function(fn, value)
+		getter = function()
 		{
-			fn.call(obj, value);
-			obj.dispatchChangeEvent(name);
-		});
+			return value;
+		};
 	}
 	
-	Object.defineProperty(obj, name, {enumerable:true, configurable:true, get:getter, set:setter});
-	
-	if (initialValue !== undefined)
+	if (obj instanceof conbo.EventDispatcher)
 	{
-		obj[name] = initialValue;
+		if (nogs)
+		{
+			setter = function(newValue)
+			{
+				if (newValue === value) return;
+				value = newValue;
+				
+				_dispatchChange(obj, propName, value);
+			}
+		}
+		else if (!!setter && obj instanceof conbo.EventDispatcher)
+		{
+			setter = conbo.wrap(setter, function(fn, newValue)
+			{
+				fn.call(obj, newValue);
+				_dispatchChange(obj, propName, obj[propName]);
+			});
+			
+			setter.bindable = true;
+		}
 	}
+	else if (nogs)
+	{
+		setter = function(newValue)
+		{
+			value = newValue;
+		}
+	}
+	
+	Object.defineProperty(obj, propName, {enumerable:enumerable, configurable:true, get:getter, set:setter});
 	
 	return this;
 };
 
+/**
+ * Define a property that in not enumerable
+ */
 conbo.defineIncalculableProperty = function(obj, propName, value)
 {
 	Object.defineProperty(obj, propName, {enumerable:false, configurable:true, writable:true, value:value});
@@ -1369,34 +1415,15 @@ conbo.defineIncalculableProperty = function(obj, propName, value)
 }
 
 /**
- * Creates a jQuery style, chainable property accessor
- * @example		obj.x(123).y(456).visible(true);
- */
-conbo.defineAccessor = function(obj, name, getter, setter, initialValue)
-{
-	obj[name] = function()
-	{
-		return (!!arguments.length ? setter : getter).apply(obj, arguments);
-	};
-	
-	if (initialValue !== undefined)
-	{
-		obj[name](initialValue);
-	}
-	
-	return this;
-};
-
-/**
  * Convert methods with get_* and set_* prefix to properties/accessors
  */
-var _propertize = function(obj, method)
+conbo.propertize = function(obj)
 {
 	if (obj.__propertized__) return;
 	
-	var funcs = _.functions(obj),
-		getters = _.filter(funcs, function(value) { return value.indexOf('get_') == 0; }),
-		setters = _.filter(funcs, function(value) { return value.indexOf('set_') == 0; });
+	var funcs = conbo.functions(obj),
+		getters = conbo.filter(funcs, function(value) { return value.indexOf('get_') == 0; }),
+		setters = conbo.filter(funcs, function(value) { return value.indexOf('set_') == 0; });
 	
 	getters.forEach(function(getterName)
 	{
@@ -1411,7 +1438,7 @@ var _propertize = function(obj, method)
 			setters.splice(setterIndex, 1);
 		}
 		
-		method(obj, propName, getter, setter);
+		conbo.defineProperty(obj, propName, getter, setter);
 		
 		delete obj[getterName];
 		delete obj[setterName];
@@ -1422,29 +1449,85 @@ var _propertize = function(obj, method)
 		var propName = setterName.substr(4),
 			setter = obj[setterName];
 		
-		method(obj, propName, undefined, setter);
+		conbo.defineProperty(obj, propName, undefined, setter);
 		
 		delete obj[setterName];
 	});
 	
 	Object.defineProperty(obj, '__propertized__', {enumberable:false, writable:false, value:true});
-};
-
-/**
- * Convert methods with get_* and set_* prefix to properties
- */
-conbo.propertize = function(obj)
-{
-	_propertize(obj, conbo.defineProperty);
+	
 	return this;
 };
 
 /**
- * Convert methods with get_* and set_* prefix to accessor functions
+ * Create one or more property on this object that can be bound
+ * without using the get or set methods; if no property names are
+ * passed, all existing properties will be made bindable
+ * 
+ * @param	(String)	obj
+ * @param	(String)	propName
  */
-conbo.accessorize = function(obj)
+conbo.bindProperties = function(obj)
 {
-	_propertize(obj, conbo.defineAccessor);
+	if (!(obj instanceof conbo.EventDispatcher))
+	{
+		throw new Error('You can only bind properties of classes which extend EventDispatcher');
+	}
+	
+	var propNames = arguments.length > 1
+		? conbo.rest(arguments)
+		: conbo.keys(this);
+	
+	propNames.forEach(function(propName)
+	{
+		conbo.defineProperty(obj, propName);
+	}, 
+	this);
+	
+	return this;
+};
+
+/**
+ * Was the property created using Object.defineProperty()?
+ * @returns		Boolean
+ */
+conbo.isDefinedProperty = function(obj, propName)
+{
+	return !!Object.getOwnPropertyDescriptor(obj, propName);
+}
+
+/**
+ * Is the specified property bindable?
+ * @returns		Boolean
+ */
+conbo.isBindableProperty = function(obj, propName)
+{
+	if (!conbo.isDefinedProperty(obj, propName))
+	{
+		return false;
+	}
+	
+	var descriptor = Object.getOwnPropertyDescriptor(obj, propName);
+	return !!descriptor.set && descriptor.set.bindable;
+};
+
+/**
+ * Convert all enumerable properties of the specified object into non-enumerable ones
+ */
+conbo.denumerate = function(obj)
+{
+	var props = conbo.rest(arguments);
+	
+	if (!props.length)
+	{
+		for (var a in obj) props.push(a);
+	}
+	
+	props.forEach(function(propName)
+	{
+		Object.defineProperty(obj, propName, {enumerable:false, writeable:true, value:obj[propName]});
+	});
+	
 	return this;
 };
 
@@ -1473,35 +1556,6 @@ conbo.loadCss = function(url, media)
     
 	return this;
 };
-
-/**
- * Was the property created using Object.defineProperty()?
- * @returns		Boolean
- */
-conbo.isDefinedProperty = function(obj, propName)
-{
-	if (!obj || !(propName in obj)) return false;
-	
-	var descriptor = Object.getOwnPropertyDescriptor(obj, propName)
-	return !!descriptor.get || !!descriptor.set;
-}
-
-conbo.denumerate = function(obj)
-{
-	var props = conbo.rest(arguments);
-	
-	if (!props.length)
-	{
-		for (var a in obj) props.push(a);
-	}
-	
-	props.forEach(function(propName)
-	{
-		Object.defineProperty(obj, propName, {enumerable:false, writeable:true, value:obj[propName]});
-	});
-	
-	return this;
-}
 
 /*
  * Polyfill methods for useful ECMAScript 5 methods

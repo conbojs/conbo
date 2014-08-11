@@ -24,7 +24,7 @@ conbo.List = conbo.EventDispatcher.extend
 		this.length = 0;
 		
 		this._models = (models || []).slice();
-		this._inject(options);
+		this.context = options.context;
 		
 		this.initialize.apply(this, arguments);
 	},
@@ -204,7 +204,7 @@ conbo.List = conbo.EventDispatcher.extend
 		{
 			var model = models.pop();
 			
-			if (model instanceof conbo.Bindable)
+			if (model instanceof conbo.EventDispatcher)
 			{
 				model[method](conbo.ConboEvent.CHANGE, this._redispatch);
 			}

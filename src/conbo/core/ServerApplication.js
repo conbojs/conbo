@@ -5,7 +5,7 @@
  * 
  * @author		Neil Rackett
  */
-conbo.ServerApplication = conbo.Bindable.extend
+conbo.ServerApplication = conbo.EventDispatcher.extend
 ({
 	/**
 	 * Default context class to use
@@ -25,7 +25,7 @@ conbo.ServerApplication = conbo.Bindable.extend
 		options.app = this;
 		options.context || (options.context = new this.contextClass(options));
 		
-		this._inject(options);
+		if (!!options) this.context = options.context;
 		this.options = options;
 		this.initialize.apply(this, arguments);
 	},

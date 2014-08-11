@@ -52,7 +52,7 @@ conbo.History = conbo.EventDispatcher.extend
 			this.history = window.history;
 		}
 		
-		this._inject(options);
+		if (!!options) this.context = options.context;
 		this.initialize.apply(this, arguments);
 	},
 	

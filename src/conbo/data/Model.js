@@ -35,7 +35,7 @@ conbo.Model = conbo.Hash.extend
 		
 		this.set(attrs, options);
 		
-		this._inject(options);
+		if (!!options) this.context = options.context;
 		this.initialize.apply(this, arguments);
 	},
 	

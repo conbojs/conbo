@@ -35,7 +35,7 @@ conbo.Collection = conbo.List.extend
 		}
 		
 		this._reset();
-		this._inject(options);
+		if (!!options) this.context = options.context;
 		
 		if (models) 
 		{

@@ -4,7 +4,7 @@
  * A lightweight View that has no dependencies, doesn't take any options 
  * and doesn't support data binding
  */
-conbo.Glimpse = conbo.Bindable.extend
+conbo.Glimpse = conbo.EventDispatcher.extend
 ({
 	/**
 	 * Constructor: DO NOT override! (Use initialize instead)

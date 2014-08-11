@@ -10,7 +10,7 @@
  * @author		Neil Rackett
  */
 
-conbo.Hash = conbo.Bindable.extend
+conbo.Hash = conbo.EventDispatcher.extend
 ({
 	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
@@ -20,7 +20,7 @@ conbo.Hash = conbo.Bindable.extend
 	{
 		conbo.propertize(this);
 		
-		this._inject(options);
+		if (!!options) this.context = options.context;
 		
 		conbo.defaults(this, attributes, this.defaults)		
 		conbo.defineIncalculableProperty(this, '__attributes__', this);

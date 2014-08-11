@@ -16,7 +16,7 @@ conbo.Command = conbo.EventDispatcher.extend
 	{
 		conbo.propertize(this);
 		
-		this._inject(options);
+		if (!!options) this.context = options.context;
 		this.event = options.event || {};
 		this.initialize.apply(this, arguments);
 	},

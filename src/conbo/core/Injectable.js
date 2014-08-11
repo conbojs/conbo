@@ -13,33 +13,51 @@ conbo.Injectable = conbo.Class.extend
 	{
 		conbo.propertize(this);
 		
-		this._inject(options);
+		if (!!options) 
+		{
+			this.context = options.context;
+		}
+		
 		this.initialize.apply(this, arguments);
 	},
 	
 	toString: function()
 	{
 		return 'conbo.Injectable';
-	},
-	
-	/**
-	 * Inject
-	 * @private
-	 */
-	_inject: function(options)
-	{
-		options || (options = {});
-		
-		this.context = conbo.result(this, 'context') || options.context;
-		
-		if (!!this.context) 
-		{
-			this.context.injectSingletons(this);
-		}
-		
-		return this;
 	}
 	
 });
+
+(function()
+{
+	var context;
+	
+	Object.defineProperty
+	(
+		conbo.Injectable.prototype,
+		'context',
+		
+		{
+			configurable: true,
+			enumerable: false,
+			
+			get: function()
+			{
+				return context;
+			},
+			
+			set: function(value)
+			{
+				if (value instanceof conbo.Context)
+				{
+					value.injectSingletons(this);
+				}
+				
+				context = value;
+			}
+		}
+	);
+	
+})();
 
 conbo.denumerate(conbo.Injectable.prototype);

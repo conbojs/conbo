@@ -20,7 +20,7 @@ conbo.View = conbo.Glimpse.extend
 		
 		this._configure(options);
 		this._ensureElement();
-		this._inject(options);
+		if (!!options) this.context = options.context;
 		
  		this.initialize.apply(this, arguments);
 		

@@ -9,10 +9,17 @@
  * data binding
  * 
  * @author	Neil Rackett
- * @see		conbo.Bindable
+ * @see		conbo.EventDispatcher
  */
 conbo.EventDispatcher = (conbo.Injectable || conbo.Class).extend
 ({
+	constructor: function(options)
+	{
+		conbo.propertize(this);
+		this.initialize.apply(this, arguments);
+		conbo.bindProperties.apply(conbo, this, this.bindable);
+	},
+	
 	/**
 	 * Add a listener for a particular event type
 	 * @param type		Type of event ('change') or events ('change blur')
@@ -86,11 +93,6 @@ conbo.EventDispatcher = (conbo.Injectable || conbo.Class).extend
 		return this;
 	},
 	
-	toString: function()
-	{
-		return 'conbo.EventDispatcher';
-	},
-	
 	/**
 	 * @private
 	 */
@@ -132,7 +134,76 @@ conbo.EventDispatcher = (conbo.Injectable || conbo.Class).extend
 		}
 		
 		return this;
-	}
+	},
+	
+	/**
+	 * Get the value of a property
+	 * @param	attribute
+	 * @example	instance.get('n');
+	 * @returns
+	 */
+	get: function(propName)
+	{
+		return this[propName];
+	},
+	
+	/**
+	 * Set the value of one or more property and dispatch a change:[propertyName] event
+	 * 
+	 * Event handlers, in line with conbo.Model change:[propertyName] handlers, 
+	 * should be in the format handler(source, value) {...}
+	 * 
+	 * @param 	attribute
+	 * @param 	value
+	 * @param 	options
+	 * @example	instance.set('n', 123);
+	 * @example	instance.set({n:123, s:'abc'});
+	 * @returns	this
+	 */
+	set: function(propName, value)
+	{
+		if (conbo.isObject(propName))
+		{
+			conbo.each(propName, function(value, key) { this.set(key, value); }, this);
+			return this;
+		}
+		
+		if (this[propName] === value)
+		{
+			return this;
+		}
+		
+		this[propName] = value;
+		
+		// We're assuming defined values will dispatch their own change events
+		if (!conbo.isBindableProperty(this, propName))
+		{
+			var options = {attribute:propName, value:value};
+			
+			this.dispatchEvent(new conbo.ConboEvent('change:'+propName, options));
+			this.dispatchEvent(new conbo.ConboEvent('change', options));
+		}
+		
+		return this;
+	},
+	
+//	/**
+//	 * Delete a property and dispatch a change:[propertyName] event
+//	 * @param 	value
+//	 * @returns	this
+//	 */
+//	unset: function(attribute)
+//	{
+//		delete this[attribute];
+//		this.dispatchChangeEvent(attribute)
+//		return this;
+//	},
+	
+	toString: function()
+	{
+		return 'conbo.EventDispatcher';
+	}	
+	
 });
 
 conbo.denumerate(conbo.EventDispatcher.prototype);
