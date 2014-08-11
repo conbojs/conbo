@@ -43,6 +43,7 @@ conbo.Collection = conbo.List.extend
 		}
 		
 		this.initialize.apply(this, arguments);
+		conbo.bindProperties(this, this.bindable);
 	},
 
 	/**

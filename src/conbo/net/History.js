@@ -57,11 +57,6 @@ conbo.History = conbo.EventDispatcher.extend
 	},
 	
 	/**
-	 * Initialize: Override this!
-	 */
-	initialize: function(){},
-	
-	/**
 	 * Gets the true hash value. Cannot use location.hash directly due
 	 * to bug
 	 * in Firefox where location.hash will always be decoded.
@@ -299,7 +294,6 @@ conbo.History = conbo.EventDispatcher.extend
 	{
 		return 'conbo.History';
 	},
-	
 	
 	/**
 	 * Update the hash location, either replacing the current entry, or

@@ -93,10 +93,11 @@ conbo.Class.extend = function(protoProps, staticProps)
 	if (protoProps)
 	{
 		conbo.extend(child.prototype, protoProps);
-		//conbo.denumerate.apply(conbo, [child.prototype, '$el', '_bindings', 'cid', 'context', 'el', 'namespace', 'options', 'prefix']);
 	}
 	
-	child.prototype._super = parent.prototype;
+	conbo.bindProperties(child.prototype);
+	
+	//child.prototype._super = parent.prototype;
 	
 	return child;
 };

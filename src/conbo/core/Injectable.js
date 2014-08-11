@@ -19,6 +19,7 @@ conbo.Injectable = conbo.Class.extend
 		}
 		
 		this.initialize.apply(this, arguments);
+		conbo.bindProperties(this, this.bindable);
 	},
 	
 	toString: function()
@@ -30,7 +31,7 @@ conbo.Injectable = conbo.Class.extend
 
 (function()
 {
-	var context;
+	var value;
 	
 	Object.defineProperty
 	(
@@ -43,17 +44,17 @@ conbo.Injectable = conbo.Class.extend
 			
 			get: function()
 			{
-				return context;
+				return value;
 			},
 			
-			set: function(value)
+			set: function(newValue)
 			{
-				if (value instanceof conbo.Context)
+				if (newValue instanceof conbo.Context) 
 				{
-					value.injectSingletons(this);
+					newValue.injectSingletons(this);
 				}
 				
-				context = value;
+				value = newValue;
 			}
 		}
 	);

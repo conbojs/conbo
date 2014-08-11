@@ -26,6 +26,8 @@ conbo.Hash = conbo.EventDispatcher.extend
 		conbo.defineIncalculableProperty(this, '__attributes__', this);
 		
 		this.initialize.apply(this, arguments);
+		
+		conbo.bindProperties.apply(conbo, [this].concat(this.bindable || []));
 	},
 	
 	/**

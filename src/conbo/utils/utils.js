@@ -1320,6 +1320,15 @@ var _ = {};
 conbo.isSupported = !!Object.defineProperty && !!Object.getOwnPropertyDescriptor;
 
 /**
+ * Return all of the property names of the specified object, 
+ * i.e. all of the keys that aren't functions
+ */
+conbo.properties = function(obj)
+{
+	return conbo.difference(conbo.keys(obj), conbo.functions(obj));
+}
+
+/**
  * Convert dash-separated-words into camelCaseWords
  */
 conbo.toCamelCase = function(string)
@@ -1333,6 +1342,8 @@ conbo.toCamelCase = function(string)
  */
 var _dispatchChange = function(obj, propName, value)
 {
+	if (!(obj instanceof conbo.EventDispatcher)) return;
+	
 	var options = {attribute:propName, value:value};
 	
 	obj.dispatchEvent(new conbo.ConboEvent('change:'+propName, options));
@@ -1351,7 +1362,7 @@ var _dispatchChange = function(obj, propName, value)
  */
 conbo.defineProperty = function(obj, propName, getter, setter, enumerable)
 {
-	if (conbo.isDefinedProperty(obj, propName))
+	if (conbo.isAccessor(obj, propName))
 	{
 		return this;
 	}
@@ -1367,37 +1378,24 @@ conbo.defineProperty = function(obj, propName, getter, setter, enumerable)
 		{
 			return value;
 		};
-	}
 	
-	if (obj instanceof conbo.EventDispatcher)
-	{
-		if (nogs)
-		{
-			setter = function(newValue)
-			{
-				if (newValue === value) return;
-				value = newValue;
-				
-				_dispatchChange(obj, propName, value);
-			}
-		}
-		else if (!!setter && obj instanceof conbo.EventDispatcher)
-		{
-			setter = conbo.wrap(setter, function(fn, newValue)
-			{
-				fn.call(obj, newValue);
-				_dispatchChange(obj, propName, obj[propName]);
-			});
-			
-			setter.bindable = true;
-		}
-	}
-	else if (nogs)
-	{
 		setter = function(newValue)
 		{
+			if (newValue === value) return;
 			value = newValue;
-		}
+			
+			_dispatchChange(this, propName, value);
+		};
+	}
+	else if (!!setter)
+	{
+		setter = conbo.wrap(setter, function(fn, newValue)
+		{
+			fn.call(this, newValue);
+			_dispatchChange(this, propName, obj[propName]);
+		});
+		
+		setter.bindable = true;
 	}
 	
 	Object.defineProperty(obj, propName, {enumerable:enumerable, configurable:true, get:getter, set:setter});
@@ -1465,24 +1463,16 @@ conbo.propertize = function(obj)
  * passed, all existing properties will be made bindable
  * 
  * @param	(String)	obj
- * @param	(String)	propName
+ * @param	(String)	propNames
  */
-conbo.bindProperties = function(obj)
+conbo.bindProperties = function(obj, propNames)
 {
-	if (!(obj instanceof conbo.EventDispatcher))
-	{
-		throw new Error('You can only bind properties of classes which extend EventDispatcher');
-	}
-	
-	var propNames = arguments.length > 1
-		? conbo.rest(arguments)
-		: conbo.keys(this);
+	propNames || (propNames = conbo.properties(obj));
 	
 	propNames.forEach(function(propName)
 	{
 		conbo.defineProperty(obj, propName);
-	}, 
-	this);
+	});
 	
 	return this;
 };
@@ -1491,9 +1481,10 @@ conbo.bindProperties = function(obj)
  * Was the property created using Object.defineProperty()?
  * @returns		Boolean
  */
-conbo.isDefinedProperty = function(obj, propName)
+conbo.isAccessor = function(obj, propName)
 {
-	return !!Object.getOwnPropertyDescriptor(obj, propName);
+	var descriptor = Object.getOwnPropertyDescriptor(obj, propName);
+	return !!descriptor && (!!descriptor.set || !!descriptor.get);
 }
 
 /**
@@ -1502,7 +1493,7 @@ conbo.isDefinedProperty = function(obj, propName)
  */
 conbo.isBindableProperty = function(obj, propName)
 {
-	if (!conbo.isDefinedProperty(obj, propName))
+	if (!conbo.isAccessor(obj, propName))
 	{
 		return false;
 	}
@@ -1516,12 +1507,9 @@ conbo.isBindableProperty = function(obj, propName)
  */
 conbo.denumerate = function(obj)
 {
-	var props = conbo.rest(arguments);
-	
-	if (!props.length)
-	{
-		for (var a in obj) props.push(a);
-	}
+	var props = arguments.length > 1
+		? conbo.rest(arguments)
+		: conbo.keys(obj);
 	
 	props.forEach(function(propName)
 	{

@@ -23,6 +23,7 @@ conbo.View = conbo.Glimpse.extend
 		if (!!options) this.context = options.context;
 		
  		this.initialize.apply(this, arguments);
+		conbo.bindProperties(this, this.bindable);
 		
 		var templateUrl = conbo.result(this, 'templateUrl'),
 			template;

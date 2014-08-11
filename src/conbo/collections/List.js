@@ -27,6 +27,7 @@ conbo.List = conbo.EventDispatcher.extend
 		this.context = options.context;
 		
 		this.initialize.apply(this, arguments);
+		conbo.bindProperties(this, this.bindable);
 	},
 	
 	/**

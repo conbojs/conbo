@@ -13,11 +13,15 @@
  */
 conbo.EventDispatcher = (conbo.Injectable || conbo.Class).extend
 ({
+	/**
+	 * Do not override: use initialize
+	 * @private
+	 */
 	constructor: function(options)
 	{
 		conbo.propertize(this);
 		this.initialize.apply(this, arguments);
-		conbo.bindProperties.apply(conbo, this, this.bindable);
+		conbo.bindProperties(this, this.bindable);
 	},
 	
 	/**
@@ -178,10 +182,7 @@ conbo.EventDispatcher = (conbo.Injectable || conbo.Class).extend
 		// We're assuming defined values will dispatch their own change events
 		if (!conbo.isBindableProperty(this, propName))
 		{
-			var options = {attribute:propName, value:value};
-			
-			this.dispatchEvent(new conbo.ConboEvent('change:'+propName, options));
-			this.dispatchEvent(new conbo.ConboEvent('change', options));
+			_dispatchChange(this, propName);
 		}
 		
 		return this;
@@ -206,4 +207,35 @@ conbo.EventDispatcher = (conbo.Injectable || conbo.Class).extend
 	
 });
 
+//(function()
+//{
+//	var value;
+//	
+//	Object.defineProperty
+//	(
+//		conbo.Injectable.prototype,
+//		'bindable',
+//		
+//		{
+//			configurable: true,
+//			enumerable: false,
+//			
+//			get: function()
+//			{
+//				return value;
+//			},
+//			
+//			set: function(newValue)
+//			{
+//				if (!newValue || newValue == value) return;
+//				
+//				value = newValue;
+//				conbo.bindable.apply(conbo, [this].concat(newValue));
+//			}
+//		}
+//	);
+//	
+//})();
+
+conbo.defineIncalculableProperty(conbo.EventDispatcher.prototype, 'bindable');
 conbo.denumerate(conbo.EventDispatcher.prototype);

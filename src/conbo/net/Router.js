@@ -30,11 +30,6 @@ conbo.Router = conbo.EventDispatcher.extend
 	},
 	
 	/**
-	 * Initialize: Override this!
-	 */
-	initialize: function(){},
-
-	/**
 	 * Manually bind a single named route to a callback. For example:
 	 * 
 	 * @example

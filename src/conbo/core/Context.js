@@ -17,17 +17,17 @@ conbo.Context = conbo.EventDispatcher.extend
 	{
 		conbo.propertize(this);
 		
-		options = options || {};
+		options || (options = {});
 		
-		this._commands = {};
-		this._singletons = {};
+		conbo.defineIncalculableProperty(this, '__commands__', {});
+		conbo.defineIncalculableProperty(this, '__singletons__', {});
 		
 		this.app = options.app;
 		
 		this.addEventListener(conbo.Event.ALL, this._allHandler);
 		this.initialize.apply(this, arguments);
 		
-		return this;
+		conbo.bindProperties(this, this.bindable);
 	},
 	
 	/**
@@ -46,13 +46,13 @@ conbo.Context = conbo.EventDispatcher.extend
 		
 		if (this._mapMulti(eventType, commandClass, this.mapCommand)) return;
 		
-		if (this._commands[eventType] && this._commands[eventType].indexOf(commandClass) != -1)
+		if (this.__commands__[eventType] && this.__commands__[eventType].indexOf(commandClass) != -1)
 		{
 			return;
 		}
 		
-		this._commands[eventType] = this._commands[eventType] || [];
-		this._commands[eventType].push(commandClass);
+		this.__commands__[eventType] = this.__commands__[eventType] || [];
+		this.__commands__[eventType].push(commandClass);
 		
 		return this;
 	},
@@ -67,14 +67,14 @@ conbo.Context = conbo.EventDispatcher.extend
 		
 		if (commandClass === undefined)
 		{
-			delete this._commands[eventType];
+			delete this.__commands__[eventType];
 			return;
 		}
 		
-		if (!this._commands[eventType]) return;
-		var index = this._commands[eventType].indexOf(commandClass);
+		if (!this.__commands__[eventType]) return;
+		var index = this.__commands__[eventType].indexOf(commandClass);
 		if (index == -1) return;
-		this._commands[eventType].splice(index, 1);
+		this.__commands__[eventType].splice(index, 1);
 		
 		return this;
 	},
@@ -96,7 +96,7 @@ conbo.Context = conbo.EventDispatcher.extend
 		
 		if (this._mapMulti(propertyName, singletonClass, this.mapSingleton)) return;
 		
-		this._singletons[propertyName] = conbo.isClass(singletonClass)
+		this.__singletons__[propertyName] = conbo.isClass(singletonClass)
 			// TODO Improved dynamic class instantiation
 			? new singletonClass(arguments[2], arguments[3], arguments[4])
 			: singletonClass;
@@ -112,8 +112,8 @@ conbo.Context = conbo.EventDispatcher.extend
 		if (!propertyName) throw new Error('propertyName cannot be undefined');
 		if (this._mapMulti(propertyName, null, this.unmapSingleton)) return;
 		
-		if (!this._singletons[propertyName]) return;
-		delete this._singletons[propertyName];
+		if (!this.__singletons__[propertyName]) return;
+		delete this.__singletons__[propertyName];
 		
 		return this;
 	},
@@ -135,9 +135,9 @@ conbo.Context = conbo.EventDispatcher.extend
 		{
 			if (obj[a] !== undefined) continue;
 			
-			if (a in this._singletons)
+			if (a in this.__singletons__)
 			{
-				obj[a] = this._singletons[a];
+				obj[a] = this.__singletons__[a];
 			}
 		}
 		
@@ -154,7 +154,7 @@ conbo.Context = conbo.EventDispatcher.extend
 	 */
 	_allHandler: function(event)
 	{
-		var commands = conbo.union(this._commands.all || [], this._commands[event.type] || []);
+		var commands = conbo.union(this.__commands__.all || [], this.__commands__[event.type] || []);
 		if (!commands.length) return;
 		
 		conbo.each(commands, function(commandClass, index, list)

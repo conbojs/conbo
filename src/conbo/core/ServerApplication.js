@@ -28,6 +28,8 @@ conbo.ServerApplication = conbo.EventDispatcher.extend
 		if (!!options) this.context = options.context;
 		this.options = options;
 		this.initialize.apply(this, arguments);
+		
+		conbo.bindProperties(this, this.bindable);
 	},
 	
 	toString: function()
