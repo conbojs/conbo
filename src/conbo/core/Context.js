@@ -15,8 +15,6 @@ conbo.Context = conbo.EventDispatcher.extend
 	 */
 	constructor: function(options)
 	{
-		conbo.propertize(this);
-		
 		options || (options = {});
 		
 		_defineIncalculableProperty(this, '__commands__', {});

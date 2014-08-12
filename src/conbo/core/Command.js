@@ -14,8 +14,6 @@ conbo.Command = conbo.EventDispatcher.extend
 	 */
 	constructor: function(options)
 	{
-		conbo.propertize(this);
-		
 		if (!!options) this.context = options.context;
 		this.event = options.event || {};
 		this.initialize.apply(this, arguments);
@@ -41,6 +39,6 @@ conbo.Command = conbo.EventDispatcher.extend
 		return 'conbo.Command';
 	}
 	
-});
+}).implement(conbo.Injectable);
 
 _denumerate(conbo.Command.prototype);

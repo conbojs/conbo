@@ -11,7 +11,7 @@
  * @author	Neil Rackett
  * @see		conbo.EventDispatcher
  */
-conbo.EventDispatcher = (conbo.Injectable || conbo.Class).extend
+conbo.EventDispatcher = conbo.Class.extend
 ({
 	/**
 	 * Do not override: use initialize
@@ -19,7 +19,6 @@ conbo.EventDispatcher = (conbo.Injectable || conbo.Class).extend
 	 */
 	constructor: function(options)
 	{
-		conbo.propertize(this);
 		this.initialize.apply(this, arguments);
 		conbo.bindProperties(this, this.bindable);
 	},
@@ -95,6 +94,11 @@ conbo.EventDispatcher = (conbo.Injectable || conbo.Class).extend
 		}
 		
 		return this;
+	},
+	
+	dispatchChange: function(propName)
+	{
+		_dispatchChange(this, propName);
 	},
 	
 	/**

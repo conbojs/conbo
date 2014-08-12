@@ -19,8 +19,6 @@ conbo.Application = conbo.View.extend
 	 */
 	constructor: function(options)
 	{
-		conbo.propertize(this);
-		
 		options = conbo.clone(options) || {};
 		
 		var prefix = options.prefix || this.prefix || '';

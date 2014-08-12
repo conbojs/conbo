@@ -21,8 +21,6 @@ conbo.Collection = conbo.List.extend
 	 */
 	constructor: function(models, options) 
 	{
-		conbo.propertize(this);
-		
 		options || (options = {});
 		
 		if (options.url) this.url = options.url;

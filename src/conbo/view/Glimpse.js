@@ -12,8 +12,6 @@ conbo.Glimpse = conbo.EventDispatcher.extend
 	 */
 	constructor: function(options)
 	{
-		conbo.propertize(this);
-		
 		if (conbo.isObject(options) && !!options.el)
 		{
 			this.setElement(options.el);
@@ -99,6 +97,7 @@ conbo.Glimpse = conbo.EventDispatcher.extend
 			if (!!this.className) this.el.className += ' '+this.className;
 		}
 	},
-});
+	
+}).implement(conbo.Injectable);
 
 _denumerate(conbo.Glimpse.prototype);

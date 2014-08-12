@@ -19,8 +19,6 @@ conbo.ServerApplication = conbo.EventDispatcher.extend
 	 */
 	constructor: function(options)
 	{
-		conbo.propertize(this);
-		
 		options = conbo.clone(options) || {};
 		options.app = this;
 		options.context || (options.context = new this.contextClass(options));
@@ -37,6 +35,6 @@ conbo.ServerApplication = conbo.EventDispatcher.extend
 		return 'conbo.ServerApplication';
 	}
 	
-});
+}).implement(conbo.Injectable);
 
 _denumerate(conbo.ServerApplication.prototype);

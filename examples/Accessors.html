@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Conbo.js - Propertizing</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0">
+	</head>
+	<body>
+		
+		<div cb-app="MyApp">
+			<h1>Accessors</h1>
+			<p>Hello, my name is <span cb-html="name"></span> and this is an example of how to use accessors.</p>
+			<p>You can use the <code>{get propName(){}, set propName(){}}</code> syntax with Conbo and use the <code>this.dispatchChange('propName');</code> in your setter to make the property bindable without using <code>this.set(...);</code>.</p>
+			<p>Press F12 to open the JavaScript console and type <code>app.name="Name"</code> to see accessor binding in action!</p>
+		</div>
+		
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="../build/conbo-complete.js"></script>
+		<script src="Accessors.js"></script>
+	</body>
+</html>

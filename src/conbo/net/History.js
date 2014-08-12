@@ -40,8 +40,6 @@ conbo.History = conbo.EventDispatcher.extend
 	 */
 	constructor: function(options)
 	{
-		conbo.propertize(this);
-		
 		this.handlers = [];
 		this.bindAll('checkUrl');
 		
@@ -313,7 +311,7 @@ conbo.History = conbo.EventDispatcher.extend
 		}
 	}
 	
-});
+}).implement(conbo.Injectable);
 
 _denumerate(conbo.History.prototype);
 

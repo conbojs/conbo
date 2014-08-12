@@ -815,11 +815,15 @@ var _ = {};
 	};
 
 	// Extend a given object with all the properties in passed-in object(s).
-	_.extend = function(obj) {
-		each(slice.call(arguments, 1), function(source) {
-			if (source) {
-				for (var prop in source) {
-					Object.defineProperty(obj, prop, {value:source[prop], configurable:true, writable:true, enumerable:true});
+	_.extend = function(obj) 
+	{
+		each(slice.call(arguments, 1), function(source) 
+		{
+			if (source)
+			{
+				for (var propName in source) 
+				{
+					conbo.duplicateProperty(source, propName, obj);
 				}
 			}
 		});
@@ -831,7 +835,10 @@ var _ = {};
 		var copy = {};
 		var keys = concat.apply(ArrayProto, slice.call(arguments, 1));
 		each(keys, function(key) {
-			if (key in obj) copy[key] = obj[key];
+			if (key in obj)
+			{
+				conbo.duplicateProperty(obj, key, copy);
+			}
 		});
 		return copy;
 	};
@@ -840,18 +847,27 @@ var _ = {};
 	_.omit = function(obj) {
 		var copy = {};
 		var keys = concat.apply(ArrayProto, slice.call(arguments, 1));
-		for (var key in obj) {
-			if (!_.contains(keys, key)) copy[key] = obj[key];
+		for (var key in obj) 
+		{
+			if (!_.contains(keys, key))
+			{
+				conbo.duplicateProperty(obj, key, copy);
+			}
 		}
 		return copy;
 	};
 
 	// Fill in a given object with default properties.
-	_.defaults = function(obj) {
-		each(slice.call(arguments, 1), function(source) {
-			if (source) {
-				for (var prop in source) {
-					if (obj[prop] === void 0) obj[prop] = source[prop];
+	_.defaults = function(obj) 
+	{
+		each(slice.call(arguments, 1), function(source) 
+		{
+			if (source) 
+			{
+				for (var propName in source) 
+				{
+					if (obj[propName] !== void 0) continue;
+					conbo.duplicateProperty(source, propName, obj);
 				}
 			}
 		});
@@ -1327,6 +1343,43 @@ conbo.toCamelCase = function(string)
 };
 
 /**
+ * Duplicate a property from one object to another
+ */
+conbo.duplicateProperty = function(source, propName, target)
+{
+	var descriptor = Object.getOwnPropertyDescriptor(source, propName) 
+		|| {value:source[propName], configurable:true, writable:true, enumerable:true};
+	
+	Object.defineProperty(target, propName, descriptor);
+};
+
+/**
+ * Does the object implement the specified partial(s)?
+ * 
+ * @param	obj			The class instance
+ * @param	partial		The partial to compare against
+ */
+conbo.isImplementationOf = function(obj, partial)
+{
+	var partials = _.rest(arguments);		
+	
+	for (var p=0, c=partials.length; p<c; p++)
+	{
+		partial = partials[p];
+		
+		for (var a in partial)
+		{
+			if (!(a in obj) || typeof obj[a] !== typeof partial[a])
+			{
+				return false;
+			}
+		}
+	}
+	
+	return true;
+};
+
+/**
  * Loads a CSS and apply it to the DOM
  * @param 	{String}	url		The CSS file's URL
  * @param 	{String}	media	The media attribute (defaults to 'all')
@@ -1364,51 +1417,6 @@ conbo.loadCss = function(url, media)
 conbo.properties = function(obj)
 {
 	return conbo.difference(conbo.keys(obj), conbo.functions(obj));
-};
-
-/**
- * Convert methods with get_* and set_* prefix to properties/accessors
- */
-conbo.propertize = function(obj)
-{
-	if (obj.__propertized__) return;
-	
-	var funcs = conbo.functions(obj),
-		getters = conbo.filter(funcs, function(value) { return value.indexOf('get_') == 0; }),
-		setters = conbo.filter(funcs, function(value) { return value.indexOf('set_') == 0; });
-	
-	getters.forEach(function(getterName)
-	{
-		var propName = getterName.substr(4),
-			getter = obj[getterName];
-			setterName = 'set_'+propName,
-			setterIndex = setters.indexOf(setterName),
-			setter = obj[setterName];
-		
-		if (setterIndex != -1)
-		{
-			setters.splice(setterIndex, 1);
-		}
-		
-		_defineProperty(obj, propName, getter, setter);
-		
-		delete obj[getterName];
-		delete obj[setterName];
-	});
-	
-	setters.forEach(function(setterName)
-	{
-		var propName = setterName.substr(4),
-			setter = obj[setterName];
-		
-		_defineProperty(obj, propName, undefined, setter);
-		
-		delete obj[setterName];
-	});
-	
-	Object.defineProperty(obj, '__propertized__', {enumberable:false, writable:false, value:true});
-	
-	return this;
 };
 
 /**
@@ -1603,7 +1611,12 @@ var _denumerate = function(obj)
 	
 	props.forEach(function(propName)
 	{
-		Object.defineProperty(obj, propName, {enumerable:false, writeable:true, value:obj[propName]});
+		var descriptor = Object.getOwnPropertyDescriptor(obj, propName) 
+			|| {value:obj[propName], configurable:true, writable:true};
+		
+		descriptor.enumerable = false;
+		
+		Object.defineProperty(obj, propName, descriptor);
 	});
 	
 	return this;

@@ -18,8 +18,6 @@ conbo.Hash = conbo.EventDispatcher.extend
 	 */
 	constructor: function(attributes, options)
 	{
-		conbo.propertize(this);
-		
 		if (!!options) this.context = options.context;
 		
 		conbo.defaults(this, attributes, this.defaults)		
@@ -45,7 +43,8 @@ conbo.Hash = conbo.EventDispatcher.extend
 	{
 		return 'conbo.Hash';
 	}
-});
+	
+}).implement(conbo.Injectable);
 
 //Underscore methods that we want to implement on the Model.
 var hashMethods = ['keys', 'values', 'pairs', 'invert', 'pick', 'omit', 'size'];

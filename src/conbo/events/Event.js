@@ -21,8 +21,6 @@ conbo.Event = conbo.Class.extend
 	 */
 	constructor: function(type)
 	{
-		conbo.propertize(this);
-		
 		if (conbo.isString(type)) this.type = type;
 		else conbo.defaults(this, type);
 		

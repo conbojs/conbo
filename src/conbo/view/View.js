@@ -14,15 +14,15 @@ conbo.View = conbo.Glimpse.extend
 	 */
 	constructor: function(options)
 	{
-		conbo.propertize(this);
-		
 		options = conbo.clone(options) || {};
 		
 		this._configure(options);
 		this._ensureElement();
-		if (!!options) this.context = options.context;
+		
+		this.context = options.context;
 		
  		this.initialize.apply(this, arguments);
+ 		
 		conbo.bindProperties(this, this.bindable);
 		
 		var templateUrl = conbo.result(this, 'templateUrl'),
@@ -248,12 +248,12 @@ conbo.View = conbo.Glimpse.extend
 			var attrs = conbo.extend({}, conbo.result(this, 'attributes'));
 			if (this.id) attrs.id = conbo.result(this, 'id');
 			if (this.className) attrs['class'] = conbo.result(this, 'className');
-			var $el = $('<' + conbo.result(this, 'tagName') + '>').attr(attrs);
+			var $el = $('<'+this.tagName+'>').attr(attrs);
 			this.setElement($el);
 		}
 		else 
 		{
-			this.setElement(conbo.result(this, 'el'));
+			this.setElement(this.el);
 			if (!!this.className) this.$el.addClass(this.className);
 		}
 		

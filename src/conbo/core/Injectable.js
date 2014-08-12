@@ -1,64 +1,29 @@
 /**
  * Injectable
  * 
- * Base class that enables the Conbo.js framework to add context to this 
- * class instance and inject specified dependencies (properties of undefined
- * value which match registered singletons)
+ * Partial class that enables the Conbo.js framework to add the Context class 
+ * to inject specified dependencies (properties of undefined value which match 
+ * registered singletons)
  * 
  * @author		Neil Rackett
  */
-conbo.Injectable = conbo.Class.extend
-({
-	constructor: function(options)
+
+conbo.Injectable =
+{
+	get context()
 	{
-		conbo.propertize(this);
-		
-		if (!!options) 
-		{
-			this.context = options.context;
-		}
-		
-		this.initialize.apply(this, arguments);
-		conbo.bindProperties(this, this.bindable);
+		return this.__context__;
 	},
 	
-	toString: function()
+	set context(value)
 	{
-		return 'conbo.Injectable';
-	}
-	
-});
-
-(function()
-{
-	var value;
-	
-	Object.defineProperty
-	(
-		conbo.Injectable.prototype,
-		'context',
+		if (value == this.__context__) return;
 		
+		if (value instanceof conbo.Context) 
 		{
-			configurable: true,
-			enumerable: false,
-			
-			get: function()
-			{
-				return value;
-			},
-			
-			set: function(newValue)
-			{
-				if (newValue instanceof conbo.Context) 
-				{
-					newValue.injectSingletons(this);
-				}
-				
-				value = newValue;
-			}
+			value.injectSingletons(this);
 		}
-	);
-	
-})();
-
-_denumerate(conbo.Injectable.prototype);
+		
+		this.__context__ = value;
+	}
+};

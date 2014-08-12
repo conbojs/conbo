@@ -16,8 +16,6 @@ conbo.List = conbo.EventDispatcher.extend
 	 */
 	constructor: function(models, options) 
 	{
-		conbo.propertize(this);
-		
 		options || (options = {});
 		
 		this.bindAll('_redispatch');
@@ -219,7 +217,8 @@ conbo.List = conbo.EventDispatcher.extend
 	{
 		this.dispatchEvent(event);
 	}
-});
+	
+}).implement(conbo.Injectable);
 
 // Underscore methods that we want to implement on the List.
 var methods = 

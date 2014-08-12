@@ -4,7 +4,6 @@
  */
 conbo.Class = function(options) 
 {
-	conbo.propertize(this);
 	this.initialize.apply(this, arguments);
 };
 
@@ -98,4 +97,10 @@ conbo.Class.extend = function(protoProps, staticProps)
 	conbo.bindProperties(child.prototype);
 	
 	return child;
+};
+
+conbo.Class.implement = function()
+{
+	conbo.defaults.apply(conbo, conbo.union([this.prototype], arguments));
+	return this;
 };
