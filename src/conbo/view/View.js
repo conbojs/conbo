@@ -83,8 +83,8 @@ conbo.View = conbo.Glimpse.extend
 		if (!!this.el) delete this.el.cbView;
 		if (isBound) this.unbindView();
 		
-		conbo.defineIncalculableProperty(this, '$el', $(element));
-		conbo.defineIncalculableProperty(this, 'el', this.$el[0]);
+		_defineIncalculableProperty(this, '$el', $(element));
+		_defineIncalculableProperty(this, 'el', this.$el[0]);
 		
 		this.el.cbView = this;
 		
@@ -266,4 +266,4 @@ conbo.View = conbo.Glimpse.extend
 	},
 });
 
-conbo.denumerate(conbo.View.prototype);
+_denumerate(conbo.View.prototype);

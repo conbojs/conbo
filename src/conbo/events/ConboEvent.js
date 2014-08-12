@@ -44,4 +44,4 @@ conbo.ConboEvent = conbo.Event.extend
 	ALL:		"all", 		// special event fires for any triggered event
 });
 
-conbo.denumerate(conbo.ConboEvent.prototype);
+_denumerate(conbo.ConboEvent.prototype);

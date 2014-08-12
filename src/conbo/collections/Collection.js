@@ -604,5 +604,5 @@ conbo.Collection = conbo.List.extend
 	}
 });
 
-conbo.denumerate(conbo.Collection.prototype);
+_denumerate(conbo.Collection.prototype);
 

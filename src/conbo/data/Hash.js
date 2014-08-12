@@ -23,7 +23,7 @@ conbo.Hash = conbo.EventDispatcher.extend
 		if (!!options) this.context = options.context;
 		
 		conbo.defaults(this, attributes, this.defaults)		
-		conbo.defineIncalculableProperty(this, '__attributes__', this);
+		_defineIncalculableProperty(this, '__attributes__', this);
 		
 		this.initialize.apply(this, arguments);
 		
@@ -61,4 +61,4 @@ conbo.each(hashMethods, function(method)
 	};
 });
 
-conbo.denumerate(conbo.Hash.prototype);
+_denumerate(conbo.Hash.prototype);

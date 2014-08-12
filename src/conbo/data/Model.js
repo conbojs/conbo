@@ -23,7 +23,7 @@ conbo.Model = conbo.Hash.extend
 		
 		this.cid = conbo.uniqueId('c');
 		
-		conbo.defineIncalculableProperty(this, '__attributes__', {});
+		_defineIncalculableProperty(this, '__attributes__', {});
 		conbo.extend(this, conbo.pick(options, ['url','urlRoot','collection']));
 		
 		if (options.parse)
@@ -569,4 +569,4 @@ var wrapError = function (model, options)
 	};
 };
 
-conbo.denumerate(conbo.Model.prototype);
+_denumerate(conbo.Model.prototype);

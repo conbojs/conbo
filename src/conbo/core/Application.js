@@ -26,8 +26,8 @@ conbo.Application = conbo.View.extend
 		var prefix = options.prefix || this.prefix || '';
 		var namespace = options.namespace || this.namespace;
 		
-		conbo.defineIncalculableProperty(this, 'prefix', prefix);
-		conbo.defineIncalculableProperty(this, 'namespace', namespace);
+		_defineIncalculableProperty(this, 'prefix', prefix);
+		_defineIncalculableProperty(this, 'namespace', namespace);
 		
 		options.app = this;
 		options.context = new this.contextClass(options);
@@ -135,4 +135,4 @@ conbo.Application = conbo.View.extend
 
 });
 
-conbo.denumerate(conbo.Application.prototype);
+_denumerate(conbo.Application.prototype);

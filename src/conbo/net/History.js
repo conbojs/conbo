@@ -315,7 +315,7 @@ conbo.History = conbo.EventDispatcher.extend
 	
 });
 
-conbo.denumerate(conbo.History.prototype);
+_denumerate(conbo.History.prototype);
 
 // Create default instance of the History class
 conbo.history = new conbo.History();

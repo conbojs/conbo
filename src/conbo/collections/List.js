@@ -264,4 +264,4 @@ conbo.each(attributeMethods, function(method)
 	};
 });
 
-conbo.denumerate(conbo.List.prototype);
+_denumerate(conbo.List.prototype);

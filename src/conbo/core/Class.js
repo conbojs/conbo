@@ -65,7 +65,7 @@ conbo.Class.prototype =
 		
 };
 
-conbo.denumerate(conbo.Class.prototype);
+_denumerate(conbo.Class.prototype);
 
 conbo.Class.extend = function(protoProps, staticProps)
 {

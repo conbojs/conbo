@@ -39,4 +39,4 @@ conbo.ServerApplication = conbo.EventDispatcher.extend
 	
 });
 
-conbo.denumerate(conbo.ServerApplication.prototype);
+_denumerate(conbo.ServerApplication.prototype);

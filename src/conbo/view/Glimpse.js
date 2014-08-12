@@ -58,7 +58,7 @@ conbo.Glimpse = conbo.EventDispatcher.extend
 	{
 		if (!!this.el) delete this.el.cbView;
 		
-		conbo.defineIncalculableProperty(this, 'el', element);
+		_defineIncalculableProperty(this, 'el', element);
 		
 		this.el.cbView = this;
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ELEMENT_CHANGE));
@@ -101,4 +101,4 @@ conbo.Glimpse = conbo.EventDispatcher.extend
 	},
 });
 
-conbo.denumerate(conbo.Glimpse.prototype);
+_denumerate(conbo.Glimpse.prototype);

@@ -97,4 +97,4 @@ conbo.Event = conbo.Class.extend
 	}
 });
 
-conbo.denumerate(conbo.Event.prototype);
+_denumerate(conbo.Event.prototype);

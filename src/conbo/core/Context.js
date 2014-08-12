@@ -19,8 +19,8 @@ conbo.Context = conbo.EventDispatcher.extend
 		
 		options || (options = {});
 		
-		conbo.defineIncalculableProperty(this, '__commands__', {});
-		conbo.defineIncalculableProperty(this, '__singletons__', {});
+		_defineIncalculableProperty(this, '__commands__', {});
+		_defineIncalculableProperty(this, '__singletons__', {});
 		
 		this.app = options.app;
 		
@@ -193,4 +193,4 @@ conbo.Context = conbo.EventDispatcher.extend
 	
 });
 
-conbo.denumerate(conbo.Context.prototype);
+_denumerate(conbo.Context.prototype);
