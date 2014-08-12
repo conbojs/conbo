@@ -19,7 +19,7 @@
 	({
 		render: function()
 		{
-			this.html('Hello from '+this.context.app.prefix+'!');
+			this.el.innerHTML = 'Hello from '+this.context.app.prefix+'!';
 			return this;
 		}
 	});

@@ -55,7 +55,7 @@ conbo.Model = conbo.Hash.extend
 	 * The default name for the JSON `id` attribute is `"id"`. MongoDB and
 	 * CouchDB users may want to set this to `"_id"`.
 	 */
-	idAttribute: 'id',
+	idProperty: 'id',
 
 	/**
 	 * Initialize is an empty function by default. Override it with your own
@@ -147,9 +147,9 @@ conbo.Model = conbo.Hash.extend
 		prev = this._previousAttributes;
 
 		// Check for changes of `id`.
-		if (this.idAttribute in attrs)
+		if (this.idProperty in attrs)
 		{
-			this.id = attrs[this.idAttribute];
+			this.id = attrs[this.idProperty];
 		}
 
 		// For each `set` attribute, update or delete the current value.

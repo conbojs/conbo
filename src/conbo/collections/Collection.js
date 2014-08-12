@@ -328,7 +328,7 @@ conbo.Collection = conbo.List.extend
 	get: function(obj) 
 	{
 		if (obj == null) return undefined;
-		this._idAttr || (this._idAttr = this.modelClass.prototype.idAttribute);
+		this._idAttr || (this._idAttr = this.modelClass.prototype.idProperty);
 		return this._byId[obj.id || obj.cid || obj[this._idAttr] || obj];
 	},
 
@@ -585,9 +585,9 @@ conbo.Collection = conbo.List.extend
 			this.remove(model, event.options);
 		}
 		
-		if (model && event.type == 'change:' + model.idAttribute) 
+		if (model && event.type == 'change:' + model.idProperty) 
 		{
-			delete this._byId[event.model.previous(model.idAttribute)];
+			delete this._byId[event.model.previous(model.idProperty)];
 			
 			if (model.id != null) 
 			{

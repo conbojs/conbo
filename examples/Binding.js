@@ -64,7 +64,7 @@
 		 * Properties with a value of undefined that have been mapped to 
 		 * singletons in the context are automatically injected
 		 */
-		myModel: undefined,
+		myModel: undefined
 	});
 	
 	var MyApp = conbo.Application.extend

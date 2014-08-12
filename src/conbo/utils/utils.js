@@ -819,7 +819,7 @@ var _ = {};
 		each(slice.call(arguments, 1), function(source) {
 			if (source) {
 				for (var prop in source) {
-					obj[prop] = source[prop];
+					Object.defineProperty(obj, prop, {value:source[prop], configurable:true, writable:true, enumerable:true});
 				}
 			}
 		});
@@ -1524,7 +1524,7 @@ var _dispatchChange = function(obj, propName, value)
 {
 	if (!(obj instanceof conbo.EventDispatcher)) return;
 	
-	var options = {attribute:propName, value:value};
+	var options = {property:propName, value:value};
 	
 	obj.dispatchEvent(new conbo.ConboEvent('change:'+propName, options));
 	obj.dispatchEvent(new conbo.ConboEvent('change', options));
@@ -1551,7 +1551,7 @@ var _defineProperty = function(obj, propName, getter, setter, enumerable)
 		nogs = !getter && !setter;
 	
 	enumerable = (enumerable !== false);
-	
+		
 	if (nogs)
 	{
 		getter = function()

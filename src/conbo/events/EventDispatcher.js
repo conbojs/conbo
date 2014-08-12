@@ -179,8 +179,8 @@ conbo.EventDispatcher = (conbo.Injectable || conbo.Class).extend
 		
 		this[propName] = value;
 		
-		// We're assuming defined values will dispatch their own change events
-		if (!conbo.isBindableProperty(this, propName))
+		// We're assuming accessors will dispatch their own change events
+		if (!conbo.isAccessor(this, propName))
 		{
 			_dispatchChange(this, propName);
 		}

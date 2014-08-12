@@ -97,7 +97,5 @@ conbo.Class.extend = function(protoProps, staticProps)
 	
 	conbo.bindProperties(child.prototype);
 	
-	//child.prototype._super = parent.prototype;
-	
 	return child;
 };
