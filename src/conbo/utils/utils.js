@@ -1362,32 +1362,35 @@ conbo.cloneProperty = function(source, sourceName, target, targetName)
 
 /**
  * Is the object an instance of the specified class(es) or implement the
- * specified interface(s)/partial(s)?
+ * specified pseudo-interface(s)?
  * 
- * @example					var b = conbo.instanceOf(obj, conbo.EventDispatcher);
- * @example					var b = conbo.instanceOf(obj, conbo.View, conbo.Injectable);
- * @param	obj				The class instance
- * @param	classOrPartial	The Conbo class or partial to compare against
+ * @example						var b = conbo.instanceOf(obj, conbo.EventDispatcher);
+ * @example						var b = conbo.instanceOf(obj, conbo.View, conbo.Injectable);
+ * @param	obj					The class instance
+ * @param	classOrInterface	The Conbo class or pseudo-interface to compare against
  */
-conbo.instanceOf = function(obj, classOrPartial)
+conbo.instanceOf = function(obj, classOrInterface)
 {
 	var partials = conbo.rest(arguments);
 	
 	for (var p=0, c=partials.length; p<c; p++)
 	{
-		classOrPartial = partials[p];
+		classOrInterface = partials[p];
 		
-		if (!classOrPartial) return false;
+		if (!classOrInterface) return false;
 		
-		if (conbo.isClass(classOrPartial))
+		if (conbo.isClass(classOrInterface))
 		{
-			if (!(obj instanceof classOrPartial)) return false;
+			if (!(obj instanceof classOrInterface)) return false;
 		}
 		else
 		{
-			for (var a in classOrPartial)
+			for (var a in classOrInterface)
 			{
-				if (!(a in obj)) return false;
+				if (!(a in obj) || conbo.isFunction(obj[a]) != conbo.isFunction(classOrInterface[a])) 
+				{
+					return false;
+				}
 			}
 		}
 	}
