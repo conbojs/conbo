@@ -1,6 +1,6 @@
 /*
  * Utility methods
- * A subset of Underscore.js methods, plus a few of our own
+ * A modified subset of Underscore.js methods, plus loads of our own
  */
 
 var _ = {};
