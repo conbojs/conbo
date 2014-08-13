@@ -1364,6 +1364,8 @@ conbo.cloneProperty = function(source, sourceName, target, targetName)
  * Is the object an instance of the specified class(es) or implement the
  * specified interface(s)/partial(s)?
  * 
+ * @example					var b = conbo.instanceOf(obj, conbo.EventDispatcher);
+ * @example					var b = conbo.instanceOf(obj, conbo.View, conbo.Injectable);
  * @param	obj				The class instance
  * @param	classOrPartial	The Conbo class or partial to compare against
  */

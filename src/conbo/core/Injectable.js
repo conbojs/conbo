@@ -3,8 +3,9 @@
  * 
  * Partial class that enables the Conbo.js framework to add the Context class 
  * to inject specified dependencies (properties of undefined value which match 
- * registered singletons)
+ * registered singletons); should be used via the Class.implement method
  * 
+ * @example		var C = conbo.Class.extend().implement(conbo.Injectable);
  * @author		Neil Rackett
  */
 
