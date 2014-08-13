@@ -208,8 +208,7 @@ conbo.View = conbo.Glimpse.extend
 	 */
 	_viewOptions: 
 	[
-		'model', 
-		'collection', 
+		'data', 
 		'el', 
 		'id', 
 		'attributes', 
