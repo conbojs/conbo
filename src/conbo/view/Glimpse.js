@@ -19,6 +19,7 @@ conbo.Glimpse = conbo.EventDispatcher.extend
 		
 		this._ensureElement();
 		this.initialize.apply(this, arguments);
+		
 		conbo.bindProperties(this, this.bindable);
 	},
 	

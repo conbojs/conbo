@@ -823,7 +823,7 @@ var _ = {};
 			{
 				for (var propName in source) 
 				{
-					conbo.duplicateProperty(source, propName, obj);
+					conbo.cloneProperty(source, propName, obj);
 				}
 			}
 		});
@@ -837,7 +837,7 @@ var _ = {};
 		each(keys, function(key) {
 			if (key in obj)
 			{
-				conbo.duplicateProperty(obj, key, copy);
+				conbo.cloneProperty(obj, key, copy);
 			}
 		});
 		return copy;
@@ -851,7 +851,7 @@ var _ = {};
 		{
 			if (!_.contains(keys, key))
 			{
-				conbo.duplicateProperty(obj, key, copy);
+				conbo.cloneProperty(obj, key, copy);
 			}
 		}
 		return copy;
@@ -867,7 +867,7 @@ var _ = {};
 				for (var propName in source) 
 				{
 					if (obj[propName] !== void 0) continue;
-					conbo.duplicateProperty(source, propName, obj);
+					conbo.cloneProperty(source, propName, obj);
 				}
 			}
 		});
@@ -1031,15 +1031,6 @@ var _ = {};
 			return typeof obj === 'function';
 		};
 	}
-
-	/**
-	 * isClass utility method
-	 * @author	Neil Rackett
-	 */
-	_.isClass = function(value)
-	{
-		return !!value && value.prototype instanceof conbo.Class;
-	};
 	
 	// Is a given object a finite number?
 	_.isFinite = function(obj) {
@@ -1343,35 +1334,58 @@ conbo.toCamelCase = function(string)
 };
 
 /**
- * Duplicate a property from one object to another
+ * Is the value a Conbo class?
  */
-conbo.duplicateProperty = function(source, propName, target)
+conbo.isClass = function(value)
 {
-	var descriptor = Object.getOwnPropertyDescriptor(source, propName) 
-		|| {value:source[propName], configurable:true, writable:true, enumerable:true};
-	
-	Object.defineProperty(target, propName, descriptor);
+	return !!value && typeof value == 'function' && value.prototype instanceof conbo.Class;
 };
 
 /**
- * Does the object implement the specified partial(s)?
+ * Copies a property, including defined properties and accessors, 
+ * from one object to another
  * 
- * @param	obj			The class instance
- * @param	partial		The partial to compare against
+ * @param	source			Source object
+ * @param	sourceName		Name of the property on the source
+ * @param	target			Target object
+ * @param	targetName		Name of the property on the target (default: sourceName)
  */
-conbo.isImplementationOf = function(obj, partial)
+conbo.cloneProperty = function(source, sourceName, target, targetName)
 {
-	var partials = _.rest(arguments);		
+	targetName || (targetName = sourceName);
+	
+	var descriptor = Object.getOwnPropertyDescriptor(source, sourceName) 
+		|| {value:source[sourceName], configurable:true, writable:true, enumerable:true};
+	
+	Object.defineProperty(target, sourceName, descriptor);
+};
+
+/**
+ * Is the object an instance of the specified class(es) or implement the
+ * specified interface(s)/partial(s)?
+ * 
+ * @param	obj				The class instance
+ * @param	classOrPartial	The Conbo class or partial to compare against
+ */
+conbo.instanceOf = function(obj, classOrPartial)
+{
+	var partials = conbo.rest(arguments);
 	
 	for (var p=0, c=partials.length; p<c; p++)
 	{
-		partial = partials[p];
+		classOrPartial = partials[p];
 		
-		for (var a in partial)
+		if (!classOrPartial) return false;
+		
+		if (conbo.isClass(classOrPartial))
 		{
-			if (!(a in obj) || typeof obj[a] !== typeof partial[a])
+			if (!(obj instanceof classOrPartial)) return false;
+		}
+		else
+		{
+			for (var a in classOrPartial)
 			{
-				return false;
+				if (!(a in obj)) return false;
 			}
 		}
 	}

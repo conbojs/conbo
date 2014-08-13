@@ -99,6 +99,15 @@ conbo.Class.extend = function(protoProps, staticProps)
 	return child;
 };
 
+/**
+ * Implements the specified pseudo-interface(s) on the class, copying 
+ * the default methods or properties from the partial(s) if they have 
+ * not already been implemented.
+ * 
+ * @example					var MyClass = conbo.Class.extend().implement(conbo.Injectable);
+ * @param	{Object}		Object containing one or more properties or methods to be implemented
+ * @returns	{conbo.Class}
+ */
 conbo.Class.implement = function()
 {
 	conbo.defaults.apply(conbo, conbo.union([this.prototype], arguments));
