@@ -12,26 +12,26 @@ conbo.Model = conbo.Hash.extend
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options
 	 */
-	constructor: function(attributes, options) 
+	constructor: function(properties, options) 
 	{
 		var defaults;
-		var attrs = attributes || {};
+		var props = properties || {};
 		
 		options || (options = {});
 		
 		this.cid = conbo.uniqueId('c');
 		
-		_defineIncalculableProperty(this, '__attributes__', {});
+		_defineIncalculableProperty(this, '__properties__', {});
 		conbo.extend(this, conbo.pick(options, ['url','urlRoot','collection']));
 		
 		if (options.parse)
 		{
-			attrs = this.parse(attrs, options) || {};
+			props = this.parse(props, options) || {};
 		}
 		
-		attrs = conbo.defaults({}, attrs, conbo.result(this, 'defaults'));
+		props = conbo.defaults({}, props, this.defaults);
 		
-		this.set(attrs, options);
+		this.set(props, options);
 		
 		if (!!options) this.context = options.context;
 		this.initialize.apply(this, arguments);
@@ -75,7 +75,7 @@ conbo.Model = conbo.Hash.extend
 	 */
 	get: function(attr) 
 	{
-		return this.__attributes__[attr];
+		return this.__properties__[attr];
 	},
 
 	/**
@@ -137,11 +137,11 @@ conbo.Model = conbo.Hash.extend
 		
 		if (!changing) 
 		{
-			this._previousAttributes = conbo.clone(this.__attributes__);
+			this._previousAttributes = conbo.clone(this.__properties__);
 			this.changed = {};
 		}
 		
-		current = this.__attributes__;
+		current = this.__properties__;
 		prev = this._previousAttributes;
 
 		// Check for changes of `id`.
@@ -231,7 +231,7 @@ conbo.Model = conbo.Hash.extend
 	clear: function(options) 
 	{
 		var attrs = {};
-		for (var key in this.__attributes__) attrs[key] = undefined;
+		for (var key in this.__properties__) attrs[key] = undefined;
 		return this.set(attrs, conbo.extend({}, options, {unset: true}));
 	},
 
@@ -257,7 +257,7 @@ conbo.Model = conbo.Hash.extend
 	{
 		if (!diff) return this.hasChanged() ? conbo.clone(this.changed) : false;
 		var val, changed = false;
-		var old = this._changing ? this._previousAttributes : this.__attributes__;
+		var old = this._changing ? this._previousAttributes : this.__properties__;
 		for (var attr in diff) {
 			if (conbo.isEqual(old[attr], (val = diff[attr]))) continue;
 			(changed || (changed = {}))[attr] = val;
@@ -332,7 +332,7 @@ conbo.Model = conbo.Hash.extend
 	 */
 	save: function(key, val, options) 
 	{
-		var attrs, method, xhr, attributes = this.__attributes__;
+		var attrs, method, xhr, attributes = this.__properties__;
 		
 		// Handle both `"key", value` and `{key: value}` -style arguments.
 		if (key == null || typeof key === 'object')
@@ -362,7 +362,7 @@ conbo.Model = conbo.Hash.extend
 		// Set temporary attributes if `{wait: true}`.
 		if (attrs && options.wait)
 		{
-			this.__attributes__ = conbo.extend({}, attributes, attrs);
+			this.__properties__ = conbo.extend({}, attributes, attrs);
 		}
 
 		// After a successful server-side save, the client is (optionally)
@@ -378,7 +378,7 @@ conbo.Model = conbo.Hash.extend
 		options.success = function(resp) 
 		{
 			// Ensure attributes are restored during synchronous saves.
-			model.__attributes__ = attributes;
+			model.__properties__ = attributes;
 			
 			var serverAttrs = model.parse(resp, options);
 			
@@ -412,7 +412,7 @@ conbo.Model = conbo.Hash.extend
 		xhr = this.sync(method, this, options);
 
 		// Restore attributes.
-		if (attrs && options.wait) this.__attributes__ = attributes;
+		if (attrs && options.wait) this.__properties__ = attributes;
 		
 		return xhr;
 	},
@@ -483,7 +483,7 @@ conbo.Model = conbo.Hash.extend
 	 */
 	url: function() 
 	{
-		var base = conbo.result(this, 'urlRoot') || conbo.result(this.collection, 'url') || urlError();
+		var base = this.urlRoot || this.collection.url || urlError();
 		if (this.isNew()) return base;
 		return base + (base.charAt(base.length - 1) === '/' ? '' : '/') + encodeURIComponent(this.id);
 	},
@@ -502,7 +502,7 @@ conbo.Model = conbo.Hash.extend
 	 */
 	clone: function() 
 	{
-		return new this.constructor(this.__attributes__);
+		return new this.constructor(this.__properties__);
 	},
 
 	/**
@@ -533,7 +533,7 @@ conbo.Model = conbo.Hash.extend
 	_validate: function(attrs, options) 
 	{
 		if (!options.validate || !this.validate) return true;
-		attrs = conbo.extend({}, this.__attributes__, attrs);
+		attrs = conbo.extend({}, this.__properties__, attrs);
 		var error = this.validationError = this.validate(attrs, options) || null;
 		if (!error) return true;
 		

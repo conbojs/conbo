@@ -82,7 +82,7 @@ conbo.Glimpse = conbo.EventDispatcher.extend
 	{
 		if (!this.el) 
 		{
-			var attrs = conbo.extend({}, conbo.result(this, 'attributes'));
+			var attrs = conbo.extend({}, this.attributes);
 			var el = document.createElement(this.tagName);
 			
 			if (!!this.id) el.id = this.id;

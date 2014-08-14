@@ -896,8 +896,6 @@ var _ = {};
 		// A strict comparison is necessary because `null == undefined`.
 		if (a == null || b == null) return a === b;
 		// Unwrap any wrapped objects.
-		if (a instanceof _) a = a._wrapped;
-		if (b instanceof _) b = b._wrapped;
 		// Compare `[[Class]]` names.
 		var className = toString.call(a);
 		if (className != toString.call(b)) return false;
@@ -1144,11 +1142,11 @@ var _ = {};
 
 	// If the value of the named `property` is a function then invoke it with the
 	// `object` as context; otherwise, return it.
-	_.result = function(object, property) {
-		if (object == null) return void 0;
-		var value = object[property];
-		return _.isFunction(value) ? value.call(object) : value;
-	};
+//	_.result = function(object, property) {
+//		if (object == null) return void 0;
+//		var value = object[property];
+//		return _.isFunction(value) ? value.call(object) : value;
+//	};
 
 //	// Add your own custom functions to the Underscore object.
 //	_.mixin = function(obj) {

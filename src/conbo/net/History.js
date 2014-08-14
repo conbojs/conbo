@@ -101,11 +101,7 @@ conbo.History = conbo.EventDispatcher.extend
 		
 		// Figure out the initial configuration. Do we need an iframe?
 		// Is pushState desired ... is it available?
-		this.options = conbo.extend(
-		{},
-		{
-			root: '/'
-		}, this.options, options);
+		this.options = conbo.extend({}, {root:'/'}, this.options, options);
 		this.root = this.options.root;
 		this._wantsHashChange = this.options.hashChange !== false;
 		this._wantsPushState = !!this.options.pushState;

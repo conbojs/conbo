@@ -104,7 +104,7 @@ conbo.Router = conbo.EventDispatcher.extend
 	_bindRoutes: function() 
 	{
 		if (!this.routes) return;
-		this.routes = conbo.result(this, 'routes');
+		this.routes = this.routes;
 		var route, routes = conbo.keys(this.routes);
 		while ((route = routes.pop()) != null) {
 			this.route(route, this.routes[route]);

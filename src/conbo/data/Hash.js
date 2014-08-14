@@ -16,12 +16,12 @@ conbo.Hash = conbo.EventDispatcher.extend
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options
 	 */
-	constructor: function(attributes, options)
+	constructor: function(properties, options)
 	{
 		if (!!options) this.context = options.context;
 		
-		conbo.defaults(this, attributes, this.defaults)		
-		_defineIncalculableProperty(this, '__attributes__', this);
+		conbo.defaults(this, properties, this.defaults)		
+		_defineIncalculableProperty(this, '__properties__', this);
 		
 		this.initialize.apply(this, arguments);
 		
@@ -33,10 +33,10 @@ conbo.Hash = conbo.EventDispatcher.extend
 	 */
 	toJSON: function()
 	{
-		var keys = conbo.keys(this.__attributes__),
+		var keys = conbo.keys(this.__properties__),
 			filter = function(value) { return String(value).indexOf('_') != 0; };
 		
-		return conbo.pick(this.__attributes__, conbo.filter(keys, filter));
+		return conbo.pick(this.__properties__, conbo.filter(keys, filter));
 	},
 	
 	toString: function()
@@ -56,7 +56,7 @@ conbo.each(hashMethods, function(method)
 	
 	conbo.Hash.prototype[method] = function() 
 	{
-		return conbo[method].apply(conbo, [this.__attributes__].concat(conbo.rest(arguments)));
+		return conbo[method].apply(conbo, [this.__properties__].concat(conbo.rest(arguments)));
 	};
 });
 

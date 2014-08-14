@@ -74,8 +74,17 @@ conbo.EventDispatcher = conbo.Class.extend
 	{
 		if (!event) throw new Error('Event undefined');
 		
-		if (conbo.isString(event) || !(event instanceof conbo.Event)) 
+		var isString = conbo.isString(event);
+		
+		if (isString)
+		{
+			console.warn('dispatchEvent("'+event+'") instead of Event object is deprecated and should be avoided');
+		}
+		
+		if (isString || !(event instanceof conbo.Event))
+		{
 			event = new conbo.Event(event);
+		}
 		
 		if (!this.__queue__ || (!(event.type in this.__queue__) && !this.__queue__.all)) return this;
 		

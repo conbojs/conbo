@@ -1,9 +1,9 @@
 Conbo.js
 ========
 
-Conbo.js is a lightweight MVC application framework for JavaScript featuring extendible classes, event bus, dependency injection, data binding, context and encapsulation, command pattern and an event model that enables consistent, scoped event handling.
+Conbo.js is a lightweight MVC application framework for JavaScript featuring class extendibility, event bus, dependency injection, data binding, context and encapsulation, command pattern, an easy to use event model with scoped event handling and, from version 2, pseudo-interfaces for classes.
 
-Conbo.js enables JavaScript developers a take a structured, decoupled, class based approach to application development, in a way that should be be familiar to anyone with experience of languages like ActionScript or Java.
+Conbo.js enables JavaScript developers a take a structured, decoupled, class based approach to application development, in a way that should be be familiar to anyone with experience of languages like ActionScript, C# or Java.
 
 Development of Conbo.js is currently focussed on single page applications (SPA) and self-contained modules like widgets and media players, where it can be used stand-alone or as an AMD module.
 
@@ -15,13 +15,6 @@ Browser Support
 Starting with version 2.0.0, Conbo.js will only officially support the so-called modern browsers: the two most recent major releases of Firefox, Chrome (desktop and Android) and Safari (desktop and iOS), and Internet Explorer 9+.
 
 While IE9 isn't technically a modern browser, it's still-huge install base means we're persevering with it, for now.
-
-Brief History
--------------
-
-Conbo started life as a [con]text and [con]troller add-on for Back[bo]ne.js, but as more of Backbone.js was removed, replaced or updated, the project took on a life of its own and Conbo.js was born.
-
-With the exception of the base Class, the Lite and Core releases of Conbo.js now contains very little of the original code.
 
 Extendible classes
 ------------------

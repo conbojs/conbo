@@ -23,8 +23,7 @@ conbo.ServerApplication = conbo.EventDispatcher.extend
 		options.app = this;
 		options.context || (options.context = new this.contextClass(options));
 		
-		if (!!options) this.context = options.context;
-		this.options = options;
+		this.context = options.context;
 		this.initialize.apply(this, arguments);
 		
 		conbo.bindProperties(this, this.bindable);

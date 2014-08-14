@@ -16,7 +16,9 @@ conbo.View = conbo.Glimpse.extend
 	{
 		options = conbo.clone(options) || {};
 		
-		this._configure(options);
+		var viewOptions = ['data', 'el', 'id', 'attributes', 'className', 'tagName', 'template', 'templateUrl'];	
+		conbo.extend(this, conbo.pick(options, viewOptions));
+		
 		this._ensureElement();
 		
 		this.context = options.context;
@@ -25,14 +27,8 @@ conbo.View = conbo.Glimpse.extend
  		
 		conbo.bindProperties(this, this.bindable);
 		
-		var templateUrl = conbo.result(this, 'templateUrl'),
-			template;
-		
-		try
-		{
-			template = conbo.result(this, 'template');
-		}
-		catch (e) {}
+		var templateUrl = this.templateUrl,
+			template = this.template;
 		
 		if (!!templateUrl)
 		{
@@ -204,35 +200,6 @@ conbo.View = conbo.Glimpse.extend
 	},
 	
 	/**
-	 * List of view options to be merged as properties.
-	 */
-	_viewOptions: 
-	[
-		'data', 
-		'el', 
-		'id', 
-		'attributes', 
-		'className', 
-		'tagName', 
-		'template',
-		'templateUrl'
-	],	
-	
-	/**
-	 * Performs the initial configuration of a View with a set of options.
-	 * Keys with special meaning *(model, collection, id, className)*, are
-	 * attached directly to the view.
-	 * 
-	 * @private
-	 */
-	_configure: function(options) 
-	{
-		if (this.options) options = conbo.extend({}, conbo.result(this, 'options'), options);
-		conbo.extend(this, conbo.pick(options, this._viewOptions));
-		this.options = options;
-	},
-	
-	/**
 	 * Ensure that the View has a DOM element to render into.
 	 * If `this.el` is a string, pass it through `$()`, take the first
 	 * matching element, and re-assign it to `el`. Otherwise, create
@@ -244,9 +211,9 @@ conbo.View = conbo.Glimpse.extend
 	{
 		if (!this.el) 
 		{
-			var attrs = conbo.extend({}, conbo.result(this, 'attributes'));
-			if (this.id) attrs.id = conbo.result(this, 'id');
-			if (this.className) attrs['class'] = conbo.result(this, 'className');
+			var attrs = conbo.extend({}, this.attributes);
+			if (this.id) attrs.id = this.id;
+			if (this.className) attrs['class'] = this.className;
 			var $el = $('<'+this.tagName+'>').attr(attrs);
 			this.setElement($el);
 		}

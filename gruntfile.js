@@ -36,6 +36,7 @@ module.exports = function (grunt)
 					 	"src/conbo/utils/jquery.js",
 					 	"src/conbo/utils/css.js",
 					 	"src/conbo/core/Class.js",
+					 	"src/conbo/core/IDataRenderer.js",
 					 	"src/conbo/core/Injectable.js",
 						"src/conbo/events/Event.js",
 						"src/conbo/events/ConboEvent.js",

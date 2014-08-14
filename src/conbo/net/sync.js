@@ -40,7 +40,7 @@ conbo.sync = function(method, model, options)
 	// Ensure that we have a URL.
 	if (!options.url) 
 	{
-		var url = conbo.result(model, 'url');
+		var url = model.url;
 		if (!url) throw new Error('"url" must be specified');
 		params.url = url;
 	}
