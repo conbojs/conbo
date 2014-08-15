@@ -78,7 +78,7 @@ conbo.EventDispatcher = conbo.Class.extend
 		
 		if (isString)
 		{
-			console.warn('dispatchEvent("'+event+'") instead of Event object is deprecated and should be avoided');
+			console.warn('Use of dispatchEvent("'+event+'") is deprecated, please use dispatchEvent(new conbo.Event("'+event+'"))');
 		}
 		
 		if (isString || !(event instanceof conbo.Event))

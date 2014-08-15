@@ -1519,24 +1519,17 @@ conbo.logEnabled = true;
 /**
  * Logging
  */
-conbo.log = function()
-{
-	if (!console || !conbo.logEnabled) return;
-	console.log.apply(console, arguments);
-}
 
-conbo.warn = function()
-{
-	if (!console || !conbo.logEnabled) return;
-	console.warn.apply(console, arguments);
-}
+var logMethods = ['log','warn','info','error'];
 
-conbo.info = function()
+logMethods.forEach(function(method)
 {
-	if (!console || !conbo.logEnabled) return;
-	console.info.apply(console, arguments);
-}
-
+	conbo[method] = function()
+	{
+		if (!console || !conbo.logEnabled) return;
+		console[method].apply(console, arguments);
+	}
+});
 
 /*
  * Internal utility methods
