@@ -156,7 +156,7 @@ conbo.Collection = conbo.List.extend
 				
 				if (options.merge) 
 				{
-					existing.set(model.__attributes__, options);
+					existing.set(model.__properties__, options);
 					if (sortable && !sort && existing.hasChanged(sortAttr)) sort = true;
 				}
 

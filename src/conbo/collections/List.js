@@ -250,7 +250,7 @@ var attributeMethods = ['groupBy', 'countBy', 'sortBy'];
 // Use attributes instead of properties.
 conbo.each(attributeMethods, function(method)
 {
-	if (!(method in _)) return;
+	if (!(method in conbo)) return;
 	
 	conbo.List.prototype[method] = function(value, context) 
 	{
@@ -259,7 +259,7 @@ conbo.each(attributeMethods, function(method)
 			return model.get(value);
 		};
 		
-		return _[method](this._models, iterator, context);
+		return conbo[method](this._models, iterator, context);
 	};
 });
 

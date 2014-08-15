@@ -204,9 +204,9 @@ var _ = {};
 	};
 
 	// Convenience version of a common use case of `map`: fetching a property.
-//	_.pluck = function(obj, key) {
-//		return _.map(obj, _.property(key));
-//	};
+	_.pluck = function(obj, key) {
+		return _.map(obj, _.property(key));
+	};
 
 	// Convenience version of a common use case of `filter`: selecting only objects
 	// containing specific `key:value` pairs.
@@ -280,31 +280,31 @@ var _ = {};
 //	};
 
 	// An internal function to generate lookup iterators.
-//	var lookupIterator = function(value) {
-//		if (value == null) return _.identity;
-//		if (_.isFunction(value)) return value;
-//		return _.property(value);
-//	};
+	var lookupIterator = function(value) {
+		if (value == null) return _.identity;
+		if (_.isFunction(value)) return value;
+		return _.property(value);
+	};
 
 	// Sort the object's values by a criterion produced by an iterator.
-//	_.sortBy = function(obj, iterator, context) {
-//		iterator = lookupIterator(iterator);
-//		return _.pluck(_.map(obj, function(value, index, list) {
-//			return {
-//				value: value,
-//				index: index,
-//				criteria: iterator.call(context, value, index, list)
-//			};
-//		}).sort(function(left, right) {
-//			var a = left.criteria;
-//			var b = right.criteria;
-//			if (a !== b) {
-//				if (a > b || a === void 0) return 1;
-//				if (a < b || b === void 0) return -1;
-//			}
-//			return left.index - right.index;
-//		}), 'value');
-//	};
+	_.sortBy = function(obj, iterator, context) {
+		iterator = lookupIterator(iterator);
+		return _.pluck(_.map(obj, function(value, index, list) {
+			return {
+				value: value,
+				index: index,
+				criteria: iterator.call(context, value, index, list)
+			};
+		}).sort(function(left, right) {
+			var a = left.criteria;
+			var b = right.criteria;
+			if (a !== b) {
+				if (a > b || a === void 0) return 1;
+				if (a < b || b === void 0) return -1;
+			}
+			return left.index - right.index;
+		}), 'value');
+	};
 
 	// An internal function used for aggregate "group by" operations.
 //	var group = function(behavior) {
