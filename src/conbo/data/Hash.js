@@ -46,10 +46,10 @@ conbo.Hash = conbo.EventDispatcher.extend
 	
 }).implement(conbo.Injectable);
 
-//Underscore methods that we want to implement on the Model.
+// Utility methods that we want to implement
 var hashMethods = ['keys', 'values', 'pairs', 'invert', 'pick', 'omit', 'size'];
 
-//Mix in each available Lo-Dash/Underscore method as a proxy to `Model#attributes`.
+//Mix in each available utility methods
 conbo.each(hashMethods, function(method)
 {
 	if (!(method in conbo)) return;

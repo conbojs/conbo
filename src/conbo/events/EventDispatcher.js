@@ -201,17 +201,17 @@ conbo.EventDispatcher = conbo.Class.extend
 		return this;
 	},
 	
-//	/**
-//	 * Delete a property and dispatch a change:[propertyName] event
-//	 * @param 	value
-//	 * @returns	this
-//	 */
-//	unset: function(attribute)
-//	{
-//		delete this[attribute];
-//		this.dispatchChangeEvent(attribute)
-//		return this;
-//	},
+	/**
+	 * Delete a property and dispatch a change:[propertyName] event
+	 * @param 	value
+	 * @returns	this
+	 */
+	unset: function(propName)
+	{
+		delete this[propName];
+		_dispatchChange(this, propName)
+		return this;
+	},
 	
 	toString: function()
 	{
