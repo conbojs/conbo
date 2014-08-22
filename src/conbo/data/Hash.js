@@ -16,12 +16,11 @@ conbo.Hash = conbo.EventDispatcher.extend
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options
 	 */
-	constructor: function(properties, options)
+	constructor: function(source, options)
 	{
 		if (!!options) this.context = options.context;
 		
-		conbo.defaults(this, properties, this.defaults)		
-		_defineIncalculableProperty(this, '__properties__', this);
+		conbo.defaults(this, source, this.defaults)		
 		
 		this.initialize.apply(this, arguments);
 		
@@ -36,7 +35,7 @@ conbo.Hash = conbo.EventDispatcher.extend
 		var keys = conbo.keys(this.__properties__),
 			filter = function(value) { return String(value).indexOf('_') != 0; };
 		
-		return conbo.pick(this.__properties__, conbo.filter(keys, filter));
+		return conbo.pick(this, conbo.filter(keys, filter));
 	},
 	
 	toString: function()
@@ -45,19 +44,5 @@ conbo.Hash = conbo.EventDispatcher.extend
 	}
 	
 }).implement(conbo.Injectable);
-
-// Utility methods that we want to implement
-var hashMethods = ['keys', 'values', 'pairs', 'invert', 'pick', 'omit', 'size'];
-
-//Mix in each available utility methods
-conbo.each(hashMethods, function(method)
-{
-	if (!(method in conbo)) return;
-	
-	conbo.Hash.prototype[method] = function() 
-	{
-		return conbo[method].apply(conbo, [this.__properties__].concat(conbo.rest(arguments)));
-	};
-});
 
 _denumerate(conbo.Hash.prototype);

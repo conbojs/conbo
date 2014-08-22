@@ -2,7 +2,7 @@
  * Collection
  *
  * Provides a standard collection class for our sets of models, ordered
- * or unordered. If a `comparator` is specified, the Collection will maintain
+ * or unordered. If a `sortFunction` is specified, the Collection will maintain
  * its models in sort order, as they're added and removed.
  * 
  * Derived from the Backbone.js class of the same name
@@ -13,43 +13,35 @@ conbo.Collection = conbo.List.extend
 	 * The default model class for a collection is conbo.Model.
 	 * This should be overridden in most cases.
 	 */
-	modelClass: conbo.Model,
+	itemClass: conbo.Model,
 	
 	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options
 	 */
-	constructor: function(models, options) 
+	constructor: function(source, options) 
 	{
 		options || (options = {});
 		
 		if (options.url) this.url = options.url;
-		if (options.comparator !== undefined) this.comparator = options.comparator;
+		if (options.sortFunction !== undefined) this.sortFunction = options.sortFunction;
 		
 		// options.model and this.model are deprecated, but included for backward compatibility
-		if (options.modelClass || options.model || this.model)
+		if (options.itemClass)
 		{
-			this.modelClass = options.modelClass || options.model || this.model;
+			this.itemClass = options.itemClass;
 		}
 		
 		this._reset();
+		
 		if (!!options) this.context = options.context;
 		
-		if (models) 
-		{
-			this.reset(models, conbo.extend({silent: true}, options));
-		}
+		this.reset(source || [], conbo.extend({silent: true}, options));
 		
 		this.initialize.apply(this, arguments);
 		conbo.bindProperties(this, this.bindable);
 	},
-
-	/**
-	 * Initialize is an empty function by default. Override it with your own
-	 * initialization logic.
-	 */
-	initialize: function(){},
-
+	
 	/**
 	 * The JSON representation of a Collection is an array of the
 	 * models' attributes.
@@ -58,7 +50,7 @@ conbo.Collection = conbo.List.extend
 	{
 		return this.map(function(model){ return model.toJSON(options); });
 	},
-
+	
 	/**
 	 * Proxy `conbo.sync` by default.
 	 */
@@ -99,8 +91,7 @@ conbo.Collection = conbo.List.extend
 			
 			index = this.indexOf(model);
 			
-			this._models.splice(index, 1);
-			this.length--;
+			this.source.splice(index, 1);
 			
 			if (!options.silent) 
 			{
@@ -135,8 +126,8 @@ conbo.Collection = conbo.List.extend
 		
 		var i, l, model, existing, sort = false;
 		var at = options.at;
-		var sortable = this.comparator && (at == null) && options.sort !== false;
-		var sortAttr = conbo.isString(this.comparator) ? this.comparator : null;
+		var sortable = this.sortFunction && (at == null) && options.sort !== false;
+		var sortAttr = conbo.isString(this.sortFunction) ? this.sortFunction : null;
 		var toAdd = [], toRemove = [], modelMap = {};
 
 		// Turn bare objects into model references, and prevent invalid models
@@ -184,7 +175,7 @@ conbo.Collection = conbo.List.extend
 		{
 			for (i = 0, l = this.length; i < l; ++i) 
 			{
-				if (!modelMap[(model = this._models[i]).cid]) toRemove.push(model);
+				if (!modelMap[(model = this.source[i]).cid]) toRemove.push(model);
 			}
 			
 			if (toRemove.length) 
@@ -198,15 +189,13 @@ conbo.Collection = conbo.List.extend
 		{
 			if (sortable) sort = true;
 			
-			this.length += toAdd.length;
-			
 			if (at != null) 
 			{
-				[].splice.apply(this._models, [at, 0].concat(toAdd));
+				[].splice.apply(this.source, [at, 0].concat(toAdd));
 			}
 			else 
 			{
-				[].push.apply(this._models, toAdd);
+				[].push.apply(this.source, toAdd);
 			}
 		}
 		
@@ -250,12 +239,12 @@ conbo.Collection = conbo.List.extend
 	{
 		options || (options = {});
 		
-		for (var i = 0, l = this._models.length; i < l; i++) 
+		for (var i = 0, l = this.source.length; i < l; i++) 
 		{
-			this._removeReference(this._models[i]);
+			this._removeReference(this.source[i]);
 		}
 		
-		options.previousModels = this._models;
+		options.previousModels = this.source;
 		
 		this._reset();
 		this.add(models, conbo.extend({silent: true}, options));
@@ -317,7 +306,7 @@ conbo.Collection = conbo.List.extend
 	 */
 	slice: function(begin, end) 
 	{
-		return this._models.slice(begin, end);
+		return this.source.slice(begin, end);
 	},
 	
 	/**
@@ -326,16 +315,16 @@ conbo.Collection = conbo.List.extend
 	get: function(obj) 
 	{
 		if (obj == null) return undefined;
-		this._idAttr || (this._idAttr = this.modelClass.prototype.idProperty);
-		return this._byId[obj.id || obj.cid || obj[this._idAttr] || obj];
+		this.idName || (this.idName = this.itemClass.prototype.idName);
+		return this._byId[obj.id || obj.cid || obj[this.idName] || obj];
 	},
-
+	
 	/**
 	 * Get the model at the given index.
 	 */
-	at: function(index) 
+	getItemAt: function(index) 
 	{
-		return this._models[index];
+		return this.source[index];
 	},
 
 	/**
@@ -372,19 +361,19 @@ conbo.Collection = conbo.List.extend
 	 */
 	sort: function(options) 
 	{
-		if (!this.comparator) throw new Error('Cannot sort a set without a comparator');
+		if (!this.sortFunction) throw new Error('Cannot sort a set without a sortFunction');
 		options || (options = {});
 		
-		// Run sort based on type of `comparator`.
-		if (conbo.isString(this.comparator) || this.comparator.length === 1) 
+		// Run sort based on type of `sortFunction`.
+		if (conbo.isString(this.sortFunction) || this.sortFunction.length === 1) 
 		{
-			this._models = this.sortBy(this.comparator, this);
+			this.source = this.sortBy(this.sortFunction, this);
 		}
 		else 
 		{
-			this._models.sort(conbo.bind(this.comparator, this));
+			this.source.sort(conbo.bind(this.sortFunction, this));
 		}
-
+		
 		if (!options.silent) 
 		{
 			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.SORT,
@@ -403,14 +392,14 @@ conbo.Collection = conbo.List.extend
 	 */
 	sortedIndex: function(model, value, context) 
 	{
-		value || (value = this.comparator);
+		value || (value = this.sortFunction);
 		
 		var iterator = conbo.isFunction(value) ? value : function(model) 
 		{
 			return model.get(value);
 		};
 		
-		return conbo.sortedIndex(this._models, model, iterator, context);
+		return conbo.sortedIndex(this.source, model, iterator, context);
 	},
 
 	/**
@@ -418,7 +407,7 @@ conbo.Collection = conbo.List.extend
 	 */
 	pluck: function(attr)
 	{
-		return conbo.invoke(this._models, 'get', attr);
+		return conbo.invoke(this.source, 'get', attr);
 	},
 
 	/**
@@ -499,7 +488,7 @@ conbo.Collection = conbo.List.extend
 	 */
 	clone: function() 
 	{
-		return new this.constructor(this._models);
+		return new this.constructor(this.source);
 	},
 	
 	// List methods that aren't available on Collection
@@ -509,14 +498,19 @@ conbo.Collection = conbo.List.extend
 		throw new Error('splice is not available on conbo.Collection');
 	},
 	
+	get length()
+	{
+		if (!this.source) return 0;
+		return this.source.length;
+	},
+	
 	/**
 	 * Private method to reset all internal state. Called when the collection
 	 * is first initialized or reset.
 	 */
 	_reset: function() 
 	{
-		this.length = 0;
-		this._models = [];
+		this.source = [];
 		this._byId	= {};
 	},
 	
@@ -535,7 +529,7 @@ conbo.Collection = conbo.List.extend
 		options || (options = {});
 		options.collection = this;
 		
-		var model = new this.modelClass(attrs, options);
+		var model = new this.itemClass(attrs, options);
 		
 		if (!model._validate(attrs, options)) 
 		{
@@ -555,11 +549,12 @@ conbo.Collection = conbo.List.extend
 	/**
 	 * Internal method to sever a model's ties to a collection.
 	 */
-	_removeReference: function(model) {
+	_removeReference: function(model) 
+	{
 		if (this === model.collection) delete model.collection;
 		model.removeEventListener('all', this._onModelEvent, this);
 	},
-
+	
 	/**
 	 * Internal method called every time a model in the set fires an event.
 	 * Sets need to update their indexes when models change ids. All other
@@ -583,9 +578,9 @@ conbo.Collection = conbo.List.extend
 			this.remove(model, event.options);
 		}
 		
-		if (model && event.type == 'change:' + model.idProperty) 
+		if (model && event.type == 'change:' + model.idName) 
 		{
-			delete this._byId[event.model.previous(model.idProperty)];
+			delete this._byId[event.model.previous(model.idName)];
 			
 			if (model.id != null) 
 			{

@@ -155,7 +155,7 @@ conbo.Context = conbo.EventDispatcher.extend
 		var commands = conbo.union(this.__commands__.all || [], this.__commands__[event.type] || []);
 		if (!commands.length) return;
 		
-		conbo.each(commands, function(commandClass, index, list)
+		conbo.forEach(commands, function(commandClass, index, list)
 		{
 			this._executeCommand(commandClass, event);
 		}, 
@@ -185,7 +185,7 @@ conbo.Context = conbo.EventDispatcher.extend
 	{
 		if (conbo.isArray(n) || n.indexOf(' ') == -1) return false;
 		var names = conbo.isArray(n) ? n : n.split(' ');
-		conbo.each(names, function(e) { f(e,c); }, this);
+		conbo.forEach(names, function(e) { f(e,c); }, this);
 		return true;
 	}
 	

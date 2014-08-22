@@ -40,6 +40,14 @@ conbo.Model = conbo.Hash.extend
 	},
 	
 	/**
+	 * Return an object that can easily be converted into JSON
+	 */
+	toJSON: function()
+	{
+		return this.__properties__;
+	},
+	
+	/**
 	 * A hash of attributes whose current and previous value differ.
 	 */
 	changed: null,
@@ -546,6 +554,20 @@ conbo.Model = conbo.Hash.extend
 		
 		return false;
 	}
+});
+
+//Utility methods that we want to implement
+var modelMethods = ['keys', 'values', 'pairs', 'invert', 'pick', 'omit', 'size'];
+
+//Mix in each available utility methods
+conbo.forEach(modelMethods, function(method)
+{
+	if (!(method in conbo)) return;
+	
+	conbo.Model.prototype[method] = function() 
+	{
+		return conbo[method].apply(conbo, [this.__properties__].concat(conbo.rest(arguments)));
+	};
 });
 
 //TODO Don't have this here?

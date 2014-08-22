@@ -46,7 +46,7 @@ var _ = {};
 	// The cornerstone, an `each` implementation, aka `forEach`.
 	// Handles objects with the built-in `forEach`, arrays, and raw objects.
 	// Delegates to **ECMAScript 5**'s native `forEach` if available.
-	var each = _.each = function(obj, iterator, context) {
+	var forEach = _.forEach = function(obj, iterator, context) {
 		if (obj == null) return obj;
 		if (nativeForEach && obj.forEach === nativeForEach) {
 			obj.forEach(iterator, context);
@@ -69,7 +69,7 @@ var _ = {};
 		var results = [];
 		if (obj == null) return results;
 		if (nativeMap && obj.map === nativeMap) return obj.map(iterator, context);
-		each(obj, function(value, index, list) {
+		forEach(obj, function(value, index, list) {
 			results.push(iterator.call(context, value, index, list));
 		});
 		return results;
@@ -86,7 +86,7 @@ var _ = {};
 //			if (context) iterator = _.bind(iterator, context);
 //			return initial ? obj.reduce(iterator, memo) : obj.reduce(iterator);
 //		}
-//		each(obj, function(value, index, list) {
+//		forEach(obj, function(value, index, list) {
 //			if (!initial) {
 //				memo = value;
 //				initial = true;
@@ -112,7 +112,7 @@ var _ = {};
 //			var keys = _.keys(obj);
 //			length = keys.length;
 //		}
-//		each(obj, function(value, index, list) {
+//		forEach(obj, function(value, index, list) {
 //			index = keys ? keys[--length] : --length;
 //			if (!initial) {
 //				memo = obj[index];
@@ -144,7 +144,7 @@ var _ = {};
 		var results = [];
 		if (obj == null) return results;
 		if (nativeFilter && obj.filter === nativeFilter) return obj.filter(predicate, context);
-		each(obj, function(value, index, list) {
+		forEach(obj, function(value, index, list) {
 			if (predicate.call(context, value, index, list)) results.push(value);
 		});
 		return results;
@@ -165,7 +165,7 @@ var _ = {};
 		var result = true;
 		if (obj == null) return result;
 		if (nativeEvery && obj.every === nativeEvery) return obj.every(predicate, context);
-		each(obj, function(value, index, list) {
+		forEach(obj, function(value, index, list) {
 			if (!(result = result && predicate.call(context, value, index, list))) return breaker;
 		});
 		return !!result;
@@ -179,7 +179,7 @@ var _ = {};
 		var result = false;
 		if (obj == null) return result;
 		if (nativeSome && obj.some === nativeSome) return obj.some(predicate, context);
-		each(obj, function(value, index, list) {
+		forEach(obj, function(value, index, list) {
 			if (result || (result = predicate.call(context, value, index, list))) return breaker;
 		});
 		return !!result;
@@ -228,7 +228,7 @@ var _ = {};
 			return Math.max.apply(Math, obj);
 		}
 		var result = -Infinity, lastComputed = -Infinity;
-		each(obj, function(value, index, list) {
+		forEach(obj, function(value, index, list) {
 			var computed = iterator ? iterator.call(context, value, index, list) : value;
 			if (computed > lastComputed) {
 				result = value;
@@ -244,7 +244,7 @@ var _ = {};
 			return Math.min.apply(Math, obj);
 		}
 		var result = Infinity, lastComputed = Infinity;
-		each(obj, function(value, index, list) {
+		forEach(obj, function(value, index, list) {
 			var computed = iterator ? iterator.call(context, value, index, list) : value;
 			if (computed < lastComputed) {
 				result = value;
@@ -260,7 +260,7 @@ var _ = {};
 		var rand;
 		var index = 0;
 		var shuffled = [];
-		each(obj, function(value) {
+		forEach(obj, function(value) {
 			rand = _.random(index++);
 			shuffled[index - 1] = shuffled[rand];
 			shuffled[rand] = value;
@@ -311,7 +311,7 @@ var _ = {};
 //		return function(obj, iterator, context) {
 //			var result = {};
 //			iterator = lookupIterator(iterator);
-//			each(obj, function(value, index) {
+//			forEach(obj, function(value, index) {
 //				var key = iterator.call(context, value, index, obj);
 //				behavior(result, key, value);
 //			});
@@ -412,7 +412,7 @@ var _ = {};
 		if (shallow && _.every(input, _.isArray)) {
 			return concat.apply(output, input);
 		}
-		each(input, function(value) {
+		forEach(input, function(value) {
 			if (_.isArray(value) || _.isArguments(value)) {
 				shallow ? push.apply(output, value) : flatten(value, shallow, output);
 			} else {
@@ -436,7 +436,7 @@ var _ = {};
 	// predicate, and one whose elements all do not satisfy the predicate.
 	_.partition = function(array, predicate) {
 		var pass = [], fail = [];
-		each(array, function(elem) {
+		forEach(array, function(elem) {
 			(predicate(elem) ? pass : fail).push(elem);
 		});
 		return [pass, fail];
@@ -454,7 +454,7 @@ var _ = {};
 		var initial = iterator ? _.map(array, iterator, context) : array;
 		var results = [];
 		var seen = [];
-		each(initial, function(value, index) {
+		forEach(initial, function(value, index) {
 			if (isSorted ? (!index || seen[seen.length - 1] !== value) : !_.contains(seen, value)) {
 				seen.push(value);
 				results.push(array[index]);
@@ -617,7 +617,7 @@ var _ = {};
 	_.bindAll = function(obj) {
 		var funcs = slice.call(arguments, 1);
 		if (funcs.length === 0) funcs = _.functions(obj);
-		each(funcs, function(f) { obj[f] = _.bind(obj[f], obj); });
+		forEach(funcs, function(f) { obj[f] = _.bind(obj[f], obj); });
 		return obj;
 	};
 	
@@ -817,7 +817,7 @@ var _ = {};
 	// Extend a given object with all the properties in passed-in object(s).
 	_.extend = function(obj) 
 	{
-		each(slice.call(arguments, 1), function(source) 
+		forEach(slice.call(arguments, 1), function(source) 
 		{
 			if (source)
 			{
@@ -834,7 +834,7 @@ var _ = {};
 	_.pick = function(obj) {
 		var copy = {};
 		var keys = concat.apply(ArrayProto, slice.call(arguments, 1));
-		each(keys, function(key) {
+		forEach(keys, function(key) {
 			if (key in obj)
 			{
 				conbo.cloneProperty(obj, key, copy);
@@ -860,7 +860,7 @@ var _ = {};
 	// Fill in a given object with default properties.
 	_.defaults = function(obj) 
 	{
-		each(slice.call(arguments, 1), function(source) 
+		forEach(slice.call(arguments, 1), function(source) 
 		{
 			if (source) 
 			{
@@ -1009,7 +1009,7 @@ var _ = {};
 	};
 
 	// Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp.
-	each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp'], function(name) {
+	forEach(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp'], function(name) {
 		_['is' + name] = function(obj) {
 			return toString.call(obj) == '[object ' + name + ']';
 		};
@@ -1131,7 +1131,7 @@ var _ = {};
 //	};
 //
 //	// Functions for escaping and unescaping strings to/from HTML interpolation.
-//	_.each(['escape', 'unescape'], function(method) {
+//	_.forEach(['escape', 'unescape'], function(method) {
 //		_[method] = function(string) {
 //			if (string == null) return '';
 //			return ('' + string).replace(entityRegexes[method], function(match) {
@@ -1150,7 +1150,7 @@ var _ = {};
 
 //	// Add your own custom functions to the Underscore object.
 //	_.mixin = function(obj) {
-//		each(_.functions(obj), function(name) {
+//		forEach(_.functions(obj), function(name) {
 //			var func = _[name] = obj[name];
 //			_.prototype[name] = function() {
 //				var args = [this._wrapped];
@@ -1275,7 +1275,7 @@ var _ = {};
 //	_.mixin(_);
 //
 //	// Add all mutator Array functions to the wrapper.
-//	each(['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'], function(name) {
+//	forEach(['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'], function(name) {
 //		var method = ArrayProto[name];
 //		_.prototype[name] = function() {
 //			var obj = this._wrapped;
@@ -1286,7 +1286,7 @@ var _ = {};
 //	});
 //	
 //	// Add all accessor Array functions to the wrapper.
-//	each(['concat', 'join', 'slice'], function(name) {
+//	forEach(['concat', 'join', 'slice'], function(name) {
 //		var method = ArrayProto[name];
 //		_.prototype[name] = function() {
 //			return result.call(this, method.apply(this._wrapped, arguments));
@@ -1309,7 +1309,7 @@ var _ = {};
 //	});
 	
 	// Add Underscore functions to Conbo
-	each(_.functions(_), function(name) 
+	forEach(_.functions(_), function(name) 
 	{
 		if (name in conbo) return;
 		conbo[name] = _[name];
@@ -1470,7 +1470,7 @@ conbo.isAccessor = function(obj, propName)
  * Is the specified property bindable?
  * @returns		Boolean
  */
-conbo.isBindableProperty = function(obj, propName)
+conbo.isBindable = function(obj, propName)
 {
 	if (!conbo.isAccessor(obj, propName))
 	{

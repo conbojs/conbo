@@ -56,6 +56,12 @@ module.exports = function (grunt)
 					
 					"temp/conbo-net.tmp":
 					[
+						// Conbo
+						"src/conbo/net/HttpService.js",
+						"src/conbo/net/AsyncToken.js",
+						"src/conbo/net/Responder.js",
+						
+						// Legacy
 						"src/conbo/data/Model.js",
 						"src/conbo/collections/Collection.js",
 						"src/conbo/net/History.js",

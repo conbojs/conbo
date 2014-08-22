@@ -102,7 +102,7 @@ conbo.View = conbo.Glimpse.extend
 	{
 		if (arguments.length > 1)
 		{
-			conbo.each(arguments, function(view, index, list) {
+			conbo.forEach(arguments, function(view, index, list) {
 				this.appendView(view);
 			}, this);
 			
@@ -127,7 +127,7 @@ conbo.View = conbo.Glimpse.extend
 	{
 		if (arguments.length > 1)
 		{
-			conbo.each(arguments, function(view, index, list) {
+			conbo.forEach(arguments, function(view, index, list) {
 				this.prependView(view);
 			}, this);
 			

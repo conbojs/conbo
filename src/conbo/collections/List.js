@@ -14,25 +14,29 @@ conbo.List = conbo.EventDispatcher.extend
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options
 	 */
-	constructor: function(models, options) 
+	constructor: function(source, options) 
 	{
 		options || (options = {});
 		
 		this.bindAll('_redispatch');
 		this.length = 0;
 		
-		this._models = (models || []).slice();
+		this.source = (source || []).slice();
 		this.context = options.context;
 		
 		this.initialize.apply(this, arguments);
 		conbo.bindProperties(this, this.bindable);
 	},
 	
-	/**
-	 * Initialize is an empty function by default. Override it with your own
-	 * initialization logic.
-	 */
-	initialize: function(){},
+	get source()
+	{
+		return this._source;
+	},
+	
+	set source(value)
+	{
+		this._source = value;
+	},
 	
 	/**
 	 * The JSON representation of a Collection is an array of the
@@ -40,7 +44,7 @@ conbo.List = conbo.EventDispatcher.extend
 	 */
 	toJSON: function() 
 	{
-		return this;
+		return this.source;
 	},
 	
 	/**
@@ -48,7 +52,7 @@ conbo.List = conbo.EventDispatcher.extend
 	 */
 	push: function(model)
 	{
-		this.length = this._models.push.apply(this._models, arguments);
+		this.length = this.source.push.apply(this.source, arguments);
 		this._handleChange(conbo.toArray(arguments));
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 		
@@ -62,10 +66,10 @@ conbo.List = conbo.EventDispatcher.extend
 	{
 		if (!this.length) return;
 		
-		var model = this._models.pop();
+		var model = this.source.pop();
 		
 		this._handleChange(model, false);
-		this.length = this._models.length;
+		this.length = this.source.length;
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
 		
 		return model;
@@ -76,7 +80,7 @@ conbo.List = conbo.EventDispatcher.extend
 	 */
 	unshift: function(model) 
 	{
-		this.length = this._models.unshift.apply(this._models, arguments);
+		this.length = this.source.unshift.apply(this.source, arguments);
 		this._handleChange(conbo.toArray(arguments));
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 		
@@ -84,72 +88,73 @@ conbo.List = conbo.EventDispatcher.extend
 	},
 	
 	/**
-	 * Remove a model from the beginning of the collection.
+	 * Remove an item from the beginning of the collection.
 	 */
 	shift: function()
 	{
 		if (!this.length) return;
 		
-		var model;
+		var item;
 		
-		this._handleChange(model = this._models.shift(), false);
-		this.length = this._models.length;
+		this._handleChange(item = this.source.shift(), false);
+		this.length = this.source.length;
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
 		
-		return model;
+		return item;
 	},
 	
 	/**
-	 * Slice out a sub-array of models from the collection.
+	 * Slice out a sub-array of items from the collection.
 	 */
 	slice: function(begin, length)
 	{
-		return this._models.slice(begin, length);
+		return this.source.slice(begin, length);
 	},
 	
 	/**
-	 * Splice out a sub-array of models from the collection.
+	 * Splice out a sub-array of items from the collection.
 	 */
 	splice: function(begin, length)
 	{
 		var inserts = conbo.rest(arguments,2).length;
 		
-		var models = this._models.splice(begin, length, inserts);
-		this.length = this._models.length;
+		var items = this.source.splice(begin, length, inserts);
+		this.length = this.source.length;
 		
-		if (models.length) this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
+		if (items.length) this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
 		if (inserts.length) this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 		
-		return models;
+		return items;
 	},
 	
 	/**
 	 * Get the item at the given index; similar to array[index]
 	 */
-	get: function(index) 
+	getItemAt: function(index) 
 	{
-		return this._models[index];
+		return this.source[index];
 	},
 	
 	/**
 	 * Add (or replace) item at given index with the one specified,
 	 * similar to array[index] = value;
 	 */
-	set: function(index, model)
+	setItemAt: function(index, item)
 	{
-		var replaced = this._models[index];
+		var length = this.length;
+		
+		var replaced = this.source[index];
 		this._handleChange(replaced, false);
 		
-		this._models[index] = model
+		this.source[index] = model
 		this._handleChange(model);
 		
-		if (this._models.length > this.length)
+		if (this.length > length)
 		{
-			this.length = this._models.length;
 			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 		}
 		
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE, {model:model}));
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE, {item:model}));
 		
 		return replaced;
 	},
@@ -169,7 +174,7 @@ conbo.List = conbo.EventDispatcher.extend
 	 */
 	sort: function(compareFunction) 
 	{
-		this._models.sort(compareFunction);
+		this.source.sort(compareFunction);
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.SORT));
 		
 		return this;
@@ -180,7 +185,7 @@ conbo.List = conbo.EventDispatcher.extend
 	 */
 	clone: function() 
 	{
-		return new this.constructor(this._models);
+		return new this.constructor(this.source);
 	},
 
 	toString: function()
@@ -193,19 +198,19 @@ conbo.List = conbo.EventDispatcher.extend
 	 * @param 	{any}		models
 	 * @param 	{Boolean}	enabled
 	 */
-	_handleChange: function(models, enabled)
+	_handleChange: function(items, enabled)
 	{
-		var method = enabled === false ? 'off' : 'on'
+		var method = enabled === false ? 'removeEventListener' : 'addEventListener'
 		
-		models = (conbo.isArray(models) ? models : [models]).slice();
+		items = (conbo.isArray(items) ? items : [items]).slice();
 		
-		while (models.length)
+		while (items.length)
 		{
-			var model = models.pop();
+			var item = items.pop();
 			
-			if (model instanceof conbo.EventDispatcher)
+			if (item instanceof conbo.EventDispatcher)
 			{
-				model[method](conbo.ConboEvent.CHANGE, this._redispatch);
+				item[method](conbo.ConboEvent.CHANGE, this._redispatch);
 			}
 		}
 	},
@@ -232,15 +237,15 @@ var methods =
 ];
 
 // Mix in each available Underscore/Lo-Dash method as a proxy to `Collection#models`.
-conbo.each(methods, function(method) 
+conbo.forEach(methods, function(method) 
 {
-	if (!(method in _)) return;
+	if (!(method in conbo)) return;
 	
 	conbo.List.prototype[method] = function() 
 	{
 		var args = [].slice.call(arguments);
-		args.unshift(this._models);
-		return _[method].apply(_, args);
+		args.unshift(this.source);
+		return conbo[method].apply(conbo, args);
 	};
 });
 
@@ -248,18 +253,18 @@ conbo.each(methods, function(method)
 var attributeMethods = ['groupBy', 'countBy', 'sortBy'];
 
 // Use attributes instead of properties.
-conbo.each(attributeMethods, function(method)
+conbo.forEach(attributeMethods, function(method)
 {
 	if (!(method in conbo)) return;
 	
 	conbo.List.prototype[method] = function(value, context) 
 	{
-		var iterator = conbo.isFunction(value) ? value : function(model) 
+		var iterator = conbo.isFunction(value) ? value : function(item) 
 		{
-			return model.get(value);
+			return item.get(value);
 		};
 		
-		return conbo[method](this._models, iterator, context);
+		return conbo[method](this.source, iterator, context);
 	};
 });
 

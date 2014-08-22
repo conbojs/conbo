@@ -29,14 +29,14 @@ conbo.sync = function(method, model, options)
 		emulateHTTP: conbo.emulateHTTP,
 		emulateJSON: conbo.emulateJSON
 	});
-
+	
 	// Default JSON-request options.
 	var params =
 	{
 		type: type, 
 		dataType: options.dataType || model.dataType || 'json'
 	};
-
+	
 	// Ensure that we have a URL.
 	if (!options.url) 
 	{
@@ -89,21 +89,9 @@ conbo.sync = function(method, model, options)
 	if (params.dataType != 'json')
 	{
 		params.contentType = options.contentType || model.dataType || 'application/json';
-			params.processData = false;
+		params.processData = false;
 	}
 	
-	// If we're sending a `PATCH` request, and we're in an old Internet Explorer
-	// that still has ActiveX enabled by default, override jQuery to use that
-	// for XHR instead. Remove this line when jQuery supports `PATCH` on IE8.
-	if (params.type === 'PATCH' && window.ActiveXObject &&
-		!(window.external && window.external.msActiveXFilteringEnabled)) 
-	{
-		params.xhr = function()
-		{
-			return new ActiveXObject("Microsoft.XMLHTTP");
-		};
-	}
-
 	// Make the request, allowing the user to override any Ajax options.
 	var xhr = options.xhr = conbo.ajax(conbo.extend(params, options));
 	

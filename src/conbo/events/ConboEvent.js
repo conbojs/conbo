@@ -40,6 +40,8 @@ conbo.ConboEvent = conbo.Event.extend
 	
 	TEMPLATE_LOADED:	"templateloaded",
 	ELEMENT_CHANGE:		"elementchange",
+	RESULT:				"result",
+	FAULT:				"fault",
 	
 	ALL:		"all", 		// special event fires for any triggered event
 });

@@ -19,13 +19,13 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * which can be used to manipulate bound data in real time
 	 * 
 	 * @param 		{conbo.EventDispatcher}	source				Class instance which extends from conbo.EventDispatcher (e.g. Hash or Model)
-	 * @param 		{String} 				propertyName		Property name to bind
+	 * @param 		{String} 				propName			Property name to bind
 	 * @param 		{DOMElement} 			element				DOM element to bind value to (two-way bind on input/form elements)
 	 * @param 		{Function}				parseFunction		Optional method used to parse values before outputting as HTML
 	 * 
 	 * @returns		{Array}										Array of bindings
 	 */
-	bindElement: function(source, propertyName, element, parseFunction)
+	bindElement: function(source, propName, element, parseFunction)
 	{
 		if (!(source instanceof conbo.EventDispatcher))
 		{
@@ -35,6 +35,11 @@ conbo.BindingUtils = conbo.Class.extend({},
 		if (!element)
 		{
 			throw new Error('element is undefined');
+		}
+		
+		if (!conbo.isAccessor(source, propName)) // Use isBindable?
+		{
+			conbo.warn('It may not be possible to detect changed to "'+propName+'" on class "'+source.toString()+'" because the property is not bindable');
 		}
 		
 		var bindings = [],
@@ -60,9 +65,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 					{
 						case 'checkbox':
 						{
-							$el.prop('checked', !!source.get(propertyName));
+							$el.prop('checked', !!source.get(propName));
 							
-							eventType = 'change:'+propertyName;
+							eventType = 'change:'+propName;
 							
 							eventHandler = function(event)
 							{
@@ -76,7 +81,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 							
 							eventHandler = function(event)
 							{	
-								source.set(propertyName, $el.is(':checked'));
+								source.set(propName, $el.is(':checked'));
 							};
 							
 							$el.on(eventType, eventHandler);
@@ -87,9 +92,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 						
 						case 'radio':
 						{
-							if ($el.val() == source.get(propertyName)) $el.prop('checked', true);
+							if ($el.val() == source.get(propName)) $el.prop('checked', true);
 							
-							eventType = 'change:'+propertyName;
+							eventType = 'change:'+propName;
 							
 							eventHandler = function(event)
 							{
@@ -105,9 +110,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 						
 						default:
 						{
-							$el.val(source.get(propertyName));
+							$el.val(source.get(propName));
 						
-							eventType = 'change:'+propertyName;
+							eventType = 'change:'+propName;
 							
 							eventHandler = function(event)
 							{
@@ -126,7 +131,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 					
 					eventHandler = function(event)
 					{	
-						source.set(propertyName, $el.val() || $el.html());
+						source.set(propName, $el.val() || $el.html());
 					};
 					
 					$el.on(eventType, eventHandler);
@@ -137,9 +142,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 				
 				default:
 				{
-					$el.html(parseFunction(source.get(propertyName)));
+					$el.html(parseFunction(source.get(propName)));
 					
-					eventType = 'change:'+propertyName;
+					eventType = 'change:'+propName;
 					
 					eventHandler = function(event) 
 					{
@@ -407,7 +412,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 					catch (e) {}
 					
 					if (!model) throw new Error(a+' is not defined in this View');
-					if (!property) throw new Error('Unable to bind to undefined property: '+property);
+					if (!property) throw new Error('Unable to bind to undefined property "'+property+'"');
 					
 					var args = [model, property, el, key, f, options, param];
 	
