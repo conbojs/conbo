@@ -10,6 +10,8 @@
  */
 conbo.List = conbo.EventDispatcher.extend
 ({
+	itemClass: conbo.Hash,
+	
 	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options
@@ -18,10 +20,14 @@ conbo.List = conbo.EventDispatcher.extend
 	{
 		options || (options = {});
 		
-		this.bindAll('_redispatch');
+		this.bindAll('_redispatchEvent');
 		
-		this.source = (source || []).slice();
+		this.source = source;
 		this.context = options.context;
+		
+		// To be removed
+		this.get = this.getItemAt;
+		this.set = this.setItemAt;
 		
 		this.initialize.apply(this, arguments);
 		conbo.bindProperties(this, this.bindable);
@@ -34,7 +40,8 @@ conbo.List = conbo.EventDispatcher.extend
 	
 	set source(value)
 	{
-		this._source = value || [];
+		this._source = this._applyClass((value || []).slice());
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE));
 	},
 	
 	/**
@@ -52,7 +59,15 @@ conbo.List = conbo.EventDispatcher.extend
 	 */
 	toJSON: function() 
 	{
-		return this.source;
+		var a = [];
+		
+		this.forEach(function(item)
+		{
+			if (conbo.isFunction(item.toJSON)) a.push(item.toJSON());
+			else a.push(item);
+		});
+		
+		return a;
 	},
 	
 	/**
@@ -60,7 +75,7 @@ conbo.List = conbo.EventDispatcher.extend
 	 */
 	push: function(item)
 	{
-		this.length = this.source.push.apply(this.source, arguments);
+		this.source.push.apply(this.source, this._applyClass(conbo.toArray(arguments)));
 		this._handleChange(conbo.toArray(arguments));
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 		
@@ -87,6 +102,7 @@ conbo.List = conbo.EventDispatcher.extend
 	 */
 	unshift: function(item) 
 	{
+		this.source.push.unshift(this.source, this._applyClass(conbo.toArray(arguments)));
 		this._handleChange(conbo.toArray(arguments));
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 		
@@ -113,7 +129,7 @@ conbo.List = conbo.EventDispatcher.extend
 	 */
 	slice: function(begin, length)
 	{
-		return this.source.slice(begin, length);
+		return new conbo.List(this.source.slice(begin, length));
 	},
 	
 	/**
@@ -128,7 +144,7 @@ conbo.List = conbo.EventDispatcher.extend
 		if (items.length) this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
 		if (inserts.length) this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 		
-		return items;
+		return new conbo.List(items);
 	},
 	
 	/**
@@ -206,7 +222,7 @@ conbo.List = conbo.EventDispatcher.extend
 			
 			if (item instanceof conbo.EventDispatcher)
 			{
-				item[method](conbo.ConboEvent.CHANGE, this._redispatch);
+				item[method](conbo.ConboEvent.CHANGE, this._redispatchEvent);
 			}
 		}
 	},
@@ -214,34 +230,56 @@ conbo.List = conbo.EventDispatcher.extend
 	/**
 	 * Passthrough event to bubble events dispatched by Bindable array elements 
 	 */
-	_redispatch: function(event)
+	_redispatchEvent: function(event)
 	{
 		this.dispatchEvent(event);
+	},
+	
+	_applyClass: function(item)
+	{
+		if (item instanceof Array)
+		{
+			for (var i=0; i<item.length; i++)
+			{
+				item[i] = this._applyClass(item[i]);
+			}
+			
+			return item;
+		}
+		
+		if (conbo.isObject(item) && !conbo.instanceOf(item, conbo.Class))
+		{
+			item = new this.itemClass(item);
+		}
+		
+		return item;
 	}
 	
 }).implement(conbo.IInjectable);
 
 // Underscore methods that we want to implement on the List.
-var methods = 
+var listMethods = 
 [
-	'forEach', 'map', 'collect', 'reduce', 'foldl',
-	'inject', 'reduceRight', 'foldr', 'find', 'detect', 'filter', 'select',
-	'reject', 'every', 'all', 'some', 'any', 'include', 'contains', 'invoke',
+	'forEach', 'map', 'reduce', 'reduceRight', 'find', 'filter',
+	'reject', 'every', 'any', 'contains', 'invoke',
 	'max', 'min', 'toArray', 'size', 'first', 'head', 'take', 'initial', 'rest',
 	'tail', 'drop', 'last', 'without', 'indexOf', 'shuffle', 'lastIndexOf',
 	'isEmpty', 'chain'
 ];
 
-// Mix in each available Underscore/Lo-Dash method as a proxy to `Collection#models`.
-conbo.forEach(methods, function(method) 
+// Mix in each available Conbo utility method as a proxy
+listMethods.forEach(function(method) 
 {
 	if (!(method in conbo)) return;
 	
 	conbo.List.prototype[method] = function() 
 	{
-		var args = [].slice.call(arguments);
-		args.unshift(this.source);
-		return conbo[method].apply(conbo, args);
+		var args = [this.source].concat(conbo.toArray(arguments)),
+			result = conbo[method].apply(conbo, args);
+		
+		return conbo.isArray(result)
+			? new conbo.List(result)
+			: result;
 	};
 });
 

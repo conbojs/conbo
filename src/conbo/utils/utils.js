@@ -65,21 +65,26 @@ var _ = {};
 
 	// Return the results of applying the iterator to each element.
 	// Delegates to **ECMAScript 5**'s native `map` if available.
-	_.map = function(obj, iterator, context) {
+	_.map = function(obj, iterator, context) 
+	{
 		var results = [];
+		
 		if (obj == null) return results;
 		if (nativeMap && obj.map === nativeMap) return obj.map(iterator, context);
-		forEach(obj, function(value, index, list) {
+		
+		forEach(obj, function(value, index, list) 
+		{
 			results.push(iterator.call(context, value, index, list));
 		});
+		
 		return results;
 	};
-
+	
 	var reduceError = 'Reduce of empty array with no initial value';
 
 	// **Reduce** builds up a single result from a list of values, aka `inject`,
 	// or `foldl`. Delegates to **ECMAScript 5**'s native `reduce` if available.
-//	_.reduce = _.foldl = _.inject = function(obj, iterator, memo, context) {
+//	_.reduce = function(obj, iterator, memo, context) {
 //		var initial = arguments.length > 2;
 //		if (obj == null) obj = [];
 //		if (nativeReduce && obj.reduce === nativeReduce) {
@@ -100,7 +105,7 @@ var _ = {};
 
 	// The right-associative version of reduce, also known as `foldr`.
 	// Delegates to **ECMAScript 5**'s native `reduceRight` if available.
-//	_.reduceRight = _.foldr = function(obj, iterator, memo, context) {
+//	_.reduceRight = function(obj, iterator, memo, context) {
 //		var initial = arguments.length > 2;
 //		if (obj == null) obj = [];
 //		if (nativeReduceRight && obj.reduceRight === nativeReduceRight) {
@@ -195,14 +200,15 @@ var _ = {};
 	};
 
 	// Invoke a method (with arguments) on every item in a collection.
-	_.invoke = function(obj, method) {
+	_.invoke = function(obj, method) 
+	{
 		var args = slice.call(arguments, 2);
 		var isFunc = _.isFunction(method);
 		return _.map(obj, function(value) {
 			return (isFunc ? method : value[method]).apply(value, args);
 		});
 	};
-
+	
 	// Convenience version of a common use case of `map`: fetching a property.
 	_.pluck = function(obj, key) {
 		return _.map(obj, _.property(key));

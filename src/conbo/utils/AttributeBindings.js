@@ -178,12 +178,12 @@ conbo.AttributeBindings = conbo.Class.extend
 		
 		switch (true)
 		{
-			case values instanceof Array:
+			case values instanceof conbo.List:
 				a = values;
 				break;
 				
-			case values instanceof conbo.List:
-				a = values.toArray();
+			case values instanceof Array:
+				a = new conbo.List(values);
 				break;
 				
 			default:
@@ -191,7 +191,7 @@ conbo.AttributeBindings = conbo.Class.extend
 				break;
 		}
 		
-		if (!!elements.length)
+		if (elements.length)
 		{
 			$(elements[0]).before($el);
 		}

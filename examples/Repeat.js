@@ -14,9 +14,7 @@
 	({
 		initialize: function()
 		{
-			var myCollection = new conbo.List([{name:'Tom'}, {name:'Dick'}, {name:'Sally'}]);
-			
-			this.mapSingleton('myCollection', myCollection);
+			this.mapSingleton('myList', new conbo.List([{name:'Tom'}, {name:'Dick'}, {name:'Sally'}]));
 		}
 	});
 	
@@ -31,9 +29,10 @@
 	
 	app.MyApp = conbo.Application.extend
 	({
+		namespace:app,
 		contextClass: app.MyContext,
 		
-		myCollection: undefined,
+		myList: undefined,
 		
 		boysNames:
 		[
@@ -84,15 +83,15 @@
 				index = Math.floor(Math.random()*array.length),
 				name = array[index];
 			
-			this.myCollection.push({name:name});
+			this.myList.push({name:name});
 		},
 		
 		removeItem: function(event)
 		{
-			this.myCollection.pop();
+			this.myList.pop();
 		}
 	});
 	
-	new app.MyApp({namespace:app});
+	new app.MyApp();
 	
 })();
