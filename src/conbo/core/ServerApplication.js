@@ -34,6 +34,6 @@ conbo.ServerApplication = conbo.EventDispatcher.extend
 		return 'conbo.ServerApplication';
 	}
 	
-}).implement(conbo.Injectable);
+}).implement(conbo.IInjectable);
 
 _denumerate(conbo.ServerApplication.prototype);

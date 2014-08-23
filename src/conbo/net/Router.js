@@ -144,6 +144,6 @@ conbo.Router = conbo.EventDispatcher.extend
 		});
 	}
 	
-}).implement(conbo.Injectable);
+}).implement(conbo.IInjectable);
 
 _denumerate(conbo.Router.prototype);

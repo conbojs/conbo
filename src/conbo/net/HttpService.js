@@ -8,11 +8,11 @@
  */
 conbo.HttpService = conbo.EventDispatcher.extend
 ({
+	isRpc: false,
+	
 	constructor: function(options)
 	{
 		options || (options = {});
-		
-		this.bindAll('dispatchEvent');
 		
 		var props = ['rootUrl', 'contentType'];
 		props.forEach(function(prop) { this[prop] = options[prop]; }, this);
@@ -44,25 +44,71 @@ conbo.HttpService = conbo.EventDispatcher.extend
 			throw new Error('rootUrl not set!');
 		}
 		
+		resultClass || (resultClass = this.resultClass);
+		
 		data = conbo.clone(data) || {};
 		command = this.parseUrl(command, data);
 		
 		var promise = $.ajax
 		({
-			headers: this.headers,
+			data: data,
 			type: method || 'GET',
+			headers: this.headers,
 			url: this.rootUrl+command,
 			contentType: this.contentType,
-			data: data,
 			dataType: this.dataType,
-			dataFilter: this.parse
+			dataFilter: this.parseFunction
 		});
 		
-		var token = new conbo.AsyncToken({promise:promise, resultClass:resultClass});
+		var token = new conbo.AsyncToken({promise:promise, resultClass:resultClass}),
+			dispatchEvent = this.bind(this.dispatchEvent);
 		
-		token.addResponder(new conbo.Responder(this.dispatchEvent, this.dispatchEvent));
+		token.addResponder(new conbo.Responder(dispatchEvent, dispatchEvent));
 		
 		return token;
+	},
+	
+	/**
+	 * Add one or more remote commands as methods of this class instance
+	 * @param	{String}	command
+	 * @param	{String}	method
+	 * @param	{Class}		resultClass
+	 */
+	addCommand: function(command, method, resultClass)
+	{
+		if (conbo.isObject(command))
+		{
+			method = command.command;
+			resultClass = command.resultClass;
+			command = command.command;
+		}
+		
+		this[conbo.toCamelCase(command)] = function(data)
+		{
+			return this.call(command, data, method, resultClass);
+		};
+		
+		return this;
+	},
+	
+	/**
+	 * Add multiple commands as methods of this class instance
+	 * @param	{Array}		commands
+	 */
+	addCommands: function(commands)
+	{
+		if (!conbo.isArray(commands))
+		{
+			return this;
+		}
+		
+		commands.forEach(function(command)
+		{
+			this.addCommand(command);
+		}, 
+		this);
+		
+		return this;
 	},
 	
 	/**
@@ -84,8 +130,14 @@ conbo.HttpService = conbo.EventDispatcher.extend
 		});
 		
 		return parsedUrl;
+	},
+	
+	toString: function()
+	{
+		return 'conbo.HttpService';
 	}
 	
-}).implement(conbo.Injectable);
+	
+}).implement(conbo.IInjectable);
 
 _denumerate(conbo.HttpService.prototype);

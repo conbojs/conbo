@@ -5,11 +5,11 @@
  * to inject specified dependencies (properties of undefined value which match 
  * registered singletons); should be used via the Class.implement method
  * 
- * @example		var C = conbo.Class.extend().implement(conbo.Injectable);
+ * @example		var C = conbo.Class.extend().implement(conbo.IInjectable);
  * @author		Neil Rackett
  */
 
-conbo.Injectable =
+conbo.IInjectable =
 {
 	get context()
 	{

@@ -36,8 +36,7 @@ module.exports = function (grunt)
 					 	"src/conbo/utils/jquery.js",
 					 	"src/conbo/utils/css.js",
 					 	"src/conbo/core/Class.js",
-					 	"src/conbo/core/IDataRenderer.js",
-					 	"src/conbo/core/Injectable.js",
+					 	"src/conbo/core/IInjectable.js",
 						"src/conbo/events/Event.js",
 						"src/conbo/events/ConboEvent.js",
 						"src/conbo/events/EventDispatcher.js",
@@ -47,6 +46,7 @@ module.exports = function (grunt)
 						"src/conbo/utils/AttributeBindings.js",
 						"src/conbo/utils/BindingUtils.js",
 						"src/conbo/utils/toCamelCase.js",
+					 	"src/conbo/view/IDataRenderer.js",
 						"src/conbo/view/Glimpse.js",
 						"src/conbo/view/View.js",
 						"src/conbo/core/Application.js",
@@ -60,13 +60,18 @@ module.exports = function (grunt)
 						"src/conbo/net/HttpService.js",
 						"src/conbo/net/AsyncToken.js",
 						"src/conbo/net/Responder.js",
+						"src/conbo/net/ISyncable.js",
+						"src/conbo/collections/RemoteList.js",
+						"src/conbo/data/RemoteHash.js",
 						
 						// Legacy
-						"src/conbo/data/Model.js",
-						"src/conbo/collections/Collection.js",
 						"src/conbo/net/History.js",
 						"src/conbo/net/Router.js",
-						"src/conbo/net/sync.js"
+						
+						// Deprecated
+						"src/conbo/net/sync.js",
+						"src/conbo/data/Model.js",
+						"src/conbo/collections/Collection.js"
 					],
 					
 					"build/conbo-core.js":

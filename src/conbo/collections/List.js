@@ -19,7 +19,6 @@ conbo.List = conbo.EventDispatcher.extend
 		options || (options = {});
 		
 		this.bindAll('_redispatch');
-		this.length = 0;
 		
 		this.source = (source || []).slice();
 		this.context = options.context;
@@ -35,7 +34,16 @@ conbo.List = conbo.EventDispatcher.extend
 	
 	set source(value)
 	{
-		this._source = value;
+		this._source = value || [];
+	},
+	
+	/**
+	 * The number of items in the List
+	 */
+	get length()
+	{
+		if (!this.source) return 0;
+		return this.source.length;
 	},
 	
 	/**
@@ -50,7 +58,7 @@ conbo.List = conbo.EventDispatcher.extend
 	/**
 	 * Add a model to the end of the collection.
 	 */
-	push: function(model)
+	push: function(item)
 	{
 		this.length = this.source.push.apply(this.source, arguments);
 		this._handleChange(conbo.toArray(arguments));
@@ -62,25 +70,23 @@ conbo.List = conbo.EventDispatcher.extend
 	/**
 	 * Remove a model from the end of the collection.
 	 */
-	pop: function(options)
+	pop: function()
 	{
 		if (!this.length) return;
 		
-		var model = this.source.pop();
+		var item = this.source.pop();
 		
-		this._handleChange(model, false);
-		this.length = this.source.length;
+		this._handleChange(item, false);
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
 		
-		return model;
+		return item;
 	},
 	
 	/**
 	 * Add a model to the beginning of the collection.
 	 */
-	unshift: function(model) 
+	unshift: function(item) 
 	{
-		this.length = this.source.unshift.apply(this.source, arguments);
 		this._handleChange(conbo.toArray(arguments));
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 		
@@ -97,7 +103,6 @@ conbo.List = conbo.EventDispatcher.extend
 		var item;
 		
 		this._handleChange(item = this.source.shift(), false);
-		this.length = this.source.length;
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
 		
 		return item;
@@ -119,7 +124,6 @@ conbo.List = conbo.EventDispatcher.extend
 		var inserts = conbo.rest(arguments,2).length;
 		
 		var items = this.source.splice(begin, length, inserts);
-		this.length = this.source.length;
 		
 		if (items.length) this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
 		if (inserts.length) this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
@@ -154,17 +158,9 @@ conbo.List = conbo.EventDispatcher.extend
 			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 		}
 		
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE, {item:model}));
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE, {item:item}));
 		
 		return replaced;
-	},
-	
-	/**
-	 * @see	get
-	 */
-	at: function(index) 
-	{
-		return this.get(index);
 	},
 	
 	/**
@@ -223,12 +219,12 @@ conbo.List = conbo.EventDispatcher.extend
 		this.dispatchEvent(event);
 	}
 	
-}).implement(conbo.Injectable);
+}).implement(conbo.IInjectable);
 
 // Underscore methods that we want to implement on the List.
 var methods = 
 [
-	'forEach', 'each', 'map', 'collect', 'reduce', 'foldl',
+	'forEach', 'map', 'collect', 'reduce', 'foldl',
 	'inject', 'reduceRight', 'foldr', 'find', 'detect', 'filter', 'select',
 	'reject', 'every', 'all', 'some', 'any', 'include', 'contains', 'invoke',
 	'max', 'min', 'toArray', 'size', 'first', 'head', 'take', 'initial', 'rest',

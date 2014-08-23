@@ -43,6 +43,6 @@ conbo.Hash = conbo.EventDispatcher.extend
 		return 'conbo.Hash';
 	}
 	
-}).implement(conbo.Injectable);
+}).implement(conbo.IInjectable);
 
 _denumerate(conbo.Hash.prototype);

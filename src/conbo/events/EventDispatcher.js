@@ -226,7 +226,7 @@ conbo.EventDispatcher = conbo.Class.extend
 //	
 //	Object.defineProperty
 //	(
-//		conbo.Injectable.prototype,
+//		conbo.IInjectable.prototype,
 //		'bindable',
 //		
 //		{

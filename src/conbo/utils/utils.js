@@ -614,10 +614,22 @@ var _ = {};
 	// Bind a number of an object's methods to that object. Remaining arguments
 	// are the method names to be bound. Useful for ensuring that all callbacks
 	// defined on an object belong to it.
-	_.bindAll = function(obj) {
-		var funcs = slice.call(arguments, 1);
-		if (funcs.length === 0) funcs = _.functions(obj);
-		forEach(funcs, function(f) { obj[f] = _.bind(obj[f], obj); });
+	_.bindAll = function(obj, regExp)
+	{
+		var isRegExp = regExp instanceof RegExp,
+			funcs = slice.call(arguments, 1);
+		
+		if (isRegExp || funcs.length === 0) 
+		{
+			funcs = _.functions(obj);
+			if (isRegExp) funcs = _.filter(funcs, function(f) { return regExp.test(f); });
+		}
+		
+		funcs.forEach(function(f)
+		{
+			obj[f] = _.bind(obj[f], obj); 
+		});
+		
 		return obj;
 	};
 	
@@ -827,6 +839,7 @@ var _ = {};
 				}
 			}
 		});
+		
 		return obj;
 	};
 
@@ -1328,7 +1341,7 @@ conbo.isSupported = !!Object.defineProperty && !!Object.getOwnPropertyDescriptor
  */
 conbo.toCamelCase = function(string)
 {
-	return (string || '').replace(/([-_])([a-z])/g, function (g) { return g[1].toUpperCase(); });
+	return (string || '').replace(/([\W_])([a-z])/g, function (g) { return g[1].toUpperCase(); }).replace(/(\W+)/, '');
 };
 
 /**
@@ -1352,10 +1365,16 @@ conbo.cloneProperty = function(source, sourceName, target, targetName)
 {
 	targetName || (targetName = sourceName);
 	
-	var descriptor = Object.getOwnPropertyDescriptor(source, sourceName) 
-		|| {value:source[sourceName], configurable:true, writable:true, enumerable:true};
+	var descriptor = Object.getOwnPropertyDescriptor(source, sourceName);
 	
-	Object.defineProperty(target, sourceName, descriptor);
+	if (!!descriptor)
+	{
+		Object.defineProperty(target, targetName, descriptor);
+	}
+	else 
+	{
+		target[targetName] = source[sourceName];
+	}
 };
 
 /**
@@ -1363,7 +1382,7 @@ conbo.cloneProperty = function(source, sourceName, target, targetName)
  * specified pseudo-interface(s)?
  * 
  * @example						var b = conbo.instanceOf(obj, conbo.EventDispatcher);
- * @example						var b = conbo.instanceOf(obj, conbo.View, conbo.Injectable);
+ * @example						var b = conbo.instanceOf(obj, conbo.View, conbo.IInjectable);
  * @param	obj					The class instance
  * @param	classOrInterface	The Conbo class or pseudo-interface to compare against
  */
@@ -1480,6 +1499,15 @@ conbo.isBindable = function(obj, propName)
 	var descriptor = Object.getOwnPropertyDescriptor(obj, propName);
 	return !!descriptor.set && descriptor.set.bindable;
 };
+
+/**
+ * Default function to assign to the methods of pseudo-interfaces
+ * @example	IExample = { myMethod:conbo.notImplemented };
+ */
+conbo.notImplemented = function()
+{
+	throw new Error('Not implemented!');
+}
 
 /*
  * Polyfill methods for useful ECMAScript 5 methods that aren't quite universal
@@ -1611,23 +1639,22 @@ var _defineIncalculableProperty = function(obj, propName, value)
 };
 
 /**
- * Convert all enumerable properties of the specified object into non-enumerable ones
+ * Convert enumerable properties of the specified object into non-enumerable ones
  */
 var _denumerate = function(obj)
 {
-	var props = arguments.length > 1
-		? conbo.rest(arguments)
-		: conbo.keys(obj);
+	var regExp = arguments[1];
 	
-	props.forEach(function(propName)
+	var keys = regExp instanceof RegExp
+		? conbo.filter(conbo.keys(obj), function(key) { return regExp.test(key); })
+		: (arguments.length > 1 ? conbo.rest(arguments) : conbo.keys(obj));
+	
+	keys.forEach(function(key)
 	{
-		var descriptor = Object.getOwnPropertyDescriptor(obj, propName) 
-			|| {value:obj[propName], configurable:true, writable:true};
+		var descriptor = Object.getOwnPropertyDescriptor(obj, key) 
+			|| {value:obj[key], configurable:true, writable:true};
 		
 		descriptor.enumerable = false;
-		
-		Object.defineProperty(obj, propName, descriptor);
+		Object.defineProperty(obj, key, descriptor);
 	});
-	
-	return this;
 };

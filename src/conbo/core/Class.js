@@ -18,17 +18,6 @@ conbo.Class.prototype =
 	initialize: function() {},
 	
 	/**
-	 * Calls the specified method on the _super object, scoped to this
-	 * @param 	methodName		String
-	 * @param	...				Zero or more additional parameters
-	 */
-	callSuper: function(methodName)
-	{
-		if (!this._super[methodName]) return undefined;
-		return this._super[methodName].apply(this, conbo.rest(arguments));
-	},
-	
-	/**
 	 * Calls the specified function after the current call stack has cleared
 	 */
 	defer: function(callback)
@@ -104,7 +93,7 @@ conbo.Class.extend = function(protoProps, staticProps)
  * the default methods or properties from the partial(s) if they have 
  * not already been implemented.
  * 
- * @example					var MyClass = conbo.Class.extend().implement(conbo.Injectable);
+ * @example					var MyClass = conbo.Class.extend().implement(conbo.IInjectable);
  * @param	{Object}		Object containing one or more properties or methods to be implemented
  * @returns	{conbo.Class}
  */

@@ -307,7 +307,7 @@ conbo.History = conbo.EventDispatcher.extend
 		}
 	}
 	
-}).implement(conbo.Injectable);
+}).implement(conbo.IInjectable);
 
 _denumerate(conbo.History.prototype);
 
