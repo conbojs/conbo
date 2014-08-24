@@ -8,11 +8,11 @@
  */
 conbo.HttpService = conbo.EventDispatcher.extend
 ({
-	isRpc: false,
+	isRpc: true,
 	
 	constructor: function(options)
 	{
-		conbo.setValues(this, conbo.pick(options || {}, 'rootUrl', 'contentType', 'dataType', 'isRpc'))
+		conbo.setValues(this, conbo.pick(options || {}, 'rootUrl', 'contentType', 'dataType', 'isRpc', 'headers', 'parseFunction'));
 		conbo.EventDispatcher.prototype.constructor.apply(this, arguments);
 	},
 	
@@ -42,7 +42,7 @@ conbo.HttpService = conbo.EventDispatcher.extend
 		
 		var contentType;
 		
-		data || (data = {});
+		data = conbo.clone(data) || {};
 		resultClass || (resultClass = this.resultClass);
 		
 		contentType = this.contentType
@@ -51,9 +51,9 @@ conbo.HttpService = conbo.EventDispatcher.extend
 		command = this.parseUrl(command, data);
 		
 		data = this.isRpc
-			? JSON.stringify(conbo.isFunction(data.toJSON) ? data.toJSON() : data)
+			? (method == 'GET' ? undefined : JSON.stringify(conbo.isFunction(data.toJSON) ? data.toJSON() : data))
 			: data;
-			
+		
 		var promise = $.ajax
 		({
 			data: data,
@@ -120,8 +120,22 @@ conbo.HttpService = conbo.EventDispatcher.extend
 	 */
 	parseUrl: function(url, data)
 	{
-		var parsedUrl = url;
+		var parsedUrl = url,
+			matches = parsedUrl.match(/:\b\w+\b/g);
 		
+		if (!!matches)
+		{
+			matches.forEach(function(key) 
+			{
+				key = key.substr(1);
+				
+				if (!(key in data))
+				{
+					throw new Error('Property "'+key+'" required but not found in data');
+				}
+			});
+		}
+			
 		conbo.keys(data).forEach(function(key)
 		{
 			var regExp = new RegExp(':\\b'+key+'\\b', 'g');
@@ -132,6 +146,8 @@ conbo.HttpService = conbo.EventDispatcher.extend
 				delete data[key];
 			}
 		});
+		
+		console.log(parsedUrl);
 		
 		return parsedUrl;
 	},
