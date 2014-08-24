@@ -40,6 +40,12 @@ conbo.RemoteHash = conbo.Hash.extend
 		return this;
 	},
 	
+	destroy: function()
+	{
+		this._httpService.call(this._command, this.toJSON(), 'DELETE');
+		return this;
+	},
+	
 	toString: function()
 	{
 		return 'conbo.RemoteHash';
@@ -47,8 +53,10 @@ conbo.RemoteHash = conbo.Hash.extend
 	
 	_resultHandler: function(event)
 	{
-		conbo.extend(this, event.result);
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE));
+		conbo.bindProperties(this, conbo.keys(event.result));
+		conbo.setValues(this, event.result);
+		
+		this.dispatchEvent(event);
 	}
 	
 }).implement(conbo.ISyncable);

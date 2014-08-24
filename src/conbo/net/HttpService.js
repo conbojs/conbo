@@ -1,22 +1,18 @@
 /**
  * HTTP Service
  * 
- * Base class for HTTP data services, defaults to best guess at content type;
- * You'll need to create a parse method for XML data sources
+ * Base class for HTTP data services, default settings are designed for JSON
+ * REST APIs; parseFunction required for XML data sources
  * 
  * @author Neil Rackett
  */
 conbo.HttpService = conbo.EventDispatcher.extend
 ({
-	isRpc: true,
+	isRpc: false,
 	
 	constructor: function(options)
 	{
-		options || (options = {});
-		
-		conbo.pluck(['rootUrl', 'contentType', 'isRpc'])
-			.forEach(function(prop) { this[prop] = options[prop]; }, this);
-		
+		conbo.setValues(this, conbo.pick(options || {}, 'rootUrl', 'contentType', 'dataType', 'isRpc'))
 		conbo.EventDispatcher.prototype.constructor.apply(this, arguments);
 	},
 	
@@ -52,12 +48,12 @@ conbo.HttpService = conbo.EventDispatcher.extend
 		contentType = this.contentType
 			|| (this.isRpc ? 'application/json' : 'application/x-www-form-urlencoded');
 		
+		command = this.parseUrl(command, data);
+		
 		data = this.isRpc
 			? JSON.stringify(conbo.isFunction(data.toJSON) ? data.toJSON() : data)
 			: data;
-		
-		command = this.parseUrl(command, data);
-		
+			
 		var promise = $.ajax
 		({
 			data: data,
@@ -148,4 +144,3 @@ conbo.HttpService = conbo.EventDispatcher.extend
 	
 }).implement(conbo.IInjectable);
 
-_denumerate(conbo.HttpService.prototype);

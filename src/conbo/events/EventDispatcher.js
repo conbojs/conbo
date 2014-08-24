@@ -220,35 +220,5 @@ conbo.EventDispatcher = conbo.Class.extend
 	
 });
 
-//(function()
-//{
-//	var value;
-//	
-//	Object.defineProperty
-//	(
-//		conbo.IInjectable.prototype,
-//		'bindable',
-//		
-//		{
-//			configurable: true,
-//			enumerable: false,
-//			
-//			get: function()
-//			{
-//				return value;
-//			},
-//			
-//			set: function(newValue)
-//			{
-//				if (!newValue || newValue == value) return;
-//				
-//				value = newValue;
-//				conbo.bindable.apply(conbo, [this].concat(newValue));
-//			}
-//		}
-//	);
-//	
-//})();
-
 _defineIncalculableProperty(conbo.EventDispatcher.prototype, 'bindable');
 _denumerate(conbo.EventDispatcher.prototype);

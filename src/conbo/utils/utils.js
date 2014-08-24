@@ -1111,7 +1111,7 @@ var _ = {};
 			return true;
 		}
 	};
-
+	
 //	// Run a function **n** times.
 //	_.times = function(n, iterator, context) {
 //		var accum = Array(Math.max(0, n));
@@ -1330,7 +1330,6 @@ var _ = {};
 	// Add Underscore functions to Conbo
 	forEach(_.functions(_), function(name) 
 	{
-		if (name in conbo) return;
 		conbo[name] = _[name];
 	});
 	
@@ -1348,6 +1347,32 @@ conbo.isSupported = !!Object.defineProperty && !!Object.getOwnPropertyDescriptor
 conbo.toCamelCase = function(string)
 {
 	return (string || '').replace(/([\W_])([a-z])/g, function (g) { return g[1].toUpperCase(); }).replace(/(\W+)/, '');
+};
+
+/**
+ * Copies all of the enumerable values from one or more objects and sets
+ * them to another.
+ * 
+ * Unlike conbo.extend, setValues only sets the values on the target 
+ * object and does not destroy and redifine them
+ * 
+ * @param	{Object}	obj		Object to copy properties to
+ * @example	conbo.setValues({id:1}, {get name() { return 'Arthur'; }}, {get age() { return 42; }});
+ * 			=> {id:1, name:'Arthur', age:42}
+ */
+conbo.setValues = function(obj)
+{
+	conbo.rest(arguments).forEach(function(source) 
+	{
+		if (!source) return;
+		
+		for (var propName in source) 
+		{
+			obj[propName] = source[propName];
+		}
+	});
+	
+	return obj;
 };
 
 /**

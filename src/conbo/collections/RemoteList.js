@@ -5,7 +5,7 @@
  */
 conbo.RemoteList = conbo.List.extend
 ({
-	itemClass: conbo.RemoteHash,
+	//itemClass: conbo.RemoteHash,
 	
 	/**
 	 * Constructor
@@ -51,7 +51,7 @@ conbo.RemoteList = conbo.List.extend
 	_resultHandler: function(event)
 	{
 		this.source = event.result.source;
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE));
+		this.dispatchEvent(event);
 	}
 	
 }).implement(conbo.ISyncable);

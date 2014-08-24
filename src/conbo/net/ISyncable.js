@@ -5,5 +5,6 @@
 conbo.ISyncable =
 {
 	load: conbo.notImplemented,
-	save: conbo.notImplemented
+	save: conbo.notImplemented,
+	destroy: conbo.notImplemented
 };
