@@ -39,7 +39,7 @@ conbo.RemoteList = conbo.List.extend
 	
 	save: function()
 	{
-		this._httpService.call(this._command, this.toJSON(), 'PUT');
+		this._httpService.call(this._command, this.toJSON(), 'POST');
 		return this;
 	},
 	

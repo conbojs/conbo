@@ -8,14 +8,14 @@
  */
 conbo.HttpService = conbo.EventDispatcher.extend
 ({
-	isRpc: false,
+	isRpc: true,
 	
 	constructor: function(options)
 	{
 		options || (options = {});
 		
-		var props = ['rootUrl', 'contentType'];
-		props.forEach(function(prop) { this[prop] = options[prop]; }, this);
+		conbo.pluck(['rootUrl', 'contentType', 'isRpc'])
+			.forEach(function(prop) { this[prop] = options[prop]; }, this);
 		
 		conbo.EventDispatcher.prototype.constructor.apply(this, arguments);
 	},
@@ -44,9 +44,18 @@ conbo.HttpService = conbo.EventDispatcher.extend
 			throw new Error('rootUrl not set!');
 		}
 		
+		var contentType;
+		
+		data || (data = {});
 		resultClass || (resultClass = this.resultClass);
 		
-		data = conbo.clone(data) || {};
+		contentType = this.contentType
+			|| (this.isRpc ? 'application/json' : 'application/x-www-form-urlencoded');
+		
+		data = this.isRpc
+			? JSON.stringify(conbo.isFunction(data.toJSON) ? data.toJSON() : data)
+			: data;
+		
 		command = this.parseUrl(command, data);
 		
 		var promise = $.ajax
@@ -55,7 +64,7 @@ conbo.HttpService = conbo.EventDispatcher.extend
 			type: method || 'GET',
 			headers: this.headers,
 			url: this.rootUrl+command,
-			contentType: this.contentType,
+			contentType: contentType,
 			dataType: this.dataType,
 			dataFilter: this.parseFunction
 		});
