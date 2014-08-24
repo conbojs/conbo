@@ -20,8 +20,8 @@ conbo.RemoteHash = conbo.Hash.extend
 		this._command = options.command;
 		
 		this._httpService
-			.addEventListener('result', this._resultHandler)
-			.addEventListener('fault', this.bind(this.dispatchEvent));
+			.addEventListener('result', this._resultHandler, this)
+			.addEventListener('fault', this.dispatchEvent, this);
 		
 		_denumerate(this);
 		

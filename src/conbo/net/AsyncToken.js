@@ -41,7 +41,7 @@ conbo.AsyncToken = conbo.EventDispatcher.extend
 		
 		this.responders.forEach(function(responder)
 		{
-			responder.resultHandler(event);
+			responder.resultHandler.call(responder.scope, event);
 		});
 		
 		this.dispatchEvent(event);
@@ -53,7 +53,7 @@ conbo.AsyncToken = conbo.EventDispatcher.extend
 		
 		this.responders.forEach(function(responder)
 		{
-			responder.faultHandler(event);
+			responder.faultHandler.call(responder.scope, event);
 		});
 		
 		this.dispatchEvent(event);

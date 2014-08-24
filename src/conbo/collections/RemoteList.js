@@ -22,8 +22,8 @@ conbo.RemoteList = conbo.List.extend
 		this._command = options.command;
 		
 		this._httpService
-			.addEventListener('result', this._resultHandler)
-			.addEventListener('fault', this.bind(this.dispatchEvent))
+			.addEventListener('result', this._resultHandler, this)
+			.addEventListener('fault', this.dispatchEvent, this)
 			.resultClass = this.itemClass;
 		
 		_denumerate(this);

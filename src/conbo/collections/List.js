@@ -20,7 +20,7 @@ conbo.List = conbo.EventDispatcher.extend
 	{
 		options || (options = {});
 		
-		this.bindAll('_redispatchEvent');
+		this.addEventListener(conbo.ConboEvent.CHANGE, this._changeHandler, this, 999);
 		
 		this.source = source;
 		this.context = options.context;
@@ -54,8 +54,7 @@ conbo.List = conbo.EventDispatcher.extend
 	},
 	
 	/**
-	 * The JSON representation of a Collection is an array of the
-	 * models' attributes.
+	 * The JSON-friendly representation of the List
 	 */
 	toJSON: function() 
 	{
@@ -222,17 +221,35 @@ conbo.List = conbo.EventDispatcher.extend
 			
 			if (item instanceof conbo.EventDispatcher)
 			{
-				item[method](conbo.ConboEvent.CHANGE, this._redispatchEvent);
+				item[method](conbo.ConboEvent.CHANGE, this.dispatchEvent, this);
 			}
 		}
 	},
 	
 	/**
-	 * Passthrough event to bubble events dispatched by Bindable array elements 
+	 * Enables array access operator, e.g. myList[0]
 	 */
-	_redispatchEvent: function(event)
+	_changeHandler: function(event)
 	{
-		this.dispatchEvent(event);
+		var i;
+		
+		for (i=0; i<this.length; i++)
+		{
+			var n = i;
+			
+			Object.defineProperty(this, n, 
+			{
+				get: function() { return this.getItemAt(n); },
+				set: function(value) { this.setItemAt(n, value); },
+				configurable: true,
+				enumerable: true
+			});
+		}
+		
+		while (i in this)
+		{
+			delete this[i++];
+		}
 	},
 	
 	_applyClass: function(item)

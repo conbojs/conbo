@@ -4,10 +4,11 @@
  */
 conbo.Responder = conbo.Class.extend
 ({
-	initialize: function(resultHandler, faultHandler)
+	initialize: function(resultHandler, faultHandler, scope)
 	{
 		this.resultHandler = resultHandler;
 		this.faultHandler = faultHandler;
+		this.scope = scope;
 	}
 });
 

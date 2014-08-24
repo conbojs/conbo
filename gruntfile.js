@@ -69,9 +69,9 @@ module.exports = function (grunt)
 						"src/conbo/net/Router.js",
 						
 						// Deprecated
-						"src/conbo/net/sync.js",
-						"src/conbo/data/Model.js",
-						"src/conbo/collections/Collection.js"
+//						"src/conbo/net/sync.js",
+//						"src/conbo/data/Model.js",
+//						"src/conbo/collections/Collection.js"
 					],
 					
 					"build/conbo-core.js":

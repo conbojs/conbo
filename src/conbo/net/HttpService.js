@@ -60,10 +60,9 @@ conbo.HttpService = conbo.EventDispatcher.extend
 			dataFilter: this.parseFunction
 		});
 		
-		var token = new conbo.AsyncToken({promise:promise, resultClass:resultClass}),
-			dispatchEvent = this.bind(this.dispatchEvent);
+		var token = new conbo.AsyncToken({promise:promise, resultClass:resultClass});
 		
-		token.addResponder(new conbo.Responder(dispatchEvent, dispatchEvent));
+		token.addResponder(new conbo.Responder(this.dispatchEvent, this.dispatchEvent, this));
 		
 		return token;
 	},

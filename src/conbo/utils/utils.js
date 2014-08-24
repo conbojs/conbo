@@ -543,17 +543,17 @@ var _ = {};
 	};
 
 	// Delegates to **ECMAScript 5**'s native `lastIndexOf` if available.
-//	_.lastIndexOf = function(array, item, from) {
-//		if (array == null) return -1;
-//		var hasIndex = from != null;
-//		if (nativeLastIndexOf && array.lastIndexOf === nativeLastIndexOf) {
-//			return hasIndex ? array.lastIndexOf(item, from) : array.lastIndexOf(item);
-//		}
-//		var i = (hasIndex ? from : array.length);
-//		while (i--) if (array[i] === item) return i;
-//		return -1;
-//	};
-
+	_.lastIndexOf = function(array, item, from) {
+		if (array == null) return -1;
+		var hasIndex = from != null;
+		if (nativeLastIndexOf && array.lastIndexOf === nativeLastIndexOf) {
+			return hasIndex ? array.lastIndexOf(item, from) : array.lastIndexOf(item);
+		}
+		var i = (hasIndex ? from : array.length);
+		while (i--) if (array[i] === item) return i;
+		return -1;
+	};
+	
 	// Generate an integer Array containing an arithmetic progression. A port of
 	// the native Python `range()` function. See
 	// [the Python documentation](http://docs.python.org/library/functions.html#range).
@@ -801,15 +801,15 @@ var _ = {};
 	};
 
 	// Convert an object into a list of `[key, value]` pairs.
-	_.pairs = function(obj) {
-		var keys = _.keys(obj);
-		var length = keys.length;
-		var pairs = new Array(length);
-		for (var i = 0; i < length; i++) {
-			pairs[i] = [keys[i], obj[keys[i]]];
-		}
-		return pairs;
-	};
+//	_.pairs = function(obj) {
+//		var keys = _.keys(obj);
+//		var length = keys.length;
+//		var pairs = new Array(length);
+//		for (var i = 0; i < length; i++) {
+//			pairs[i] = [keys[i], obj[keys[i]]];
+//		}
+//		return pairs;
+//	};
 
 //	// Invert the keys and values of an object. The values must be serializable.
 //	_.invert = function(obj) {
@@ -837,12 +837,11 @@ var _ = {};
 	{
 		forEach(slice.call(arguments, 1), function(source) 
 		{
-			if (source)
+			if (!source) return;
+			
+			for (var propName in source) 
 			{
-				for (var propName in source) 
-				{
-					conbo.cloneProperty(source, propName, obj);
-				}
+				conbo.cloneProperty(source, propName, obj);
 			}
 		});
 		
@@ -861,7 +860,7 @@ var _ = {};
 		});
 		return copy;
 	};
-
+	
 	 // Return a copy of the object without the blacklisted properties.
 	_.omit = function(obj) {
 		var copy = {};
@@ -894,7 +893,8 @@ var _ = {};
 	};
 
 	// Create a (shallow-cloned) duplicate of an object.
-	_.clone = function(obj) {
+	_.clone = function(obj) 
+	{
 		if (!_.isObject(obj)) return obj;
 		return _.isArray(obj) ? obj.slice() : _.extend({}, obj);
 	};
