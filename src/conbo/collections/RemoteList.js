@@ -24,7 +24,7 @@ conbo.RemoteList = conbo.List.extend
 		this._httpService
 			.addEventListener('result', this._resultHandler, this)
 			.addEventListener('fault', this.dispatchEvent, this)
-			.resultClass = this.itemClass;
+			.resultClass = this.constructor;
 		
 		_denumerate(this);
 		
@@ -50,7 +50,7 @@ conbo.RemoteList = conbo.List.extend
 	
 	_resultHandler: function(event)
 	{
-		this.source = event.result.source;
+		this.source = event.result.toJSON();
 		this.dispatchEvent(event);
 	}
 	

@@ -40,7 +40,7 @@ conbo.List = conbo.EventDispatcher.extend
 	
 	set source(value)
 	{
-		this._source = this._applyClass((value || []).slice());
+		this._source = this._applyClass(conbo.toArray(value));
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE));
 	},
 	

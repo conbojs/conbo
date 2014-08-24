@@ -9,6 +9,11 @@ conbo.Responder = conbo.Class.extend
 		this.resultHandler = resultHandler;
 		this.faultHandler = faultHandler;
 		this.scope = scope;
+	},
+	
+	toString: function()
+	{
+		return 'conbo.Responder';
 	}
 });
 

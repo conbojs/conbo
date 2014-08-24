@@ -147,8 +147,6 @@ conbo.HttpService = conbo.EventDispatcher.extend
 			}
 		});
 		
-		console.log(parsedUrl);
-		
 		return parsedUrl;
 	},
 	

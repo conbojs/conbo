@@ -26,6 +26,11 @@ conbo.AsyncToken = conbo.EventDispatcher.extend
 		this.responders.push(responder);
 	},
 	
+	toString: function()
+	{
+		return 'conbo.AsyncToken';
+	},
+	
 	_dispatchResult: function(result, status, xhr)
 	{
 		if (!this.resultClass)
