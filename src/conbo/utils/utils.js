@@ -156,12 +156,12 @@ var _ = {};
 	};
 
 	// Return all the elements for which a truth test fails.
-//	_.reject = function(obj, predicate, context) {
-//		return _.filter(obj, function(value, index, list) {
-//			return !predicate.call(context, value, index, list);
-//		}, context);
-//	};
-
+	_.reject = function(obj, predicate, context) {
+		return _.filter(obj, function(value, index, list) {
+			return !predicate.call(context, value, index, list);
+		}, context);
+	};
+	
 	// Determine whether all of the elements match a truth test.
 	// Delegates to **ECMAScript 5**'s native `every` if available.
 	// Aliased as `all`.
@@ -1342,6 +1342,17 @@ var _ = {};
 conbo.isSupported = !!Object.defineProperty && !!Object.getOwnPropertyDescriptor;
 
 /**
+ * Do nothing
+ */
+conbo.noop = function() {};
+
+/**
+ * Default function to assign to the methods of pseudo-interfaces
+ * @example	IExample = { myMethod:conbo.notImplemented };
+ */
+conbo.notImplemented = function() {};
+
+/**
  * Convert dash-or_underscore separated words into camelCaseWords
  */
 conbo.toCamelCase = function(string)
@@ -1535,15 +1546,6 @@ conbo.isBindable = function(obj, propName)
 	var descriptor = Object.getOwnPropertyDescriptor(obj, propName);
 	return !!descriptor.set && descriptor.set.bindable;
 };
-
-/**
- * Default function to assign to the methods of pseudo-interfaces
- * @example	IExample = { myMethod:conbo.notImplemented };
- */
-conbo.notImplemented = function()
-{
-	throw new Error('Not implemented!');
-}
 
 /*
  * Polyfill methods for useful ECMAScript 5 methods that aren't quite universal

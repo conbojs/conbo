@@ -33,10 +33,10 @@ var MyClass = conbo.Class.extend
 });
 ```
 
-Pseudo-interfaces
------------------
+Interfaces
+----------
 
-A pseudo-interface is a code snippet, in the form of a JavaScript Object, that you can apply to a class and test against, for example:
+In Conbo.js, an interface is a code snippet, in the form of a JavaScript Object, that you can apply to a class and test against, for example:
 
 ```javascript
 
@@ -47,7 +47,9 @@ var myInstance = new MyClass();
 conbo.instanceOf(myInstance, MyInterface); // true
 ```
 
-Unlike interfaces in Java or ActionScript, however, pseudo-interfaces in Conbo.js can contain default functionality, which will be used if the class has not implemented the interface in full, for example:
+Any interface method specified as `conbo.notImplemented` *must* be implemented and an error will be thrown if they are not.
+
+Unlike interfaces in languages such as Java or ActionScript, however, interfaces in Conbo.js can contain default functionality, which will be used if the class has not implemented the interface in full, for example:
 
 ```javascript
 

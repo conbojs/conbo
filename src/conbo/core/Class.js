@@ -99,6 +99,21 @@ conbo.Class.extend = function(protoProps, staticProps)
  */
 conbo.Class.implement = function()
 {
-	conbo.defaults.apply(conbo, conbo.union([this.prototype], arguments));
+	var implementation = conbo.defaults.apply(conbo, conbo.union({}, arguments)),
+		keys = conbo.keys(implementation),
+		prototype = this.prototype;
+	
+	conbo.defaults(this.prototype, implementation);
+	
+	var rejected = conbo.reject(keys, function(key)
+	{
+		return prototype[key] !== conbo.notImplemented;
+	});
+	
+	if (rejected.length)
+	{
+		throw new Error(prototype.toString()+' does not implement the following method(s): '+rejected.join(', '));
+	}
+	
 	return this;
 };
