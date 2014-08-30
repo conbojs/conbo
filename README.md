@@ -1,7 +1,9 @@
 Conbo.js
 ========
 
-Conbo.js is a lightweight MVC application framework for JavaScript featuring class extendibility, event bus, dependency injection, data binding, context and encapsulation, command pattern, an easy to use event model with scoped event handling and, from version 2, pseudo-interfaces for classes.
+Conbo.js is a lightweight MVC application framework for JavaScript designed for use with ECMAScript 5 compliant browsers.
+
+Features include extendible classes, event bus, dependency injection, data binding, command pattern, an easy to use event model with scoped event handling and pseudo-interfaces.
 
 Conbo.js enables JavaScript developers a take a structured, decoupled, class based approach to application development, in a way that should be be familiar to anyone with experience of languages like ActionScript, C# or Java.
 
@@ -12,7 +14,7 @@ While Conbo.js offers a great base for server-side Node.js applications, and the
 Browser Support
 ---------------
 
-Starting with version 2.0.0, Conbo.js will only officially support the so-called modern browsers: the two most recent major releases of Firefox, Chrome (desktop and Android) and Safari (desktop and iOS), and Internet Explorer 9+.
+Conbo.js targets ECMAScript 5 compliant browsers, officially supporting the two most recent major releases of Firefox, Chrome (desktop and Android) and Safari (desktop and iOS), and Internet Explorer 9+.
 
 While IE9 isn't technically a modern browser, it's still-huge install base means we're persevering with it, for now.
 
@@ -29,6 +31,31 @@ var MyClass = conbo.Class.extend
 		console.log('Welcome to my class!');
 	}
 });
+```
+
+Pseudo-interfaces
+-----------------
+
+A pseudo-interface is a code snippet, in the form of a JavaScript Object, that you can apply to a class and test against, for example:
+
+```javascript
+
+var MyInterface = { getStuff: conbo.notImplemented };
+var MyClass = conbo.Class.extend({getStuff:function(){ return 'Stuff!'; }}).implement(MyInterface);
+var myInstance = new MyClass();
+
+conbo.instanceOf(myInstance, MyInterface); // true
+```
+
+Unlike interfaces in Java or ActionScript, however, pseudo-interfaces in Conbo.js can contain default functionality, which will be used if the class has not implemented the interface in full, for example:
+
+```javascript
+
+var MyInterface = { logSomething: function() { conbo.log('Something!'); } };
+var MyClass = conbo.Class.extend().implement(MyInterface);
+var myInstance = new MyClass();
+
+myInstance.logSomething(); // Outputs: "Something!"
 ```
 
 Decoupling & data binding
@@ -83,7 +110,7 @@ Builds
 
 **Conbo.js Core** (16KB minified+gzipped): Core framework for applications and widgets that don't require web service functionality baked in.
 
-**Conbo.js Complete** (24KB minified+gzipped): Complete framework for web application development, including syncable Collection, Model, History and Router classes.
+**Conbo.js Complete** (24KB minified+gzipped): Includes everything in the core release, plus HttpService, RemoteHash and RemoteList classes for working with web services, and History and Router classes for improved browser integration.
 
 Builds are created using Grunt, which requires Node.js; all required modules can be installed by running "npm install" from the command line in the project folder.
 

@@ -83,7 +83,7 @@ conbo.Class.extend = function(protoProps, staticProps)
 		conbo.extend(child.prototype, protoProps);
 	}
 	
-	conbo.bindProperties(child.prototype);
+	conbo.makeBindable(child.prototype);
 	
 	return child;
 };

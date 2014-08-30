@@ -25,7 +25,7 @@ conbo.Context = conbo.EventDispatcher.extend
 		this.addEventListener(conbo.Event.ALL, this._allHandler);
 		this.initialize.apply(this, arguments);
 		
-		conbo.bindProperties(this, this.bindable);
+		conbo.makeBindable(this, this.bindable);
 	},
 	
 	/**

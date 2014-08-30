@@ -53,7 +53,7 @@ conbo.RemoteHash = conbo.Hash.extend
 	
 	_resultHandler: function(event)
 	{
-		conbo.bindProperties(this, conbo.keys(event.result));
+		conbo.makeBindable(this, conbo.keys(event.result));
 		conbo.setValues(this, event.result);
 		
 		this.dispatchEvent(event);

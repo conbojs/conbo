@@ -1487,15 +1487,20 @@ conbo.properties = function(obj)
 };
 
 /**
- * Create one or more property on this object that can be bound
- * without using the get or set methods; if no property names are
- * passed, all existing properties will be made bindable
+ * Makes the properties of the specified object bindable, so that they can
+ * be bound without using the get or set methods; if no property names are
+ * passed, all enumarable properties will be made bindable
  * 
- * @param	(String)	obj
- * @param	(String)	propNames
+ * @param	{String}		obj
+ * @param	{Array|String}	propNames (optional)
  */
-conbo.bindProperties = function(obj, propNames)
+conbo.makeBindable = function(obj, propNames)
 {
+	if (conbo.isString(propNames))
+	{
+		propNames = conbo.rest(arguments);
+	}
+	
 	propNames || (propNames = conbo.properties(obj));
 	
 	propNames.forEach(function(propName)
@@ -1507,7 +1512,7 @@ conbo.bindProperties = function(obj, propNames)
 };
 
 /**
- * Was the property created using Object.defineProperty()?
+ * Is the specified property an accessor (with a getter and/or setter)?
  * @returns		Boolean
  */
 conbo.isAccessor = function(obj, propName)

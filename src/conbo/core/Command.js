@@ -17,7 +17,7 @@ conbo.Command = conbo.EventDispatcher.extend
 		if (!!options) this.context = options.context;
 		this.event = options.event || {};
 		this.initialize.apply(this, arguments);
-		conbo.bindProperties(this, this.bindable);
+		conbo.makeBindable(this, this.bindable);
 	},
 	
 	/**
