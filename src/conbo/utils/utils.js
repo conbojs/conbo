@@ -1438,11 +1438,10 @@ conbo.instanceOf = function(obj, classOrInterface)
 		
 		if (!classOrInterface) return false;
 		
-		if (conbo.isClass(classOrInterface))
-		{
-			if (!(obj instanceof classOrInterface)) return false;
-		}
-		else
+		try { if (obj instanceof classOrInterface) return true; }
+		catch (e) {}
+		
+		if (conbo.isObject(classOrInterface))
 		{
 			for (var a in classOrInterface)
 			{
@@ -1451,6 +1450,10 @@ conbo.instanceOf = function(obj, classOrInterface)
 					return false;
 				}
 			}
+		}
+		else
+		{
+			return false;
 		}
 	}
 	
