@@ -67,8 +67,7 @@ conbo.History = conbo.EventDispatcher.extend
 	
 	/**
 	 * Get the cross-browser normalized URL fragment, either from the
-	 * URL,
-	 * the hash, or the override.
+	 * URL, the hash, or the override.
 	 */
 	getFragment: function(fragment, forcePushState)
 	{

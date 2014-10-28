@@ -125,7 +125,7 @@ conbo.AttributeBindings = conbo.Class.extend
 	{
 		if (!className)
 		{
-			throw new Error('cb-class attributes must specify one or more CSS classes in the format cb-class="myProperty;class-name"');
+			throw new Error('cb-class attributes must specify one or more CSS classes in the format cb-class="myProperty:class-name"');
 		}
 		
 		var $el = $(el);

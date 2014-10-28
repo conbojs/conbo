@@ -68,7 +68,8 @@ conbo.Router = conbo.EventDispatcher.extend
 				router:		this,
 				route:		route,
 				name:		name,
-				parameters:	args
+				parameters:	args,
+				fragment:	fragment
 			}
 			
 			this.dispatchEvent(new conbo.ConboEvent('route:'+name, options));
