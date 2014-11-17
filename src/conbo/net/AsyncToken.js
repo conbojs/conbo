@@ -33,14 +33,30 @@ conbo.AsyncToken = conbo.EventDispatcher.extend
 	
 	_dispatchResult: function(result, status, xhr)
 	{
-		if (!this.resultClass)
+		var resultClass = this.resultClass;
+		
+		if (!resultClass)
 		{
-			this.resultClass = result instanceof Array
-				? conbo.List
-				: conbo.Hash;
+			switch (true)
+			{
+				case conbo.isNumber(result):
+				case conbo.isString(result):
+					break;
+				
+				case conbo.isArray(result):
+					resultClass = conbo.List;
+					break;
+					
+				default:
+					resultClass = conbo.Hash;
+					break;
+			}
 		}
 		
-		result = new this.resultClass(result);
+		if (resultClass)
+		{
+			result = new resultClass(result);
+		}
 		
 		var event = new conbo.ConboEvent('result', {result:result, status:xhr.status, xhr:xhr});
 		
