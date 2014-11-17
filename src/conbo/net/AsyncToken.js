@@ -39,15 +39,11 @@ conbo.AsyncToken = conbo.EventDispatcher.extend
 		{
 			switch (true)
 			{
-				case conbo.isNumber(result):
-				case conbo.isString(result):
-					break;
-				
 				case conbo.isArray(result):
 					resultClass = conbo.List;
 					break;
 					
-				default:
+				case conbo.isObject(result):
 					resultClass = conbo.Hash;
 					break;
 			}
