@@ -379,7 +379,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			{
 				keys = ['repeat'];
 			}
-						
+			
 			keys.forEach(function(key)
 			{
 				if (scope._isReservedAttribute(key))
