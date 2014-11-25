@@ -374,6 +374,12 @@ conbo.BindingUtils = conbo.Class.extend({},
 			
 			var keys = conbo.keys(cbData);
 			
+			// Prevents Conbo trying to populate templates 
+			if (keys.indexOf('repeat') != -1)
+			{
+				keys = ['repeat'];
+			}
+						
 			keys.forEach(function(key)
 			{
 				if (scope._isReservedAttribute(key))
@@ -411,8 +417,17 @@ conbo.BindingUtils = conbo.Class.extend({},
 					}
 					catch (e) {}
 					
-					if (!model) throw new Error(a+' is not defined in this View');
-					if (!property) throw new Error('Unable to bind to undefined property "'+property+'"');
+					if (!model) 
+					{
+						conbo.warn(a+' is not defined in this View');
+						return;
+					}
+					
+					if (!property) 
+					{
+						conbo.warn('Unable to bind to undefined property "'+property+'"');
+						return;
+					}
 					
 					var args = [model, property, el, key, f, options, param];
 	
