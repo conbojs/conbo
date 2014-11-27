@@ -83,6 +83,17 @@ conbo.AttributeBindings = conbo.Class.extend
 	},
 	
 	/**
+	 * The exact opposite of HTML's built-in `disabled` property
+	 * 
+	 * @param value
+	 * @param el
+	 */
+	cbEnabled: function(value, el)
+	{
+		el.disabled = !value;
+	},
+	
+	/**
 	 * Inserts raw HTML into the element, which is rendered as HTML
 	 * 
 	 * @param value
