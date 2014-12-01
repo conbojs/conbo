@@ -14,9 +14,9 @@ While Conbo.js offers a great base for server-side Node.js applications, and the
 Browser Support
 ---------------
 
-Conbo.js targets ECMAScript 5 compliant browsers, officially supporting the two most recent major releases of Firefox, Chrome (desktop and Android) and Safari (desktop and iOS), and Internet Explorer 9+.
+Conbo.js targets ECMAScript 5 compliant browsers, officially supporting the two most recent major releases of Firefox, Chrome (desktop and Android) and Safari (desktop and iOS), plus Internet Explorer 9+.
 
-While IE9 isn't technically a modern browser, it's still-huge install base means we're persevering with it, for now.
+While IE9 isn't a particularly modern browser, it's still-huge install base means we're persevering with it, for now.
 
 Extendible classes
 ------------------

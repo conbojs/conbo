@@ -126,8 +126,7 @@ conbo.AttributeBindings = conbo.Class.extend
 	
 	/**
 	 * Applies or removes a CSS class to or from the element based on the value
-	 * of the bound property, e.g. cb-css-my-class="myValue" will apply the 
-	 * "my-class" CSS class to the element when "myValue" equates to true.
+	 * of the bound property, e.g. cb-class="myProperty:class-name"
 	 * 
 	 * @param value
 	 * @param el

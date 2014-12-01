@@ -19,6 +19,11 @@ conbo.EventDispatcher = conbo.Class.extend
 	 */
 	constructor: function(options)
 	{
+		if (!!options && options.context)
+		{
+			this.context = options.context;
+		}
+		
 		this.initialize.apply(this, arguments);
 		conbo.makeBindable(this, this.bindable);
 	},
