@@ -39,6 +39,7 @@ conbo.ConboEvent = conbo.Event.extend
 							// 'route:[name]' // (Properties: params) � Fired by the router when a specific route is matched.
 	
 	TEMPLATE_LOADED:	'templateloaded',
+	VIEW_BOUND:			'viewbound',
 	ELEMENT_CHANGE:		'elementchange',
 	RESULT:				'result',
 	FAULT:				'fault',

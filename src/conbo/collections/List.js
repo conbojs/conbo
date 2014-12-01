@@ -40,7 +40,7 @@ conbo.List = conbo.EventDispatcher.extend
 	
 	set source(value)
 	{
-		this._source = this._applyClass(conbo.toArray(value));
+		this._source = conbo.toArray(value); //this._applyClass(conbo.toArray(value));
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE));
 	},
 	
@@ -101,7 +101,7 @@ conbo.List = conbo.EventDispatcher.extend
 	 */
 	unshift: function(item) 
 	{
-		this.source.push.unshift(this.source, this._applyClass(conbo.toArray(arguments)));
+		this.source.unshift(this.source, this._applyClass(conbo.toArray(arguments)));
 		this._handleChange(conbo.toArray(arguments));
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 		

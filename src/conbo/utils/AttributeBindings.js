@@ -188,12 +188,9 @@ conbo.AttributeBindings = conbo.Class.extend
 		
 		switch (true)
 		{
+			case values instanceof Array:
 			case values instanceof conbo.List:
 				a = values;
-				break;
-				
-			case values instanceof Array:
-				a = new conbo.List(values);
 				break;
 				
 			default:
@@ -213,7 +210,7 @@ conbo.AttributeBindings = conbo.Class.extend
 		
 		a.forEach(function(value)
 		{
-			if (!(value instanceof conbo.Hash))
+			if (conbo.isObject(value) && !(value instanceof conbo.Hash))
 			{
 				value = new conbo.Hash(value);
 			}
@@ -232,6 +229,18 @@ conbo.AttributeBindings = conbo.Class.extend
 		!!elements.length
 			? $el.remove()
 			: $el.addClass('cb-exclude');
+	},
+	
+	/**
+	 * Enables the use of cb-onbind attribute to handle the 'bind' event 
+	 * dispatched by the element after it has been bound by Conbo
+	 * 
+	 * @param value
+	 * @param el
+	 */
+	cbOnbind: function(value, el)
+	{
+		el.addEventListener('bind', value);
 	}
 	
 });

@@ -150,6 +150,7 @@ conbo.View = conbo.Glimpse.extend
 	bindView: function()
 	{
 		conbo.BindingUtils.bindView(this);
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.VIEW_BOUND));
 		return this;
 	},
 	
