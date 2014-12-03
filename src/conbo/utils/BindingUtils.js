@@ -234,7 +234,8 @@ conbo.BindingUtils = conbo.Class.extend({},
 			{
 				if (!(source instanceof conbo.EventDispatcher))
 				{
-					throw new Error('Source is not EventDispatcher');
+					conbo.warn('Source is not EventDispatcher');
+					return this;
 				}
 				
 				eventHandler = function(event)
@@ -269,7 +270,8 @@ conbo.BindingUtils = conbo.Class.extend({},
 					{
 						if (!conbo.isFunction(source[propertyName]))
 						{
-							throw new Error(propertyName+' is not a function and cannot be bound to DOM events');
+							conbo.warn(propertyName+' is not a function and cannot be bound to DOM events');
+							return this;
 						}
 						
 						$(element).on(attributeName.substr(2), source[propertyName]);
@@ -281,7 +283,8 @@ conbo.BindingUtils = conbo.Class.extend({},
 					{
 						if (!(source instanceof conbo.EventDispatcher))
 						{
-							throw new Error('Source is not EventDispatcher');
+							conbo.warn('Source is not EventDispatcher');
+							return this;
 						}
 						
 						eventHandler = function()
@@ -394,7 +397,8 @@ conbo.BindingUtils = conbo.Class.extend({},
 				
 				if (!splits)
 				{
-					throw new Error('cb-'+key+' attribute cannot be empty');
+					conbo.warn('cb-'+key+' attribute cannot be empty');
+					return;
 				}
 				
 				try
@@ -520,7 +524,10 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 */
 	bindProperty: function(source, sourcePropertyName, destination, destinationPropertyName, twoWay)
 	{
-		if (!(source instanceof conbo.EventDispatcher)) throw new Error('Source is not EventDispatcher');
+		if (!(source instanceof conbo.EventDispatcher))
+		{
+			throw new Error('Source is not EventDispatcher');
+		}
 		
 		destinationPropertyName || (destinationPropertyName = sourcePropertyName);
 		
@@ -553,7 +560,10 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 */
 	bindSetter: function(source, propertyName, setterFunction)
 	{
-		if (!(source instanceof conbo.EventDispatcher)) throw new Error('Source is not EventDispatcher');
+		if (!(source instanceof conbo.EventDispatcher))
+		{
+			throw new Error('Source is not EventDispatcher');
+		}
 		
 		if (!conbo.isFunction(setterFunction))
 		{
