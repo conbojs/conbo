@@ -56,10 +56,19 @@ conbo.View = conbo.Glimpse.extend
 	},
 	
 	/**
-	 * Remove this view by taking the element out of the DOM, and removing any
-	 * applicable events listeners.
+	 * Take the View's element element out of the DOM
 	 */
-	remove: function() 
+	detach: function() 
+	{
+		this.$el.detach();		
+		return this;
+	},
+	
+	/**
+	 * Remove and destroy this View by taking the element out of the DOM, 
+	 * unbinding it and removing all event listeners
+	 */
+	remove: function()
 	{
 		this.unbindView()
 			.removeEventListener();
