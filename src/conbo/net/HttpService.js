@@ -8,11 +8,21 @@
  */
 conbo.HttpService = conbo.EventDispatcher.extend
 ({
-	isRpc: true,
-	
 	constructor: function(options)
 	{
-		conbo.setValues(this, conbo.pick(options || {}, 'rootUrl', 'contentType', 'dataType', 'isRpc', 'headers', 'parseFunction'));
+		this.isRpc = true;
+		
+		conbo.setValues(this, conbo.pick(options || {}, 
+		    'rootUrl', 
+		    'contentType', 
+		    'dataType', 
+		    'isRpc', 
+		    'headers', 
+		    'parseFunction', 
+		    'resultClass',
+		    'makeObjectsBindable'
+		));
+		
 		conbo.EventDispatcher.prototype.constructor.apply(this, arguments);
 	},
 	
@@ -65,7 +75,12 @@ conbo.HttpService = conbo.EventDispatcher.extend
 			dataFilter: this.parseFunction
 		});
 		
-		var token = new conbo.AsyncToken({promise:promise, resultClass:resultClass});
+		var token = new conbo.AsyncToken
+		({
+			promise: promise, 
+			resultClass: resultClass, 
+			makeObjectsBindable: this.makeObjectsBindable
+		});
 		
 		token.addResponder(new conbo.Responder(this.dispatchEvent, this.dispatchEvent, this));
 		
@@ -82,7 +97,7 @@ conbo.HttpService = conbo.EventDispatcher.extend
 	{
 		if (conbo.isObject(command))
 		{
-			method = command.command;
+			method = command.method;
 			resultClass = command.resultClass;
 			command = command.command;
 		}

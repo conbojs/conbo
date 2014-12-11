@@ -11,7 +11,7 @@ Development of Conbo.js is currently focussed on single page applications (SPA) 
 
 While Conbo.js offers a great base for server-side Node.js applications, and there's a ServerApplication class created for just this purpose, this is not a core development focus at this time.
 
-Browser Support
+Browser support
 ---------------
 
 Conbo.js targets ECMAScript 5 compliant browsers, officially supporting the two most recent major releases of Firefox, Chrome (desktop and Android) and Safari (desktop and iOS), plus Internet Explorer 9+.

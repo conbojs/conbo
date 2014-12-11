@@ -8,7 +8,11 @@ conbo.AsyncToken = conbo.EventDispatcher.extend
 	{
 		options || (options = {});
 		
-		this.resultClass = options.resultClass;
+		conbo.setValues(this, conbo.pick(options, 
+ 		    'makeObjectsBindable', 
+ 		    'resultClass'
+ 		));
+		
 		this.responders = [];
 		this.bindAll('_dispatchResult', '_dispatchFault');
 		
@@ -35,14 +39,14 @@ conbo.AsyncToken = conbo.EventDispatcher.extend
 	{
 		var resultClass = this.resultClass;
 		
-		if (!resultClass)
+		if (!resultClass && this.makeObjectsBindable)
 		{
 			switch (true)
 			{
 				case conbo.isArray(result):
 					resultClass = conbo.List;
 					break;
-					
+				
 				case conbo.isObject(result):
 					resultClass = conbo.Hash;
 					break;
