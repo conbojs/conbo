@@ -39,9 +39,9 @@ conbo.View = conbo.Glimpse.extend
 			if (!!template && conbo.isString(template))
 			{
 				this.$el.html(template);
-				this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.TEMPLATE_LOADED));
 			}
 			
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.TEMPLATE_LOADED));
 			this.render();
 			this.bindView();
 		}
