@@ -105,10 +105,17 @@ conbo.Application = conbo.View.extend
 		
 		for (var a in this.namespace)
 		{
-			if (this instanceof this.namespace[a])
+			try
 			{
-				appName = a;
-				break;
+				if (this instanceof this.namespace[a])
+				{
+					appName = a;
+					break;
+				}
+			}
+			catch(e) 
+			{
+				// Ignore
 			}
 		}
 		
