@@ -110,9 +110,17 @@ conbo.EventDispatcher = conbo.Class.extend
 		return this;
 	},
 	
-	dispatchChange: function(propName)
+	/**
+	 * Dispatch a change event for one or more changed properties
+	 * @param propName
+	 */
+	dispatchChange: function()
 	{
-		_dispatchChange(this, propName);
+		conbo.forEach(arguments, function(propName)
+		{
+			_dispatchChange(this, propName);
+		},
+		this);
 	},
 	
 	/**
@@ -160,6 +168,9 @@ conbo.EventDispatcher = conbo.Class.extend
 	
 	/**
 	 * Get the value of a property
+	 * 
+	 * @deprecated
+	 * 
 	 * @param	attribute
 	 * @example	instance.get('n');
 	 * @returns
@@ -174,6 +185,8 @@ conbo.EventDispatcher = conbo.Class.extend
 	 * 
 	 * Event handlers, in line with conbo.Model change:[propertyName] handlers, 
 	 * should be in the format handler(source, value) {...}
+	 * 
+	 * @deprecated
 	 * 
 	 * @param 	attribute
 	 * @param 	value
@@ -208,6 +221,9 @@ conbo.EventDispatcher = conbo.Class.extend
 	
 	/**
 	 * Delete a property and dispatch a change:[propertyName] event
+	 * 
+	 * @deprecated
+	 * 
 	 * @param 	value
 	 * @returns	this
 	 */

@@ -16,7 +16,18 @@ conbo.View = conbo.Glimpse.extend
 	{
 		options = conbo.clone(options) || {};
 		
-		var viewOptions = ['data', 'el', 'id', 'attributes', 'className', 'tagName', 'template', 'templateUrl'];	
+		var viewOptions = 
+		[
+			'attributes',
+			'className', 
+			'data', 
+			'el', 
+			'id', 
+			'tagName', 
+			'template', 
+			'templateUrl'
+		];
+		
 		conbo.extend(this, conbo.pick(options, viewOptions));
 		
 		this._ensureElement();
@@ -41,9 +52,7 @@ conbo.View = conbo.Glimpse.extend
 				this.$el.html(template);
 			}
 			
-			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.TEMPLATE_LOADED));
-			this.render();
-			this.bindView();
+			this._initView();
 		}
 	},
 	
@@ -197,9 +206,7 @@ conbo.View = conbo.Glimpse.extend
 				callbackFunction.apply(this, arguments);
 			}
 			
-			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.TEMPLATE_LOADED));
-			this.render();
-			this.bindView();
+			this._initView();
 		});
 		
 		this.$el.load(url, data, completeHandler);
@@ -208,6 +215,21 @@ conbo.View = conbo.Glimpse.extend
 	toString: function()
 	{
 		return 'conbo.View';
+	},
+	
+	/**
+	 * Populate and render the View's HTML content
+	 */
+	_initView: function()
+	{
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.TEMPLATE_LOADED));
+		this.render();
+		this.bindView();
+		
+		conbo.defer(this.bind(function()
+		{
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.INIT));
+		}));
 	},
 	
 	/**
@@ -220,19 +242,24 @@ conbo.View = conbo.Glimpse.extend
 	 */
 	_ensureElement: function() 
 	{
+		var attrs = conbo.extend({}, this.attributes);
+		
 		if (!this.el) 
 		{
-			var attrs = conbo.extend({}, this.attributes);
 			if (this.id) attrs.id = this.id;
-			if (this.className) attrs['class'] = this.className;
-			var $el = $('<'+this.tagName+'>').attr(attrs);
-			this.setElement($el);
+			this.setElement($('<'+this.tagName+'>'));
 		}
 		else 
 		{
 			this.setElement(this.el);
-			if (!!this.className) this.$el.addClass(this.className);
 		}
+		
+		if (this.className) 
+		{
+			this.$el.addClass(this.className);
+		}
+		
+		this.$el.attr(attrs);
 		
 		if (this instanceof conbo.Application)
 		{
