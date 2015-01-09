@@ -12,7 +12,7 @@ conbo.RemoteHash = conbo.Hash.extend
 	 */
 	constructor: function(source, options)
 	{
-		options || (options = {});
+		options = conbo.defaults({}, options, this.options);
 		
 		this.bindAll('_resultHandler');
 		
