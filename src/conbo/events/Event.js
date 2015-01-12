@@ -7,24 +7,25 @@
  */
 conbo.Event = conbo.Class.extend
 ({
-	//cancelBubble: false,
-	//defaultPrevented: false,
-	//immediatePropagationStopped: false,
-	
-	//currentTarget: undefined,
-	//target: undefined,
-	//type: undefined,
-	
 	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options
 	 */
 	constructor: function(type)
 	{
-		if (conbo.isString(type)) this.type = type;
-		else conbo.defaults(this, type);
+		if (conbo.isString(type)) 
+		{
+			this.type = type;
+		}
+		else 
+		{
+			conbo.defaults(this, type);
+		}
 		
-		if (!this.type) throw new Error('Invalid or undefined event type');
+		if (!this.type) 
+		{
+			throw new Error('Invalid or undefined event type');
+		}
 		
 		this.initialize.apply(this, arguments);
 	},
@@ -33,7 +34,7 @@ conbo.Event = conbo.Class.extend
 	 * Initialize: Override this!
 	 * @param type
 	 */
-	initialize: function(type) {},
+	initialize: function() {},
 	
 	/**
 	 * Create an identical clone of this event
@@ -75,24 +76,7 @@ conbo.Event = conbo.Class.extend
 	}
 },
 {
-	ALL: 'all',
-	
-	/**
-	 * Get all event types separated by spaces
-	 */
-	all: function(asArray)
-	{
-		var types = [];
-		
-		for (var a in this)
-		{
-			if (!conbo.isString(this[a]) || this[a] == this.ALL) continue;
-			types.push(this[a]);
-		}
-		
-		if (asArray) return types;
-		return types.join(' ');
-	}
+	ALL: '*',
 });
 
 _denumerate(conbo.Event.prototype);
