@@ -251,22 +251,30 @@ conbo.AttributeBindings = conbo.Class.extend
 	 */
 	cbRestrict: function(value, el)
 	{
-		if (!conbo.isRegExp(value))
-		{
-			value = new RegExp('['+value+']', 'g');
-		}
-		
 		// TODO Restrict to text input fields?
 		
-		el.addEventListener('keypress', function(event)
+		if (el.cbRestrict)
+		{
+			el.removeEventListener('keypress', el.cbRestrict);
+		}
+		
+		el.cbRestrict = function(event)
 		{
 			var code = event.keyCode || event.which;
 			var char = String.fromCharCode(code);
+			var r = value;
 			
-			if (!char.match(value))
+			if (!conbo.isRegExp(r))
+			{
+				r = new RegExp('['+r+']', 'g');
+			}
+			
+			if (!char.match(r))
 			{
 				event.preventDefault();
 			}
-		});
+		};
+		
+		el.addEventListener('keypress', el.cbRestrict);
 	}
 });
