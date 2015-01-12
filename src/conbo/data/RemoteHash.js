@@ -14,13 +14,19 @@ conbo.RemoteHash = conbo.Hash.extend
 	{
 		options = conbo.defaults({}, options, this.options);
 		
-		this.bindAll('_resultHandler');
-		
 		this._httpService = new conbo.HttpService(options);
 		this._command = options.command;
 		
+		var resultHandler = function(event)
+		{
+			conbo.makeBindable(this, conbo.properties(event.result));
+			conbo.setValues(this, event.result);
+			
+			this.dispatchEvent(event);
+		};
+		
 		this._httpService
-			.addEventListener('result', this._resultHandler, this)
+			.addEventListener('result', resultHandler, this)
 			.addEventListener('fault', this.dispatchEvent, this);
 		
 		_denumerate(this);
@@ -49,14 +55,6 @@ conbo.RemoteHash = conbo.Hash.extend
 	toString: function()
 	{
 		return 'conbo.RemoteHash';
-	},
-	
-	_resultHandler: function(event)
-	{
-		conbo.makeBindable(this, conbo.keys(event.result));
-		conbo.setValues(this, event.result);
-		
-		this.dispatchEvent(event);
 	}
 	
 }).implement(conbo.ISyncable);

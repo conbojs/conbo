@@ -32,11 +32,19 @@ conbo.Hash = conbo.EventDispatcher.extend
 	 */
 	toJSON: function()
 	{
-		var obj = {},
-			keys = conbo.keys(this),
-			filter = function(value) { return String(value).indexOf('_') != 0; };
+		var filter = function(value) 
+		{
+			return String(value).indexOf('_') != 0; 
+		};
 		
-		conbo.filter(keys, filter).forEach(function(value) { obj[value] = this[value]; }, this);
+		var obj = {},
+			keys = conbo.filter(conbo.keys(this), filter);
+		
+		keys.forEach(function(value) 
+		{
+			obj[value] = this[value]; 
+		}, 
+		this);
 		
 		return obj;
 	},

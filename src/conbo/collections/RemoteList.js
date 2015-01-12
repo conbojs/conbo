@@ -16,13 +16,17 @@ conbo.RemoteList = conbo.List.extend
 	{
 		options = conbo.defaults({}, options, this.options);
 		
-		this.bindAll('_resultHandler');
-		
 		this._httpService = new conbo.HttpService(options);
 		this._command = options.command;
 		
+		var resultHandler = function(event)
+		{
+			this.source = event.result.toJSON();
+			this.dispatchEvent(event);
+		};
+		
 		this._httpService
-			.addEventListener('result', this._resultHandler, this)
+			.addEventListener('result', resultHandler, this)
 			.addEventListener('fault', this.dispatchEvent, this)
 			.resultClass = this.constructor;
 		
@@ -51,12 +55,6 @@ conbo.RemoteList = conbo.List.extend
 	toString: function()
 	{
 		return 'conbo.RemoteList';
-	},
-	
-	_resultHandler: function(event)
-	{
-		this.source = event.result.toJSON();
-		this.dispatchEvent(event);
 	}
 	
 }).implement(conbo.ISyncable);

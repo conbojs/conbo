@@ -56,8 +56,7 @@ conbo.History = conbo.EventDispatcher.extend
 	
 	/**
 	 * Gets the true hash value. Cannot use location.hash directly due
-	 * to bug
-	 * in Firefox where location.hash will always be decoded.
+	 * to bug in Firefox where location.hash will always be decoded.
 	 */
 	getHash: function(window)
 	{
@@ -73,13 +72,14 @@ conbo.History = conbo.EventDispatcher.extend
 	{
 		if (fragment == null)
 		{
-			if (this._hasPushState || !this._wantsHashChange
-					|| forcePushState)
+			if (this._hasPushState || !this._wantsHashChange || forcePushState)
 			{
 				fragment = this.location.pathname;
 				var root = this.root.replace(trailingSlash, '');
-				if (!fragment.indexOf(root)) fragment = fragment
-						.substr(root.length);
+				if (!fragment.indexOf(root)) 
+				{
+					fragment = fragment.substr(root.length);
+				}
 			}
 			else
 			{
@@ -95,82 +95,73 @@ conbo.History = conbo.EventDispatcher.extend
 	 */
 	start: function(options)
 	{
-		if (this.started) throw new Error("conbo.history has already been started");
+		if (this.started)
+		{
+			throw new Error("conbo.history has already been started");
+		}
+		
 		this.started = true;
 		
 		// Figure out the initial configuration. Do we need an iframe?
 		// Is pushState desired ... is it available?
-		this.options = conbo.extend({}, {root:'/'}, this.options, options);
+		this.options = conbo.extend({}, {root:window.location.pathname}, this.options, options);
 		this.root = this.options.root;
 		this._wantsHashChange = this.options.hashChange !== false;
 		this._wantsPushState = !!this.options.pushState;
 		this._hasPushState = !!(this.options.pushState && this.history && this.history.pushState);
+		
 		var fragment = this.getFragment();
 		var docMode = document.documentMode;
-		var oldIE = (isExplorer.exec(navigator.userAgent.toLowerCase()) && (!docMode || docMode <= 7));
 		
-		// Normalize root to always include a leading and trailing
-		// slash.
+		// Normalize root to always include a leading and trailing slash.
 		this.root = ('/' + this.root + '/').replace(rootStripper, '/');
 		
-		if (oldIE && this._wantsHashChange)
-		{
-			this.iframe = $(
-					'<iframe src="javascript:0" tabindex="-1" />')
-					.hide().appendTo('body')[0].contentWindow;
-			this.navigate(fragment);
-		}
-		
-		// Depending on whether we're using pushState or hashes, and whether 
-		// 'onhashchange' is supported, determine how we check the URL state.
+		// Depending on whether we're using pushState or hashes,
+		// determine how we check the URL state.
 		if (this._hasPushState)
 		{
 			$(window).on('popstate', this.checkUrl);
 		}
-		else if (this._wantsHashChange && ('onhashchange' in window)
-				&& !oldIE)
+		else if (this._wantsHashChange && ('onhashchange' in window))
 		{
 			$(window).on('hashchange', this.checkUrl);
 		}
 		else if (this._wantsHashChange)
 		{
-			this._checkUrlInterval = setInterval(this.checkUrl,
-					this.interval);
+			this._checkUrlInterval = setInterval(this.checkUrl, this.interval);
 		}
 		
 		// Determine if we need to change the base url, for a pushState
 		// link
 		// opened by a non-pushState browser.
 		this.fragment = fragment;
+		
 		var loc = this.location;
 		var atRoot = loc.pathname.replace(/[^\/]$/, '$&/') === this.root;
 		
 		// If we've started off with a route from a `pushState`-enabled
-		// browser,
-		// but we're currently in a browser that doesn't support it...
-		if (this._wantsHashChange && this._wantsPushState
-				&& !this._hasPushState && !atRoot)
+		// browser, but we're currently in a browser that doesn't support it...
+		if (this._wantsHashChange && this._wantsPushState && !this._hasPushState && !atRoot)
 		{
 			this.fragment = this.getFragment(null, true);
-			this.location.replace(this.root + this.location.search
-					+ '#' + this.fragment);
+			this.location.replace(this.root + this.location.search + '#' + this.fragment);
 			// Return immediately as browser will do redirect to new url
 			return true;
 			
-			// Or if we've started out with a hash-based route, but
-			// we're currently
-			// in a browser where it could be `pushState`-based
-			// instead...
+			// Or if we've started out with a hash-based route, but we're currently
+			// in a browser where it could be `pushState`-based instead...
 		}
-		else if (this._wantsPushState && this._hasPushState && atRoot
-				&& loc.hash)
+		else if (this._wantsPushState && this._hasPushState && atRoot && loc.hash)
 		{
 			this.fragment = this.getHash().replace(routeStripper, '');
 			this.history.replaceState(
 			{}, document.title, this.root + this.fragment + loc.search);
 		}
 		
-		if (!this.options.silent) return this.loadUrl();
+		if (!this.options.silent) 
+		{
+			return this.loadUrl();
+		}
 	},
 	
 	/**
@@ -200,12 +191,7 @@ conbo.History = conbo.EventDispatcher.extend
 	checkUrl: function(e)
 	{
 		var current = this.getFragment();
-		if (current === this.fragment && this.iframe)
-		{
-			current = this.getFragment(this.getHash(this.iframe));
-		}
 		if (current === this.fragment) return false;
-		if (this.iframe) this.navigate(current);
 		this.loadUrl() || this.loadUrl(this.getHash());
 	},
 	
@@ -225,6 +211,7 @@ conbo.History = conbo.EventDispatcher.extend
 				return true;
 			}
 		});
+		
 		return matched;
 	},
 	
@@ -240,12 +227,19 @@ conbo.History = conbo.EventDispatcher.extend
 	navigate: function(fragment, options)
 	{
 		if (!this.started) return false;
-		if (!options || options === true) options =
+		
+		if (!options || options === true)
 		{
-			trigger: options
-		};
+			options = {trigger: options};
+		}
+		
 		fragment = this.getFragment(fragment || '');
-		if (this.fragment === fragment) return;
+		
+		if (this.fragment === fragment) 
+		{
+			return;
+		}
+		
 		this.fragment = fragment;
 		var url = this.root + fragment;
 		
@@ -256,21 +250,11 @@ conbo.History = conbo.EventDispatcher.extend
 			this.history[options.replace ? 'replaceState': 'pushState']({}, document.title, url);
 			
 			// If hash changes haven't been explicitly disabled, update
-			// the hash
-			// fragment to store history.
+			// the hash fragment to store history.
 		}
 		else if (this._wantsHashChange)
 		{
 			this._updateHash(this.location, fragment, options.replace);
-			
-			if (this.iframe && (fragment !== this.getFragment(this.getHash(this.iframe))))
-			{
-				// Opening and closing the iframe tricks IE7 and earlier
-				// to push a history entry on hash-tag change. When replace is
-				// true, we don't want this.
-				if (!options.replace) this.iframe.document.open().close();
-				this._updateHash(this.iframe.location, fragment, options.replace);
-			}
 			
 			// If you've told us that you explicitly don't want fallback
 			// hashchange-based history, then `navigate` becomes a page refresh.
@@ -280,7 +264,10 @@ conbo.History = conbo.EventDispatcher.extend
 			return this.location.assign(url);
 		}
 		
-		if (options.trigger) this.loadUrl(fragment);
+		if (options.trigger) 
+		{
+			this.loadUrl(fragment);
+		}
 	},
 	
 	toString: function()
@@ -301,7 +288,6 @@ conbo.History = conbo.EventDispatcher.extend
 		}
 		else
 		{
-			// Some browsers require that `hash` contains a leading #.
 			location.hash = '#/' + fragment;
 		}
 	}

@@ -1,4 +1,4 @@
-var optionalParam = /\((.*?)\)/g;
+var optionalParam 	= /\((.*?)\)/g;
 var namedParam		= /(\(\?)?:\w+/g;
 var splatParam		= /\*\w+/g;
 var escapeRegExp	= /[\-{}\[\]+?.,\\\^$|#\s]/g;
@@ -61,6 +61,7 @@ conbo.Router = conbo.EventDispatcher.extend
 		conbo.history.route(route, this.bind(function(fragment)
 		{
 			var args = this._extractParameters(route, fragment);
+			
 			callback && callback.apply(this, args);
 			
 			var options = 
@@ -80,7 +81,7 @@ conbo.Router = conbo.EventDispatcher.extend
 		
 		return this;
 	},
-
+	
 	/**
 	 * Simple proxy to `conbo.history` to save a fragment into the history.
 	 */
@@ -88,6 +89,13 @@ conbo.Router = conbo.EventDispatcher.extend
 	{
 		conbo.history.navigate(fragment, options);
 		return this;
+	},
+	
+	navigateTo: function(fragment, options) 
+	{
+		options || (options = {});
+		options.trigger = true;
+		return this.navigate(fragment, options);
 	},
 	
 	toString: function()
@@ -107,11 +115,13 @@ conbo.Router = conbo.EventDispatcher.extend
 		if (!this.routes) return;
 		this.routes = this.routes;
 		var route, routes = conbo.keys(this.routes);
-		while ((route = routes.pop()) != null) {
+		
+		while ((route = routes.pop()) != null)
+		{
 			this.route(route, this.routes[route]);
 		}
 	},
-
+	
 	/**
 	 * Convert a route string into a regular expression, suitable for matching
 	 * against the current location hash.
@@ -140,6 +150,7 @@ conbo.Router = conbo.EventDispatcher.extend
 	_extractParameters: function(route, fragment) 
 	{
 		var params = route.exec(fragment).slice(1);
+		
 		return conbo.map(params, function(param) {
 			return param ? decodeURIComponent(param) : null;
 		});
