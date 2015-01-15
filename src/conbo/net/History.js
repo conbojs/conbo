@@ -233,7 +233,7 @@ conbo.History = conbo.EventDispatcher.extend
 			options = {trigger: options};
 		}
 		
-		fragment = this.getFragment(fragment || '');
+		fragment = this.getFragment(escape(fragment || ''));
 		
 		if (this.fragment === fragment) 
 		{
