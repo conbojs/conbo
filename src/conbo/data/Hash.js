@@ -54,6 +54,6 @@ conbo.Hash = conbo.EventDispatcher.extend
 		return 'conbo.Hash';
 	}
 	
-}).implement(conbo.IInjectable);
+})
 
 _denumerate(conbo.Hash.prototype);

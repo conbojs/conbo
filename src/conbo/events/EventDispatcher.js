@@ -239,7 +239,7 @@ conbo.EventDispatcher = conbo.Class.extend
 		return 'conbo.EventDispatcher';
 	}	
 	
-});
+}).implement(conbo.IInjectable);
 
 _defineIncalculableProperty(conbo.EventDispatcher.prototype, 'bindable');
 _denumerate(conbo.EventDispatcher.prototype);

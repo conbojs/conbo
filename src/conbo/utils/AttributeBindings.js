@@ -262,16 +262,20 @@ conbo.AttributeBindings = conbo.Class.extend
 		{
 			var code = event.keyCode || event.which;
 			var char = String.fromCharCode(code);
-			var r = value;
 			
-			if (!conbo.isRegExp(r))
+			if (!event.ctrlKey && code!=9 && code!=8 && code!=36 && code!=37 && code!=38 && (code!=39 || (code==39 && char=="'")) && code!=40) 
 			{
-				r = new RegExp('['+r+']', 'g');
-			}
-			
-			if (!char.match(r))
-			{
-				event.preventDefault();
+				var r = value;
+				
+				if (!conbo.isRegExp(r))
+				{
+					r = new RegExp('['+r+']', 'g');
+				}
+				
+				if (!char.match(r))
+				{
+					event.preventDefault();
+				}
 			}
 		};
 		
