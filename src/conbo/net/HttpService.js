@@ -10,7 +10,7 @@ conbo.HttpService = conbo.EventDispatcher.extend
 ({
 	constructor: function(options)
 	{
-		this.isRpc = true;
+//		this.isRpc = true;
 		
 		conbo.setValues(this, conbo.pick(options || {}, 
 		    'rootUrl', 
