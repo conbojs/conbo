@@ -14,6 +14,8 @@ conbo.RemoteHash = conbo.Hash.extend
 	{
 		options = conbo.defaults({}, options, this.options);
 		
+		this.preinitialize(source, options);
+		
 		this._httpService = new conbo.HttpService(options);
 		this._command = options.command;
 		
@@ -57,6 +59,6 @@ conbo.RemoteHash = conbo.Hash.extend
 		return 'conbo.RemoteHash';
 	}
 	
-}).implement(conbo.ISyncable);
+}).implement(conbo.ISyncable, conbo.IPreinitialize);
 
 _denumerate(conbo.HttpService.prototype);

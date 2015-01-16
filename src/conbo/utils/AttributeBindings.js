@@ -146,6 +146,30 @@ conbo.AttributeBindings = conbo.Class.extend
 	},
 	
 	/**
+	 * Applies class(es) to the element based on the value contained in a variable. 
+	 * Experimental.
+	 * 
+	 * @param value
+	 * @param el
+	 */
+	cbClasses: function(value, el)
+	{
+		var $el = $(el);
+		
+		if (el.cbClasses)
+		{
+			$el.removeClass(el.cbClasses);
+		}
+		
+		el.cbClasses = value;
+		
+		if (value)
+		{
+			$el.addClass(value);
+		}
+	},
+	
+	/**
 	 * Repeat the selected element
 	 * 
 	 * @param value
