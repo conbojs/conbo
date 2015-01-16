@@ -441,7 +441,12 @@ conbo.BindingUtils = conbo.Class.extend({},
 				// Dispatch a `bind` event from the element at the end of the current call stack
 				conbo.defer(function()
 				{
-					el.dispatchEvent(new Event('bind'));
+					var customEvent;
+					
+					customEvent = document.createEvent('CustomEvent');
+					customEvent.initCustomEvent('bind', false, false, {});					
+					
+					el.dispatchEvent(customEvent);
 				});
 				
 			});

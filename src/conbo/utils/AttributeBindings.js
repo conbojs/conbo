@@ -12,6 +12,7 @@ conbo.AttributeBindings = conbo.Class.extend
 	initialize: function()
 	{
 		this.cbClass.multiple = true;
+		this.cbStyle.multiple = true;
 	},
 	
 	/**
@@ -135,7 +136,7 @@ conbo.AttributeBindings = conbo.Class.extend
 	{
 		if (!className)
 		{
-			throw new Error('cb-class attributes must specify one or more CSS classes in the format cb-class="myProperty:class-name"');
+			conbo.warn('cb-class attributes must specify one or more CSS classes in the format cb-class="myProperty:class-name"');
 		}
 		
 		var $el = $(el);
@@ -167,6 +168,22 @@ conbo.AttributeBindings = conbo.Class.extend
 		{
 			$el.addClass(value);
 		}
+	},
+	
+	/**
+	 * Apply styles from a variable
+	 * 
+	 * @param value
+	 * @param el
+	 */
+	cbStyle: function(value, el, options, styleName)
+	{
+		if (!styleName)
+		{
+			conbo.warn('cb-style attributes must specify one or more styles in the format cb-style="myProperty:style-name"');
+		}
+		
+		$(el).css(styleName, value);
 	},
 	
 	/**

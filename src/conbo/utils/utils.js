@@ -1467,7 +1467,7 @@ conbo.instanceOf = function(obj, classOrInterface)
  */
 conbo.loadCss = function(url, media)
 {
-	if (!('document' in window) || !!document.querySelector('[href='+url+']'))
+	if (!('document' in window) || !!document.querySelector('[href="'+url+'"]'))
 	{
 		return this;
 	}
