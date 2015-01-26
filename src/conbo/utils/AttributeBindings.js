@@ -257,7 +257,7 @@ conbo.AttributeBindings = conbo.Class.extend
 			}
 			
 			var $clone = $el.clone().removeAttr('cb-repeat'),
-				view = new viewClass(conbo.extend({data:value, el:$clone}, options));
+				view = new viewClass(conbo.extend({data:value, el:$clone, parent:options.view}, options));
 			
 			view.$el.addClass('cb-repeat');
 			

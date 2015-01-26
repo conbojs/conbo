@@ -38,7 +38,7 @@ conbo.Hash = conbo.EventDispatcher.extend
 		};
 		
 		var obj = {},
-			keys = conbo.filter(conbo.keys(this), filter);
+			keys = conbo.filter(conbo.properties(this), filter);
 		
 		keys.forEach(function(value) 
 		{

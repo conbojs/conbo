@@ -25,7 +25,8 @@ conbo.View = conbo.Glimpse.extend
 			'id', 
 			'tagName', 
 			'template', 
-			'templateUrl'
+			'templateUrl',
+			'parent'
 		];
 		
 		conbo.extend(this, conbo.pick(options, viewOptions));
@@ -70,7 +71,9 @@ conbo.View = conbo.Glimpse.extend
 	 */
 	detach: function() 
 	{
+		delete this.parent;
 		this.$el.detach();		
+		
 		return this;
 	},
 	
@@ -80,6 +83,8 @@ conbo.View = conbo.Glimpse.extend
 	 */
 	remove: function()
 	{
+		delete this.parent;
+		
 		this.unbindView()
 			.removeEventListener();
 		
@@ -121,17 +126,23 @@ conbo.View = conbo.Glimpse.extend
 	{
 		if (arguments.length > 1)
 		{
-			conbo.forEach(arguments, function(view, index, list) {
+			conbo.forEach(arguments, function(view, index, list) 
+			{
 				this.appendView(view);
-			}, this);
+			},
+			this);
 			
 			return this;
 		}
 		
 		if (!(view instanceof conbo.View))
+		{
 			throw new Error('Parameter must be instance of conbo.View class');
-		
+		}
+	
+		view.parent = this;
 		this.$el.append(view.el);
+		
 		return this;
 	},
 	
@@ -146,17 +157,23 @@ conbo.View = conbo.Glimpse.extend
 	{
 		if (arguments.length > 1)
 		{
-			conbo.forEach(arguments, function(view, index, list) {
+			conbo.forEach(arguments, function(view, index, list) 
+			{
 				this.prependView(view);
-			}, this);
+			}, 
+			this);
 			
 			return this;
 		}
 		
 		if (!(view instanceof conbo.View))
+		{
 			throw new Error('Parameter must be instance of conbo.View class');
+		}
 		
+		view.parent = this;
 		this.$el.prepend(view.el);
+		
 		return this;
 	},
 	

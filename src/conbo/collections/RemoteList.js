@@ -16,6 +16,7 @@ conbo.RemoteList = conbo.List.extend
 	{
 		options = conbo.defaults({}, options, this.options);
 		
+		this.context = options.context;
 		this.preinitialize(source, options);
 		
 		this._httpService = new conbo.HttpService(options);
