@@ -1,7 +1,7 @@
 {
 	"name": "Conbo.js",
 	"description": "Lightweight MVC application framework for JavaScript",
-	"version": "2.0.3",
+	"version": "2.0.8",
 	"repository": "git@github.com:mesmotronic/conbo-js.git",
 	"devDependencies": 
 	{

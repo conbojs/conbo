@@ -600,7 +600,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	},
 	
 	/**
-	 * Remove everything except alphanumberic and dots from Strings
+	 * Remove everything except alphanumberic, dots and underscores from Strings
 	 * 
 	 * @private
 	 * @param 		{String}	view		String value to clean

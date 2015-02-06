@@ -249,15 +249,25 @@ conbo.AttributeBindings = conbo.Class.extend
 			$(elements.pop()).remove();
 		}
 		
-		a.forEach(function(value)
+		a.forEach(function(value, index)
 		{
 			if (conbo.isObject(value) && !(value instanceof conbo.Hash))
 			{
 				value = new conbo.Hash(value);
 			}
 			
-			var $clone = $el.clone().removeAttr('cb-repeat'),
-				view = new viewClass(conbo.extend({data:value, el:$clone, parent:options.view}, options));
+			var $clone = $el.clone().removeAttr('cb-repeat');
+			
+			var viewOptions = 
+			{
+				data: value, 
+				el: $clone, 
+				parent: options.view,
+				index: index,
+				isLast: index == a.length-1
+			};
+			
+			var view = new viewClass(conbo.extend(viewOptions, options));
 			
 			view.$el.addClass('cb-repeat');
 			
