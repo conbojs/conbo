@@ -6,7 +6,7 @@
 (function()
 {
 	/**
-	 * Switch conbo.Hash (available in Core build) for conbo.Model (requires 
+	 * Switch conbo.Hash (available in Core build) for conbo.RemoveHash (requires 
 	 * Complete build) if you need web services
 	 */
 	var MyModel = conbo.Hash.extend

@@ -108,21 +108,19 @@ conbo.AttributeBindings = conbo.Class.extend
 	/**
 	 * Inserts text into the element so that it appears on screen exactly as
 	 * it's written by converting special characters (<, >, &, etc) into HTML
-	 * entities before rendering them, e.g. "8 < 10" -> "8 &lt; 10"
+	 * entities before rendering them, e.g. "8 < 10" becomes "8 &lt; 10"
 	 * 
 	 * @param value
 	 * @param el
 	 */
 	cbText: function(value, el)
 	{
-		if (!value) value = '';
-		
-		var textArea;
-		
-		textArea = document.createElement('textarea');
-		textArea.innerHTML = value;
-		
-		$(el).html(textArea.innerHTML);
+		var html = (value || '').replace(/[\u00A0-\u9999<>\&]/gim, function(char)
+ 		{
+ 			return '&#'+char.charCodeAt(0)+';';
+ 		});
+ 		
+		$(el).html(html);
 	},
 	
 	/**

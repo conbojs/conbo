@@ -7,7 +7,7 @@
 	var app = {};
 	
 	/**
-	 * Switch conbo.Hash for conbo.Model if you need web services
+	 * Switch conbo.Hash for conbo.RemoteHash if you need web services
 	 */
 	app.MyModel = conbo.Hash.extend
 	({

@@ -10,12 +10,12 @@
 		
 		execute: function()
 		{
-			alert('Hello '+this.myModel.get('name')+'!');
+			alert('Hello '+this.myModel.name+'!');
 		}
 	});
 	
 	/**
-	 * Switch conbo.Hash for conbo.Model if you need web services
+	 * Switch conbo.Hash for conbo.RemoteHash if you need web services
 	 */
 	var MyModel = conbo.Hash.extend
 	({

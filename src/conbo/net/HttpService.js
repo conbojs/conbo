@@ -28,14 +28,14 @@ conbo.HttpService = conbo.EventDispatcher.extend
 	
 	get rootUrl()
 	{
-		return this._rootUrl;
+		return this._rootUrl || '';
 	},
 	
 	set rootUrl(value)
 	{
 		value = String(value);
 		
-		if (value.slice(-1) != '/')
+		if (value && value.slice(-1) != '/')
 		{
 			value += '/';
 		}
@@ -45,11 +45,6 @@ conbo.HttpService = conbo.EventDispatcher.extend
 	
 	call: function(command, data, method, resultClass)
 	{
-		if (!this.rootUrl)
-		{
-			throw new Error('rootUrl not set!');
-		}
-		
 		var contentType;
 		
 		data = conbo.clone(data) || {};

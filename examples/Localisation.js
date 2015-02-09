@@ -8,10 +8,15 @@
 {
 	var example = {};
 	
-	example.LocalisationModel = conbo.Model.extend
+	example.LocalisationModel = conbo.RemoteHash.extend
 	({
 		initialize: function()
 		{
+			this.addEventListener('result', function(event)
+			{
+				console.info(event.result);
+			});
+			
 			this.localiseTo('en');
 		},
 		
@@ -20,7 +25,8 @@
 			// We're only concerned with the first 2 digits in this example
 			lang = lang.substr(0,2);
 			
-			this.fetch({url:'localisation-'+lang+'.json'});
+			this._command = 'localisation-'+lang+'.json';
+			this.load();
 		}
 	});
 	
@@ -50,6 +56,7 @@
 			
 			this.localisation.localiseTo(lang);
 		}
+		
 	});
 	
 	example.LocalisedApp = conbo.Application.extend
