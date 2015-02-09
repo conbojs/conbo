@@ -39,10 +39,11 @@ conbo.BindingUtils = conbo.Class.extend({},
 		
 		if (!conbo.isAccessor(source, propName)) // Use isBindable?
 		{
-			conbo.warn('It may not be possible to detect changed to "'+propName+'" on class "'+source.toString()+'" because the property is not bindable');
+			conbo.warn('It may not be possible to detect changes to "'+propName+'" on class "'+source.toString()+'" because the property is not bindable');
 		}
 		
-		var bindings = [],
+		var scope = this,
+			bindings = [],
 			eventType,
 			eventHandler;
 		
@@ -65,7 +66,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 					{
 						case 'checkbox':
 						{
-							$el.prop('checked', !!source.get(propName));
+							$el.prop('checked', !!source[propName]);
 							
 							eventType = 'change:'+propName;
 							
@@ -81,7 +82,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 							
 							eventHandler = function(event)
 							{	
-								source.set(propName, $el.is(':checked'));
+								scope._set.call(source, propName, $el.is(':checked'));
 							};
 							
 							$el.on(eventType, eventHandler);
@@ -92,7 +93,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 						
 						case 'radio':
 						{
-							if ($el.val() == source.get(propName)) $el.prop('checked', true);
+							if ($el.val() == source[propName]) $el.prop('checked', true);
 							
 							eventType = 'change:'+propName;
 							
@@ -110,7 +111,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 						
 						default:
 						{
-							$el.val(source.get(propName));
+							$el.val(source[propName]);
 						
 							eventType = 'change:'+propName;
 							
@@ -131,7 +132,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 					
 					eventHandler = function(event)
 					{	
-						source.set(propName, $el.val() === undefined ? $el.html() : $el.val());
+						scope._set.call(source, propName, $el.val() === undefined ? $el.html() : $el.val());
 					};
 					
 					$el.on(eventType, eventHandler);
@@ -142,7 +143,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 				
 				default:
 				{
-					$el.html(parseFunction(source.get(propName)));
+					$el.html(parseFunction(source[propName]));
 					
 					eventType = 'change:'+propName;
 					
@@ -243,7 +244,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 					scope._attrBindings[camelCase].apply
 					(
 						scope._attrBindings, 
-						[parseFunction(source.get(propertyName)), element].concat(args)
+						[parseFunction(source[propertyName]), element].concat(args)
 					);
 				}
 				
@@ -291,7 +292,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 						{
 							var value;
 							
-							value = parseFunction(source.get(propertyName));
+							value = parseFunction(source[propertyName]);
 							value = conbo.isBoolean(element[attributeName]) ? !!value : value;
 							
 							element[attributeName] = value;
@@ -307,7 +308,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 						
 						eventHandler = function()
 		     			{
-		     				source.set(propertyName, element[attributeName]);
+							scope._set.call(source, propertyName, element[attributeName]);
 		     			};
 						
 		     			eventType = 'input change';
@@ -531,8 +532,10 @@ conbo.BindingUtils = conbo.Class.extend({},
 	{
 		if (!(source instanceof conbo.EventDispatcher))
 		{
-			throw new Error('Source is not EventDispatcher');
+			throw new Error(sourcePropertyName+' source is not EventDispatcher');
 		}
+		
+		var scope = this;
 		
 		destinationPropertyName || (destinationPropertyName = sourcePropertyName);
 		
@@ -544,7 +547,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 				return;
 			}
 			
-			destination.set(destinationPropertyName, event.value);
+			scope._set.call(destination, destinationPropertyName, event.value);
 		});
 		
 		if (twoWay && destination instanceof conbo.EventDispatcher)
@@ -614,6 +617,37 @@ conbo.BindingUtils = conbo.Class.extend({},
 	toString: function()
 	{
 		return 'conbo.BindingUtils';
+	},
+	
+	/**
+	 * Set the value of one or more property and dispatch a change:[propertyName] event
+	 * 
+	 * Event handlers, in line with conbo.Model change:[propertyName] handlers, 
+	 * should be in the format handler(source, value) {...}
+	 * 
+	 * @param 	attribute
+	 * @param 	value
+	 * @param 	options
+	 * @example	BindingUtils._set.call(target, 'n', 123);
+	 * @example	BindingUtils._set.call(target, {n:123, s:'abc'});
+	 * @returns	this
+	 */
+	_set: function(propName, value)
+	{
+		if (this[propName] === value)
+		{
+			return this;
+		}
+		
+		this[propName] = value;
+		
+		// We're assuming accessors will dispatch their own change events
+		if (!conbo.isAccessor(this, propName))
+		{
+			_dispatchChange(this, propName);
+		}
+		
+		return this;
 	},
 	
 	/**

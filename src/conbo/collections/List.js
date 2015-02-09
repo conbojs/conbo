@@ -30,7 +30,7 @@ conbo.List = conbo.EventDispatcher.extend
 		this.set = this.setItemAt;
 		
 		this.initialize.apply(this, arguments);
-		conbo.makeBindable(this, this.bindable);
+		conbo.makeAllBindable(this, this.bindable);
 	},
 	
 	get source()

@@ -36,7 +36,7 @@ conbo.Model = conbo.Hash.extend
 		if (!!options) this.context = options.context;
 		this.initialize.apply(this, arguments);
 		
-		conbo.makeBindable(this, this.bindable);
+		conbo.makeAllBindable(this, this.bindable);
 	},
 	
 	/**

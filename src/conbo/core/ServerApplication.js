@@ -26,7 +26,7 @@ conbo.ServerApplication = conbo.EventDispatcher.extend
 		this.context = options.context;
 		this.initialize.apply(this, arguments);
 		
-		conbo.makeBindable(this, this.bindable);
+		conbo.makeAllBindable(this, this.bindable);
 	},
 	
 	toString: function()

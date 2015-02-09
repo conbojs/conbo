@@ -25,7 +25,7 @@ conbo.EventDispatcher = conbo.Class.extend
 		}
 		
 		this.initialize.apply(this, arguments);
-		conbo.makeBindable(this, this.bindable);
+		conbo.makeAllBindable(this, this.bindable);
 	},
 	
 	/**
@@ -163,74 +163,6 @@ conbo.EventDispatcher = conbo.Class.extend
 			}
 		}
 		
-		return this;
-	},
-	
-	/**
-	 * Get the value of a property
-	 * 
-	 * @deprecated
-	 * 
-	 * @param	attribute
-	 * @example	instance.get('n');
-	 * @returns
-	 */
-	get: function(propName)
-	{
-		return this[propName];
-	},
-	
-	/**
-	 * Set the value of one or more property and dispatch a change:[propertyName] event
-	 * 
-	 * Event handlers, in line with conbo.Model change:[propertyName] handlers, 
-	 * should be in the format handler(source, value) {...}
-	 * 
-	 * @deprecated
-	 * 
-	 * @param 	attribute
-	 * @param 	value
-	 * @param 	options
-	 * @example	instance.set('n', 123);
-	 * @example	instance.set({n:123, s:'abc'});
-	 * @returns	this
-	 */
-	set: function(propName, value)
-	{
-		if (conbo.isObject(propName))
-		{
-			conbo.forEach(propName, function(value, key) { this.set(key, value); }, this);
-			return this;
-		}
-		
-		if (this[propName] === value)
-		{
-			return this;
-		}
-		
-		this[propName] = value;
-		
-		// We're assuming accessors will dispatch their own change events
-		if (!conbo.isAccessor(this, propName))
-		{
-			_dispatchChange(this, propName);
-		}
-		
-		return this;
-	},
-	
-	/**
-	 * Delete a property and dispatch a change:[propertyName] event
-	 * 
-	 * @deprecated
-	 * 
-	 * @param 	value
-	 * @returns	this
-	 */
-	unset: function(propName)
-	{
-		delete this[propName];
-		_dispatchChange(this, propName)
 		return this;
 	},
 	

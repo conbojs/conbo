@@ -39,7 +39,7 @@ conbo.Collection = conbo.List.extend
 		this.reset(source || [], conbo.extend({silent: true}, options));
 		
 		this.initialize.apply(this, arguments);
-		conbo.makeBindable(this, this.bindable);
+		conbo.makeAllBindable(this, this.bindable);
 	},
 	
 	/**

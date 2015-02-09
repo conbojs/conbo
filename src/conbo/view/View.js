@@ -37,7 +37,7 @@ conbo.View = conbo.Glimpse.extend
 		
  		this.initialize.apply(this, arguments);
  		
-		conbo.makeBindable(this, this.bindable);
+		conbo.makeAllBindable(this, this.bindable);
 		
 		var templateUrl = this.templateUrl,
 			template = this.template;
