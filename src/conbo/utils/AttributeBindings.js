@@ -309,22 +309,23 @@ conbo.AttributeBindings = conbo.Class.extend
 		
 		el.cbRestrict = function(event)
 		{
-			var code = event.keyCode || event.which;
-			var char = String.fromCharCode(code);
-			
-			if (!event.ctrlKey && code!=9 && code!=8 && code!=36 && code!=37 && code!=38 && (code!=39 || (code==39 && char=="'")) && code!=40) 
+			if (event.ctrlKey)
 			{
-				var r = value;
+				return;
+			}
+			
+			var code = event.keyCode || event.which;
+			var char = event.key || String.fromCharCode(code);
+			var regExp = value;
 				
-				if (!conbo.isRegExp(r))
-				{
-					r = new RegExp('['+r+']', 'g');
-				}
-				
-				if (!char.match(r))
-				{
-					event.preventDefault();
-				}
+			if (!conbo.isRegExp(regExp))
+			{
+				regExp = new RegExp('['+regExp+']', 'g');
+			}
+			
+			if (!char.match(regExp))
+			{
+				event.preventDefault();
 			}
 		};
 		
