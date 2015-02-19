@@ -86,6 +86,7 @@ conbo.History = conbo.EventDispatcher.extend
 				fragment = this.getHash();
 			}
 		}
+		
 		return fragment.replace(routeStripper, '');
 	},
 	
@@ -106,6 +107,7 @@ conbo.History = conbo.EventDispatcher.extend
 		// Is pushState desired ... is it available?
 		this.options = conbo.extend({}, {root:window.location.pathname}, this.options, options);
 		this.root = this.options.root;
+		
 		this._wantsHashChange = this.options.hashChange !== false;
 		this._wantsPushState = !!this.options.pushState;
 		this._hasPushState = !!(this.options.pushState && this.history && this.history.pushState);
@@ -131,8 +133,7 @@ conbo.History = conbo.EventDispatcher.extend
 			this._checkUrlInterval = setInterval(this.checkUrl, this.interval);
 		}
 		
-		// Determine if we need to change the base url, for a pushState
-		// link
+		// Determine if we need to change the base url, for a pushState link
 		// opened by a non-pushState browser.
 		this.fragment = fragment;
 		

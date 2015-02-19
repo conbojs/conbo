@@ -1501,22 +1501,16 @@ conbo.properties = function(obj)
 };
 
 /**
- * Makes the properties of the specified object bindable, so that they can
- * be bound without using the get or set methods; if no property names are
- * passed, all enumarable properties will be made bindable
+ * Makes the specified properties of an object bindable; if no property 
+ * names are passed, all enumarable properties will be made bindable
  * 
  * @see 	#makeAllBindable
  * 
  * @param	{String}		obj
- * @param	{Array|String}	propNames (optional)
+ * @param	{Array}			propNames (optional)
  */
 conbo.makeBindable = function(obj, propNames)
 {
-	if (conbo.isString(propNames))
-	{
-		propNames = conbo.rest(arguments);
-	}
-	
 	propNames || (propNames = conbo.properties(obj));
 	
 	propNames.forEach(function(propName)
@@ -1528,22 +1522,17 @@ conbo.makeBindable = function(obj, propNames)
 };
 
 /**
- * Makes all existing properties of the specified object bindable, and creates
- * additional bindable properties for each of the additional property names
- * passed as additional parameters
+ * Makes all existing properties of the specified object bindable, and 
+ * optionally create additional bindable properties for each of the property 
+ * names passed in the propNames array
  * 
  * @see 	#makeBindable
  * 
  * @param	{String}		obj
- * @param	{Array|String}	propNames (optional)
+ * @param	{Array}			propNames (optional)
  */
 conbo.makeAllBindable = function(obj, propNames)
 {
-	if (conbo.isString(propNames))
-	{
-		propNames = conbo.rest(arguments);
-	}
-	
 	propNames = conbo.uniq((propNames || []).concat(conbo.properties(obj)));
 	conbo.makeBindable(obj, propNames);
 };

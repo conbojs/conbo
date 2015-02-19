@@ -98,6 +98,15 @@ conbo.Router = conbo.EventDispatcher.extend
 		return this.navigate(fragment, options);
 	},
 	
+	get href()
+	{
+		return location.hash.substr(1);
+	},
+	set href(value)
+	{
+		this.navigateTo(value);
+	},
+	
 	toString: function()
 	{
 		return 'conbo.Router';
