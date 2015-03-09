@@ -90,7 +90,7 @@ conbo.Context = conbo.EventDispatcher.extend
 	mapSingleton: function(propertyName, singletonClass)
 	{
 		if (!propertyName) throw new Error('propertyName cannot be undefined');
-		if (!singletonClass) throw new Error('singletonClass cannot be undefined');
+//		if (!singletonClass) throw new Error('singletonClass cannot be undefined');
 		
 		if (this._mapMulti(propertyName, singletonClass, this.mapSingleton)) return;
 		

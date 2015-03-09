@@ -24,7 +24,7 @@ conbo.Hash = conbo.EventDispatcher.extend
 		
 		this.initialize.apply(this, arguments);
 		
-		conbo.makeBindable.apply(conbo, [this].concat(this.bindable || []));
+		conbo.makeAllBindable(this, this.bindable);
 	},
 	
 	/**
