@@ -20,10 +20,15 @@ conbo.Router = conbo.EventDispatcher.extend
 	constructor: function(options) 
 	{
 		options || (options = {});
-		if (options.routes) this.routes = options.routes;
+		
+		if (options.routes) 
+		{
+			this.routes = options.routes;
+		}
+		
 		this._bindRoutes();
 		
-		if (!!options) this.context = options.context;
+		this.context = options.context;
 		this.initialize.apply(this, arguments);
 	},
 	
@@ -121,9 +126,13 @@ conbo.Router = conbo.EventDispatcher.extend
 	 */
 	_bindRoutes: function() 
 	{
-		if (!this.routes) return;
-		this.routes = this.routes;
-		var route, routes = conbo.keys(this.routes);
+		if (!this.routes)
+		{
+			return;
+		}
+		
+		var route,
+			routes = conbo.keys(this.routes);
 		
 		while ((route = routes.pop()) != null)
 		{
