@@ -260,7 +260,6 @@ conbo.AttributeBindings = conbo.Class.extend
 			{
 				data: value, 
 				el: $clone, 
-				parent: options.view,
 				index: index,
 				isLast: index == a.length-1
 			};

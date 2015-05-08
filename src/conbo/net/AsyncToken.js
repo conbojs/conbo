@@ -26,7 +26,12 @@ conbo.AsyncToken = conbo.EventDispatcher.extend
 	
 	addResponder: function(responder)
 	{
-		if (!conbo.instanceOf(responder, conbo.Responder)) return;
+		if (!conbo.instanceOf(responder, conbo.Responder)) 
+		{
+			console.warn(responder+' is not a Responder');
+			return;
+		}
+		
 		this.responders.push(responder);
 	},
 	

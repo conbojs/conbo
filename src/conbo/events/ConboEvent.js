@@ -41,13 +41,16 @@ conbo.ConboEvent = conbo.Event.extend
 	
 	ROUTE:					'route', 			// (Properties: router, route, params) Fired by history (or router) when any route has been matched.
 												// 'route:[name]' // (Properties: params) Fired by the router when a specific route is matched.
+	
+	STARTED:				'started',			// A process, e.g. history, has started
+	STOPPED:				'stopped',			// A process, e.g. history, has stopped
+	
 	// View
 	
 	TEMPLATE_LOADED:		'templateloaded',	// Template data has been loaded into the View
 	BIND:					'bind',				// Fired by an element after having one or more property bound to it by Conbo
 	VIEW_BOUND:				'viewbound',		// All elements in View HTML have been bound by Conbo 
 	INIT:					'init',				// For a View, this means template loaded, elements bound, DOM rendered  
-	
 	ELEMENT_CHANGE:			'elementchange',	// The View's element has changed
 	
 	// Web Services

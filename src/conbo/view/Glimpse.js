@@ -33,23 +33,7 @@ conbo.Glimpse = conbo.EventDispatcher.extend
 	 * initialization logic.
 	 */
 	initialize: function(){},
-	
-	/**
-	 * Your class should override **render**, which is called automatically 
-	 * after your View is initialized. If you're using a template, this means
-	 * **render** is called immediately after the template is applied to your
-	 * View's element (`this.el`).
-	 * 
-	 * If you want to apply Lo-Dash, Mustache or any other third party
-	 * templating to your View, this is the place to do it.
-	 * 
-	 * The convention is for **render** to always return `this`.
-	 */
-	render: function() 
-	{
-		return this;
-	},
-	
+		
 	/**
 	 * Change the view's element (`this.el` property)
 	 */

@@ -32,6 +32,23 @@ conbo.Router = conbo.EventDispatcher.extend
 		this.initialize.apply(this, arguments);
 	},
 	
+	get history()
+	{
+		return conbo.history;
+	},
+	
+	start: function(options)
+	{
+		this.history.start(options);
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.STARTED));
+	},
+	
+	stop: function()
+	{
+		this.history.stop();
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.STOPPED));
+	},
+	
 	/**
 	 * Manually bind a single named route to a callback. For example:
 	 * 
@@ -63,7 +80,7 @@ conbo.Router = conbo.EventDispatcher.extend
 			callback = this[name];
 		}
 		
-		conbo.history.route(route, this.bind(function(fragment)
+		this.history.route(route, this.bind(function(fragment)
 		{
 			var args = this._extractParameters(route, fragment);
 			
@@ -81,18 +98,18 @@ conbo.Router = conbo.EventDispatcher.extend
 			this.dispatchEvent(new conbo.ConboEvent('route:'+name, options));
 			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ROUTE, options));
 			
-			conbo.history.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ROUTE, options));
+			this.history.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ROUTE, options));
 		}));
 		
 		return this;
 	},
 	
 	/**
-	 * Simple proxy to `conbo.history` to save a fragment into the history.
+	 * Simple proxy to `this.history` to save a fragment into the history.
 	 */
 	navigate: function(fragment, options) 
 	{
-		conbo.history.navigate(fragment, options);
+		this.history.navigate(fragment, options);
 		return this;
 	},
 	
@@ -105,7 +122,7 @@ conbo.Router = conbo.EventDispatcher.extend
 	
 	get href()
 	{
-		return location.hash.substr(1);
+		return this.history.getHash();
 	},
 	set href(value)
 	{
@@ -118,7 +135,7 @@ conbo.Router = conbo.EventDispatcher.extend
 	},
 	
 	/**
-	 * Bind all defined routes to `conbo.history`. We have to reverse the
+	 * Bind all defined routes to `this.history`. We have to reverse the
 	 * order of the routes here to support behavior where the most general
 	 * routes can be defined at the bottom of the route map.
 	 * 

@@ -17,10 +17,10 @@ if (!!$)
 		$('head').append($
 		(
 			'<style id="cb-css" type="text/css">'+
-				'.cb-hide { visibility:hidden !important; }'+
-				'.cb-exclude { display:none !important; }'+
-				'.cb-disable { pointer-events:none !important; cursor:default !important; }'+
-			'</style>'
+				'\n.cb-hide { visibility:hidden !important; }'+
+				'\n.cb-exclude { display:none !important; }'+
+				'\n.cb-disable { pointer-events:none !important; cursor:default !important; }'+
+			'\n</style>'
 		));
 	});
 }

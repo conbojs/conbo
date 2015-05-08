@@ -25,8 +25,7 @@ conbo.View = conbo.Glimpse.extend
 			'id', 
 			'tagName', 
 			'template', 
-			'templateUrl',
-			'parent'
+			'templateUrl'
 		];
 		
 		conbo.extend(this, conbo.pick(options, viewOptions));
@@ -58,6 +57,24 @@ conbo.View = conbo.Glimpse.extend
 	},
 	
 	/**
+	 * Returns a reference to the parent View of this View, based on this 
+	 * View element's position in the DOM
+	 */
+	get parent()
+	{
+		return this._getParent();
+	},
+	
+	/**
+	 * Returns a reference to the parent Application of this View, based on
+	 * this View element's position in the DOM
+	 */
+	get parentApplication()
+	{
+		return this._getParent(true);
+	},
+	
+	/**
 	 * jQuery delegate for element lookup, scoped to DOM elements within the
 	 * current view. This should be prefered to global lookups where possible.
 	 */
@@ -71,7 +88,6 @@ conbo.View = conbo.Glimpse.extend
 	 */
 	detach: function() 
 	{
-		delete this.parent;
 		this.$el.detach();		
 		
 		return this;
@@ -83,8 +99,6 @@ conbo.View = conbo.Glimpse.extend
 	 */
 	remove: function()
 	{
-		delete this.parent;
-		
 		this.unbindView()
 			.removeEventListener();
 		
@@ -140,7 +154,6 @@ conbo.View = conbo.Glimpse.extend
 			throw new Error('Parameter must be instance of conbo.View class');
 		}
 	
-		view.parent = this;
 		this.$el.append(view.el);
 		
 		return this;
@@ -171,7 +184,6 @@ conbo.View = conbo.Glimpse.extend
 			throw new Error('Parameter must be instance of conbo.View class');
 		}
 		
-		view.parent = this;
 		this.$el.prepend(view.el);
 		
 		return this;
@@ -240,7 +252,6 @@ conbo.View = conbo.Glimpse.extend
 	_initView: function()
 	{
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.TEMPLATE_LOADED));
-		this.render();
 		this.bindView();
 		
 		conbo.defer(this.bind(function()
@@ -285,6 +296,26 @@ conbo.View = conbo.Glimpse.extend
 		
 		this.$el.addClass('cb-view');
 	},
+	
+	_getParent: function(findApplication)
+	{
+		if (!this.$el || conbo.instanceOf(this, conbo.Application))
+		{
+			return;
+		}
+		
+		var selector = findApplication
+			? '.cb-app'
+			: '.cb-view';
+		
+		var el = this.$el.parents().closest(selector)[0];
+		
+		if (el && (findApplication || this.parentApplication.$el.has(el).length))
+		{
+			return el.cbView;
+		}
+	},
+	
 });
 
 _denumerate(conbo.View.prototype);

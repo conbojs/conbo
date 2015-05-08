@@ -88,10 +88,12 @@ conbo.History = conbo.EventDispatcher.extend
 		
 		$(window).on('hashchange', this.checkUrl);
 		
-		if (!(options || {}).silent) 
+		if (!(options || {}).silent)
 		{
 			return this.loadUrl();
 		}
+		
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.STARTED));
 	},
 	
 	/**
@@ -102,6 +104,8 @@ conbo.History = conbo.EventDispatcher.extend
 	{
 		$(window).off('hashchange', this.checkUrl);
 		this.started = false;
+		
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.STOPPED));
 	},
 	
 	/**
