@@ -47,11 +47,17 @@ conbo.Glimpse = conbo.EventDispatcher.extend
 	 */
 	setElement: function(element)
 	{
-		if (this.el) delete this.el.cbGlimpse;
+		if (this.el)
+		{
+			this.el.className = this.el.className.replace('cb-glimpse', '');
+			delete this.el.cbGlimpse;
+		}
 		
 		_defineIncalculableProperty(this, 'el', element);
 		
+		this.el.className += ' cb-glimpse';
 		this.el.cbGlimpse = this;
+		
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ELEMENT_CHANGE));
 		
 		return this;

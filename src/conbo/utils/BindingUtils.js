@@ -277,7 +277,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 				switch (true)
 				{
 					case !attributeName.indexOf('on') == 0 && conbo.isFunction(element[attributeName]):
-						console.warn('cb-'+attributeName+' is not a recognised attribute, did you mean cb-on'+attributeName+'?');
+						conbo.warn('cb-'+attributeName+' is not a recognised attribute, did you mean cb-on'+attributeName+'?');
 						break;
 						
 					// If it's an event, add a listener
@@ -339,7 +339,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			
 			default:
 			{
-				console.warn('cb-'+attributeName+' is not recognised or does not exist on specified element');
+				conbo.warn('cb-'+attributeName+' is not recognised or does not exist on specified element');
 				break;
 			}
 		}
@@ -368,11 +368,16 @@ conbo.BindingUtils = conbo.Class.extend({},
 		
 		var options = {view:view},
 			bindings = [],
-			$nestedViews = view.$('.cb-view, [cb-view], .cb-app, [cb-app]'),
+			$nestedViews = view.$('.cb-app, [cb-app], .cb-view, [cb-view]'),
 			$ignored = view.$('[cb-repeat]'),
 			scope = this;
 		
-		if (!!view.context) view.context.addTo(options);
+		if (!!view.context) 
+		{
+			view.context.addTo(options);
+		}
+		
+		this.applyViews(view, view.context.namespace, 'glimpse');
 		
 		view.$('*').add(view.el).filter(function()
 		{
@@ -392,7 +397,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			
 			var keys = conbo.keys(cbData);
 			
-			// Prevents Conbo trying to populate templates 
+			// Prevents Conbo trying to populate repeat templates 
 			if (keys.indexOf('repeat') != -1)
 			{
 				keys = ['repeat'];
@@ -532,6 +537,33 @@ conbo.BindingUtils = conbo.Class.extend({},
 	},
 	
 	/**
+	 * Applies View classes child DOM elements based on their cb-view attribute
+	 * 
+	 * @param	rootView	View or Application class instance
+	 * @param	namespace	The current namespace
+	 * @param	attr		Attribute to search (default: 'view')
+	 */
+	applyViews: function(rootView, namespace, attr)
+	{
+		attr || (attr = 'view');
+		
+		var scope = this;
+		
+		rootView.$('[cb-'+attr+']').not('.cb-'+attr).each(function(index, el)
+		{
+			var className = rootView.$(el).cbAttrs()[attr],
+				classReference;
+			
+			if (classReference = scope.getClass(className, namespace))
+			{
+				new classReference({el:el, context:rootView.context});
+			}
+		});
+		
+		return this;
+	},
+	
+	/**
 	 * Bind the property of one EventDispatcher class instance (e.g. Hash or Model) to another
 	 * 
 	 * @param 	{conbo.EventDispatcher}	source						Class instance which extends conbo.EventDispatcher
@@ -628,6 +660,33 @@ conbo.BindingUtils = conbo.Class.extend({},
 		return (value || '').replace(/[^\w\._]/g, '');
 	},
 	
+	/**
+	 * Attempt to convert string into a conbo.Class in the specified namespace
+	 * 
+	 * @param 		name
+	 * @returns		Class
+	 */
+	getClass: function(className, namespace)
+	{
+		if (!className) return;
+		
+		try
+		{
+			var viewClass = !!namespace
+				? namespace[className]
+				: eval(className);
+			
+			if (conbo.isClass(viewClass)) 
+			{
+				return viewClass;
+			}
+		}
+		catch (e)
+		{
+			conbo.warn(className+' does not exist!');
+		}
+	},
+	
 	toString: function()
 	{
 		return 'conbo.BindingUtils';
@@ -668,7 +727,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * Reserved attributes
 	 * @private
 	 */
-	_reservedAttributes: ['app', 'view'],
+	_reservedAttributes: ['app', 'view', 'glimpse'],
 	
 	/**
 	 * Is the specified attribute reserved for another purpose?
@@ -709,6 +768,6 @@ conbo.BindingUtils = conbo.Class.extend({},
 		}
 		
 		return o;
-	}
+	},
 	
 });

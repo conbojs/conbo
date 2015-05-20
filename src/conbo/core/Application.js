@@ -32,49 +32,7 @@ conbo.Application = conbo.View.extend
 		options.el || (options.el = this._findAppElement());
 		
 		conbo.View.prototype.constructor.call(this, options);
-		
-		this.applyViews();
-	},
-	
-	/**
-	 * Apply View classes child DOM elements based on their cb-view attribute
-	 */
-	applyViews: function()
-	{
-		var selector = '[cb-view]';
-		
-		this.$(selector).not('.cb-view').each(this.bind(function(index, el)
-		{
-			var view = this.$(el).cbAttrs().view,
-				viewClass;
-			
-			if (viewClass = this.getClass(view))
-			{
-				new viewClass(this.context.addTo({el:el}));
-			}
-			
-		}));
-		
-		return this;
-	},
-	
-	/**
-	 * Attempt to convert string into a conbo.Class
-	 * @param name
-	 * @returns
-	 */
-	getClass: function(name)
-	{
-		if (!name) return;
-		
-		var viewClass = !!this.namespace
-			? this.namespace[name]
-			: eval(name);
-		
-		if (conbo.isClass(viewClass)) 
-		{
-			return viewClass;
-		}		
+		conbo.BindingUtils.applyViews(this, this.namespace);
 	},
 	
 	toString: function()
@@ -95,7 +53,7 @@ conbo.Application = conbo.View.extend
 		{
 			if (!!$apps.length)
 			{
-				console.warn('Application namespace not specified: unable to bind to cb-app element');
+				conbo.warn('Application namespace not specified: unable to bind to cb-app element');
 			}
 			
 			return undefined;
@@ -120,7 +78,7 @@ conbo.Application = conbo.View.extend
 		var selector = '[cb-app="'+this._addPrefix(appName)+'"]',
 			el = $(selector)[0];
 		
-		return !!el ? el : undefined;
+		return el || undefined;
 	},
 	
 	/**

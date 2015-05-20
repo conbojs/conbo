@@ -28,7 +28,7 @@ conbo.AsyncToken = conbo.EventDispatcher.extend
 	{
 		if (!conbo.instanceOf(responder, conbo.Responder)) 
 		{
-			console.warn(responder+' is not a Responder');
+			conbo.warn(responder+' is not a Responder');
 			return;
 		}
 		
