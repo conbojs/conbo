@@ -11,8 +11,14 @@ conbo.AttributeBindings = conbo.Class.extend
 ({
 	initialize: function()
 	{
+		// Methods that can accept multiple parameters
+		
 		this.cbClass.multiple = true;
 		this.cbStyle.multiple = true;
+		
+		// Methods that require raw attribute data instead of bound property values
+		
+		this.cbGlimpse.raw = true;
 	},
 	
 	/**
@@ -329,5 +335,39 @@ conbo.AttributeBindings = conbo.Class.extend
 		};
 		
 		el.addEventListener('keypress', el.cbRestrict);
-	}
+	},
+	
+	/**
+	 * Applies Glimpse class to the specified element
+	 * 
+	 * @param	value
+	 * @param	el
+	 * @param	options
+	 */
+	cbGlimpse: function(value, el, options)
+	{
+		if (el.cbGlimpse) 
+		{
+			return;
+		}
+		
+		try
+		{
+			var context = options.view.context;
+			var glimpseClass = context.namespace[value];
+			
+			if (conbo.instanceOf(glimpseClass, conbo.Glimpse))
+			{
+				new glimpseClass({el:el});
+				return;
+			}
+		}
+		catch (e)
+		{
+			// Ignore errors
+		}
+		
+		conbo.warn('Unable to apply '+value+' to element: class must exist in current namespace and extend Glimpse');
+	},
+	
 });

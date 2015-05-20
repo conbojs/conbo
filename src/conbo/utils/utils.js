@@ -822,8 +822,6 @@ var _ = {};
 //	};
 
 	// Return a sorted list of the function names available on the object.
-	// Aliased as `methods`
-//	_.functions = _.methods = function(obj) {
 	_.functions = function(obj) {
 		var names = [];
 		for (var key in obj) {
@@ -1544,6 +1542,9 @@ conbo.makeAllBindable = function(obj, propNames)
 conbo.isAccessor = function(obj, propName)
 {
 	var descriptor = Object.getOwnPropertyDescriptor(obj, propName);
+	
+	// TODO Should we check prototype too, using obj.__proto__ or Object.getPrototypeOf(obj)?
+	
 	return !!descriptor && (!!descriptor.set || !!descriptor.get);
 }
 

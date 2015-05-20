@@ -28,6 +28,14 @@ conbo.Context = conbo.EventDispatcher.extend
 		conbo.makeAllBindable(this, this.bindable);
 	},
 	
+	get namespace()
+	{
+		if (this.app)
+		{
+			return this.app.namespace;
+		}
+	},
+	
 	/**
 	 * Initialize: Override this
 	 * @param options

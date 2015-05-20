@@ -1,8 +1,10 @@
 /**
  * Glimpse
  * 
- * A lightweight View that has no dependencies, doesn't take any options 
- * and doesn't support data binding
+ * A lightweight element wrapper that has no dependencies, no context and 
+ * doesn't support data binding, but can apply a super-simple template.
+ * 
+ * It's invisible to View, so it's great for creating components. 
  */
 conbo.Glimpse = conbo.EventDispatcher.extend
 ({
@@ -12,19 +14,25 @@ conbo.Glimpse = conbo.EventDispatcher.extend
 	 */
 	constructor: function(options)
 	{
-		if (conbo.isObject(options) && !!options.el)
+		options || (options = {});
+		
+		if (options.el)
 		{
 			this.setElement(options.el);
 		}
 		
 		this._ensureElement();
-		this.initialize.apply(this, arguments);
 		
-		conbo.makeAllBindable(this, this.bindable);
+		if (this.template)
+		{
+			this.el.innerHTML = this.template;
+		}
+		
+		this.initialize.apply(this, arguments);
 	},
 	
 	/**
-	 * The default `tagName` of a View's element is `"div"`.
+	 * The default `tagName` of a Glimpse is `div`.
 	 */
 	tagName: 'div',
 	
@@ -39,11 +47,11 @@ conbo.Glimpse = conbo.EventDispatcher.extend
 	 */
 	setElement: function(element)
 	{
-		if (!!this.el) delete this.el.cbView;
+		if (this.el) delete this.el.cbGlimpse;
 		
 		_defineIncalculableProperty(this, 'el', element);
 		
-		this.el.cbView = this;
+		this.el.cbGlimpse = this;
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ELEMENT_CHANGE));
 		
 		return this;
@@ -79,10 +87,10 @@ conbo.Glimpse = conbo.EventDispatcher.extend
 		else 
 		{
 			this.setElement(this.el);
-			if (!!this.className) this.el.className += ' '+this.className;
+			if (this.className) this.el.className += ' '+this.className;
 		}
 	},
 	
-}).implement(conbo.IInjectable);
+});
 
 _denumerate(conbo.Glimpse.prototype);

@@ -195,7 +195,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			throw new Error('element is undefined');
 		}
 		
-		if (attributeName == "bind" || attributeName == "model")
+		if (attributeName == "bind")
 		{
 			return this.bindElement(source, propertyName, element, parseFunction);
 		}
@@ -239,21 +239,35 @@ conbo.BindingUtils = conbo.Class.extend({},
 					return this;
 				}
 				
-				eventHandler = function(event)
+				var fn = scope._attrBindings[camelCase],
+					isRaw = fn.raw;
+				
+				if (isRaw)
 				{
-					scope._attrBindings[camelCase].apply
+					fn.apply
 					(
 						scope._attrBindings, 
-						[parseFunction(source[propertyName]), element].concat(args)
+						[propertyName, element].concat(args)
 					);
 				}
-				
-				eventType = 'change:'+propertyName;
-				
-				source.addEventListener(eventType, eventHandler);
-				eventHandler();
-				
-				bindings.push([source, eventType, eventHandler]);
+				else
+				{
+					eventHandler = function(event)
+					{
+						fn.apply
+						(
+							scope._attrBindings, 
+							[parseFunction(source[propertyName]), element].concat(args)
+						);
+					}
+					
+					eventType = 'change:'+propertyName;
+					
+					source.addEventListener(eventType, eventHandler);
+					eventHandler();
+					
+					bindings.push([source, eventType, eventHandler]);
+				}
 				
 				break;
 			}

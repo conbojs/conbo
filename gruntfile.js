@@ -82,7 +82,7 @@ module.exports = function (grunt)
 						"src/conbo/footer.txt"
 					],
 					
-					"build/conbo-complete.js":
+					"build/conbo.js":
 					[
 						"src/conbo/header.txt",
 						"temp/conbo-core.tmp",
@@ -111,8 +111,8 @@ module.exports = function (grunt)
 			
 			complete:
 			{
-				src: 'build/conbo-complete.js',
-				dest: 'build/conbo-complete.min.js'
+				src: 'build/conbo.js',
+				dest: 'build/conbo.min.js'
 			}
 		},
 		

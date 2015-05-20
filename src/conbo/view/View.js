@@ -69,7 +69,7 @@ conbo.View = conbo.Glimpse.extend
 	 * Returns a reference to the parent Application of this View, based on
 	 * this View element's position in the DOM
 	 */
-	get parentApplication()
+	get parentApp()
 	{
 		return this._getParent(true);
 	},
