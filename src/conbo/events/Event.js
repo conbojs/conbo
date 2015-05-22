@@ -34,7 +34,10 @@ conbo.Event = conbo.Class.extend
 	 * Initialize: Override this!
 	 * @param type
 	 */
-	initialize: function() {},
+	initialize: function(type, data)
+	{
+		this.data = data;
+	},
 	
 	/**
 	 * Create an identical clone of this event
