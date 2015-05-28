@@ -75,6 +75,20 @@ conbo.View = conbo.Glimpse.extend
 	},
 	
 	/**
+	 * The context that will automatically be applied to children
+	 * when binding or appending Views inside of this View
+	 */
+	get subcontext()
+	{
+		return this._subcontext || this.context;
+	},
+	
+	set subcontext(value)
+	{
+		this._subcontext = value;
+	},
+	
+	/**
 	 * jQuery delegate for element lookup, scoped to DOM elements within the
 	 * current view. This should be prefered to global lookups where possible.
 	 */

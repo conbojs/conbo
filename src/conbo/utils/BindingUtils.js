@@ -372,9 +372,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 			$ignored = view.$('[cb-repeat]'),
 			scope = this;
 		
-		if (!!view.context) 
+		if (!!view.subcontext) 
 		{
-			view.context.addTo(options);
+			view.subcontext.addTo(options);
 		}
 		
 		this.applyViews(view, view.context.namespace, 'glimpse');
@@ -556,7 +556,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			
 			if (classReference = scope.getClass(className, namespace))
 			{
-				new classReference({el:el, context:rootView.context});
+				new classReference({el:el, context:rootView.subcontext});
 			}
 		});
 		

@@ -203,7 +203,9 @@ conbo.AttributeBindings = conbo.Class.extend
 			$el = $(el),
 			viewClass;
 		
-		if (options && options.context && options.context.app)
+		options || (options = {});
+		
+		if (options.context && options.context.namespace)
 		{
 			viewClass = conbo.BindingUtils.getClass(itemRendererClassName, options.context.namespace);
 		}

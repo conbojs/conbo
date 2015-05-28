@@ -21,6 +21,7 @@ conbo.Context = conbo.EventDispatcher.extend
 		_defineIncalculableProperty(this, '__singletons__', {});
 		
 		this.app = options.app;
+		this.namespace = options.namespace || options.app.namespace;
 		
 		this.addEventListener(conbo.Event.ALL, this._allHandler);
 		this.initialize.apply(this, arguments);
@@ -28,19 +29,24 @@ conbo.Context = conbo.EventDispatcher.extend
 		conbo.makeAllBindable(this, this.bindable);
 	},
 	
-	get namespace()
-	{
-		if (this.app)
-		{
-			return this.app.namespace;
-		}
-	},
-	
 	/**
 	 * Initialize: Override this
 	 * @param options
 	 */
 	initialize: function(options) {},
+	
+	/**
+	 * Create a new subcontext that shares the same application
+	 * and namespace as this one
+	 * 
+	 * @param	The context class to use (default: conbo.Context)
+	 * @returns {conbo.Context}
+	 */
+	createSubcontext: function(contextClass)
+	{
+		contextClass || (contextClass = conbo.Context);
+		return new contextClass(this);
+	},
 	
 	/**
 	 * Map specified Command class the given event
