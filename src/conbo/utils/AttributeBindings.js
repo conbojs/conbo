@@ -340,8 +340,12 @@ conbo.AttributeBindings = conbo.Class.extend
 	},
 	
 	/**
-	 * Enables you to bind data between a View and a Glimpse-based component
-	 * in the format `cb-data="myProperty"`; the value can be of any type
+	 * When used with a standard DOM element, the properties of the element's
+	 * `dataset` (it's `data-*` attributes) are set using the properties of the 
+	 * object being bound to it.
+	 * 
+	 * When used with a Glimpse, the Glimpse's `data` property is set to
+	 * the value of the bound property. 
 	 * 
 	 * @param value
 	 * @param el
@@ -351,6 +355,10 @@ conbo.AttributeBindings = conbo.Class.extend
 		if (el.cbGlimpse)
 		{
 			el.cbGlimpse.data = value;
+		}
+		else if (conbo.isObject(value))
+		{
+			conbo.setValues(el.dataset, value);
 		}
 	}
 });
