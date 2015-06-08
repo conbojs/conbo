@@ -2,9 +2,11 @@
  * Glimpse
  * 
  * A lightweight element wrapper that has no dependencies, no context and 
- * doesn't support data binding, but can apply a super-simple template.
+ * no data binding, but is able to apply a super-simple template.
  * 
- * It's invisible to View, so it's great for creating components. 
+ * It's invisible to View, so it's great for creating components, and you 
+ * can bind data to it using the `cb-data` attribute to set the data 
+ * property of your Glimpse
  */
 conbo.Glimpse = conbo.EventDispatcher.extend
 ({
@@ -18,7 +20,7 @@ conbo.Glimpse = conbo.EventDispatcher.extend
 		
 		if (options.el)
 		{
-			this.setElement(options.el);
+			this.el = options.el;
 		}
 		
 		this._ensureElement();
@@ -45,7 +47,7 @@ conbo.Glimpse = conbo.EventDispatcher.extend
 	/**
 	 * Change the view's element (`this.el` property)
 	 */
-	setElement: function(element)
+	setElement: function(el)
 	{
 		if (this.el)
 		{
@@ -53,7 +55,7 @@ conbo.Glimpse = conbo.EventDispatcher.extend
 			delete this.el.cbGlimpse;
 		}
 		
-		_defineIncalculableProperty(this, 'el', element);
+		_defineIncalculableProperty(this, 'el', el);
 		
 		this.el.className += ' cb-glimpse';
 		this.el.cbGlimpse = this;
@@ -69,32 +71,35 @@ conbo.Glimpse = conbo.EventDispatcher.extend
 	},
 	
 	/**
-	 * Ensure that the View has a DOM element to render into.
-	 * If `this.el` is a string, pass it through `$()`, take the first
-	 * matching element, and re-assign it to `el`. Otherwise, create
-	 * an element from the `id`, `className` and `tagName` properties.
+	 * Ensure that the View has a DOM element to render into, creating 
+	 * a new element using the `id`, `className` and `tagName` properties if
+	 * one does not already exist
 	 * 
 	 * @private
 	 */
 	_ensureElement: function() 
 	{
-		if (!this.el) 
+		var el = this.el;
+		
+		if (!el) 
 		{
 			var attrs = conbo.extend({}, this.attributes);
-			var el = document.createElement(this.tagName);
 			
-			if (!!this.id) el.id = this.id;
-			if (!!this.className) el.className = this.className;
+			el = document.createElement(this.tagName);
+			
+			if (this.id) el.id = this.id;
+			if (this.className) el.className = this.className;
 			
 			conbo.extend(el, attrs);
-			
-			this.setElement(el);
 		}
 		else 
 		{
-			this.setElement(this.el);
-			if (this.className) this.el.className += ' '+this.className;
+			if (this.className) el.className += ' '+this.className;
 		}
+		
+		this.setElement(el);
+		
+		return this;
 	},
 	
 });

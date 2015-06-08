@@ -99,7 +99,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 							
 							eventHandler = function(event)
 							{
+								if (event.value == null) event.value = '';
 								if ($el.val() != event.value) return; 
+								
 								$el.prop('checked', true);
 							};
 							
@@ -117,7 +119,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 							
 							eventHandler = function(event)
 							{
+								if (event.value == null) event.value = '';
 								if ($el.val() == event.value) return;
+								
 								$el.val(event.value);
 							};
 							

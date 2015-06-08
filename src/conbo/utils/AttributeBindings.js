@@ -339,4 +339,18 @@ conbo.AttributeBindings = conbo.Class.extend
 		el.addEventListener('keypress', el.cbRestrict);
 	},
 	
+	/**
+	 * Enables you to bind data between a View and a Glimpse-based component
+	 * in the format `cb-data="myProperty"`; the value can be of any type
+	 * 
+	 * @param value
+	 * @param el
+	 */
+	cbData: function(value, el)
+	{
+		if (el.cbGlimpse)
+		{
+			el.cbGlimpse.data = value;
+		}
+	}
 });
