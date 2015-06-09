@@ -18,11 +18,11 @@ conbo.Class.prototype =
 	initialize: function() {},
 	
 	/**
-	 * Equivilent to ActionScript or Java `super`, enabling you to access 
-	 * properties and methods of the super class, which is the case of
-	 * JavaScript is the next prototype up the chain
+	 * Similar to `super` in ActionScript or Java, this property enables 
+	 * you to access properties and methods of the super class prototype, 
+	 * which is the case of JavaScript is the next prototype up the chain
 	 */
-	get proto()
+	get supro()
 	{
 		return Object.getPrototypeOf(Object.getPrototypeOf(this));
 	},
