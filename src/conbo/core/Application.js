@@ -36,8 +36,6 @@ conbo.Application = conbo.View.extend
 		options.context = new this.contextClass(options);
 		options.el || (options.el = this._findAppElement());
 		
-		console.log(options.el);
-		
 		conbo.View.prototype.constructor.call(this, options);
 		conbo.BindingUtils.applyViews(this, this.namespace);
 	},

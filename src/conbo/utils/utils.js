@@ -80,56 +80,6 @@ var _ = {};
 		return results;
 	};
 	
-	var reduceError = 'Reduce of empty array with no initial value';
-
-	// **Reduce** builds up a single result from a list of values, aka `inject`,
-	// or `foldl`. Delegates to **ECMAScript 5**'s native `reduce` if available.
-//	_.reduce = function(obj, iterator, memo, context) {
-//		var initial = arguments.length > 2;
-//		if (obj == null) obj = [];
-//		if (nativeReduce && obj.reduce === nativeReduce) {
-//			if (context) iterator = _.bind(iterator, context);
-//			return initial ? obj.reduce(iterator, memo) : obj.reduce(iterator);
-//		}
-//		forEach(obj, function(value, index, list) {
-//			if (!initial) {
-//				memo = value;
-//				initial = true;
-//			} else {
-//				memo = iterator.call(context, memo, value, index, list);
-//			}
-//		});
-//		if (!initial) throw new TypeError(reduceError);
-//		return memo;
-//	};
-
-	// The right-associative version of reduce, also known as `foldr`.
-	// Delegates to **ECMAScript 5**'s native `reduceRight` if available.
-//	_.reduceRight = function(obj, iterator, memo, context) {
-//		var initial = arguments.length > 2;
-//		if (obj == null) obj = [];
-//		if (nativeReduceRight && obj.reduceRight === nativeReduceRight) {
-//			if (context) iterator = _.bind(iterator, context);
-//			return initial ? obj.reduceRight(iterator, memo) : obj.reduceRight(iterator);
-//		}
-//		var length = obj.length;
-//		if (length !== +length) {
-//			var keys = _.keys(obj);
-//			length = keys.length;
-//		}
-//		forEach(obj, function(value, index, list) {
-//			index = keys ? keys[--length] : --length;
-//			if (!initial) {
-//				memo = obj[index];
-//				initial = true;
-//			} else {
-//				memo = iterator.call(context, memo, obj[index], index, list);
-//			}
-//		});
-//		if (!initial) throw new TypeError(reduceError);
-//		return memo;
-//	};
-
 	// Return the first value which passes a truth test. Aliased as `detect`.
 	_.find = function(obj, predicate, context) {
 		var result;
@@ -214,18 +164,6 @@ var _ = {};
 		return _.map(obj, _.property(key));
 	};
 
-	// Convenience version of a common use case of `filter`: selecting only objects
-	// containing specific `key:value` pairs.
-//	_.where = function(obj, attrs) {
-//		return _.filter(obj, _.matches(attrs));
-//	};
-
-	// Convenience version of a common use case of `find`: getting the first object
-	// containing specific `key:value` pairs.
-//	_.findWhere = function(obj, attrs) {
-//		return _.find(obj, _.matches(attrs));
-//	};
-
 	// Return the maximum element or (element-based computation).
 	// Can't optimize arrays of integers longer than 65,535 elements.
 	// See [WebKit Bug 80797](https://bugs.webkit.org/show_bug.cgi?id=80797)
@@ -274,17 +212,6 @@ var _ = {};
 		return shuffled;
 	};
 
-	// Sample **n** random values from a collection.
-	// If **n** is not specified, returns a single random element.
-	// The internal `guard` argument allows it to work with `map`.
-//	_.sample = function(obj, n, guard) {
-//		if (n == null || guard) {
-//			if (obj.length !== +obj.length) obj = _.values(obj);
-//			return obj[_.random(obj.length - 1)];
-//		}
-//		return _.shuffle(obj).slice(0, Math.max(0, n));
-//	};
-
 	// An internal function to generate lookup iterators.
 	var lookupIterator = function(value) {
 		if (value == null) return _.identity;
@@ -312,51 +239,6 @@ var _ = {};
 		}), 'value');
 	};
 
-	// An internal function used for aggregate "group by" operations.
-//	var group = function(behavior) {
-//		return function(obj, iterator, context) {
-//			var result = {};
-//			iterator = lookupIterator(iterator);
-//			forEach(obj, function(value, index) {
-//				var key = iterator.call(context, value, index, obj);
-//				behavior(result, key, value);
-//			});
-//			return result;
-//		};
-//	};
-
-	// Groups the object's values by a criterion. Pass either a string attribute
-	// to group by, or a function that returns the criterion.
-//	_.groupBy = group(function(result, key, value) {
-//		_.has(result, key) ? result[key].push(value) : result[key] = [value];
-//	});
-
-	// Indexes the object's values by a criterion, similar to `groupBy`, but for
-	// when you know that your index values will be unique.
-//	_.indexBy = group(function(result, key, value) {
-//		result[key] = value;
-//	});
-
-	// Counts instances of an object that group by a certain criterion. Pass
-	// either a string attribute to count by, or a function that returns the
-	// criterion.
-//	_.countBy = group(function(result, key) {
-//		_.has(result, key) ? result[key]++ : result[key] = 1;
-//	});
-
-	// Use a comparator function to figure out the smallest index at which
-	// an object should be inserted so as to maintain order. Uses binary search.
-//	_.sortedIndex = function(array, obj, iterator, context) {
-//		iterator = lookupIterator(iterator);
-//		var value = iterator.call(context, obj);
-//		var low = 0, high = array.length;
-//		while (low < high) {
-//			var mid = (low + high) >>> 1;
-//			iterator.call(context, array[mid]) < value ? low = mid + 1 : high = mid;
-//		}
-//		return low;
-//	};
-
 	// Safely create a real, live array from anything iterable.
 	_.toArray = function(obj) {
 		if (!obj) return [];
@@ -374,24 +256,6 @@ var _ = {};
 	// Array Functions
 	// ---------------
 
-	// Get the first element of an array. Passing **n** will return the first N
-	// values in the array. Aliased as `head` and `take`. The **guard** check
-	// allows it to work with `_.map`.
-//	_.first = _.head = _.take = function(array, n, guard) {
-//		if (array == null) return void 0;
-//		if ((n == null) || guard) return array[0];
-//		if (n < 0) return [];
-//		return slice.call(array, 0, n);
-//	};
-
-	// Returns everything but the last entry of the array. Especially useful on
-	// the arguments object. Passing **n** will return all the values in
-	// the array, excluding the last N. The **guard** check allows it to work with
-	// `_.map`.
-//	_.initial = function(array, n, guard) {
-//		return slice.call(array, 0, array.length - ((n == null) || guard ? 1 : n));
-//	};
-
 	// Get the last element of an array. Passing **n** will return the last N
 	// values in the array. The **guard** check allows it to work with `_.map`.
 	_.last = function(array, n, guard) {
@@ -404,7 +268,7 @@ var _ = {};
 	// Especially useful on the arguments object. Passing an **n** will return
 	// the rest N values in the array. The **guard**
 	// check allows it to work with `_.map`.
-	_.rest = _.tail = _.drop = function(array, n, guard) {
+	_.rest = function(array, n, guard) {
 		return slice.call(array, (n == null) || guard ? 1 : n);
 	};
 
@@ -492,17 +356,6 @@ var _ = {};
 		var rest = concat.apply(ArrayProto, slice.call(arguments, 1));
 		return _.filter(array, function(value){ return !_.contains(rest, value); });
 	};
-
-	// Zip together multiple lists into a single array -- elements that share
-	// an index go together.
-//	_.zip = function() {
-//		var length = _.max(_.pluck(arguments, 'length').concat(0));
-//		var results = new Array(length);
-//		for (var i = 0; i < length; i++) {
-//			results[i] = _.pluck(arguments, '' + i);
-//		}
-//		return results;
-//	};
 
 	// Converts lists into objects. Pass either a single array of `[key, value]`
 	// pairs, or two parallel arrays of the same length -- one of keys, and one of
@@ -638,16 +491,6 @@ var _ = {};
 		
 		return obj;
 	};
-	
-	// Memoize an expensive function by storing its results.
-//	_.memoize = function(func, hasher) {
-//		var memo = {};
-//		hasher || (hasher = _.identity);
-//		return function() {
-//			var key = hasher.apply(this, arguments);
-//			return _.has(memo, key) ? memo[key] : (memo[key] = func.apply(this, arguments));
-//		};
-//	};
 
 	// Delays a function for the given number of milliseconds, and then calls
 	// it with the arguments supplied.
@@ -661,78 +504,6 @@ var _ = {};
 	_.defer = function(func) {
 		return _.delay.apply(_, [func, 1].concat(slice.call(arguments, 1)));
 	};
-
-	// Returns a function, that, when invoked, will only be triggered at most once
-	// during a given window of time. Normally, the throttled function will run
-	// as much as it can, without ever going more than once per `wait` duration;
-	// but if you'd like to disable the execution on the leading edge, pass
-	// `{leading: false}`. To disable execution on the trailing edge, ditto.
-//	_.throttle = function(func, wait, options) {
-//		var context, args, result;
-//		var timeout = null;
-//		var previous = 0;
-//		options || (options = {});
-//		var later = function() {
-//			previous = options.leading === false ? 0 : _.now();
-//			timeout = null;
-//			result = func.apply(context, args);
-//			context = args = null;
-//		};
-//		return function() {
-//			var now = _.now();
-//			if (!previous && options.leading === false) previous = now;
-//			var remaining = wait - (now - previous);
-//			context = this;
-//			args = arguments;
-//			if (remaining <= 0) {
-//				clearTimeout(timeout);
-//				timeout = null;
-//				previous = now;
-//				result = func.apply(context, args);
-//				context = args = null;
-//			} else if (!timeout && options.trailing !== false) {
-//				timeout = setTimeout(later, remaining);
-//			}
-//			return result;
-//		};
-//	};
-
-	// Returns a function, that, as long as it continues to be invoked, will not
-	// be triggered. The function will be called after it stops being called for
-	// N milliseconds. If `immediate` is passed, trigger the function on the
-	// leading edge, instead of the trailing.
-//	_.debounce = function(func, wait, immediate) {
-//		var timeout, args, context, timestamp, result;
-//
-//		var later = function() {
-//			var last = _.now() - timestamp;
-//			if (last < wait) {
-//				timeout = setTimeout(later, wait - last);
-//			} else {
-//				timeout = null;
-//				if (!immediate) {
-//					result = func.apply(context, args);
-//					context = args = null;
-//				}
-//			}
-//		};
-//
-//		return function() {
-//			context = this;
-//			args = arguments;
-//			timestamp = _.now();
-//			var callNow = immediate && !timeout;
-//			if (!timeout) {
-//				timeout = setTimeout(later, wait);
-//			}
-//			if (callNow) {
-//				result = func.apply(context, args);
-//				context = args = null;
-//			}
-//
-//			return result;
-//		};
-//	};
 
 	// Returns a function that will be executed at most one time, no matter how
 	// often you call it. Useful for lazy initialization.
@@ -753,29 +524,7 @@ var _ = {};
 	_.wrap = function(func, wrapper) {
 		return _.partial(wrapper, func);
 	};
-
-	// Returns a function that is the composition of a list of functions, each
-	// consuming the return value of the function that follows.
-//	_.compose = function() {
-//		var funcs = arguments;
-//		return function() {
-//			var args = arguments;
-//			for (var i = funcs.length - 1; i >= 0; i--) {
-//				args = [funcs[i].apply(this, args)];
-//			}
-//			return args[0];
-//		};
-//	};
-
-	// Returns a function that will only be executed after being called N times.
-//	_.after = function(times, func) {
-//		return function() {
-//			if (--times < 1) {
-//				return func.apply(this, arguments);
-//			}
-//		};
-//	};
-
+	
 	// Object Functions
 	// ----------------
 
@@ -800,7 +549,7 @@ var _ = {};
 		
 		return keys;
 	};
-
+	
 	// Retrieve the values of an object's properties.
 	// Conbo.js: Extended to enable keys further up the prototype chain to be found too
 	_.values = function(obj, useForIn) 
@@ -816,27 +565,6 @@ var _ = {};
 		
 		return values;
 	};
-
-	// Convert an object into a list of `[key, value]` pairs.
-//	_.pairs = function(obj) {
-//		var keys = _.keys(obj);
-//		var length = keys.length;
-//		var pairs = new Array(length);
-//		for (var i = 0; i < length; i++) {
-//			pairs[i] = [keys[i], obj[keys[i]]];
-//		}
-//		return pairs;
-//	};
-
-//	// Invert the keys and values of an object. The values must be serializable.
-//	_.invert = function(obj) {
-//		var result = {};
-//		var keys = _.keys(obj);
-//		for (var i = 0, length = keys.length; i < length; i++) {
-//			result[obj[keys[i]]] = keys[i];
-//		}
-//		return result;
-//	};
 
 	// Return a sorted list of the function names available on the object.
 	_.functions = function(obj) {
@@ -913,14 +641,6 @@ var _ = {};
 		if (!_.isObject(obj)) return obj;
 		return _.isArray(obj) ? obj.slice() : _.extend({}, obj);
 	};
-
-	// Invokes interceptor with the obj, and then returns obj.
-	// The primary purpose of this method is to "tap into" a method chain, in
-	// order to perform operations on intermediate results within the chain.
-//	_.tap = function(obj, interceptor) {
-//		interceptor(obj);
-//		return obj;
-//	};
 
 	// Internal recursive comparison function for `isEqual`.
 	var eq = function(a, b, aStack, bStack) {
@@ -1103,12 +823,6 @@ var _ = {};
 		return value;
 	};
 	
-//	_.constant = function(value) {
-//		return function () {
-//			return value;
-//		};
-//	};
-
 	_.property = function(key) {
 		return function(obj) {
 			return obj[key];
@@ -1127,13 +841,6 @@ var _ = {};
 		}
 	};
 	
-//	// Run a function **n** times.
-//	_.times = function(n, iterator, context) {
-//		var accum = Array(Math.max(0, n));
-//		for (var i = 0; i < n; i++) accum[i] = iterator.call(context, i);
-//		return accum;
-//	};
-
 	// Return a random integer between min and max (inclusive).
 	_.random = function(min, max) {
 		if (max == null) {
@@ -1146,54 +853,6 @@ var _ = {};
 	// A (possibly faster) way to get the current timestamp as an integer.
 	_.now = Date.now || function() { return new Date().getTime(); };
 
-//	// List of HTML entities for escaping.
-//	var entityMap = {
-//		escape: {
-//			'&': '&amp;',
-//			'<': '&lt;',
-//			'>': '&gt;',
-//			'"': '&quot;',
-//			"'": '&#x27;'
-//		}
-//	};
-//	entityMap.unescape = _.invert(entityMap.escape);
-//
-//	// Regexes containing the keys and values listed immediately above.
-//	var entityRegexes = {
-//		escape:	 new RegExp('[' + _.keys(entityMap.escape).join('') + ']', 'g'),
-//		unescape: new RegExp('(' + _.keys(entityMap.unescape).join('|') + ')', 'g')
-//	};
-//
-//	// Functions for escaping and unescaping strings to/from HTML interpolation.
-//	_.forEach(['escape', 'unescape'], function(method) {
-//		_[method] = function(string) {
-//			if (string == null) return '';
-//			return ('' + string).replace(entityRegexes[method], function(match) {
-//				return entityMap[method][match];
-//			});
-//		};
-//	});
-
-	// If the value of the named `property` is a function then invoke it with the
-	// `object` as context; otherwise, return it.
-//	_.result = function(object, property) {
-//		if (object == null) return void 0;
-//		var value = object[property];
-//		return _.isFunction(value) ? value.call(object) : value;
-//	};
-
-//	// Add your own custom functions to the Underscore object.
-//	_.mixin = function(obj) {
-//		forEach(_.functions(obj), function(name) {
-//			var func = _[name] = obj[name];
-//			_.prototype[name] = function() {
-//				var args = [this._wrapped];
-//				push.apply(args, arguments);
-//				return result.call(this, func.apply(_, args));
-//			};
-//		});
-//	};
-
 	// Generate a unique integer id (unique within the entire client session).
 	// Useful for temporary DOM ids.
 	var idCounter = 0;
@@ -1201,146 +860,6 @@ var _ = {};
 		var id = ++idCounter + '';
 		return prefix ? prefix + id : id;
 	};
-
-//	// By default, Underscore uses ERB-style template delimiters, change the
-//	// following template settings to use alternative delimiters.
-//	_.templateSettings = {
-//		evaluate		: /<%([\s\S]+?)%>/g,
-//		interpolate : /<%=([\s\S]+?)%>/g,
-//		escape			: /<%-([\s\S]+?)%>/g
-//	};
-//
-//	// When customizing `templateSettings`, if you don't want to define an
-//	// interpolation, evaluation or escaping regex, we need one that is
-//	// guaranteed not to match.
-//	var noMatch = /(.)^/;
-//
-//	// Certain characters need to be escaped so that they can be put into a
-//	// string literal.
-//	var escapes = {
-//		"'":			"'",
-//		'\\':		 '\\',
-//		'\r':		 'r',
-//		'\n':		 'n',
-//		'\t':		 't',
-//		'\u2028': 'u2028',
-//		'\u2029': 'u2029'
-//	};
-//
-//	var escaper = /\\|'|\r|\n|\t|\u2028|\u2029/g;
-//
-//	// JavaScript micro-templating, similar to John Resig's implementation.
-//	// Underscore templating handles arbitrary delimiters, preserves whitespace,
-//	// and correctly escapes quotes within interpolated code.
-//	_.template = function(text, data, settings) {
-//		var render;
-//		settings = _.defaults({}, settings, _.templateSettings);
-//
-//		// Combine delimiters into one regular expression via alternation.
-//		var matcher = new RegExp([
-//			(settings.escape || noMatch).source,
-//			(settings.interpolate || noMatch).source,
-//			(settings.evaluate || noMatch).source
-//		].join('|') + '|$', 'g');
-//
-//		// Compile the template source, escaping string literals appropriately.
-//		var index = 0;
-//		var source = "__p+='";
-//		text.replace(matcher, function(match, escape, interpolate, evaluate, offset) {
-//			source += text.slice(index, offset)
-//				.replace(escaper, function(match) { return '\\' + escapes[match]; });
-//
-//			if (escape) {
-//				source += "'+\n((__t=(" + escape + "))==null?'':_.escape(__t))+\n'";
-//			}
-//			if (interpolate) {
-//				source += "'+\n((__t=(" + interpolate + "))==null?'':__t)+\n'";
-//			}
-//			if (evaluate) {
-//				source += "';\n" + evaluate + "\n__p+='";
-//			}
-//			index = offset + match.length;
-//			return match;
-//		});
-//		source += "';\n";
-//
-//		// If a variable is not specified, place data values in local scope.
-//		if (!settings.variable) source = 'with(obj||{}){\n' + source + '}\n';
-//
-//		source = "var __t,__p='',__j=Array.prototype.join," +
-//			"print=function(){__p+=__j.call(arguments,'');};\n" +
-//			source + "return __p;\n";
-//
-//		try {
-//			render = new Function(settings.variable || 'obj', '_', source);
-//		} catch (e) {
-//			e.source = source;
-//			throw e;
-//		}
-//
-//		if (data) return render(data, _);
-//		var template = function(data) {
-//			return render.call(this, data, _);
-//		};
-//
-//		// Provide the compiled function source as a convenience for precompilation.
-//		template.source = 'function(' + (settings.variable || 'obj') + '){\n' + source + '}';
-//
-//		return template;
-//	};
-
-//	// Add a "chain" function, which will delegate to the wrapper.
-//	_.chain = function(obj) {
-//		return _(obj).chain();
-//	};
-//
-//	// OOP
-//	// ---------------
-//	// If Underscore is called as a function, it returns a wrapped object that
-//	// can be used OO-style. This wrapper holds altered versions of all the
-//	// underscore functions. Wrapped objects may be chained.
-//
-//	// Helper function to continue chaining intermediate results.
-//	var result = function(obj) {
-//		return this._chain ? _(obj).chain() : obj;
-//	};
-//
-//	// Add all of the Underscore functions to the wrapper object.
-//	_.mixin(_);
-//
-//	// Add all mutator Array functions to the wrapper.
-//	forEach(['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'], function(name) {
-//		var method = ArrayProto[name];
-//		_.prototype[name] = function() {
-//			var obj = this._wrapped;
-//			method.apply(obj, arguments);
-//			if ((name == 'shift' || name == 'splice') && obj.length === 0) delete obj[0];
-//			return result.call(this, obj);
-//		};
-//	});
-//	
-//	// Add all accessor Array functions to the wrapper.
-//	forEach(['concat', 'join', 'slice'], function(name) {
-//		var method = ArrayProto[name];
-//		_.prototype[name] = function() {
-//			return result.call(this, method.apply(this._wrapped, arguments));
-//		};
-//	});
-//
-//	_.extend(_.prototype, {
-//
-//		// Start chaining a wrapped Underscore object.
-//		chain: function() {
-//			this._chain = true;
-//			return this;
-//		},
-//
-//		// Extracts the result from a wrapped and chained object.
-//		value: function() {
-//			return this._wrapped;
-//		}
-//
-//	});
 	
 	// Add Underscore functions to Conbo
 	forEach(_.functions(_), function(name) 
@@ -1365,7 +884,10 @@ conbo.noop = function() {};
  * Default function to assign to the methods of pseudo-interfaces
  * @example	IExample = { myMethod:conbo.notImplemented };
  */
-conbo.notImplemented = function() {};
+conbo.notImplemented = function() 
+{
+	conbo.warn('Method not implemented');
+};
 
 /**
  * Convert dash-or_underscore separated words into camelCaseWords
@@ -1531,7 +1053,7 @@ conbo.properties = function(obj, useForIn)
  */
 conbo.makeBindable = function(obj, propNames)
 {
-	propNames || (propNames = conbo.properties(obj, true));
+	propNames || (propNames = conbo.properties(obj));
 	
 	propNames.forEach(function(propName)
 	{
@@ -1550,10 +1072,11 @@ conbo.makeBindable = function(obj, propNames)
  * 
  * @param	{String}		obj
  * @param	{Array}			propNames (optional)
+ * @param	{useForIn}		Whether or not to include properties further up the prototype chain
  */
-conbo.makeAllBindable = function(obj, propNames)
+conbo.makeAllBindable = function(obj, propNames, useForIn)
 {
-	propNames = conbo.uniq((propNames || []).concat(conbo.properties(obj, true)));
+	propNames = conbo.uniq((propNames || []).concat(conbo.properties(obj, useForIn)));
 	conbo.makeBindable(obj, propNames);
 };
 
