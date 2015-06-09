@@ -4,12 +4,12 @@
  */
 (function()
 {
-	var app = {};
+	var ns = {};
 	
 	/**
 	 * Switch conbo.Hash for conbo.RemoteHash if you need web services
 	 */
-	app.MyModel = conbo.Hash.extend
+	ns.MyModel = conbo.Hash.extend
 	({
 		defaults: 
 		{
@@ -17,18 +17,18 @@
 		}
 	});
 	
-	app.MyContext = conbo.Context.extend
+	ns.MyContext = conbo.Context.extend
 	({
 		/**
 		 * Entry point
 		 */
 		initialize: function()
 		{
-			this.mapSingleton('myModel', app.MyModel);
+			this.mapSingleton('myModel', ns.MyModel);
 		}
 	});
 	
-	app.MyView = conbo.View.extend
+	ns.MyView = conbo.View.extend
 	({
 		/**
 		 * Properties with a value of undefined that have been mapped to 
@@ -52,16 +52,18 @@
 		}
 	});
 	
-	app.MyApp = conbo.Application.extend
+	ns.MyApp = conbo.Application.extend
 	({
+		namespace: ns,
+		
 		/**
 		 * Application will automatically use an instance of this class as 
 		 * the application's context (event bus); uses vanilla conbo.Context
 		 * if not specified
 		 */
-		contextClass: app.MyContext,
+		contextClass: ns.MyContext,
 	});
 	
-	new app.MyApp({namespace:app});
+	new ns.MyApp();
 	
 })();

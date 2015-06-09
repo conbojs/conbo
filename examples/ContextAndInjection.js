@@ -4,7 +4,9 @@
  */
 (function()
 {
-	var HelloCommand = conbo.Command.extend
+	var ns = {};
+	
+	ns.HelloCommand = conbo.Command.extend
 	({
 		myModel: undefined,
 		
@@ -17,7 +19,7 @@
 	/**
 	 * Switch conbo.Hash for conbo.RemoteHash if you need web services
 	 */
-	var MyModel = conbo.Hash.extend
+	ns.MyModel = conbo.Hash.extend
 	({
 		defaults: 
 		{
@@ -25,7 +27,7 @@
 		}
 	});
 	
-	var InputView = conbo.View.extend
+	ns.InputView = conbo.View.extend
 	({
 		/**
 		 * Properties with a value of undefined that have been mapped to 
@@ -46,37 +48,37 @@
 		}
 	});
 	
-	var MyContext = conbo.Context.extend
+	ns.MyContext = conbo.Context.extend
 	({
 		/**
 		 * Entry point
 		 */
 		initialize: function()
 		{
-			this.mapCommand('hello', HelloCommand);
-			this.mapSingleton('myModel', MyModel);
+			this.mapCommand('hello', ns.HelloCommand);
+			this.mapSingleton('myModel', ns.MyModel);
 		}
 	});
 	
-	var MyApp = conbo.Application.extend
+	ns.MyApp = conbo.Application.extend
 	({
 		/**
 		 * Application will automatically use an instance of this class as 
 		 * the application's context (event bus); uses vanilla conbo.Context
 		 * if not specified
 		 */
-		contextClass: MyContext,
+		contextClass: ns.MyContext,
 		
 		/**
 		 * Entry point
 		 */
 		initialize: function()
 		{
-			this.inputView = new InputView(this.context.addTo());
+			this.inputView = new ns.InputView(this.context.addTo());
 			this.appendView(this.inputView);
 		}
 	});
 	
-	new MyApp({el:document.body});
+	new ns.MyApp({el:document.body});
 	
 })();

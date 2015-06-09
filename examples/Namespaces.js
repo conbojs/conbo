@@ -10,25 +10,25 @@
  */
 (function()
 {
-	var example = {};
-	
-	example.MyApp = conbo.Application.extend
-	({
-		// :-)
-	});
-	
-	example.MyView = conbo.View.extend
-	({
-		template: 'Hello Namespace!'
-	});
+	var ns = {};
 	
 	/**
-	 * Adding a namespace to your app enabled Conbo.js to automatically
+	 * By requiring your app to have a namespace, Conbo.js can automatically
 	 * apply your app to existing DOM elements using the cb-app attribute
 	 * and guarantees that the correct Views are applies to existing DOM
 	 * elements that use the cb-view attribute, without any additional
 	 * code needing to be written!
 	 */
-	new example.MyApp({namespace:example});
+	ns.MyApp = conbo.Application.extend
+	({
+		namespace: ns
+	});
+	
+	ns.MyView = conbo.View.extend
+	({
+		template: 'Hello Namespace!'
+	});
+	
+	new ns.MyApp();
 	
 })();

@@ -1,16 +1,16 @@
 /**
- * Hello Namespace example for Conbo.js
+ * Template example for Conbo.js
  * 
- * Demonstrates how to automatically apply Application and View classes
- * to existing DOM elements using a namespace
+ * Demonstrates how to load a template into a View class, which will then 
+ * automatically be parsed and bound as appropriate
  * 
  * @author	Neil Rackett
  */
 (function()
 {
-	var example = {};
+	var ns = {};
 	
-	example.MyLoadedView = conbo.View.extend
+	ns.MyLoadedView = conbo.View.extend
 	({
 		/**
 		 * Someone's favourite colour
@@ -25,7 +25,7 @@
 		
 	});
 	
-	example.MyOtherView = conbo.View.extend
+	ns.MyOtherView = conbo.View.extend
 	({
 		/**
 		 * Someone's favourite colour
@@ -36,12 +36,14 @@
 		 * HTML templates can be added directly to your class using the templat
 		 * property or passing in options.template to your constructor
 		 */
-		template: 'This is an internal template using the <b>template property of the View class</b> whose favourite colour is <span cb-bind="favoriteColor"></span>',
+		template: 'This is an internal template using the <b>template property of the View class</b> whose favourite colour is <span cb-style="favoriteColor:color" cb-bind="favoriteColor"></span>',
 		
 	});
 	
-	example.MyApp = conbo.Application.extend
+	ns.MyApp = conbo.Application.extend
 	({
+		namespace: ns,
+		
 		/**
 		 * All classes have an initialize entry point
 		 */
@@ -49,12 +51,12 @@
 		{
 			this.appendView
 			(
-				new example.MyLoadedView(this.context.addTo({templateUrl:'template-2.html'})),
-				new example.MyOtherView(this.context.addTo({template:'This is an internal template using <b>options.template</b> that hates <span cb-bind="favoriteColor"></span>'}))
+				new ns.MyLoadedView(this.context.addTo({templateUrl:'template-2.html'})),
+				new ns.MyOtherView(this.context.addTo({template:'This is an internal template using <b>options.template</b> that hates <span cb-style="favoriteColor:color" cb-bind="favoriteColor"></span>'}))
 			);
 		}
 	});
 	
-	new example.MyApp({namespace:example});
+	new ns.MyApp();
 	
 })();

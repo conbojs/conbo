@@ -8,16 +8,16 @@
  */
 (function()
 {
-	var example = {};
+	var ns = {};
 	
-	example.MyApp = conbo.Application.extend
+	ns.MyApp = conbo.Application.extend
 	({
-		// :-)
+		namespace: ns
 	});
 	
-	example.MyView = conbo.View.extend
+	ns.MyView = conbo.View.extend
 	({
-		render: function()
+		initialize: function()
 		{
 			this.el.innerHTML = 'Hello from '+this.context.app.prefix+'!';
 			return this;
@@ -28,8 +28,8 @@
 	 * Using a prefix enables you to apply the same app to multiple
 	 * existing DOM elements on the same page
 	 */
-	new example.MyApp({namespace:example, prefix:'prefix1'});
-	new example.MyApp({namespace:example, prefix:'prefix2'});
-	new example.MyApp({namespace:example, prefix:'prefix3'});
+	new ns.MyApp({prefix:'prefix1'});
+	new ns.MyApp({prefix:'prefix2'});
+	new ns.MyApp({prefix:'prefix3'});
 	
 })();

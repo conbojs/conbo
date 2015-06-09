@@ -24,12 +24,19 @@ conbo.Application = conbo.View.extend
 		var prefix = options.prefix || this.prefix || '';
 		var namespace = options.namespace || this.namespace;
 		
+		if (!namespace)
+		{
+			conbo.warn('Application namespace not specified');
+		}
+		
 		_defineIncalculableProperty(this, 'prefix', prefix);
 		_defineIncalculableProperty(this, 'namespace', namespace);
 		
 		options.app = this;
 		options.context = new this.contextClass(options);
 		options.el || (options.el = this._findAppElement());
+		
+		console.log(options.el);
 		
 		conbo.View.prototype.constructor.call(this, options);
 		conbo.BindingUtils.applyViews(this, this.namespace);
@@ -51,7 +58,7 @@ conbo.Application = conbo.View.extend
 		
 		if (!this.namespace)
 		{
-			if (!!$apps.length)
+			if ($apps.length)
 			{
 				conbo.warn('Application namespace not specified: unable to bind to cb-app element');
 			}
@@ -63,13 +70,11 @@ conbo.Application = conbo.View.extend
 		
 		for (var a in this.namespace)
 		{
-			if (conbo.isClass(this.namespace[a]))
+			if (conbo.isClass(this.namespace[a])
+				&& this instanceof this.namespace[a])
 			{
-				if (this instanceof this.namespace[a])
-				{
-					appName = a;
-					break;
-				}
+				appName = a;
+				break;
 			}
 		}
 		
@@ -89,7 +94,7 @@ conbo.Application = conbo.View.extend
 	_addPrefix: function(name)
 	{
 		name || (name = '');
-		return !!this.prefix ? this.prefix+'.'+name : name;
+		return this.prefix ? this.prefix+'.'+name : name;
 	}
 
 });

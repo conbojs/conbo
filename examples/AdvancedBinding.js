@@ -1,15 +1,17 @@
 /**
- * Binding example for Conbo.js
+ * Advanced data binding example for Conbo.js, using data from a model
  * 
  * @author	Neil Rackett
  */
 (function()
 {
+	var ns = {};
+	
 	/**
 	 * Switch conbo.Hash (available in Core build) for conbo.RemoveHash (requires 
 	 * Complete build) if you need web services
 	 */
-	var MyModel = conbo.Hash.extend
+	ns.MyModel = conbo.Hash.extend
 	({
 		defaults: 
 		{
@@ -17,18 +19,18 @@
 		}
 	});
 	
-	var MyContext = conbo.Context.extend
+	ns.MyContext = conbo.Context.extend
 	({
 		/**
 		 * Entry point
 		 */
 		initialize: function()
 		{
-			this.mapSingleton('myModel', MyModel);
+			this.mapSingleton('myModel', ns.MyModel);
 		}
 	});
 	
-	var InputView = conbo.View.extend
+	ns.InputView = conbo.View.extend
 	({
 		tagName: 'p',
 		
@@ -50,7 +52,7 @@
 		}
 	});
 	
-	var OutputView = conbo.View.extend
+	ns.OutputView = conbo.View.extend
 	({
 		tagName: 'h1',
 		
@@ -67,14 +69,16 @@
 		myModel: undefined
 	});
 	
-	var MyApp = conbo.Application.extend
+	ns.MyApp = conbo.Application.extend
 	({
+		namespace: ns,
+		
 		/**
 		 * Application will automatically use an instance of this class as 
 		 * the application's context (event bus); uses vanilla conbo.Context
 		 * if not specified
 		 */
-		contextClass: MyContext,
+		contextClass: ns.MyContext,
 		
 		/**
 		 * Entry point
@@ -83,12 +87,12 @@
 		{
 			this.appendView
 			(
-				new InputView(this.context.addTo()), 
-				new OutputView(this.context.addTo())
+				new ns.InputView(this.context.addTo()), 
+				new ns.OutputView(this.context.addTo())
 			);
 		}
 	});
 	
-	new MyApp({el:document.body});
+	new ns.MyApp({el:document.body});
 	
 })();

@@ -18,12 +18,13 @@ conbo.Class.prototype =
 	initialize: function() {},
 	
 	/**
-	 * Calls the specified function after the current call stack has cleared
+	 * Equivilent to ActionScript or Java `super`, enabling you to access 
+	 * properties and methods of the super class, which is the case of
+	 * JavaScript is the next prototype up the chain
 	 */
-	defer: function(callback)
+	get proto()
 	{
-		conbo.defer(this.bind.apply(this, [callback].concat(conbo.rest(arguments))));
-		return this;
+		return Object.getPrototypeOf(Object.getPrototypeOf(this));
 	},
 	
 	/**
@@ -33,7 +34,7 @@ conbo.Class.prototype =
 	 */
 	bind: function(method)
 	{
-		return conbo.bind.apply(_, [method, this].concat(conbo.rest(arguments)));
+		return conbo.bind.apply(conbo, [method, this].concat(conbo.rest(arguments)));
 	},
 	
 	/**
@@ -42,15 +43,14 @@ conbo.Class.prototype =
 	 */
 	bindAll: function()
 	{
-		conbo.bindAll.apply(_, [this].concat(conbo.toArray(arguments)))
+		conbo.bindAll.apply(conbo, [this].concat(conbo.toArray(arguments)))
 		return this;
 	},
 	
 	toString: function()
 	{
 		return 'conbo.Class';
-	}
-		
+	},
 };
 
 _denumerate(conbo.Class.prototype);

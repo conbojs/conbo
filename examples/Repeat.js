@@ -8,9 +8,9 @@
 {
 	'use strict'
 	
-	var app = {};
+	var ns = {};
 	
-	app.MyContext = conbo.Context.extend
+	ns.MyContext = conbo.Context.extend
 	({
 		initialize: function()
 		{
@@ -22,15 +22,15 @@
 	 * Very simple item renderer example that simply applies a CSS class
 	 * (the cb-repeat item renderer parameter is optional)
 	 */
-	app.MyItemRenderer = conbo.View.extend
+	ns.MyItemRenderer = conbo.View.extend
 	({
 		className: 'item-renderer',
 	}),
 	
-	app.MyApp = conbo.Application.extend
+	ns.MyApp = conbo.Application.extend
 	({
-		namespace:app,
-		contextClass: app.MyContext,
+		namespace: ns,
+		contextClass: ns.MyContext,
 		
 		myList: undefined,
 		
@@ -92,6 +92,6 @@
 		}
 	});
 	
-	new app.MyApp();
+	new ns.MyApp();
 	
 })();

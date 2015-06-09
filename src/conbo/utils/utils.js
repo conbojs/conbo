@@ -781,22 +781,39 @@ var _ = {};
 
 	// Retrieve the names of an object's properties.
 	// Delegates to **ECMAScript 5**'s native `Object.keys`
-	_.keys = function(obj) {
+	// Conbo.js: Extended to enable keys further up the prototype chain to be found too
+	_.keys = function(obj, useForIn) 
+	{
 		if (!_.isObject(obj)) return [];
-		if (nativeKeys) return nativeKeys(obj);
+		
+		if (nativeKeys && !useForIn)
+		{
+			return nativeKeys(obj);
+		}
+		
 		var keys = [];
-		for (var key in obj) if (_.has(obj, key)) keys.push(key);
+		
+		for (var key in obj)
+		{
+			if (useForIn || _.has(obj, key)) keys.push(key);
+		}
+		
 		return keys;
 	};
 
 	// Retrieve the values of an object's properties.
-	_.values = function(obj) {
-		var keys = _.keys(obj);
+	// Conbo.js: Extended to enable keys further up the prototype chain to be found too
+	_.values = function(obj, useForIn) 
+	{
+		var keys = _.keys(obj, useForIn);
 		var length = keys.length;
 		var values = new Array(length);
-		for (var i = 0; i < length; i++) {
+		
+		for (var i = 0; i < length; i++)
+		{
 			values[i] = obj[keys[i]];
 		}
+		
 		return values;
 	};
 
@@ -1492,10 +1509,15 @@ conbo.loadCss = function(url, media)
 /**
  * Return the names of all the enumerable properties on the specified object, 
  * i.e. all of the keys that aren't functions
+ * 
+ * @see		#keys
+ * 
+ * @param	obj			The object to list the properties of
+ * @param	useForIn	Whether or not to include properties further up the prorotype chain
  */
-conbo.properties = function(obj)
+conbo.properties = function(obj, useForIn)
 {
-	return conbo.difference(conbo.keys(obj), conbo.functions(obj));
+	return conbo.difference(conbo.keys(obj, useForIn), conbo.functions(obj));
 };
 
 /**
@@ -1509,7 +1531,7 @@ conbo.properties = function(obj)
  */
 conbo.makeBindable = function(obj, propNames)
 {
-	propNames || (propNames = conbo.properties(obj));
+	propNames || (propNames = conbo.properties(obj, true));
 	
 	propNames.forEach(function(propName)
 	{
@@ -1531,7 +1553,7 @@ conbo.makeBindable = function(obj, propNames)
  */
 conbo.makeAllBindable = function(obj, propNames)
 {
-	propNames = conbo.uniq((propNames || []).concat(conbo.properties(obj)));
+	propNames = conbo.uniq((propNames || []).concat(conbo.properties(obj, true)));
 	conbo.makeBindable(obj, propNames);
 };
 

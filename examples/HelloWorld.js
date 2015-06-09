@@ -1,13 +1,19 @@
 /**
  * Hello World example for Conbo.js
- * Demonstrates a simple, non-templated application
+ * Demonstrates how to create a new Conbo.js Application
  * 
  * @author	Neil Rackett
  */
 (function()
 {
-	var MyApp = conbo.Application.extend
+	/**
+	 * Namespaces enable Conbo.js binding
+	 */
+	var ns = {};
+	
+	ns.MyApp = conbo.Application.extend
 	({
+		namespace: ns,
 		template: 'Hello World!'
 	});
 	
@@ -15,6 +21,6 @@
 	 * Passing el to the constructor will automatically add your
 	 * application to that element
 	 */
-	new MyApp({el:document.body});
+	new ns.MyApp({el:document.body});
 	
 })();

@@ -4,18 +4,20 @@
  */
 (function()
 {
+	var ns = {};
+	
 	/**
 	 * Switch conbo.Hash for conbo.RemoteHash if you need web services
 	 */
-	var MyModel = conbo.Hash.extend
+	ns.MyModel = conbo.Hash.extend
 	({
 		defaults: 
 		{
-			price: 1234.567
+			price: 123.456
 		}
 	});
 	
-	var InputView = conbo.View.extend
+	ns.InputView = conbo.View.extend
 	({
 		tagName: 'p',
 		template: 'Type a number here: <input type="text" cb-bind="myModel.price" />',
@@ -27,7 +29,7 @@
 		myModel: undefined
 	});
 	
-	var OutputView = conbo.View.extend
+	ns.OutputView = conbo.View.extend
 	({
 		tagName: 'h1',
 		
@@ -49,7 +51,7 @@
 		myModel: undefined,
 		
 		/**
-		 * Parses the input value into a formatted currency value, e.g. 1234.56 --> ï¿½1,234.56
+		 * Parses the input value into a formatted currency value, e.g. 1234.56 --> £1,234.56
 		 * @param 	value
 		 * @returns	{String}
 		 */
@@ -83,25 +85,27 @@
 		}
 	});
 	
-	var MyContext = conbo.Context.extend
+	ns.MyContext = conbo.Context.extend
 	({
 		/**
 		 * Entry point
 		 */
 		initialize: function()
 		{
-			this.mapSingleton('myModel', MyModel);
+			this.mapSingleton('myModel', ns.MyModel);
 		}
 	});
 	
-	var MyApp = conbo.Application.extend
+	ns.MyApp = conbo.Application.extend
 	({
+		namespace: ns,
+		
 		/**
 		 * Application will automatically use an instance of this class as 
 		 * the application's context (event bus); uses vanilla conbo.Context
 		 * if not specified
 		 */
-		contextClass: MyContext,
+		contextClass: ns.MyContext,
 		
 		/**
 		 * Entry point
@@ -110,14 +114,14 @@
 		{
 			this.appendView
 			(
-				new InputView(this.context.addTo()), 
-				new OutputView(this.context.addTo())
+				new ns.InputView(this.context.addTo()), 
+				new ns.OutputView(this.context.addTo())
 			);
 			
 			return this;
 		}
 	});
 	
-	new MyApp({el:document.body});
+	new ns.MyApp({el:document.body});
 	
 })();

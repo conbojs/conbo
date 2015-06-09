@@ -6,9 +6,9 @@
  */
 (function(window)
 {
-	var example = {};
+	var ns = {};
 	
-	example.LocalisationModel = conbo.RemoteHash.extend
+	ns.LocalisationModel = conbo.RemoteHash.extend
 	({
 		initialize: function()
 		{
@@ -30,15 +30,15 @@
 		}
 	});
 	
-	example.LocalisationContext = conbo.Context.extend
+	ns.LocalisationContext = conbo.Context.extend
 	({
 		initialize: function()
 		{
-			this.mapSingleton('localisation', example.LocalisationModel);
+			this.mapSingleton('localisation', ns.LocalisationModel);
 		}
 	});
 	
-	example.LocalisedView = conbo.View.extend
+	ns.LocalisedView = conbo.View.extend
 	({
 		localisation: undefined,
 		
@@ -59,17 +59,18 @@
 		
 	});
 	
-	example.LocalisedApp = conbo.Application.extend
+	ns.LocalisedApp = conbo.Application.extend
 	({
-		contextClass: example.LocalisationContext
+		namespace: ns,
+		contextClass: ns.LocalisationContext
 	});
 	
 	/**
 	 * If you don't specify a target element, the app will automatically try
 	 * to find a cb-app declararation with the same name as itself, otherwise
 	 * it will populate a new element which you can add to the page manually
-	 * using app.el
+	 * using the `el` property of your app
 	 */
-	var app = new example.LocalisedApp({namespace:example});
+	new ns.LocalisedApp();
 	
 })(window);

@@ -6,14 +6,16 @@
  */
 (function()
 {
-	var app = {};
+	var ns = {};
 	
-	app.MyApp = conbo.Application.extend
+	ns.MyApp = conbo.Application.extend
 	({
 		// You don't need to declare properties in your Application
 		// or View to bind them, but we definitely recommend it!
+		
+		namespace: ns
 	});
 	
-	new app.MyApp({namespace:app});
+	new ns.MyApp();
 	
 })();
