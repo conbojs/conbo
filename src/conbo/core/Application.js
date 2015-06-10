@@ -29,8 +29,8 @@ conbo.Application = conbo.View.extend
 			conbo.warn('Application namespace not specified');
 		}
 		
-		_defineIncalculableProperty(this, 'prefix', prefix);
-		_defineIncalculableProperty(this, 'namespace', namespace);
+		_defineUnenumerableProperty(this, 'prefix', prefix);
+		_defineUnenumerableProperty(this, 'namespace', namespace);
 		
 		options.app = this;
 		options.context = new this.contextClass(options);

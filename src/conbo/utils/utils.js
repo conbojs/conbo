@@ -1233,8 +1233,13 @@ var _defineProperty = function(obj, propName, getter, setter, enumerable)
 /**
  * Define property that can't be enumerated
  */
-var _defineIncalculableProperty = function(obj, propName, value)
+var _defineUnenumerableProperty = function(obj, propName, value)
 {
+	if (arguments.length == 2)
+	{
+		value = obj[propName];
+	}
+	
 	Object.defineProperty(obj, propName, {enumerable:false, configurable:true, writable:true, value:value});
 	return this;
 };

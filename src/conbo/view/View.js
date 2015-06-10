@@ -34,9 +34,11 @@ conbo.View = conbo.Glimpse.extend
 		
 		this.context = options.context;
 		
+		_defineUnenumerableProperty(this, 'currentState');
+		
  		this.initialize.apply(this, arguments);
  		
-		conbo.makeAllBindable(this, this.bindable);
+		conbo.makeAllBindable(this, (this.bindable || []).concat(['currentState']));
 		
 		var templateUrl = this.templateUrl,
 			template = this.template;
@@ -131,8 +133,8 @@ conbo.View = conbo.Glimpse.extend
 		if (!!this.el) delete this.el.cbView;
 		if (isBound) this.unbindView();
 		
-		_defineIncalculableProperty(this, '$el', $(element));
-		_defineIncalculableProperty(this, 'el', this.$el[0]);
+		_defineUnenumerableProperty(this, '$el', $(element));
+		_defineUnenumerableProperty(this, 'el', this.$el[0]);
 		
 		this.el.cbView = this;
 		

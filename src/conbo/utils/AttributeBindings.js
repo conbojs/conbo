@@ -18,7 +18,8 @@ conbo.AttributeBindings = conbo.Class.extend
 		
 		// Methods that require raw attribute data instead of bound property values
 		
-		// (None)
+		this.cbIncludeIn.raw = true;
+		this.cbExcludeFrom.raw = true;
 	},
 	
 	/**
@@ -342,7 +343,7 @@ conbo.AttributeBindings = conbo.Class.extend
 	/**
 	 * When used with a standard DOM element, the properties of the element's
 	 * `dataset` (it's `data-*` attributes) are set using the properties of the 
-	 * object being bound to it.
+	 * object being bound to it; you'll need to use a polyfill for IE <= 10
 	 * 
 	 * When used with a Glimpse, the Glimpse's `data` property is set to
 	 * the value of the bound property. 
@@ -360,5 +361,53 @@ conbo.AttributeBindings = conbo.Class.extend
 		{
 			conbo.setValues(el.dataset, value);
 		}
-	}
+	},
+	
+	/**
+	 * Only includes the specified element in the layout when the View's `currentState`
+	 * matches one of the states listed in the attribute's value; multiple states should
+	 * be separated by spaces
+	 * 
+	 * @example		cb-include-in="happy sad melancholy"
+	 * 
+	 * @param 		value
+	 * @param 		el
+	 * @param 		options
+	 */
+	cbIncludeIn: function(value, el, options)
+	{
+		var view = options.view;
+		if (!view) return;
+		
+		var method = options.useExclude
+			? 'cbExclude'
+			: 'cbInclude';
+		
+		var states = value.split(' ');
+		
+		var stateChangeHandler = function()
+		{
+			this[method](states.indexOf(view.currentState) != -1, el);
+		};
+		
+		view.addEventListener('change:currentState', stateChangeHandler, this);
+		stateChangeHandler.call(this);
+	},
+	
+	/**
+	 * Removes the specified element from the layout when the View's `currentState`
+	 * matches one of the states listed in the attribute's value; multiple states should
+	 * be separated by spaces
+	 * 
+	 * @example		cb-exclude-from="confused frightened"
+	 * 
+	 * @param 		value
+	 * @param 		el
+	 * @param 		options
+	 */
+	cbExcludeFrom: function(value, el, options)
+	{
+		this.cbIncludeIn(value, el, conbo.extend(options, {useExclude:true}));
+	},
+	
 });

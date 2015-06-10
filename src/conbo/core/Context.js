@@ -17,8 +17,8 @@ conbo.Context = conbo.EventDispatcher.extend
 	{
 		options || (options = {});
 		
-		_defineIncalculableProperty(this, '__commands__', {});
-		_defineIncalculableProperty(this, '__singletons__', {});
+		_defineUnenumerableProperty(this, '__commands__', {});
+		_defineUnenumerableProperty(this, '__singletons__', {});
 		
 		this.app = options.app;
 		this.namespace = options.namespace || options.app.namespace;

@@ -477,7 +477,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			
 		});
 		
-		_defineIncalculableProperty(view, '__bindings__', bindings);
+		_defineUnenumerableProperty(view, '__bindings__', bindings);
 		
 		return this;
 	},

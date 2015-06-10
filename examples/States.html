@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Conbo.js - States</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0">
+</head>
+<body>
+	
+	<div cb-app="MyApp">
+	
+		<select cb-bind="currentState">
+			<option>happy</option>
+			<option>sad</option>
+			<option>confused</option>
+		</select>
+		
+		<h1 cb-include-in="happy">:-)</h1>
+		<h1 cb-include-in="sad">:-(</h1>
+		<h1 cb-include-in="confused">:-/</h1>
+		
+	</div>
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="../build/conbo.js"></script>
+	<script src="States.js"></script>
+</body>
+</html>
