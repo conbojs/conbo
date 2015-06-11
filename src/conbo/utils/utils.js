@@ -1072,11 +1072,11 @@ conbo.makeBindable = function(obj, propNames)
  * 
  * @param	{String}		obj
  * @param	{Array}			propNames (optional)
- * @param	{useForIn}		Whether or not to include properties further up the prototype chain (default: true)
+ * @param	{useForIn}		Whether or not to include properties further up the prototype chain
  */
 conbo.makeAllBindable = function(obj, propNames, useForIn)
 {
-	propNames = conbo.uniq((propNames || []).concat(conbo.properties(obj, useForIn)));// !== false)));
+	propNames = conbo.uniq((propNames || []).concat(conbo.properties(obj, useForIn)));
 	conbo.makeBindable(obj, propNames);
 	
 	return this;
