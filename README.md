@@ -14,7 +14,7 @@ While Conbo.js offers a great base for server-side Node.js applications, and the
 Browser support
 ---------------
 
-Conbo.js targets ECMAScript 5 compliant browsers, officially supporting the two most recent major releases of Firefox, Chrome (desktop and Android), Safari (desktop and iOS) and Internet Explorer.
+Conbo.js is designed for use with ECMAScript 5 compliant browsers, targeting the two most recent major releases of Firefox, Chrome (desktop and Android), Safari (desktop and iOS) and Internet Explorer.
 
 Extendible classes
 ------------------
