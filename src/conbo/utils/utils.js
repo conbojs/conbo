@@ -1076,7 +1076,7 @@ conbo.makeBindable = function(obj, propNames)
  */
 conbo.makeAllBindable = function(obj, propNames, useForIn)
 {
-	propNames = conbo.uniq((propNames || []).concat(conbo.properties(obj, useForIn !== false)));
+	propNames = conbo.uniq((propNames || []).concat(conbo.properties(obj, useForIn)));// !== false)));
 	conbo.makeBindable(obj, propNames);
 	
 	return this;

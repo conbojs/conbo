@@ -62,6 +62,8 @@
 	
 	ns.MyApp = conbo.Application.extend
 	({
+		namespace: ns,
+		
 		/**
 		 * Application will automatically use an instance of this class as 
 		 * the application's context (event bus); uses vanilla conbo.Context

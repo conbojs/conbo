@@ -13,31 +13,31 @@
 	ns.MyLoadedView = conbo.View.extend
 	({
 		/**
-		 * Someone's favourite colour
-		 */
-		favoriteColor: 'blue',
-		
-		/**
 		 * HTML templates can be loaded by adding a templateUrl property to your
 		 * class, passing options.templateUrl or loaded a URL using this.loadTemplate('url/of/my.html');
 		 */
 		templateUrl: 'template-1.html',
 		
+		initialize: function()
+		{
+			// Someone's favourite colour
+			this.favoriteColor = 'blue';
+		}
 	});
 	
 	ns.MyOtherView = conbo.View.extend
 	({
-		/**
-		 * Someone's favourite colour
-		 */
-		favoriteColor: 'pink',
-		
 		/**
 		 * HTML templates can be added directly to your class using the templat
 		 * property or passing in options.template to your constructor
 		 */
 		template: 'This is an internal template using the <b>template property of the View class</b> whose favourite colour is <span cb-style="favoriteColor:color" cb-bind="favoriteColor"></span>',
 		
+		initialize: function()
+		{
+			// Someone's favourite colour
+			this.favoriteColor = 'pink';
+		}
 	});
 	
 	ns.MyApp = conbo.Application.extend
