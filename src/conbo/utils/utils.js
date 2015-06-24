@@ -935,6 +935,22 @@ conbo.formatNumber = function(number, decimals, decimalPoint, thousandsSeparator
 }
 
 /**
+ * Format a number as a currency
+ * 
+ * @param number
+ * @param symbol
+ * @param suffixed
+ * @param decimals
+ * @param decimalPoint
+ * @param thousandsSeparator
+ */
+conbo.formatCurrency = function(number, symbol, suffixed, decimals, decimalPoint, thousandsSeparator)
+{
+	var n = conbo.formatNumber(number, decimals, decimalPoint, thousandsSeparator);
+	return suffixed ? n+symbol : symbol+n;
+}
+
+/**
  * Copies all of the enumerable values from one or more objects and sets
  * them to another.
  * 
