@@ -915,8 +915,8 @@ conbo.formatNumber = function(number, decimals, decimalPoint, thousandsSeparator
 	
 	var n = !isFinite(+number) ? 0 : +number,
 		prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
-		sep = conbo.isUndefined(thousands_sep) ? ',' : thousandsSeparator,
-		dec = conbo.isUndefined(dec_point) ? '.' : decimalPoint,
+		sep = conbo.isUndefined(thousandsSeparator) ? ',' : thousandsSeparator,
+		dec = conbo.isUndefined(decimalPoint) ? '.' : decimalPoint,
 		s = n.toFixed(prec).split('.')
 		;
 	
