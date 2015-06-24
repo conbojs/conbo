@@ -898,6 +898,43 @@ conbo.toCamelCase = function(string)
 };
 
 /**
+ * Format a number using the selected number of decimals, using the 
+ * provided decimal point, thousands separator 
+ * 
+ * Based on http://phpjs.org/functions/number_format/
+ * 
+ * @param 	number
+ * @param 	decimals				default: 0
+ * @param 	decimalPoint			default: '.'
+ * @param 	thousandsSeparator	default: ','
+ * @returns	String	Formatted number
+ */
+conbo.formatNumber = function(number, decimals, decimalPoint, thousandsSeparator) 
+{
+	number = (number+'').replace(/[^0-9+\-Ee.]/g, '');
+	
+	var n = !isFinite(+number) ? 0 : +number,
+		prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+		sep = conbo.isUndefined(thousands_sep) ? ',' : thousandsSeparator,
+		dec = conbo.isUndefined(dec_point) ? '.' : decimalPoint,
+		s = n.toFixed(prec).split('.')
+		;
+	
+	if (s[0].length > 3) 
+	{
+		s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+	}
+	
+	if ((s[1] || '').length < prec) 
+	{
+		s[1] = s[1] || '';
+		s[1] += new Array(prec-s[1].length+1).join('0');
+	}
+	
+	return s.join(dec);
+}
+
+/**
  * Copies all of the enumerable values from one or more objects and sets
  * them to another.
  * 
@@ -1009,17 +1046,17 @@ conbo.loadCss = function(url, media)
 		return this;
 	}
 	
-    var link, head; 
-    
-    link = document.createElement('link');
-    link.rel  = 'stylesheet';
-    link.type = 'text/css';
-    link.href = url;
-    link.media = media || 'all';
-    
+	var link, head; 
+		
+		link = document.createElement('link');
+		link.rel	= 'stylesheet';
+		link.type = 'text/css';
+		link.href = url;
+		link.media = media || 'all';
+		
 	head = document.getElementsByTagName('head')[0];
-    head.appendChild(link);
-    
+	head.appendChild(link);
+		
 	return this;
 };
 
