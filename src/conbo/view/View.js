@@ -28,10 +28,9 @@ conbo.View = conbo.Glimpse.extend
 			'templateUrl'
 		];
 		
-		conbo.extend(this, conbo.pick(options, viewOptions));
+		conbo.setValues(this, conbo.pick(options, viewOptions));
 		
-		this._ensureElement();
-		
+		this._updateEl();
 		this.context = options.context;
 		
 		_defineUnenumerableProperty(this, 'currentState');
@@ -49,7 +48,7 @@ conbo.View = conbo.Glimpse.extend
 		}
 		else
 		{
-			if (!!template && conbo.isString(template))
+			if (conbo.isString(template))
 			{
 				this.$el.html(template);
 			}
@@ -89,7 +88,7 @@ conbo.View = conbo.Glimpse.extend
 			
 			return $content.length
 				? $content
-				: $el;
+				: this.$el;
 		}
 	},
 	
@@ -164,26 +163,41 @@ conbo.View = conbo.Glimpse.extend
 		return this;
 	},
 	
+	get $el()
+	{
+		return $(this.el);
+	},
+	
+	set $el(element)
+	{
+		this.el = element;
+	},
+	
+	get el()
+	{
+		return this._el;
+	},
+	
 	/**
 	 * Change the view's element (`this.el` property) and re-bind events
 	 */
-	setElement: function(element)
+	set el(element)
 	{
 		var isBound = !!this.__bindings__;
+		var el = this._el;
+		var $el = $(element);
 		
-		if (!!this.el) delete this.el.cbView;
+		if (!!el) delete el.cbView;
 		if (isBound) this.unbindView();
 		
-		_defineUnenumerableProperty(this, '$el', $(element));
-		_defineUnenumerableProperty(this, 'el', this.$el[0]);
+		el = $el[0];
+		el.cbView = this;
 		
-		this.el.cbView = this;
+		_defineUnenumerableProperty(this, '_el', el);
 		
 		if (isBound) this.bindView();
 		
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ELEMENT_CHANGE));
-		
-		return this;
 	},
 	
 	/**
@@ -318,56 +332,40 @@ conbo.View = conbo.Glimpse.extend
 	},
 	
 	/**
-	 * Ensure that the View has a DOM element to render into.
-	 * If `this.el` is a string, pass it through `$()`, take the first
-	 * matching element, and re-assign it to `el`. Otherwise, create
-	 * an element from the `id`, `className` and `tagName` properties.
+	 * Ensure that the View has a DOM element to render and that its attributes,
+	 * ID and classes are set correctly using the `id`, `className` and 
+	 * `tagName` properties.
 	 * 
 	 * @private
 	 */
-	_ensureElement: function() 
+	_updateEl: function() 
 	{
-		var attrs = conbo.extend({}, this.attributes);
+		var attrs = conbo.setValues({}, this.attributes);
 		
 		if (!this.el) 
 		{
 			if (this.id) attrs.id = this.id;
-			this.setElement($('<'+this.tagName+'>'));
-		}
-		else 
-		{
-			this.setElement(this.el);
-		}
-		
-		if (this.className) 
-		{
-			this.$el.addClass(this.className);
+			this.el = $('<'+this.tagName+'>');
 		}
 		
 		this.$el.attr(attrs);
-		
-		if (this instanceof conbo.Application)
-		{
-			this.$el.addClass('cb-app');
-		}
-		
-		this.$el.addClass('cb-view');
+		this.$el.addClass('cb-view '+(this.className||''));
 	},
 	
-	_getParent: function(findApplication)
+	_getParent: function(findApp)
 	{
-		if (!this.$el || conbo.instanceOf(this, conbo.Application))
+		if (!this.el || conbo.instanceOf(this, conbo.Application))
 		{
 			return;
 		}
 		
-		var selector = findApplication
+		var selector = findApp
 			? '.cb-app'
 			: '.cb-view';
 		
 		var el = this.$el.parents().closest(selector)[0];
 		
-		if (el && (findApplication || this.parentApplication.$el.has(el).length))
+		if (el && (findApp || this.parentApp.$el.has(el).length))
 		{
 			return el.cbView;
 		}

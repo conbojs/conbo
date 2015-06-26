@@ -93,8 +93,18 @@ conbo.Application = conbo.View.extend
 	{
 		name || (name = '');
 		return this.prefix ? this.prefix+'.'+name : name;
-	}
-
+	},
+	
+	/**
+	 * Ensure that this class has an element
+	 * @override
+	 */
+	_updateEl: function()
+	{
+		conbo.View.prototype._updateEl.call(this);
+		this.$el.addClass('cb-app');
+	},
+	
 });
 
 _denumerate(conbo.Application.prototype);
