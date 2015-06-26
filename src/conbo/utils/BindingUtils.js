@@ -372,7 +372,6 @@ conbo.BindingUtils = conbo.Class.extend({},
 		
 		var options = {view:view},
 			bindings = [],
-			$nestedViews = view.$('.cb-app, [cb-app], .cb-view, [cb-view]'),
 			$ignored = view.$('[cb-repeat]'),
 			scope = this;
 		
@@ -386,8 +385,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 		view.$('*').add(view.el).filter(function()
 		{
 			if (this == view.el) return true;
-			if (!!$nestedViews.find(this).length || !!$nestedViews.filter(this).length) return false;
-			if (!!$ignored.find(this).length) return false;
+			if ($ignored.find(this).length) return false;
 			return true;
 		})
 		.each(function(index, el)
@@ -553,9 +551,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 		
 		var scope = this;
 		
-		rootView.$('[cb-'+attr+']').not('.cb-'+attr).each(function(index, el)
+		rootView.$el.find('[cb-'+attr+']').not('.cb-'+attr).each(function(index, el)
 		{
-			var className = rootView.$(el).cbAttrs()[attr],
+			var className = $(el).cbAttrs()[attr],
 				classReference;
 			
 			if (classReference = scope.getClass(className, namespace))

@@ -77,6 +77,35 @@ conbo.View = conbo.Glimpse.extend
 	},
 	
 	/**
+	 * A jQuery wrapped version of the `content` element
+	 * 
+	 * @see	#content
+	 */
+	get $content()
+	{
+		if (this.el)
+		{
+			var $content = this.$('[cb-content]');
+			
+			return $content.length
+				? $content
+				: $el;
+		}
+	},
+	
+	/**
+	 * The element into which HTML content should be placed; this is either the 
+	 * first DOM element with a `cb-content` or the root element of this view
+	 */
+	get content()
+	{
+		if (this.el)
+		{
+			return this.$content[0];
+		}
+	},
+			
+	/**
 	 * The context that will automatically be applied to children
 	 * when binding or appending Views inside of this View
 	 */
@@ -92,11 +121,23 @@ conbo.View = conbo.Glimpse.extend
 	
 	/**
 	 * jQuery delegate for element lookup, scoped to DOM elements within the
-	 * current view. This should be prefered to global lookups where possible.
+	 * current view and automatically excludes nested Views and Applications. 
+	 * 
+	 * This should be prefered to global lookups where possible.
 	 */
 	$: function(selector)
 	{
-		return this.$el.find(selector);
+		var $nestedViews = this.$el.find('.cb-app, [cb-app], .cb-view, [cb-view]');
+		
+		return this.$el.find(selector).filter(function()
+		{
+			if (!!$nestedViews.find(this).length || !!$nestedViews.filter(this).length) 
+			{
+				return false;
+			}
+			
+			return true;
+		});
 	},
 	
 	/**
@@ -170,7 +211,7 @@ conbo.View = conbo.Glimpse.extend
 			throw new Error('Parameter must be instance of conbo.View class');
 		}
 	
-		this.$el.append(view.el);
+		this.$content.append(view.el);
 		
 		return this;
 	},
@@ -200,7 +241,7 @@ conbo.View = conbo.Glimpse.extend
 			throw new Error('Parameter must be instance of conbo.View class');
 		}
 		
-		this.$el.prepend(view.el);
+		this.$content.prepend(view.el);
 		
 		return this;
 	},
