@@ -729,7 +729,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * Reserved attributes
 	 * @private
 	 */
-	_reservedAttributes: ['app', 'view', 'glimpse'],
+	_reservedAttributes: ['app', 'view', 'glimpse', 'content'],
 	
 	/**
 	 * Is the specified attribute reserved for another purpose?

@@ -946,9 +946,43 @@ conbo.formatNumber = function(number, decimals, decimalPoint, thousandsSeparator
  */
 conbo.formatCurrency = function(number, symbol, suffixed, decimals, decimalPoint, thousandsSeparator)
 {
+	if (conbo.isUndefined(decimals)) decimals = 2;
+	symbol || (symbol = '');
 	var n = conbo.formatNumber(number, decimals, decimalPoint, thousandsSeparator);
 	return suffixed ? n+symbol : symbol+n;
 }
+
+/**
+ * Encodes all of the special characters contained in a string into HTML 
+ * entities, making it safe for use in an HTML document
+ * 
+ * @param string
+ */
+conbo.encodeEntities = function(string)
+{
+	if (!conbo.isString(string)) string = '';
+	
+	return string.replace(/[\u00A0-\u9999<>\&]/gim, function(char)
+	{
+		return '&#'+char.charCodeAt(0)+';';
+	});
+};
+
+/**
+ * Decodes all of the HTML entities contained in an string, replacing them with
+ * special characters, making it safe for use in plain text documents
+ * 
+ * @param string
+ */
+conbo.decodeEntities = function(string) 
+{
+	if (!conbo.isString(string)) string = '';
+	
+	return string.replace(/&#(\d+);/g, function(match, dec) 
+	{
+		return String.fromCharCode(dec);
+	});
+};
 
 /**
  * Copies all of the enumerable values from one or more objects and sets

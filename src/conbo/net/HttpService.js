@@ -46,6 +46,7 @@ conbo.HttpService = conbo.EventDispatcher.extend
 		var contentType;
 		
 		data = conbo.clone(data) || {};
+		method || (method = 'GET');
 		resultClass || (resultClass = this.resultClass);
 		
 		contentType = this.contentType
@@ -60,7 +61,7 @@ conbo.HttpService = conbo.EventDispatcher.extend
 		var promise = $.ajax
 		({
 			data: data,
-			type: method || 'GET',
+			type: 'GET',
 			headers: this.headers,
 			url: this.rootUrl+command,
 			contentType: contentType,

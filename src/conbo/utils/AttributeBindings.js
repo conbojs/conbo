@@ -122,12 +122,7 @@ conbo.AttributeBindings = conbo.Class.extend
 	 */
 	cbText: function(value, el)
 	{
-		var html = (value || '').replace(/[\u00A0-\u9999<>\&]/gim, function(char)
- 		{
- 			return '&#'+char.charCodeAt(0)+';';
- 		});
- 		
-		$(el).html(html);
+		$(el).html(conbo.encodeEntities(value));
 	},
 	
 	/**
