@@ -115,14 +115,16 @@ conbo.AttributeBindings = conbo.Class.extend
 	/**
 	 * Inserts text into the element so that it appears on screen exactly as
 	 * it's written by converting special characters (<, >, &, etc) into HTML
-	 * entities before rendering them, e.g. "8 < 10" becomes "8 &lt; 10"
+	 * entities before rendering them, e.g. "8 < 10" becomes "8 &lt; 10", and
+	 * line breaks into <br/>
 	 * 
 	 * @param value
 	 * @param el
 	 */
 	cbText: function(value, el)
 	{
-		$(el).html(conbo.encodeEntities(value));
+		value = conbo.encodeEntities(value).replace(/\r?\n|\r/g, '<br/>');
+		$(el).html(value);
 	},
 	
 	/**

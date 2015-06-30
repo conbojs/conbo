@@ -32,6 +32,7 @@ conbo.ConboEvent = conbo.Event.extend
 												// 'change:[attribute]' (Properties: model, value, options when a specific attribute has been updated.
 	ADD:					'add', 				// (Properties: model, collection, options) when a model is added to a collection.
 	REMOVE:					'remove', 			// (Properties: model, collection, options) when a model is removed from a collection.
+												// View: the View's element has been removed from the DOM
 	DESTROY:				'destroy', 			// (Properties: model, collection, options) when a model is destroyed.
 	RESET:					'reset', 			// (Properties: collection, options) when the collection's entire contents have been replaced.
 	SORT:					'sort', 			// (Properties: collection, options) when the collection has been re-sorted.
@@ -47,11 +48,13 @@ conbo.ConboEvent = conbo.Event.extend
 	
 	// View
 	
-	TEMPLATE_LOADED:		'templateloaded',	// Template data has been loaded into the View
+	TEMPLATE_LOADED:		'templateloaded',	// Template data has been loaded into the View and can now be manipulated in the DOM
 	BIND:					'bind',				// Fired by an element after having one or more property bound to it by Conbo
-	VIEW_BOUND:				'viewbound',		// All elements in View HTML have been bound by Conbo 
+	BOUND:					'bound',			// All elements in HTML have been bound to the View 
+	UNBOUND:				'unbound',			// All elements in HTML have been unbound from the View 
 	INIT:					'init',				// For a View, this means template loaded, elements bound, DOM rendered  
 	ELEMENT_CHANGE:			'elementchange',	// The View's element has changed
+	DETACH:					'detach',			// The View has been detached from the DOM
 	
 	// Web Services
 	

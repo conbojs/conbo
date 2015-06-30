@@ -145,6 +145,7 @@ conbo.View = conbo.Glimpse.extend
 	detach: function() 
 	{
 		this.$el.detach();		
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.DETACH));
 		
 		return this;
 	},
@@ -159,6 +160,7 @@ conbo.View = conbo.Glimpse.extend
 			.removeEventListener();
 		
 		this.$el.remove();
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
 		
 		return this;
 	},
@@ -269,7 +271,7 @@ conbo.View = conbo.Glimpse.extend
 	bindView: function()
 	{
 		conbo.BindingUtils.bindView(this);
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.VIEW_BOUND));
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.BOUND));
 		return this;
 	},
 	
@@ -280,6 +282,7 @@ conbo.View = conbo.Glimpse.extend
 	unbindView: function() 
 	{
 		conbo.BindingUtils.unbindView(this);
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.UNBOUND));
 		return this;
 	},
 	
