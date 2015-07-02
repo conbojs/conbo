@@ -374,17 +374,11 @@ conbo.AttributeBindings = conbo.Class.extend
 	cbIncludeIn: function(value, el, options)
 	{
 		var view = options.view;
-		if (!view) return;
-		
-		var method = options.useExclude
-			? 'cbExclude'
-			: 'cbInclude';
-		
 		var states = value.split(' ');
 		
 		var stateChangeHandler = function()
 		{
-			this[method](states.indexOf(view.currentState) != -1, el);
+			this.cbInclude(states.indexOf(view.currentState) != -1, el);
 		};
 		
 		view.addEventListener('change:currentState', stateChangeHandler, this);
@@ -404,7 +398,16 @@ conbo.AttributeBindings = conbo.Class.extend
 	 */
 	cbExcludeFrom: function(value, el, options)
 	{
-		this.cbIncludeIn(value, el, conbo.extend(options, {useExclude:true}));
+		var view = options.view;
+		var states = value.split(' ');
+		
+		var stateChangeHandler = function()
+		{
+			this.cbExclude(states.indexOf(view.currentState) != -1, el);
+		};
+		
+		view.addEventListener('change:currentState', stateChangeHandler, this);
+		stateChangeHandler.call(this);
 	},
 	
 });
