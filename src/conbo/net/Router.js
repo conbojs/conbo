@@ -120,11 +120,11 @@ conbo.Router = conbo.EventDispatcher.extend
 		return this.navigate(fragment, options);
 	},
 	
-	get href()
+	get pathname()
 	{
 		return this.history.getHash();
 	},
-	set href(value)
+	set pathname(value)
 	{
 		this.navigateTo(value);
 	},
