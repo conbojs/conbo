@@ -43,6 +43,7 @@ conbo.ConboEvent = conbo.Event.extend
 	ROUTE:					'route', 			// (Properties: router, route, params) Fired by history (or router) when any route has been matched.
 												// 'route:[name]' // (Properties: params) Fired by the router when a specific route is matched.
 	
+	NAVIGATE:				'navigate',			// Dispatched by history (or router) when the pathname changes, regardless of whether the route has changed
 	STARTED:				'started',			// A process, e.g. history, has started
 	STOPPED:				'stopped',			// A process, e.g. history, has stopped
 	

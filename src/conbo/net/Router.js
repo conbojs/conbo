@@ -40,12 +40,14 @@ conbo.Router = conbo.EventDispatcher.extend
 	start: function(options)
 	{
 		this.history.start(options);
+		this.history.addEventListener(conbo.ConboEvent.NAVIGATE, this.dispatchEvent, this);
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.STARTED));
 	},
 	
 	stop: function()
 	{
 		this.history.stop();
+		this.history.removeEventListener(conbo.ConboEvent.NAVIGATE, this.dispatchEvent, this);
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.STOPPED));
 	},
 	

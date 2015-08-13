@@ -183,6 +183,8 @@ conbo.History = conbo.EventDispatcher.extend
 		{
 			this.loadUrl(fragment);
 		}
+		
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.NAVIGATE));
 	},
 	
 	toString: function()
