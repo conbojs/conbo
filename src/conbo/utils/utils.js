@@ -898,6 +898,15 @@ conbo.toCamelCase = function(string)
 };
 
 /**
+ * Convert camelCaseWords into underscore_case_words
+ */
+conbo.toUnderscoreCase = function(string, separator)
+{
+	separator || (separator = '_');
+	return (string || '').replace(/\W+/g, separator).replace(/([a-z\d])([A-Z])/g, '$1'+separator+'$2').toLowerCase();
+};
+
+/**
  * Format a number using the selected number of decimals, using the 
  * provided decimal point, thousands separator 
  * 
