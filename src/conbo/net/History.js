@@ -123,12 +123,16 @@ conbo.History = conbo.EventDispatcher.extend
 	 */
 	checkUrl: function(e)
 	{
-		if (this.getFragment() === this.fragment) 
+		var changed = this.getFragment() !== this.fragment;
+		
+		if (changed)
 		{
-			return false;
+			this.loadUrl() || this.loadUrl(this.getHash());
 		}
 		
-		this.loadUrl() || this.loadUrl(this.getHash());
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.NAVIGATE));
+		
+		return !changed;
 	},
 	
 	/**
@@ -183,8 +187,6 @@ conbo.History = conbo.EventDispatcher.extend
 		{
 			this.loadUrl(fragment);
 		}
-		
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.NAVIGATE));
 	},
 	
 	toString: function()
