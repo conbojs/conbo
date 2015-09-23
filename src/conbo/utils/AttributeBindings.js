@@ -410,4 +410,28 @@ conbo.AttributeBindings = conbo.Class.extend
 		stateChangeHandler.call(this);
 	},
 	
+	/**
+	 * Completely removes an element from the DOM based on a bound property value, 
+	 * primarily intended to facilitate graceful degredation and removal of desktop 
+	 * features in mobile environments.
+	 * 
+	 * <p>WARNING: Experimental!</p>
+	 * 
+	 * @example		cb-remove="isMobile"
+	 * 
+	 * @param 		value
+	 * @param 		el
+	 */
+	cbRemove: function(value, el)
+	{
+		if (!!value)
+		{
+			var $el = $(el);
+			
+			// TODO Remove any bindings?
+			
+			$el.remove();
+		}
+	},
+	
 });

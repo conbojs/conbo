@@ -170,6 +170,17 @@ conbo.BindingUtils = conbo.Class.extend({},
 	},
 	
 	/**
+	 * Unbinds the specified property of a bindable class from the specified DOM element
+	 * 
+	 *  @param	el		DOM element
+	 *  @param	view	View class
+	 */
+	unbindElement: function(source, propName, element)
+	{
+		// TODO Implement unbindElement
+	},
+	
+	/**
 	 * Bind a DOM element to the property of a EventDispatcher class instance,
 	 * e.g. Hash or Model, using cb-* attributes to specify how the binding
 	 * should be made.

@@ -2,7 +2,7 @@
  * Conbo.js: Lightweight MVC application framework for JavaScript
  * http://conbojs.mesmotronic.com/
  * 
- * Copyright (c) 2013 Mesmotronic Limited
+ * Copyright (c) 2015 Mesmotronic Limited
  * Released under the MIT license
  * http://www.mesmotronic.com/legal/mit
  */
@@ -30,7 +30,7 @@
 	{
 		var conbo = 
 		{
-			VERSION:'2.1.2',
+			VERSION: '2.1.3',
 			
 			toString: function() 
 			{ 
