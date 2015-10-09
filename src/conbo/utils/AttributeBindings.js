@@ -434,4 +434,17 @@ conbo.AttributeBindings = conbo.Class.extend
 		}
 	},
 	
+	/**
+	 * The opposite of `cbRemove`
+	 * 
+	 * <p>WARNING: Experimental!</p>
+	 * 
+	 * @param value
+	 * @param el
+	 */
+	cbKeep: function(value, el)
+	{
+		this.cbRemove(!value, el);
+	},
+	
 });

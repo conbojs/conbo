@@ -1107,15 +1107,15 @@ conbo.loadCss = function(url, media)
 	
 	var link, head; 
 		
-		link = document.createElement('link');
-		link.rel	= 'stylesheet';
-		link.type = 'text/css';
-		link.href = url;
-		link.media = media || 'all';
-		
+	link = document.createElement('link');
+	link.rel	= 'stylesheet';
+	link.type = 'text/css';
+	link.href = url;
+	link.media = media || 'all';
+	
 	head = document.getElementsByTagName('head')[0];
 	head.appendChild(link);
-		
+	
 	return this;
 };
 
