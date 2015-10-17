@@ -44,6 +44,11 @@
 		}
 	});
 	
+	/**
+	 * When instantiated an Application without specifying an element, it will
+	 * automatically seek out the first DOM element with a matching cp-app
+	 * attribute
+	 */
 	window.app = new ns.MyApp();
 	
 })(this);

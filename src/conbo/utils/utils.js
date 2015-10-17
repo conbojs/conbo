@@ -1,12 +1,14 @@
 /*
  * Utility methods
- * A modified subset of Underscore.js methods, plus loads of our own
+ * 
+ * A modified subset of Underscore.js methods,
+ * plus loads of our own
  */
-
-var _ = {};
 
 (function() 
 {
+	var _ = {};
+	
 	// Establish the object that gets returned to break out of a loop iteration.
 	var breaker = {};
 
@@ -898,7 +900,7 @@ conbo.toCamelCase = function(string)
 };
 
 /**
- * Convert camelCaseWords into underscore_case_words
+ * Convert camelCaseWords into underscore_case_words (or another user defined separator)
  */
 conbo.toUnderscoreCase = function(string, separator)
 {
@@ -1063,6 +1065,8 @@ conbo.cloneProperty = function(source, sourceName, target, targetName)
  */
 conbo.instanceOf = function(obj, classOrInterface)
 {
+	if (!obj) return false;
+	
 	var partials = conbo.rest(arguments);
 	
 	for (var p=0, c=partials.length; p<c; p++)

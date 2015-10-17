@@ -33,7 +33,7 @@ module.exports = function (grunt)
 					"temp/conbo-core.tmp":
 					[
 					 	"src/conbo/utils/utils.js",
-					 	"src/conbo/utils/jquery.js",
+					 	"src/conbo/utils/dom.js",
 					 	"src/conbo/utils/css.js",
 					 	"src/conbo/core/Class.js",
 					 	"src/conbo/core/IInjectable.js",

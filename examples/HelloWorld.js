@@ -18,8 +18,8 @@
 	});
 	
 	/**
-	 * Passing el to the constructor will automatically add your
-	 * application to that element
+	 * Passing el to the constructor will automatically add your application
+	 * to that element. 
 	 */
 	new ns.MyApp({el:document.body});
 	

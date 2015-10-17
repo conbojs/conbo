@@ -66,11 +66,10 @@
 	});
 	
 	/**
-	 * If you don't specify a target element, the app will automatically try
-	 * to find a cb-app declararation with the same name as itself, otherwise
-	 * it will populate a new element which you can add to the page manually
-	 * using the `el` property of your app
+	 * conbo.init automatically scans the DOM for cb-app declarations and
+	 * instantiates the appropriate Application instance from the specified
+	 * namespace
 	 */
-	new ns.LocalisedApp();
+	conbo.init(ns);
 	
 })(window);

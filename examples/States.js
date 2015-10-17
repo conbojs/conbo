@@ -19,9 +19,10 @@
 	});
 	
 	/**
-	 * Passing el to the constructor will automatically add your
-	 * application to that element
+	 * conbo.init automatically scans the DOM for cb-app declarations and
+	 * instantiates the appropriate Application instance from the specified
+	 * namespace
 	 */
-	new ns.MyApp();
+	conbo.init(ns);
 	
 })();

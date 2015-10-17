@@ -21,7 +21,6 @@ conbo.Application = conbo.View.extend
 	{
 		options = conbo.clone(options) || {};
 		
-		var prefix = options.prefix || this.prefix || '';
 		var namespace = options.namespace || this.namespace;
 		
 		if (!namespace)
@@ -29,7 +28,6 @@ conbo.Application = conbo.View.extend
 			conbo.warn('Application namespace not specified');
 		}
 		
-		_defineUnenumerableProperty(this, 'prefix', prefix);
 		_defineUnenumerableProperty(this, 'namespace', namespace);
 		
 		options.app = this;
@@ -78,21 +76,10 @@ conbo.Application = conbo.View.extend
 		
 		if (!appName) return undefined;
 		
-		var selector = '[cb-app="'+this._addPrefix(appName)+'"]',
+		var selector = '[cb-app="'+appName+'"]',
 			el = $(selector)[0];
 		
 		return el || undefined;
-	},
-	
-	/**
-	 * Returns prefixed class name
-	 * @param 	name
-	 * @returns
-	 */
-	_addPrefix: function(name)
-	{
-		name || (name = '');
-		return this.prefix ? this.prefix+'.'+name : name;
 	},
 	
 	/**

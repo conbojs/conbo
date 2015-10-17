@@ -93,6 +93,11 @@
 		}
 	});
 	
-	new ns.MyApp({el:document.body});
+	/**
+	 * conbo.init automatically scans the DOM for cb-app declarations and
+	 * instantiates the appropriate Application instance from the specified
+	 * namespace
+	 */
+	conbo.init(ns);
 	
 })();

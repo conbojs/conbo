@@ -1,10 +1,46 @@
 /*
- * jQuery plug-ins and expressions
+ * DOM utilities, jQuery plug-ins and expressions
  * @author		Neil Rackett
  */
 
+/**
+ * Initialize Applications in the DOM using the specified namespace
+ * 
+ * By default, Conbo scans the entire DOM, but you can limit the
+ * scope by specifying a root element
+ */
+conbo.init = function(namespace, rootEl)
+{
+	var $rootEl = $(rootEl || 'html');
+	
+	if (!conbo.isObject(namespace))
+	{
+		conbo.warn('Unable to initialize namespace:', namespace);
+		return;
+	}
+	
+	$(function()
+	{
+		$rootEl.find('[cb-app]').each(function(index, el)
+       	{
+			var $el = $(el)
+       		  , appName = $el.attr('cb-app')
+       		  , appClass = namespace[appName]
+       		  ;
+       		
+       		if (appClass)
+       		{
+       			new appClass({el:el})
+       		}
+       	});
+	});
+}
+
 if (!!$)
 {
+	/**
+	 * Return a list of cb-* attributes on the DOM element
+	 */
 	$.fn.cbAttrs = function(camelCase)
 	{
 		var data = {},
