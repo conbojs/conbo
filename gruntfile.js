@@ -68,11 +68,6 @@ module.exports = function (grunt)
 						// Legacy
 						"src/conbo/net/History.js",
 						"src/conbo/net/Router.js",
-						
-						// Deprecated
-//						"src/conbo/net/sync.js",
-//						"src/conbo/data/Model.js",
-//						"src/conbo/collections/Collection.js"
 					],
 					
 					"build/conbo-core.js":
