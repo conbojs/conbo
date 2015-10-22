@@ -8,7 +8,7 @@
  */
 conbo.BindingUtils = conbo.Class.extend({},
 {
-	_attrBindings: new conbo.AttributeBindings(),
+	__attrBindings: new conbo.AttributeBindings(),
 	
 	/**
 	 * Bind a property of a EventDispatcher class instance (e.g. Hash or Model) 
@@ -82,7 +82,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 							
 							eventHandler = function(event)
 							{	
-								scope._set.call(source, propName, $el.is(':checked'));
+								scope.__set.call(source, propName, $el.is(':checked'));
 							};
 							
 							$el.on(eventType, eventHandler);
@@ -136,7 +136,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 					
 					eventHandler = function(event)
 					{	
-						scope._set.call(source, propName, $el.val() === undefined ? $el.html() : $el.val());
+						scope.__set.call(source, propName, $el.val() === undefined ? $el.html() : $el.val());
 					};
 					
 					$el.on(eventType, eventHandler);
@@ -200,7 +200,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 */
 	bindAttribute: function(source, propertyName, element, attributeName, parseFunction, options)
 	{
-		if (this._isReservedAttribute(attributeName))
+		if (this.__isReservedAttribute(attributeName))
 		{
 			return [];
 		}
@@ -236,7 +236,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			
 			default:
 			{
-				isConbo = camelCase in this._attrBindings;
+				isConbo = camelCase in this.__attrBindings;
 				isNative = !isConbo && attributeName in element;
 			}
 		}
@@ -254,14 +254,14 @@ conbo.BindingUtils = conbo.Class.extend({},
 					return this;
 				}
 				
-				var fn = scope._attrBindings[camelCase],
+				var fn = scope.__attrBindings[camelCase],
 					isRaw = fn.raw;
 				
 				if (isRaw)
 				{
 					fn.apply
 					(
-						scope._attrBindings, 
+						scope.__attrBindings, 
 						[propertyName, element].concat(args)
 					);
 				}
@@ -271,7 +271,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 					{
 						fn.apply
 						(
-							scope._attrBindings, 
+							scope.__attrBindings, 
 							[parseFunction(source[propertyName]), element].concat(args)
 						);
 					}
@@ -337,7 +337,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 						
 						eventHandler = function()
 		     			{
-							scope._set.call(source, propertyName, element[attributeName]);
+							scope.__set.call(source, propertyName, element[attributeName]);
 		     			};
 						
 		     			eventType = 'input change';
@@ -418,7 +418,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			
 			keys.forEach(function(key)
 			{
-				if (scope._isReservedAttribute(key))
+				if (scope.__isReservedAttribute(key))
 				{
 					return;
 				}
@@ -426,7 +426,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 				var a, i, f,
 					d = cbData[key],
 					b = d.split('|'),
-					splits = scope._splitAttribute('cb-'+key, b[0]);
+					splits = scope.__splitAttribute('cb-'+key, b[0]);
 				
 				if (!splits)
 				{
@@ -606,7 +606,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 				return;
 			}
 			
-			scope._set.call(destination, destinationPropertyName, event.value);
+			scope.__set.call(destination, destinationPropertyName, event.value);
 		});
 		
 		if (twoWay && destination instanceof conbo.EventDispatcher)
@@ -714,11 +714,11 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * @param 	attribute
 	 * @param 	value
 	 * @param 	options
-	 * @example	BindingUtils._set.call(target, 'n', 123);
-	 * @example	BindingUtils._set.call(target, {n:123, s:'abc'});
+	 * @example	BindingUtils.__set.call(target, 'n', 123);
+	 * @example	BindingUtils.__set.call(target, {n:123, s:'abc'});
 	 * @returns	this
 	 */
-	_set: function(propName, value)
+	__set: function(propName, value)
 	{
 		if (this[propName] === value)
 		{
@@ -740,7 +740,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * Reserved attributes
 	 * @private
 	 */
-	_reservedAttributes: ['app', 'view', 'glimpse', 'content'],
+	__reservedAttributes: ['app', 'view', 'glimpse', 'content'],
 	
 	/**
 	 * Is the specified attribute reserved for another purpose?
@@ -749,9 +749,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * @param 		{String}	value
 	 * @returns		{Boolean}
 	 */
-	_isReservedAttribute: function(value)
+	__isReservedAttribute: function(value)
 	{
-		return this._reservedAttributes.indexOf(value) != -1;
+		return this.__reservedAttributes.indexOf(value) != -1;
 	},
 	
 	/**
@@ -759,7 +759,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * @private
 	 * @param value
 	 */
-	_splitAttribute: function(attribute, value)
+	__splitAttribute: function(attribute, value)
 	{
 		if (!conbo.isString(value))
 		{
@@ -770,7 +770,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			o = {},
 			i;
 		
-		var c = this._attrBindings.canHandleMultiple(attribute)
+		var c = this.__attrBindings.canHandleMultiple(attribute)
 			? a.length
 			: 1;
 		

@@ -1,3 +1,6 @@
+/**
+ * Hash that stores data in localStorage
+ */
 conbo.LocalHash = conbo.Hash.extend
 ({
 	load: function()

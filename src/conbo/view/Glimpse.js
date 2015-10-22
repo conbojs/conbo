@@ -23,7 +23,7 @@ conbo.Glimpse = conbo.EventDispatcher.extend
 			this.el = options.el;
 		}
 		
-		this._ensureElement();
+		this.__ensureElement();
 		
 		if (this.template)
 		{
@@ -77,7 +77,7 @@ conbo.Glimpse = conbo.EventDispatcher.extend
 	 * 
 	 * @private
 	 */
-	_ensureElement: function() 
+	__ensureElement: function() 
 	{
 		var el = this.el;
 		

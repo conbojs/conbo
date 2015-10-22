@@ -17,13 +17,13 @@ conbo.Context = conbo.EventDispatcher.extend
 	{
 		options || (options = {});
 		
-		_defineUnenumerableProperty(this, '__commands__', {});
-		_defineUnenumerableProperty(this, '__singletons__', {});
+		_defineUnenumerableProperty(this, '__commands', {});
+		_defineUnenumerableProperty(this, '__singletons', {});
 		
 		this.app = options.app;
 		this.namespace = options.namespace || options.app.namespace;
 		
-		this.addEventListener(conbo.Event.ALL, this._allHandler);
+		this.addEventListener(conbo.Event.ALL, this.__allHandler);
 		this.initialize.apply(this, arguments);
 		
 		conbo.makeAllBindable(this, this.bindable);
@@ -56,15 +56,15 @@ conbo.Context = conbo.EventDispatcher.extend
 		if (!eventType) throw new Error('eventType cannot be undefined');
 		if (!commandClass) throw new Error('commandClass cannot be undefined');
 		
-		if (this._mapMulti(eventType, commandClass, this.mapCommand)) return;
+		if (this.__mapMulti(eventType, commandClass, this.mapCommand)) return;
 		
-		if (this.__commands__[eventType] && this.__commands__[eventType].indexOf(commandClass) != -1)
+		if (this.__commands[eventType] && this.__commands[eventType].indexOf(commandClass) != -1)
 		{
 			return;
 		}
 		
-		this.__commands__[eventType] = this.__commands__[eventType] || [];
-		this.__commands__[eventType].push(commandClass);
+		this.__commands[eventType] = this.__commands[eventType] || [];
+		this.__commands[eventType].push(commandClass);
 		
 		return this;
 	},
@@ -75,18 +75,18 @@ conbo.Context = conbo.EventDispatcher.extend
 	unmapCommand: function(eventType, commandClass)
 	{
 		if (!eventType) throw new Error('eventType cannot be undefined');
-		if (this._mapMulti(eventType, commandClass, this.unmapCommand)) return;
+		if (this.__mapMulti(eventType, commandClass, this.unmapCommand)) return;
 		
 		if (commandClass === undefined)
 		{
-			delete this.__commands__[eventType];
+			delete this.__commands[eventType];
 			return;
 		}
 		
-		if (!this.__commands__[eventType]) return;
-		var index = this.__commands__[eventType].indexOf(commandClass);
+		if (!this.__commands[eventType]) return;
+		var index = this.__commands[eventType].indexOf(commandClass);
 		if (index == -1) return;
-		this.__commands__[eventType].splice(index, 1);
+		this.__commands[eventType].splice(index, 1);
 		
 		return this;
 	},
@@ -106,9 +106,9 @@ conbo.Context = conbo.EventDispatcher.extend
 		if (!propertyName) throw new Error('propertyName cannot be undefined');
 //		if (!singletonClass) throw new Error('singletonClass cannot be undefined');
 		
-		if (this._mapMulti(propertyName, singletonClass, this.mapSingleton)) return;
+		if (this.__mapMulti(propertyName, singletonClass, this.mapSingleton)) return;
 		
-		this.__singletons__[propertyName] = conbo.isClass(singletonClass)
+		this.__singletons[propertyName] = conbo.isClass(singletonClass)
 			// TODO Improved dynamic class instantiation
 			? new singletonClass(arguments[2], arguments[3], arguments[4])
 			: singletonClass;
@@ -122,10 +122,10 @@ conbo.Context = conbo.EventDispatcher.extend
 	unmapSingleton: function(propertyName)
 	{
 		if (!propertyName) throw new Error('propertyName cannot be undefined');
-		if (this._mapMulti(propertyName, null, this.unmapSingleton)) return;
+		if (this.__mapMulti(propertyName, null, this.unmapSingleton)) return;
 		
-		if (!this.__singletons__[propertyName]) return;
-		delete this.__singletons__[propertyName];
+		if (!this.__singletons[propertyName]) return;
+		delete this.__singletons[propertyName];
 		
 		return this;
 	},
@@ -147,9 +147,9 @@ conbo.Context = conbo.EventDispatcher.extend
 		{
 			if (obj[a] !== undefined) continue;
 			
-			if (a in this.__singletons__)
+			if (a in this.__singletons)
 			{
-				obj[a] = this.__singletons__[a];
+				obj[a] = this.__singletons[a];
 			}
 		}
 		
@@ -164,14 +164,14 @@ conbo.Context = conbo.EventDispatcher.extend
 	/**
 	 * @private
 	 */
-	_allHandler: function(event)
+	__allHandler: function(event)
 	{
-		var commands = conbo.union(this.__commands__.all || [], this.__commands__[event.type] || []);
+		var commands = conbo.union(this.__commands.all || [], this.__commands[event.type] || []);
 		if (!commands.length) return;
 		
 		conbo.forEach(commands, function(commandClass, index, list)
 		{
-			this._executeCommand(commandClass, event);
+			this.__executeCommand(commandClass, event);
 		}, 
 		this);
 	},
@@ -179,7 +179,7 @@ conbo.Context = conbo.EventDispatcher.extend
 	/**
 	 * @private
 	 */
-	_executeCommand: function(commandClass, event)
+	__executeCommand: function(commandClass, event)
 	{
 		var command, options;
 		
@@ -195,7 +195,7 @@ conbo.Context = conbo.EventDispatcher.extend
 	/**
 	 * @private
 	 */
-	_mapMulti: function(n, c, f)
+	__mapMulti: function(n, c, f)
 	{
 		if (conbo.isArray(n) || n.indexOf(' ') == -1) return false;
 		var names = conbo.isArray(n) ? n : n.split(' ');

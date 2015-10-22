@@ -46,7 +46,7 @@ module.exports = function (grunt)
 						"src/conbo/collections/List.js",
 						"src/conbo/utils/AttributeBindings.js",
 						"src/conbo/utils/BindingUtils.js",
-						"src/conbo/utils/toCamelCase.js",
+						"src/conbo/utils/MutationObserver.js",
 					 	"src/conbo/view/IDataRenderer.js",
 						"src/conbo/view/Glimpse.js",
 						"src/conbo/view/View.js",

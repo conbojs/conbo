@@ -26,7 +26,7 @@ conbo.Router = conbo.EventDispatcher.extend
 			this.routes = options.routes;
 		}
 		
-		this._bindRoutes();
+		this.__bindRoutes();
 		
 		this.context = options.context;
 		this.initialize.apply(this, arguments);
@@ -63,7 +63,7 @@ conbo.Router = conbo.EventDispatcher.extend
 	{
 		if (!conbo.isRegExp(route)) 
 		{
-			route = this._routeToRegExp(route);
+			route = this.__routeToRegExp(route);
 		}
 		
 		if (!callback) 
@@ -84,7 +84,7 @@ conbo.Router = conbo.EventDispatcher.extend
 		
 		this.history.route(route, this.bind(function(fragment)
 		{
-			var args = this._extractParameters(route, fragment);
+			var args = this.__extractParameters(route, fragment);
 			
 			callback && callback.apply(this, args);
 			
@@ -122,11 +122,11 @@ conbo.Router = conbo.EventDispatcher.extend
 		return this.navigate(fragment, options);
 	},
 	
-	get pathname()
+	get path()
 	{
 		return this.history.getHash();
 	},
-	set pathname(value)
+	set path(value)
 	{
 		this.navigateTo(value);
 	},
@@ -143,7 +143,7 @@ conbo.Router = conbo.EventDispatcher.extend
 	 * 
 	 * @private
 	 */
-	_bindRoutes: function() 
+	__bindRoutes: function() 
 	{
 		if (!this.routes)
 		{
@@ -165,7 +165,7 @@ conbo.Router = conbo.EventDispatcher.extend
 	 * 
 	 * @private
 	 */
-	_routeToRegExp: function(route) 
+	__routeToRegExp: function(route) 
 	{
 		route = route.replace(escapeRegExp, '\\$&')
 			.replace(optionalParam, '(?:$1)?')
@@ -184,7 +184,7 @@ conbo.Router = conbo.EventDispatcher.extend
 	 * 
 	 * @private
 	 */
-	_extractParameters: function(route, fragment) 
+	__extractParameters: function(route, fragment) 
 	{
 		var params = route.exec(fragment).slice(1);
 		

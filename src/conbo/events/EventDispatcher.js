@@ -39,8 +39,8 @@ conbo.EventDispatcher = conbo.Class.extend
 		if (!handler || !conbo.isFunction(handler)) throw new Error('Event handler is undefined or not a function');
 
 		if (conbo.isString(type)) type = type.split(' ');
-		if (conbo.isArray(type)) conbo.forEach(type, function(value, index, list) { this._addEventListener(value, handler, scope, priority, !!once); }, this);
-		else conbo.forEach(type, function(value, key, list) { this._addEventListener(key, value, scope, priority, !!once); }, this); 
+		if (conbo.isArray(type)) conbo.forEach(type, function(value, index, list) { this.__addEventListener(value, handler, scope, priority, !!once); }, this);
+		else conbo.forEach(type, function(value, key, list) { this.__addEventListener(key, value, scope, priority, !!once); }, this); 
 		
 		return this;
 	},
@@ -65,8 +65,8 @@ conbo.EventDispatcher = conbo.Class.extend
 		var a = arguments;
 		
 		if (conbo.isString(type)) type = type.split(' ');
-		if (conbo.isArray(type)) conbo.forEach(type, function(value, index, list) { this._removeEventListener.apply(this, a); }, this);
-		else conbo.forEach(type, function(value, key, list) { this._removeEventListener.apply(this, a); }, this);
+		if (conbo.isArray(type)) conbo.forEach(type, function(value, index, list) { this.__removeEventListener.apply(this, a); }, this);
+		else conbo.forEach(type, function(value, key, list) { this.__removeEventListener.apply(this, a); }, this);
 		
 		return this;
 	},
@@ -103,7 +103,7 @@ conbo.EventDispatcher = conbo.Class.extend
 		{
 			var value = queue[i];
 			var returnValue = value.handler.call(value.scope || this, event);
-			if (value.once) this._removeEventListener(event.type, value.handler, value.scope);
+			if (value.once) this.__removeEventListener(event.type, value.handler, value.scope);
 			if (returnValue === false || event.immediatePropagationStopped) break;
 		}
 		
@@ -122,15 +122,20 @@ conbo.EventDispatcher = conbo.Class.extend
 		},
 		this);
 	},
-	
+
+	toString: function()
+	{
+		return 'conbo.EventDispatcher';
+	},
+
 	/**
 	 * @private
 	 */
-	_addEventListener: function(type, handler, scope, priority, once)
+	__addEventListener: function(type, handler, scope, priority, once)
 	{
 		if (type == '*') type = 'all';
 		if (!this.__queue__) _defineUnenumerableProperty(this, '__queue__', {});
-		this._removeEventListener(type, handler, scope);
+		this.__removeEventListener(type, handler, scope);
 		
 		if (!(type in this.__queue__)) this.__queue__[type] = [];
 		this.__queue__[type].push({handler:handler, scope:scope, once:once, priority:priority||0});
@@ -140,7 +145,7 @@ conbo.EventDispatcher = conbo.Class.extend
 	/**
 	 * @private
 	 */
-	_removeEventListener: function(type, handler, scope)
+	__removeEventListener: function(type, handler, scope)
 	{
 		if (!this.__queue__ || !(type in this.__queue__)) return this;
 		
@@ -165,11 +170,6 @@ conbo.EventDispatcher = conbo.Class.extend
 		
 		return this;
 	},
-	
-	toString: function()
-	{
-		return 'conbo.EventDispatcher';
-	}	
 	
 }).implement(conbo.IInjectable);
 

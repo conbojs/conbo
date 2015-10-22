@@ -14,14 +14,14 @@ conbo.AsyncToken = conbo.EventDispatcher.extend
  		));
 		
 		this.responders = [];
-		this.bindAll('_dispatchResult', '_dispatchFault');
+		this.bindAll('__dispatchResult', '__dispatchFault');
 		
 		var promise = options.promise;
 		if (!promise) return;
 		
 		promise
-			.done(this._dispatchResult)
-			.fail(this._dispatchFault);
+			.done(this.__dispatchResult)
+			.fail(this.__dispatchFault);
 	},
 	
 	addResponder: function(responder)
@@ -40,7 +40,7 @@ conbo.AsyncToken = conbo.EventDispatcher.extend
 		return 'conbo.AsyncToken';
 	},
 	
-	_dispatchResult: function(result, status, xhr)
+	__dispatchResult: function(result, status, xhr)
 	{
 		var resultClass = this.resultClass;
 		
@@ -73,7 +73,7 @@ conbo.AsyncToken = conbo.EventDispatcher.extend
 		this.dispatchEvent(event);
 	},
 	
-	_dispatchFault: function(xhr, status, errorThrown)
+	__dispatchFault: function(xhr, status, errorThrown)
 	{
 		var event = new conbo.ConboEvent('fault', {fault:errorThrown, status:xhr.status, xhr:xhr});
 		

@@ -181,7 +181,7 @@ conbo.History = conbo.EventDispatcher.extend
 		}
 		
 		this.fragment = fragment;
-		this._updateHash(this.location, fragment, options.replace);
+		this.__updateHash(this.location, fragment, options.replace);
 		
 		if (options.trigger) 
 		{
@@ -198,7 +198,7 @@ conbo.History = conbo.EventDispatcher.extend
 	 * Update the hash location, either replacing the current entry, or
 	 * adding a new one to the browser history.
 	 */
-	_updateHash: function(location, fragment, replace)
+	__updateHash: function(location, fragment, replace)
 	{
 		if (replace)
 		{

@@ -875,7 +875,10 @@
 /**
  * Is Conbo supported by the current browser?
  */
-conbo.isSupported = !!Object.defineProperty && !!Object.getOwnPropertyDescriptor;
+conbo.isSupported = 
+	window.addEventListener
+	&& !!Object.defineProperty 
+	&& !!Object.getOwnPropertyDescriptor;
 
 /**
  * Do nothing

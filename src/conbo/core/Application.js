@@ -32,7 +32,7 @@ conbo.Application = conbo.View.extend
 		
 		options.app = this;
 		options.context = new this.contextClass(options);
-		options.el || (options.el = this._findAppElement());
+		options.el || (options.el = this.__findAppElement());
 		
 		conbo.View.prototype.constructor.call(this, options);
 		conbo.BindingUtils.applyViews(this, this.namespace);
@@ -43,10 +43,46 @@ conbo.Application = conbo.View.extend
 		return 'conbo.Application';
 	},
 	
+	get observeEnabled()
+	{
+		return !!this.__mo;
+	},
+	
+	set observeEnabled(value)
+	{
+		if (value == this.observeEnabled) return;
+		
+		if (value)
+		{
+			var mo;
+			
+			mo = new conbo.MutationObserver();
+			mo.observe(this.el);
+			
+			mo.addEventListener(conbo.ConboEvent.ADD, function()
+			{
+				conbo.BindingUtils.applyViews(this, this.namespace);
+			}, this);
+			
+			this.__mo = mo;
+		}
+		else if (this.__mo)
+		{
+			var mo = this.__mo;
+			
+			mo.removeEventListener();
+			mo.disconnect();
+			
+			delete this.__mo;
+		}
+		
+		this.dispatchChange('observeEnabled');
+	},
+	
 	/**
 	 * Find element with matching cb-app attribute, if it exists
 	 */
-	_findAppElement: function()
+	__findAppElement: function()
 	{
 		var $apps = $('[cb-app]');
 		
@@ -86,9 +122,9 @@ conbo.Application = conbo.View.extend
 	 * Ensure that this class has an element
 	 * @override
 	 */
-	_updateEl: function()
+	__updateEl: function()
 	{
-		conbo.View.prototype._updateEl.call(this);
+		conbo.View.prototype.__updateEl.call(this);
 		this.$el.addClass('cb-app');
 	},
 	

@@ -30,7 +30,7 @@ conbo.View = conbo.Glimpse.extend
 		
 		conbo.setValues(this, conbo.pick(options, viewOptions));
 		
-		this._updateEl();
+		this.__updateEl();
 		this.context = options.context;
 		
 		_defineUnenumerableProperty(this, 'currentState');
@@ -53,7 +53,7 @@ conbo.View = conbo.Glimpse.extend
 				this.$el.html(template);
 			}
 			
-			this._initView();
+			this.__initView();
 		}
 	},
 	
@@ -63,7 +63,7 @@ conbo.View = conbo.Glimpse.extend
 	 */
 	get parent()
 	{
-		return this._getParent();
+		return this.__getParent();
 	},
 	
 	/**
@@ -72,7 +72,7 @@ conbo.View = conbo.Glimpse.extend
 	 */
 	get parentApp()
 	{
-		return this._getParent(true);
+		return this.__getParent(true);
 	},
 	
 	/**
@@ -309,7 +309,7 @@ conbo.View = conbo.Glimpse.extend
 				callbackFunction.apply(this, arguments);
 			}
 			
-			this._initView();
+			this.__initView();
 		});
 		
 		this.$el.load(url, data, completeHandler);
@@ -323,7 +323,7 @@ conbo.View = conbo.Glimpse.extend
 	/**
 	 * Populate and render the View's HTML content
 	 */
-	_initView: function()
+	__initView: function()
 	{
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.TEMPLATE_LOADED));
 		this.bindView();
@@ -341,7 +341,7 @@ conbo.View = conbo.Glimpse.extend
 	 * 
 	 * @private
 	 */
-	_updateEl: function() 
+	__updateEl: function() 
 	{
 		var attrs = conbo.setValues({}, this.attributes);
 		
@@ -355,7 +355,7 @@ conbo.View = conbo.Glimpse.extend
 		this.$el.addClass('cb-view '+(this.className||''));
 	},
 	
-	_getParent: function(findApp)
+	__getParent: function(findApp)
 	{
 		if (!this.el || conbo.instanceOf(this, conbo.Application))
 		{

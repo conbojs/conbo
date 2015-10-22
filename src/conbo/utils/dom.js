@@ -1,5 +1,5 @@
 /*
- * DOM utilities, jQuery plug-ins and expressions
+ * DOM and jQuery utilities
  * @author		Neil Rackett
  */
 
@@ -21,7 +21,7 @@ conbo.init = function(namespace, rootEl)
 	
 	$(function()
 	{
-		$rootEl.find('[cb-app]').each(function(index, el)
+		$rootEl.find('[cb-app]').not('.cb-app').each(function(index, el)
        	{
 			var $el = $(el)
        		  , appName = $el.attr('cb-app')
