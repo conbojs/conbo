@@ -23,14 +23,17 @@ conbo.MutationObserver = conbo.EventDispatcher.extend
 		{
 			var mo = new MutationObserver(this.bind(function(mutations, observer)
 			{
-				if (mutations[0].addedNodes.length)
+				var added = mutations[0].addedNodes;
+				var removed = mutations[0].removedNodes
+				
+				if (added.length)
 				{
-					this.__addHandler();
+					this.__addHandler(conbo.toArray(added));
 				}
 			
 				if (mutations[0].removedNodes.length)
 				{
-					this.__removeHandler();
+					this.__removeHandler(conbo.toArray(removed));
 				}
 			}));
 			
@@ -64,13 +67,23 @@ conbo.MutationObserver = conbo.EventDispatcher.extend
 		}
 	},
 	
-	__addHandler: function()
+	__addHandler: function(event)
 	{
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
+		var nodes = conbo.isArray(event)
+			? event
+			: [event.target];
+		
+		conbo.log(nodes);
+		
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD, {nodes:nodes}));
 	},
 	
-	__removeHandler: function()
+	__removeHandler: function(event)
 	{
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
+		var nodes = conbo.isArray(event)
+			? event
+			: [event.target];
+		
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE, {nodes:nodes}));
 	}
 });
