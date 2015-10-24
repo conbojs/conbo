@@ -43,8 +43,8 @@ conbo.MutationObserver = conbo.EventDispatcher.extend
 		}
 		else
 		{
-			el.addEventListener('DOMNodeInserted', __addHandler, false);
-			el.addEventListener('DOMNodeRemoved', __removeHandler, false);
+			el.addEventListener('DOMNodeInserted', this.__addHandler);
+			el.addEventListener('DOMNodeRemoved', this.__removeHandler);
 			
 			this.__el = el;
 		}
@@ -72,8 +72,6 @@ conbo.MutationObserver = conbo.EventDispatcher.extend
 		var nodes = conbo.isArray(event)
 			? event
 			: [event.target];
-		
-		conbo.log(nodes);
 		
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD, {nodes:nodes}));
 	},
