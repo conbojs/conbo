@@ -19,6 +19,7 @@ conbo.MutationObserver = conbo.EventDispatcher.extend
 		
 		var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 		
+		// Modern browsers
 		if (MutationObserver)
 		{
 			var mo = new MutationObserver(this.bind(function(mutations, observer)
@@ -41,6 +42,7 @@ conbo.MutationObserver = conbo.EventDispatcher.extend
 			
 			this.__mo = mo;
 		}
+		// IE9
 		else
 		{
 			el.addEventListener('DOMNodeInserted', this.__addHandler);

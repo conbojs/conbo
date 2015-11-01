@@ -1213,6 +1213,18 @@ conbo.isBindable = function(obj, propName)
 	return !!descriptor.set && descriptor.set.bindable;
 };
 
+/**
+ * Is the value empty?
+ * Based on PHP's `empty()` method
+ */
+conbo.isEmpty = function(value)
+{
+	return !value // 0, false, undefined, null 
+		|| (conbo.isArray(value) && value.length) // []
+		|| (!isNaN(value) && !parseFloat(value)) // "0", "0.0", etc
+		;
+}
+
 /*
  * Polyfill methods for useful ECMAScript 5 methods that aren't quite universal
  */

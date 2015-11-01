@@ -81,7 +81,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 							eventType = 'input change';
 							
 							eventHandler = function(event)
-							{	
+							{
 								scope.__set.call(source, propName, $el.is(':checked'));
 							};
 							
@@ -723,6 +723,12 @@ conbo.BindingUtils = conbo.Class.extend({},
 		if (this[propName] === value)
 		{
 			return this;
+		}
+		
+		// Ensure numbers are returned as Number not String
+		if (!isNaN(value))
+		{
+			value = parseFloat(value);
 		}
 		
 		this[propName] = value;
