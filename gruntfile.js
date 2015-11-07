@@ -101,7 +101,7 @@ module.exports = function (grunt)
 				mangle:
 				{
 					screw_ie8: true,
-					toplevel: false
+					toplevel: true
 				},
 				
 				compress:
