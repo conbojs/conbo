@@ -38,11 +38,10 @@ conbo.Application = conbo.View.extend
 		conbo.BindingUtils.applyViews(this, this.namespace);
 	},
 	
-	toString: function()
-	{
-		return 'conbo.Application';
-	},
-	
+	/**
+	 * If true, the application will automatically apply Glimpse and View 
+	 * classes to elements when they're added to the DOM 
+	 */
 	get observeEnabled()
 	{
 		return !!this.__mo;
@@ -62,7 +61,9 @@ conbo.Application = conbo.View.extend
 			mo.addEventListener(conbo.ConboEvent.ADD, function()
 			{
 				conbo.BindingUtils.applyViews(this, this.namespace);
-			}, this);
+				conbo.BindingUtils.applyViews(this, this.namespace, 'glimpse');
+			}, 
+			this);
 			
 			this.__mo = mo;
 		}
@@ -77,6 +78,11 @@ conbo.Application = conbo.View.extend
 		}
 		
 		this.dispatchChange('observeEnabled');
+	},
+	
+	toString: function()
+	{
+		return 'conbo.Application';
 	},
 	
 	/**

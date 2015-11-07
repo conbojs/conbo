@@ -565,10 +565,11 @@ conbo.BindingUtils = conbo.Class.extend({},
 		rootView.$el.find('[cb-'+attr+']').not('.cb-'+attr).each(function(index, el)
 		{
 			var className = $(el).cbAttrs()[attr],
-				classReference;
+				classReference = scope.getClass(className, namespace);
 			
-			if (classReference = scope.getClass(className, namespace))
+			if (classReference)
 			{
+				// TODO Apply subcontext of "closest" view?
 				new classReference({el:el, context:rootView.subcontext});
 			}
 		});
