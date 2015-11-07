@@ -7,11 +7,11 @@
 	</head>
 	
 	<body cb-app="MyApp">
-	
+		
 		<div cb-view="MyView">
-			<p><label><input type="checkbox" cb-checked="myModel.selected" cb-value="myValue"> Tick the box to toggle text visibility</label></p>
-			<h1 cb-hide="myModel.selected">Not selected :-(</h1>
-			<h1 cb-show="myModel.selected">SELECTED! :-)</h1>
+			<p><label><input type="checkbox" cb-checked="myModel.selected" cb-value="myValue"> Tick the box to toggle the text</label></p>
+			<h1 cb-exclude="myModel.selected">Not selected :-(</h1>
+			<h1 cb-include="myModel.selected">SELECTED! :-)</h1>
 			<p><button cb-onclick="myClick">Click me!</button></p>
 		</div>
 		

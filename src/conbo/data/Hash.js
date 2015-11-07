@@ -21,6 +21,7 @@ conbo.Hash = conbo.EventDispatcher.extend
 		if (!!options) this.context = options.context;
 		
 		conbo.defaults(this, source, this.defaults)		
+		delete this.defaults;
 		
 		this.initialize.apply(this, arguments);
 		

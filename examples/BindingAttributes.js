@@ -2,7 +2,7 @@
  * Example of how to use cb-* binding attributes with Conbo.js
  * @author	Neil Rackett
  */
-conbo('ns', function()
+conbo('ns', conbo, function(conbo, undefined)
 {
 	var ns = this;
 	
@@ -34,7 +34,7 @@ conbo('ns', function()
 		 * Properties with a value of undefined that have been mapped to 
 		 * singletons in the context are automatically injected
 		 * 
-		 * Properties of this model can be bound using the magic of cb-* attributes
+		 * Properties of this model can be bound using the magic cb-* attributes
 		 */
 		myModel: undefined,
 		

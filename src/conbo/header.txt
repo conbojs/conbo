@@ -1,32 +1,28 @@
-/*! 
- * Conbo.js: Lightweight MVC application framework for JavaScript
- * http://conbojs.mesmotronic.com/
- * 
- * Copyright (c) 2015 Mesmotronic Limited
- * Released under the MIT license
- * http://www.mesmotronic.com/legal/mit
- */
-
-/**
- * CONBO.JS
- * 
- * Conbo.js is a lightweight MVC application framework for JavaScript featuring 
- * dependency injection, context and encapsulation, data binding, command 
- * pattern and an event model which enables callback scoping and consistent 
- * event handling
- * 
- * Dependencies
- *
- * Lite: None
- * Core and Complete: jQuery 1.7+
- * 
- * @author		Neil Rackett
- * @see			http://www.mesmotronic.com/
- */
-
-(function(window, document, undefined)
+(function(window, document, create, undefined)
 {
-	var create = function($)
+	// Node.js
+	if (typeof module != 'undefined' && module.exports)
 	{
-
+		var $;
 		
+		try { $ = require('jQuery'); } catch (e) {
+		try { $ = require('jquery'); } catch (e) {}}
+		
+    	module.exports = create($);
+    }
+    // AMD
+    else if (typeof define == 'function' && define.amd) 
+	{
+		define('conbo', ['jquery'], function ($)
+		{
+			return create($);
+		});
+	}
+	// Global
+	else
+	{
+		window.conbo = create(window.jQuery || window.Zepto || window.ender);
+	}
+	
+	function create($)
+	{

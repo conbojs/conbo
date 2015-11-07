@@ -1,14 +1,12 @@
-
-		return conbo;
-	}
-	
+(function(window, document, create, undefined)
+{
 	// Node.js
-	if (typeof module !== 'undefined' && module.exports)
+	if (typeof module != 'undefined' && module.exports)
 	{
     	module.exports = create();
     }
     // AMD
-    else if (typeof define === 'function' && define.amd) 
+    else if (typeof define == 'function' && define.amd) 
 	{
 		define('conbo', function ()
 		{
@@ -21,4 +19,6 @@
 		window.conbo = create();
 	}
 	
-})(this, document);
+	function create()
+	{
+	

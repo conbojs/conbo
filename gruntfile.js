@@ -12,7 +12,7 @@ module.exports = function (grunt)
 					
 					"temp/conbo-lite.tmp":
 					[
-					 	"src/conbo/utils/conbo.js",
+					 	"src/conbo/conbo.js",
 					 	"src/conbo/utils/utils.js",
 					 	"src/conbo/core/Class.js",
 					 	"src/conbo/utils/Namespace.js",
@@ -25,16 +25,16 @@ module.exports = function (grunt)
 					
 					"build/conbo-lite.js":
 					[
-						"src/conbo/header.txt",
+						"src/conbo/header-lite.txt",
 						"temp/conbo-lite.tmp",
-						"src/conbo/footer-lite.txt"
+						"src/conbo/footer.txt"
 					],
 					
 					// Core
 					
 					"temp/conbo-core.tmp":
 					[
-					 	"src/conbo/utils/conbo.js",
+					 	"src/conbo/conbo.js",
 					 	"src/conbo/utils/utils.js",
 					 	"src/conbo/utils/dom.js",
 					 	"src/conbo/utils/css.js",
@@ -96,6 +96,21 @@ module.exports = function (grunt)
 		
 		uglify: 
 		{
+			options:
+			{
+				mangle:
+				{
+					screw_ie8: true,
+					toplevel: true
+				},
+				
+				compress:
+				{
+					screw_ie8: true,
+					negate_iife: true
+				}
+			},
+			
 			lite: 
 			{
 				src: 'build/conbo-lite.js',
@@ -111,7 +126,8 @@ module.exports = function (grunt)
 			complete:
 			{
 				src: 'build/conbo.js',
-				dest: 'build/conbo.min.js'
+				dest: 'build/conbo.min.js',
+				mangle: true
 			}
 		},
 		
