@@ -1,16 +1,29 @@
 /**
  * Namespace example for Conbo.js
  * 
- * Demonstrates how to automatically apply Application and View classes
- * to existing DOM elements using a namespace.
+ * As well as being able to automatically apply Application and View classes
+ * to existing DOM elements using a namespace, Conbo offers a modular method 
+ * of creating namespaces that is optimized for minification.
  * 
- * We suggest that all Conbo.js apps are allocated a namespace.
+ * @example	conbo('mynamespace', [globalVar, ...,] function(minifiableVar) { var ns = this; ... }
  * 
  * @author	Neil Rackett
  */
-conbo('ns', function()
+
+conbo('utils', function()
 {
 	var ns = this;
+	
+	ns.getHello = function(name)
+	{
+		return 'Hello '+name+'!';
+	};
+});
+
+conbo('ns', conbo, function(conbo)
+{
+	var ns = this;
+	var utils = conbo('utils');
 	
 	/**
 	 * By requiring your app to have a namespace, Conbo.js can automatically
@@ -26,7 +39,7 @@ conbo('ns', function()
 	
 	ns.MyView = conbo.View.extend
 	({
-		template: 'Hello Namespace!'
+		template: utils.getHello('Namespace')
 	});
 	
 	/**
