@@ -3,9 +3,9 @@
  * 
  * @author	Neil Rackett
  */
-(function()
+conbo('ns', function()
 {
-	var ns = {};
+	var ns = this;
 	
 	/**
 	 * Switch conbo.Hash (available in Core build) for conbo.RemoveHash (requires 
@@ -98,6 +98,6 @@
 	 * instantiates the appropriate Application instance from the specified
 	 * namespace
 	 */
-	conbo.init(ns);
+	ns.init();
 	
-})();
+});

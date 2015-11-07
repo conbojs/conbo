@@ -4,9 +4,9 @@
  * 
  * @author	Neil Rackett
  */
-(function()
+conbo('ns', conbo, function(conbo)
 {
-	var ns = {};
+	var ns = this;
 	
 	/**
 	 * Super class
@@ -44,6 +44,6 @@
 	 * instantiates the appropriate Application instance from the specified
 	 * namespace
 	 */
-	conbo.init(ns);
+	ns.init();
 	
-})();
+});

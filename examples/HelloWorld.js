@@ -4,12 +4,12 @@
  * 
  * @author	Neil Rackett
  */
-(function()
+conbo('ns', conbo, function(conbo)
 {
 	/**
 	 * Namespaces enable Conbo.js binding
 	 */
-	var ns = {};
+	var ns = this;
 	
 	ns.MyApp = conbo.Application.extend
 	({
@@ -23,4 +23,4 @@
 	 */
 	new ns.MyApp({el:document.body});
 	
-})();
+});

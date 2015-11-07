@@ -4,9 +4,9 @@
  * 
  * @author	Neil Rackett
  */
-(function()
+conbo('ns', conbo, function(conbo)
 {
-	var ns = {};
+	var ns = this;
 	
 	ns.MyApp = conbo.Application.extend
 	({
@@ -23,6 +23,6 @@
 	 * instantiates the appropriate Application instance from the specified
 	 * namespace
 	 */
-	conbo.init(ns);
+	ns.init();
 	
-})();
+});

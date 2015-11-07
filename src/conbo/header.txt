@@ -28,18 +28,5 @@
 {
 	var create = function($)
 	{
-		var conbo = 
-		{
-			VERSION: '2.2.0',
-			
-			toString: function() 
-			{ 
-				return 'Conbo '+this.VERSION; 
-			}
-		};
-		
-		if (!!$)
-		{
-			conbo.$ = $;
-		}
+
 		

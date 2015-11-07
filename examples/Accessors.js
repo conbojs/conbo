@@ -3,9 +3,11 @@
  * 
  * @author	Neil Rackett
  */
-(function(window, undefined)
+conbo('ns', this, conbo, function(window, conbo, undefined)
 {
-	var ns = {};
+	'use strict'
+	
+	var ns = this;
 	
 	ns.MyApp = conbo.Application.extend
 	({
@@ -51,4 +53,4 @@
 	 */
 	window.app = new ns.MyApp();
 	
-})(this);
+});

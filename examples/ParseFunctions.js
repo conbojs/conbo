@@ -2,9 +2,9 @@
  * Binding and parsing example for Conbo.js
  * @author	Neil Rackett
  */
-(function()
+conbo('ns', function()
 {
-	var ns = {};
+	var ns = this;
 	
 	/**
 	 * Switch conbo.Hash for conbo.RemoteHash if you need web services
@@ -127,6 +127,6 @@
 	 * instantiates the appropriate Application instance from the specified
 	 * namespace
 	 */
-	conbo.init(ns);
+	ns.init();
 	
-})();
+});

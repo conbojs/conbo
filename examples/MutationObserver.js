@@ -4,9 +4,9 @@
  * 
  * @author	Neil Rackett
  */
-(function()
+conbo('ns', function()
 {
-	var ns = {};
+	var ns = this;
 	
 	ns.MyView = conbo.View.extend
 	({
@@ -44,6 +44,6 @@
 	 * instantiates the appropriate Application instance from the specified
 	 * namespace
 	 */
-	conbo.init(ns);
+	ns.init();
 	
-})();
+});

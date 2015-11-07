@@ -4,11 +4,11 @@
  * 
  * @author	Neil Rackett
  */
-(function(undefined)
+conbo('conbo', function(undefined)
 {
 	'use strict'
 	
-	var ns = {};
+	var ns = this;
 	
 	ns.MyContext = conbo.Context.extend
 	({
@@ -97,6 +97,6 @@
 	 * instantiates the appropriate Application instance from the specified
 	 * namespace
 	 */
-	conbo.init(ns);
+	ns.init();
 	
-})();
+});

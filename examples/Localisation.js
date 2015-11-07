@@ -4,9 +4,9 @@
  * 
  * @author	Neil Rackett
  */
-(function(window)
+conbo('ns', this, function(window)
 {
-	var ns = {};
+	var ns = this;
 	
 	ns.LocalisationModel = conbo.RemoteHash.extend
 	({
@@ -70,6 +70,6 @@
 	 * instantiates the appropriate Application instance from the specified
 	 * namespace
 	 */
-	conbo.init(ns);
+	ns.init();
 	
-})(window);
+});

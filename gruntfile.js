@@ -12,8 +12,10 @@ module.exports = function (grunt)
 					
 					"temp/conbo-lite.tmp":
 					[
+					 	"src/conbo/utils/conbo.js",
 					 	"src/conbo/utils/utils.js",
 					 	"src/conbo/core/Class.js",
+					 	"src/conbo/utils/Namespace.js",
 						"src/conbo/events/Event.js",
 						"src/conbo/events/ConboEvent.js",
 						"src/conbo/events/EventDispatcher.js",
@@ -32,10 +34,12 @@ module.exports = function (grunt)
 					
 					"temp/conbo-core.tmp":
 					[
+					 	"src/conbo/utils/conbo.js",
 					 	"src/conbo/utils/utils.js",
 					 	"src/conbo/utils/dom.js",
 					 	"src/conbo/utils/css.js",
 					 	"src/conbo/core/Class.js",
+					 	"src/conbo/utils/Namespace.js",
 					 	"src/conbo/core/IInjectable.js",
 					 	"src/conbo/core/IPreinitialize.js",
 						"src/conbo/events/Event.js",

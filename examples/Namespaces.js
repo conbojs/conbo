@@ -8,9 +8,9 @@
  * 
  * @author	Neil Rackett
  */
-(function()
+conbo('ns', function()
 {
-	var ns = {};
+	var ns = this;
 	
 	/**
 	 * By requiring your app to have a namespace, Conbo.js can automatically
@@ -34,6 +34,6 @@
 	 * instantiates the appropriate Application instance from the specified
 	 * namespace
 	 */
-	conbo.init(ns);
+	ns.init();
 	
-})();
+});
