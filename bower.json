@@ -1,0 +1,22 @@
+{
+	"name": "conbo",
+	"version": "2.2.0",
+	"homepage": "https://github.com/mesmotronic/conbo-js",
+	"authors": [
+		"Neil Rackett"
+	],
+	"description": "Lightweight MVC application framework for JavaScript",
+	"main": "build/conbo.js",
+	"moduleType": [
+		"amd",
+		"globals",
+		"node"
+	],
+	"keywords": [
+		"conbo",
+		"javascript",
+		"mvc",
+		"binding"
+	],
+	"license": "MIT"
+}
