@@ -1,4 +1,4 @@
-(function(window, document, create, undefined)
+(function(window, document, undefined)
 {
 	// Node.js
 	if (typeof module != 'undefined' && module.exports)
