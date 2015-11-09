@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Conbo.js - Form Validation</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0">
+		<style type="text/css">
+			*
+			{
+				-webkit-transition: all 0.4s;
+				-moz-transition: all 0.4s;
+				-o-transition: all 0.4s;
+				
+				transition: all 0.4s;
+			}
+			
+			form 
+			{
+				border: 2px solid black;
+				padding: 12px;
+			}
+			
+			form.cb-invalid 
+			{
+				background-color: #FEE;
+			}
+			
+			form.cb-valid 
+			{
+				background-color: #EFE;
+			}
+			
+			form.cb-unchanged button,
+			form.cb-invalid button
+			{
+				opacity: 0.5;
+				pointer-events: none;
+			}
+			
+			label
+			{
+				display: block;
+				margin-bottom: 6px;
+			}
+			
+			label span
+			{
+				display: inline-block;
+				min-width: 100px;
+			}
+			
+			button
+			{
+				margin-top: 12px;
+				margin-left: 100px;
+			}
+			
+			.cb-valid
+			{
+				border: 2px solid #0F0;
+			}
+			
+			.cb-invalid
+			{
+				border: 2px solid #F00;
+			}
+			
+			.cb-invalid+i::after
+			{
+				color: #F00;
+			}
+			
+			input[type=text].cb-invalid+i::after
+			{
+				content: 'Name must be at least three letters long';
+			}
+			
+			input[type=number].cb-invalid+i::after
+			{
+				content: 'Must be at least 18 years old';
+			}
+		</style>
+	</head>
+	<body>
+		<div cb-app="MyApp">
+			<form>
+				<label><span>Name</span> <input type="text" cb-onvalidate="validateName" required /> <i></i></label>
+				<label><span>Age</span> <input type="number" cb-onvalidate="validateAge" required /> <i></i></label>
+				<button>Submit</button>
+			</form>
+		</div>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="../build/conbo.js"></script>
+		<script src="FormValidation.js"></script>
+	</body>
+</html>

@@ -36,6 +36,11 @@ conbo.AttributeBindings = conbo.Class.extend
 			: false;
 	},
 	
+	
+	/*
+	 * PROPERTY BINDINGS
+	 */
+	
 	/**
 	 * Makes an element visible
 	 * 
@@ -286,18 +291,6 @@ conbo.AttributeBindings = conbo.Class.extend
 	},
 	
 	/**
-	 * Enables the use of cb-onbind attribute to handle the 'bind' event 
-	 * dispatched by the element after it has been bound by Conbo
-	 * 
-	 * @param value
-	 * @param el
-	 */
-	cbOnbind: function(value, el)
-	{
-		el.addEventListener('bind', value);
-	},
-	
-	/**
 	 * Restricts text input to the specified characters
 	 * 
 	 * @param value
@@ -415,8 +408,6 @@ conbo.AttributeBindings = conbo.Class.extend
 	 * primarily intended to facilitate graceful degredation and removal of desktop 
 	 * features in mobile environments.
 	 * 
-	 * <p>WARNING: Experimental!</p>
-	 * 
 	 * @example		cb-remove="isMobile"
 	 * 
 	 * @param 		value
@@ -437,14 +428,139 @@ conbo.AttributeBindings = conbo.Class.extend
 	/**
 	 * The opposite of `cbRemove`
 	 * 
-	 * <p>WARNING: Experimental!</p>
-	 * 
 	 * @param value
 	 * @param el
 	 */
 	cbKeep: function(value, el)
 	{
 		this.cbRemove(!value, el);
+	},
+	
+	
+	/*
+	 * METHOD BINDINGS
+	 */
+	
+	/**
+	 * Enables the use of cb-onbind attribute to handle the 'bind' event 
+	 * dispatched by the element after it has been bound by Conbo
+	 * 
+	 * @param value
+	 * @param el
+	 */
+	cbOnbind: function(handler, el)
+	{
+		el.addEventListener('bind', handler);
+	},
+	
+	/**
+	 * The method (or regex) to use to validate a form element
+	 * 
+	 * @param value
+	 * @param el
+	 */
+	cbOnvalidate: function(validator, el)
+	{
+		var validateFunction;
+		
+		switch (true)
+		{
+			case conbo.isFunction(validator):
+			{
+				validateFunction = validator;
+				break;
+			}
+			
+			case conbo.isString(validator):
+			{
+				validator = new RegExp(validator);
+			}
+			
+			case conbo.isRegExp(validator):
+			{
+				validateFunction = function(value)
+				{
+					return validator.test(value);
+				};
+				
+				break;
+			}
+		}
+		
+		if (!conbo.isFunction(validator))
+		{
+			conbo.warn(validator+' is not a valid for cb-onvalidate');
+			return;
+		}
+		
+		var $el = $(el)
+			, $form = $el.closest('form')
+			, originalValue = $el.val() || $el.html()
+			;
+		
+		var updateFormChanged = function()
+		{
+			$form.addClass($form.find('.cb-changed').length ? 'cb-changed' : 'cb-unchanged');
+		};
+		
+		var validate = function()
+		{
+			// Form item
+			
+			var value = $el.val() || $el.html(),
+				valid = validateFunction(value),
+				changed = (value != originalValue)
+				;
+			
+			$el.removeClass('cb-valid cb-invalid cb-unchanged cb-changed')
+				.addClass(valid ? 'cb-valid' : 'cb-invalid')
+				.addClass(changed ? 'cb-changed' : 'cb-unchanged')
+				;
+			
+			// Form
+			
+			if ($form.length)
+			{
+				$form.removeClass('cb-valid cb-invalid cb-changed cb-unchanged')
+				
+				console.log(1, valid);
+				
+				if (valid) 
+				{
+					valid = !$form.find('.cb-invalid').length;
+					
+					console.log(2, valid);
+					
+					if (valid)
+					{
+						$form.find('[required]').each(function() 
+						{
+							var $el = $(this);
+							
+							if (!$.trim($el.val() || $el.html()))
+							{
+								valid = false;
+								return false; 
+							}
+						});
+					}
+					
+					console.log(3, valid);
+				}
+				
+				console.log(4, valid);
+				
+				$form.addClass(valid ? 'cb-valid' : 'cb-invalid');
+				updateFormChanged();
+			}
+			
+		};
+		
+		$el.on('change input blur', validate)
+			.addClass('cb-unchanged')
+			;
+		
+		updateFormChanged();
 	},
 	
 });

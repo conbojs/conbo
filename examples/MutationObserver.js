@@ -1,7 +1,5 @@
 /**
- * Supro example for Conbo.js
- * Demonstrates how to use the supro object
- * 
+ * Mutation observer example for Conbo.js
  * @author	Neil Rackett
  */
 conbo('ns', function()
