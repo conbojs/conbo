@@ -17,6 +17,7 @@
 			{
 				border: 2px solid black;
 				padding: 12px;
+				background-color: #EEE;
 			}
 			
 			form.cb-invalid 
@@ -83,7 +84,7 @@
 	<body>
 		<div cb-app="MyApp">
 			<form>
-				<label><span>Name</span> <input type="text" cb-validate="validateName" cb-detect-change required /> <i></i></label>
+				<label><span>Name</span> <input type="text" cb-validate="validateName" cb-restrict="lettersOnly" cb-max-chars="maxNameLength" cb-detect-change required /> <i></i></label>
 				<label><span>Age</span> <input type="number" cb-validate="validateAge" cb-detect-change required /> <i></i></label>
 				<button>Submit</button>
 			</form>

@@ -286,46 +286,6 @@ conbo.AttributeBindings = conbo.Class.extend
 	},
 	
 	/**
-	 * Restricts text input to the specified characters
-	 * 
-	 * @param value
-	 * @param el
-	 */
-	cbRestrict: function(value, el)
-	{
-		// TODO Restrict to text input fields?
-		
-		if (el.cbRestrict)
-		{
-			el.removeEventListener('keypress', el.cbRestrict);
-		}
-		
-		el.cbRestrict = function(event)
-		{
-			if (event.ctrlKey)
-			{
-				return;
-			}
-			
-			var code = event.keyCode || event.which;
-			var char = event.key || String.fromCharCode(code);
-			var regExp = value;
-				
-			if (!conbo.isRegExp(regExp))
-			{
-				regExp = new RegExp('['+regExp+']', 'g');
-			}
-			
-			if (!char.match(regExp))
-			{
-				event.preventDefault();
-			}
-		};
-		
-		el.addEventListener('keypress', el.cbRestrict);
-	},
-	
-	/**
 	 * When used with a standard DOM element, the properties of the element's
 	 * `dataset` (it's `data-*` attributes) are set using the properties of the 
 	 * object being bound to it; you'll need to use a polyfill for IE <= 10
@@ -575,6 +535,75 @@ conbo.AttributeBindings = conbo.Class.extend
 		};
 		
 		$el.on('change input blur', validate);
+	},
+	
+	/**
+	 * Restricts text input to the specified characters
+	 * 
+	 * @param value
+	 * @param el
+	 */
+	cbRestrict: function(value, el)
+	{
+		// TODO Restrict to text input fields?
+		
+		if (el.cbRestrict)
+		{
+			el.removeEventListener('keypress', el.cbRestrict);
+		}
+		
+		el.cbRestrict = function(event)
+		{
+			if (event.ctrlKey)
+			{
+				return;
+			}
+			
+			var code = event.keyCode || event.which;
+			var char = event.key || String.fromCharCode(code);
+			var regExp = value;
+				
+			if (!conbo.isRegExp(regExp))
+			{
+				regExp = new RegExp('['+regExp+']', 'g');
+			}
+			
+			if (!char.match(regExp))
+			{
+				event.preventDefault();
+			}
+		};
+		
+		el.addEventListener('keypress', el.cbRestrict);
+	},
+	
+	/**
+	 * Limits the number of characters that can be entered into
+	 * input and other form fields
+	 * 
+	 * @param value
+	 * @param el
+	 */
+	cbMaxChars: function(value, el)
+	{
+		// TODO Restrict to text input fields?
+		
+		var $el = $(el);
+		
+		if (el.cbMaxChars)
+		{
+			el.removeEventListener('keypress', el.cbMaxChars);
+		}
+		
+		el.cbMaxChars = function(event)
+		{
+			if (($el.val() || $el.html()).length >= value)
+			{
+				event.preventDefault();
+			}
+		};
+		
+		el.addEventListener('keypress', el.cbMaxChars);
 	},
 	
 });
