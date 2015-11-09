@@ -523,13 +523,9 @@ conbo.AttributeBindings = conbo.Class.extend
 			{
 				$form.removeClass('cb-valid cb-invalid cb-changed cb-unchanged')
 				
-				console.log(1, valid);
-				
 				if (valid) 
 				{
 					valid = !$form.find('.cb-invalid').length;
-					
-					console.log(2, valid);
 					
 					if (valid)
 					{
@@ -544,11 +540,7 @@ conbo.AttributeBindings = conbo.Class.extend
 							}
 						});
 					}
-					
-					console.log(3, valid);
 				}
-				
-				console.log(4, valid);
 				
 				$form.addClass(valid ? 'cb-valid' : 'cb-invalid');
 				updateFormChanged();
