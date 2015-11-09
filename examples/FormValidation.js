@@ -10,16 +10,10 @@ conbo('ns', function()
 	({
 		namespace: ns,
 		
-		initialize: function()
-		{
-			// 
-		},
+		// Validators can by RegExp
+		validateName: /\w{3,}/,
 		
-		validateName: function(name)
-		{
-			return (name || '').length >= 3;
-		},
-		
+		// ... or functions
 		validateAge: function(age)
 		{
 			return parseInt(age) >= 18;

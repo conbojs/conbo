@@ -2,7 +2,7 @@
  * Attribute Bindings
  * 
  * Functions that can be used to bind DOM elements to properties of Bindable 
- * class instances to DOM elements via their attributes
+ * class instances to DOM elements via their attributes.
  * 
  * @example		<div cb-hide="property">Hello!</div>
  * @author 		Neil Rackett
@@ -35,12 +35,7 @@ conbo.AttributeBindings = conbo.Class.extend
 			? !!this[f].multiple
 			: false;
 	},
-	
-	
-	/*
-	 * PROPERTY BINDINGS
-	 */
-	
+		
 	/**
 	 * Makes an element visible
 	 * 
@@ -436,11 +431,6 @@ conbo.AttributeBindings = conbo.Class.extend
 		this.cbRemove(!value, el);
 	},
 	
-	
-	/*
-	 * METHOD BINDINGS
-	 */
-	
 	/**
 	 * Enables the use of cb-onbind attribute to handle the 'bind' event 
 	 * dispatched by the element after it has been bound by Conbo
@@ -453,13 +443,58 @@ conbo.AttributeBindings = conbo.Class.extend
 		el.addEventListener('bind', handler);
 	},
 	
+	
+	/*
+	 * FORM HANDLING & VALIDATION
+	 */
+	
 	/**
-	 * The method (or regex) to use to validate a form element
+	 * Detects changes to the specified element and applies the CSS class
+	 * cb-changed or cb-unchanged, depending on whether the contents have
+	 * changed from their original value.
 	 * 
 	 * @param value
 	 * @param el
 	 */
-	cbOnvalidate: function(validator, el)
+	cbDetectChange: function(value, el)
+	{
+		var $el = $(el)
+			, $form = $el.closest('form')
+			, originalValue = $el.val() || $el.html()
+			;
+		
+		var updateForm = function()
+		{
+			$form.removeClass('cb-changed cb-unchanged')
+				.addClass($form.find('.cb-changed').length ? 'cb-changed' : 'cb-unchanged');
+		};
+		
+		var changeHandler = function()
+		{
+			var changed = (($el.val() || $el.html()) != originalValue);
+			
+			$el.removeClass('cb-changed cb-unchanged')
+				.addClass(changed ? 'cb-changed' : 'cb-unchanged')
+				;
+			
+			updateForm();
+		};
+		
+		$el.on('change input', changeHandler)
+			.addClass('cb-unchanged')
+			;
+		
+		updateForm();
+	},
+	
+	/**
+	 * Use a method or regex to validate a form element and apply a
+	 * cb-valid or cb-invalid CSS class based on the outcome
+	 * 
+	 * @param value
+	 * @param el
+	 */
+	cbValidate: function(validator, el)
 	{
 		var validateFunction;
 		
@@ -487,41 +522,33 @@ conbo.AttributeBindings = conbo.Class.extend
 			}
 		}
 		
-		if (!conbo.isFunction(validator))
+		if (!conbo.isFunction(validateFunction))
 		{
-			conbo.warn(validator+' is not a valid for cb-onvalidate');
+			conbo.warn(validator+' cannot be used with cb-validate');
 			return;
 		}
 		
 		var $el = $(el)
 			, $form = $el.closest('form')
-			, originalValue = $el.val() || $el.html()
 			;
-		
-		var updateFormChanged = function()
-		{
-			$form.addClass($form.find('.cb-changed').length ? 'cb-changed' : 'cb-unchanged');
-		};
 		
 		var validate = function()
 		{
 			// Form item
 			
-			var value = $el.val() || $el.html(),
-				valid = validateFunction(value),
-				changed = (value != originalValue)
+			var value = $el.val() || $el.html()
+				, valid = validateFunction(value)
 				;
 			
-			$el.removeClass('cb-valid cb-invalid cb-unchanged cb-changed')
+			$el.removeClass('cb-valid cb-invalid')
 				.addClass(valid ? 'cb-valid' : 'cb-invalid')
-				.addClass(changed ? 'cb-changed' : 'cb-unchanged')
 				;
 			
 			// Form
 			
 			if ($form.length)
 			{
-				$form.removeClass('cb-valid cb-invalid cb-changed cb-unchanged')
+				$form.removeClass('cb-valid cb-invalid')
 				
 				if (valid) 
 				{
@@ -543,16 +570,11 @@ conbo.AttributeBindings = conbo.Class.extend
 				}
 				
 				$form.addClass(valid ? 'cb-valid' : 'cb-invalid');
-				updateFormChanged();
 			}
 			
 		};
 		
-		$el.on('change input blur', validate)
-			.addClass('cb-unchanged')
-			;
-		
-		updateFormChanged();
+		$el.on('change input blur', validate);
 	},
 	
 });

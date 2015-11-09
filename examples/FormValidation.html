@@ -83,8 +83,8 @@
 	<body>
 		<div cb-app="MyApp">
 			<form>
-				<label><span>Name</span> <input type="text" cb-onvalidate="validateName" required /> <i></i></label>
-				<label><span>Age</span> <input type="number" cb-onvalidate="validateAge" required /> <i></i></label>
+				<label><span>Name</span> <input type="text" cb-validate="validateName" cb-detect-change required /> <i></i></label>
+				<label><span>Age</span> <input type="number" cb-validate="validateAge" cb-detect-change required /> <i></i></label>
 				<button>Submit</button>
 			</form>
 		</div>

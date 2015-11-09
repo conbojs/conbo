@@ -460,11 +460,13 @@ conbo.BindingUtils = conbo.Class.extend({},
 						return;
 					}
 					
-					if (!property) 
+					/*
+					if (!property)
 					{
 						conbo.warn('Unable to bind to undefined property "'+property+'"');
 						return;
 					}
+					*/
 					
 					var opts = conbo.extend({propertyName:property}, options);
 					var args = [model, property, el, key, f, opts, param];
