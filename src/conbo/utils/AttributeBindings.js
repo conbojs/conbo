@@ -492,16 +492,38 @@ conbo.AttributeBindings = conbo.Class.extend
 			, $form = $el.closest('form')
 			;
 		
+		var removeClass = function(regEx) 
+		{
+			return function (index, classes) 
+			{
+				return classes.split(/\s+/).filter(function (el)
+				{
+					return regEx.test(el); 
+				})
+				.join(' ');
+			}
+		}
+		
 		var validate = function()
 		{
 			// Form item
 			
 			var value = $el.val() || $el.html()
-				, valid = validateFunction(value)
+				, result = validateFunction(value) 
+				, valid = (result === true)
+				, classes = []
 				;
 			
+			classes.push(valid ? 'cb-valid' : 'cb-invalid');
+			
+			if (conbo.isString(result))
+			{
+				classes.push('cb-invalid-'+result);
+			}
+			
 			$el.removeClass('cb-valid cb-invalid')
-				.addClass(valid ? 'cb-valid' : 'cb-invalid')
+				.removeClass(removeClass(/^cb-invalid-/))
+				.addClass(classes.join(' '))
 				;
 			
 			// Form
@@ -509,6 +531,8 @@ conbo.AttributeBindings = conbo.Class.extend
 			if ($form.length)
 			{
 				$form.removeClass('cb-valid cb-invalid')
+					.removeClass(removeClass(/^cb-invalid-/))
+					;
 				
 				if (valid) 
 				{

@@ -19,10 +19,25 @@ conbo('ns', function()
 		// Validators can by RegExp
 		validateName: /\w{3,}/,
 		
-		// ... or functions
+		/**
+		 * ... or a function that returns true for a valid result and either
+		 * false or a String for an invalid result; if a string is returned it
+		 * will be appended to cb-invalid-* and applied as a class
+		 */
 		validateAge: function(age)
 		{
-			return parseInt(age) >= 18;
+			age = parseInt(age);
+			
+			switch (true)
+			{
+				case age < 18:
+					return false;
+				
+				case age >= 100:
+					return "too-old";
+			}
+			
+			return true;
 		},
 		
 	});

@@ -75,9 +75,16 @@
 				content: 'Name must be at least three letters long';
 			}
 			
+			/* Default error message */
 			input[type=number].cb-invalid+i::after
 			{
 				content: 'Must be at least 18 years old';
+			}
+			
+			/* Custom error message */
+			input[type=number].cb-invalid-too-old+i::after
+			{
+				content: 'Must be less than 100 years old';
 			}
 		</style>
 	</head>
