@@ -8,7 +8,7 @@ module.exports = function (grunt)
 			{
 				files:
 				{
-					// Lite
+					// conbo-lite.js
 					
 					"temp/conbo-lite.tmp":
 					[
@@ -30,9 +30,9 @@ module.exports = function (grunt)
 						"src/conbo/footer.txt"
 					],
 					
-					// Core
+					// conbo.js
 					
-					"temp/conbo-core.tmp":
+					"temp/conbo.tmp":
 					[
 					 	"src/conbo/conbo.js",
 					 	"src/conbo/utils/utils.js",
@@ -56,36 +56,21 @@ module.exports = function (grunt)
 						"src/conbo/view/View.js",
 						"src/conbo/core/Application.js",
 						"src/conbo/core/Command.js",
-						"src/conbo/core/ServerApplication.js"
-					],
-					
-					"temp/conbo-net.tmp":
-					[
-						// Conbo
+						"src/conbo/core/ServerApplication.js",
 						"src/conbo/net/HttpService.js",
 						"src/conbo/net/AsyncToken.js",
 						"src/conbo/net/Responder.js",
 						"src/conbo/net/ISyncable.js",
 						"src/conbo/collections/RemoteList.js",
 						"src/conbo/data/RemoteHash.js",
-						
-						// Legacy
 						"src/conbo/net/History.js",
 						"src/conbo/net/Router.js",
-					],
-					
-					"build/conbo-core.js":
-					[
-						"src/conbo/header.txt",
-						"temp/conbo-core.tmp",
-						"src/conbo/footer.txt"
 					],
 					
 					"build/conbo.js":
 					[
 						"src/conbo/header.txt",
-						"temp/conbo-core.tmp",
-						"temp/conbo-net.tmp",
+						"temp/conbo.tmp",
 						"src/conbo/footer.txt"
 					]
 				}
@@ -115,12 +100,6 @@ module.exports = function (grunt)
 			{
 				src: 'build/conbo-lite.js',
 				dest: 'build/conbo-lite.min.js'
-			},
-			
-			core: 
-			{
-				src: 'build/conbo-core.js',
-				dest: 'build/conbo-core.min.js'
 			},
 			
 			complete:

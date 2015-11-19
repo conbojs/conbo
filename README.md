@@ -3,18 +3,18 @@ Conbo.js
 
 Conbo.js is a lightweight MVC application framework for JavaScript designed for use with ECMAScript 5 compliant browsers.
 
-Features include extendible classes, event bus, dependency injection, data binding, command pattern, an easy to use event model with scoped event handling and pseudo-interfaces.
+Features include extendible classes, event bus, dependency injection, data binding, command pattern, pseudo-interfaces and an easy to use event model with scoped event handling.
 
 Conbo.js enables JavaScript developers a take a structured, decoupled, class based approach to application development, in a way that should be be familiar to anyone with experience of languages like ActionScript, C# or Java.
 
-Development of Conbo.js is currently focussed on single page applications (SPA) and self-contained modules like widgets and media players, where it can be used stand-alone or as an AMD module.
+Development of Conbo.js is focussed on single page applications (SPA) and self-contained modules like widgets and media players, where it can be used stand-alone or as an AMD module.
 
-While Conbo.js offers a great base for server-side Node.js applications, and there's a ServerApplication class created for just this purpose, this is not a core development focus at this time.
+However, Conbo.js also offers a great base for server-side Node.js applications, and there's a `ServerApplication` class created for just this purpose.
 
 Browser support
 ---------------
 
-Conbo.js is designed for use with ECMAScript 5 compliant browsers, targeting the two most recent major releases of Firefox, Chrome (desktop and Android), Safari (desktop and iOS) and Internet Explorer.
+Conbo.js is designed for use with ECMAScript 5 compliant browsers, targeting the two most recent major releases of Firefox, Chrome (desktop and Android), Safari (desktop and iOS) and Internet Explorer / Edge.
 
 Extendible classes
 ------------------
@@ -97,21 +97,19 @@ All events fired by the framework are `conbo.ConboEvent` event objects, and you 
 Dependencies
 ------------
 
-**Lite**: None
+**Conbo**: jQuery 1.7+
 
-**Core/Complete**: jQuery 1.7+
+**Conbo Lite**: None
 
-**Server-side**: None
+**Server Side**: None
 
 Builds
 ------
 
-**Conbo.js Lite** (<4KB minified+gzipped): a super-lightweight subset featuring extendible classes and consistent event model. The aim of this subset is to offer the benefits of Conbo's class structure and event model to users who want to create (mostly) framework independent modules and code libraries.
+**conbo.js** (24KB minified+gzipped): Includes everything you need to build dynamic web application, including HttpService, RemoteHash and RemoteList classes for working with web services, and History and Router classes for browser integration.
 
-**Conbo.js Core** (16KB minified+gzipped): Core framework for applications and widgets that don't require web service functionality baked in.
-
-**Conbo.js Complete** (24KB minified+gzipped): Includes everything in the core release, plus HttpService, RemoteHash and RemoteList classes for working with web services, and History and Router classes for improved browser integration.
+**conbo-lite.js** (<4KB minified+gzipped): A super-lightweight subset featuring extendible classes and consistent event model. The aim of this subset is to offer the benefits of Conbo's class structure and event model to users who want to create otherwise framework independent modules and code libraries.
 
 Builds are created using Grunt, which requires Node.js; all required modules can be installed by running "npm install" from the command line in the project folder.
 
-The builds listed above can be created using the command "grunt". Use "grunt watch", or run watch.cmd (Windows) or ./watch.sh (Mac, Linux) to auto-build as you edit.
+The builds listed above can be created using the command `grunt`. Use `grunt watch`, or run `watch.cmd` (Windows) or `./watch.sh` (Mac, Linux) to auto-build as you edit.
