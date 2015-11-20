@@ -403,7 +403,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 		{
 			var cbData = $(el).cbAttrs(false);
 			
-			if (!cbData) 
+			if (!conbo.keys(cbData).length) 
 			{
 				return;
 			}

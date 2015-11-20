@@ -4,8 +4,19 @@
  */
 conbo.Namespace = conbo.Class.extend
 ({
-	init: function()
+	initDom: function(rootEl)
 	{
-		conbo.init(this);
-	}
+		conbo.initDom(this, rootEl);
+	},
+	
+	observeDom: function(rootEl)
+	{
+		conbo.observeDom(this, rootEl);
+	},
+	
+	unobserveDom: function(rootEl)
+	{
+		conbo.unobserveDom(this, rootEl);
+	},
+	
 });

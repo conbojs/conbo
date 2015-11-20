@@ -43,10 +43,10 @@ conbo('ns', function()
 	});
 	
 	/**
-	 * conbo.init automatically scans the DOM for cb-app declarations and
+	 * ns.initDom automatically scans the DOM for cb-app declarations and
 	 * instantiates the appropriate Application instance from the specified
 	 * namespace
 	 */
-	ns.init();
+	ns.initDom();
 	
 });

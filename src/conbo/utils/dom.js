@@ -9,7 +9,7 @@
  * By default, Conbo scans the entire DOM, but you can limit the
  * scope by specifying a root element
  */
-conbo.init = function(namespace, rootEl)
+conbo.initDom = function(namespace, rootEl)
 {
 	var $rootEl = $(rootEl || 'html');
 	
@@ -34,7 +34,78 @@ conbo.init = function(namespace, rootEl)
        		}
        	});
 	});
-}
+};
+
+var __observers = [];
+
+var __getObserverIndex = function(namespace, rootEl)
+{
+	var length = __observers.length;
+	
+	for (var i=0; i<length; i++)
+	{
+		var observer = __observers[i];
+		
+		if (observer[0] == namespace && observer[1] == rootEl)
+		{
+			return i;
+		}
+	}
+	
+	return -1;
+};
+
+/**
+ * Watch the DOM for new Applications using the specified namespace
+ * 
+ * By default, Conbo watches the entire DOM, but you can limit the
+ * scope by specifying a root element
+ */
+conbo.observeDom = function(namespace, rootEl)
+{
+	if (__getObserverIndex(namespace, rootEl) != -1)
+	{
+		return;
+	}
+	
+	var mo;
+	var $rootEl = $(rootEl || 'html');
+	
+	mo = new conbo.MutationObserver();
+	mo.observe($rootEl[0]);
+	
+	mo.addEventListener(conbo.ConboEvent.ADD, function(event)
+	{
+		event.nodes.forEach(function(node)
+		{
+			var $node = $(node);
+			var appName = $node.cbAttrs().app;
+			
+			if (namespace[appName] && !$node.hasClass('cb-app'))
+			{
+				new namespace[appName]({el:node});
+			}
+		});
+	});
+	
+	__observers.push([namespace, rootEl, mo]);
+};
+
+/**
+ * Stop watching the DOM for new Applications
+ */
+conbo.unobserveDom = function(namespace, rootEl)
+{
+	var i = __getObserverIndex(namespace, rootEl);
+	
+	if (i != -1)
+	{
+		var observer = __observers[i];
+		
+		observer[2].removeEventListener();
+		__observers.slice(i,1);
+	}
+};
 
 if (!!$)
 {
@@ -44,7 +115,7 @@ if (!!$)
 	$.fn.cbAttrs = function(camelCase)
 	{
 		var data = {},
-			attrs = this.get()[0].attributes,
+			attrs = conbo.toArray(this.get()[0].attributes),
 			count = 0,
 			propertyName;
 		
@@ -60,13 +131,14 @@ if (!!$)
 			}
 			
 			data[propertyName] = attrs[i].value;
-			
-			++count;
 		}
 		
-		return !!count ? data : undefined;
+		return data;
 	}
 	
+	/**
+	 * Find elements based on their cb-attribute
+	 */
 	$.expr[':'].cbAttr = function(el, index, meta, stack)
 	{
 		var $el = $(el),
