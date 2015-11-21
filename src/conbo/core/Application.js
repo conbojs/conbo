@@ -23,6 +23,11 @@ conbo.Application = conbo.View.extend
 		
 		var namespace = options.namespace || this.namespace;
 		
+		if (conbo.isString(namespace))
+		{
+			namespace = conbo(namespace);
+		}
+		
 		if (!namespace)
 		{
 			conbo.warn('Application namespace not specified');
