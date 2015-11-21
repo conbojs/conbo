@@ -1,16 +1,31 @@
 /**
- * Hash that stores data in localStorage
+ * Hash that stores data in LocalStorage
  */
 conbo.LocalHash = conbo.Hash.extend
 ({
-	load: function()
+	constructor: function(defaults, options)
 	{
-		// TODO
-	},
-	
-	save: function()
-	{
-		// TODO
+		conbo.defaults(options || {}, {name:'ConboLocalHash'});
+		
+		var name = options.name;
+		
+		var getLocal = function()
+		{
+			return JSON.parse(window.localStorage[name] || '{}');
+		};
+		
+		this.defaults = conbo.defaults(this, getLocal(), defaults, this.defaults);
+		
+		// Sync with LocalStorage
+		this.addEventListener(conbo.ConboEvent.CHANGE, function(event)
+  		{
+			var local = getLocal();
+  			local[event.property] = event.value;
+  			window.localStorage[name] = JSON.stringify(local);
+  		}, 
+  		this);
+		
+		conbo.Hash.prototype.constructor(defaults, options);		
 	},
 	
 	toString: function()
@@ -18,4 +33,4 @@ conbo.LocalHash = conbo.Hash.extend
 		return 'conbo.LocalHash';
 	}
 	
-}).implement(conbo.ISyncable);
+});

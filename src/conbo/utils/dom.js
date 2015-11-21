@@ -13,6 +13,11 @@ conbo.initDom = function(namespace, rootEl)
 {
 	var $rootEl = $(rootEl || 'html');
 	
+	if (conbo.isString(namespace))
+	{
+		namespace = conbo(namespace);
+	}
+	
 	if (!conbo.isObject(namespace))
 	{
 		conbo.warn('Unable to initialize namespace:', namespace);
@@ -63,6 +68,11 @@ var __getObserverIndex = function(namespace, rootEl)
  */
 conbo.observeDom = function(namespace, rootEl)
 {
+	if (conbo.isString(namespace))
+	{
+		namespace = conbo(namespace);
+	}
+	
 	if (__getObserverIndex(namespace, rootEl) != -1)
 	{
 		return;
@@ -96,6 +106,11 @@ conbo.observeDom = function(namespace, rootEl)
  */
 conbo.unobserveDom = function(namespace, rootEl)
 {
+	if (conbo.isString(namespace))
+	{
+		namespace = conbo(namespace);
+	}
+	
 	var i = __getObserverIndex(namespace, rootEl);
 	
 	if (i != -1)

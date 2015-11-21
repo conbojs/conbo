@@ -20,6 +20,7 @@ module.exports = function (grunt)
 						"src/conbo/events/ConboEvent.js",
 						"src/conbo/events/EventDispatcher.js",
 						"src/conbo/data/Hash.js",
+						"src/conbo/data/LocalHash.js",
 						"src/conbo/view/Glimpse.js"
 					],
 					
@@ -47,6 +48,7 @@ module.exports = function (grunt)
 						"src/conbo/events/EventDispatcher.js",
 						"src/conbo/core/Context.js",
 						"src/conbo/data/Hash.js",
+						"src/conbo/data/LocalHash.js",
 						"src/conbo/collections/List.js",
 						"src/conbo/utils/AttributeBindings.js",
 						"src/conbo/utils/BindingUtils.js",
@@ -61,8 +63,8 @@ module.exports = function (grunt)
 						"src/conbo/net/AsyncToken.js",
 						"src/conbo/net/Responder.js",
 						"src/conbo/net/ISyncable.js",
-						"src/conbo/collections/RemoteList.js",
 						"src/conbo/data/RemoteHash.js",
+						"src/conbo/collections/RemoteList.js",
 						"src/conbo/net/History.js",
 						"src/conbo/net/Router.js",
 					],

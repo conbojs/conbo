@@ -28,8 +28,8 @@ conbo.ConboEvent = conbo.Event.extend
 	
 	ERROR:					'error', 			// (Properties: model, xhr, options) when a model's save call fails on the server.
 	INVALID:				'invalid', 			// (Properties: model, error, options) when a model's validation fails on the client.
-	CHANGE:					'change', 			// (Properties: model, options) when a Bindable instance's attributes have changed.
-												// 'change:[attribute]' (Properties: model, value, options when a specific attribute has been updated.
+	CHANGE:					'change', 			// (Properties: property, value) when a Bindable instance's attributes have changed.
+												// 'change:[attribute]' (Properties: property, value) when a specific attribute has been updated.
 	ADD:					'add', 				// (Properties: model, collection, options) when a model is added to a collection.
 	REMOVE:					'remove', 			// (Properties: model, collection, options) when a model is removed from a collection.
 												// View: the View's element has been removed from the DOM
