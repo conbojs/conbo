@@ -14,7 +14,7 @@ conbo.RemoteHash = conbo.Hash.extend
 		options = conbo.defaults({}, options, this.options);
 		
 		if (!!options.context) this.context = options.context;
-		this.preinitialize(source, options);
+		this.preinitialize(options);
 		
 		this._httpService = new conbo.HttpService(options);
 		this._command = options.command;
@@ -31,7 +31,7 @@ conbo.RemoteHash = conbo.Hash.extend
 			.addEventListener('result', resultHandler, this)
 			.addEventListener('fault', this.dispatchEvent, this);
 		
-		_denumerate(this);
+		__denumerate(this);
 		
 		conbo.Hash.prototype.constructor.apply(this, arguments);
 	},
@@ -61,4 +61,4 @@ conbo.RemoteHash = conbo.Hash.extend
 	
 }).implement(conbo.ISyncable, conbo.IPreinitialize);
 
-_denumerate(conbo.HttpService.prototype);
+__denumerate(conbo.HttpService.prototype);

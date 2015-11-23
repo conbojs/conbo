@@ -213,7 +213,7 @@ conbo.History = conbo.EventDispatcher.extend
 	
 }).implement(conbo.IInjectable);
 
-_denumerate(conbo.History.prototype);
+__denumerate(conbo.History.prototype);
 
 // Create default instance of the History class
 conbo.history = new conbo.History();

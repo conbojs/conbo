@@ -205,4 +205,4 @@ conbo.Context = conbo.EventDispatcher.extend
 	
 });
 
-_denumerate(conbo.Context.prototype);
+__denumerate(conbo.Context.prototype);

@@ -82,4 +82,4 @@ conbo.Event = conbo.Class.extend
 	ALL: '*',
 });
 
-_denumerate(conbo.Event.prototype);
+__denumerate(conbo.Event.prototype);

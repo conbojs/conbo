@@ -27,6 +27,6 @@ conbo.IInjectable =
 		
 		this.__context__ = value;
 		
-		_denumerate(this, '__context__');
+		__denumerate(this, '__context__');
 	}
 };

@@ -32,7 +32,7 @@ conbo.RemoteList = conbo.List.extend
 			.addEventListener('fault', this.dispatchEvent, this)
 			.resultClass = this.constructor;
 		
-		_denumerate(this);
+		__denumerate(this);
 		
 		conbo.List.prototype.constructor.apply(this, arguments);
 	},
@@ -61,4 +61,4 @@ conbo.RemoteList = conbo.List.extend
 	
 }).implement(conbo.ISyncable, conbo.IPreinitialize);
 
-_denumerate(conbo.HttpService.prototype);
+__denumerate(conbo.HttpService.prototype);

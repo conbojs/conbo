@@ -319,4 +319,4 @@ conbo.forEach(attributeMethods, function(method)
 	};
 });
 
-_denumerate(conbo.List.prototype);
+__denumerate(conbo.List.prototype);

@@ -64,4 +64,4 @@ conbo('ns', function()
 	 */
 	ns.initDom();
 	
-})();
+});

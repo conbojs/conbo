@@ -17,4 +17,4 @@ conbo.Responder = conbo.Class.extend
 	}
 });
 
-_denumerate(conbo.Responder.prototype);
+__denumerate(conbo.Responder.prototype);

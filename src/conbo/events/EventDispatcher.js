@@ -174,4 +174,4 @@ conbo.EventDispatcher = conbo.Class.extend
 }).implement(conbo.IInjectable);
 
 __defineUnenumerableProperty(conbo.EventDispatcher.prototype, 'bindable');
-_denumerate(conbo.EventDispatcher.prototype);
+__denumerate(conbo.EventDispatcher.prototype);

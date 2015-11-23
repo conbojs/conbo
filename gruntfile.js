@@ -10,8 +10,9 @@ module.exports = function (grunt)
 				{
 					// conbo-lite.js
 					
-					"temp/conbo-lite.tmp":
+					"build/conbo-lite.js":
 					[
+					 	"src/conbo/header-lite.txt",
 					 	"src/conbo/conbo.js",
 					 	"src/conbo/utils/utils.js",
 					 	"src/conbo/core/Class.js",
@@ -21,20 +22,16 @@ module.exports = function (grunt)
 						"src/conbo/events/EventDispatcher.js",
 						"src/conbo/data/Hash.js",
 						"src/conbo/data/LocalHash.js",
-						"src/conbo/view/Glimpse.js"
-					],
-					
-					"build/conbo-lite.js":
-					[
-						"src/conbo/header-lite.txt",
-						"temp/conbo-lite.tmp",
+					 	"src/conbo/utils/Promise.js",
+						"src/conbo/view/Glimpse.js",
 						"src/conbo/footer.txt"
 					],
 					
 					// conbo.js
 					
-					"temp/conbo.tmp":
+					"build/conbo.js":
 					[
+						"src/conbo/header.txt",
 					 	"src/conbo/conbo.js",
 					 	"src/conbo/utils/utils.js",
 					 	"src/conbo/utils/dom.js",
@@ -53,6 +50,7 @@ module.exports = function (grunt)
 						"src/conbo/utils/AttributeBindings.js",
 						"src/conbo/utils/BindingUtils.js",
 						"src/conbo/utils/MutationObserver.js",
+					 	"src/conbo/utils/Promise.js",
 					 	"src/conbo/view/IDataRenderer.js",
 						"src/conbo/view/Glimpse.js",
 						"src/conbo/view/View.js",
@@ -67,19 +65,11 @@ module.exports = function (grunt)
 						"src/conbo/collections/RemoteList.js",
 						"src/conbo/net/History.js",
 						"src/conbo/net/Router.js",
-					],
-					
-					"build/conbo.js":
-					[
-						"src/conbo/header.txt",
-						"temp/conbo.tmp",
 						"src/conbo/footer.txt"
 					]
 				}
 			}
 		},
-		
-		clean: ['temp'],
 		
 		uglify: 
 		{
@@ -117,16 +107,16 @@ module.exports = function (grunt)
 			js: 
 			{
 				files: ['src/conbo/**/*.js', 'src/conbo/*.txt'],
-				tasks: ['concat','clean','uglify']
+				tasks: ['concat','uglify']
 			}
 		}
 		
 	});
 	
-	grunt.loadNpmTasks('grunt-contrib-clean');
+//	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	
-	grunt.registerTask('default', ['concat','clean','uglify']);
+	grunt.registerTask('default', ['concat','uglify']);
 };

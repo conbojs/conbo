@@ -64,4 +64,4 @@ conbo.ConboEvent = conbo.Event.extend
 	
 });
 
-_denumerate(conbo.ConboEvent.prototype);
+__denumerate(conbo.ConboEvent.prototype);

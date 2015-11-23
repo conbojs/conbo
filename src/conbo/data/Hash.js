@@ -54,4 +54,4 @@ conbo.Hash = conbo.EventDispatcher.extend
 	
 })
 
-_denumerate(conbo.Hash.prototype);
+__denumerate(conbo.Hash.prototype);

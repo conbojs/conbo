@@ -87,4 +87,4 @@ conbo.AsyncToken = conbo.EventDispatcher.extend
 	
 });
 
-_denumerate(conbo.AsyncToken.prototype);
+__denumerate(conbo.AsyncToken.prototype);

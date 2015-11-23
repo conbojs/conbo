@@ -1362,7 +1362,7 @@ var __defineUnenumerableProperty = function(obj, propName, value)
 /**
  * Convert enumerable properties of the specified object into non-enumerable ones
  */
-var _denumerate = function(obj)
+var __denumerate = function(obj)
 {
 	var regExp = arguments[1];
 	

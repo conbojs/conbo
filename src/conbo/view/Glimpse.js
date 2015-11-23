@@ -104,4 +104,4 @@ conbo.Glimpse = conbo.EventDispatcher.extend
 	
 });
 
-_denumerate(conbo.Glimpse.prototype);
+__denumerate(conbo.Glimpse.prototype);

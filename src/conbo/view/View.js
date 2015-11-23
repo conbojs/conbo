@@ -376,4 +376,4 @@ conbo.View = conbo.Glimpse.extend
 	
 });
 
-_denumerate(conbo.View.prototype);
+__denumerate(conbo.View.prototype);

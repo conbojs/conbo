@@ -41,4 +41,4 @@ conbo.Command = conbo.EventDispatcher.extend
 	
 }).implement(conbo.IInjectable);
 
-_denumerate(conbo.Command.prototype);
+__denumerate(conbo.Command.prototype);

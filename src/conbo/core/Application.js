@@ -144,4 +144,4 @@ conbo.Application = conbo.View.extend
 	
 });
 
-_denumerate(conbo.Application.prototype);
+__denumerate(conbo.Application.prototype);

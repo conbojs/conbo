@@ -203,4 +203,4 @@ conbo.Router = conbo.EventDispatcher.extend
 	
 }).implement(conbo.IInjectable);
 
-_denumerate(conbo.Router.prototype);
+__denumerate(conbo.Router.prototype);
