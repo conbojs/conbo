@@ -1,11 +1,6 @@
 /**
  * conbo.Hash
- * 
  * A Hash is a bindable object of associated keys and values
- * 
- * @example	
- * 	this.set('fun', 123};
- * 	this.get('fun');
  * 
  * @author		Neil Rackett
  */
@@ -16,11 +11,13 @@ conbo.Hash = conbo.EventDispatcher.extend
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options
 	 */
-	constructor: function(source, options)
+	constructor: function(options)
 	{
-		if (!!options) this.context = options.context;
+		options || (options = {});
 		
-		conbo.defaults(this, source, this.defaults)		
+		if (!!options.context) this.context = options.context;
+		
+		conbo.defaults(this, options.source, this.defaults)		
 		delete this.defaults;
 		
 		this.initialize.apply(this, arguments);

@@ -257,7 +257,7 @@ conbo.AttributeBindings = conbo.Class.extend
 		{
 			if (conbo.isObject(value) && !(value instanceof conbo.Hash))
 			{
-				value = new conbo.Hash(value);
+				value = new conbo.Hash({source:value});
 			}
 			
 			var $clone = $el.clone().removeAttr('cb-repeat');

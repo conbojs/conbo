@@ -33,7 +33,7 @@ conbo.View = conbo.Glimpse.extend
 		this.__updateEl();
 		this.context = options.context;
 		
-		_defineUnenumerableProperty(this, 'currentState');
+		__defineUnenumerableProperty(this, 'currentState');
 		
  		this.initialize.apply(this, arguments);
  		
@@ -195,7 +195,7 @@ conbo.View = conbo.Glimpse.extend
 		el = $el[0];
 		el.cbView = this;
 		
-		_defineUnenumerableProperty(this, '_el', el);
+		__defineUnenumerableProperty(this, '_el', el);
 		
 		if (isBound) this.bindView();
 		

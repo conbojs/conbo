@@ -9,10 +9,9 @@ conbo.RemoteList = conbo.List.extend
 	
 	/**
 	 * Constructor
-	 * @param {Array}	source
-	 * @param {Object}	options		Object containing 'rootUrl', 'command' and (optionally) 'itemClass' parameters
+	 * @param {Object}	options		Object containing 'source' (Array, optional), 'rootUrl', 'command' and (optionally) 'itemClass' parameters
 	 */
-	constructor: function(source, options)
+	constructor: function(options)
 	{
 		options = conbo.defaults({}, options, this.options);
 		

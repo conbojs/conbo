@@ -1348,7 +1348,7 @@ var _defineProperty = function(obj, propName, getter, setter, enumerable)
 /**
  * Define property that can't be enumerated
  */
-var _defineUnenumerableProperty = function(obj, propName, value)
+var __defineUnenumerableProperty = function(obj, propName, value)
 {
 	if (arguments.length == 2)
 	{

@@ -489,7 +489,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			
 		});
 		
-		_defineUnenumerableProperty(view, '__bindings__', bindings);
+		__defineUnenumerableProperty(view, '__bindings__', bindings);
 		
 		return this;
 	},

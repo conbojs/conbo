@@ -8,12 +8,6 @@
 conbo.Application = conbo.View.extend
 ({
 	/**
-	 * Default context class to use
-	 * You'll normally want to override this with your own
-	 */
-	contextClass: conbo.Context,
-	
-	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options
 	 */
@@ -33,7 +27,7 @@ conbo.Application = conbo.View.extend
 			conbo.warn('Application namespace not specified');
 		}
 		
-		_defineUnenumerableProperty(this, 'namespace', namespace);
+		__defineUnenumerableProperty(this, 'namespace', namespace);
 		
 		options.app = this;
 		options.context = new this.contextClass(options);
@@ -41,6 +35,15 @@ conbo.Application = conbo.View.extend
 		
 		conbo.View.prototype.constructor.call(this, options);
 		conbo.BindingUtils.applyViews(this, this.namespace);
+	},
+	
+	/**
+	 * Default context class to use
+	 * You'll normally want to override this with your own
+	 */
+	get contextClass() 
+	{
+		return conbo.Context;
 	},
 	
 	/**

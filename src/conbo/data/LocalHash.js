@@ -3,9 +3,9 @@
  */
 conbo.LocalHash = conbo.Hash.extend
 ({
-	constructor: function(defaults, options)
+	constructor: function(options)
 	{
-		conbo.defaults(options || {}, {name:'ConboLocalHash'});
+		options = conbo.defaults(options || {}, {name:'ConboLocalHash'});
 		
 		var name = options.name;
 		
@@ -14,7 +14,7 @@ conbo.LocalHash = conbo.Hash.extend
 			return JSON.parse(window.localStorage[name] || '{}');
 		};
 		
-		this.defaults = conbo.defaults(this, getLocal(), defaults, this.defaults);
+		this.defaults = conbo.defaults(this, getLocal(), options.source, this.defaults);
 		
 		// Sync with LocalStorage
 		this.addEventListener(conbo.ConboEvent.CHANGE, function(event)
@@ -25,7 +25,7 @@ conbo.LocalHash = conbo.Hash.extend
   		}, 
   		this);
 		
-		conbo.Hash.prototype.constructor(defaults, options);		
+		conbo.Hash.prototype.constructor(options);		
 	},
 	
 	toString: function()

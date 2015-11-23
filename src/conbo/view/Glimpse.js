@@ -55,7 +55,7 @@ conbo.Glimpse = conbo.EventDispatcher.extend
 			delete this.el.cbGlimpse;
 		}
 		
-		_defineUnenumerableProperty(this, 'el', el);
+		__defineUnenumerableProperty(this, 'el', el);
 		
 		this.el.className += ' cb-glimpse';
 		this.el.cbGlimpse = this;

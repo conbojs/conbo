@@ -7,14 +7,13 @@ conbo.RemoteHash = conbo.Hash.extend
 ({
 	/**
 	 * Constructor
-	 * @param {Object}	source		Object containing initial properties
-	 * @param {Object}	options		Object containing 'rootUrl' and 'command' parameters
+	 * @param {Object}	options		Object containing `source` (initial properties), `rootUrl` and `command` parameters
 	 */
-	constructor: function(source, options)
+	constructor: function(options)
 	{
 		options = conbo.defaults({}, options, this.options);
 		
-		this.context = options.context;
+		if (!!options.context) this.context = options.context;
 		this.preinitialize(source, options);
 		
 		this._httpService = new conbo.HttpService(options);

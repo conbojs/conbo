@@ -14,7 +14,7 @@ conbo('conbo', function(undefined)
 	({
 		initialize: function()
 		{
-			this.mapSingleton('myList', new conbo.List([{name:'Tom'}, {name:'Dick'}, {name:'Sally'}]));
+			this.mapSingleton('myList', new conbo.List({source:[{name:'Tom'}, {name:'Dick'}, {name:'Sally'}]}));
 		}
 	});
 	

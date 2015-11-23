@@ -16,13 +16,13 @@ conbo.List = conbo.EventDispatcher.extend
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options
 	 */
-	constructor: function(source, options) 
+	constructor: function(options) 
 	{
 		options || (options = {});
 		
 		this.addEventListener(conbo.ConboEvent.CHANGE, this._changeHandler, this, 999);
 		
-		this.source = source;
+		this.source = options.source;
 		this.context = options.context;
 		
 		// To be removed
@@ -40,7 +40,7 @@ conbo.List = conbo.EventDispatcher.extend
 	
 	set source(value)
 	{
-		this._source = conbo.toArray(value); //this._applyClass(conbo.toArray(value));
+		this._source = conbo.toArray(value);
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE));
 	},
 	
@@ -128,7 +128,7 @@ conbo.List = conbo.EventDispatcher.extend
 	 */
 	slice: function(begin, length)
 	{
-		return new conbo.List(this.source.slice(begin, length));
+		return new conbo.List({source:this.source.slice(begin, length)});
 	},
 	
 	/**
@@ -143,7 +143,7 @@ conbo.List = conbo.EventDispatcher.extend
 		if (items.length) this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
 		if (inserts.length) this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 		
-		return new conbo.List(items);
+		return new conbo.List({source:items});
 	},
 	
 	/**
@@ -266,7 +266,7 @@ conbo.List = conbo.EventDispatcher.extend
 		
 		if (conbo.isObject(item) && !conbo.instanceOf(item, conbo.Class))
 		{
-			item = new this.itemClass(item);
+			item = new this.itemClass({source:item});
 		}
 		
 		return item;
@@ -295,7 +295,7 @@ listMethods.forEach(function(method)
 			result = conbo[method].apply(conbo, args);
 		
 		return conbo.isArray(result)
-			? new conbo.List(result)
+			? new conbo.List({source:result})
 			: result;
 	};
 });

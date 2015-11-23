@@ -134,7 +134,7 @@ conbo.EventDispatcher = conbo.Class.extend
 	__addEventListener: function(type, handler, scope, priority, once)
 	{
 		if (type == '*') type = 'all';
-		if (!this.__queue__) _defineUnenumerableProperty(this, '__queue__', {});
+		if (!this.__queue__) __defineUnenumerableProperty(this, '__queue__', {});
 		this.__removeEventListener(type, handler, scope);
 		
 		if (!(type in this.__queue__)) this.__queue__[type] = [];
@@ -173,5 +173,5 @@ conbo.EventDispatcher = conbo.Class.extend
 	
 }).implement(conbo.IInjectable);
 
-_defineUnenumerableProperty(conbo.EventDispatcher.prototype, 'bindable');
+__defineUnenumerableProperty(conbo.EventDispatcher.prototype, 'bindable');
 _denumerate(conbo.EventDispatcher.prototype);
