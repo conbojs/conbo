@@ -2,7 +2,7 @@
  * Async Token
  * @author Neil Rackett
  */
-conbo.AsyncToken = conbo.EventDispatcher.extend
+conbo.AsyncToken = conbo.Promise.extend
 ({
 	initialize: function(options)
 	{
@@ -14,14 +14,14 @@ conbo.AsyncToken = conbo.EventDispatcher.extend
  		));
 		
 		this.responders = [];
-		this.bindAll('__dispatchResult', '__dispatchFault');
+		this.bindAll('dispatchResult', 'dispatchFault');
 		
 		var promise = options.promise;
 		if (!promise) return;
 		
 		promise
-			.done(this.__dispatchResult)
-			.fail(this.__dispatchFault);
+			.done(this.dispatchResult)
+			.fail(this.dispatchFault);
 	},
 	
 	addResponder: function(responder)
@@ -35,12 +35,8 @@ conbo.AsyncToken = conbo.EventDispatcher.extend
 		this.responders.push(responder);
 	},
 	
-	toString: function()
-	{
-		return 'conbo.AsyncToken';
-	},
-	
-	__dispatchResult: function(result, status, xhr)
+	// override
+	dispatchResult: function(result, status, xhr)
 	{
 		var resultClass = this.resultClass;
 		
@@ -73,7 +69,8 @@ conbo.AsyncToken = conbo.EventDispatcher.extend
 		this.dispatchEvent(event);
 	},
 	
-	__dispatchFault: function(xhr, status, errorThrown)
+	// override
+	dispatchFault: function(xhr, status, errorThrown)
 	{
 		var event = new conbo.ConboEvent('fault', {fault:errorThrown, status:xhr.status, xhr:xhr});
 		
@@ -83,7 +80,12 @@ conbo.AsyncToken = conbo.EventDispatcher.extend
 		});
 		
 		this.dispatchEvent(event);
-	}
+	},
+	
+	toString: function()
+	{
+		return 'conbo.AsyncToken';
+	},
 	
 });
 
