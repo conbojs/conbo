@@ -15,7 +15,7 @@ conbo.LocalList = conbo.List.extend
 		};
 		
 		// Sync with LocalStorage
-		this.addEventListener([conbo.ConboEvent.CHANGE,conbo.ConboEvent.ADD,conbo.ConboEvent.REMOVE], function(event)
+		this.addEventListener(conbo.ConboEvent.CHANGE, function(event)
 		{
   			localStorage.setItem(name, JSON.stringify(this.toJSON()));
 		}, 

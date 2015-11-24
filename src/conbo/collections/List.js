@@ -20,7 +20,7 @@ conbo.List = conbo.EventDispatcher.extend
 	{
 		options || (options = {});
 		
-		this.addEventListener([conbo.ConboEvent.CHANGE,conbo.ConboEvent.ADD,conbo.ConboEvent.REMOVE], this.__changeHandler, this, 999);
+		this.addEventListener(conbo.ConboEvent.CHANGE, this.__changeHandler, this, 999);
 		
 		if (options.source) 
 		{
@@ -87,6 +87,7 @@ conbo.List = conbo.EventDispatcher.extend
 		this.source.push.apply(this.source, this.__applyClass(conbo.toArray(arguments)));
 		this.__handleChange(conbo.toArray(arguments));
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE));
 		
 		return this.length;
 	},
@@ -102,6 +103,7 @@ conbo.List = conbo.EventDispatcher.extend
 		
 		this.__handleChange(item, false);
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE));
 		
 		return item;
 	},
@@ -114,6 +116,7 @@ conbo.List = conbo.EventDispatcher.extend
 		this.source.unshift(this.source, this.__applyClass(conbo.toArray(arguments)));
 		this.__handleChange(conbo.toArray(arguments));
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE));
 		
 		return this.length;
 	},
@@ -129,6 +132,7 @@ conbo.List = conbo.EventDispatcher.extend
 		
 		this.__handleChange(item = this.source.shift(), false);
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE));
 		
 		return item;
 	},
@@ -147,11 +151,15 @@ conbo.List = conbo.EventDispatcher.extend
 	splice: function(begin, length)
 	{
 		var inserts = conbo.rest(arguments,2).length;
-		
 		var items = this.source.splice(begin, length, inserts);
 		
 		if (items.length) this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
 		if (inserts.length) this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
+		
+		if (items.length || inserts.length)
+		{
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE));
+		}
 		
 		return new conbo.List({source:items});
 	},
@@ -197,7 +205,8 @@ conbo.List = conbo.EventDispatcher.extend
 	{
 		this.source.sort(compareFunction);
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.SORT));
-		
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE));
+
 		return this;
 	},
 	
