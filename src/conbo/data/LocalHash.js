@@ -8,24 +8,25 @@ conbo.LocalHash = conbo.Hash.extend
 		options = conbo.defaults(options || {}, {name:'ConboLocalHash'});
 		
 		var name = options.name;
+		var localStorage = window.localStorage;
 		
 		var getLocal = function()
 		{
-			return JSON.parse(window.localStorage[name] || '{}');
+			return name in localStorage 
+				? JSON.parse(localStorage.getItem(name) || '{}')
+				: options.source || {};
 		};
-		
-		this.defaults = conbo.defaults(this, getLocal(), options.source, this.defaults);
 		
 		// Sync with LocalStorage
 		this.addEventListener(conbo.ConboEvent.CHANGE, function(event)
   		{
-			var local = getLocal();
-  			local[event.property] = event.value;
-  			window.localStorage[name] = JSON.stringify(local);
+  			localStorage.setItem(name, JSON.stringify(this.toJSON()));
   		}, 
-  		this);
+  		this, 1000);
 		
-		conbo.Hash.prototype.constructor(options);		
+		options.source = getLocal();
+		
+		conbo.Hash.prototype.constructor.call(this, options);		
 	},
 	
 	toString: function()
@@ -34,3 +35,5 @@ conbo.LocalHash = conbo.Hash.extend
 	}
 	
 });
+
+__denumerate(conbo.LocalHash.prototype);

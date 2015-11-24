@@ -20,12 +20,17 @@ conbo.List = conbo.EventDispatcher.extend
 	{
 		options || (options = {});
 		
-		this.addEventListener(conbo.ConboEvent.CHANGE, this._changeHandler, this, 999);
+		this.addEventListener([conbo.ConboEvent.CHANGE,conbo.ConboEvent.ADD,conbo.ConboEvent.REMOVE], this.__changeHandler, this, 999);
 		
-		this.source = options.source;
+		if (options.source) 
+		{
+			this.source = [];
+			this.push.apply(this, options.source);
+		}
+		
 		this.context = options.context;
 		
-		// To be removed
+		// @deprecated
 		this.get = this.getItemAt;
 		this.set = this.setItemAt;
 		
@@ -35,6 +40,11 @@ conbo.List = conbo.EventDispatcher.extend
 	
 	get source()
 	{
+		if (!this._source)
+		{
+			this._source = [];
+		}
+		
 		return this._source;
 	},
 	
@@ -74,8 +84,8 @@ conbo.List = conbo.EventDispatcher.extend
 	 */
 	push: function(item)
 	{
-		this.source.push.apply(this.source, this._applyClass(conbo.toArray(arguments)));
-		this._handleChange(conbo.toArray(arguments));
+		this.source.push.apply(this.source, this.__applyClass(conbo.toArray(arguments)));
+		this.__handleChange(conbo.toArray(arguments));
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 		
 		return this.length;
@@ -90,7 +100,7 @@ conbo.List = conbo.EventDispatcher.extend
 		
 		var item = this.source.pop();
 		
-		this._handleChange(item, false);
+		this.__handleChange(item, false);
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
 		
 		return item;
@@ -101,8 +111,8 @@ conbo.List = conbo.EventDispatcher.extend
 	 */
 	unshift: function(item) 
 	{
-		this.source.unshift(this.source, this._applyClass(conbo.toArray(arguments)));
-		this._handleChange(conbo.toArray(arguments));
+		this.source.unshift(this.source, this.__applyClass(conbo.toArray(arguments)));
+		this.__handleChange(conbo.toArray(arguments));
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 		
 		return this.length;
@@ -117,7 +127,7 @@ conbo.List = conbo.EventDispatcher.extend
 		
 		var item;
 		
-		this._handleChange(item = this.source.shift(), false);
+		this.__handleChange(item = this.source.shift(), false);
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
 		
 		return item;
@@ -163,10 +173,10 @@ conbo.List = conbo.EventDispatcher.extend
 		var length = this.length;
 		
 		var replaced = this.source[index];
-		this._handleChange(replaced, false);
+		this.__handleChange(replaced, false);
 		
 		this.source[index] = model
-		this._handleChange(model);
+		this.__handleChange(model);
 		
 		if (this.length > length)
 		{
@@ -209,7 +219,7 @@ conbo.List = conbo.EventDispatcher.extend
 	 * @param 	{any}		models
 	 * @param 	{Boolean}	enabled
 	 */
-	_handleChange: function(items, enabled)
+	__handleChange: function(items, enabled)
 	{
 		var method = enabled === false ? 'removeEventListener' : 'addEventListener'
 		
@@ -229,14 +239,12 @@ conbo.List = conbo.EventDispatcher.extend
 	/**
 	 * Enables array access operator, e.g. myList[0]
 	 */
-	_changeHandler: function(event)
+	__changeHandler: function(event)
 	{
 		var i;
 		
-		for (i=0; i<this.length; i++)
+		var define = this.bind(function(n)
 		{
-			var n = i;
-			
 			Object.defineProperty(this, n, 
 			{
 				get: function() { return this.getItemAt(n); },
@@ -244,6 +252,11 @@ conbo.List = conbo.EventDispatcher.extend
 				configurable: true,
 				enumerable: true
 			});
+		});
+		
+		for (i=0; i<this.length; i++)
+		{
+			define(i);
 		}
 		
 		while (i in this)
@@ -252,13 +265,13 @@ conbo.List = conbo.EventDispatcher.extend
 		}
 	},
 	
-	_applyClass: function(item)
+	__applyClass: function(item)
 	{
 		if (item instanceof Array)
 		{
 			for (var i=0; i<item.length; i++)
 			{
-				item[i] = this._applyClass(item[i]);
+				item[i] = this.__applyClass(item[i]);
 			}
 			
 			return item;

@@ -47,6 +47,7 @@ module.exports = function (grunt)
 						"src/conbo/data/Hash.js",
 						"src/conbo/data/LocalHash.js",
 						"src/conbo/collections/List.js",
+						"src/conbo/collections/LocalList.js",
 						"src/conbo/utils/AttributeBindings.js",
 						"src/conbo/utils/BindingUtils.js",
 						"src/conbo/utils/MutationObserver.js",
