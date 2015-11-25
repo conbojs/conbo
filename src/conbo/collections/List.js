@@ -142,6 +142,9 @@ conbo.List = conbo.EventDispatcher.extend
 	 */
 	slice: function(begin, length)
 	{
+		begin || (begin = 0);
+		if (conbo.isUndefined(length)) length = this.length;
+		
 		return new conbo.List({source:this.source.slice(begin, length)});
 	},
 	
@@ -150,8 +153,11 @@ conbo.List = conbo.EventDispatcher.extend
 	 */
 	splice: function(begin, length)
 	{
-		var inserts = conbo.rest(arguments,2).length;
-		var items = this.source.splice(begin, length, inserts);
+		begin || (begin = 0);
+		if (conbo.isUndefined(length)) length = this.length;
+		
+		var inserts = conbo.rest(arguments,2);
+		var items = this.source.splice.apply(this.source, [begin, length].concat(inserts));
 		
 		if (items.length) this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
 		if (inserts.length) this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
