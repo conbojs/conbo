@@ -5,10 +5,17 @@ conbo.LocalHash = conbo.Hash.extend
 ({
 	constructor: function(options)
 	{
-		options = conbo.defaults(options || {}, {name:'ConboLocalHash'});
+		var defaultName = 'ConboLocalHash';
+		
+		options = conbo.defaults(options || {}, {name:defaultName});
 		
 		var name = options.name;
 		var localStorage = window.localStorage;
+		
+		if (name == defaultName)
+		{
+			conbo.warn('No name specified for '+this.toString+', using "'+defaultName+'"');
+		}
 		
 		var getLocal = function()
 		{

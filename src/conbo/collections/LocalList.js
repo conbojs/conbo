@@ -2,10 +2,17 @@ conbo.LocalList = conbo.List.extend
 ({
 	constructor: function(options)
 	{
-		options = conbo.defaults(options || {}, {name:'ConboLocalList'});
+		var defaultName = 'ConboLocalList';
+		
+		options = conbo.defaults(options || {}, {name:defaultName});
 		
 		var name = options.name;
 		var localStorage = window.localStorage;
+		
+		if (name == defaultName)
+		{
+			conbo.warn('No name specified for '+this.toString+', using "'+defaultName+'"');
+		}
 		
 		var getLocal = function()
 		{
