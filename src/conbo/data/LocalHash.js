@@ -10,7 +10,10 @@ conbo.LocalHash = conbo.Hash.extend
 		options = conbo.defaults(options || {}, {name:defaultName});
 		
 		var name = options.name;
-		var localStorage = window.localStorage;
+		
+		var storage = options.session
+			? window.sessionStorage
+			: window.localStorage;
 		
 		if (name == defaultName)
 		{
@@ -19,15 +22,15 @@ conbo.LocalHash = conbo.Hash.extend
 		
 		var getLocal = function()
 		{
-			return name in localStorage 
-				? JSON.parse(localStorage.getItem(name) || '{}')
+			return name in storage 
+				? JSON.parse(storage.getItem(name) || '{}')
 				: options.source || {};
 		};
 		
 		// Sync with LocalStorage
 		this.addEventListener(conbo.ConboEvent.CHANGE, function(event)
   		{
-  			localStorage.setItem(name, JSON.stringify(this.toJSON()));
+  			storage.setItem(name, JSON.stringify(this.toJSON()));
   		}, 
   		this, 1000);
 		
