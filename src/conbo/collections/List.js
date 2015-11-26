@@ -24,6 +24,7 @@ conbo.List = conbo.EventDispatcher.extend
 		
 		var listOptions = 
 		[
+			'context',
 			'itemClass'
 		];
 		
@@ -34,8 +35,6 @@ conbo.List = conbo.EventDispatcher.extend
 			this.source = [];
 			this.push.apply(this, options.source);
 		}
-		
-		this.context = options.context;
 		
 		// @deprecated
 		this.get = this.getItemAt;
