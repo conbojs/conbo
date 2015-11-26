@@ -227,7 +227,7 @@ conbo.AttributeBindings = conbo.Class.extend
 				this.cbRepeat.apply(this, args);
 			});
 			
-			values.addEventListener('add remove change', el.cbRepeat.changeHandler);
+			values.addEventListener('change', el.cbRepeat.changeHandler);
 			el.cbRepeat.list = values;
 		}
 		

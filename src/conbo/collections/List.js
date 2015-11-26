@@ -22,6 +22,13 @@ conbo.List = conbo.EventDispatcher.extend
 		
 		this.addEventListener(conbo.ConboEvent.CHANGE, this.__changeHandler, this, 999);
 		
+		var listOptions = 
+		[
+			'itemClass'
+		];
+		
+		conbo.setValues(this, conbo.pick(options, listOptions));
+		
 		if (options.source) 
 		{
 			this.source = [];
@@ -179,6 +186,7 @@ conbo.List = conbo.EventDispatcher.extend
 		if (this.length > length)
 		{
 			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
+			this.dispatchChange('length');
 		}
 		
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE, {item:item}));

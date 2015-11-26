@@ -6,5 +6,7 @@
  */
 conbo.IDataRenderer =
 {
-	data: undefined
-}
+	data: undefined,
+	index: -1,
+	isLast: false
+};

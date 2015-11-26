@@ -16,17 +16,26 @@ conbo.View = conbo.Glimpse.extend
 	{
 		options = conbo.clone(options) || {};
 		
-		var viewOptions = 
-		[
-			'attributes',
-			'className', 
-			'data', 
-			'el', 
-			'id', 
-			'tagName', 
-			'template', 
-			'templateUrl'
-		];
+		var viewOptions = conbo.union
+		(
+			[
+				'attributes',
+				'className', 
+				'data', 
+				'el', 
+				'id', 
+				'tagName', 
+				'template', 
+				'templateUrl'
+			],
+			
+			// Adds interface properties
+			conbo.intersection
+			(
+				conbo.properties(Object.getPrototypeOf(this)), 
+				conbo.properties(options)
+			)
+		);
 		
 		conbo.setValues(this, conbo.pick(options, viewOptions));
 		
@@ -177,7 +186,7 @@ conbo.View = conbo.Glimpse.extend
 	
 	get el()
 	{
-		return this._el;
+		return this.__el;
 	},
 	
 	/**
@@ -185,8 +194,8 @@ conbo.View = conbo.Glimpse.extend
 	 */
 	set el(element)
 	{
-		var isBound = !!this.__bindings__;
-		var el = this._el;
+		var isBound = !!this.__bindings;
+		var el = this.__el;
 		var $el = $(element);
 		
 		if (!!el) delete el.cbView;
@@ -195,7 +204,7 @@ conbo.View = conbo.Glimpse.extend
 		el = $el[0];
 		el.cbView = this;
 		
-		__defineUnenumerableProperty(this, '_el', el);
+		__defineUnenumerableProperty(this, '__el', el);
 		
 		if (isBound) this.bindView();
 		

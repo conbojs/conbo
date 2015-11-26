@@ -99,7 +99,7 @@ conbo.Class.extend = function(protoProps, staticProps)
  */
 conbo.Class.implement = function()
 {
-	var implementation = conbo.defaults.apply(conbo, conbo.union({}, arguments)),
+	var implementation = conbo.defaults.apply(conbo, conbo.union([{}], arguments)),
 		keys = conbo.keys(implementation),
 		prototype = this.prototype;
 	

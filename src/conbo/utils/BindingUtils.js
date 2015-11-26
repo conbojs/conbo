@@ -376,7 +376,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			throw new Error('view is undefined');
 		}
 		
-		if (!!view.__bindings__)
+		if (!!view.__bindings)
 		{
 			this.unbindView(view);
 		}
@@ -391,7 +391,10 @@ conbo.BindingUtils = conbo.Class.extend({},
 			view.subcontext.addTo(options);
 		}
 		
-		this.applyViews(view, view.context.namespace, 'glimpse');
+		if (view.context && view.context.namespace)
+		{
+			this.applyViews(view, view.context.namespace, 'glimpse');
+		}
 		
 		view.$('*').add(view.el).filter(function()
 		{
@@ -489,7 +492,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			
 		});
 		
-		__defineUnenumerableProperty(view, '__bindings__', bindings);
+		__defineUnenumerableProperty(view, '__bindings', bindings);
 		
 		return this;
 	},
@@ -506,12 +509,12 @@ conbo.BindingUtils = conbo.Class.extend({},
 			throw new Error('view is undefined');
 		}
 		
-		if (!view.__bindings__ || !view.__bindings__.length)
+		if (!view.__bindings || !view.__bindings.length)
 		{
 			return this;
 		}
 		
-		var bindings = view.__bindings__;
+		var bindings = view.__bindings;
 		
 		while (bindings.length)
 		{
@@ -547,7 +550,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			}
 		}
 		
-		delete view.__bindings__;
+		delete view.__bindings;
 		
 		return this;
 	},
