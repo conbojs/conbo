@@ -28,4 +28,4 @@ conbo.Promise = conbo.EventDispatcher.extend
 	
 });
 
-__denumerate(conbo.Promise.prototype);
+//__denumerate(conbo.Promise.prototype);

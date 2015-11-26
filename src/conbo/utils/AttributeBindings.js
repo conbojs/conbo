@@ -219,7 +219,7 @@ conbo.AttributeBindings = conbo.Class.extend
 		{
 			if (!!el.cbRepeat.list)
 			{
-				el.cbRepeat.list.removeEventListener('add remove change', el.cbRepeat.changeHandler);
+				el.cbRepeat.list.removeEventListener('change', el.cbRepeat.changeHandler);
 			}
 			
 			el.cbRepeat.changeHandler = this.bind(function(event)

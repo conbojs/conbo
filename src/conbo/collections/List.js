@@ -51,7 +51,7 @@ conbo.List = conbo.EventDispatcher.extend
 	set source(value)
 	{
 		this._source = conbo.toArray(value);
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE));
+		this.dispatchChange('source');
 	},
 	
 	/**
@@ -64,22 +64,6 @@ conbo.List = conbo.EventDispatcher.extend
 	},
 	
 	/**
-	 * The JSON-friendly representation of the List
-	 */
-	toJSON: function() 
-	{
-		var a = [];
-		
-		this.forEach(function(item)
-		{
-			if (conbo.isFunction(item.toJSON)) a.push(item.toJSON());
-			else a.push(item);
-		});
-		
-		return a;
-	},
-	
-	/**
 	 * Add a model to the end of the collection.
 	 */
 	push: function(item)
@@ -87,7 +71,7 @@ conbo.List = conbo.EventDispatcher.extend
 		this.source.push.apply(this.source, this.__applyClass(conbo.toArray(arguments)));
 		this.__handleChange(conbo.toArray(arguments));
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE));
+		this.dispatchChange('length');
 		
 		return this.length;
 	},
@@ -103,7 +87,7 @@ conbo.List = conbo.EventDispatcher.extend
 		
 		this.__handleChange(item, false);
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE));
+		this.dispatchChange('length');
 		
 		return item;
 	},
@@ -116,7 +100,7 @@ conbo.List = conbo.EventDispatcher.extend
 		this.source.unshift(this.source, this.__applyClass(conbo.toArray(arguments)));
 		this.__handleChange(conbo.toArray(arguments));
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE));
+		this.dispatchChange('length');
 		
 		return this.length;
 	},
@@ -132,7 +116,7 @@ conbo.List = conbo.EventDispatcher.extend
 		
 		this.__handleChange(item = this.source.shift(), false);
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE));
+		this.dispatchChange('length');
 		
 		return item;
 	},
@@ -164,7 +148,7 @@ conbo.List = conbo.EventDispatcher.extend
 		
 		if (items.length || inserts.length)
 		{
-			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE));
+			this.dispatchChange('length');
 		}
 		
 		return new conbo.List({source:items});
@@ -212,7 +196,7 @@ conbo.List = conbo.EventDispatcher.extend
 		this.source.sort(compareFunction);
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.SORT));
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE));
-
+		
 		return this;
 	},
 	
@@ -224,6 +208,22 @@ conbo.List = conbo.EventDispatcher.extend
 		return new this.constructor(this.source);
 	},
 
+	/**
+	 * The JSON-friendly representation of the List
+	 */
+	toJSON: function() 
+	{
+		var a = [];
+		
+		this.forEach(function(item)
+		{
+			if (conbo.isFunction(item.toJSON)) a.push(item.toJSON());
+			else a.push(item);
+		});
+		
+		return a;
+	},
+	
 	toString: function()
 	{
 		return 'conbo.List';

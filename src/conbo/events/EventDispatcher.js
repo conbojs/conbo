@@ -55,7 +55,7 @@ conbo.EventDispatcher = conbo.Class.extend
 	{
 		if (!arguments.length)
 		{
-			this.__queue__ = {};
+			__defineUnenumerableProperty(this, '__queue', {});
 			return this;
 		}
 		
@@ -91,12 +91,12 @@ conbo.EventDispatcher = conbo.Class.extend
 			event = new conbo.Event(event);
 		}
 		
-		if (!this.__queue__ || (!(event.type in this.__queue__) && !this.__queue__.all)) return this;
+		if (!this.__queue || (!(event.type in this.__queue) && !this.__queue.all)) return this;
 		
 		if (!event.target) event.target = this;
 		event.currentTarget = this;
 		
-		var queue = conbo.union(this.__queue__[event.type] || [], this.__queue__.all || []);
+		var queue = conbo.union(this.__queue[event.type] || [], this.__queue.all || []);
 		if (!queue || !queue.length) return this;
 		
 		for (var i=0, length=queue.length; i<length; ++i)
@@ -134,12 +134,12 @@ conbo.EventDispatcher = conbo.Class.extend
 	__addEventListener: function(type, handler, scope, priority, once)
 	{
 		if (type == '*') type = 'all';
-		if (!this.__queue__) __defineUnenumerableProperty(this, '__queue__', {});
+		if (!this.__queue) __defineUnenumerableProperty(this, '__queue', {});
 		this.__removeEventListener(type, handler, scope);
 		
-		if (!(type in this.__queue__)) this.__queue__[type] = [];
-		this.__queue__[type].push({handler:handler, scope:scope, once:once, priority:priority||0});
-		this.__queue__[type].sort(function(a,b){return b.priority-a.priority});
+		if (!(type in this.__queue)) this.__queue[type] = [];
+		this.__queue[type].push({handler:handler, scope:scope, once:once, priority:priority||0});
+		this.__queue[type].sort(function(a,b){return b.priority-a.priority});
 	},
 	
 	/**
@@ -147,13 +147,13 @@ conbo.EventDispatcher = conbo.Class.extend
 	 */
 	__removeEventListener: function(type, handler, scope)
 	{
-		if (!this.__queue__ || !(type in this.__queue__)) return this;
+		if (!this.__queue || !(type in this.__queue)) return this;
 		
-		var queue = this.__queue__[type];
+		var queue = this.__queue[type];
 		
 		if (arguments.length == 1)
 		{
-			delete this.__queue__[type];
+			delete this.__queue[type];
 			return this;
 		}
 		
