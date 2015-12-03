@@ -16,6 +16,42 @@ Browser support
 
 Conbo.js is designed for use with ECMAScript 5 compliant browsers, targeting the two most recent major releases of Firefox, Chrome (desktop and Android), Safari (desktop and iOS) and Internet Explorer / Edge.
 
+Modular namespace declaration
+-----------------------------
+
+Conbo.js includes modular namespace declarations that can also be used to replace the familiar minification pattern, for example:
+
+```javascript
+// Utils.js
+conbo('com.mynamespace.utils', console, function(console)
+{
+	this.doSomething = function(value)
+	{
+		console.log(value);
+	};
+});
+
+// Constants,js
+conbo('com.mynamespace.app', function()
+{
+	var app = this;
+
+	app.BEST_FRAMEWORK = 'Conbo.js';
+	app.SMILE = ':-)';
+});
+
+// Main.js
+conbo('com.mynamespace.app', window, document, navigator, console, function(window, document, navigator, console, undefined)
+{
+	var app = this;
+	var utils = conbo('com.mynamespace.utils');
+	
+	// Your app code goes here
+
+	utils.doSomething(app.BEST_FRAMEWORK+' makes me '+app.SMILE);
+});
+```
+
 Extendible classes
 ------------------
 
