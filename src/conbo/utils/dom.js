@@ -21,7 +21,7 @@ conbo.initDom = function(namespace, rootEl)
 	if (!conbo.isObject(namespace))
 	{
 		conbo.warn('Unable to initialize namespace:', namespace);
-		return;
+		return this;
 	}
 	
 	$(function()
@@ -39,6 +39,8 @@ conbo.initDom = function(namespace, rootEl)
        		}
        	});
 	});
+	
+	return this;	
 };
 
 var __observers = [];
@@ -99,6 +101,8 @@ conbo.observeDom = function(namespace, rootEl)
 	});
 	
 	__observers.push([namespace, rootEl, mo]);
+	
+	return this;
 };
 
 /**
@@ -120,6 +124,8 @@ conbo.unobserveDom = function(namespace, rootEl)
 		observer[2].removeEventListener();
 		__observers.slice(i,1);
 	}
+	
+	return this;
 };
 
 if (!!$)

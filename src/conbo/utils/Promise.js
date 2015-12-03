@@ -14,11 +14,13 @@ conbo.Promise = conbo.EventDispatcher.extend
 	dispatchResult: function(result)
 	{
 		this.dispatchEvent(new conbo.ConboEvent('result', {result:result}));
+		return this;
 	},
 	
 	dispatchFault: function(fault)
 	{
 		this.dispatchEvent(new conbo.ConboEvent('fault', {fault:fault}));
+		return this;
 	},
 	
 	toString: function()

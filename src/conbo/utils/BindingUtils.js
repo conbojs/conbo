@@ -743,7 +743,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 		// We're assuming accessors will dispatch their own change events
 		if (!conbo.isAccessor(this, propName))
 		{
-			_dispatchChange(this, propName);
+			__dispatchChange(this, propName);
 		}
 		
 		return this;

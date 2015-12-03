@@ -52,7 +52,7 @@ var conbo = function(namespace)
 	return ns;
 };
 
-conbo.VERSION = '2.2.2';
+conbo.VERSION = '2.3.0';
 	
 conbo.toString = function() 
 { 

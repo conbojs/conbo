@@ -1055,6 +1055,8 @@ conbo.cloneProperty = function(source, sourceName, target, targetName)
 	{
 		target[targetName] = source[sourceName];
 	}
+	
+	return this;
 };
 
 /**
@@ -1271,7 +1273,7 @@ logMethods.forEach(function(method)
 	conbo[method] = function()
 	{
 		if (!console || !conbo.logEnabled) return;
-		console[method].apply(console, arguments);
+		console[method].apply(console, arguments);		
 	}
 });
 
@@ -1282,7 +1284,7 @@ logMethods.forEach(function(method)
 /**
  * Dispatch a property change event from the specified object
  */
-var _dispatchChange = function(obj, propName, value)
+var __dispatchChange = function(obj, propName, value)
 {
 	if (!(obj instanceof conbo.EventDispatcher)) return;
 	
@@ -1290,6 +1292,8 @@ var _dispatchChange = function(obj, propName, value)
 	
 	obj.dispatchEvent(new conbo.ConboEvent('change:'+propName, options));
 	obj.dispatchEvent(new conbo.ConboEvent('change', options));
+	
+	return this;
 };
 
 /**
@@ -1326,7 +1330,7 @@ var _defineProperty = function(obj, propName, getter, setter, enumerable)
 			if (newValue === value) return;
 			value = newValue;
 			
-			_dispatchChange(this, propName, value);
+			__dispatchChange(this, propName, value);
 		};
 	}
 	else if (!!setter)
@@ -1334,7 +1338,7 @@ var _defineProperty = function(obj, propName, getter, setter, enumerable)
 		setter = conbo.wrap(setter, function(fn, newValue)
 		{
 			fn.call(this, newValue);
-			_dispatchChange(this, propName, obj[propName]);
+			__dispatchChange(this, propName, obj[propName]);
 		});
 		
 		setter.bindable = true;
@@ -1378,4 +1382,6 @@ var __denumerate = function(obj)
 		descriptor.enumerable = false;
 		Object.defineProperty(obj, key, descriptor);
 	});
+	
+	return this;
 };

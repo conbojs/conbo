@@ -86,6 +86,8 @@ conbo.Application = conbo.View.extend
 		}
 		
 		this.dispatchChange('observeEnabled');
+		
+		return this;
 	},
 	
 	toString: function()

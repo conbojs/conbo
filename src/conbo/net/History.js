@@ -94,6 +94,8 @@ conbo.History = conbo.EventDispatcher.extend
 		}
 		
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.STARTED));
+		
+		return this;
 	},
 	
 	/**
@@ -106,6 +108,8 @@ conbo.History = conbo.EventDispatcher.extend
 		this.started = false;
 		
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.STOPPED));
+		
+		return this;
 	},
 	
 	/**
@@ -115,6 +119,8 @@ conbo.History = conbo.EventDispatcher.extend
 	route: function(route, callback)
 	{
 		this.handlers.unshift({route:route, callback:callback});
+		
+		return this;
 	},
 	
 	/**
@@ -187,6 +193,8 @@ conbo.History = conbo.EventDispatcher.extend
 		{
 			this.loadUrl(fragment);
 		}
+		
+		return this;
 	},
 	
 	toString: function()

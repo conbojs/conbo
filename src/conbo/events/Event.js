@@ -54,6 +54,8 @@ conbo.Event = conbo.Class.extend
 	preventDefault: function() 
 	{
 		this.defaultPrevented = true;
+		
+		return this;
 	},
 	
 	/**
@@ -62,6 +64,8 @@ conbo.Event = conbo.Class.extend
 	stopPropagation: function() 
 	{
 		this.cancelBubble = true;
+		
+		return this;
 	},
 	
 	/**
@@ -71,6 +75,8 @@ conbo.Event = conbo.Class.extend
 	{
 		this.immediatePropagationStopped = true;
 		this.stopPropagation();
+		
+		return this;
 	},
 	
 	toString: function()

@@ -50,6 +50,8 @@ conbo.MutationObserver = conbo.EventDispatcher.extend
 			
 			this.__el = el;
 		}
+		
+		return this;
 	},
 	
 	disconnect: function()
@@ -67,6 +69,8 @@ conbo.MutationObserver = conbo.EventDispatcher.extend
 			el.removeEventListener('DOMNodeInserted', __addHandler);
 			el.removeEventListener('DOMNodeRemoved', __removeHandler);
 		}
+		
+		return this;
 	},
 	
 	__addHandler: function(event)

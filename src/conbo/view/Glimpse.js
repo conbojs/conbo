@@ -45,24 +45,27 @@ conbo.Glimpse = conbo.EventDispatcher.extend
 	initialize: function(){},
 		
 	/**
-	 * Change the view's element (`this.el` property)
+	 * The Glimpse's element
 	 */
-	setElement: function(el)
+	get el()
 	{
-		if (this.el)
+		return this.__el;
+	},
+	
+	set el(element)
+	{
+		if (this.__el)
 		{
-			this.el.className = this.el.className.replace('cb-glimpse', '');
+			this.__el.className = this.el.className.replace('cb-glimpse', '');
 			delete this.el.cbGlimpse;
 		}
 		
-		__defineUnenumerableProperty(this, 'el', el);
+		__defineUnenumerableProperty(this, '__el', element);
 		
-		this.el.className += ' cb-glimpse';
-		this.el.cbGlimpse = this;
+		element.className += ' cb-glimpse';
+		element.cbGlimpse = this;
 		
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ELEMENT_CHANGE));
-		
-		return this;
+		this.dispatchChange('el');
 	},
 	
 	toString: function()

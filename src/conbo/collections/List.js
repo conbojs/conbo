@@ -75,7 +75,7 @@ conbo.List = conbo.EventDispatcher.extend
 	push: function(item)
 	{
 		this.source.push.apply(this.source, this.__applyClass(conbo.toArray(arguments)));
-		this.__handleChange(conbo.toArray(arguments));
+		this.__updateBindings(conbo.toArray(arguments));
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 		this.dispatchChange('length');
 		
@@ -91,7 +91,7 @@ conbo.List = conbo.EventDispatcher.extend
 		
 		var item = this.source.pop();
 		
-		this.__handleChange(item, false);
+		this.__updateBindings(item, false);
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
 		this.dispatchChange('length');
 		
@@ -104,7 +104,7 @@ conbo.List = conbo.EventDispatcher.extend
 	unshift: function(item) 
 	{
 		this.source.unshift(this.source, this.__applyClass(conbo.toArray(arguments)));
-		this.__handleChange(conbo.toArray(arguments));
+		this.__updateBindings(conbo.toArray(arguments));
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 		this.dispatchChange('length');
 		
@@ -120,7 +120,7 @@ conbo.List = conbo.EventDispatcher.extend
 		
 		var item;
 		
-		this.__handleChange(item = this.source.shift(), false);
+		this.__updateBindings(item = this.source.shift(), false);
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
 		this.dispatchChange('length');
 		
@@ -177,10 +177,10 @@ conbo.List = conbo.EventDispatcher.extend
 		var length = this.length;
 		
 		var replaced = this.source[index];
-		this.__handleChange(replaced, false);
+		this.__updateBindings(replaced, false);
 		
 		this.source[index] = model
-		this.__handleChange(model);
+		this.__updateBindings(model);
 		
 		if (this.length > length)
 		{
@@ -241,7 +241,7 @@ conbo.List = conbo.EventDispatcher.extend
 	 * @param 	{any}		models
 	 * @param 	{Boolean}	enabled
 	 */
-	__handleChange: function(items, enabled)
+	__updateBindings: function(items, enabled)
 	{
 		var method = enabled === false ? 'removeEventListener' : 'addEventListener'
 		

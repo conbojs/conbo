@@ -54,7 +54,6 @@ conbo.ConboEvent = conbo.Event.extend
 	BOUND:					'bound',			// All elements in HTML have been bound to the View 
 	UNBOUND:				'unbound',			// All elements in HTML have been unbound from the View 
 	INIT:					'init',				// For a View, this means template loaded, elements bound, DOM rendered  
-	ELEMENT_CHANGE:			'elementchange',	// The View's element has changed
 	DETACH:					'detach',			// The View has been detached from the DOM
 	
 	// Web Services

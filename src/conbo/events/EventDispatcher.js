@@ -118,9 +118,11 @@ conbo.EventDispatcher = conbo.Class.extend
 	{
 		conbo.forEach(arguments, function(propName)
 		{
-			_dispatchChange(this, propName);
+			__dispatchChange(this, propName);
 		},
 		this);
+		
+		return this;
 	},
 
 	toString: function()

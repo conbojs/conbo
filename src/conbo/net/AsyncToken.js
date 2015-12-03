@@ -33,6 +33,8 @@ conbo.AsyncToken = conbo.Promise.extend
 		}
 		
 		this.responders.push(responder);
+		
+		return this;
 	},
 	
 	// override
@@ -67,6 +69,8 @@ conbo.AsyncToken = conbo.Promise.extend
 		});
 		
 		this.dispatchEvent(event);
+		
+		return this;
 	},
 	
 	// override
@@ -80,6 +84,8 @@ conbo.AsyncToken = conbo.Promise.extend
 		});
 		
 		this.dispatchEvent(event);
+		
+		return this;
 	},
 	
 	toString: function()
