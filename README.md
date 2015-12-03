@@ -41,7 +41,7 @@ conbo('com.mynamespace.app', function()
 });
 
 // Main.js
-conbo('com.mynamespace.app', window, document, navigator, console, function(window, document, navigator, console, undefined)
+conbo('com.mynamespace.app', window, document, navigator, function(window, document, navigator, undefined)
 {
 	var app = this;
 	var utils = conbo('com.mynamespace.utils');
