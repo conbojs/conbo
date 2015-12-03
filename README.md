@@ -31,7 +31,7 @@ conbo('com.mynamespace.utils', console, function(console)
 	};
 });
 
-// Constants,js
+// Constants.js
 conbo('com.mynamespace.app', function()
 {
 	var app = this;
