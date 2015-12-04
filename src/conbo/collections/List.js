@@ -30,10 +30,7 @@ conbo.List = conbo.EventDispatcher.extend
 		
 		conbo.setValues(this, conbo.pick(options, listOptions));
 		
-		if (options.source) 
-		{
-			this.source = options.source;
-		}
+		this.source = options.source || [];
 		
 		// @deprecated
 		this.get = this.getItemAt;
@@ -70,20 +67,23 @@ conbo.List = conbo.EventDispatcher.extend
 	},
 	
 	/**
-	 * Add a model to the end of the collection.
+	 * Add an item to the end of the collection.
 	 */
 	push: function(item)
 	{
-		this.source.push.apply(this.source, this.__applyClass(conbo.toArray(arguments)));
-		this.__updateBindings(conbo.toArray(arguments));
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
-		this.dispatchChange('length');
+		if (item)
+		{
+			this.source.push.apply(this.source, this.__applyClass(conbo.toArray(arguments)));
+			this.__updateBindings(conbo.toArray(arguments));
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
+			this.dispatchChange('length');
+		}
 		
 		return this.length;
 	},
 	
 	/**
-	 * Remove a model from the end of the collection.
+	 * Remove an item from the end of the collection.
 	 */
 	pop: function()
 	{
@@ -99,14 +99,17 @@ conbo.List = conbo.EventDispatcher.extend
 	},
 	
 	/**
-	 * Add a model to the beginning of the collection.
+	 * Add an item to the beginning of the collection.
 	 */
 	unshift: function(item) 
 	{
-		this.source.unshift(this.source, this.__applyClass(conbo.toArray(arguments)));
-		this.__updateBindings(conbo.toArray(arguments));
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
-		this.dispatchChange('length');
+		if (item)
+		{
+			this.source.unshift(this.source, this.__applyClass(conbo.toArray(arguments)));
+			this.__updateBindings(conbo.toArray(arguments));
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
+			this.dispatchChange('length');
+		}
 		
 		return this.length;
 	},
