@@ -32,8 +32,7 @@ conbo.List = conbo.EventDispatcher.extend
 		
 		if (options.source) 
 		{
-			this.source = [];
-			this.push.apply(this, options.source);
+			this.source = options.source;
 		}
 		
 		// @deprecated
@@ -56,7 +55,8 @@ conbo.List = conbo.EventDispatcher.extend
 	
 	set source(value)
 	{
-		this._source = conbo.toArray(value);
+		this._source = [];
+		this.push.apply(this, conbo.toArray(value));
 		this.dispatchChange('source');
 	},
 	

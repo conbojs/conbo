@@ -23,7 +23,7 @@ Conbo.js includes modular namespace declarations that can also be used to replac
 
 ```javascript
 // Utils.js
-conbo('com.mynamespace.utils', console, function(console)
+conbo('com.example.utils', console, function(console)
 {
 	this.doSomething = function(value)
 	{
@@ -32,7 +32,7 @@ conbo('com.mynamespace.utils', console, function(console)
 });
 
 // Constants.js
-conbo('com.mynamespace.app', function()
+conbo('com.example.app', function()
 {
 	var app = this;
 
@@ -44,7 +44,7 @@ conbo('com.mynamespace.app', function()
 conbo('com.mynamespace.app', window, document, navigator, function(window, document, navigator, undefined)
 {
 	var app = this;
-	var utils = conbo('com.mynamespace.utils');
+	var utils = conbo('com.example.utils');
 	
 	// Your app code goes here
 
