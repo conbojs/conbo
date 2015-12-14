@@ -8,11 +8,13 @@
  * Should be used as the base class for any class that won't be used for 
  * data binding
  * 
- * @author	Neil Rackett
- * @see		conbo.EventDispatcher
+ * @class		conbo.EventDispatcher
+ * @augments	conbo.Class
+ * @author		Neil Rackett
  */
-conbo.EventDispatcher = conbo.Class.extend
-({
+conbo.EventDispatcher = conbo.Class.extend(
+/** @lends conbo.EventDispatcher.prototype */
+{
 	/**
 	 * Do not override: use initialize
 	 * @private

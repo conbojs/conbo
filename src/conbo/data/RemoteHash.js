@@ -1,10 +1,14 @@
 /**
  * Remote Hash
  * Used for syncing remote data with a local Hash
- * @author Neil Rackett
+ * 
+ * @class		conbo.RemoteHash
+ * @augments	conbo.Hash
+ * @author 		Neil Rackett
  */
-conbo.RemoteHash = conbo.Hash.extend
-({
+conbo.RemoteHash = conbo.Hash.extend(
+/** @lends conbo.RemoteHash.prototype */
+{
 	/**
 	 * Constructor
 	 * @param {Object}	options		Object containing `source` (initial properties), `rootUrl` and `command` parameters

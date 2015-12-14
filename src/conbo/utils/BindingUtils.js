@@ -4,9 +4,12 @@
  * Used to bind properties of EventDispatcher class instances to DOM elements, 
  * other EventDispatcher class instances or setter functions
  * 
- * @author Neil Rackett
+ * @class		conbo.BindingUtils
+ * @augments	conbo.Class
+ * @author 		Neil Rackett
  */
 conbo.BindingUtils = conbo.Class.extend({},
+/** @lends conbo.BindingUtils */
 {
 	__attrBindings: new conbo.AttributeBindings(),
 	

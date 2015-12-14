@@ -1,8 +1,13 @@
 /**
- * Hash that stores data in LocalStorage
+ * A persistent Hash that stores data in LocalStorage or Session
+ * 
+ * @class		conbo.LocalHash
+ * @augments	conbo.Hash
+ * @author 		Neil Rackett
  */
-conbo.LocalHash = conbo.Hash.extend
-({
+conbo.LocalHash = conbo.Hash.extend(
+/** @lends conbo.LocalHash.prototype */
+{
 	constructor: function(options)
 	{
 		var defaultName = 'ConboLocalHash';

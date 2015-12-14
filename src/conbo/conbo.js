@@ -7,9 +7,9 @@
  * http://www.mesmotronic.com/legal/mit
  */
 
+var __namespaces = {};
+
 /**
- * CONBO.JS
- * 
  * Conbo.js is a lightweight MVC application framework for JavaScript featuring 
  * dependency injection, context and encapsulation, data binding, command 
  * pattern and an event model which enables callback scoping and consistent 
@@ -18,14 +18,13 @@
  * Dependencies
  *
  * Lite: None
- * Core and Complete: jQuery 1.7+
+ * Complete: jQuery 1.7+
  * 
+ * @namespace 	conbo
+ * @param		namespace	{String}	The selected namespace
  * @author		Neil Rackett
  * @see			http://www.mesmotronic.com/
  */
-
-var __namespaces = {};
-
 var conbo = function(namespace)
 {
 	if (!namespace || !conbo.isString(namespace))
@@ -52,8 +51,16 @@ var conbo = function(namespace)
 	return ns;
 };
 
-conbo.VERSION = '2.3.0';
+/**
+ * @augments	conbo
+ * @returns 	{String}
+ */
+conbo.VERSION = '2.3.1';
 	
+/**
+ * @augments	conbo
+ * @returns 	{String}
+ */
 conbo.toString = function() 
 { 
 	return 'Conbo '+this.VERSION; 
@@ -61,5 +68,9 @@ conbo.toString = function()
 
 if (!!$)
 {
+	/**
+	 * Local jQuery instance used by Conbo internally
+	 * @augments	conbo
+	 */
 	conbo.$ = $;
 }

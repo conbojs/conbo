@@ -2,11 +2,13 @@
  * conbo.Hash
  * A Hash is a bindable object of associated keys and values
  * 
- * @author		Neil Rackett
+ * @class		conbo.Hash
+ * @augments	conbo.EventDispatcher
+ * @author 		Neil Rackett
  */
-
-conbo.Hash = conbo.EventDispatcher.extend
-({
+conbo.Hash = conbo.EventDispatcher.extend(
+/** @lends conbo.Hash.prototype */
+{
 	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options

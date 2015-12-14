@@ -1,9 +1,13 @@
 /**
- * Conbo namespace
- * @author 	Neil Rackett
+ * Namespace
+ * 
+ * @class		conbo.Namespace
+ * @augments	conbo.Promise
+ * @author 		Neil Rackett
  */
-conbo.Namespace = conbo.Class.extend
-({
+conbo.Namespace = conbo.Class.extend(
+/** @lends conbo.Namespace.prototype */
+{
 	initDom: function(rootEl)
 	{
 		conbo.initDom(this, rootEl);

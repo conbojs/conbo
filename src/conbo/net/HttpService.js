@@ -4,10 +4,13 @@
  * Base class for HTTP data services, default settings are designed for JSON
  * REST APIs; parseFunction required for XML data sources
  * 
- * @author Neil Rackett
+ * @class		conbo.HttpService
+ * @augments	conbo.EventDispatcher
+ * @author 		Neil Rackett
  */
-conbo.HttpService = conbo.EventDispatcher.extend
-({
+conbo.HttpService = conbo.EventDispatcher.extend(
+/** @lends conbo.HttpService.prototype */
+{
 	constructor: function(options)
 	{
 		conbo.setValues(this, conbo.pick(options || {}, 

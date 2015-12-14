@@ -4,10 +4,13 @@
  * Base class for commands to be registered in your Context 
  * using mapCommand(...)
  * 
+ * @class		conbo.Command
+ * @augments	conbo.EventDispatcher
  * @author		Neil Rackett
  */
-conbo.Command = conbo.EventDispatcher.extend
-({
+conbo.Command = conbo.EventDispatcher.extend(
+/** @lends conbo.Command.prototype */
+{
 	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options

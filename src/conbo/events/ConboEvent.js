@@ -6,10 +6,13 @@
  * For consistency, callback parameters of Backbone.js derived classes 
  * are event object properties in Conbo.js
  * 
+ * @class		conbo.ConboEvent
+ * @augments	conbo.Event
  * @author		Neil Rackett
  */
-conbo.ConboEvent = conbo.Event.extend
-({
+conbo.ConboEvent = conbo.Event.extend(
+/** @lends conbo.ConboEvent.prototype */
+{
 	initialize: function(type, options)
 	{
 		conbo.defaults(this, options);

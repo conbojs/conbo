@@ -7,12 +7,18 @@
  * It's invisible to View, so it's great for creating components, and you 
  * can bind data to it using the `cb-data` attribute to set the data 
  * property of your Glimpse
+ * 
+ * @class		conbo.Glimpse
+ * @augments	conbo.EventDispatcher
+ * @author 		Neil Rackett
  */
-conbo.Glimpse = conbo.EventDispatcher.extend
-({
+conbo.Glimpse = conbo.EventDispatcher.extend(
+/** @lends conbo.Glimpse.prototype */
+{
 	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options
+	 * @private
 	 */
 	constructor: function(options)
 	{

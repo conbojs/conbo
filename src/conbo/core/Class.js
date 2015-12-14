@@ -1,12 +1,16 @@
 /**
  * Class
  * Extendable base class from which all others extend
+ * @class	conbo.Class
  */
 conbo.Class = function(options) 
 {
 	this.initialize.apply(this, arguments);
 };
 
+/**
+ * @memberof conbo.Class
+ */
 conbo.Class.prototype =
 {
 	/**
@@ -29,8 +33,8 @@ conbo.Class.prototype =
 	
 	/**
 	 * Scope one or more methods to this class instance
-	 * @param 	method
-	 * @returns
+	 * @param 	{function} method - The function to bind to this class instance
+	 * @returns	this
 	 */
 	bind: function(method)
 	{
@@ -55,6 +59,22 @@ conbo.Class.prototype =
 
 __denumerate(conbo.Class.prototype);
 
+/**
+ * Extend this class to create a new class
+ * 
+ * @memberof 	conbo.Class
+ * @param		{object}	protoProps - Object containing the new class's prototype
+ * @param		{object}	staticProps - Object containing the new class's static methods and properties
+ * 
+ * @example		
+ * var MyClass = conbo.Class.extend
+ * ({
+ * 	doSomething:function()
+ * 	{ 
+ * 		console.log(':-)'); 
+ * 	}
+ * });
+ */
 conbo.Class.extend = function(protoProps, staticProps)
 {
 	var child, parent=this;
@@ -93,9 +113,11 @@ conbo.Class.extend = function(protoProps, staticProps)
  * the default methods or properties from the partial(s) if they have 
  * not already been implemented.
  * 
- * @example					var MyClass = conbo.Class.extend().implement(conbo.IInjectable);
- * @param	{Object}		Object containing one or more properties or methods to be implemented
- * @returns	{conbo.Class}
+ * @memberof	conbo.Class
+ * @param		{Object} interface - Object containing one or more properties or methods to be implemented (an unlimited number of parameters can be passed)
+ * 
+ * @example
+ * var MyClass = conbo.Class.extend().implement(conbo.IInjectable);
  */
 conbo.Class.implement = function()
 {

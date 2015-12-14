@@ -10,11 +10,17 @@ var escapeRegExp	= /[\-{}\[\]+?.,\\\^$|#\s]/g;
  * matched. Creating a new one sets its `routes` hash, if not set statically.
  * 
  * Derived from the Backbone.js class of the same name
+ * 
+ * @class		conbo.Router
+ * @augments	conbo.EventDispatcher
+ * @author 		Neil Rackett
  */
-conbo.Router = conbo.EventDispatcher.extend
-({
+conbo.Router = conbo.EventDispatcher.extend(
+/** @lends conbo.Router.prototype */
+{
 	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
+	 * @private
 	 * @param options
 	 */
 	constructor: function(options) 

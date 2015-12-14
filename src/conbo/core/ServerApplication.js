@@ -3,10 +3,13 @@
  * 
  * Base class for applications that don't require DOM, e.g. Node.js
  * 
+ * @class		conbo.ServerApplication
+ * @augments	conbo.EventDispatcher
  * @author		Neil Rackett
  */
-conbo.ServerApplication = conbo.EventDispatcher.extend
-({
+conbo.ServerApplication = conbo.EventDispatcher.extend(
+/** @lends conbo.ServerApplication.prototype */
+{
 	/**
 	 * Default context class to use
 	 * You'll normally want to override this with your own

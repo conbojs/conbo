@@ -3,7 +3,8 @@
  * method to your class to set, update or adjust class and constructor arguments
  * before the constructor runs
  * 
- * @author 	Neil Rackett
+ * @augments	conbo
+ * @author 		Neil Rackett
  */
 conbo.IPreinitialize =
 {

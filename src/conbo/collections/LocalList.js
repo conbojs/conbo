@@ -1,5 +1,14 @@
-conbo.LocalList = conbo.List.extend
-({
+/**
+ * LocalList is a persistent List class that is saved into LocalStorage
+ * or SessionStorage
+ * 
+ * @class		conbo.LocalList
+ * @augments	conbo.List
+ * @author 		Neil Rackett
+ */
+conbo.LocalList = conbo.List.extend(
+/** @lends conbo.LocalList.prototype */
+{
 	constructor: function(options)
 	{
 		var defaultName = 'ConboLocalList';

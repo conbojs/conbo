@@ -1,10 +1,14 @@
 /**
  * Remote List
  * Used for syncing remote array data with a local List
- * @author Neil Rackett
+ * 
+ * @class		conbo.RemoteList
+ * @augments	conbo.List
+ * @author 		Neil Rackett
  */
-conbo.RemoteList = conbo.List.extend
-({
+conbo.RemoteList = conbo.List.extend(
+/** @lends conbo.RemoteList.prototype */
+{
 	//itemClass: conbo.RemoteHash,
 	
 	/**
@@ -16,7 +20,7 @@ conbo.RemoteList = conbo.List.extend
 		options = conbo.defaults({}, options, this.options);
 		
 		this.context = options.context;
-		this.preinitialize(source, options);
+		this.preinitialize(options);
 		
 		this._httpService = new conbo.HttpService(options);
 		this._command = options.command;

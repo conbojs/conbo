@@ -7,9 +7,14 @@
  * Unlike Collection, List doesn't automatically convert added items into
  * Hash or Model, but does automatically detect if Bindable objects are added
  * to it and automatically watches them for changes
+ * 
+ * @class		conbo.List
+ * @augments	conbo.EventDispatcher
+ * @author 		Neil Rackett
  */
-conbo.List = conbo.EventDispatcher.extend
-({
+conbo.List = conbo.EventDispatcher.extend(
+/** @lends conbo.List.prototype */
+{
 	itemClass: conbo.Hash,
 	
 	/**

@@ -5,12 +5,18 @@
  * if an existing element is not provided...
  * 
  * Some methods derived from the Backbone.js class of the same name
+ * 
+ * @class		conbo.View
+ * @augments	conbo.Glimpse
+ * @author 		Neil Rackett
  */
-conbo.View = conbo.Glimpse.extend
-({
+conbo.View = conbo.Glimpse.extend(
+/** @lends conbo.View */
+{
 	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options
+	 * @private
 	 */
 	constructor: function(options)
 	{

@@ -8,6 +8,8 @@
  * 
  * By default, Conbo scans the entire DOM, but you can limit the
  * scope by specifying a root element
+ * 
+ * @memberof	conbo
  */
 conbo.initDom = function(namespace, rootEl)
 {
@@ -43,8 +45,14 @@ conbo.initDom = function(namespace, rootEl)
 	return this;	
 };
 
+/**
+ * @private
+ */
 var __observers = [];
 
+/**
+ * @private
+ */
 var __getObserverIndex = function(namespace, rootEl)
 {
 	var length = __observers.length;
@@ -67,6 +75,8 @@ var __getObserverIndex = function(namespace, rootEl)
  * 
  * By default, Conbo watches the entire DOM, but you can limit the
  * scope by specifying a root element
+ * 
+ * @memberof	conbo
  */
 conbo.observeDom = function(namespace, rootEl)
 {
@@ -107,6 +117,8 @@ conbo.observeDom = function(namespace, rootEl)
 
 /**
  * Stop watching the DOM for new Applications
+ * 
+ * @memberof	conbo
  */
 conbo.unobserveDom = function(namespace, rootEl)
 {

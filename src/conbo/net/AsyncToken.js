@@ -1,9 +1,13 @@
 /**
  * Async Token
- * @author Neil Rackett
+ * 
+ * @class		conbo.AsyncToken
+ * @augments	conbo.Promise
+ * @author 		Neil Rackett
  */
-conbo.AsyncToken = conbo.Promise.extend
-({
+conbo.AsyncToken = conbo.Promise.extend(
+/** @lends conbo.AsyncToken.prototype */
+{
 	initialize: function(options)
 	{
 		options || (options = {});

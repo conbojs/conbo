@@ -5,10 +5,13 @@
  * usually where all your models and web service classes are registered,
  * using mapSingleton(...), and Command classes are mapped to events 
  * 
+ * @class		conbo.Context
+ * @augments	conbo.EventDispatcher
  * @author		Neil Rackett
  */
-conbo.Context = conbo.EventDispatcher.extend
-({
+conbo.Context = conbo.EventDispatcher.extend(
+/** @lends conbo.Context.prototype */
+{
 	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options

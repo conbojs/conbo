@@ -4,11 +4,13 @@
  * Functions that can be used to bind DOM elements to properties of Bindable 
  * class instances to DOM elements via their attributes.
  * 
- * @example		<div cb-hide="property">Hello!</div>
+ * @class		conbo.AttributeBindings
+ * @augments	conbo.Class
  * @author 		Neil Rackett
  */
-conbo.AttributeBindings = conbo.Class.extend
-({
+conbo.AttributeBindings = conbo.Class.extend(
+/** @lends conbo.AttributeBindings.prototype */
+{
 	initialize: function()
 	{
 		// Methods that can accept multiple parameters

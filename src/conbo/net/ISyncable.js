@@ -1,6 +1,8 @@
 /**
  * ISyncable pseudo-interface
- * @author Neil Rackett
+ * 
+ * @augments	conbo
+ * @author 		Neil Rackett
  */
 conbo.ISyncable =
 {

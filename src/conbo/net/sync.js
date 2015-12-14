@@ -18,6 +18,8 @@
  * it difficult to read the body of `PUT` requests.
  * 
  * Derived from the Backbone.js method of the same name
+ * 
+ * @augments	conbo
  */
 conbo.sync = function(method, model, options) 
 {
@@ -107,6 +109,7 @@ conbo.sync = function(method, model, options)
 
 /** 
  * Map from CRUD to HTTP for our default `conbo.sync` implementation.
+ * @private
  */
 var methodMap = 
 {

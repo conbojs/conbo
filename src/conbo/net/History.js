@@ -1,10 +1,19 @@
-// Cached regex for stripping a leading hash/slash and trailing space.
+/**
+ * Cached regex for stripping a leading hash/slash and trailing space.
+ * @private
+ */ 
 var routeStripper = /^[#\/]|\s+$/g;
 
-// Cached regex for stripping leading and trailing slashes.
+/**
+ * Cached regex for stripping leading and trailing slashes.
+ * @private
+ */
 var rootStripper = /^\/+|\/+$/g;
 
-// Cached regex for removing a trailing slash.
+/**
+ * Cached regex for removing a trailing slash.
+ * @private
+ */
 var trailingSlash = /\/$/;
 
 /**
@@ -13,9 +22,14 @@ var trailingSlash = /\/$/;
  * Handles cross-browser history management, based on
  * [onhashchange](https://developer.mozilla.org/en-US/docs/DOM/window.onhashchange)
  * and URL fragments.
+ * 
+ * @class		conbo.History
+ * @augments	conbo.EventDispatcher
+ * @author 		Neil Rackett
  */
-conbo.History = conbo.EventDispatcher.extend
-({
+conbo.History = conbo.EventDispatcher.extend(
+/** @lends conbo.History */
+{
 	/**
 	 * Has the history handling already been started?
 	 */
@@ -24,6 +38,7 @@ conbo.History = conbo.EventDispatcher.extend
 	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options
+	 * @private
 	 */
 	constructor: function(options)
 	{
@@ -223,5 +238,7 @@ conbo.History = conbo.EventDispatcher.extend
 
 __denumerate(conbo.History.prototype);
 
-// Create default instance of the History class
+/**
+ * Default instance of the History class
+ */
 conbo.history = new conbo.History();

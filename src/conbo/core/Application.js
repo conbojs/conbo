@@ -3,13 +3,17 @@
  * 
  * Base application class for client-side applications
  * 
+ * @class		conbo.Application
+ * @augments	conbo.View
  * @author		Neil Rackett
  */
-conbo.Application = conbo.View.extend
-({
+conbo.Application = conbo.View.extend(
+/** @lends conbo.Application.prototype */
+{
 	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options
+	 * @private
 	 */
 	constructor: function(options)
 	{
@@ -97,6 +101,7 @@ conbo.Application = conbo.View.extend
 	
 	/**
 	 * Find element with matching cb-app attribute, if it exists
+	 * @private
 	 */
 	__findAppElement: function()
 	{
@@ -137,6 +142,7 @@ conbo.Application = conbo.View.extend
 	/**
 	 * Ensure that this class has an element
 	 * @override
+	 * @private
 	 */
 	__updateEl: function()
 	{

@@ -1,4 +1,4 @@
-/**
+/*
  * CSS styles and utilities
  * @author 	Neil Rackett
  */

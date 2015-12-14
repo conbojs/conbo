@@ -3,9 +3,14 @@
  * 
  * Simplified mutation observer dispatches ADD and REMOVE events following 
  * changes in the DOM, compatible with IE9+ and all modern browsers
+ * 
+ * @class		conbo.MutationObserver
+ * @augments	conbo.EventDispatcher
+ * @author 		Neil Rackett
  */
-conbo.MutationObserver = conbo.EventDispatcher.extend
-({
+conbo.MutationObserver = conbo.EventDispatcher.extend(
+/** @lends conbo.MutationObserver.prototype */
+{
 	initialize: function()
 	{
 		this.bindAll();

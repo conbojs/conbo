@@ -3,10 +3,13 @@
  * 
  * Base class for all events triggered in Conbo.js
  * 
+ * @class		conbo.Event
+ * @augments	conbo.Class
  * @author		Neil Rackett
  */
-conbo.Event = conbo.Class.extend
-({
+conbo.Event = conbo.Class.extend(
+/** @lends conbo.Event.prototype */
+{
 	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options
@@ -84,6 +87,7 @@ conbo.Event = conbo.Class.extend
 		return 'conbo.Event';
 	}
 },
+/** @lends conbo.Event */
 {
 	ALL: '*',
 });
