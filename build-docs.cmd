@@ -1,2 +1,2 @@
 @echo off
-jsdoc ./build/conbo.js -d ./docs/
+jsdoc ./build/conbo.js README.md -d ./docs/

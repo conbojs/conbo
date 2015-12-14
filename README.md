@@ -1,5 +1,5 @@
 Conbo.js
-========
+--------
 
 Conbo.js is a lightweight MVC application framework for JavaScript designed for use with ECMAScript 5 compliant browsers.
 

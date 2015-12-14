@@ -26,7 +26,7 @@ var trailingSlash = /\/$/;
  * @author 		Neil Rackett
  */
 conbo.History = conbo.EventDispatcher.extend(
-/** @lends conbo.History */
+/** @lends conbo.History.prototype */
 {
 	/**
 	 * Has the history handling already been started?
@@ -218,6 +218,8 @@ conbo.History = conbo.EventDispatcher.extend(
 	/**
 	 * Update the hash location, either replacing the current entry, or
 	 * adding a new one to the browser history.
+	 * 
+	 * @private
 	 */
 	__updateHash: function(location, fragment, replace)
 	{
