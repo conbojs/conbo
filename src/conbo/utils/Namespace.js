@@ -2,7 +2,7 @@
  * Namespace
  * 
  * @class		conbo.Namespace
- * @augments	conbo.Promise
+ * @augments	conbo.Class
  * @author 		Neil Rackett
  */
 conbo.Namespace = conbo.Class.extend(
