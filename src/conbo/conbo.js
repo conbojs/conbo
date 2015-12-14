@@ -24,6 +24,15 @@ var __namespaces = {};
  * @param		namespace	{String}	The selected namespace
  * @author		Neil Rackett
  * @see			http://www.mesmotronic.com/
+ * 
+ * @example
+ * // Conbo can replace the standard minification pattern with modular namespace definitions
+ * conbo('com.namespace.example', window, document, conbo, function(window, document, conbo, undefined)
+ * {
+ * 	var example = this;
+ * 	
+ * 	// Your code here
+ * });  
  */
 var conbo = function(namespace)
 {

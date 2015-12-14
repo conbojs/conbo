@@ -17,12 +17,10 @@ var rootStripper = /^\/+|\/+$/g;
 var trailingSlash = /\/$/;
 
 /**
- * conbo.History
+ * conbo.History handles cross-browser history management using the 
+ * onhashchange event and URL fragments
  * 
- * Handles cross-browser history management, based on
- * [onhashchange](https://developer.mozilla.org/en-US/docs/DOM/window.onhashchange)
- * and URL fragments.
- * 
+ * @see https://developer.mozilla.org/en-US/docs/DOM/window.onhashchange
  * @class		conbo.History
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
