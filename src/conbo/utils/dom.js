@@ -167,7 +167,18 @@ if (!!$)
 		}
 		
 		return data;
-	}
+	};
+	
+	/**
+	 * Select child elements that are instances of the specified class
+	 */
+	$.fn.cbClass = function(viewClass)
+	{
+		return this.find('.cb-view .cb-glimpse').filter(function()
+		{
+			return conbo.instanceOf(this.cbView || this.cbGlimpse, viewClass);
+		});
+	};
 	
 	/**
 	 * Find elements based on their cb-attribute
