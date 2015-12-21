@@ -639,7 +639,7 @@ conbo.AttributeBindings = conbo.Class.extend(
  * @memberOf	conbo
  * @param		{string}	name - camelCase version of the attribute name (without cb prefix)
  * @param		{function}	handler - function that will handle the data bound to the element
- * @returns		{boolean}	Boolean value indicating whether or not the attribute was registered
+ * @returns		{conbo}		conbo
  * 
  * @example 
  * // HTML: <div cb-font-name="myProperty"></div>
@@ -653,18 +653,39 @@ conbo.registerAttribute = function(name, handler)
 	if (!name || !conbo.isFunction(handler))
 	{
 		conbo.warn("registerAttribute: both a 'name' and 'handler' parameters are required");
-		return false;
-	}
-	
-	if (name in conbo.AttributeBindings && !conbo.AttributeBindings[name].custom)
-	{
-		conbo.warn("registerAttribute: you cannot override built-in attributes");
-		return false;
+		return this;
 	}
 	
 	name = 'cb'+name.substr(0,1).toUpperCase()+name.substr(1);
+	
+	if (name in conbo.AttributeBindings && !conbo.AttributeBindings[name].custom)
+	{
+		conbo.warn("registerAttribute: you cannot override built-in attribute "+name);
+	}
+	
 	conbo.AttributeBindings[name] = handler;
 	conbo.AttributeBindings[name].custom = true;
 	
-	return true;
+	return this;
+};
+
+/**
+ * Register one or more attribute handlers 
+ * 
+ * @memberOf	conbo
+ * @see			registerAttribute
+ * @param 		{object}	handlers - Object containing one or more attribute handler
+ * @returns 	{conbo}		conbo
+ * 
+ * @example
+ * conbo.registerAttributes({foo:function(...){...});
+ */
+conbo.registerAttributes = function(handlers)
+{
+	for (var a in handlers)
+	{
+		conbo.registerAttribute(a, handlers[a]);
+	}
+	
+	return this;
 };
