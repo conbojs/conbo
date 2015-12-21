@@ -710,6 +710,61 @@ conbo.BindingUtils = conbo.Class.extend({},
 		}
 	},
 	
+	/**
+	 * Add a cb-* attribute handler
+	 * 
+	 * @param		{string}	name - camelCase version of the attribute name (without cb prefix)
+	 * @param		{function}	handler - function that will handle the data bound to the element
+	 * @returns 	{this}		BindingUtils
+	 * 
+	 * @example 
+	 * // HTML: <div cb-font-name="myProperty"></div>
+	 * conbo.BindingUtils.addAttribute('fontName', function(value, el, options, param)
+	 * {
+	 * 	$(el).css('font-name', value);
+	 * });
+	 */
+	addAttribute: function(name, handler)
+	{
+		if (!name || !conbo.isFunction(handler))
+		{
+			conbo.warn("registerAttribute: both a 'name' and 'handler' parameters are required");
+			return this;
+		}
+		
+		name = 'cb'+name.substr(0,1).toUpperCase()+name.substr(1);
+		
+		if (name in this.__attrBindings && !this.__attrBindings[name].custom)
+		{
+			conbo.warn("registerAttribute: you cannot override built-in attribute "+name);
+		}
+		
+		handler.custom = true;
+		this.__attrBindings[name] = handler;
+		
+		return this;
+	},
+	
+	/**
+	 * Add one or more cb-* attribute handlers 
+	 * 
+	 * @see			addAttribute
+	 * @param 		{object}	handlers - Object containing one or more attribute handler
+	 * @returns 	{this}		BindingUtils
+	 * 
+	 * @example
+	 * conbo.BindingUtils.addAttributes({foo:function(value, el, options, param){ ... });
+	 */
+	addAttributes: function(handlers)
+	{
+		for (var a in handlers)
+		{
+			this.addAttribute(a, handlers[a]);
+		}
+		
+		return this;
+	},
+	
 	toString: function()
 	{
 		return 'conbo.BindingUtils';
@@ -721,6 +776,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * Event handlers, in line with conbo.Model change:[propertyName] handlers, 
 	 * should be in the format handler(source, value) {...}
 	 * 
+	 * @private
 	 * @param 	attribute
 	 * @param 	value
 	 * @param 	options
