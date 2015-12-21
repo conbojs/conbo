@@ -637,13 +637,15 @@ conbo.AttributeBindings = conbo.Class.extend(
 /**
  * Register a function to handle a cb-[name] attribute 
  * @memberOf	conbo
- * @returns		{boolean}	Whether or not the attribute handler was registered
+ * @param		{string}	name - camelCase version of the attribute name (without cb prefix)
+ * @param		{function}	handler - function that will handle the data bound to the element
+ * @returns		{boolean}	Boolean value indicating whether or not the attribute was registered
  * 
  * @example 
- * // HTML: <div cb-append-value="myProperty"></div>
- * conbo.registerAttribute('appendValue', function(value, el, options, param)
+ * // HTML: <div cb-font-name="myProperty"></div>
+ * conbo.registerAttribute('fontName', function(value, el, options, param)
  * {
- * 	el.innerHTML += value;
+ * 	$(el).css('font-name', value);
  * });
  */
 conbo.registerAttribute = function(name, handler)
