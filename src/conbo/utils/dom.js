@@ -143,7 +143,13 @@ conbo.unobserveDom = function(namespace, rootEl)
 if (!!$)
 {
 	/**
-	 * Return a list of cb-* attributes on the DOM element
+	 * Return object containing the value of all cb-* attributes on a DOM element
+	 * 
+	 * @memberof	conbo.$
+	 * @param 		{boolean}	camelCase - Should the property names be converted to camelCase? (default: true)
+	 * 
+	 * @example
+	 * $el.cbAttrs();
 	 */
 	$.fn.cbAttrs = function(camelCase)
 	{
@@ -170,9 +176,16 @@ if (!!$)
 	};
 	
 	/**
-	 * Select child elements that are instances of the specified class
+	 * jQuery method to select child elements related to View or Glimpse 
+	 * class instances
+	 * 
+	 * @memberof	conbo.$
+	 * @param 		{class}		viewClass - View or Glimpse class to search for
+	 * 
+	 * @example
+	 * $el.cbViews(myNamespace.MyViewClass);
 	 */
-	$.fn.cbClass = function(viewClass)
+	$.fn.cbViews = function(viewClass)
 	{
 		return this.find('.cb-view .cb-glimpse').filter(function()
 		{
@@ -182,17 +195,24 @@ if (!!$)
 	
 	/**
 	 * Find elements based on their cb-attribute
+	 * @memberof	conbo.$
+	 * 
+	 * @example
+	 * $(':cbAttr');
+	 * $('div:cbAttr');
 	 */
 	$.expr[':'].cbAttr = function(el, index, meta, stack)
 	{
 		var $el = $(el),
 			args = (meta[3] || '').split(','),
-			cb = $el.cbAttrs();
+			attrs = $el.cbAttrs(),
+			keys = conbo.keys(attrs)
+			;
 		
-		if (!cb) return false;
-		if (!!cb && !args.length) return true;
-		if (!!args[0] && !args[1]) return args[0] in cb;
-		if (!!args[0] && !!args[1]) return cb[args[0]] == args[1];
+		if (!keys.length) return false;
+		if (!!attrs && !args.length) return true;
+		if (!!args[0] && !args[1]) return args[0] in attrs;
+		if (!!args[0] && !!args[1]) return attrs[args[0]] == args[1];
 		return false;
 	};
 	

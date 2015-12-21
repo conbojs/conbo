@@ -633,3 +633,36 @@ conbo.AttributeBindings = conbo.Class.extend(
 	},
 	
 });
+
+/**
+ * Register a function to handle a cb-[name] attribute 
+ * @memberOf	conbo
+ * @returns		{boolean}	Whether or not the attribute handler was registered
+ * 
+ * @example 
+ * // HTML: <div cb-append-value="myProperty"></div>
+ * conbo.registerAttribute('appendValue', function(value, el, options, param)
+ * {
+ * 	el.innerHTML += value;
+ * });
+ */
+conbo.registerAttribute = function(name, handler)
+{
+	if (!name || !conbo.isFunction(handler))
+	{
+		conbo.warn("registerAttribute: both a 'name' and 'handler' parameters are required");
+		return false;
+	}
+	
+	if (name in conbo.AttributeBindings && !conbo.AttributeBindings[name].custom)
+	{
+		conbo.warn("registerAttribute: you cannot override built-in attributes");
+		return false;
+	}
+	
+	name = 'cb'+name.substr(0,1).toUpperCase()+name.substr(1);
+	conbo.AttributeBindings[name] = handler;
+	conbo.AttributeBindings[name].custom = true;
+	
+	return true;
+};

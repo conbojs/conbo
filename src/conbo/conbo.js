@@ -78,8 +78,8 @@ conbo.toString = function()
 if (!!$)
 {
 	/**
-	 * Local jQuery instance used by Conbo internally
-	 * @augments	conbo
+	 * Local jQuery instance used by Conbo internally (not available in lite build)
+	 * @namespace	conbo.$
 	 */
 	conbo.$ = $;
 }

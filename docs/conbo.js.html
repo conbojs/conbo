@@ -135,8 +135,8 @@ conbo.toString = function()
 if (!!$)
 {
 	/**
-	 * Local jQuery instance used by Conbo internally
-	 * @augments	conbo
+	 * Local jQuery instance used by Conbo internally (not available in lite build)
+	 * @namespace	conbo.$
 	 */
 	conbo.$ = $;
 }
@@ -1963,7 +1963,13 @@ conbo.unobserveDom = function(namespace, rootEl)
 if (!!$)
 {
 	/**
-	 * Return a list of cb-* attributes on the DOM element
+	 * Return object containing the value of all cb-* attributes on a DOM element
+	 * 
+	 * @memberof	conbo.$
+	 * @param 		{boolean}	camelCase - Should the property names be converted to camelCase? (default: true)
+	 * 
+	 * @example
+	 * $el.cbAttrs();
 	 */
 	$.fn.cbAttrs = function(camelCase)
 	{
@@ -1987,21 +1993,46 @@ if (!!$)
 		}
 		
 		return data;
-	}
+	};
+	
+	/**
+	 * jQuery method to select child elements related to View or Glimpse 
+	 * class instances
+	 * 
+	 * @memberof	conbo.$
+	 * @param 		{class}		viewClass - View or Glimpse class to search for
+	 * 
+	 * @example
+	 * $el.cbViews(myNamespace.MyViewClass);
+	 */
+	$.fn.cbViews = function(viewClass)
+	{
+		return this.find('.cb-view .cb-glimpse').filter(function()
+		{
+			return conbo.instanceOf(this.cbView || this.cbGlimpse, viewClass);
+		});
+	};
 	
 	/**
 	 * Find elements based on their cb-attribute
+	 * @memberof	conbo.$
+	 * 
+	 * @example
+	 * $(':cbAttr');
+	 * $('div:cbAttr');
 	 */
 	$.expr[':'].cbAttr = function(el, index, meta, stack)
 	{
 		var $el = $(el),
 			args = (meta[3] || '').split(','),
-			cb = $el.cbAttrs();
+			attrs = $el.cbAttrs(),
+			keys = conbo.keys(attrs)
+			;
 		
-		if (!cb) return false;
-		if (!!cb &amp;&amp; !args.length) return true;
-		if (!!args[0] &amp;&amp; !args[1]) return args[0] in cb;
-		if (!!args[0] &amp;&amp; !!args[1]) return cb[args[0]] == args[1];
+		if (!keys.length) return false;
+		if (!!attrs &amp;&amp; !args.length) return true;
+		if (!!args[0] &amp;&amp; !args[1]) return args[0] in attrs;
+		if (!!args[0] &amp;&amp; !!args[1]) return attrs[args[0]] == args[1];
 		return false;
 	};
 	
@@ -3988,6 +4019,39 @@ conbo.AttributeBindings = conbo.Class.extend(
 	},
 	
 });
+
+/**
+ * Register a function to handle a cb-[name] attribute 
+ * @memberOf	conbo
+ * @returns		{boolean}	Whether or not the attribute handler was registered
+ * 
+ * @example 
+ * // HTML: &lt;div cb-append-value="myProperty">&lt;/div>
+ * conbo.registerAttribute('appendValue', function(value, el, options, param)
+ * {
+ * 	el.innerHTML += value;
+ * });
+ */
+conbo.registerAttribute = function(name, handler)
+{
+	if (!name || !conbo.isFunction(handler))
+	{
+		conbo.warn("registerAttribute: both a 'name' and 'handler' parameters are required");
+		return false;
+	}
+	
+	if (name in conbo.AttributeBindings &amp;&amp; !conbo.AttributeBindings[name].custom)
+	{
+		conbo.warn("registerAttribute: you cannot override built-in attributes");
+		return false;
+	}
+	
+	name = 'cb'+name.substr(0,1).toUpperCase()+name.substr(1);
+	conbo.AttributeBindings[name] = handler;
+	conbo.AttributeBindings[name].custom = true;
+	
+	return true;
+};
 
 /**
  * Binding utility class
@@ -6646,13 +6710,13 @@ __denumerate(conbo.Router.prototype);
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="conbo.Application.html">Application</a></li><li><a href="conbo.AsyncToken.html">AsyncToken</a></li><li><a href="conbo.AttributeBindings.html">AttributeBindings</a></li><li><a href="conbo.BindingUtils.html">BindingUtils</a></li><li><a href="conbo.Class.html">Class</a></li><li><a href="conbo.Command.html">Command</a></li><li><a href="conbo.ConboEvent.html">ConboEvent</a></li><li><a href="conbo.Context.html">Context</a></li><li><a href="conbo.Event.html">Event</a></li><li><a href="conbo.EventDispatcher.html">EventDispatcher</a></li><li><a href="conbo.Glimpse.html">Glimpse</a></li><li><a href="conbo.Hash.html">Hash</a></li><li><a href="conbo.History.html">History</a></li><li><a href="conbo.HttpService.html">HttpService</a></li><li><a href="conbo.List.html">List</a></li><li><a href="conbo.LocalHash.html">LocalHash</a></li><li><a href="conbo.LocalList.html">LocalList</a></li><li><a href="conbo.MutationObserver.html">MutationObserver</a></li><li><a href="conbo.Namespace.html">Namespace</a></li><li><a href="conbo.Promise.html">Promise</a></li><li><a href="conbo.RemoteHash.html">RemoteHash</a></li><li><a href="conbo.RemoteList.html">RemoteList</a></li><li><a href="conbo.Responder.html">Responder</a></li><li><a href="conbo.Router.html">Router</a></li><li><a href="conbo.ServerApplication.html">ServerApplication</a></li><li><a href="conbo.View.html">View</a></li></ul><h3>Namespaces</h3><ul><li><a href="conbo.html">conbo</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="conbo.Application.html">Application</a></li><li><a href="conbo.AsyncToken.html">AsyncToken</a></li><li><a href="conbo.AttributeBindings.html">AttributeBindings</a></li><li><a href="conbo.BindingUtils.html">BindingUtils</a></li><li><a href="conbo.Class.html">Class</a></li><li><a href="conbo.Command.html">Command</a></li><li><a href="conbo.ConboEvent.html">ConboEvent</a></li><li><a href="conbo.Context.html">Context</a></li><li><a href="conbo.Event.html">Event</a></li><li><a href="conbo.EventDispatcher.html">EventDispatcher</a></li><li><a href="conbo.Glimpse.html">Glimpse</a></li><li><a href="conbo.Hash.html">Hash</a></li><li><a href="conbo.History.html">History</a></li><li><a href="conbo.HttpService.html">HttpService</a></li><li><a href="conbo.List.html">List</a></li><li><a href="conbo.LocalHash.html">LocalHash</a></li><li><a href="conbo.LocalList.html">LocalList</a></li><li><a href="conbo.MutationObserver.html">MutationObserver</a></li><li><a href="conbo.Namespace.html">Namespace</a></li><li><a href="conbo.Promise.html">Promise</a></li><li><a href="conbo.RemoteHash.html">RemoteHash</a></li><li><a href="conbo.RemoteList.html">RemoteList</a></li><li><a href="conbo.Responder.html">Responder</a></li><li><a href="conbo.Router.html">Router</a></li><li><a href="conbo.ServerApplication.html">ServerApplication</a></li><li><a href="conbo.View.html">View</a></li></ul><h3>Namespaces</h3><ul><li><a href="conbo.html">conbo</a></li><li><a href="conbo.$.html">$</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Mon Dec 14 2015 14:58:12 GMT+0000 (GMT Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Mon Dec 21 2015 16:52:14 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

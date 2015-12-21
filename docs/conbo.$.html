@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Namespace</title>
+    <title>JSDoc: Namespace: $</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Namespace</h1>
+    <h1 class="page-title">Namespace: $</h1>
 
     
 
@@ -29,7 +29,7 @@
 <header>
     
         <h2>
-            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>Namespace</h2>
+            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>$</h2>
         
     
 </header>
@@ -38,29 +38,10 @@
     <div class="container-overview">
     
         
+            <div class="description">Local jQuery instance used by Conbo internally (not available in lite build)</div>
+        
 
-    
-
-    <h4 class="name" id="Namespace"><span class="type-signature"></span>new Namespace<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Namespace
-</div>
-
-
-
-
-
-
-
-
-
-
-
+        
 
 
 <dl class="details">
@@ -82,13 +63,6 @@
     
 
     
-    <dt class="tag-author">Author:</dt>
-    <dd class="tag-author">
-        <ul>
-            <li>Neil Rackett</li>
-        </ul>
-    </dd>
-    
 
     
 
@@ -99,7 +73,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2181">line 2181</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line109">line 109</a>
     </li></ul></dd>
     
 
@@ -111,33 +85,9 @@
 </dl>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        
     
     </div>
-
-    
-        <h3 class="subsection-title">Extends</h3>
-
-        
-
-
-    <ul>
-        <li><a href="conbo.Class.html">conbo.Class</a></li>
-    </ul>
-
 
     
 
@@ -150,18 +100,30 @@
     
 
     
-        <h3 class="subsection-title">Members</h3>
+
+    
+        <h3 class="subsection-title">Methods</h3>
 
         
             
-<h4 class="name" id="supro"><span class="type-signature"></span>supro<span class="type-signature"></span></h4>
 
+    
+
+    <h4 class="name" id=".$.expr%5B':'%5D.cbAttr"><span class="type-signature">(static) </span>$.expr[':'].cbAttr<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
 
 
 
 <div class="description">
-    Similar to `super` in ActionScript or Java, this property enables you to access properties and methods of the super class prototype, which is the case of JavaScript is the next prototype up the chain
+    Find elements based on their cb-attribute
 </div>
+
+
+
+
+
+
 
 
 
@@ -175,11 +137,6 @@
 
     
 
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.Class.html#supro">conbo.Class#supro</a>
-    </li></ul></dd>
     
 
     
@@ -203,7 +160,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2067">line 2067</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1996">line 1996</a>
     </li></ul></dd>
     
 
@@ -219,25 +176,34 @@
 
 
 
-        
-    
 
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
     
-        <h3 class="subsection-title">Methods</h3>
+    <pre class="prettyprint"><code>$(':cbAttr');$('div:cbAttr');</code></pre>
+
+
 
         
             
 
     
 
-    <h4 class="name" id="bind"><span class="type-signature"></span>bind<span class="signature">(method)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".$.fn.cbAttrs"><span class="type-signature">(static) </span>$.fn.cbAttrs<span class="signature">(camelCase)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Scope one or more methods to this class instance
+    Return object containing the value of all cb-* attributes on a DOM element
 </div>
 
 
@@ -273,13 +239,13 @@
 
         <tr>
             
-                <td class="name"><code>method</code></td>
+                <td class="name"><code>camelCase</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">function</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -289,7 +255,7 @@
 
             
 
-            <td class="description last">The function to bind to this class instance</td>
+            <td class="description last">Should the property names be converted to camelCase? (default: true)</td>
         </tr>
 
     
@@ -308,11 +274,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.Class.html#bind">conbo.Class#bind</a>
-    </li></ul></dd>
-    
 
     
 
@@ -335,7 +296,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2077">line 2077</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1946">line 1946</a>
     </li></ul></dd>
     
 
@@ -358,16 +319,11 @@
 
 
 
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    this
-</div>
 
 
-
+    <h5>Example</h5>
     
+    <pre class="prettyprint"><code>$el.cbAttrs();</code></pre>
 
 
 
@@ -376,14 +332,14 @@
 
     
 
-    <h4 class="name" id="bindAll"><span class="type-signature"></span>bindAll<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".$.fn.cbViews"><span class="type-signature">(static) </span>$.fn.cbViews<span class="signature">(viewClass)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Scope all methods of this class instance to this class instance
+    jQuery method to select child elements related to View or Glimpse class instances
 </div>
 
 
@@ -392,6 +348,55 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>viewClass</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">class</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">View or Glimpse class to search for</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -405,11 +410,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.Class.html#bindAll">conbo.Class#bindAll</a>
-    </li></ul></dd>
-    
 
     
 
@@ -432,7 +432,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2086">line 2086</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1980">line 1980</a>
     </li></ul></dd>
     
 
@@ -455,103 +455,11 @@
 
 
 
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    this
-</div>
 
 
-
+    <h5>Example</h5>
     
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="initialize"><span class="type-signature"></span>initialize<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Entry pointIn most circumstances, custom classes should override initialize and use it as your class constructor
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.Class.html#initialize">conbo.Class#initialize</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2060">line 2060</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
+    <pre class="prettyprint"><code>$el.cbViews(myNamespace.MyViewClass);</code></pre>
 
 
 
@@ -577,7 +485,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Mon Dec 21 2015 16:52:15 GMT+0000 (GMT Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Mon Dec 21 2015 16:52:14 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
