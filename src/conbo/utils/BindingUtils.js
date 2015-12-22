@@ -711,7 +711,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	},
 	
 	/**
-	 * Add a cb-* attribute handler
+	 * Register a cb-* attribute handler
 	 * 
 	 * @param		{string}	name - camelCase version of the attribute name (without cb prefix)
 	 * @param		{function}	handler - function that will handle the data bound to the element
@@ -719,12 +719,12 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * 
 	 * @example 
 	 * // HTML: <div cb-font-name="myProperty"></div>
-	 * conbo.BindingUtils.addAttribute('fontName', function(value, el, options, param)
+	 * conbo.BindingUtils.registerAttribute('fontName', function(value, el, options, param)
 	 * {
 	 * 	$(el).css('font-name', value);
 	 * });
 	 */
-	addAttribute: function(name, handler)
+	registerAttribute: function(name, handler)
 	{
 		if (!name || !conbo.isFunction(handler))
 		{
@@ -746,16 +746,16 @@ conbo.BindingUtils = conbo.Class.extend({},
 	},
 	
 	/**
-	 * Add one or more cb-* attribute handlers 
+	 * Register one or more cb-* attribute handlers 
 	 * 
-	 * @see			addAttribute
+	 * @see			#registerAttribute
 	 * @param 		{object}	handlers - Object containing one or more attribute handler
 	 * @returns 	{this}		BindingUtils
 	 * 
 	 * @example
-	 * conbo.BindingUtils.addAttributes({foo:function(value, el, options, param){ ... });
+	 * conbo.BindingUtils.registerAttributes({foo:function(value, el, options, param){ ... });
 	 */
-	addAttributes: function(handlers)
+	registerAttributes: function(handlers)
 	{
 		for (var a in handlers)
 		{
