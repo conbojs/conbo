@@ -56,15 +56,12 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 			|| (this.isRpc ? 'application/json' : 'application/x-www-form-urlencoded');
 		
 		command = this.parseUrl(command, data);
-		
-		data = this.isRpc
-			? (method == 'GET' ? undefined : JSON.stringify(conbo.isFunction(data.toJSON) ? data.toJSON() : data))
-			: data;
+		data = this.isRpc ? JSON.stringify(data) : data;
 		
 		var promise = $.ajax
 		({
 			data: data,
-			type: 'GET',
+			type: method,
 			headers: this.headers,
 			url: this.rootUrl+command,
 			contentType: contentType,
