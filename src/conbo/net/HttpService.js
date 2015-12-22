@@ -1,8 +1,12 @@
 /**
  * HTTP Service
  * 
- * Base class for HTTP data services, default settings are designed for JSON
- * REST APIs; parseFunction required for XML data sources
+ * Base class for HTTP data services, with default configuration designed 
+ * for use with JSON REST APIs.
+ * 
+ * For XML data sources, you will need to override decodeFunction to parse 
+ * response data, change the contentType and implement encodeFunction if 
+ * you're using RPC.  
  * 
  * @class		conbo.HttpService
  * @augments	conbo.EventDispatcher
@@ -19,7 +23,8 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 		    'dataType', 
 		    'isRpc', 
 		    'headers', 
-		    'parseFunction', 
+		    'encodeFunction', 
+		    'decodeFunction', 
 		    'resultClass',
 		    'makeObjectsBindable'
 		));
@@ -56,7 +61,7 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 			|| (this.isRpc ? 'application/json' : 'application/x-www-form-urlencoded');
 		
 		command = this.parseUrl(command, data);
-		data = this.isRpc ? JSON.stringify(data) : data;
+		data = this.encodeFunction(data);
 		
 		var promise = $.ajax
 		({
@@ -66,7 +71,7 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 			url: this.rootUrl+command,
 			contentType: contentType,
 			dataType: this.dataType,
-			dataFilter: this.parseFunction
+			dataFilter: this.decodeFunction
 		});
 		
 		var token = new conbo.AsyncToken
@@ -122,6 +127,15 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 		this);
 		
 		return this;
+	},
+	
+	/**
+	 * Method that encodes data to be sent to the API
+	 * @param	{object}	data - Object containing the data to be sent to the API
+	 */
+	encodeFunction: function(data)
+	{
+		return this.isRpc ? JSON.stringify(data) : data;
 	},
 	
 	/**
