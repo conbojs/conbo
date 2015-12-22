@@ -18,8 +18,11 @@ conbo('ns', conbo, function(conbo)
 	});
 	
 	/**
-	 * Passing el to the constructor will automatically add your application
-	 * to that element. 
+	 * By default, namespaces will automatically scan the DOM when the page
+	 * finished loading and instantiate any matching applications it finds.
+	 * 
+	 * However, if you want to manually instantiate your Application, passing 
+	 * el to the constructor will add your application to that element.
 	 */
 	new ns.MyApp({el:document.body});
 	

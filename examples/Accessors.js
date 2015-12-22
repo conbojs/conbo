@@ -38,6 +38,9 @@ conbo('ns', this, conbo, function(window, conbo, undefined)
 		initialize: function()
 		{
 			this.name = 'Conbo';
+			
+			// Expose this globally for the purposes of this demo
+			window.app = this;
 		},
 		
 		toString: function()
@@ -45,12 +48,5 @@ conbo('ns', this, conbo, function(window, conbo, undefined)
 			return 'ns.MyApp';
 		}
 	});
-	
-	/**
-	 * When instantiated an Application without specifying an element, it will
-	 * automatically seek out the first DOM element with a matching cp-app
-	 * attribute
-	 */
-	window.app = new ns.MyApp();
-	
+
 });

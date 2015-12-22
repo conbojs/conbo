@@ -16,11 +16,4 @@ conbo('ns', function()
 		// or View to bind them, but we definitely recommend it!
 	});
 	
-	/**
-	 * ns.initDom automatically scans the DOM for cb-app declarations and
-	 * instantiates the appropriate Application instance from the specified
-	 * namespace
-	 */
-	ns.initDom();
-	
 });

@@ -92,11 +92,4 @@ conbo('conbo', function(undefined)
 		}
 	});
 	
-	/**
-	 * ns.initDom automatically scans the DOM for cb-app declarations and
-	 * instantiates the appropriate Application instance from the specified
-	 * namespace
-	 */
-	ns.initDom();
-	
 });
