@@ -187,7 +187,7 @@ if (!!$)
 	 */
 	$.fn.cbViews = function(viewClass)
 	{
-		return this.find('.cb-view .cb-glimpse').filter(function()
+		return this.find('.cb-view, .cb-glimpse').filter(function()
 		{
 			return conbo.instanceOf(this.cbView || this.cbGlimpse, viewClass);
 		});
