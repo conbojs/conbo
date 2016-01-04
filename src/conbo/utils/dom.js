@@ -1,5 +1,5 @@
 /*
- * DOM and jQuery utilities
+ * DOM functions and utility methods that require jQuery
  * @author		Neil Rackett
  */
 

@@ -1372,11 +1372,11 @@ conbo.instanceOf = function(obj, classOrInterface)
 };
 
 /**
- * Loads a CSS and apply it to the DOM
+ * Loads a CSS file and apply it to the DOM
  * 
  * @memberof	conbo
- * @param 	{String}	url		The CSS file's URL
- * @param 	{String}	media	The media attribute (defaults to 'all')
+ * @param 		{String}	url		The CSS file's URL
+ * @param 		{String}	media	The media attribute (defaults to 'all')
  */
 conbo.loadCss = function(url, media)
 {
@@ -1399,6 +1399,34 @@ conbo.loadCss = function(url, media)
 	return this;
 };
 
+/**
+ * Load a JavaScript file and execute it
+ * 
+ * @memberof	conbo
+ * @param 		{String}	url		The JavaScript file's URL
+ * @returns		conbo.Promise
+ */
+conbo.loadScript = function(url)
+{
+	if (!$)
+	{
+		conbo.error('conbo.loadScript requires jQuery');
+		return;
+	}
+	
+	var promise = new conbo.Promise();
+	
+	$.getScript(url).done(function(script, status)
+	{
+		promise.dispatchResult(script);
+	})
+	.fail(function(xhr, settings, exception)
+	{
+		promise.dispatchFault(exception);
+	});
+	
+	return promise;
+};
 
 /*
  * Property utilities
