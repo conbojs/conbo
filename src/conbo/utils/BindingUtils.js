@@ -795,6 +795,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 		if (value && conbo.isString(value) && !isNaN(value))
 		{
 			value = parseFloat(value);
+			if (isNaN(value)) value = '';
 		}
 		
 		this[propName] = value;
