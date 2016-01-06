@@ -792,7 +792,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 		}
 		
 		// Ensure numbers are returned as Number not String
-		if (conbo.isString(value) && !isNaN(value))
+		if (value && conbo.isString(value) && !isNaN(value))
 		{
 			value = parseFloat(value);
 		}
