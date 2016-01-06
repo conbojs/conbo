@@ -4,8 +4,6 @@
  * Creating a conbo.View creates its initial element outside of the DOM,
  * if an existing element is not provided...
  * 
- * Some methods derived from the Backbone.js class of the same name
- * 
  * @class		conbo.View
  * @augments	conbo.Glimpse
  * @author 		Neil Rackett

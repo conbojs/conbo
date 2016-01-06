@@ -55,6 +55,7 @@ module.exports = function (grunt)
 					 	"src/conbo/view/IDataRenderer.js",
 						"src/conbo/view/Glimpse.js",
 						"src/conbo/view/View.js",
+						"src/conbo/view/ItemRenderer.js",
 						"src/conbo/core/Application.js",
 						"src/conbo/core/Command.js",
 						"src/conbo/core/ServerApplication.js",
