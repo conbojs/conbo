@@ -27,14 +27,14 @@ conbo.RemoteList = conbo.List.extend(
 		
 		var resultHandler = function(event)
 		{
-			this.source = event.result.toJSON();
+			this.source = event.result;
 			this.dispatchEvent(event);
 		};
 		
 		this._httpService
 			.addEventListener('result', resultHandler, this)
 			.addEventListener('fault', this.dispatchEvent, this)
-			.resultClass = this.constructor;
+			;
 		
 		__denumerate(this);
 		
