@@ -53,7 +53,7 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	{
 		var contentType;
 		
-		data = conbo.clone(data) || {};
+		data = conbo.clone(data || {});
 		method || (method = 'GET');
 		resultClass || (resultClass = this.resultClass);
 		
