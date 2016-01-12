@@ -24,7 +24,7 @@
 		toString		= ObjProto.toString,
 		hasOwnProperty	= ObjProto.hasOwnProperty;
 
-	// All **ECMAScript 5** native function implementations that we hope to use
+	// All ECMAScript 5 native function implementations that we hope to use
 	// are declared here.
 	var
 		nativeForEach		= ArrayProto.forEach,
@@ -34,8 +34,6 @@
 		nativeFilter		= ArrayProto.filter,
 		nativeEvery			= ArrayProto.every,
 		nativeSome			= ArrayProto.some,
-		nativeIndexOf		= ArrayProto.indexOf,
-		nativeLastIndexOf	= ArrayProto.lastIndexOf,
 		nativeIsArray		= Array.isArray,
 		nativeKeys			= Object.keys,
 		nativeBind			= FuncProto.bind;
@@ -46,22 +44,25 @@
 	/**
 	 * The cornerstone, an `each` implementation, aka `forEach`.
 	 * Handles objects with the built-in `forEach`, arrays, and raw objects.
-	 * Delegates to **ECMAScript 5**'s native `forEach` if available.
+	 * Delegates to ECMAScript 5's native `forEach` if available.
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	obj - The list to iterate
+	 * @param		{function}	iterator - Iterator function with parameters: item, index, list
+	 * @param		{object}	scope - The scope the iterator function should run in (optional)
 	 */
-	 conbo.forEach = function(obj, iterator, context) {
+	 conbo.forEach = function(obj, iterator, scope) {
 		if (obj == null) return obj;
 		if (nativeForEach && obj.forEach === nativeForEach) {
-			obj.forEach(iterator, context);
+			obj.forEach(iterator, scope);
 		} else if (obj.length === +obj.length) {
 			for (var i = 0, length = obj.length; i < length; i++) {
-				if (iterator.call(context, obj[i], i, obj) === breaker) return;
+				if (iterator.call(scope, obj[i], i, obj) === breaker) return;
 			}
 		} else {
 			var keys = conbo.keys(obj);
 			for (var i = 0, length = keys.length; i < length; i++) {
-				if (iterator.call(context, obj[keys[i]], keys[i], obj) === breaker) return;
+				if (iterator.call(scope, obj[keys[i]], keys[i], obj) === breaker) return;
 			}
 		}
 		return obj;
@@ -71,34 +72,40 @@
 	
 	/**
 	 * Return the results of applying the iterator to each element.
-	 * Delegates to **ECMAScript 5**'s native `map` if available.
+	 * Delegates to ECMAScript 5's native `map` if available.
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	obj - The list to iterate
+	 * @param		{function}	iterator - Iterator function with parameters: item, index, list
+	 * @param		{object}	scope - The scope the iterator function should run in (optional)
 	 */
-	conbo.map = function(obj, iterator, context) 
+	conbo.map = function(obj, iterator, scope) 
 	{
 		var results = [];
 		
 		if (obj == null) return results;
-		if (nativeMap && obj.map === nativeMap) return obj.map(iterator, context);
+		if (nativeMap && obj.map === nativeMap) return obj.map(iterator, scope);
 		
 		forEach(obj, function(value, index, list) 
 		{
-			results.push(iterator.call(context, value, index, list));
+			results.push(iterator.call(scope, value, index, list));
 		});
 		
 		return results;
 	};
 	
 	/**
-	 * Return the first value which passes a truth test. Aliased as `detect`.
+	 * Return the first value which passes a truth test
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	obj - The list to iterate
+	 * @param		{function}	predicate - Function that tests each value, returning true or false
+	 * @param		{object}	scope - The scope the predicate function should run in (optional)
 	 */
-	conbo.find = function(obj, predicate, context) {
+	conbo.find = function(obj, predicate, scope) {
 		var result;
 		any(obj, function(value, index, list) {
-			if (predicate.call(context, value, index, list)) {
+			if (predicate.call(scope, value, index, list)) {
 				result = value;
 				return true;
 			}
@@ -108,16 +115,19 @@
 
 	/**
 	 * Return all the elements that pass a truth test.
-	 * Delegates to **ECMAScript 5**'s native `filter` if available.
+	 * Delegates to ECMAScript 5's native `filter` if available.
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	obj - The list to iterate
+	 * @param		{function}	predicate - Function that tests each value, returning true or false
+	 * @param		{object}	scope - The scope the predicate function should run in (optional)
 	 */
-	conbo.filter = function(obj, predicate, context) {
+	conbo.filter = function(obj, predicate, scope) {
 		var results = [];
 		if (obj == null) return results;
-		if (nativeFilter && obj.filter === nativeFilter) return obj.filter(predicate, context);
+		if (nativeFilter && obj.filter === nativeFilter) return obj.filter(predicate, scope);
 		forEach(obj, function(value, index, list) {
-			if (predicate.call(context, value, index, list)) results.push(value);
+			if (predicate.call(scope, value, index, list)) results.push(value);
 		});
 		return results;
 	};
@@ -126,43 +136,53 @@
 	 * Return all the elements for which a truth test fails.
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	obj - The list to iterate
+	 * @param		{function}	predicate - Function that tests each value, returning true or false
+	 * @param		{object}	scope - The scope the predicate function should run in (optional)
 	 */
-	conbo.reject = function(obj, predicate, context) {
+	conbo.reject = function(obj, predicate, scope) {
 		return conbo.filter(obj, function(value, index, list) {
-			return !predicate.call(context, value, index, list);
-		}, context);
+			return !predicate.call(scope, value, index, list);
+		}, scope);
 	};
 	
 	/**
 	 * Determine whether all of the elements match a truth test.
-	 * Delegates to **ECMAScript 5**'s native `every` if available.
+	 * Delegates to ECMAScript 5's native `every` if available.
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	obj - The list to iterate
+	 * @param		{function}	predicate - Function that tests each value, returning true or false
+	 * @param		{object}	scope - The scope the predicate function should run in (optional)
 	 */
-	conbo.every = function(obj, predicate, context) {
+	conbo.every = function(obj, predicate, scope) {
 		predicate || (predicate = conbo.identity);
 		var result = true;
 		if (obj == null) return result;
-		if (nativeEvery && obj.every === nativeEvery) return obj.every(predicate, context);
+		if (nativeEvery && obj.every === nativeEvery) return obj.every(predicate, scope);
 		forEach(obj, function(value, index, list) {
-			if (!(result = result && predicate.call(context, value, index, list))) return breaker;
+			if (!(result = result && predicate.call(scope, value, index, list))) return breaker;
 		});
 		return !!result;
 	};
 
 	/**
 	 * Determine if at least one element in the object matches a truth test.
-	 * Delegates to **ECMAScript 5**'s native `some` if available.
+	 * Delegates to ECMAScript 5's native `some` if available.
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	obj - The list to iterate
+	 * @param		{function}	predicate - Function that tests each value, returning true or false
+	 * @param		{object}	scope - The scope the predicate function should run in (optional)
 	 */
-	conbo.some = function(obj, predicate, context) {
+	conbo.some = function(obj, predicate, scope) 
+	{
 		predicate || (predicate = conbo.identity);
 		var result = false;
 		if (obj == null) return result;
-		if (nativeSome && obj.some === nativeSome) return obj.some(predicate, context);
+		if (nativeSome && obj.some === nativeSome) return obj.some(predicate, scope);
 		forEach(obj, function(value, index, list) {
-			if (result || (result = predicate.call(context, value, index, list))) return breaker;
+			if (result || (result = predicate.call(scope, value, index, list))) return breaker;
 		});
 		return !!result;
 	};
@@ -173,25 +193,29 @@
 	 * Determine if the array or object contains a given value (using `===`).
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	obj - The list to iterate
+	 * @param		{function}	target - The value to match
 	 */
-	conbo.contains = function(obj, target) {
+	conbo.contains = function(obj, target) 
+	{
 		if (obj == null) return false;
-		if (nativeIndexOf && obj.indexOf === nativeIndexOf) return obj.indexOf(target) != -1;
-		return any(obj, function(value) {
-			return value === target;
-		});
+		return obj.indexOf(target) != -1;
 	};
 
 	/**
 	 * Invoke a method (with arguments) on every item in a collection.
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	obj - The list to iterate
+	 * @param		{function}	method - Function to invoke on every item
 	 */
 	conbo.invoke = function(obj, method) 
 	{
 		var args = slice.call(arguments, 2);
 		var isFunc = conbo.isFunction(method);
-		return conbo.map(obj, function(value) {
+		
+		return conbo.map(obj, function(value) 
+		{
 			return (isFunc ? method : value[method]).apply(value, args);
 		});
 	};
@@ -200,8 +224,11 @@
 	 * Convenience version of a common use case of `map`: fetching a property.
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	obj - Object
+	 * @param		{string}	key - Property name
 	 */
-	conbo.pluck = function(obj, key) {
+	conbo.pluck = function(obj, key) 
+	{
 		return conbo.map(obj, conbo.property(key));
 	};
 
@@ -211,14 +238,17 @@
 	 * 
 	 * @see https://bugs.webkit.org/show_bug.cgi?id=80797
 	 * @memberof	conbo
+	 * @param		{object}	obj - The list to iterate
+	 * @param		{function}	iterator - Function that tests each value (optional)
+	 * @param		{object}	scope - The scope the iterator function should run in (optional)
 	 */
-	conbo.max = function(obj, iterator, context) {
+	conbo.max = function(obj, iterator, scope) {
 		if (!iterator && conbo.isArray(obj) && obj[0] === +obj[0] && obj.length < 65535) {
 			return Math.max.apply(Math, obj);
 		}
 		var result = -Infinity, lastComputed = -Infinity;
 		forEach(obj, function(value, index, list) {
-			var computed = iterator ? iterator.call(context, value, index, list) : value;
+			var computed = iterator ? iterator.call(scope, value, index, list) : value;
 			if (computed > lastComputed) {
 				result = value;
 				lastComputed = computed;
@@ -231,14 +261,17 @@
 	 * Return the minimum element (or element-based computation).
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	obj - The list to iterate
+	 * @param		{function}	iterator - Function that tests each value (optional)
+	 * @param		{object}	scope - The scope the iterator function should run in (optional)
 	 */
-	conbo.min = function(obj, iterator, context) {
+	conbo.min = function(obj, iterator, scope) {
 		if (!iterator && conbo.isArray(obj) && obj[0] === +obj[0] && obj.length < 65535) {
 			return Math.min.apply(Math, obj);
 		}
 		var result = Infinity, lastComputed = Infinity;
 		forEach(obj, function(value, index, list) {
-			var computed = iterator ? iterator.call(context, value, index, list) : value;
+			var computed = iterator ? iterator.call(scope, value, index, list) : value;
 			if (computed < lastComputed) {
 				result = value;
 				lastComputed = computed;
@@ -252,16 +285,21 @@
 	 * @see http://en.wikipedia.org/wiki/Fisher–Yates_shuffle
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	obj - The list to shuffle
 	 */
-	conbo.shuffle = function(obj) {
+	conbo.shuffle = function(obj) 
+	{
 		var rand;
 		var index = 0;
 		var shuffled = [];
-		forEach(obj, function(value) {
+		
+		forEach(obj, function(value) 
+		{
 			rand = conbo.random(index++);
 			shuffled[index - 1] = shuffled[rand];
 			shuffled[rand] = value;
 		});
+		
 		return shuffled;
 	};
 
@@ -279,14 +317,17 @@
 	 * Sort the object's values by a criterion produced by an iterator.
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	obj - The list to iterate
+	 * @param		{function}	iterator - Criteria function accepting arguments: values, index, list
+	 * @param		{object}	scope - The scope the iterator function should run in (optional)
 	 */
-	conbo.sortBy = function(obj, iterator, context) {
+	conbo.sortBy = function(obj, iterator, scope) {
 		iterator = lookupIterator(iterator);
 		return conbo.pluck(conbo.map(obj, function(value, index, list) {
 			return {
 				value: value,
 				index: index,
-				criteria: iterator.call(context, value, index, list)
+				criteria: iterator.call(scope, value, index, list)
 			};
 		}).sort(function(left, right) {
 			var a = left.criteria;
@@ -303,8 +344,10 @@
 	 * Safely create a real, live array from anything iterable.
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	obj - The object to convert into an Array 
 	 */
-	conbo.toArray = function(obj) {
+	conbo.toArray = function(obj) 
+	{
 		if (!obj) return [];
 		if (conbo.isArray(obj)) return slice.call(obj);
 		if (obj.length === +obj.length) return conbo.map(obj, conbo.identity);
@@ -315,6 +358,7 @@
 	 * Return the number of elements in an object.
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	obj - The object to count the keys of
 	 */
 	conbo.size = function(obj) {
 		if (obj == null) return 0;
@@ -325,10 +369,13 @@
 	// ---------------
 
 	/**
-	 * Get the last element of an array. Passing **n** will return the last N
-	 * values in the array. The **guard** check allows it to work with `_.map`.
+	 * Get the last element of an array. Passing n will return the last N
+	 * values in the array. The guard check allows it to work with `conbo.map`.
 	 * 
 	 * @memberof	conbo
+	 * @param		{array}		array - The array to slice
+	 * @param		{function}	n - The number of elements to return (default: 1)
+	 * @param		{object}	guard - Optional
 	 */
 	conbo.last = function(array, n, guard) {
 		if (array == null) return void 0;
@@ -338,11 +385,14 @@
 
 	/**
 	 * Returns everything but the first entry of the array. Aliased as `tail` and `drop`.
-	 * Especially useful on the arguments object. Passing an **n** will return
-	 * the rest N values in the array. The **guard**
-	 * check allows it to work with `_.map`.
+	 * Especially useful on the arguments object. Passing an n will return
+	 * the rest N values in the array. The guard
+	 * check allows it to work with `conbo.map`.
 	 * 
 	 * @memberof	conbo
+	 * @param		{array}		array - The array to slice
+	 * @param		{function}	n - The number of elements to return (default: 1)
+	 * @param		{object}	guard - Optional
 	 */
 	conbo.rest = function(array, n, guard) {
 		return slice.call(array, (n == null) || guard ? 1 : n);
@@ -352,6 +402,7 @@
 	 * Trim out all falsy values from an array.
 	 * 
 	 * @memberof	conbo
+	 * @param		{array}		array - The array to trim
 	 */
 	conbo.compact = function(array) {
 		return conbo.filter(array, conbo.identity);
@@ -379,6 +430,7 @@
 	 * Flatten out an array, either recursively (by default), or just one level.
 	 * 
 	 * @memberof	conbo
+	 * @param		{array}		array - The array to flatten
 	 */
 	conbo.flatten = function(array, shallow) {
 		return flatten(array, shallow, []);
@@ -388,6 +440,7 @@
 	 * Return a version of the array that does not contain the specified value(s).
 	 * 
 	 * @memberof	conbo
+	 * @param		{array}		array - The array to remove the specified values from
 	 */
 	conbo.without = function(array) {
 		return conbo.difference(array, slice.call(arguments, 1));
@@ -398,6 +451,9 @@
 	 * predicate, and one whose elements all do not satisfy the predicate.
 	 * 
 	 * @memberof	conbo
+	 * @param		{array}		array - The array to split
+	 * @param		{function}	predicate - Function to determine a match, returning true or false
+	 * @returns		{array}
 	 */
 	conbo.partition = function(array, predicate) {
 		var pass = [], fail = [];
@@ -412,14 +468,18 @@
 	 * been sorted, you have the option of using a faster algorithm.
 	 * 
 	 * @memberof	conbo
+	 * @param		{array}		array - The array to filter
+	 * @param		{boolean}	isSorted - Should the returned array be sorted?
+	 * @param		{object}	iterator - Iterator function
+	 * @param		{object}	scope - The scope the iterator function should run in (optional)
 	 */
-	conbo.uniq = function(array, isSorted, iterator, context) {
+	conbo.uniq = function(array, isSorted, iterator, scope) {
 		if (conbo.isFunction(isSorted)) {
-			context = iterator;
+			scope = iterator;
 			iterator = isSorted;
 			isSorted = false;
 		}
-		var initial = iterator ? conbo.map(array, iterator, context) : array;
+		var initial = iterator ? conbo.map(array, iterator, scope) : array;
 		var results = [];
 		var seen = [];
 		forEach(initial, function(value, index) {
@@ -446,6 +506,8 @@
 	 * passed-in arrays.
 	 * 
 	 * @memberof	conbo
+	 * @param		{array}		array - Array of values
+	 * @returns		{array}
 	 */
 	conbo.intersection = function(array) {
 		var rest = slice.call(arguments, 1);
@@ -461,6 +523,8 @@
 	 * Only the elements present in just the first array will remain.
 	 * 
 	 * @memberof	conbo
+	 * @param		{array}		array - Array of compare
+	 * @returns		{array}
 	 */
 	conbo.difference = function(array) {
 		var rest = concat.apply(ArrayProto, slice.call(arguments, 1));
@@ -473,6 +537,9 @@
 	 * the corresponding values.
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	list - List of keys
+	 * @param		{object}	values - List of values
+	 * @returns		{array}
 	 */
 	conbo.object = function(list, values) {
 		if (list == null) return {};
@@ -486,48 +553,6 @@
 		}
 		return result;
 	};
-
-	/**
-	 * If the browser doesn't supply us with indexOf (I'm looking at you, **MSIE**),
-	 * we need this function. Return the position of the first occurrence of an
-	 * item in an array, or -1 if the item is not included in the array.
-	 * Delegates to **ECMAScript 5**'s native `indexOf` if available.
-	 * If the array is large and already in sort order, pass `true`
-	 * for **isSorted** to use binary search.
-	 * 
-	 * @memberof	conbo
-	 */
-	conbo.indexOf = function(array, item, isSorted) {
-		if (array == null) return -1;
-		var i = 0, length = array.length;
-		if (isSorted) {
-			if (typeof isSorted == 'number') {
-				i = (isSorted < 0 ? Math.max(0, length + isSorted) : isSorted);
-			} else {
-				i = conbo.sortedIndex(array, item);
-				return array[i] === item ? i : -1;
-			}
-		}
-		if (nativeIndexOf && array.indexOf === nativeIndexOf) return array.indexOf(item, isSorted);
-		for (; i < length; i++) if (array[i] === item) return i;
-		return -1;
-	};
-
-	/**
-	 * Delegates to **ECMAScript 5**'s native `lastIndexOf` if available.
-	 * 
-	 * @memberof	conbo
-	 */ 
-	conbo.lastIndexOf = function(array, item, from) {
-		if (array == null) return -1;
-		var hasIndex = from != null;
-		if (nativeLastIndexOf && array.lastIndexOf === nativeLastIndexOf) {
-			return hasIndex ? array.lastIndexOf(item, from) : array.lastIndexOf(item);
-		}
-		var i = (hasIndex ? from : array.length);
-		while (i--) if (array[i] === item) return i;
-		return -1;
-	};
 	
 	/**
 	 * Generate an integer Array containing an arithmetic progression. A port of
@@ -535,6 +560,9 @@
 	 * 
 	 * @see http://docs.python.org/library/functions.html#range
 	 * @memberof	conbo
+	 * @param		{number}	start - Start
+	 * @param		{number}	stop - Stop
+	 * @param		{number}	stop - Step
 	 */
 	conbo.range = function(start, stop, step) {
 		if (arguments.length <= 1) {
@@ -563,18 +591,20 @@
 
 	/**
 	 * Create a function bound to a given object (assigning `this`, and arguments,
-	 * optionally). Delegates to **ECMAScript 5**'s native `Function.bind` if
+	 * optionally). Delegates to ECMAScript 5's native `Function.bind` if
 	 * available.
 	 * 
 	 * @memberof	conbo
+	 * @param		{function}	func - Method to bind
+	 * @param		{object}	scope - The scope to bind the method to
 	 */
-	conbo.bind = function(func, context) {
+	conbo.bind = function(func, scope) {
 		var args, bound;
 		if (nativeBind && func.bind === nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
 		if (!conbo.isFunction(func)) throw new TypeError;
 		args = slice.call(arguments, 2);
 		return bound = function() {
-			if (!(this instanceof bound)) return func.apply(context, args.concat(slice.call(arguments)));
+			if (!(this instanceof bound)) return func.apply(scope, args.concat(slice.call(arguments)));
 			ctor.prototype = func.prototype;
 			var self = new ctor;
 			ctor.prototype = null;
@@ -586,10 +616,11 @@
 
 	/**
 	 * Partially apply a function by creating a version that has had some of its
-	 * arguments pre-filled, without changing its dynamic `this` context. _ acts
+	 * arguments pre-filled, without changing its dynamic `this` scope. _ acts
 	 * as a placeholder, allowing any combination of arguments to be pre-filled.
 	 * 
 	 * @memberof	conbo
+	 * @param		{function}	func - Method to partially pre-fill
 	 */
 	conbo.partial = function(func) {
 		var boundArgs = slice.call(arguments, 1);
@@ -610,6 +641,8 @@
 	 * defined on an object belong to it.
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	obj - Object to bind methods to
+	 * @param		{regexp}	regExp - Method name filter (optional)
 	 */
 	conbo.bindAll = function(obj, regExp)
 	{
@@ -629,26 +662,17 @@
 		
 		return obj;
 	};
-
-	/**
-	 * Delays a function for the given number of milliseconds, and then calls
-	 * it with the arguments supplied.
-	 * 
-	 * @memberof	conbo
-	 */
-	conbo.delay = function(func, wait) {
-		var args = slice.call(arguments, 2);
-		return setTimeout(function(){ return func.apply(null, args); }, wait);
-	};
-
+	
 	/**
 	 * Defers a function, scheduling it to run after the current call stack has
 	 * cleared.
 	 * 
 	 * @memberof	conbo
+	 * @param		{function}	func - Function to call
 	 */
-	conbo.defer = function(func) {
-		return conbo.delay.apply(conbo, [func, 1].concat(slice.call(arguments, 1)));
+	conbo.defer = function(func) 
+	{
+		return setTimeout(func, 0);
 	};
 
 	/**
@@ -656,8 +680,10 @@
 	 * often you call it. Useful for lazy initialization.
 	 * 
 	 * @memberof	conbo
+	 * @param		{function}	func - Function to call
 	 */
-	conbo.once = function(func) {
+	conbo.once = function(func) 
+	{
 		var ran = false, memo;
 		return function() {
 			if (ran) return memo;
@@ -674,6 +700,8 @@
 	 * conditionally execute the original function.
 	 * 
 	 * @memberof	conbo
+	 * @param		{function}	func - Function to wrap
+	 * @param		{function}	wrapper - Function to call 
 	 */
 	conbo.wrap = function(func, wrapper) {
 		return conbo.partial(wrapper, func);
@@ -684,10 +712,12 @@
 
 	/**
 	 * Retrieve the names of an object's properties.
-	 * Delegates to **ECMAScript 5**'s native `Object.keys`
+	 * Delegates to ECMAScript 5's native `Object.keys`
 	 * Conbo.js: Extended to enable keys further up the prototype chain to be found too
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	obj - Object to get keys from
+	 * @param		{boolean}	useForIn - Whether or not to include prototype keys 
 	 */
 	conbo.keys = function(obj, useForIn) 
 	{
@@ -713,6 +743,8 @@
 	 * Conbo.js: Extended to enable keys further up the prototype chain to be found too
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	obj - Object to get values from
+	 * @param		{boolean}	useForIn - Whether or not to include prototype keys 
 	 */
 	conbo.values = function(obj, useForIn) 
 	{
@@ -732,6 +764,7 @@
 	 * Return a sorted list of the function names available on the object.
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	obj - Object to sort
 	 */
 	conbo.functions = function(obj) {
 		var names = [];
@@ -745,6 +778,8 @@
 	 * Extend a given object with all the properties in passed-in object(s).
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	obj - Object to extend
+	 * @returns		{object}
 	 */
 	conbo.extend = function(obj) 
 	{
@@ -765,6 +800,7 @@
 	 * Return a copy of the object only containing the whitelisted properties.
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	obj - Object to copy properties from
 	 */
 	conbo.pick = function(obj) {
 		var copy = {};
@@ -782,6 +818,7 @@
 	 * Return a copy of the object without the blacklisted properties.
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	obj - Object to copy
 	 */
 	conbo.omit = function(obj) {
 		var copy = {};
@@ -800,6 +837,7 @@
 	 * Fill in a given object with default properties.
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	obj - Object to populate
 	 */
 	conbo.defaults = function(obj) 
 	{
@@ -821,6 +859,7 @@
 	 * Create a (shallow-cloned) duplicate of an object.
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	obj - Object to clone
 	 */
 	conbo.clone = function(obj) 
 	{
@@ -922,28 +961,37 @@
 	 * Perform a deep comparison to check if two objects are equal.
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	a - Object to compare
+	 * @param		{object}	b - Object to compare
+	 * @returns		{boolean}
 	 */
 	conbo.isEqual = function(a, b) {
 		return eq(a, b, [], []);
 	};
 
 	/**
-	 * Is a given array, string, or object empty?
-	 * An "empty" object has no enumerable own-properties.
+	 * Is the value empty?
+	 * Based on PHP's `empty()` method
 	 * 
 	 * @memberof	conbo
+	 * @param		{any}		value - Value that might be empty
+	 * @returns		{boolean}
 	 */
-	conbo.isEmpty = function(obj) {
-		if (obj == null) return true;
-		if (conbo.isArray(obj) || conbo.isString(obj)) return obj.length === 0;
-		for (var key in obj) if (conbo.has(obj, key)) return false;
-		return true;
-	};
-
+	conbo.isEmpty = function(value)
+	{
+		return !value // 0, false, undefined, null, ""
+			|| (conbo.isArray(value) && value.length) // []
+			|| (!isNaN(value) && !parseFloat(value)) // "0", "0.0", etc
+			|| (conbo.isObject(value) && !conbo.keys(value).length) // {}
+			;
+	}
+	
 	/**
 	 * Is a given value a DOM element?
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	obj - Value that might be a DOM element
+	 * @returns		{boolean}
 	 */
 	conbo.isElement = function(obj) {
 		return !!(obj && obj.nodeType === 1);
@@ -955,6 +1003,8 @@
 	 * 
 	 * @function
 	 * @memberof	conbo
+	 * @param		{object}	obj - Value that might be an Array
+	 * @returns		{boolean}
 	 */
 	conbo.isArray = nativeIsArray || function(obj) {
 		return toString.call(obj) == '[object Array]';
@@ -964,6 +1014,7 @@
 	 * Is a given variable an object?
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	obj - Value that might be an Object
 	 */
 	conbo.isObject = function(obj) {
 		return obj === Object(obj);
@@ -995,6 +1046,8 @@
 	 * Is a given object a finite number?
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	obj - Value that might be finite
+	 * @returns		{boolean}
 	 */
 	conbo.isFinite = function(obj) {
 		return isFinite(obj) && !isNaN(parseFloat(obj));
@@ -1004,6 +1057,8 @@
 	 * Is the given value `NaN`? (NaN is the only number which does not equal itself).
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	obj - Value that might be NaN
+	 * @returns		{boolean}
 	 */
 	conbo.isNaN = function(obj) {
 		return conbo.isNumber(obj) && obj != +obj;
@@ -1013,6 +1068,8 @@
 	 * Is a given value a boolean?
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	obj - Value that might be a Boolean
+	 * @returns		{boolean}
 	 */
 	conbo.isBoolean = function(obj) {
 		return obj === true || obj === false || toString.call(obj) == '[object Boolean]';
@@ -1022,6 +1079,8 @@
 	 * Is a given value equal to null?
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	obj - Value that might be null
+	 * @returns		{boolean}
 	 */
 	conbo.isNull = function(obj) {
 		return obj === null;
@@ -1031,6 +1090,8 @@
 	 * Is a given variable undefined?
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	obj - Value that might be undefined
+	 * @returns		{boolean}
 	 */
 	conbo.isUndefined = function(obj) {
 		return obj === void 0;
@@ -1041,6 +1102,9 @@
 	 * on itself (in other words, not on a prototype).
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	obj - Object
+	 * @param		{string}	key - Property name
+	 * @returns		{boolean}
 	 */
 	conbo.has = function(obj, key) {
 		return hasOwnProperty.call(obj, key);
@@ -1053,6 +1117,8 @@
 	 * Keep the identity function around for default iterators.
 	 * 
 	 * @memberof	conbo
+	 * @param		{any}		obj - Value to return
+	 * @returns		{any}
 	 */
 	conbo.identity = function(value) {
 		return value;
@@ -1062,6 +1128,7 @@
 	 * Get the property value
 	 * 
 	 * @memberof	conbo
+	 * @param		{string}	key - Property name
 	 */
 	conbo.property = function(key) {
 		return function(obj) {
@@ -1073,6 +1140,7 @@
 	 * Returns a predicate for checking whether an object has a given set of `key:value` pairs.
 	 * 
 	 * @memberof	conbo
+	 * @param		{object}	attrs - Object containing key:value pairs to compare
 	 */
 	conbo.matches = function(attrs) {
 		return function(obj) {
@@ -1089,6 +1157,9 @@
 	 * Return a random integer between min and max (inclusive).
 	 * 
 	 * @memberof	conbo
+	 * @param		{number}	min - Minimum number
+	 * @param		{number}	max - Maximum number
+	 * @returns		{number}
 	 */
 	conbo.random = function(min, max) {
 		if (max == null) {
@@ -1097,15 +1168,7 @@
 		}
 		return min + Math.floor(Math.random() * (max - min + 1));
 	};
-
-	/**
-	 * A (possibly faster) way to get the current timestamp as an integer.
-	 * 
-	 * @memberof	conbo
-	 * @function	now
-	 */
-	conbo.now = Date.now || function() { return new Date().getTime(); };
-
+	
 	var idCounter = 0;
 
 	/**
@@ -1113,8 +1176,10 @@
 	 * Useful for temporary DOM ids.
 	 * 
 	 * @memberof	conbo
+	 * @param		{string}	prefix - String to prefix unique ID with
 	 */
-	conbo.uniqueId = function(prefix) {
+	conbo.uniqueId = function(prefix) 
+	{
 		var id = ++idCounter + '';
 		return prefix ? prefix + id : id;
 	};
@@ -1154,6 +1219,7 @@ conbo.notImplemented = function()
  * Convert dash-or_underscore separated words into camelCaseWords
  * 
  * @memberof	conbo
+ * @param		{string}	string - underscore_case_string to convertToCamelCase
  */
 conbo.toCamelCase = function(string)
 {
@@ -1164,6 +1230,8 @@ conbo.toCamelCase = function(string)
  * Convert camelCaseWords into underscore_case_words (or another user defined separator)
  * 
  * @memberof	conbo
+ * @param		{string}	string - camelCase string to convert to underscore_case
+ * @param		{string}	separator - Default: "_"
  */
 conbo.toUnderscoreCase = function(string, separator)
 {
@@ -1293,6 +1361,7 @@ conbo.setValues = function(obj)
 /**
  * Is the value a Conbo class?
  * @memberof	conbo
+ * @param		{any}	value - Value that might be a class
  */
 conbo.isClass = function(value)
 {
@@ -1519,21 +1588,6 @@ conbo.isBindable = function(obj, propName)
 	var descriptor = Object.getOwnPropertyDescriptor(obj, propName);
 	return !!descriptor.set && descriptor.set.bindable;
 };
-
-/**
- * Is the value empty?
- * Based on PHP's `empty()` method
- * 
- * @memberof	conbo
- * @param		{any}
- */
-conbo.isEmpty = function(value)
-{
-	return !value // 0, false, undefined, null 
-		|| (conbo.isArray(value) && value.length) // []
-		|| (!isNaN(value) && !parseFloat(value)) // "0", "0.0", etc
-		;
-}
 
 /*
  * Polyfill methods for useful ECMAScript 5 methods that aren't quite universal
