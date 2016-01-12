@@ -121,7 +121,7 @@ var conbo = function(namespace)
  * @augments	conbo
  * @returns 	{String}
  */
-conbo.VERSION = '2.3.1';
+conbo.VERSION = '2.3.2';
 	
 /**
  * @augments	conbo
@@ -1515,11 +1515,11 @@ conbo.instanceOf = function(obj, classOrInterface)
 };
 
 /**
- * Loads a CSS and apply it to the DOM
+ * Loads a CSS file and apply it to the DOM
  * 
  * @memberof	conbo
- * @param 	{String}	url		The CSS file's URL
- * @param 	{String}	media	The media attribute (defaults to 'all')
+ * @param 		{String}	url		The CSS file's URL
+ * @param 		{String}	media	The media attribute (defaults to 'all')
  */
 conbo.loadCss = function(url, media)
 {
@@ -1542,6 +1542,34 @@ conbo.loadCss = function(url, media)
 	return this;
 };
 
+/**
+ * Load a JavaScript file and execute it
+ * 
+ * @memberof	conbo
+ * @param 		{String}	url		The JavaScript file's URL
+ * @returns		conbo.Promise
+ */
+conbo.loadScript = function(url)
+{
+	if (!$)
+	{
+		conbo.error('conbo.loadScript requires jQuery');
+		return;
+	}
+	
+	var promise = new conbo.Promise();
+	
+	$.getScript(url).done(function(script, status)
+	{
+		promise.dispatchResult(script);
+	})
+	.fail(function(xhr, settings, exception)
+	{
+		promise.dispatchFault(exception);
+	});
+	
+	return promise;
+};
 
 /*
  * Property utilities
@@ -1819,7 +1847,7 @@ var __denumerate = function(obj)
 };
 
 /*
- * DOM and jQuery utilities
+ * DOM functions and utility methods that require jQuery
  * @author		Neil Rackett
  */
 
@@ -4857,9 +4885,10 @@ conbo.BindingUtils = conbo.Class.extend({},
 		}
 		
 		// Ensure numbers are returned as Number not String
-		if (conbo.isString(value) &amp;&amp; !isNaN(value))
+		if (value &amp;&amp; conbo.isString(value) &amp;&amp; !isNaN(value))
 		{
 			value = parseFloat(value);
+			if (isNaN(value)) value = '';
 		}
 		
 		this[propName] = value;
@@ -5209,8 +5238,6 @@ __denumerate(conbo.Glimpse.prototype);
  * 
  * Creating a conbo.View creates its initial element outside of the DOM,
  * if an existing element is not provided...
- * 
- * Some methods derived from the Backbone.js class of the same name
  * 
  * @class		conbo.View
  * @augments	conbo.Glimpse
@@ -5599,6 +5626,16 @@ conbo.View = conbo.Glimpse.extend(
 
 __denumerate(conbo.View.prototype);
 
+/**
+ * ItemRenderer
+ * 
+ * A conbo.View class that implements the conbo.IDataRenderer interface
+ * 
+ * @class		conbo.ItemRenderer
+ * @augments	conbo.View
+ * @author 		Neil Rackett
+ */
+conbo.ItemRenderer = conbo.View.extend().implement(conbo.IDataRenderer);
 /**
  * Application
  * 
@@ -6269,14 +6306,14 @@ conbo.RemoteList = conbo.List.extend(
 		
 		var resultHandler = function(event)
 		{
-			this.source = event.result.toJSON();
+			this.source = event.result;
 			this.dispatchEvent(event);
 		};
 		
 		this._httpService
 			.addEventListener('result', resultHandler, this)
 			.addEventListener('fault', this.dispatchEvent, this)
-			.resultClass = this.constructor;
+			;
 		
 		__denumerate(this);
 		
@@ -6787,13 +6824,13 @@ __denumerate(conbo.Router.prototype);
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="conbo.Application.html">Application</a></li><li><a href="conbo.AsyncToken.html">AsyncToken</a></li><li><a href="conbo.AttributeBindings.html">AttributeBindings</a></li><li><a href="conbo.BindingUtils.html">BindingUtils</a></li><li><a href="conbo.Class.html">Class</a></li><li><a href="conbo.Command.html">Command</a></li><li><a href="conbo.ConboEvent.html">ConboEvent</a></li><li><a href="conbo.Context.html">Context</a></li><li><a href="conbo.Event.html">Event</a></li><li><a href="conbo.EventDispatcher.html">EventDispatcher</a></li><li><a href="conbo.Glimpse.html">Glimpse</a></li><li><a href="conbo.Hash.html">Hash</a></li><li><a href="conbo.History.html">History</a></li><li><a href="conbo.HttpService.html">HttpService</a></li><li><a href="conbo.List.html">List</a></li><li><a href="conbo.LocalHash.html">LocalHash</a></li><li><a href="conbo.LocalList.html">LocalList</a></li><li><a href="conbo.MutationObserver.html">MutationObserver</a></li><li><a href="conbo.Namespace.html">Namespace</a></li><li><a href="conbo.Promise.html">Promise</a></li><li><a href="conbo.RemoteHash.html">RemoteHash</a></li><li><a href="conbo.RemoteList.html">RemoteList</a></li><li><a href="conbo.Responder.html">Responder</a></li><li><a href="conbo.Router.html">Router</a></li><li><a href="conbo.ServerApplication.html">ServerApplication</a></li><li><a href="conbo.View.html">View</a></li></ul><h3>Namespaces</h3><ul><li><a href="conbo.html">conbo</a></li><li><a href="conbo.$.html">$</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="conbo.Application.html">Application</a></li><li><a href="conbo.AsyncToken.html">AsyncToken</a></li><li><a href="conbo.AttributeBindings.html">AttributeBindings</a></li><li><a href="conbo.BindingUtils.html">BindingUtils</a></li><li><a href="conbo.Class.html">Class</a></li><li><a href="conbo.Command.html">Command</a></li><li><a href="conbo.ConboEvent.html">ConboEvent</a></li><li><a href="conbo.Context.html">Context</a></li><li><a href="conbo.Event.html">Event</a></li><li><a href="conbo.EventDispatcher.html">EventDispatcher</a></li><li><a href="conbo.Glimpse.html">Glimpse</a></li><li><a href="conbo.Hash.html">Hash</a></li><li><a href="conbo.History.html">History</a></li><li><a href="conbo.HttpService.html">HttpService</a></li><li><a href="conbo.ItemRenderer.html">ItemRenderer</a></li><li><a href="conbo.List.html">List</a></li><li><a href="conbo.LocalHash.html">LocalHash</a></li><li><a href="conbo.LocalList.html">LocalList</a></li><li><a href="conbo.MutationObserver.html">MutationObserver</a></li><li><a href="conbo.Namespace.html">Namespace</a></li><li><a href="conbo.Promise.html">Promise</a></li><li><a href="conbo.RemoteHash.html">RemoteHash</a></li><li><a href="conbo.RemoteList.html">RemoteList</a></li><li><a href="conbo.Responder.html">Responder</a></li><li><a href="conbo.Router.html">Router</a></li><li><a href="conbo.ServerApplication.html">ServerApplication</a></li><li><a href="conbo.View.html">View</a></li></ul><h3>Namespaces</h3><ul><li><a href="conbo.html">conbo</a></li><li><a href="conbo.$.html">$</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Jan 06 2016 14:06:28 GMT+0000 (GMT Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Jan 12 2016 18:09:48 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
