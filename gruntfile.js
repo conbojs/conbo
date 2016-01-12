@@ -111,7 +111,22 @@ module.exports = function (grunt)
 				files: ['src/conbo/**/*.js', 'src/conbo/*.txt'],
 				tasks: ['concat','uglify']
 			}
-		}
+		},
+		
+		jsdoc:
+		{
+	        dist: 
+	        {
+	            src: ['build/conbo.js'],
+	            options: 
+	            {
+	                configure: 'jsdoc.json',
+	                destination: 'docs',
+	                readme: 'README.md'
+//	                package: 'package.json'
+	            }
+	        }
+	    }
 		
 	});
 	
@@ -119,6 +134,7 @@ module.exports = function (grunt)
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-jsdoc');
 	
-	grunt.registerTask('default', ['concat','uglify']);
+	grunt.registerTask('default', ['concat','uglify','jsdoc']);
 };
