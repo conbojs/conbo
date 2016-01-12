@@ -64,7 +64,7 @@ var conbo = function(namespace)
  * @augments	conbo
  * @returns 	{String}
  */
-conbo.VERSION = '2.3.3';
+conbo.VERSION = '2.3.4';
 	
 /**
  * @augments	conbo
