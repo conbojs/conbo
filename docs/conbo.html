@@ -258,7 +258,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1245">line 1245</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1310">line 1310</a>
     </li></ul></dd>
     
 
@@ -320,7 +320,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1695">line 1695</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1749">line 1749</a>
     </li></ul></dd>
     
 
@@ -352,14 +352,14 @@
 
     
 
-    <h4 class="name" id=".bind"><span class="type-signature">(static) </span>bind<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".bind"><span class="type-signature">(static) </span>bind<span class="signature">(func, scope)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Create a function bound to a given object (assigning `this`, and arguments,optionally). Delegates to **ECMAScript 5**'s native `Function.bind` ifavailable.
+    Create a function bound to a given object (assigning `this`, and arguments,optionally). Delegates to ECMAScript 5's native `Function.bind` ifavailable.
 </div>
 
 
@@ -368,6 +368,78 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>func</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Method to bind</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>scope</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The scope to bind the method to</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -403,7 +475,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line686">line 686</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line716">line 716</a>
     </li></ul></dd>
     
 
@@ -434,7 +506,7 @@
 
     
 
-    <h4 class="name" id=".bindAll"><span class="type-signature">(static) </span>bindAll<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".bindAll"><span class="type-signature">(static) </span>bindAll<span class="signature">(obj, regExp)</span><span class="type-signature"></span></h4>
 
     
 
@@ -452,6 +524,78 @@
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object to bind methods to</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>regExp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">regexp</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Method name filter (optional)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -485,7 +629,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line729">line 729</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line762">line 762</a>
     </li></ul></dd>
     
 
@@ -516,7 +660,7 @@
 
     
 
-    <h4 class="name" id=".clone"><span class="type-signature">(static) </span>clone<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".clone"><span class="type-signature">(static) </span>clone<span class="signature">(obj)</span><span class="type-signature"></span></h4>
 
     
 
@@ -532,6 +676,55 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object to clone</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -567,7 +760,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line940">line 940</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line979">line 979</a>
     </li></ul></dd>
     
 
@@ -747,7 +940,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1427">line 1427</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1496">line 1496</a>
     </li></ul></dd>
     
 
@@ -778,7 +971,7 @@
 
     
 
-    <h4 class="name" id=".compact"><span class="type-signature">(static) </span>compact<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".compact"><span class="type-signature">(static) </span>compact<span class="signature">(array)</span><span class="type-signature"></span></h4>
 
     
 
@@ -796,6 +989,55 @@
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>array</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The array to trim</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -829,7 +1071,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line471">line 471</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line522">line 522</a>
     </li></ul></dd>
     
 
@@ -860,7 +1102,7 @@
 
     
 
-    <h4 class="name" id=".contains"><span class="type-signature">(static) </span>contains<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".contains"><span class="type-signature">(static) </span>contains<span class="signature">(obj, target)</span><span class="type-signature"></span></h4>
 
     
 
@@ -876,6 +1118,78 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The list to iterate</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>target</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The value to match</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -911,7 +1225,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line292">line 292</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line314">line 314</a>
     </li></ul></dd>
     
 
@@ -1037,7 +1351,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1369">line 1369</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1437">line 1437</a>
     </li></ul></dd>
     
 
@@ -1068,7 +1382,7 @@
 
     
 
-    <h4 class="name" id=".defaults"><span class="type-signature">(static) </span>defaults<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".defaults"><span class="type-signature">(static) </span>defaults<span class="signature">(obj)</span><span class="type-signature"></span></h4>
 
     
 
@@ -1086,6 +1400,55 @@
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object to populate</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -1119,7 +1482,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line919">line 919</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line957">line 957</a>
     </li></ul></dd>
     
 
@@ -1150,7 +1513,7 @@
 
     
 
-    <h4 class="name" id=".defer"><span class="type-signature">(static) </span>defer<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".defer"><span class="type-signature">(static) </span>defer<span class="signature">(func)</span><span class="type-signature"></span></h4>
 
     
 
@@ -1168,86 +1531,53 @@
 
 
 
-
-
-
-
-<dl class="details">
-
+    <h5>Parameters:</h5>
     
 
-    
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line765">line 765</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        <th>Type</th>
 
         
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>func</code></td>
             
 
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Function to call</td>
+        </tr>
+
     
-
-    <h4 class="name" id=".delay"><span class="type-signature">(static) </span>delay<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Delays a function for the given number of milliseconds, and then callsit with the arguments supplied.
-</div>
-
-
-
-
-
-
-
+    </tbody>
+</table>
 
 
 
@@ -1283,7 +1613,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line754">line 754</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line788">line 788</a>
     </li></ul></dd>
     
 
@@ -1314,7 +1644,7 @@
 
     
 
-    <h4 class="name" id=".difference"><span class="type-signature">(static) </span>difference<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".difference"><span class="type-signature">(static) </span>difference<span class="signature">(array)</span><span class="type-signature"> &rarr; {array}</span></h4>
 
     
 
@@ -1332,6 +1662,55 @@
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>array</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array of compare</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -1365,7 +1744,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line580">line 580</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line644">line 644</a>
     </li></ul></dd>
     
 
@@ -1388,6 +1767,24 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">array</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -1491,7 +1888,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1352">line 1352</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1420">line 1420</a>
     </li></ul></dd>
     
 
@@ -1522,14 +1919,14 @@
 
     
 
-    <h4 class="name" id=".every"><span class="type-signature">(static) </span>every<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".every"><span class="type-signature">(static) </span>every<span class="signature">(obj, predicate, scope)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Determine whether all of the elements match a truth test.Delegates to **ECMAScript 5**'s native `every` if available.
+    Determine whether all of the elements match a truth test.Delegates to ECMAScript 5's native `every` if available.
 </div>
 
 
@@ -1538,6 +1935,101 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The list to iterate</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>predicate</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Function that tests each value, returning true or false</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>scope</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The scope the predicate function should run in (optional)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -1573,7 +2065,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line257">line 257</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line273">line 273</a>
     </li></ul></dd>
     
 
@@ -1604,7 +2096,7 @@
 
     
 
-    <h4 class="name" id=".extend"><span class="type-signature">(static) </span>extend<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".extend"><span class="type-signature">(static) </span>extend<span class="signature">(obj)</span><span class="type-signature"> &rarr; {object}</span></h4>
 
     
 
@@ -1622,6 +2114,55 @@
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object to extend</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -1655,7 +2196,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line864">line 864</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line899">line 899</a>
     </li></ul></dd>
     
 
@@ -1678,6 +2219,24 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">object</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -1686,14 +2245,14 @@
 
     
 
-    <h4 class="name" id=".filter"><span class="type-signature">(static) </span>filter<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".filter"><span class="type-signature">(static) </span>filter<span class="signature">(obj, predicate, scope)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Return all the elements that pass a truth test.Delegates to **ECMAScript 5**'s native `filter` if available.
+    Return all the elements that pass a truth test.Delegates to ECMAScript 5's native `filter` if available.
 </div>
 
 
@@ -1704,6 +2263,101 @@
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The list to iterate</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>predicate</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Function that tests each value, returning true or false</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>scope</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The scope the predicate function should run in (optional)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -1737,7 +2391,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line230">line 230</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line240">line 240</a>
     </li></ul></dd>
     
 
@@ -1768,14 +2422,14 @@
 
     
 
-    <h4 class="name" id=".find"><span class="type-signature">(static) </span>find<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".find"><span class="type-signature">(static) </span>find<span class="signature">(obj, predicate, scope)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Return the first value which passes a truth test. Aliased as `detect`.
+    Return the first value which passes a truth test
 </div>
 
 
@@ -1786,6 +2440,101 @@
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The list to iterate</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>predicate</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Function that tests each value, returning true or false</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>scope</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The scope the predicate function should run in (optional)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -1819,7 +2568,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line213">line 213</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line220">line 220</a>
     </li></ul></dd>
     
 
@@ -1850,7 +2599,7 @@
 
     
 
-    <h4 class="name" id=".flatten"><span class="type-signature">(static) </span>flatten<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".flatten"><span class="type-signature">(static) </span>flatten<span class="signature">(array)</span><span class="type-signature"></span></h4>
 
     
 
@@ -1868,6 +2617,55 @@
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>array</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The array to flatten</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -1901,7 +2699,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line498">line 498</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line550">line 550</a>
     </li></ul></dd>
     
 
@@ -1932,14 +2730,14 @@
 
     
 
-    <h4 class="name" id=".forEach"><span class="type-signature">(static) </span>forEach<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".forEach"><span class="type-signature">(static) </span>forEach<span class="signature">(obj, iterator, scope)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    The cornerstone, an `each` implementation, aka `forEach`.Handles objects with the built-in `forEach`, arrays, and raw objects.Delegates to **ECMAScript 5**'s native `forEach` if available.
+    The cornerstone, an `each` implementation, aka `forEach`.Handles objects with the built-in `forEach`, arrays, and raw objects.Delegates to ECMAScript 5's native `forEach` if available.
 </div>
 
 
@@ -1948,6 +2746,101 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The list to iterate</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>iterator</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Iterator function with parameters: item, index, list</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>scope</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The scope the iterator function should run in (optional)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -1983,7 +2876,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line168">line 168</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line169">line 169</a>
     </li></ul></dd>
     
 
@@ -2199,7 +3092,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1337">line 1337</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1405">line 1405</a>
     </li></ul></dd>
     
 
@@ -2379,7 +3272,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1301">line 1301</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1369">line 1369</a>
     </li></ul></dd>
     
 
@@ -2427,7 +3320,7 @@
 
     
 
-    <h4 class="name" id=".functions"><span class="type-signature">(static) </span>functions<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".functions"><span class="type-signature">(static) </span>functions<span class="signature">(obj)</span><span class="type-signature"></span></h4>
 
     
 
@@ -2445,6 +3338,55 @@
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object to sort</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -2478,7 +3420,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line851">line 851</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line884">line 884</a>
     </li></ul></dd>
     
 
@@ -2509,7 +3451,7 @@
 
     
 
-    <h4 class="name" id=".has"><span class="type-signature">(static) </span>has<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".has"><span class="type-signature">(static) </span>has<span class="signature">(obj, key)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -2527,6 +3469,78 @@
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Property name</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -2560,7 +3574,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1160">line 1160</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1224">line 1224</a>
     </li></ul></dd>
     
 
@@ -2583,6 +3597,24 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -2591,7 +3623,7 @@
 
     
 
-    <h4 class="name" id=".identity"><span class="type-signature">(static) </span>identity<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".identity"><span class="type-signature">(static) </span>identity<span class="signature">(obj)</span><span class="type-signature"> &rarr; {any}</span></h4>
 
     
 
@@ -2609,86 +3641,53 @@
 
 
 
-
-
-
-
-<dl class="details">
-
+    <h5>Parameters:</h5>
     
 
-    
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1172">line 1172</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        <th>Type</th>
 
         
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
             
 
+            <td class="type">
+            
+                
+<span class="param-type">any</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Value to return</td>
+        </tr>
+
     
-
-    <h4 class="name" id=".indexOf"><span class="type-signature">(static) </span>indexOf<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    If the browser doesn't supply us with indexOf (I'm looking at you, **MSIE**),we need this function. Return the position of the first occurrence of anitem in an array, or -1 if the item is not included in the array.Delegates to **ECMAScript 5**'s native `indexOf` if available.If the array is large and already in sort order, pass `true`for **isSorted** to use binary search.
-</div>
-
-
-
-
-
-
-
+    </tbody>
+</table>
 
 
 
@@ -2724,7 +3723,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line615">line 615</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1238">line 1238</a>
     </li></ul></dd>
     
 
@@ -2747,6 +3746,24 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">any</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -2806,7 +3823,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1834">line 1834</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1888">line 1888</a>
     </li></ul></dd>
     
 
@@ -2950,7 +3967,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1455">line 1455</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1524">line 1524</a>
     </li></ul></dd>
     
 
@@ -2988,7 +4005,7 @@
 
     
 
-    <h4 class="name" id=".intersection"><span class="type-signature">(static) </span>intersection<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".intersection"><span class="type-signature">(static) </span>intersection<span class="signature">(array)</span><span class="type-signature"> &rarr; {array}</span></h4>
 
     
 
@@ -3004,6 +4021,55 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>array</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array of values</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -3039,7 +4105,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line565">line 565</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line627">line 627</a>
     </li></ul></dd>
     
 
@@ -3062,6 +4128,24 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">array</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -3070,7 +4154,7 @@
 
     
 
-    <h4 class="name" id=".invoke"><span class="type-signature">(static) </span>invoke<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".invoke"><span class="type-signature">(static) </span>invoke<span class="signature">(obj, method)</span><span class="type-signature"></span></h4>
 
     
 
@@ -3086,6 +4170,78 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The list to iterate</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>method</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Function to invoke on every item</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -3121,7 +4277,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line305">line 305</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line327">line 327</a>
     </li></ul></dd>
     
 
@@ -3203,7 +4359,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1612">line 1612</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1681">line 1681</a>
     </li></ul></dd>
     
 
@@ -3244,7 +4400,7 @@
 
     
 
-    <h4 class="name" id=".isArray"><span class="type-signature">(static) </span>isArray<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".isArray"><span class="type-signature">(static) </span>isArray<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -3260,6 +4416,55 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Value that might be an Array</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -3295,7 +4500,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1074">line 1074</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1124">line 1124</a>
     </li></ul></dd>
     
 
@@ -3318,6 +4523,24 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -3377,7 +4600,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1627">line 1627</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1696">line 1696</a>
     </li></ul></dd>
     
 
@@ -3418,7 +4641,7 @@
 
     
 
-    <h4 class="name" id=".isBoolean"><span class="type-signature">(static) </span>isBoolean<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".isBoolean"><span class="type-signature">(static) </span>isBoolean<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -3436,6 +4659,55 @@
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Value that might be a Boolean</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -3469,7 +4741,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1132">line 1132</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1189">line 1189</a>
     </li></ul></dd>
     
 
@@ -3492,6 +4764,24 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -3500,7 +4790,7 @@
 
     
 
-    <h4 class="name" id=".isClass"><span class="type-signature">(static) </span>isClass<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".isClass"><span class="type-signature">(static) </span>isClass<span class="signature">(value)</span><span class="type-signature"></span></h4>
 
     
 
@@ -3518,6 +4808,55 @@
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">any</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Value that might be a class</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -3551,7 +4890,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1412">line 1412</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1481">line 1481</a>
     </li></ul></dd>
     
 
@@ -3582,7 +4921,7 @@
 
     
 
-    <h4 class="name" id=".isElement"><span class="type-signature">(static) </span>isElement<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".isElement"><span class="type-signature">(static) </span>isElement<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -3600,86 +4939,53 @@
 
 
 
-
-
-
-
-<dl class="details">
-
+    <h5>Parameters:</h5>
     
 
-    
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1063">line 1063</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        <th>Type</th>
 
         
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
             
 
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Value that might be a DOM element</td>
+        </tr>
+
     
-
-    <h4 class="name" id=".isEmpty"><span class="type-signature">(static) </span>isEmpty<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Is a given array, string, or object empty?An "empty" object has no enumerable own-properties.
-</div>
-
-
-
-
-
-
-
+    </tbody>
+</table>
 
 
 
@@ -3715,7 +5021,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1051">line 1051</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1111">line 1111</a>
     </li></ul></dd>
     
 
@@ -3738,6 +5044,24 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -3746,7 +5070,7 @@
 
     
 
-    <h4 class="name" id=".isEmpty"><span class="type-signature">(static) </span>isEmpty<span class="signature">(value)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".isEmpty"><span class="type-signature">(static) </span>isEmpty<span class="signature">(value)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -3805,7 +5129,7 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Value that might be empty</td>
         </tr>
 
     
@@ -3846,7 +5170,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1645">line 1645</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1095">line 1095</a>
     </li></ul></dd>
     
 
@@ -3869,6 +5193,24 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -3877,7 +5219,7 @@
 
     
 
-    <h4 class="name" id=".isEqual"><span class="type-signature">(static) </span>isEqual<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".isEqual"><span class="type-signature">(static) </span>isEqual<span class="signature">(a, b)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -3895,332 +5237,76 @@
 
 
 
-
-
-
-
-<dl class="details">
-
+    <h5>Parameters:</h5>
     
 
-    
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1041">line 1041</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        <th>Type</th>
 
         
-            
-
-    
-
-    <h4 class="name" id=".isFinite"><span class="type-signature">(static) </span>isFinite<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Is a given object a finite number?
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1114">line 1114</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>a</code></td>
             
 
-    
-
-    <h4 class="name" id=".isNaN"><span class="type-signature">(static) </span>isNaN<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
 
 
-<div class="description">
-    Is the given value `NaN`? (NaN is the only number which does not equal itself).
-</div>
+            
+            </td>
 
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1123">line 1123</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
             
 
-    
-
-    <h4 class="name" id=".isNull"><span class="type-signature">(static) </span>isNull<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Is a given value equal to null?
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1141">line 1141</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
             
 
+            <td class="description last">Object to compare</td>
+        </tr>
+
     
 
-    <h4 class="name" id=".isObject"><span class="type-signature">(static) </span>isObject<span class="signature">()</span><span class="type-signature"></span></h4>
+        <tr>
+            
+                <td class="name"><code>b</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object to compare</td>
+        </tr>
 
     
-
-
-
-<div class="description">
-    Is a given variable an object?
-</div>
-
-
-
-
-
-
-
+    </tbody>
+</table>
 
 
 
@@ -4279,6 +5365,24 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -4287,7 +5391,585 @@
 
     
 
-    <h4 class="name" id=".isUndefined"><span class="type-signature">(static) </span>isUndefined<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".isFinite"><span class="type-signature">(static) </span>isFinite<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Is a given object a finite number?
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Value that might be finite</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1167">line 1167</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".isNaN"><span class="type-signature">(static) </span>isNaN<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Is the given value `NaN`? (NaN is the only number which does not equal itself).
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Value that might be NaN</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1178">line 1178</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".isNull"><span class="type-signature">(static) </span>isNull<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Is a given value equal to null?
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Value that might be null</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1200">line 1200</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".isObject"><span class="type-signature">(static) </span>isObject<span class="signature">(obj)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Is a given variable an object?
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Value that might be an Object</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1134">line 1134</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".isUndefined"><span class="type-signature">(static) </span>isUndefined<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -4305,6 +5987,55 @@
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Value that might be undefined</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -4338,7 +6069,179 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1150">line 1150</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1211">line 1211</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".keys"><span class="type-signature">(static) </span>keys<span class="signature">(obj, useForIn)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Retrieve the names of an object's properties.Delegates to ECMAScript 5's native `Object.keys`Conbo.js: Extended to enable keys further up the prototype chain to be found too
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object to get keys from</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>useForIn</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Whether or not to include prototype keys</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line837">line 837</a>
     </li></ul></dd>
     
 
@@ -4369,14 +6272,14 @@
 
     
 
-    <h4 class="name" id=".keys"><span class="type-signature">(static) </span>keys<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".last"><span class="type-signature">(static) </span>last<span class="signature">(array, n, guard)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Retrieve the names of an object's properties.Delegates to **ECMAScript 5**'s native `Object.keys`Conbo.js: Extended to enable keys further up the prototype chain to be found too
+    Get the last element of an array. Passing n will return the last Nvalues in the array. The guard check allows it to work with `conbo.map`.
 </div>
 
 
@@ -4387,168 +6290,99 @@
 
 
 
-
-
-
-
-<dl class="details">
-
+    <h5>Parameters:</h5>
     
 
-    
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line807">line 807</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        <th>Type</th>
 
         
-            
-
-    
-
-    <h4 class="name" id=".last"><span class="type-signature">(static) </span>last<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Get the last element of an array. Passing **n** will return the last Nvalues in the array. The **guard** check allows it to work with `_.map`.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line448">line 448</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>array</code></td>
             
 
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The array to slice</td>
+        </tr>
+
     
 
-    <h4 class="name" id=".lastIndexOf"><span class="type-signature">(static) </span>lastIndexOf<span class="signature">()</span><span class="type-signature"></span></h4>
+        <tr>
+            
+                <td class="name"><code>n</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The number of elements to return (default: 1)</td>
+        </tr>
 
     
 
+        <tr>
+            
+                <td class="name"><code>guard</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
 
 
-<div class="description">
-    Delegates to **ECMAScript 5**'s native `lastIndexOf` if available.
-</div>
+            
+            </td>
 
+            
 
+            
 
+            <td class="description last">Optional</td>
+        </tr>
 
-
-
-
+    
+    </tbody>
+</table>
 
 
 
@@ -4584,7 +6418,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line636">line 636</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line495">line 495</a>
     </li></ul></dd>
     
 
@@ -4738,7 +6572,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1496">line 1496</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1565">line 1565</a>
     </li></ul></dd>
     
 
@@ -4869,7 +6703,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1524">line 1524</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1593">line 1593</a>
     </li></ul></dd>
     
 
@@ -5056,7 +6890,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1598">line 1598</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1667">line 1667</a>
     </li></ul></dd>
     
 
@@ -5217,7 +7051,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1574">line 1574</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1643">line 1643</a>
     </li></ul></dd>
     
 
@@ -5255,14 +7089,14 @@
 
     
 
-    <h4 class="name" id=".map"><span class="type-signature">(static) </span>map<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".map"><span class="type-signature">(static) </span>map<span class="signature">(obj, iterator, scope)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Return the results of applying the iterator to each element.Delegates to **ECMAScript 5**'s native `map` if available.
+    Return the results of applying the iterator to each element.Delegates to ECMAScript 5's native `map` if available.
 </div>
 
 
@@ -5271,6 +7105,101 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The list to iterate</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>iterator</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Iterator function with parameters: item, index, list</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>scope</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The scope the iterator function should run in (optional)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -5306,7 +7235,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line193">line 193</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line197">line 197</a>
     </li></ul></dd>
     
 
@@ -5337,7 +7266,7 @@
 
     
 
-    <h4 class="name" id=".matches"><span class="type-signature">(static) </span>matches<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".matches"><span class="type-signature">(static) </span>matches<span class="signature">(attrs)</span><span class="type-signature"></span></h4>
 
     
 
@@ -5355,6 +7284,55 @@
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>attrs</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object containing key:value pairs to compare</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -5388,7 +7366,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1192">line 1192</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1260">line 1260</a>
     </li></ul></dd>
     
 
@@ -5419,7 +7397,7 @@
 
     
 
-    <h4 class="name" id=".max"><span class="type-signature">(static) </span>max<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".max"><span class="type-signature">(static) </span>max<span class="signature">(obj, iterator, scope)</span><span class="type-signature"></span></h4>
 
     
 
@@ -5435,6 +7413,101 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The list to iterate</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>iterator</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Function that tests each value (optional)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>scope</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The scope the iterator function should run in (optional)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -5470,7 +7543,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line330">line 330</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line360">line 360</a>
     </li></ul></dd>
     
 
@@ -5508,7 +7581,7 @@
 
     
 
-    <h4 class="name" id=".min"><span class="type-signature">(static) </span>min<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".min"><span class="type-signature">(static) </span>min<span class="signature">(obj, iterator, scope)</span><span class="type-signature"></span></h4>
 
     
 
@@ -5524,6 +7597,101 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The list to iterate</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>iterator</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Function that tests each value (optional)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>scope</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The scope the iterator function should run in (optional)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -5559,7 +7727,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line350">line 350</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line383">line 383</a>
     </li></ul></dd>
     
 
@@ -5641,7 +7809,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1255">line 1255</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1320">line 1320</a>
     </li></ul></dd>
     
 
@@ -5723,7 +7891,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1263">line 1263</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1328">line 1328</a>
     </li></ul></dd>
     
 
@@ -5759,89 +7927,7 @@
 
     
 
-    <h4 class="name" id=".now"><span class="type-signature">(static) </span>now<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    A (possibly faster) way to get the current timestamp as an integer.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1216">line 1216</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".object"><span class="type-signature">(static) </span>object<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".object"><span class="type-signature">(static) </span>object<span class="signature">(list, values)</span><span class="type-signature"> &rarr; {array}</span></h4>
 
     
 
@@ -5859,6 +7945,78 @@
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>list</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">List of keys</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>values</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">List of values</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -5892,7 +8050,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line592">line 592</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line659">line 659</a>
     </li></ul></dd>
     
 
@@ -5915,6 +8073,24 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">array</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -5974,7 +8150,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1901">line 1901</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1955">line 1955</a>
     </li></ul></dd>
     
 
@@ -6005,7 +8181,7 @@
 
     
 
-    <h4 class="name" id=".omit"><span class="type-signature">(static) </span>omit<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".omit"><span class="type-signature">(static) </span>omit<span class="signature">(obj)</span><span class="type-signature"></span></h4>
 
     
 
@@ -6023,6 +8199,55 @@
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object to copy</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -6056,7 +8281,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line901">line 901</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line938">line 938</a>
     </li></ul></dd>
     
 
@@ -6087,7 +8312,7 @@
 
     
 
-    <h4 class="name" id=".once"><span class="type-signature">(static) </span>once<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".once"><span class="type-signature">(static) </span>once<span class="signature">(func)</span><span class="type-signature"></span></h4>
 
     
 
@@ -6105,6 +8330,55 @@
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>func</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Function to call</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -6138,7 +8412,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line775">line 775</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line800">line 800</a>
     </li></ul></dd>
     
 
@@ -6169,14 +8443,14 @@
 
     
 
-    <h4 class="name" id=".partial"><span class="type-signature">(static) </span>partial<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".partial"><span class="type-signature">(static) </span>partial<span class="signature">(func)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Partially apply a function by creating a version that has had some of itsarguments pre-filled, without changing its dynamic `this` context. _ actsas a placeholder, allowing any combination of arguments to be pre-filled.
+    Partially apply a function by creating a version that has had some of itsarguments pre-filled, without changing its dynamic `this` scope. _ actsas a placeholder, allowing any combination of arguments to be pre-filled.
 </div>
 
 
@@ -6187,6 +8461,55 @@
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>func</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Method to partially pre-fill</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -6220,7 +8543,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line709">line 709</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line740">line 740</a>
     </li></ul></dd>
     
 
@@ -6251,7 +8574,7 @@
 
     
 
-    <h4 class="name" id=".partition"><span class="type-signature">(static) </span>partition<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".partition"><span class="type-signature">(static) </span>partition<span class="signature">(array, predicate)</span><span class="type-signature"> &rarr; {array}</span></h4>
 
     
 
@@ -6269,6 +8592,78 @@
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>array</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The array to split</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>predicate</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Function to determine a match, returning true or false</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -6302,7 +8697,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line517">line 517</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line573">line 573</a>
     </li></ul></dd>
     
 
@@ -6325,6 +8720,24 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">array</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -6333,7 +8746,7 @@
 
     
 
-    <h4 class="name" id=".pick"><span class="type-signature">(static) </span>pick<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".pick"><span class="type-signature">(static) </span>pick<span class="signature">(obj)</span><span class="type-signature"></span></h4>
 
     
 
@@ -6351,6 +8764,55 @@
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object to copy properties from</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -6384,7 +8846,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line884">line 884</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line920">line 920</a>
     </li></ul></dd>
     
 
@@ -6415,7 +8877,7 @@
 
     
 
-    <h4 class="name" id=".pluck"><span class="type-signature">(static) </span>pluck<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".pluck"><span class="type-signature">(static) </span>pluck<span class="signature">(obj, key)</span><span class="type-signature"></span></h4>
 
     
 
@@ -6431,6 +8893,78 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Property name</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -6466,7 +9000,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line319">line 319</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line345">line 345</a>
     </li></ul></dd>
     
 
@@ -6610,7 +9144,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1559">line 1559</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1628">line 1628</a>
     </li></ul></dd>
     
 
@@ -6648,7 +9182,7 @@
 
     
 
-    <h4 class="name" id=".property"><span class="type-signature">(static) </span>property<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".property"><span class="type-signature">(static) </span>property<span class="signature">(key)</span><span class="type-signature"></span></h4>
 
     
 
@@ -6666,6 +9200,55 @@
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Property name</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -6699,7 +9282,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1181">line 1181</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1248">line 1248</a>
     </li></ul></dd>
     
 
@@ -6730,7 +9313,7 @@
 
     
 
-    <h4 class="name" id=".random"><span class="type-signature">(static) </span>random<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".random"><span class="type-signature">(static) </span>random<span class="signature">(min, max)</span><span class="type-signature"> &rarr; {number}</span></h4>
 
     
 
@@ -6748,6 +9331,78 @@
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>min</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Minimum number</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>max</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Maximum number</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -6781,7 +9436,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1208">line 1208</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1279">line 1279</a>
     </li></ul></dd>
     
 
@@ -6804,6 +9459,24 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">number</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -6812,7 +9485,7 @@
 
     
 
-    <h4 class="name" id=".range"><span class="type-signature">(static) </span>range<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".range"><span class="type-signature">(static) </span>range<span class="signature">(start, stop, stop)</span><span class="type-signature"></span></h4>
 
     
 
@@ -6828,6 +9501,101 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>start</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Start</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>stop</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Stop</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>stop</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Step</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -6863,7 +9631,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line654">line 654</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line682">line 682</a>
     </li></ul></dd>
     
 
@@ -6901,7 +9669,7 @@
 
     
 
-    <h4 class="name" id=".reject"><span class="type-signature">(static) </span>reject<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".reject"><span class="type-signature">(static) </span>reject<span class="signature">(obj, predicate, scope)</span><span class="type-signature"></span></h4>
 
     
 
@@ -6917,6 +9685,101 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The list to iterate</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>predicate</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Function that tests each value, returning true or false</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>scope</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The scope the predicate function should run in (optional)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -6952,7 +9815,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line245">line 245</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line258">line 258</a>
     </li></ul></dd>
     
 
@@ -6983,14 +9846,14 @@
 
     
 
-    <h4 class="name" id=".rest"><span class="type-signature">(static) </span>rest<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".rest"><span class="type-signature">(static) </span>rest<span class="signature">(array, n, guard)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Returns everything but the first entry of the array. Aliased as `tail` and `drop`.Especially useful on the arguments object. Passing an **n** will returnthe rest N values in the array. The **guard**check allows it to work with `_.map`.
+    Returns everything but the first entry of the array. Aliased as `tail` and `drop`.Especially useful on the arguments object. Passing an n will returnthe rest N values in the array. The guardcheck allows it to work with `conbo.map`.
 </div>
 
 
@@ -6999,6 +9862,101 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>array</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The array to slice</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>n</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The number of elements to return (default: 1)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>guard</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Optional</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -7034,7 +9992,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line462">line 462</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line512">line 512</a>
     </li></ul></dd>
     
 
@@ -7165,7 +10123,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1393">line 1393</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1461">line 1461</a>
     </li></ul></dd>
     
 
@@ -7201,7 +10159,7 @@
 
     
 
-    <h4 class="name" id=".shuffle"><span class="type-signature">(static) </span>shuffle<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".shuffle"><span class="type-signature">(static) </span>shuffle<span class="signature">(obj)</span><span class="type-signature"></span></h4>
 
     
 
@@ -7217,6 +10175,55 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The list to shuffle</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -7252,7 +10259,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line371">line 371</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line405">line 405</a>
     </li></ul></dd>
     
 
@@ -7290,7 +10297,7 @@
 
     
 
-    <h4 class="name" id=".size"><span class="type-signature">(static) </span>size<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".size"><span class="type-signature">(static) </span>size<span class="signature">(obj)</span><span class="type-signature"></span></h4>
 
     
 
@@ -7308,6 +10315,55 @@
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The object to count the keys of</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -7341,7 +10397,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line434">line 434</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line478">line 478</a>
     </li></ul></dd>
     
 
@@ -7372,14 +10428,14 @@
 
     
 
-    <h4 class="name" id=".some"><span class="type-signature">(static) </span>some<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".some"><span class="type-signature">(static) </span>some<span class="signature">(obj, predicate, scope)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Determine if at least one element in the object matches a truth test.Delegates to **ECMAScript 5**'s native `some` if available.
+    Determine if at least one element in the object matches a truth test.Delegates to ECMAScript 5's native `some` if available.
 </div>
 
 
@@ -7390,6 +10446,101 @@
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The list to iterate</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>predicate</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Function that tests each value, returning true or false</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>scope</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The scope the predicate function should run in (optional)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -7423,7 +10574,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line274">line 274</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line293">line 293</a>
     </li></ul></dd>
     
 
@@ -7454,7 +10605,7 @@
 
     
 
-    <h4 class="name" id=".sortBy"><span class="type-signature">(static) </span>sortBy<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".sortBy"><span class="type-signature">(static) </span>sortBy<span class="signature">(obj, iterator, scope)</span><span class="type-signature"></span></h4>
 
     
 
@@ -7472,6 +10623,101 @@
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The list to iterate</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>iterator</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Criteria function accepting arguments: values, index, list</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>scope</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The scope the iterator function should run in (optional)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -7505,7 +10751,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line398">line 398</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line439">line 439</a>
     </li></ul></dd>
     
 
@@ -7536,7 +10782,7 @@
 
     
 
-    <h4 class="name" id=".toArray"><span class="type-signature">(static) </span>toArray<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".toArray"><span class="type-signature">(static) </span>toArray<span class="signature">(obj)</span><span class="type-signature"></span></h4>
 
     
 
@@ -7554,6 +10800,55 @@
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The object to convert into an Array</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -7587,7 +10882,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line422">line 422</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line464">line 464</a>
     </li></ul></dd>
     
 
@@ -7618,7 +10913,7 @@
 
     
 
-    <h4 class="name" id=".toCamelCase"><span class="type-signature">(static) </span>toCamelCase<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".toCamelCase"><span class="type-signature">(static) </span>toCamelCase<span class="signature">(string)</span><span class="type-signature"></span></h4>
 
     
 
@@ -7636,6 +10931,55 @@
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>string</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">underscore_case_string to convertToCamelCase</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -7669,7 +11013,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1273">line 1273</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1339">line 1339</a>
     </li></ul></dd>
     
 
@@ -7700,7 +11044,7 @@
 
     
 
-    <h4 class="name" id=".toUnderscoreCase"><span class="type-signature">(static) </span>toUnderscoreCase<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".toUnderscoreCase"><span class="type-signature">(static) </span>toUnderscoreCase<span class="signature">(string, separator)</span><span class="type-signature"></span></h4>
 
     
 
@@ -7716,6 +11060,78 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>string</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">camelCase string to convert to underscore_case</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>separator</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Default: "_"</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -7751,7 +11167,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1283">line 1283</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1351">line 1351</a>
     </li></ul></dd>
     
 
@@ -7833,7 +11249,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line555">line 555</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line615">line 615</a>
     </li></ul></dd>
     
 
@@ -7864,7 +11280,7 @@
 
     
 
-    <h4 class="name" id=".uniq"><span class="type-signature">(static) </span>uniq<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".uniq"><span class="type-signature">(static) </span>uniq<span class="signature">(array, isSorted, iterator, scope)</span><span class="type-signature"></span></h4>
 
     
 
@@ -7882,6 +11298,124 @@
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>array</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The array to filter</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>isSorted</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Should the returned array be sorted?</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>iterator</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Iterator function</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>scope</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The scope the iterator function should run in (optional)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -7915,7 +11449,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line531">line 531</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line591">line 591</a>
     </li></ul></dd>
     
 
@@ -7946,7 +11480,7 @@
 
     
 
-    <h4 class="name" id=".uniqueId"><span class="type-signature">(static) </span>uniqueId<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".uniqueId"><span class="type-signature">(static) </span>uniqueId<span class="signature">(prefix)</span><span class="type-signature"></span></h4>
 
     
 
@@ -7962,6 +11496,55 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>prefix</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">String to prefix unique ID with</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -7997,7 +11580,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1232">line 1232</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1296">line 1296</a>
     </li></ul></dd>
     
 
@@ -8079,7 +11662,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1943">line 1943</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line1997">line 1997</a>
     </li></ul></dd>
     
 
@@ -8110,7 +11693,7 @@
 
     
 
-    <h4 class="name" id=".values"><span class="type-signature">(static) </span>values<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".values"><span class="type-signature">(static) </span>values<span class="signature">(obj, useForIn)</span><span class="type-signature"></span></h4>
 
     
 
@@ -8128,6 +11711,78 @@
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object to get values from</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>useForIn</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Whether or not to include prototype keys</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -8161,7 +11816,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line832">line 832</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line864">line 864</a>
     </li></ul></dd>
     
 
@@ -8192,7 +11847,7 @@
 
     
 
-    <h4 class="name" id=".without"><span class="type-signature">(static) </span>without<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".without"><span class="type-signature">(static) </span>without<span class="signature">(array)</span><span class="type-signature"></span></h4>
 
     
 
@@ -8210,6 +11865,55 @@
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>array</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The array to remove the specified values from</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -8243,7 +11947,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line507">line 507</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line560">line 560</a>
     </li></ul></dd>
     
 
@@ -8274,7 +11978,7 @@
 
     
 
-    <h4 class="name" id=".wrap"><span class="type-signature">(static) </span>wrap<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".wrap"><span class="type-signature">(static) </span>wrap<span class="signature">(func, wrapper)</span><span class="type-signature"></span></h4>
 
     
 
@@ -8290,6 +11994,78 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>func</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Function to wrap</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>wrapper</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Function to call</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -8325,7 +12101,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line793">line 793</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line821">line 821</a>
     </li></ul></dd>
     
 
@@ -8373,7 +12149,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Jan 12 2016 23:10:33 GMT+0000 (GMT Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Jan 12 2016 23:14:39 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
