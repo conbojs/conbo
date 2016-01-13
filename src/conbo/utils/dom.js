@@ -29,17 +29,17 @@ conbo.initDom = function(namespace, rootEl)
 	$(function()
 	{
 		$rootEl.find('[cb-app]').not('.cb-app').each(function(index, el)
-       	{
+	   	{
 			var $el = $(el)
-       		  , appName = $el.attr('cb-app')
-       		  , appClass = namespace[appName]
-       		  ;
-       		
-       		if (appClass)
-       		{
-       			new appClass({el:el})
-       		}
-       	});
+	   		  , appName = $el.attr('cb-app')
+	   		  , appClass = namespace[appName]
+	   		  ;
+	   		
+	   		if (appClass)
+	   		{
+	   			new appClass({el:el})
+	   		}
+	   	});
 	});
 	
 	return this;	
@@ -142,6 +142,49 @@ conbo.unobserveDom = function(namespace, rootEl)
 
 if (!!$)
 {
+	/**
+	 * Get or set the value of all attributes on a DOM element
+	 * 
+	 * @memberof	conbo.$
+	 * @param 		{object}	attrs - Attributes to set (optional)
+	 * 
+	 * @example
+	 * $el.attrs(); // Returns all attributes as an Object
+	 * $el.attrs({foo:"bar", fast:"car"}); // Sets foo and bar attributes
+	 */
+	$.fn.attrs = function(attrs) 
+	{
+		var $el = $(this);
+		
+		// Set
+		if (arguments.length) 
+		{
+			$el.each(function(i, el) 
+			{
+				var $j = $(el);
+				
+				for (var attr in attrs) 
+				{
+					$j.attr(attr, attrs[attr]);
+				};
+			});
+			
+			return $el;
+		} 
+		// Get
+		else 
+		{
+			var a = {};
+			
+			conbo.forEach($el[0].attributes, function(p)
+			{
+				a[conbo.toCamelCase(p.nodeName)] = p.nodeValue;
+			});
+			
+			return a;
+		}
+	};
+	
 	/**
 	 * Return object containing the value of all cb-* attributes on a DOM element
 	 * 

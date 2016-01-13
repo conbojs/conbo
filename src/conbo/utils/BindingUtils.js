@@ -1,3 +1,92 @@
+var __cbAttrs = new conbo.AttributeBindings();
+var __customAttrs = {};
+
+/**
+ * Set the value of one or more property and dispatch a change:[propertyName] event
+ * 
+ * Event handlers, in line with conbo.Model change:[propertyName] handlers, 
+ * should be in the format handler(source, value) {...}
+ * 
+ * @private
+ * @param 	attribute
+ * @param 	value
+ * @param 	options
+ * @example	BindingUtils.__set.call(target, 'n', 123);
+ * @example	BindingUtils.__set.call(target, {n:123, s:'abc'});
+ * @returns	this
+ */
+var __set = function(propName, value)
+{
+	if (this[propName] === value)
+	{
+		return this;
+	}
+	
+	// Ensure numbers are returned as Number not String
+	if (value && conbo.isString(value) && !isNaN(value))
+	{
+		value = parseFloat(value);
+		if (isNaN(value)) value = '';
+	}
+	
+	this[propName] = value;
+	
+	// We're assuming accessors will dispatch their own change events
+	if (!conbo.isAccessor(this, propName))
+	{
+		__dispatchChange(this, propName);
+	}
+	
+	return this;
+};
+
+/**
+ * Reserved attributes
+ * @private
+ */
+var __reservedAttrs = ['cb-app', 'cb-view', 'cb-glimpse', 'cb-content'];
+
+/**
+ * Is the specified attribute reserved for another purpose?
+ * 
+ * @private
+ * @param 		{String}	value
+ * @returns		{Boolean}
+ */
+var __isReservedAttr = function(value)
+{
+	return __reservedAttrs.indexOf(value) != -1;
+};
+
+/**
+ * Split JSON-ish attribute values into usable chunks
+ * @private
+ * @param value
+ */
+var __splitAttr = function(attribute, value)
+{
+	if (!conbo.isString(value))
+	{
+		return;
+	}
+	
+	var a = value.split(','),
+		o = {},
+		i;
+	
+	var c = __cbAttrs.canHandleMultiple(attribute)
+		? a.length
+		: 1;
+	
+	for (i=0; i<c; ++i)
+	{
+		s = a[i].split(':');
+		o[s[0]] = s[1];
+	}
+	
+	return o;
+};
+
 /**
  * Binding utility class
  * 
@@ -11,8 +100,6 @@
 conbo.BindingUtils = conbo.Class.extend({},
 /** @lends conbo.BindingUtils */
 {
-	__attrBindings: new conbo.AttributeBindings(),
-	
 	/**
 	 * Bind a property of a EventDispatcher class instance (e.g. Hash or Model) 
 	 * to a DOM element's value/content, using Conbo's best judgement to
@@ -85,7 +172,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 							
 							eventHandler = function(event)
 							{
-								scope.__set.call(source, propName, $el.is(':checked'));
+								__set.call(source, propName, $el.is(':checked'));
 							};
 							
 							$el.on(eventType, eventHandler);
@@ -139,7 +226,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 					
 					eventHandler = function(event)
 					{	
-						scope.__set.call(source, propName, $el.val() === undefined ? $el.html() : $el.val());
+						__set.call(source, propName, $el.val() === undefined ? $el.html() : $el.val());
 					};
 					
 					$el.on(eventType, eventHandler);
@@ -193,19 +280,21 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * will automatically be updated when the property changes.
 	 * 
 	 * @param 	{conbo.EventDispatcher}	source			Class instance which extends from conbo.EventDispatcher (e.g. Hash or Model)
-	 * @param 	{String}			propertyName	Property name to bind
-	 * @param 	{DOMElement}		element			DOM element to bind value to (two-way bind on input/form elements)
-	 * @param 	{String}			attributeName	The cb-* property to bind against in camelCase, e.g. "propName" for "cb-prop-name"
-	 * @param 	{Function} 			parseFunction	Method used to parse values before outputting as HTML (optional)
-	 * @param	{Object}			options			Options related to this attribute binding (optional)
+	 * @param 	{String}				propertyName	Property name to bind
+	 * @param 	{DOMElement}			element			DOM element to bind value to (two-way bind on input/form elements)
+	 * @param 	{String}				attributeName	The attribute to bind as it appears in HTML, e.g. "cb-prop-name"
+	 * @param 	{Function} 				parseFunction	Method used to parse values before outputting as HTML (optional)
+	 * @param	{Object}				options			Options related to this attribute binding (optional)
 	 * 
-	 * @returns	{Array}								Array of bindings
+	 * @returns	{Array}					Array of bindings
 	 */
 	bindAttribute: function(source, propertyName, element, attributeName, parseFunction, options)
 	{
-		if (this.__isReservedAttribute(attributeName))
+		var bindings = [];
+		
+		if (__isReservedAttr(attributeName))
 		{
-			return [];
+			return bindings;
 		}
 		
 		if (!element)
@@ -213,42 +302,43 @@ conbo.BindingUtils = conbo.Class.extend({},
 			throw new Error('element is undefined');
 		}
 		
-		if (attributeName == "bind")
+		//attributeName = conbo.toUnderscoreCase(attributeName, '-');
+		
+		var split = attributeName.split('-'),
+			hasNs = split.length > 1
+			;
+		
+		if (!hasNs)
+		{
+			return bindings;
+		}
+		
+		if (attributeName == "cb-bind")
 		{
 			return this.bindElement(source, propertyName, element, parseFunction);
 		}
 		
 		var scope = this,
-			bindings = [],
-			isConbo = false,
-			isNative = false,
 			eventType,
 			eventHandler,
 			args = conbo.toArray(arguments).slice(5),
-			camelCase = conbo.toCamelCase('cb-'+attributeName),
-			split = attributeName.split('-');
-		
-		switch (true)
-		{
-			case split[0] == 'attr':
-			{
-				attributeName = attributeName.substr(5);
-				isNative = attributeName in element;
-				break;
-			}
-			
-			default:
-			{
-				isConbo = camelCase in this.__attrBindings;
-				isNative = !isConbo && attributeName in element;
-			}
-		}
+			camelCase = conbo.toCamelCase(attributeName),
+			ns = split[0],
+			isConboNs = (ns == 'cb'),
+			isConbo = isConboNs && camelCase in __cbAttrs,
+			isCustom = hasNs && camelCase in __customAttrs,
+			isNative = isConboNs && split.length == 2 && split[1] in element,
+			attrFuncs = __cbAttrs
+			;
 		
 		parseFunction || (parseFunction = this.defaultParseFunction);
 		
 		switch (true)
 		{
 			// If we have a bespoke handler for this attribute, use it
+			case isCustom:
+				attrFuncs = __customAttrs;
+			
 			case isConbo:
 			{
 				if (!(source instanceof conbo.EventDispatcher))
@@ -257,14 +347,14 @@ conbo.BindingUtils = conbo.Class.extend({},
 					return this;
 				}
 				
-				var fn = scope.__attrBindings[camelCase],
+				var fn = attrFuncs[camelCase],
 					isRaw = fn.raw;
 				
 				if (isRaw)
 				{
 					fn.apply
 					(
-						scope.__attrBindings, 
+						attrFuncs, 
 						[propertyName, element].concat(args)
 					);
 				}
@@ -274,7 +364,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 					{
 						fn.apply
 						(
-							scope.__attrBindings, 
+							attrFuncs, 
 							[parseFunction(source[propertyName]), element].concat(args)
 						);
 					}
@@ -292,14 +382,18 @@ conbo.BindingUtils = conbo.Class.extend({},
 			
 			case isNative:
 			{
+				var nativeAttr = split[1];
+				
 				switch (true)
-				{
-					case !attributeName.indexOf('on') == 0 && conbo.isFunction(element[attributeName]):
-						conbo.warn('cb-'+attributeName+' is not a recognised attribute, did you mean cb-on'+attributeName+'?');
+				{	
+					case !nativeAttr.indexOf('on') == 0 && conbo.isFunction(element[nativeAttr]):
+					{
+						conbo.warn(attributeName+' is not a recognised attribute, did you mean cb-on'+nativeAttr+'?');
 						break;
-						
+					}
+					
 					// If it's an event, add a listener
-					case attributeName.indexOf('on') == 0:
+					case nativeAttr.indexOf('on') == 0:
 					{
 						if (!conbo.isFunction(source[propertyName]))
 						{
@@ -307,7 +401,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 							return this;
 						}
 						
-						$(element).on(attributeName.substr(2), source[propertyName]);
+						$(element).on(nativeAttr.substr(2), source[propertyName]);
 						return this;
 					}
 					
@@ -325,9 +419,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 							var value;
 							
 							value = parseFunction(source[propertyName]);
-							value = conbo.isBoolean(element[attributeName]) ? !!value : value;
+							value = conbo.isBoolean(element[nativeAttr]) ? !!value : value;
 							
-							element[attributeName] = value;
+							element[nativeAttr] = value;
 						}
 					    
 						eventType = 'change:'+propertyName;
@@ -340,7 +434,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 						
 						eventHandler = function()
 		     			{
-							scope.__set.call(source, propertyName, element[attributeName]);
+							__set.call(source, propertyName, element[nativeAttr]);
 		     			};
 						
 		     			eventType = 'input change';
@@ -357,7 +451,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			
 			default:
 			{
-				conbo.warn('cb-'+attributeName+' is not recognised or does not exist on specified element');
+				conbo.warn(attributeName+' is not recognised or does not exist on specified element');
 				break;
 			}
 		}
@@ -407,36 +501,43 @@ conbo.BindingUtils = conbo.Class.extend({},
 		})
 		.each(function(index, el)
 		{
-			var cbData = $(el).cbAttrs(false);
+			var $el = $(el);
+			var attrs = $el.attrs();
 			
-			if (!conbo.keys(cbData).length) 
+			if (!conbo.keys(attrs).length) 
 			{
 				return;
 			}
 			
-			var keys = conbo.keys(cbData);
+			var keys = conbo.keys(attrs);
 			
 			// Prevents Conbo trying to populate repeat templates 
-			if (keys.indexOf('repeat') != -1)
+			if (keys.indexOf('cbRepeat') != -1)
 			{
-				keys = ['repeat'];
+				keys = ['cbRepeat'];
 			}
 			
 			keys.forEach(function(key)
 			{
-				if (scope.__isReservedAttribute(key))
+				attr = conbo.toUnderscoreCase(key, '-');
+				
+				var split = attr.split('-');
+				
+				if (split.length < 2 
+					|| split[0] == 'data' 
+					|| __isReservedAttr(attr))
 				{
 					return;
 				}
 				
 				var a, i, f,
-					d = cbData[key],
+					d = attrs[key],
 					b = d.split('|'),
-					splits = scope.__splitAttribute('cb-'+key, b[0]);
+					splits = __splitAttr(attr, b[0]);
 				
 				if (!splits)
 				{
-					conbo.warn('cb-'+key+' attribute cannot be empty');
+					conbo.warn(attr+' attribute cannot be empty');
 					return;
 				}
 				
@@ -466,16 +567,8 @@ conbo.BindingUtils = conbo.Class.extend({},
 						return;
 					}
 					
-					/*
-					if (!property)
-					{
-						conbo.warn('Unable to bind to undefined property "'+property+'"');
-						return;
-					}
-					*/
-					
 					var opts = conbo.extend({propertyName:property}, options);
-					var args = [model, property, el, key, f, opts, param];
+					var args = [model, property, el, attr, f, opts, param];
 	
 					bindings = bindings.concat(scope.bindAttribute.apply(scope, args));
 				}
@@ -616,7 +709,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 				return;
 			}
 			
-			scope.__set.call(destination, destinationPropertyName, event.value);
+			__set.call(destination, destinationPropertyName, event.value);
 		});
 		
 		if (twoWay && destination instanceof conbo.EventDispatcher)
@@ -711,49 +804,58 @@ conbo.BindingUtils = conbo.Class.extend({},
 	},
 	
 	/**
-	 * Register a cb-* attribute handler
+	 * Register a custom attribute handler
 	 * 
-	 * @param		{string}	name - camelCase version of the attribute name (without cb prefix)
+	 * @param		{string}	name - camelCase version of the attribute name (must include a namespace prefix)
 	 * @param		{function}	handler - function that will handle the data bound to the element
 	 * @returns 	{this}		BindingUtils
 	 * 
 	 * @example 
-	 * // HTML: <div cb-font-name="myProperty"></div>
-	 * conbo.BindingUtils.registerAttribute('fontName', function(value, el, options, param)
+	 * // HTML: <div my-font-name="myProperty"></div>
+	 * conbo.BindingUtils.registerAttribute('myFontName', function(value, el, options, param)
 	 * {
 	 * 	$(el).css('font-name', value);
 	 * });
 	 */
 	registerAttribute: function(name, handler)
 	{
-		if (!name || !conbo.isFunction(handler))
+		if (!name || !conbo.isString(name) || !conbo.isFunction(handler))
 		{
-			conbo.warn("registerAttribute: both a 'name' and 'handler' parameters are required");
+			conbo.warn("registerAttribute: both 'name' and 'handler' parameters are required");
 			return this;
 		}
 		
-		name = 'cb'+name.substr(0,1).toUpperCase()+name.substr(1);
+		var split = conbo.toUnderscoreCase(name).split('_');
 		
-		if (name in this.__attrBindings && !this.__attrBindings[name].custom)
+		if (split.length < 2)
 		{
-			conbo.warn("registerAttribute: you cannot override built-in attribute "+name);
+			conbo.warn("registerAttribute: "+name+" does not include a namespace, e.g. "+conbo.toCamelCase('my-'+name));
+			return this;
 		}
 		
-		handler.custom = true;
-		this.__attrBindings[name] = handler;
+		var reserved = ['cb', 'data'];
+		var ns = split[0];
+		
+		if (reserved.indexOf(ns) != -1)
+		{
+			conbo.warn("registerAttribute: custom attributes cannot to use the "+ns+" namespace");
+			return this;
+		}
+		
+		__customAttrs[name] = handler;
 		
 		return this;
 	},
 	
 	/**
-	 * Register one or more cb-* attribute handlers 
+	 * Register one or more custom attribute handlers 
 	 * 
 	 * @see			#registerAttribute
-	 * @param 		{object}	handlers - Object containing one or more attribute handler
-	 * @returns 	{this}		BindingUtils
+	 * @param 		{object}				handlers - Object containing one or more custom attribute handlers
+	 * @returns 	{conbo.BindingUtils}	BindingUtils
 	 * 
 	 * @example
-	 * conbo.BindingUtils.registerAttributes({foo:function(value, el, options, param){ ... });
+	 * conbo.BindingUtils.registerAttributes({myFoo:myFooFunction, myBar:myBarFunction});
 	 */
 	registerAttributes: function(handlers)
 	{
@@ -769,91 +871,4 @@ conbo.BindingUtils = conbo.Class.extend({},
 	{
 		return 'conbo.BindingUtils';
 	},
-	
-	/**
-	 * Set the value of one or more property and dispatch a change:[propertyName] event
-	 * 
-	 * Event handlers, in line with conbo.Model change:[propertyName] handlers, 
-	 * should be in the format handler(source, value) {...}
-	 * 
-	 * @private
-	 * @param 	attribute
-	 * @param 	value
-	 * @param 	options
-	 * @example	BindingUtils.__set.call(target, 'n', 123);
-	 * @example	BindingUtils.__set.call(target, {n:123, s:'abc'});
-	 * @returns	this
-	 */
-	__set: function(propName, value)
-	{
-		if (this[propName] === value)
-		{
-			return this;
-		}
-		
-		// Ensure numbers are returned as Number not String
-		if (value && conbo.isString(value) && !isNaN(value))
-		{
-			value = parseFloat(value);
-			if (isNaN(value)) value = '';
-		}
-		
-		this[propName] = value;
-		
-		// We're assuming accessors will dispatch their own change events
-		if (!conbo.isAccessor(this, propName))
-		{
-			__dispatchChange(this, propName);
-		}
-		
-		return this;
-	},
-	
-	/**
-	 * Reserved attributes
-	 * @private
-	 */
-	__reservedAttributes: ['app', 'view', 'glimpse', 'content'],
-	
-	/**
-	 * Is the specified attribute reserved for another purpose?
-	 * 
-	 * @private
-	 * @param 		{String}	value
-	 * @returns		{Boolean}
-	 */
-	__isReservedAttribute: function(value)
-	{
-		return this.__reservedAttributes.indexOf(value) != -1;
-	},
-	
-	/**
-	 * Split JSON-ish attribute values into usable chunks
-	 * @private
-	 * @param value
-	 */
-	__splitAttribute: function(attribute, value)
-	{
-		if (!conbo.isString(value))
-		{
-			return;
-		}
-		
-		var a = value.split(','),
-			o = {},
-			i;
-		
-		var c = this.__attrBindings.canHandleMultiple(attribute)
-			? a.length
-			: 1;
-		
-		for (i=0; i<c; ++i)
-		{
-			s = a[i].split(':');
-			o[s[0]] = s[1];
-		}
-		
-		return o;
-	},
-	
 });
