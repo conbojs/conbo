@@ -65,7 +65,7 @@ var __isReservedAttr = function(value)
  */
 var __splitAttr = function(attribute, value)
 {
-	if (!conbo.isString(value))
+	if (!value || !conbo.isString(value))
 	{
 		return;
 	}
@@ -355,7 +355,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 					fn.apply
 					(
 						attrFuncs, 
-						[propertyName, element].concat(args)
+						[element, propertyName].concat(args)
 					);
 				}
 				else
@@ -365,7 +365,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 						fn.apply
 						(
 							attrFuncs, 
-							[parseFunction(source[propertyName]), element].concat(args)
+							[element, parseFunction(source[propertyName])].concat(args)
 						);
 					}
 					
@@ -460,6 +460,45 @@ conbo.BindingUtils = conbo.Class.extend({},
 	},
 	
 	/**
+	 * Applies the specified read-only Conbo or custom attribute to the specified element
+	 * 
+	 * @param 	{DOMElement}			element			DOM element to bind value to (two-way bind on input/form elements)
+	 * @param 	{String}				attributeName	The attribute to bind as it appears in HTML, e.g. "cb-prop-name"
+	 */
+	applyAttribute: function(element, attributeName)
+	{
+		if (this.attributeExists(attributeName))
+		{
+			var camelCase = conbo.toCamelCase(attributeName),
+				ns = attributeName.split('-')[0],
+				attrFuncs = (ns == 'cb') ? __cbAttrs : __customAttrs,
+				fn = attrFuncs[camelCase]
+				;
+			
+			if (fn.readOnly)
+			{
+				fn.call(attrFuncs, element);
+				return this;
+			}
+		}
+		
+		conbo.warn(attr+' attribute cannot be empty');
+		
+		return this;
+	},
+	
+	/**
+	 * Does the specified Conbo or custom attribute exist?
+	 * @param 	{String}				attributeName - The attribute name as it appears in HTML, e.g. "cb-prop-name"
+	 * @returns	{Boolean}
+	 */
+	attributeExists: function(attributeName)
+	{
+		var camelCase = conbo.toCamelCase(attributeName);
+		return camelCase in __cbAttrs || camelCase in __customAttrs;
+	},
+	
+	/**
 	 * Bind everything within the DOM scope of a View to the specified 
 	 * properties of EventDispatcher class instances (e.g. Hash or Model)
 	 * 
@@ -537,7 +576,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 				
 				if (!splits)
 				{
-					conbo.warn(attr+' attribute cannot be empty');
+					scope.applyAttribute(el, attr);
 					return;
 				}
 				
@@ -808,18 +847,19 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * 
 	 * @param		{string}	name - camelCase version of the attribute name (must include a namespace prefix)
 	 * @param		{function}	handler - function that will handle the data bound to the element
+	 * @param 		{boolean}	readOnly - Whether or not the attribute is read-only (default: false)
 	 * @returns 	{this}		BindingUtils
 	 * 
 	 * @example 
 	 * // HTML: <div my-font-name="myProperty"></div>
-	 * conbo.BindingUtils.registerAttribute('myFontName', function(value, el, options, param)
+	 * conbo.BindingUtils.registerAttribute('myFontName', function(el, value, options, param)
 	 * {
 	 * 	$(el).css('font-name', value);
 	 * });
 	 */
-	registerAttribute: function(name, handler)
+	registerAttribute: function(name, handler, readOnly)
 	{
-		if (!name || !conbo.isString(name) || !conbo.isFunction(handler))
+		if (!conbo.isString(name) || !conbo.isFunction(handler))
 		{
 			conbo.warn("registerAttribute: both 'name' and 'handler' parameters are required");
 			return this;
@@ -842,6 +882,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			return this;
 		}
 		
+		handler.readOnly = !!readOnly;
 		__customAttrs[name] = handler;
 		
 		return this;
@@ -852,16 +893,17 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * 
 	 * @see			#registerAttribute
 	 * @param 		{object}				handlers - Object containing one or more custom attribute handlers
+	 * @param 		{boolean}				readOnly - Whether or not the attributes are read-only (default: false)
 	 * @returns 	{conbo.BindingUtils}	BindingUtils
 	 * 
 	 * @example
 	 * conbo.BindingUtils.registerAttributes({myFoo:myFooFunction, myBar:myBarFunction});
 	 */
-	registerAttributes: function(handlers)
+	registerAttributes: function(handlers, readOnly)
 	{
 		for (var a in handlers)
 		{
-			this.addAttribute(a, handlers[a]);
+			this.addAttribute(a, handlers[a], readOnly);
 		}
 		
 		return this;

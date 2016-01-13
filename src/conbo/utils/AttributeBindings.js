@@ -41,22 +41,22 @@ conbo.AttributeBindings = conbo.Class.extend(
 	/**
 	 * Makes an element visible
 	 * 
-	 * @param value
-	 * @param el
+	 * @param 		el
+	 * @param 		value
 	 */
-	cbShow: function(value, el)
+	cbShow: function(el, value)
 	{
-		this.cbHide(!value, el);
+		this.cbHide(!el, value);
 	},
 	
 	/**
 	 * Hides an element by making it invisible, but does not remove
 	 * if from the layout of the page, meaning a blank space will remain
 	 * 
-	 * @param value
-	 * @param el
+	 * @param 		el
+	 * @param 		value
 	 */
-	cbHide: function(value, el)
+	cbHide: function(el, value)
 	{
 		var $el = $(el);
 		
@@ -68,22 +68,22 @@ conbo.AttributeBindings = conbo.Class.extend(
 	/**
 	 * Include an element on the screen and in the layout of the page
 	 * 
-	 * @param value
-	 * @param el
+	 * @param 		el
+	 * @param 		value
 	 */
-	cbInclude: function(value, el)
+	cbInclude: function(el, value)
 	{
-		this.cbExclude(!value, el);
+		this.cbExclude(!el, value);
 	},
 	
 	/**
 	 * Remove an element from the screen and prevent it having an effect
 	 * on the layout of the page
 	 * 
-	 * @param value
-	 * @param el
+	 * @param 		el
+	 * @param 		value
 	 */
-	cbExclude: function(value, el)
+	cbExclude: function(el, value)
 	{
 		var $el = $(el);
 		
@@ -95,10 +95,10 @@ conbo.AttributeBindings = conbo.Class.extend(
 	/**
 	 * The exact opposite of HTML's built-in `disabled` property
 	 * 
-	 * @param value
-	 * @param el
+	 * @param 		el
+	 * @param 		value
 	 */
-	cbEnabled: function(value, el)
+	cbEnabled: function(el, value)
 	{
 		el.disabled = !value;
 	},
@@ -106,10 +106,10 @@ conbo.AttributeBindings = conbo.Class.extend(
 	/**
 	 * Inserts raw HTML into the element, which is rendered as HTML
 	 * 
-	 * @param value
-	 * @param el
+	 * @param 		el
+	 * @param 		value
 	 */
-	cbHtml: function(value, el)
+	cbHtml: function(el, value)
 	{
 		$(el).html(value);
 	},
@@ -120,10 +120,10 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * entities before rendering them, e.g. "8 < 10" becomes "8 &lt; 10", and
 	 * line breaks into <br/>
 	 * 
-	 * @param value
-	 * @param el
+	 * @param 		el
+	 * @param 		value
 	 */
-	cbText: function(value, el)
+	cbText: function(el, value)
 	{
 		value = conbo.encodeEntities(value).replace(/\r?\n|\r/g, '<br/>');
 		$(el).html(value);
@@ -133,10 +133,10 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * Applies or removes a CSS class to or from the element based on the value
 	 * of the bound property, e.g. cb-class="myProperty:class-name"
 	 * 
-	 * @param value
-	 * @param el
+	 * @param 		el
+	 * @param 		value
 	 */
-	cbClass: function(value, el, options, className)
+	cbClass: function(el, value, options, className)
 	{
 		if (!className)
 		{
@@ -154,10 +154,10 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * Applies class(es) to the element based on the value contained in a variable. 
 	 * Experimental.
 	 * 
-	 * @param value
-	 * @param el
+	 * @param 		el
+	 * @param 		value
 	 */
-	cbClasses: function(value, el)
+	cbClasses: function(el, value)
 	{
 		var $el = $(el);
 		
@@ -177,10 +177,10 @@ conbo.AttributeBindings = conbo.Class.extend(
 	/**
 	 * Apply styles from a variable
 	 * 
-	 * @param value
-	 * @param el
+	 * @param 		el
+	 * @param 		value
 	 */
-	cbStyle: function(value, el, options, styleName)
+	cbStyle: function(el, value, options, styleName)
 	{
 		if (!styleName)
 		{
@@ -193,10 +193,10 @@ conbo.AttributeBindings = conbo.Class.extend(
 	/**
 	 * Repeat the selected element
 	 * 
-	 * @param value
-	 * @param el
+	 * @param 		el
+	 * @param 		value
 	 */
-	cbRepeat: function(values, el, options, itemRendererClassName)
+	cbRepeat: function(el, values, options, itemRendererClassName)
 	{
 		var a, 
 			args = conbo.toArray(arguments),
@@ -295,10 +295,10 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * When used with a Glimpse, the Glimpse's `data` property is set to
 	 * the value of the bound property. 
 	 * 
-	 * @param value
-	 * @param el
+	 * @param 		el
+	 * @param 		value
 	 */
-	cbData: function(value, el)
+	cbData: function(el, value)
 	{
 		if (el.cbGlimpse)
 		{
@@ -317,11 +317,11 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @example		cb-include-in="happy sad melancholy"
 	 * 
-	 * @param 		value
 	 * @param 		el
+	 * @param 		value
 	 * @param 		options
 	 */
-	cbIncludeIn: function(value, el, options)
+	cbIncludeIn: function(el, value, options)
 	{
 		var view = options.view;
 		var states = value.split(' ');
@@ -342,11 +342,11 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @example		cb-exclude-from="confused frightened"
 	 * 
-	 * @param 		value
 	 * @param 		el
+	 * @param 		value
 	 * @param 		options
 	 */
-	cbExcludeFrom: function(value, el, options)
+	cbExcludeFrom: function(el, value, options)
 	{
 		var view = options.view;
 		var states = value.split(' ');
@@ -367,10 +367,10 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @example		cb-remove="isMobile"
 	 * 
-	 * @param 		value
 	 * @param 		el
+	 * @param 		value
 	 */
-	cbRemove: function(value, el)
+	cbRemove: function(el, value)
 	{
 		if (!!value)
 		{
@@ -385,22 +385,22 @@ conbo.AttributeBindings = conbo.Class.extend(
 	/**
 	 * The opposite of `cbRemove`
 	 * 
-	 * @param value
-	 * @param el
+	 * @param 		el
+	 * @param 		value
 	 */
-	cbKeep: function(value, el)
+	cbKeep: function(el, value)
 	{
-		this.cbRemove(!value, el);
+		this.cbRemove(!el, value);
 	},
 	
 	/**
 	 * Enables the use of cb-onbind attribute to handle the 'bind' event 
 	 * dispatched by the element after it has been bound by Conbo
 	 * 
-	 * @param value
-	 * @param el
+	 * @param 		el
+	 * @param 		value
 	 */
-	cbOnbind: function(handler, el)
+	cbOnbind: function(el, handler)
 	{
 		el.addEventListener('bind', handler);
 	},
@@ -415,10 +415,10 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * cb-changed or cb-unchanged, depending on whether the contents have
 	 * changed from their original value.
 	 * 
-	 * @param value
-	 * @param el
+	 * @param 		el
+	 * @param 		value
 	 */
-	cbDetectChange: function(value, el)
+	cbDetectChange: function(el, value)
 	{
 		var $el = $(el)
 			, $form = $el.closest('form')
@@ -453,10 +453,10 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * Use a method or regex to validate a form element and apply a
 	 * cb-valid or cb-invalid CSS class based on the outcome
 	 * 
-	 * @param value
-	 * @param el
+	 * @param 		el
+	 * @param 		value
 	 */
-	cbValidate: function(validator, el)
+	cbValidate: function(el, validator)
 	{
 		var validateFunction;
 		
@@ -566,10 +566,10 @@ conbo.AttributeBindings = conbo.Class.extend(
 	/**
 	 * Restricts text input to the specified characters
 	 * 
-	 * @param value
-	 * @param el
+	 * @param 		el
+	 * @param 		value
 	 */
-	cbRestrict: function(value, el)
+	cbRestrict: function(el, value)
 	{
 		// TODO Restrict to text input fields?
 		
@@ -607,10 +607,10 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * Limits the number of characters that can be entered into
 	 * input and other form fields
 	 * 
-	 * @param value
-	 * @param el
+	 * @param 		el
+	 * @param 		value
 	 */
-	cbMaxChars: function(value, el)
+	cbMaxChars: function(el, value)
 	{
 		// TODO Restrict to text input fields?
 		
