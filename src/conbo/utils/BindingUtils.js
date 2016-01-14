@@ -478,11 +478,16 @@ conbo.BindingUtils = conbo.Class.extend({},
 			if (fn.readOnly)
 			{
 				fn.call(attrFuncs, element);
-				return this;
 			}
+			else
+			{
+				conbo.warn(attr+' attribute cannot be used without a value');
+			}
+			
+			return this;
 		}
 		
-		conbo.warn(attr+' attribute cannot be empty');
+		conbo.warn(attr+' attribute does not exist');
 		
 		return this;
 	},
