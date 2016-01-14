@@ -464,6 +464,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * 
 	 * @param 	{DOMElement}			element			DOM element to bind value to (two-way bind on input/form elements)
 	 * @param 	{String}				attributeName	The attribute to bind as it appears in HTML, e.g. "cb-prop-name"
+	 * 
+	 * @example
+	 * conbo.BindingUtils.applyAttribute(el, "my-custom-attr");
 	 */
 	applyAttribute: function(element, attributeName)
 	{

@@ -99,7 +99,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4120">line 4120</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4252">line 4252</a>
     </li></ul></dd>
     
 
@@ -154,68 +154,6 @@
 
         
             
-<h4 class="name" id=".__reservedAttributes"><span class="type-signature">(private, static) </span>__reservedAttributes<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    Reserved attributes
-</div>
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4935">line 4935</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
 <h4 class="name" id="supro"><span class="type-signature"></span>supro<span class="type-signature"></span></h4>
 
 
@@ -265,7 +203,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2149">line 2149</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2192">line 2192</a>
     </li></ul></dd>
     
 
@@ -292,14 +230,14 @@
 
     
 
-    <h4 class="name" id=".__isReservedAttribute"><span class="type-signature">(private, static) </span>__isReservedAttribute<span class="signature">(value)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".applyAttribute"><span class="type-signature">(static) </span>applyAttribute<span class="signature">(element, attributeName)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Is the specified attribute reserved for another purpose?
+    Applies the specified read-only Conbo or custom attribute to the specified element
 </div>
 
 
@@ -335,7 +273,30 @@
 
         <tr>
             
-                <td class="name"><code>value</code></td>
+                <td class="name"><code>element</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">DOMElement</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">DOM element to bind value to (two-way bind on input/form elements)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>attributeName</code></td>
             
 
             <td class="type">
@@ -351,7 +312,7 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last">The attribute to bind as it appears in HTML, e.g. "cb-prop-name"</td>
         </tr>
 
     
@@ -392,7 +353,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4944">line 4944</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4633">line 4633</a>
     </li></ul></dd>
     
 
@@ -415,329 +376,11 @@
 
 
 
-<h5>Returns:</h5>
-
-        
 
 
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Boolean</span>
-
-
-    </dd>
-</dl>
-
+    <h5>Example</h5>
     
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".__set"><span class="type-signature">(private, static) </span>__set<span class="signature">(attribute, value, options)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Set the value of one or more property and dispatch a change:[propertyName] eventEvent handlers, in line with conbo.Model change:[propertyName] handlers, should be in the format handler(source, value) {...}
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>attribute</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>value</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>options</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4906">line 4906</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    this
-</div>
-
-
-
-    
-
-
-    <h5>Examples</h5>
-    
-    <pre class="prettyprint"><code>BindingUtils.__set.call(target, 'n', 123);</code></pre>
-
-    <pre class="prettyprint"><code>BindingUtils.__set.call(target, {n:123, s:'abc'});</code></pre>
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".__splitAttribute"><span class="type-signature">(private, static) </span>__splitAttribute<span class="signature">(value)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Split JSON-ish attribute values into usable chunks
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>value</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4954">line 4954</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
+    <pre class="prettyprint"><code>conbo.BindingUtils.applyAttribute(el, "my-custom-attr");</code></pre>
 
 
 
@@ -877,7 +520,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4687">line 4687</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4870">line 4870</a>
     </li></ul></dd>
     
 
@@ -900,6 +543,155 @@
 
 
 
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".attributeExists"><span class="type-signature">(static) </span>attributeExists<span class="signature">(attributeName)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Does the specified Conbo or custom attribute exist?
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>attributeName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The attribute name as it appears in HTML, e.g. "cb-prop-name"</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4665">line 4665</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -1036,7 +828,7 @@
 
             
 
-            <td class="description last">The cb-* property to bind against in camelCase, e.g. "propName" for "cb-prop-name"</td>
+            <td class="description last">The attribute to bind as it appears in HTML, e.g. "cb-prop-name"</td>
         </tr>
 
     
@@ -1123,7 +915,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4323">line 4323</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4453">line 4453</a>
     </li></ul></dd>
     
 
@@ -1345,7 +1137,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4150">line 4150</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4280">line 4280</a>
     </li></ul></dd>
     
 
@@ -1590,7 +1382,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4719">line 4719</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4902">line 4902</a>
     </li></ul></dd>
     
 
@@ -1785,7 +1577,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4757">line 4757</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4940">line 4940</a>
     </li></ul></dd>
     
 
@@ -1916,7 +1708,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4494">line 4494</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4678">line 4678</a>
     </li></ul></dd>
     
 
@@ -1951,155 +1743,6 @@
     <dd>
         
 <span class="param-type">this</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".cleanPropertyName"><span class="type-signature">(private, static) </span>cleanPropertyName<span class="signature">(view)</span><span class="type-signature"> &rarr; {String}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Remove everything except alphanumberic, dots and underscores from Strings
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>view</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">String value to clean</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4800">line 4800</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">String</span>
 
 
     </dd>
@@ -2209,7 +1852,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4788">line 4788</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4971">line 4971</a>
     </li></ul></dd>
     
 
@@ -2353,7 +1996,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4811">line 4811</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4994">line 4994</a>
     </li></ul></dd>
     
 
@@ -2394,14 +2037,14 @@
 
     
 
-    <h4 class="name" id=".registerAttribute"><span class="type-signature">(static) </span>registerAttribute<span class="signature">(name, handler)</span><span class="type-signature"> &rarr; {this}</span></h4>
+    <h4 class="name" id=".registerAttribute"><span class="type-signature">(static) </span>registerAttribute<span class="signature">(name, handler, readOnly)</span><span class="type-signature"> &rarr; {this}</span></h4>
 
     
 
 
 
 <div class="description">
-    Register a cb-* attribute handler
+    Register a custom attribute handler
 </div>
 
 
@@ -2453,7 +2096,7 @@
 
             
 
-            <td class="description last">camelCase version of the attribute name (without cb prefix)</td>
+            <td class="description last">camelCase version of the attribute name (must include a namespace prefix)</td>
         </tr>
 
     
@@ -2477,6 +2120,29 @@
             
 
             <td class="description last">function that will handle the data bound to the element</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>readOnly</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Whether or not the attribute is read-only (default: false)</td>
         </tr>
 
     
@@ -2517,7 +2183,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4846">line 4846</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line5030">line 5030</a>
     </li></ul></dd>
     
 
@@ -2566,7 +2232,7 @@
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>// HTML: &lt;div cb-font-name="myProperty">&lt;/div>conbo.BindingUtils.registerAttribute('fontName', function(value, el, options, param){	$(el).css('font-name', value);});</code></pre>
+    <pre class="prettyprint"><code>// HTML: &lt;div my-font-name="myProperty">&lt;/div>conbo.BindingUtils.registerAttribute('myFontName', function(el, value, options, param){	$(el).css('font-name', value);});</code></pre>
 
 
 
@@ -2575,14 +2241,14 @@
 
     
 
-    <h4 class="name" id=".registerAttributes"><span class="type-signature">(static) </span>registerAttributes<span class="signature">(handlers)</span><span class="type-signature"> &rarr; {this}</span></h4>
+    <h4 class="name" id=".registerAttributes"><span class="type-signature">(static) </span>registerAttributes<span class="signature">(handlers, readOnly)</span><span class="type-signature"> &rarr; {<a href="conbo.BindingUtils.html">conbo.BindingUtils</a>}</span></h4>
 
     
 
 
 
 <div class="description">
-    Register one or more cb-* attribute handlers
+    Register one or more custom attribute handlers
 </div>
 
 
@@ -2634,7 +2300,30 @@
 
             
 
-            <td class="description last">Object containing one or more attribute handler</td>
+            <td class="description last">Object containing one or more custom attribute handlers</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>readOnly</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Whether or not the attributes are read-only (default: false)</td>
         </tr>
 
     
@@ -2675,7 +2364,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4877">line 4877</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line5072">line 5072</a>
     </li></ul></dd>
     
 
@@ -2720,7 +2409,7 @@
     </dt>
     <dd>
         
-<span class="param-type">this</span>
+<span class="param-type"><a href="conbo.BindingUtils.html">conbo.BindingUtils</a></span>
 
 
     </dd>
@@ -2731,7 +2420,7 @@
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>conbo.BindingUtils.registerAttributes({foo:function(value, el, options, param){ ... });</code></pre>
+    <pre class="prettyprint"><code>conbo.BindingUtils.registerAttributes({myFoo:myFooFunction, myBar:myBarFunction});</code></pre>
 
 
 
@@ -2853,7 +2542,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4300">line 4300</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4430">line 4430</a>
     </li></ul></dd>
     
 
@@ -2984,7 +2673,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4627">line 4627</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4810">line 4810</a>
     </li></ul></dd>
     
 
@@ -3138,7 +2827,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2159">line 2159</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2202">line 2202</a>
     </li></ul></dd>
     
 
@@ -3235,7 +2924,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2168">line 2168</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2211">line 2211</a>
     </li></ul></dd>
     
 
@@ -3332,7 +3021,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2142">line 2142</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2185">line 2185</a>
     </li></ul></dd>
     
 
@@ -3380,7 +3069,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Jan 12 2016 23:49:57 GMT+0000 (GMT Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Thu Jan 14 2016 09:23:02 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
