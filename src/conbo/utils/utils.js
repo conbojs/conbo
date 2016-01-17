@@ -42,9 +42,8 @@
 	// --------------------
 
 	/**
-	 * The cornerstone, an `each` implementation, aka `forEach`.
-	 * Handles objects with the built-in `forEach`, arrays, and raw objects.
-	 * Delegates to ECMAScript 5's native `forEach` if available.
+	 * Handles objects with the built-in `forEach`, arrays, lists and raw objects,
+	 * delegating to native `forEach` if available.
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - The list to iterate
@@ -72,7 +71,7 @@
 	
 	/**
 	 * Return the results of applying the iterator to each element.
-	 * Delegates to ECMAScript 5's native `map` if available.
+	 * Delegates to native `map` if available.
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - The list to iterate
@@ -115,7 +114,7 @@
 
 	/**
 	 * Return all the elements that pass a truth test.
-	 * Delegates to ECMAScript 5's native `filter` if available.
+	 * Delegates to native `filter` if available.
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - The list to iterate
@@ -148,7 +147,7 @@
 	
 	/**
 	 * Determine whether all of the elements match a truth test.
-	 * Delegates to ECMAScript 5's native `every` if available.
+	 * Delegates to native `every` if available.
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - The list to iterate
@@ -168,7 +167,7 @@
 
 	/**
 	 * Determine if at least one element in the object matches a truth test.
-	 * Delegates to ECMAScript 5's native `some` if available.
+	 * Delegates to native `some` if available.
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - The list to iterate
@@ -341,7 +340,7 @@
 	};
 
 	/**
-	 * Safely create a real, live array from anything iterable.
+	 * Convert anything iterable into an Array
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - The object to convert into an Array 
@@ -591,7 +590,7 @@
 
 	/**
 	 * Create a function bound to a given object (assigning `this`, and arguments,
-	 * optionally). Delegates to ECMAScript 5's native `Function.bind` if
+	 * optionally). Delegates to native `Function.bind` if
 	 * available.
 	 * 
 	 * @memberof	conbo
@@ -712,7 +711,7 @@
 
 	/**
 	 * Retrieve the names of an object's properties.
-	 * Delegates to ECMAScript 5's native `Object.keys`
+	 * Delegates to native `Object.keys`
 	 * Conbo.js: Extended to enable keys further up the prototype chain to be found too
 	 * 
 	 * @memberof	conbo
@@ -1109,7 +1108,7 @@
 	conbo.has = function(obj, key) {
 		return hasOwnProperty.call(obj, key);
 	};
-
+	
 	// Utility Functions
 	// -----------------
 
@@ -1220,10 +1219,13 @@ conbo.notImplemented = function()
  * 
  * @memberof	conbo
  * @param		{string}	string - underscore_case_string to convertToCamelCase
+ * @param		{boolean}	initCap - Should the first letter be a CapitalLetter? (default: false)
  */
-conbo.toCamelCase = function(string)
+conbo.toCamelCase = function(string, initCap)
 {
-	return (string || '').replace(/([\W_])([a-z])/g, function (g) { return g[1].toUpperCase(); }).replace(/(\W+)/, '');
+	var s = (string || '').toLowerCase().replace(/([\W_])([a-z])/g, function (g) { return g[1].toUpperCase(); }).replace(/(\W+)/, '');
+	if (initCap) return s.charAt(0).toUpperCase() + s.slice(1);
+	return s;
 };
 
 /**
@@ -1360,12 +1362,17 @@ conbo.setValues = function(obj)
 
 /**
  * Is the value a Conbo class?
+ * 
  * @memberof	conbo
- * @param		{any}	value - Value that might be a class
+ * @param		{any}		value - Value that might be a class
+ * @param		{class}		classReference - The Conbo class that the value must match or be an extension of (optional) 
  */
-conbo.isClass = function(value)
+conbo.isClass = function(value, classReference)
 {
-	return !!value && typeof value == 'function' && value.prototype instanceof conbo.Class;
+	return !!value 
+		&& typeof value == 'function' 
+		&& value.prototype instanceof (classReference || conbo.Class)
+		;
 };
 
 /**
@@ -1400,15 +1407,18 @@ conbo.cloneProperty = function(source, sourceName, target, targetName)
  * Is the object an instance of the specified class(es) or implement the
  * specified pseudo-interface(s)?
  * 
+ * This method will always return false if the specified object is a Conbo
+ * class, because by it's nature a class is not an instance of anything.
+ * 
  * @memberof	conbo
- * @example						var b = conbo.instanceOf(obj, conbo.EventDispatcher);
- * @example						var b = conbo.instanceOf(obj, conbo.View, conbo.IInjectable);
  * @param	obj					The class instance
  * @param	classOrInterface	The Conbo class or pseudo-interface to compare against
+ * @example						var b = conbo.instanceOf(obj, conbo.EventDispatcher);
+ * @example						var b = conbo.instanceOf(obj, conbo.View, conbo.IInjectable);
  */
 conbo.instanceOf = function(obj, classOrInterface)
 {
-	if (!obj) return false;
+	if (!obj || conbo.isClass(obj)) return false;
 	
 	var partials = conbo.rest(arguments);
 	

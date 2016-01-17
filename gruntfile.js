@@ -122,8 +122,8 @@ module.exports = function (grunt)
 	            {
 	                configure: 'jsdoc.json',
 	                destination: 'docs',
-	                readme: 'README.md'
-//	                package: 'package.json'
+	                readme: 'README.md',
+	                package: 'package.json'
 	            }
 	        }
 	    }

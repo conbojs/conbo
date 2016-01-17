@@ -307,7 +307,7 @@ conbo.List = conbo.EventDispatcher.extend(
 			return item;
 		}
 		
-		if (conbo.isObject(item) && !conbo.instanceOf(item, conbo.Class))
+		if (conbo.isObject(item) && !conbo.isClass(item))
 		{
 			item = new this.itemClass({source:item});
 		}

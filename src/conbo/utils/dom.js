@@ -28,14 +28,15 @@ conbo.initDom = function(namespace, rootEl)
 	
 	$(function()
 	{
-		$rootEl.find('[cb-app]').not('.cb-app').each(function(index, el)
+		$rootEl.find('*').not('.cb-app').each(function(index, el)
 	   	{
 			var $el = $(el)
-	   		  , appName = $el.attr('cb-app')
+	   		  , appName = $el.attr('cb-app') || conbo.toCamelCase(el.tagName, true)
 	   		  , appClass = namespace[appName]
 	   		  ;
 	   		
-	   		if (appClass)
+	   		if (appClass 
+	   			&& conbo.isClass(appClass, conbo.Application))
 	   		{
 	   			new appClass({el:el})
 	   		}

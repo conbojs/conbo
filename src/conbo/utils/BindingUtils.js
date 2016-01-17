@@ -566,13 +566,13 @@ conbo.BindingUtils = conbo.Class.extend({},
 			
 			keys.forEach(function(key)
 			{
-				attr = conbo.toUnderscoreCase(key, '-');
+				type = conbo.toUnderscoreCase(key, '-');
 				
-				var split = attr.split('-');
+				var split = type.split('-');
 				
 				if (split.length < 2 
 					|| split[0] == 'data' 
-					|| __isReservedAttr(attr))
+					|| __isReservedAttr(type))
 				{
 					return;
 				}
@@ -580,11 +580,11 @@ conbo.BindingUtils = conbo.Class.extend({},
 				var a, i, f,
 					d = attrs[key],
 					b = d.split('|'),
-					splits = __splitAttr(attr, b[0]);
+					splits = __splitAttr(type, b[0]);
 				
 				if (!splits)
 				{
-					scope.applyAttribute(el, attr);
+					scope.applyAttribute(el, type);
 					return;
 				}
 				
@@ -615,7 +615,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 					}
 					
 					var opts = conbo.extend({propertyName:property}, options);
-					var args = [model, property, el, attr, f, opts, param];
+					var args = [model, property, el, type, f, opts, param];
 	
 					bindings = bindings.concat(scope.bindAttribute.apply(scope, args));
 				}
@@ -699,25 +699,42 @@ conbo.BindingUtils = conbo.Class.extend({},
 	},
 	
 	/**
-	 * Applies View classes child DOM elements based on their cb-view attribute
+	 * Applies View and Glimpse classes DOM elements based on their cb-view 
+	 * attribute or tag name
 	 * 
 	 * @param	rootView	View or Application class instance
 	 * @param	namespace	The current namespace
-	 * @param	attr		Attribute to search (default: 'view')
+	 * @param	type		View type, 'view' or 'glimpse' (default: 'view')
 	 */
-	applyViews: function(rootView, namespace, attr)
+	applyViews: function(rootView, namespace, type)
 	{
-		attr || (attr = 'view');
+		var validTypes = ['view', 'glimpse'];
+		type || (type = 'view');
 		
-		var scope = this;
-		
-		rootView.$el.find('[cb-'+attr+']').not('.cb-'+attr).each(function(index, el)
+		if (validTypes.indexOf(type) == -1)
 		{
-			var className = $(el).cbAttrs()[attr],
-				classReference = scope.getClass(className, namespace);
+			throw new Error(type+' is not a valied type parameter for applyView');
+		}
+		
+		var typeClass = conbo[type.charAt(0).toUpperCase()+type.slice(1)],
+			scope = this
+			;
+		
+		rootView.$el.find('*').not('.cb-'+type).each(function(index, el)
+		{
+			var className = $(el).cbAttrs()[type] || conbo.toCamelCase(el.tagName, true),
+				classReference = scope.getClass(className, namespace)
+				;
 			
-			if (classReference)
+			if (classReference 
+				&& conbo.isClass(classReference, typeClass))
 			{
+				if (type == 'glimpse' 
+					&& conbo.isClass(classReference, conbo.View))
+				{
+					return;
+				}
+				
 				// TODO Apply subcontext of "closest" view?
 				new classReference({el:el, context:rootView.subcontext});
 			}
@@ -835,18 +852,18 @@ conbo.BindingUtils = conbo.Class.extend({},
 		
 		try
 		{
-			var viewClass = !!namespace
+			var classReference = !!namespace
 				? namespace[className]
-				: eval(className);
+				: window[className];
 			
-			if (conbo.isClass(viewClass)) 
+			if (conbo.isClass(classReference)) 
 			{
-				return viewClass;
+				return classReference;
 			}
 		}
 		catch (e)
 		{
-			conbo.warn(className+' does not exist!');
+//			conbo.warn(className+' does not exist!');
 		}
 	},
 	

@@ -1,6 +1,3 @@
-Conbo.js
---------
-
 Conbo.js is a lightweight MVC application framework for JavaScript designed for use with ECMAScript 5 compliant browsers.
 
 Features include extendible classes, event bus, dependency injection, data binding, command pattern, pseudo-interfaces and an easy to use event model with scoped event handling.
