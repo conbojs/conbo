@@ -38,8 +38,9 @@ conbo('com.example.app', function()
 });
 
 // Main.js
-conbo('com.mynamespace.app', window, document, navigator, function(window, document, navigator, undefined)
+conbo('com.example.app', window, document, navigator, function(window, document, navigator, undefined)
 {
+	// Import data from other namespaces
 	var app = this;
 	var utils = conbo('com.example.utils');
 	

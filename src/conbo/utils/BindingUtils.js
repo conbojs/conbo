@@ -848,23 +848,18 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 */
 	getClass: function(className, namespace)
 	{
-		if (!className) return;
+		if (!className || !namespace) return;
 		
 		try
 		{
-			var classReference = !!namespace
-				? namespace[className]
-				: window[className];
+			var classReference = namespace[className];
 			
 			if (conbo.isClass(classReference)) 
 			{
 				return classReference;
 			}
 		}
-		catch (e)
-		{
-//			conbo.warn(className+' does not exist!');
-		}
+		catch (e) {}
 	},
 	
 	/**

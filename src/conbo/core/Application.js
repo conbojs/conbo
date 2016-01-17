@@ -19,19 +19,10 @@ conbo.Application = conbo.View.extend(
 	{
 		options = conbo.clone(options) || {};
 		
-		var namespace = options.namespace || this.namespace;
-		
-		if (conbo.isString(namespace))
+		if (!conbo.instanceOf(this.namespace, conbo.Namespace))
 		{
-			namespace = conbo(namespace);
+			throw new Error('Application namespace must be an instance of conbo.Namespace');
 		}
-		
-		if (!namespace)
-		{
-			conbo.warn('Application namespace not specified');
-		}
-		
-		__defineUnenumerableProperty(this, 'namespace', namespace);
 		
 		options.app = this;
 		options.context = new this.contextClass(options);

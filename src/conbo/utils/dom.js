@@ -13,18 +13,18 @@
  */
 conbo.initDom = function(namespace, rootEl)
 {
-	var $rootEl = $(rootEl || 'html');
+	if (!namespace)
+	{
+		throw new Error('initDom: namespace is undefined');
+		return this;
+	}
 	
 	if (conbo.isString(namespace))
 	{
 		namespace = conbo(namespace);
 	}
 	
-	if (!conbo.isObject(namespace))
-	{
-		conbo.warn('Unable to initialize namespace:', namespace);
-		return this;
-	}
+	var $rootEl = $(rootEl || 'html');
 	
 	$(function()
 	{
