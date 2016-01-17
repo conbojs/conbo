@@ -46,7 +46,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 */
 	cbShow: function(el, value)
 	{
-		this.cbHide(!el, value);
+		this.cbHide(el, !value);
 	},
 	
 	/**
@@ -73,7 +73,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 */
 	cbInclude: function(el, value)
 	{
-		this.cbExclude(!el, value);
+		this.cbExclude(el, !value);
 	},
 	
 	/**
@@ -328,7 +328,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 		
 		var stateChangeHandler = function()
 		{
-			this.cbInclude(states.indexOf(view.currentState) != -1, el);
+			this.cbInclude(el, states.indexOf(view.currentState) != -1);
 		};
 		
 		view.addEventListener('change:currentState', stateChangeHandler, this);
@@ -353,7 +353,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 		
 		var stateChangeHandler = function()
 		{
-			this.cbExclude(states.indexOf(view.currentState) != -1, el);
+			this.cbExclude(el, states.indexOf(view.currentState) != -1);
 		};
 		
 		view.addEventListener('change:currentState', stateChangeHandler, this);
@@ -390,7 +390,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 */
 	cbKeep: function(el, value)
 	{
-		this.cbRemove(!el, value);
+		this.cbRemove(el, !value);
 	},
 	
 	/**

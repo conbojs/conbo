@@ -326,7 +326,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			ns = split[0],
 			isConboNs = (ns == 'cb'),
 			isConbo = isConboNs && camelCase in __cbAttrs,
-			isCustom = hasNs && camelCase in __customAttrs,
+			isCustom = !isConbo && camelCase in __customAttrs,
 			isNative = isConboNs && split.length == 2 && split[1] in element,
 			attrFuncs = __cbAttrs
 			;
@@ -348,7 +348,8 @@ conbo.BindingUtils = conbo.Class.extend({},
 				}
 				
 				var fn = attrFuncs[camelCase],
-					isRaw = fn.raw;
+					isRaw = fn.raw
+					;
 				
 				if (isRaw)
 				{
