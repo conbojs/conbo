@@ -22,11 +22,10 @@ conbo.ServerApplication = conbo.EventDispatcher.extend(
 	 */
 	constructor: function(options)
 	{
-		options = conbo.clone(options) || {};
+		options = conbo.clone(options || {});
 		options.app = this;
-		options.context || (options.context = new this.contextClass(options));
 		
-		this.context = options.context;
+		this.context = new this.contextClass(options);
 		this.initialize.apply(this, arguments);
 		
 		conbo.makeAllBindable(this, this.bindable);
