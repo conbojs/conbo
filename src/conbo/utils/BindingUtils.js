@@ -347,27 +347,17 @@ conbo.BindingUtils = conbo.Class.extend({},
 					return this;
 				}
 				
-				var fn = attrFuncs[camelCase],
-					isRaw = fn.raw
-					;
+				var fn = attrFuncs[camelCase];
 				
-				if (isRaw)
+				if (fn.raw)
 				{
-					fn.apply
-					(
-						attrFuncs, 
-						[element, propertyName].concat(args)
-					);
+					fn.apply(attrFuncs, [element, propertyName].concat(args));
 				}
 				else
 				{
 					eventHandler = function(event)
 					{
-						fn.apply
-						(
-							attrFuncs, 
-							[element, parseFunction(source[propertyName])].concat(args)
-						);
+						fn.apply(attrFuncs, [element, parseFunction(source[propertyName])].concat(args));
 					}
 					
 					eventType = 'change:'+propertyName;
