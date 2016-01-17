@@ -1,6 +1,6 @@
 /**
- * Custom attribute example for Conbo.js
- * Demonstrates how to create a custom attribute
+ * Custom tag names example for Conbo.js
+ * Demonstrates how to use custom tag names
  * 
  * @author	Neil Rackett
  */

@@ -52,8 +52,11 @@ conbo.View = conbo.Glimpse.extend(
  		
 		conbo.makeAllBindable(this, (this.bindable || []).concat(['currentState']));
 		
-		var templateUrl = this.templateUrl,
-			template = this.template;
+		var templateUrl = this.templateUrl
+		  , template = this.template
+		  ;
+		
+		this.__content = this.hasContent ? '' : this.$el.html();
 		
 		if (!!templateUrl)
 		{
@@ -97,11 +100,11 @@ conbo.View = conbo.Glimpse.extend(
 	{
 		if (this.el)
 		{
-			var $content = this.$('[cb-content]');
+			var $content = this.$('[cb-content]:first');
 			
 			return $content.length
 				? $content
-				: this.$el;
+				: undefined;
 		}
 	},
 	
@@ -111,24 +114,32 @@ conbo.View = conbo.Glimpse.extend(
 	 */
 	get content()
 	{
-		if (this.el)
+		if (this.$content)
 		{
 			return this.$content[0];
 		}
 	},
-			
+	
+	/**
+	 * Does this View support HTML content?
+	 */
+	get hasContent()
+	{
+		return !!this.content;
+	},
+	
 	/**
 	 * The context that will automatically be applied to children
 	 * when binding or appending Views inside of this View
 	 */
 	get subcontext()
 	{
-		return this._subcontext || this.context;
+		return this.__subcontext || this.context;
 	},
 	
 	set subcontext(value)
 	{
-		this._subcontext = value;
+		this.__subcontext = value;
 	},
 	
 	/**
@@ -338,6 +349,13 @@ conbo.View = conbo.Glimpse.extend(
 	 */
 	__initView: function()
 	{
+		if (this.hasContent)
+		{
+			this.$content.html(this.__content);
+		}
+		
+		delete this.__content;
+		
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.TEMPLATE_LOADED));
 		this.bindView();
 		
