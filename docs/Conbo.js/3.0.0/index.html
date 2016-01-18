@@ -43,17 +43,17 @@
 
 
     <section>
-        <article><p>Conbo.js is a lightweight MVC application framework for JavaScript designed for use with ECMAScript 5 compliant browsers.</p>
+        <article><p>Conbo.js is a lightweight MVC application framework for JavaScript designed for use with ECMAScript 5 compliant browsers to enable JavaScript developers a take a structured, decoupled, class based approach to application development, in a way that should be be familiar to anyone with experience of languages like ActionScript, C# or Java.</p>
 <p>Features include extendible classes, event bus, dependency injection, data binding, command pattern, pseudo-interfaces and an easy to use event model with scoped event handling.</p>
-<p>Conbo.js enables JavaScript developers a take a structured, decoupled, class based approach to application development, in a way that should be be familiar to anyone with experience of languages like ActionScript, C# or Java.</p>
-<p>Development of Conbo.js is focussed on single page applications (SPA) and self-contained modules like widgets and media players, where it can be used stand-alone or as an AMD module.</p>
-<p>However, Conbo.js also offers a great base for server-side Node.js applications, and there's a <code>ServerApplication</code> class created for just this purpose.</p>
-<h2>Browser support</h2><p>Conbo.js is designed for use with ECMAScript 5 compliant browsers, targeting the two most recent major releases of Firefox, Chrome (desktop and Android), Safari (desktop and iOS) and Internet Explorer / Edge.</p>
-<h2>Modular namespace declaration</h2><p>Conbo.js includes modular namespace declarations that can also be used to replace the familiar minification pattern, for example:</p>
+<p>Development of Conbo.js is focussed on single page applications (SPA) and self-contained modules, like widgets and media players, where it can be used stand-alone or as an AMD module, and also offers a great base for server-side Node.js applications.</p>
+<h2>Browser support</h2><p>Conbo.js targets the two most recent major releases of Firefox, Chrome (desktop and Android), Safari (desktop and iOS) and Internet Explorer / Edge.</p>
+<h2>Modular namespace declaration</h2><p>Conbo.js brings the familiar concepts of packages and imports to JavaScript in the form of modular namespaces, optimised to work as an alternative to the commonly used minification pattern, for example:</p>
 <pre class="prettyprint source lang-javascript"><code>// Utils.js
 conbo('com.example.utils', console, function(console)
 {
-    this.doSomething = function(value)
+    var utils = this;
+
+    utils.doSomething = function(value)
     {
         console.log(value);
     };
@@ -78,7 +78,7 @@ conbo('com.example.app', window, document, navigator, function(window, document,
     // Your app code goes here
 
     utils.doSomething(app.BEST_FRAMEWORK+' makes me '+app.SMILE);
-});</code></pre><h2>Extendible classes</h2><p>There's no messing about with prototypes in Conbo.js, instead all of your classes extend from another, for example:</p>
+});</code></pre><h2>Extendible classes</h2><p>There's no messing about with prototypes in Conbo.js, instead all of your classes simply extend from another, for example:</p>
 <pre class="prettyprint source lang-javascript"><code>var MyClass = conbo.Class.extend
 ({
     initialize: function()
@@ -99,7 +99,7 @@ var MyClass = conbo.Class.extend().implement(MyInterface);
 var myInstance = new MyClass();
 
 myInstance.logSomething(); // Outputs: &quot;Something!&quot;</code></pre><h2>Decoupling &amp; data binding</h2><p>One of Conbo.js's core aims is to enable developers to create highly decoupled, testable code.</p>
-<p>To this end, the framework's ever expanding data binding features enable you to separate your HTML from your JavaScript, removing the need for direct references between the them by using <code>cb-*</code> attributes to automatically bind properties and events in the DOM to your View classes, for example:</p>
+<p>To this end, the framework's ever expanding data binding features enable you to separate your HTML from your JavaScript, removing the need for direct references between the them using <code>cb-*</code> and custom, developer defined, attributes to automatically bind properties and events in the DOM to your View classes, for example:</p>
 <p><strong>In your View class</strong></p>
 <pre class="prettyprint source lang-javascript"><code>example.MyView = conbo.View.extend
 ({
@@ -112,9 +112,10 @@ myInstance.logSomething(); // Outputs: &quot;Something!&quot;</code></pre><h2>De
 });</code></pre><p><strong>In your HTML</strong></p>
 <pre class="prettyprint source lang-html"><code>&lt;div cb-view=&quot;MyView&quot;>
     &lt;button cb-onclick=&quot;myClickHandler&quot; cb-html=&quot;myButtonLabel&quot;>&lt;/button>
-&lt;/div></code></pre><h2>Consistent event model</h2><p>You don't have to remember how many arguments each event handler should have, or in which order they're in, because Conbo.js has a single, consistent DOM-like event model that offers predictable results.</p>
-<p>All events fired by the framework are <code>conbo.ConboEvent</code> event objects, and you can easily create events of your own by using or extending the <code>conbo.Event</code> class in the same way you would extend any other.</p>
-<h2>Dependencies</h2><p><strong>Conbo</strong>: jQuery 1.7+</p>
+&lt;/div></code></pre><h2>Consistent event model</h2><p>You don't have to remember how many arguments each event handler should have, or in which order they're supposed to be in, because Conbo.js has a single, consistent DOM-like event model that offers predictable results.</p>
+<p>All events fired by the framework are <code>conbo.ConboEvent</code> event objects, and you can easily create events of your own by using or extending the <code>conbo.Event</code> class, for example:</p>
+<pre class="prettyprint source lang-javascript"><code>foo.addEventListener(&quot;myEvent&quot;, myFunction, this);
+foo.dispatchEvent(new conbo.Event(&quot;myEvent&quot;));</code></pre><h2>Dependencies</h2><p><strong>Conbo</strong>: jQuery 1.7+</p>
 <p><strong>Conbo Lite</strong>: None</p>
 <p><strong>Server Side</strong>: None</p>
 <h2>Builds</h2><p><strong>conbo.js</strong> (24KB minified+gzipped): Includes everything you need to build dynamic web application, including HttpService, RemoteHash and RemoteList classes for working with web services, and History and Router classes for browser integration.</p>
@@ -137,7 +138,7 @@ myInstance.logSomething(); // Outputs: &quot;Something!&quot;</code></pre><h2>De
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sun Jan 17 2016 22:28:36 GMT+0000 (GMT Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Mon Jan 18 2016 14:59:44 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
