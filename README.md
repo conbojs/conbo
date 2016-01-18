@@ -127,7 +127,7 @@ You don't have to remember how many arguments each event handler should have, or
 All events fired by the framework are `conbo.ConboEvent` event objects, and you can easily create events of your own by using or extending the `conbo.Event` class, for example:
 
 ```javascript
-foo.addEventListener("myEvent", myFunction, this);
+foo.addEventListener("myEvent", this.myFunction, this);
 foo.dispatchEvent(new conbo.Event("myEvent"));
 ```
 
