@@ -21,7 +21,6 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 		    'rootUrl', 
 		    'contentType', 
 		    'dataType', 
-		    'isRpc', 
 		    'headers', 
 		    'encodeFunction', 
 		    'decodeFunction', 
@@ -32,6 +31,9 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 		conbo.EventDispatcher.prototype.constructor.apply(this, arguments);
 	},
 	
+	/**
+	 * The root URL of the web service
+	 */
 	get rootUrl()
 	{
 		return this._rootUrl || '';
@@ -49,6 +51,14 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 		this._rootUrl = value;
 	},
 	
+	/**
+	 * Call a method of the web service
+	 * 
+	 * @param	{String}	command - The name of the command
+	 * @param	{Object}	data - Object containing the data to send to the web service
+	 * @param	{String}	method - GET, POST, etc (default: GET)
+	 * @param	{Class}		resultClass - Optional
+	 */
 	call: function(command, data, method, resultClass)
 	{
 		var contentType;
@@ -56,10 +66,7 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 		data = conbo.clone(data || {});
 		method || (method = 'GET');
 		resultClass || (resultClass = this.resultClass);
-		
-		contentType = this.contentType
-			|| (this.isRpc ? 'application/json' : 'application/x-www-form-urlencoded');
-		
+		contentType = this.contentType || conbo.HttpService.CONTENT_TYPE_X_WWW_FORM_URLENCODED;
 		command = this.parseUrl(command, data);
 		data = this.encodeFunction(data);
 		
@@ -88,9 +95,9 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	
 	/**
 	 * Add one or more remote commands as methods of this class instance
-	 * @param	{String}	command
-	 * @param	{String}	method
-	 * @param	{Class}		resultClass
+	 * @param	{String}	command - The name of the command
+	 * @param	{String}	method - GET, POST, etc (default: GET)
+	 * @param	{Class}		resultClass - Optional
 	 */
 	addCommand: function(command, method, resultClass)
 	{
@@ -135,7 +142,9 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	 */
 	encodeFunction: function(data)
 	{
-		return this.isRpc ? JSON.stringify(data) : data;
+		return this.contentType == conbo.HttpService.CONTENT_TYPE_JSON
+			? JSON.stringify(data) 
+			: data;
 	},
 	
 	/**
@@ -179,5 +188,10 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	}
 	
 	
-}).implement(conbo.IInjectable);
-
+},
+/** @lends conbo.HttpService */
+{
+	CONTENT_TYPE_JSON: 'application/json',
+	CONTENT_TYPE_X_WWW_FORM_URLENCODED: 'application/x-www-form-urlencoded'
+})
+.implement(conbo.IInjectable);
