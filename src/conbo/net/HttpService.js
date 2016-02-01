@@ -66,7 +66,7 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 		data = conbo.clone(data || {});
 		method || (method = 'GET');
 		resultClass || (resultClass = this.resultClass);
-		contentType = this.contentType || conbo.HttpService.CONTENT_TYPE_X_WWW_FORM_URLENCODED;
+		contentType = this.contentType || conbo.HttpService.CONTENT_TYPE_JSON;
 		command = this.parseUrl(command, data);
 		data = this.encodeFunction(data);
 		
