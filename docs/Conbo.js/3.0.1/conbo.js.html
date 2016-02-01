@@ -121,7 +121,7 @@ var conbo = function(namespace)
  * @augments	conbo
  * @returns 	{String}
  */
-conbo.VERSION = '3.0.0';
+conbo.VERSION = '3.0.1';
 	
 /**
  * @augments	conbo
@@ -195,15 +195,16 @@ if (!!$)
 	 */
 	 conbo.forEach = function(obj, iterator, scope) {
 		if (obj == null) return obj;
+		var i;
 		if (nativeForEach &amp;&amp; obj.forEach === nativeForEach) {
 			obj.forEach(iterator, scope);
 		} else if (obj.length === +obj.length) {
-			for (var i = 0, length = obj.length; i &lt; length; i++) {
+			for (i = 0, length = obj.length; i &lt; length; i++) {
 				if (iterator.call(scope, obj[i], i, obj) === breaker) return;
 			}
 		} else {
 			var keys = conbo.keys(obj);
-			for (var i = 0, length = keys.length; i &lt; length; i++) {
+			for (i = 0, length = keys.length; i &lt; length; i++) {
 				if (iterator.call(scope, obj[keys[i]], keys[i], obj) === breaker) return;
 			}
 		}
@@ -741,14 +742,14 @@ if (!!$)
 	 * @param		{object}	scope - The scope to bind the method to
 	 */
 	conbo.bind = function(func, scope) {
-		var args, bound;
+		var args;
 		if (nativeBind &amp;&amp; func.bind === nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
-		if (!conbo.isFunction(func)) throw new TypeError;
+		if (!conbo.isFunction(func)) throw new TypeError();
 		args = slice.call(arguments, 2);
-		return bound = function() {
+		return function() {
 			if (!(this instanceof bound)) return func.apply(scope, args.concat(slice.call(arguments)));
 			ctor.prototype = func.prototype;
-			var self = new ctor;
+			var self = new ctor();
 			ctor.prototype = null;
 			var result = func.apply(self, args.concat(slice.call(arguments)));
 			if (Object(result) === result) return result;
@@ -1029,7 +1030,7 @@ if (!!$)
 			case '[object Number]':
 				// `NaN`s are equivalent, but non-reflexive. An `egal` comparison is performed for
 				// other numeric values.
-				return a != +a ? b != +b : (a == 0 ? 1 / a == 1 / b : a == +b);
+				return a != +a ? b != +b : (a === 0 ? 1 / a == 1 / b : a == +b);
 			case '[object Date]':
 			case '[object Boolean]':
 				// Coerce dates and booleans to numeric primitive values. Dates are compared by their
@@ -1126,7 +1127,7 @@ if (!!$)
 			|| (!isNaN(value) &amp;&amp; !parseFloat(value)) // "0", "0.0", etc
 			|| (conbo.isObject(value) &amp;&amp; !conbo.keys(value).length) // {}
 			;
-	}
+	};
 	
 	/**
 	 * Is a given value a DOM element?
@@ -1292,7 +1293,7 @@ if (!!$)
 					return false;
 			}
 			return true;
-		}
+		};
 	};
 	
 	/**
@@ -1419,7 +1420,7 @@ conbo.formatNumber = function(number, decimals, decimalPoint, thousandsSeparator
 	}
 	
 	return s.join(dec);
-}
+};
 
 /**
  * Format a number as a currency
@@ -1438,7 +1439,7 @@ conbo.formatCurrency = function(number, symbol, suffixed, decimals, decimalPoint
 	symbol || (symbol = '');
 	var n = conbo.formatNumber(number, decimals, decimalPoint, thousandsSeparator);
 	return suffixed ? n+symbol : symbol+n;
-}
+};
 
 /**
  * Encodes all of the special characters contained in a string into HTML 
@@ -1723,7 +1724,7 @@ conbo.isAccessor = function(obj, propName)
 	// TODO Should we check prototype too, using obj.__proto__ or Object.getPrototypeOf(obj)?
 	
 	return !!descriptor &amp;&amp; (!!descriptor.set || !!descriptor.get);
-}
+};
 
 /**
  * Is the specified property bindable?
@@ -1794,7 +1795,7 @@ logMethods.forEach(function(method)
 	{
 		if (!console || !conbo.logEnabled) return;
 		console[method].apply(console, arguments);		
-	}
+	};
 });
 
 /*
@@ -1928,7 +1929,6 @@ conbo.initDom = function(namespace, rootEl)
 	if (!namespace)
 	{
 		throw new Error('initDom: namespace is undefined');
-		return this;
 	}
 	
 	if (conbo.isString(namespace))
@@ -1950,7 +1950,7 @@ conbo.initDom = function(namespace, rootEl)
 	   		if (appClass 
 	   			&amp;&amp; conbo.isClass(appClass, conbo.Application))
 	   		{
-	   			new appClass({el:el})
+	   			new appClass({el:el});
 	   		}
 	   	});
 	});
@@ -2079,7 +2079,7 @@ if (!!$)
 				for (var attr in attrs) 
 				{
 					$j.attr(attr, attrs[attr]);
-				};
+				}
 			});
 			
 			return $el;
@@ -2116,7 +2116,7 @@ if (!!$)
 		
 		for (var i=0; i&lt;attrs.length; ++i)
 		{
-			if (attrs[i].name.indexOf('cb-') != 0) continue;
+			if (attrs[i].name.indexOf('cb-') !== 0) continue;
 			
 			propertyName = attrs[i].name.substr(3);
 			
@@ -2249,7 +2249,7 @@ conbo.Class.prototype =
 	 */
 	bindAll: function()
 	{
-		conbo.bindAll.apply(conbo, [this].concat(conbo.toArray(arguments)))
+		conbo.bindAll.apply(conbo, [this].concat(conbo.toArray(arguments)));
 		return this;
 	},
 	
@@ -2298,7 +2298,7 @@ conbo.Class.extend = function(protoProps, staticProps)
 	 */
 	var Surrogate = function(){ this.constructor = child; };
 	Surrogate.prototype = parent.prototype;
-	child.prototype = new Surrogate;
+	child.prototype = new Surrogate();
 	
 	if (protoProps)
 	{
@@ -2773,7 +2773,7 @@ conbo.EventDispatcher = conbo.Class.extend(
 		
 		if (!(type in this.__queue)) this.__queue[type] = [];
 		this.__queue[type].push({handler:handler, scope:scope, once:once, priority:priority||0});
-		this.__queue[type].sort(function(a,b){return b.priority-a.priority});
+		this.__queue[type].sort(function(a,b){return b.priority-a.priority;});
 	},
 	
 	/**
@@ -3047,7 +3047,7 @@ conbo.Hash = conbo.EventDispatcher.extend(
 		
 		if (!!options.context) this.context = options.context;
 		
-		conbo.defaults(this, options.source, this.defaults)		
+		conbo.defaults(this, options.source, this.defaults);	
 		delete this.defaults;
 		
 		this.initialize.apply(this, arguments);
@@ -3062,7 +3062,7 @@ conbo.Hash = conbo.EventDispatcher.extend(
 	{
 		var filter = function(value) 
 		{
-			return String(value).indexOf('_') != 0; 
+			return String(value).indexOf('_') !== 0; 
 		};
 		
 		var obj = {},
@@ -3082,7 +3082,7 @@ conbo.Hash = conbo.EventDispatcher.extend(
 		return 'conbo.Hash';
 	}
 	
-})
+});
 
 __denumerate(conbo.Hash.prototype);
 
@@ -3330,7 +3330,7 @@ conbo.List = conbo.EventDispatcher.extend(
 		var replaced = this.source[index];
 		this.__updateBindings(replaced, false);
 		
-		this.source[index] = model
+		this.source[index] = model;
 		this.__updateBindings(model);
 		
 		if (this.length > length)
@@ -3394,7 +3394,7 @@ conbo.List = conbo.EventDispatcher.extend(
 	 */
 	__updateBindings: function(items, enabled)
 	{
-		var method = enabled === false ? 'removeEventListener' : 'addEventListener'
+		var method = enabled === false ? 'removeEventListener' : 'addEventListener';
 		
 		items = (conbo.isArray(items) ? items : [items]).slice();
 		
@@ -4068,8 +4068,8 @@ conbo.AttributeBindings = conbo.Class.extend(
 					return regEx.test(el); 
 				})
 				.join(' ');
-			}
-		}
+			};
+		};
 		
 		var validate = function()
 		{
@@ -4559,7 +4559,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 					eventHandler = function(event)
 					{
 						fn.apply(attrFuncs, [element, parseFunction(source[propertyName])].concat(args));
-					}
+					};
 					
 					eventType = 'change:'+propertyName;
 					
@@ -4577,15 +4577,15 @@ conbo.BindingUtils = conbo.Class.extend({},
 				var nativeAttr = split[1];
 				
 				switch (true)
-				{	
-					case !nativeAttr.indexOf('on') == 0 &amp;&amp; conbo.isFunction(element[nativeAttr]):
+				{
+					case nativeAttr.indexOf('on') !== 0 &amp;&amp; conbo.isFunction(element[nativeAttr]):
 					{
 						conbo.warn(attributeName+' is not a recognised attribute, did you mean cb-on'+nativeAttr+'?');
 						break;
 					}
 					
 					// If it's an event, add a listener
-					case nativeAttr.indexOf('on') == 0:
+					case nativeAttr.indexOf('on') === 0:
 					{
 						if (!conbo.isFunction(source[propertyName]))
 						{
@@ -4614,7 +4614,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 							value = conbo.isBoolean(element[nativeAttr]) ? !!value : value;
 							
 							element[nativeAttr] = value;
-						}
+						};
 					    
 						eventType = 'change:'+propertyName;
 						source.addEventListener(eventType, eventHandler);
@@ -4760,10 +4760,10 @@ conbo.BindingUtils = conbo.Class.extend({},
 			{
 				type = conbo.toUnderscoreCase(key, '-');
 				
-				var split = type.split('-');
+				var typeSplit = type.split('-');
 				
-				if (split.length &lt; 2 
-					|| split[0] == 'data' 
+				if (typeSplit.length &lt; 2 
+					|| typeSplit[0] == 'data' 
 					|| __isReservedAttr(type))
 				{
 					return;
@@ -5159,7 +5159,7 @@ conbo.MutationObserver = conbo.EventDispatcher.extend(
 			var mo = new MutationObserver(this.bind(function(mutations, observer)
 			{
 				var added = mutations[0].addedNodes;
-				var removed = mutations[0].removedNodes
+				var removed = mutations[0].removedNodes;
 				
 				if (added.length)
 				{
@@ -5886,10 +5886,10 @@ conbo.Application = conbo.View.extend(
 	{
 		if (value == this.observeEnabled) return;
 		
+		var mo;
+			
 		if (value)
 		{
-			var mo;
-			
 			mo = new conbo.MutationObserver();
 			mo.observe(this.el);
 			
@@ -5904,8 +5904,7 @@ conbo.Application = conbo.View.extend(
 		}
 		else if (this.__mo)
 		{
-			var mo = this.__mo;
-			
+			mo = this.__mo;
 			mo.removeEventListener();
 			mo.disconnect();
 			
@@ -6048,7 +6047,6 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 		    'rootUrl', 
 		    'contentType', 
 		    'dataType', 
-		    'isRpc', 
 		    'headers', 
 		    'encodeFunction', 
 		    'decodeFunction', 
@@ -6059,6 +6057,9 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 		conbo.EventDispatcher.prototype.constructor.apply(this, arguments);
 	},
 	
+	/**
+	 * The root URL of the web service
+	 */
 	get rootUrl()
 	{
 		return this._rootUrl || '';
@@ -6076,6 +6077,14 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 		this._rootUrl = value;
 	},
 	
+	/**
+	 * Call a method of the web service
+	 * 
+	 * @param	{String}	command - The name of the command
+	 * @param	{Object}	data - Object containing the data to send to the web service
+	 * @param	{String}	method - GET, POST, etc (default: GET)
+	 * @param	{Class}		resultClass - Optional
+	 */
 	call: function(command, data, method, resultClass)
 	{
 		var contentType;
@@ -6083,10 +6092,7 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 		data = conbo.clone(data || {});
 		method || (method = 'GET');
 		resultClass || (resultClass = this.resultClass);
-		
-		contentType = this.contentType
-			|| (this.isRpc ? 'application/json' : 'application/x-www-form-urlencoded');
-		
+		contentType = this.contentType || conbo.HttpService.CONTENT_TYPE_JSON;
 		command = this.parseUrl(command, data);
 		data = this.encodeFunction(data);
 		
@@ -6115,9 +6121,9 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	
 	/**
 	 * Add one or more remote commands as methods of this class instance
-	 * @param	{String}	command
-	 * @param	{String}	method
-	 * @param	{Class}		resultClass
+	 * @param	{String}	command - The name of the command
+	 * @param	{String}	method - GET, POST, etc (default: GET)
+	 * @param	{Class}		resultClass - Optional
 	 */
 	addCommand: function(command, method, resultClass)
 	{
@@ -6162,7 +6168,9 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	 */
 	encodeFunction: function(data)
 	{
-		return this.isRpc ? JSON.stringify(data) : data;
+		return this.contentType == conbo.HttpService.CONTENT_TYPE_JSON
+			? JSON.stringify(data) 
+			: data;
 	},
 	
 	/**
@@ -6206,8 +6214,13 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	}
 	
 	
-}).implement(conbo.IInjectable);
-
+},
+/** @lends conbo.HttpService */
+{
+	CONTENT_TYPE_JSON: 'application/json',
+	CONTENT_TYPE_FORM: 'application/x-www-form-urlencoded'
+})
+.implement(conbo.IInjectable);
 
 /**
  * Async Token
@@ -6840,7 +6853,7 @@ conbo.Router = conbo.EventDispatcher.extend(
 				name:		name,
 				parameters:	args,
 				fragment:	fragment
-			}
+			};
 			
 			this.dispatchEvent(new conbo.ConboEvent('route:'+name, options));
 			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ROUTE, options));
@@ -6972,7 +6985,7 @@ __denumerate(conbo.Router.prototype);
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Mon Jan 18 2016 15:01:42 GMT+0000 (GMT Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Mon Feb 01 2016 17:36:36 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

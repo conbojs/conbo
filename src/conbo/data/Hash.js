@@ -19,7 +19,7 @@ conbo.Hash = conbo.EventDispatcher.extend(
 		
 		if (!!options.context) this.context = options.context;
 		
-		conbo.defaults(this, options.source, this.defaults)		
+		conbo.defaults(this, options.source, this.defaults);	
 		delete this.defaults;
 		
 		this.initialize.apply(this, arguments);
@@ -34,7 +34,7 @@ conbo.Hash = conbo.EventDispatcher.extend(
 	{
 		var filter = function(value) 
 		{
-			return String(value).indexOf('_') != 0; 
+			return String(value).indexOf('_') !== 0; 
 		};
 		
 		var obj = {},
@@ -54,6 +54,6 @@ conbo.Hash = conbo.EventDispatcher.extend(
 		return 'conbo.Hash';
 	}
 	
-})
+});
 
 __denumerate(conbo.Hash.prototype);

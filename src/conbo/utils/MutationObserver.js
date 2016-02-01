@@ -30,7 +30,7 @@ conbo.MutationObserver = conbo.EventDispatcher.extend(
 			var mo = new MutationObserver(this.bind(function(mutations, observer)
 			{
 				var added = mutations[0].addedNodes;
-				var removed = mutations[0].removedNodes
+				var removed = mutations[0].removedNodes;
 				
 				if (added.length)
 				{

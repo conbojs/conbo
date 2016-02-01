@@ -54,10 +54,10 @@ conbo.Application = conbo.View.extend(
 	{
 		if (value == this.observeEnabled) return;
 		
+		var mo;
+			
 		if (value)
 		{
-			var mo;
-			
 			mo = new conbo.MutationObserver();
 			mo.observe(this.el);
 			
@@ -72,8 +72,7 @@ conbo.Application = conbo.View.extend(
 		}
 		else if (this.__mo)
 		{
-			var mo = this.__mo;
-			
+			mo = this.__mo;
 			mo.removeEventListener();
 			mo.disconnect();
 			

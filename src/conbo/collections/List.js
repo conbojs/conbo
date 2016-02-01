@@ -187,7 +187,7 @@ conbo.List = conbo.EventDispatcher.extend(
 		var replaced = this.source[index];
 		this.__updateBindings(replaced, false);
 		
-		this.source[index] = model
+		this.source[index] = model;
 		this.__updateBindings(model);
 		
 		if (this.length > length)
@@ -251,7 +251,7 @@ conbo.List = conbo.EventDispatcher.extend(
 	 */
 	__updateBindings: function(items, enabled)
 	{
-		var method = enabled === false ? 'removeEventListener' : 'addEventListener'
+		var method = enabled === false ? 'removeEventListener' : 'addEventListener';
 		
 		items = (conbo.isArray(items) ? items : [items]).slice();
 		

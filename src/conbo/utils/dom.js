@@ -16,7 +16,6 @@ conbo.initDom = function(namespace, rootEl)
 	if (!namespace)
 	{
 		throw new Error('initDom: namespace is undefined');
-		return this;
 	}
 	
 	if (conbo.isString(namespace))
@@ -38,7 +37,7 @@ conbo.initDom = function(namespace, rootEl)
 	   		if (appClass 
 	   			&& conbo.isClass(appClass, conbo.Application))
 	   		{
-	   			new appClass({el:el})
+	   			new appClass({el:el});
 	   		}
 	   	});
 	});
@@ -167,7 +166,7 @@ if (!!$)
 				for (var attr in attrs) 
 				{
 					$j.attr(attr, attrs[attr]);
-				};
+				}
 			});
 			
 			return $el;
@@ -204,7 +203,7 @@ if (!!$)
 		
 		for (var i=0; i<attrs.length; ++i)
 		{
-			if (attrs[i].name.indexOf('cb-') != 0) continue;
+			if (attrs[i].name.indexOf('cb-') !== 0) continue;
 			
 			propertyName = attrs[i].name.substr(3);
 			

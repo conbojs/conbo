@@ -52,15 +52,16 @@
 	 */
 	 conbo.forEach = function(obj, iterator, scope) {
 		if (obj == null) return obj;
+		var i;
 		if (nativeForEach && obj.forEach === nativeForEach) {
 			obj.forEach(iterator, scope);
 		} else if (obj.length === +obj.length) {
-			for (var i = 0, length = obj.length; i < length; i++) {
+			for (i = 0, length = obj.length; i < length; i++) {
 				if (iterator.call(scope, obj[i], i, obj) === breaker) return;
 			}
 		} else {
 			var keys = conbo.keys(obj);
-			for (var i = 0, length = keys.length; i < length; i++) {
+			for (i = 0, length = keys.length; i < length; i++) {
 				if (iterator.call(scope, obj[keys[i]], keys[i], obj) === breaker) return;
 			}
 		}
@@ -598,14 +599,14 @@
 	 * @param		{object}	scope - The scope to bind the method to
 	 */
 	conbo.bind = function(func, scope) {
-		var args, bound;
+		var args;
 		if (nativeBind && func.bind === nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
-		if (!conbo.isFunction(func)) throw new TypeError;
+		if (!conbo.isFunction(func)) throw new TypeError();
 		args = slice.call(arguments, 2);
-		return bound = function() {
+		return function() {
 			if (!(this instanceof bound)) return func.apply(scope, args.concat(slice.call(arguments)));
 			ctor.prototype = func.prototype;
-			var self = new ctor;
+			var self = new ctor();
 			ctor.prototype = null;
 			var result = func.apply(self, args.concat(slice.call(arguments)));
 			if (Object(result) === result) return result;
@@ -886,7 +887,7 @@
 			case '[object Number]':
 				// `NaN`s are equivalent, but non-reflexive. An `egal` comparison is performed for
 				// other numeric values.
-				return a != +a ? b != +b : (a == 0 ? 1 / a == 1 / b : a == +b);
+				return a != +a ? b != +b : (a === 0 ? 1 / a == 1 / b : a == +b);
 			case '[object Date]':
 			case '[object Boolean]':
 				// Coerce dates and booleans to numeric primitive values. Dates are compared by their
@@ -983,7 +984,7 @@
 			|| (!isNaN(value) && !parseFloat(value)) // "0", "0.0", etc
 			|| (conbo.isObject(value) && !conbo.keys(value).length) // {}
 			;
-	}
+	};
 	
 	/**
 	 * Is a given value a DOM element?
@@ -1149,7 +1150,7 @@
 					return false;
 			}
 			return true;
-		}
+		};
 	};
 	
 	/**
@@ -1276,7 +1277,7 @@ conbo.formatNumber = function(number, decimals, decimalPoint, thousandsSeparator
 	}
 	
 	return s.join(dec);
-}
+};
 
 /**
  * Format a number as a currency
@@ -1295,7 +1296,7 @@ conbo.formatCurrency = function(number, symbol, suffixed, decimals, decimalPoint
 	symbol || (symbol = '');
 	var n = conbo.formatNumber(number, decimals, decimalPoint, thousandsSeparator);
 	return suffixed ? n+symbol : symbol+n;
-}
+};
 
 /**
  * Encodes all of the special characters contained in a string into HTML 
@@ -1580,7 +1581,7 @@ conbo.isAccessor = function(obj, propName)
 	// TODO Should we check prototype too, using obj.__proto__ or Object.getPrototypeOf(obj)?
 	
 	return !!descriptor && (!!descriptor.set || !!descriptor.get);
-}
+};
 
 /**
  * Is the specified property bindable?
@@ -1651,7 +1652,7 @@ logMethods.forEach(function(method)
 	{
 		if (!console || !conbo.logEnabled) return;
 		console[method].apply(console, arguments);		
-	}
+	};
 });
 
 /*

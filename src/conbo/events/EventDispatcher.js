@@ -143,7 +143,7 @@ conbo.EventDispatcher = conbo.Class.extend(
 		
 		if (!(type in this.__queue)) this.__queue[type] = [];
 		this.__queue[type].push({handler:handler, scope:scope, once:once, priority:priority||0});
-		this.__queue[type].sort(function(a,b){return b.priority-a.priority});
+		this.__queue[type].sort(function(a,b){return b.priority-a.priority;});
 	},
 	
 	/**

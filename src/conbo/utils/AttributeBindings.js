@@ -503,8 +503,8 @@ conbo.AttributeBindings = conbo.Class.extend(
 					return regEx.test(el); 
 				})
 				.join(' ');
-			}
-		}
+			};
+		};
 		
 		var validate = function()
 		{

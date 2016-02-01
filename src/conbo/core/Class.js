@@ -47,7 +47,7 @@ conbo.Class.prototype =
 	 */
 	bindAll: function()
 	{
-		conbo.bindAll.apply(conbo, [this].concat(conbo.toArray(arguments)))
+		conbo.bindAll.apply(conbo, [this].concat(conbo.toArray(arguments)));
 		return this;
 	},
 	
@@ -96,7 +96,7 @@ conbo.Class.extend = function(protoProps, staticProps)
 	 */
 	var Surrogate = function(){ this.constructor = child; };
 	Surrogate.prototype = parent.prototype;
-	child.prototype = new Surrogate;
+	child.prototype = new Surrogate();
 	
 	if (protoProps)
 	{

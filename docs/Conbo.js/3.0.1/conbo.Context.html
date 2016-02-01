@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: History</title>
+    <title>JSDoc: Class: Context</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: History</h1>
+    <h1 class="page-title">Class: Context</h1>
 
     
 
@@ -29,7 +29,7 @@
 <header>
     
         <h2>
-            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>History</h2>
+            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>Context</h2>
         
     
 </header>
@@ -41,14 +41,14 @@
 
     
 
-    <h4 class="name" id="History"><span class="type-signature"></span>new History<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Context"><span class="type-signature"></span>new Context<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    conbo.History handles cross-browser history management using the onhashchange event and URL fragments
+    conbo.ContextThis is your application's event bus and dependency injector, and isusually where all your models and web service classes are registered,using mapSingleton(...), and Command classes are mapped to events
 </div>
 
 
@@ -99,19 +99,12 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6481">line 6481</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2785">line 2785</a>
     </li></ul></dd>
     
 
     
 
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="https://developer.mozilla.org/en-US/docs/DOM/window.onhashchange">https://developer.mozilla.org/en-US/docs/DOM/window.onhashchange</a></li>
-        </ul>
-    </dd>
     
 
     
@@ -158,130 +151,6 @@
 
     
         <h3 class="subsection-title">Members</h3>
-
-        
-            
-<h4 class="name" id="isSupported"><span class="type-signature"></span>isSupported<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    Whether or not Conbo's History class is supported by the current browser
-</div>
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6525">line 6525</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="started"><span class="type-signature"></span>started<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    Has the history handling already been started?
-</div>
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6496">line 6496</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
 
         
             
@@ -480,6 +349,88 @@
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2640">line 2640</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="addTo"><span class="type-signature"></span>addTo<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Add this context to the specified Object
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2927">line 2927</a>
     </li></ul></dd>
     
 
@@ -753,14 +704,14 @@
 
     
 
-    <h4 class="name" id="checkUrl"><span class="type-signature"></span>checkUrl<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="constructor"><span class="type-signature"></span>constructor<span class="signature">(options)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Checks the current URL to see if it has changed, and if it has,calls `loadUrl`
+    Constructor: DO NOT override! (Use initialize instead)
 </div>
 
 
@@ -769,6 +720,181 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        conbo.EventDispatcher#constructor
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2803">line 2803</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="createSubcontext"><span class="type-signature"></span>createSubcontext<span class="signature">(The)</span><span class="type-signature"> &rarr; {<a href="conbo.Context.html">conbo.Context</a>}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Create a new subcontext that shares the same applicationand namespace as this one
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>The</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">context class to use (default: conbo.Context)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -804,7 +930,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6605">line 6605</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2832">line 2832</a>
     </li></ul></dd>
     
 
@@ -827,6 +953,24 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="conbo.Context.html">conbo.Context</a></span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -1097,14 +1241,14 @@
 
     
 
-    <h4 class="name" id="getFragment"><span class="type-signature"></span>getFragment<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="initialize"><span class="type-signature"></span>initialize<span class="signature">(options)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Get the cross-browser normalized URL fragment, either from theURL, the hash, or the override.
+    Initialize: Override this
 </div>
 
 
@@ -1113,6 +1257,50 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -1127,6 +1315,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="conbo.EventDispatcher.html#initialize">conbo.EventDispatcher#initialize</a>
+    </li></ul></dd>
     
 
     
@@ -1148,7 +1341,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6544">line 6544</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2823">line 2823</a>
     </li></ul></dd>
     
 
@@ -1179,14 +1372,14 @@
 
     
 
-    <h4 class="name" id="getHash"><span class="type-signature"></span>getHash<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="injectSingletons"><span class="type-signature"></span>injectSingletons<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Gets the true hash value. Cannot use location.hash directly dueto bug in Firefox where location.hash will always be decoded.
+    Inject singleton instances into specified object
 </div>
 
 
@@ -1230,7 +1423,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6534">line 6534</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2935">line 2935</a>
     </li></ul></dd>
     
 
@@ -1261,14 +1454,14 @@
 
     
 
-    <h4 class="name" id="initialize"><span class="type-signature"></span>initialize<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="mapCommand"><span class="type-signature"></span>mapCommand<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Entry pointIn most circumstances, custom classes should override initialize and use it as your class constructor
+    Map specified Command class the given event
 </div>
 
 
@@ -1289,11 +1482,6 @@
 
     
 
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.Class.html#initialize">conbo.Class#initialize</a>
-    </li></ul></dd>
     
 
     
@@ -1317,7 +1505,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2196">line 2196</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2841">line 2841</a>
     </li></ul></dd>
     
 
@@ -1348,14 +1536,14 @@
 
     
 
-    <h4 class="name" id="loadUrl"><span class="type-signature"></span>loadUrl<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="mapSingleton"><span class="type-signature"></span>mapSingleton<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Attempt to load the current URL fragment. If a route succeeds with amatch, returns `true`. If no defined routes matches the fragment, returns `false`.
+    Map class instance to a property nameTo inject a property into a class, register the property namewith the Context and set the value of the property in yourclass to 'use inject'
 </div>
 
 
@@ -1399,7 +1587,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6623">line 6623</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2891">line 2891</a>
     </li></ul></dd>
     
 
@@ -1424,86 +1612,11 @@
 
 
 
-
-        
-            
-
+    <h5>Examples</h5>
     
+    <pre class="prettyprint"><code>context.mapSingleton('myProperty', MyModel);</code></pre>
 
-    <h4 class="name" id="navigate"><span class="type-signature"></span>navigate<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Save a fragment into the hash history, or replace the URL stateif the 'replace' option is passed. You are responsible for properlyURL-encoding the fragment in advance.The options object can contain `trigger: true` if you wish to have theroute callback be fired (not usually desirable), or `replace: true`, ifyou wish to modify the current URL without adding an entry to the history.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6648">line 6648</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
+    <pre class="prettyprint"><code>myProperty: undefined</code></pre>
 
 
 
@@ -1679,14 +1792,14 @@
 
     
 
-    <h4 class="name" id="route"><span class="type-signature"></span>route<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="unmapCommand"><span class="type-signature"></span>unmapCommand<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Add a route to be tested when the fragment changes. Routes addedlater may override previous routes.
+    Unmap specified Command class from given event
 </div>
 
 
@@ -1730,7 +1843,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6594">line 6594</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2862">line 2862</a>
     </li></ul></dd>
     
 
@@ -1761,14 +1874,14 @@
 
     
 
-    <h4 class="name" id="start"><span class="type-signature"></span>start<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="unmapSingleton"><span class="type-signature"></span>unmapSingleton<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Start the hash change handling, returning `true` if the currentURL matches an existing route, and `false` otherwise.
+    Unmap class instance from a property name
 </div>
 
 
@@ -1812,89 +1925,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6554">line 6554</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="stop"><span class="type-signature"></span>stop<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Disable conbo.history, perhaps temporarily. Not useful in a real app,but possibly useful for unit testing Routers.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6580">line 6580</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2913">line 2913</a>
     </li></ul></dd>
     
 
@@ -1942,7 +1973,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Mon Jan 18 2016 15:01:43 GMT+0000 (GMT Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Mon Feb 01 2016 17:36:36 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

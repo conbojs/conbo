@@ -358,7 +358,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 					eventHandler = function(event)
 					{
 						fn.apply(attrFuncs, [element, parseFunction(source[propertyName])].concat(args));
-					}
+					};
 					
 					eventType = 'change:'+propertyName;
 					
@@ -376,15 +376,15 @@ conbo.BindingUtils = conbo.Class.extend({},
 				var nativeAttr = split[1];
 				
 				switch (true)
-				{	
-					case !nativeAttr.indexOf('on') == 0 && conbo.isFunction(element[nativeAttr]):
+				{
+					case nativeAttr.indexOf('on') !== 0 && conbo.isFunction(element[nativeAttr]):
 					{
 						conbo.warn(attributeName+' is not a recognised attribute, did you mean cb-on'+nativeAttr+'?');
 						break;
 					}
 					
 					// If it's an event, add a listener
-					case nativeAttr.indexOf('on') == 0:
+					case nativeAttr.indexOf('on') === 0:
 					{
 						if (!conbo.isFunction(source[propertyName]))
 						{
@@ -413,7 +413,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 							value = conbo.isBoolean(element[nativeAttr]) ? !!value : value;
 							
 							element[nativeAttr] = value;
-						}
+						};
 					    
 						eventType = 'change:'+propertyName;
 						source.addEventListener(eventType, eventHandler);
@@ -559,10 +559,10 @@ conbo.BindingUtils = conbo.Class.extend({},
 			{
 				type = conbo.toUnderscoreCase(key, '-');
 				
-				var split = type.split('-');
+				var typeSplit = type.split('-');
 				
-				if (split.length < 2 
-					|| split[0] == 'data' 
+				if (typeSplit.length < 2 
+					|| typeSplit[0] == 'data' 
 					|| __isReservedAttr(type))
 				{
 					return;
