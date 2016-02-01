@@ -192,6 +192,6 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 /** @lends conbo.HttpService */
 {
 	CONTENT_TYPE_JSON: 'application/json',
-	CONTENT_TYPE_X_WWW_FORM_URLENCODED: 'application/x-www-form-urlencoded'
+	CONTENT_TYPE_FORM: 'application/x-www-form-urlencoded'
 })
 .implement(conbo.IInjectable);
