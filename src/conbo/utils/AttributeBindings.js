@@ -198,8 +198,6 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 */
 	cbRepeat: function(el, values, options, itemRendererClassName)
 	{
-		console.log(el);
-		
 		var a, 
 			args = conbo.toArray(arguments),
 			$el = $(el),
