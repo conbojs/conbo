@@ -275,7 +275,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 			var view = new viewClass(conbo.setValues(viewOptions, options));
 			
 			view.$el.addClass('cb-repeat');
-			$el.after(view.el);
+			$el.before(view.el);
 			
 			elements.push(view.el);
 		});
