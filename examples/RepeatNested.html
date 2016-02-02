@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	
+	<head>
+		<title>Conbo.js - Nested Repeat</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0">
+	</head>
+	
+	<body cb-app="MyApp">
+		
+		<ul>
+			<li cb-repeat="myList">
+				<strong cb-html="data.label"></strong>:
+				<ol>
+					<li cb-repeat="data.names" cb-html="data"></li>
+				</ol>
+			</li>
+		</ul>
+		
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="../build/conbo.js"></script>
+		<script src="RepeatNested.js"></script>
+		
+	</body>
+
+</html>
