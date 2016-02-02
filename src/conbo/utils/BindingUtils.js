@@ -1,5 +1,9 @@
-var __cbAttrs = new conbo.AttributeBindings();
-var __customAttrs = {};
+var BindingUtils__cbAttrs = new conbo.AttributeBindings()
+	, BindingUtils__customAttrs = {}
+	, BindingUtils__reservedAttrs = ['cb-app', 'cb-view', 'cb-glimpse', 'cb-content']
+	, BindingUtils__reservedNamespaces = ['cb', 'data', 'aria']
+	, BindingUtils__registeredNamespaces = ['cb']
+	;
 
 /**
  * Set the value of one or more property and dispatch a change:[propertyName] event
@@ -15,7 +19,7 @@ var __customAttrs = {};
  * @example	BindingUtils.__set.call(target, {n:123, s:'abc'});
  * @returns	this
  */
-var __set = function(propName, value)
+var BindingUtils__set = function(propName, value)
 {
 	if (this[propName] === value)
 	{
@@ -41,21 +45,15 @@ var __set = function(propName, value)
 };
 
 /**
- * Reserved attributes
- * @private
- */
-var __reservedAttrs = ['cb-app', 'cb-view', 'cb-glimpse', 'cb-content'];
-
-/**
  * Is the specified attribute reserved for another purpose?
  * 
  * @private
  * @param 		{String}	value
  * @returns		{Boolean}
  */
-var __isReservedAttr = function(value)
+var BindingUtils__isReservedAttr = function(value)
 {
-	return __reservedAttrs.indexOf(value) != -1;
+	return BindingUtils__reservedAttrs.indexOf(value) != -1;
 };
 
 /**
@@ -63,7 +61,7 @@ var __isReservedAttr = function(value)
  * @private
  * @param value
  */
-var __splitAttr = function(attribute, value)
+var BindingUtils__splitAttr = function(attribute, value)
 {
 	if (!value || !conbo.isString(value))
 	{
@@ -74,7 +72,7 @@ var __splitAttr = function(attribute, value)
 		o = {},
 		i;
 	
-	var c = __cbAttrs.canHandleMultiple(attribute)
+	var c = BindingUtils__cbAttrs.canHandleMultiple(attribute)
 		? a.length
 		: 1;
 	
@@ -172,7 +170,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 							
 							eventHandler = function(event)
 							{
-								__set.call(source, propName, $el.is(':checked'));
+								BindingUtils__set.call(source, propName, $el.is(':checked'));
 							};
 							
 							$el.on(eventType, eventHandler);
@@ -226,7 +224,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 					
 					eventHandler = function(event)
 					{	
-						__set.call(source, propName, $el.val() === undefined ? $el.html() : $el.val());
+						BindingUtils__set.call(source, propName, $el.val() === undefined ? $el.html() : $el.val());
 					};
 					
 					$el.on(eventType, eventHandler);
@@ -292,7 +290,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	{
 		var bindings = [];
 		
-		if (__isReservedAttr(attributeName))
+		if (BindingUtils__isReservedAttr(attributeName))
 		{
 			return bindings;
 		}
@@ -325,10 +323,10 @@ conbo.BindingUtils = conbo.Class.extend({},
 			camelCase = conbo.toCamelCase(attributeName),
 			ns = split[0],
 			isConboNs = (ns == 'cb'),
-			isConbo = isConboNs && camelCase in __cbAttrs,
-			isCustom = !isConbo && camelCase in __customAttrs,
+			isConbo = isConboNs && camelCase in BindingUtils__cbAttrs,
+			isCustom = !isConbo && camelCase in BindingUtils__customAttrs,
 			isNative = isConboNs && split.length == 2 && split[1] in element,
-			attrFuncs = __cbAttrs
+			attrFuncs = BindingUtils__cbAttrs
 			;
 		
 		parseFunction || (parseFunction = this.defaultParseFunction);
@@ -337,7 +335,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 		{
 			// If we have a bespoke handler for this attribute, use it
 			case isCustom:
-				attrFuncs = __customAttrs;
+				attrFuncs = BindingUtils__customAttrs;
 			
 			case isConbo:
 			{
@@ -425,7 +423,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 						
 						eventHandler = function()
 		     			{
-							__set.call(source, propertyName, element[nativeAttr]);
+							BindingUtils__set.call(source, propertyName, element[nativeAttr]);
 		     			};
 						
 		     			eventType = 'input change';
@@ -465,7 +463,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 		{
 			var camelCase = conbo.toCamelCase(attributeName),
 				ns = attributeName.split('-')[0],
-				attrFuncs = (ns == 'cb') ? __cbAttrs : __customAttrs,
+				attrFuncs = (ns == 'cb') ? BindingUtils__cbAttrs : BindingUtils__customAttrs,
 				fn = attrFuncs[camelCase]
 				;
 			
@@ -494,7 +492,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	attributeExists: function(attributeName)
 	{
 		var camelCase = conbo.toCamelCase(attributeName);
-		return camelCase in __cbAttrs || camelCase in __customAttrs;
+		return camelCase in BindingUtils__cbAttrs || camelCase in BindingUtils__customAttrs;
 	},
 	
 	/**
@@ -562,8 +560,8 @@ conbo.BindingUtils = conbo.Class.extend({},
 				var typeSplit = type.split('-');
 				
 				if (typeSplit.length < 2 
-					|| typeSplit[0] == 'data' 
-					|| __isReservedAttr(type))
+					|| BindingUtils__registeredNamespaces.indexOf(typeSplit[0]) == -1 
+					|| BindingUtils__isReservedAttr(type))
 				{
 					return;
 				}
@@ -571,7 +569,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 				var a, i, f,
 					d = attrs[key],
 					b = d.split('|'),
-					splits = __splitAttr(type, b[0]);
+					splits = BindingUtils__splitAttr(type, b[0]);
 				
 				if (!splits)
 				{
@@ -764,7 +762,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 				return;
 			}
 			
-			__set.call(destination, destinationPropertyName, event.value);
+			BindingUtils__set.call(destination, destinationPropertyName, event.value);
 		});
 		
 		if (twoWay && destination instanceof conbo.EventDispatcher)
@@ -884,17 +882,18 @@ conbo.BindingUtils = conbo.Class.extend({},
 			return this;
 		}
 		
-		var reserved = ['cb', 'data'];
 		var ns = split[0];
 		
-		if (reserved.indexOf(ns) != -1)
+		if (BindingUtils__reservedNamespaces.indexOf(ns) != -1)
 		{
 			conbo.warn("registerAttribute: custom attributes cannot to use the "+ns+" namespace");
 			return this;
 		}
 		
+		BindingUtils__registeredNamespaces = conbo.union(BindingUtils__registeredNamespaces, [ns]);
+		
 		handler.readOnly = !!readOnly;
-		__customAttrs[name] = handler;
+		BindingUtils__customAttrs[name] = handler;
 		
 		return this;
 	},

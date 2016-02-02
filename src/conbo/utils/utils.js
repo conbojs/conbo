@@ -1243,16 +1243,40 @@ conbo.toUnderscoreCase = function(string, separator)
 };
 
 /**
+ * Add a leading zero to the specified number and return it as a string
+ * @memberof 	conbo
+ * @param		{number}	number - The number to add a leading zero to
+ * @param		{number}	minLength - the minumum length of the returned string (default: 2)
+ */
+conbo.addLeadingZero = function(number, minLength)
+{
+	number || (number = 0);
+	minLength || (minLength = 2);
+	
+	var string = number.toString();
+		
+	if (number < Math.pow(10, minLength-1))
+	{
+		while (string.length < minLength)
+		{
+			string = '0'+string;
+		}
+	}
+	
+	return string;
+};
+
+/**
  * Format a number using the selected number of decimals, using the 
  * provided decimal point, thousands separator 
  * 
  * @memberof	conbo
- * @see http://phpjs.org/functions/number_format/
- * @param 	number
- * @param 	decimals				default: 0
- * @param 	decimalPoint			default: '.'
- * @param 	thousandsSeparator	default: ','
- * @returns	String	Formatted number
+ * @see 		http://phpjs.org/functions/number_format/
+ * @param 		number
+ * @param 		decimals				default: 0
+ * @param 		decimalPoint			default: '.'
+ * @param 		thousandsSeparator		default: ','
+ * @returns		{string}				Formatted number
  */
 conbo.formatNumber = function(number, decimals, decimalPoint, thousandsSeparator) 
 {
