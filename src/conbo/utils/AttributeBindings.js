@@ -198,6 +198,8 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 */
 	cbRepeat: function(el, values, options, itemRendererClassName)
 	{
+		console.log(el);
+		
 		var a, 
 			args = conbo.toArray(arguments),
 			$el = $(el),
@@ -272,14 +274,14 @@ conbo.AttributeBindings = conbo.Class.extend(
 				isLast: index == a.length-1
 			};
 			
-			var view = new viewClass(conbo.extend(viewOptions, options));
+			var view = new viewClass(conbo.setValues(viewOptions, options));
 			
 			view.$el.addClass('cb-repeat');
+			$el.after(view.el);
 			
 			elements.push(view.el);
 		});
 		
-		$el.after(elements);
 		el.cbRepeat.elements = elements;
 		
 		!!elements.length

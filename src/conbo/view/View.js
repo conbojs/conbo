@@ -56,7 +56,10 @@ conbo.View = conbo.Glimpse.extend(
 		  , template = this.template
 		  ;
 		
-		this.__content = this.hasContent ? '' : this.$el.html();
+		if (this.hasContent)
+		{
+			this.__content =  this.$el.html();
+		}
 		
 		if (!!templateUrl)
 		{
