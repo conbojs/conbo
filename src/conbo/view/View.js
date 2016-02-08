@@ -36,7 +36,7 @@ conbo.View = conbo.Glimpse.extend(
 			// Adds interface properties
 			conbo.intersection
 			(
-				conbo.properties(Object.getPrototypeOf(this)), 
+				conbo.properties(this, true), 
 				conbo.properties(options)
 			)
 		);

@@ -22,7 +22,7 @@ conbo('conbo', function(undefined)
 	 * Very simple item renderer example that simply applies a CSS class
 	 * (the cb-repeat item renderer parameter is optional)
 	 */
-	ns.MyItemRenderer = conbo.View.extend
+	ns.MyItemRenderer = conbo.ItemRenderer.extend
 	({
 		className: 'item-renderer',
 	}),

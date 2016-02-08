@@ -13,20 +13,20 @@ conbo.IInjectable =
 {
 	get context()
 	{
-		return this.__context__;
+		return this.__context;
 	},
 	
 	set context(value)
 	{
-		if (value == this.__context__) return;
+		if (value == this.__context) return;
 		
 		if (value instanceof conbo.Context) 
 		{
 			value.injectSingletons(this);
 		}
 		
-		this.__context__ = value;
+		this.__context = value;
 		
-		__denumerate(this, '__context__');
+		__denumerate(this, '__context');
 	}
 };

@@ -210,7 +210,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 			viewClass = conbo.BindingUtils.getClass(itemRendererClassName, options.context.namespace);
 		}
 		
-		viewClass || (viewClass = conbo.View);
+		viewClass || (viewClass = conbo.ItemRenderer);
 		el.cbRepeat || (el.cbRepeat = {});
 		
 		elements = el.cbRepeat.elements || [];

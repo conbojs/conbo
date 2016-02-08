@@ -57,35 +57,6 @@ var BindingUtils__isReservedAttr = function(value)
 };
 
 /**
- * Split JSON-ish attribute values into usable chunks
- * @private
- * @param value
- */
-var BindingUtils__splitAttr = function(attribute, value)
-{
-	if (!value || !conbo.isString(value))
-	{
-		return;
-	}
-	
-	var a = value.split(','),
-		o = {},
-		i;
-	
-	var c = BindingUtils__cbAttrs.canHandleMultiple(attribute)
-		? a.length
-		: 1;
-	
-	for (i=0; i<c; ++i)
-	{
-		s = a[i].split(':');
-		o[s[0]] = s[1];
-	}
-	
-	return o;
-};
-
-/**
  * Binding utility class
  * 
  * Used to bind properties of EventDispatcher class instances to DOM elements, 
@@ -566,30 +537,40 @@ conbo.BindingUtils = conbo.Class.extend({},
 					return;
 				}
 				
-				var a, i, f,
-					d = attrs[key],
-					b = d.split('|'),
-					splits = BindingUtils__splitAttr(type, b[0]);
+				var splits = attrs[key].split(',');
 				
-				if (!splits)
+				if (!BindingUtils__cbAttrs.canHandleMultiple(type))
 				{
-					scope.applyAttribute(el, type);
-					return;
+					splits = [splits[0]];
 				}
 				
-				try
-				{
-					f = !!b[1] ? eval('view.'+scope.cleanPropertyName(b[1])) : undefined;
-					f = conbo.isFunction(f) ? f : undefined;
-				}
-				catch (e) {}
+				var splitsLength = splits.length;
 				
-				for (a in splits)
+				for (var i=0; i<splitsLength; i++)
 				{
-					var param = splits[a],
-						split = scope.cleanPropertyName(a).split('.'),
+					var parseFunction,
+						d = splits[i];
+					
+					if (!d && !conbo.isString(d))
+					{
+						scope.applyAttribute(el, type);
+						break;
+					}
+					
+					var b = d.split('|'),
+						v = b[0].split(':'),
+						propertyName = v[0],
+						param = v[1],
+						split = scope.cleanPropertyName(propertyName).split('.'),
 						property = split.pop(),
 						model;
+					
+					try
+					{
+						parseFunction = !!b[1] ? eval('view.'+scope.cleanPropertyName(b[1])) : undefined;
+						parseFunction = conbo.isFunction(parseFunction) ? parseFunction : undefined;
+					}
+					catch (e) {}
 					
 					try
 					{
@@ -599,12 +580,12 @@ conbo.BindingUtils = conbo.Class.extend({},
 					
 					if (!model) 
 					{
-						conbo.warn(a+' is not defined in this View');
+						conbo.warn(propertyName+' is not defined in this View');
 						return;
 					}
 					
 					var opts = conbo.extend({propertyName:property}, options);
-					var args = [model, property, el, type, f, opts, param];
+					var args = [model, property, el, type, parseFunction, opts, param];
 	
 					bindings = bindings.concat(scope.bindAttribute.apply(scope, args));
 				}
