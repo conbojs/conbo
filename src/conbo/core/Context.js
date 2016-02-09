@@ -108,9 +108,9 @@ conbo.Context = conbo.EventDispatcher.extend(
 	{
 		if (!propertyName) throw new Error('propertyName cannot be undefined');
 		
-		if (!singletonClass) 
+		if (singletonClass === undefined)
 		{
-			conbo.warn('singletonClass for '+propertyClass+' is undefined');
+			conbo.warn('singletonClass for '+propertyName+' is undefined');
 		}
 		
 		if (this.__mapMulti(propertyName, singletonClass, this.mapSingleton)) return;
