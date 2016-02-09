@@ -258,8 +258,10 @@ conbo.AttributeBindings = conbo.Class.extend(
 		
 		// Switched from forEach loop to resolve issues using "new Array(n)"
 		// see: http://stackoverflow.com/questions/23460301/foreach-on-array-of-undefined-created-by-array-constructor
-		for (index=0,length=a.length; index<length; index++)
+		for (var index=0,length=a.length; index<length; index++)
 		{
+			var value = values[index];
+			
 			if (conbo.isObject(value) && !(value instanceof conbo.Hash))
 			{
 				value = new conbo.Hash({source:value});
