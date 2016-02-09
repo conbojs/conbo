@@ -106,7 +106,7 @@ conbo.Glimpse = conbo.EventDispatcher.extend(
 			if (this.className) el.className += ' '+this.className;
 		}
 		
-		this.setElement(el);
+		this.el = el;
 		
 		return this;
 	},
