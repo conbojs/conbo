@@ -241,7 +241,8 @@ conbo.AttributeBindings = conbo.Class.extend(
 				break;
 				
 			default:
-				a = [];
+				// To support element lists, etc
+				a = conbo.toArray(values);
 				break;
 		}
 		
@@ -255,7 +256,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 			$(elements.pop()).remove();
 		}
 		
-		a.forEach(function(value, index)
+		// Switched from forEach loop to resolve issues using "new Array(n)"
+		// see: http://stackoverflow.com/questions/23460301/foreach-on-array-of-undefined-created-by-array-constructor
+		for (index=0,length=a.length; index<length; index++)
 		{
 			if (conbo.isObject(value) && !(value instanceof conbo.Hash))
 			{
@@ -278,7 +281,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 			$el.before(view.el);
 			
 			elements.push(view.el);
-		});
+		};
 		
 		el.cbRepeat.elements = elements;
 		
