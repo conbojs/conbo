@@ -213,13 +213,13 @@ conbo.AttributeBindings = conbo.Class.extend(
 		viewClass || (viewClass = conbo.ItemRenderer);
 		el.cbRepeat || (el.cbRepeat = {});
 		
-		elements = el.cbRepeat.elements || [];
+		var elements = el.cbRepeat.elements || [];
 		
 		$el.removeClass('cb-exclude');
 		
 		if (el.cbRepeat.list != values && values instanceof conbo.List)
 		{
-			if (!!el.cbRepeat.list)
+			if (el.cbRepeat.list)
 			{
 				el.cbRepeat.list.removeEventListener('change', el.cbRepeat.changeHandler);
 			}
@@ -253,12 +253,15 @@ conbo.AttributeBindings = conbo.Class.extend(
 		
 		while (elements.length)
 		{
-			$(elements.pop()).remove();
+			var rEl = elements.pop();
+			
+			if (rEl.cbView) rEl.cbView.remove();
+			else $(rEl).remove();
 		}
 		
 		// Switched from forEach loop to resolve issues using "new Array(n)"
 		// see: http://stackoverflow.com/questions/23460301/foreach-on-array-of-undefined-created-by-array-constructor
-		for (var index=0,length=a.length; index<length; index++)
+		for (var index=0,length=a.length; index<length; ++index)
 		{
 			var value = values[index];
 			
@@ -287,8 +290,8 @@ conbo.AttributeBindings = conbo.Class.extend(
 		
 		el.cbRepeat.elements = elements;
 		
-		!!elements.length
-			? $el.remove()
+		elements.length
+			? $el.detach()
 			: $el.addClass('cb-exclude');
 	},
 	
