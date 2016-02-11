@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Application</title>
+    <title>JSDoc: Class: LocalHash</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Application</h1>
+    <h1 class="page-title">Class: LocalHash</h1>
 
     
 
@@ -29,7 +29,7 @@
 <header>
     
         <h2>
-            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>Application</h2>
+            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>LocalHash</h2>
         
     
 </header>
@@ -41,14 +41,14 @@
 
     
 
-    <h4 class="name" id="Application"><span class="type-signature"></span>new Application<span class="signature">(options)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="LocalHash"><span class="type-signature"></span>new LocalHash<span class="signature">(options)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    ApplicationBase application class for client-side applications
+    A persistent Hash that stores data in LocalStorage or Session
 </div>
 
 
@@ -100,7 +100,7 @@
 
             
 
-            <td class="description last">Object containing optional initialisation options, see View</td>
+            <td class="description last">Object containing initialisation options, including 'name' (string), 'session' (Boolean) and 'source' (object) containing default values; see Hash for other options</td>
         </tr>
 
     
@@ -148,7 +148,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line5846">line 5846</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3125">line 3125</a>
     </li></ul></dd>
     
 
@@ -184,7 +184,7 @@
 
 
     <ul>
-        <li><a href="conbo.View.html">conbo.View</a></li>
+        <li><a href="conbo.Hash.html">conbo.Hash</a></li>
     </ul>
 
 
@@ -200,197 +200,6 @@
 
     
         <h3 class="subsection-title">Members</h3>
-
-        
-            
-<h4 class="name" id="contextClass"><span class="type-signature"></span>contextClass<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    Default context class to useYou'll normally want to override this with your own
-</div>
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line5885">line 5885</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="el"><span class="type-signature"></span>el<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    The Glimpse's element
-</div>
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.Glimpse.html#el">conbo.Glimpse#el</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line5358">line 5358</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="observeEnabled"><span class="type-signature"></span>observeEnabled<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    If true, the application will automatically apply Glimpse and View classes to elements when they're added to the DOM
-</div>
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line5894">line 5894</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
 
         
             
@@ -443,74 +252,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2234">line 2234</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="tagName"><span class="type-signature"></span>tagName<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    The default `tagName` of a Glimpse is `div`.
-</div>
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.Glimpse.html#tagName">conbo.Glimpse#tagName</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line5347">line 5347</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2259">line 2259</a>
     </li></ul></dd>
     
 
@@ -655,7 +397,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2677">line 2677</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2702">line 2702</a>
     </li></ul></dd>
     
 
@@ -791,7 +533,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2244">line 2244</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2269">line 2269</a>
     </li></ul></dd>
     
 
@@ -888,7 +630,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2253">line 2253</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2278">line 2278</a>
     </li></ul></dd>
     
 
@@ -921,6 +663,137 @@
 
 
     
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="constructor"><span class="type-signature"></span>constructor<span class="signature">(options)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Constructor: DO NOT override! (Use initialize instead)
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="conbo.Hash.html#constructor">conbo.Hash#constructor</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3080">line 3080</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1029,7 +902,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2758">line 2758</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2783">line 2783</a>
     </li></ul></dd>
     
 
@@ -1160,7 +1033,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2719">line 2719</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2744">line 2744</a>
     </li></ul></dd>
     
 
@@ -1198,7 +1071,7 @@
 
 
 <div class="description">
-    Initialize is an empty function by default. Override it with your owninitialization logic.
+    Entry pointIn most circumstances, custom classes should override initialize and use it as your class constructor
 </div>
 
 
@@ -1222,7 +1095,7 @@
     
     <dt class="inherited-from">Inherited From:</dt>
     <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.Glimpse.html#initialize">conbo.Glimpse#initialize</a>
+        <a href="conbo.Class.html#initialize">conbo.Class#initialize</a>
     </li></ul></dd>
     
 
@@ -1247,7 +1120,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line5353">line 5353</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2252">line 2252</a>
     </li></ul></dd>
     
 
@@ -1414,7 +1287,94 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2695">line 2695</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2720">line 2720</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="toJSON"><span class="type-signature"></span>toJSON<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Return an object that can easily be converted into JSON
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="conbo.Hash.html#toJSON">conbo.Hash#toJSON</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3097">line 3097</a>
     </li></ul></dd>
     
 
@@ -1462,7 +1422,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Thu Feb 11 2016 12:14:13 GMT+0000 (GMT Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Thu Feb 11 2016 17:23:24 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

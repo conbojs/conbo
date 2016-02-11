@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Command</title>
+    <title>JSDoc: Class: RemoteList</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Command</h1>
+    <h1 class="page-title">Class: RemoteList</h1>
 
     
 
@@ -29,7 +29,7 @@
 <header>
     
         <h2>
-            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>Command</h2>
+            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>RemoteList</h2>
         
     
 </header>
@@ -41,14 +41,14 @@
 
     
 
-    <h4 class="name" id="Command"><span class="type-signature"></span>new Command<span class="signature">(options)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="RemoteList"><span class="type-signature"></span>new RemoteList<span class="signature">(options)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    conbo.CommandBase class for commands to be registered in your Context using mapCommand(...)
+    Remote ListUsed for syncing remote array data with a local List
 </div>
 
 
@@ -100,7 +100,7 @@
 
             
 
-            <td class="description last">Object containing optional initialisation options, including 'context' (Context)</td>
+            <td class="description last">Object containing initialisation options, including HttpService options</td>
         </tr>
 
     
@@ -148,7 +148,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line5993">line 5993</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6482">line 6482</a>
     </li></ul></dd>
     
 
@@ -184,7 +184,7 @@
 
 
     <ul>
-        <li><a href="conbo.EventDispatcher.html">conbo.EventDispatcher</a></li>
+        <li><a href="conbo.List.html">conbo.List</a></li>
     </ul>
 
 
@@ -200,6 +200,140 @@
 
     
         <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="length"><span class="type-signature"></span>length<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    The number of items in the List
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="conbo.List.html#length">conbo.List#length</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3252">line 3252</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="source"><span class="type-signature"></span>source<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    The Array used as the source for this List
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="conbo.List.html#source">conbo.List#source</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3232">line 3232</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
 
         
             
@@ -252,7 +386,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2234">line 2234</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2259">line 2259</a>
     </li></ul></dd>
     
 
@@ -397,7 +531,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2677">line 2677</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2702">line 2702</a>
     </li></ul></dd>
     
 
@@ -533,7 +667,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2244">line 2244</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2269">line 2269</a>
     </li></ul></dd>
     
 
@@ -630,7 +764,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2253">line 2253</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2278">line 2278</a>
     </li></ul></dd>
     
 
@@ -671,6 +805,93 @@
 
     
 
+    <h4 class="name" id="clone"><span class="type-signature"></span>clone<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Create a new collection with an identical list of models as this one.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="conbo.List.html#clone">conbo.List#clone</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3411">line 3411</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
     <h4 class="name" id="constructor"><span class="type-signature"></span>constructor<span class="signature">(options)</span><span class="type-signature"></span></h4>
 
     
@@ -678,7 +899,7 @@
 
 
 <div class="description">
-    Constructor: DO NOT override! (Use initialize instead)
+    Constructor
 </div>
 
 
@@ -719,13 +940,18 @@
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Object containing 'source' (Array, optional), 'rootUrl', 'command' and (optionally) 'itemClass' parameters</td>
         </tr>
 
     
@@ -748,7 +974,7 @@
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        conbo.EventDispatcher#constructor
+        <a href="conbo.List.html#constructor">conbo.List#constructor</a>
     </li></ul></dd>
     
 
@@ -771,7 +997,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6011">line 6011</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6500">line 6500</a>
     </li></ul></dd>
     
 
@@ -902,7 +1128,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2758">line 2758</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2783">line 2783</a>
     </li></ul></dd>
     
 
@@ -1033,7 +1259,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2719">line 2719</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2744">line 2744</a>
     </li></ul></dd>
     
 
@@ -1064,14 +1290,14 @@
 
     
 
-    <h4 class="name" id="execute"><span class="type-signature"></span>execute<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="getItemAt"><span class="type-signature"></span>getItemAt<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Execute: should be overriddenWhen a Command is called in response to an event registered with theContext, the class is instantiated, this method is called then the class instance is destroyed
+    Get the item at the given index; similar to array[index]
 </div>
 
 
@@ -1092,6 +1318,11 @@
 
     
 
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="conbo.List.html#getItemAt">conbo.List#getItemAt</a>
+    </li></ul></dd>
     
 
     
@@ -1115,7 +1346,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6031">line 6031</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3365">line 3365</a>
     </li></ul></dd>
     
 
@@ -1153,7 +1384,7 @@
 
 
 <div class="description">
-    Initialiser included for consistency, but should probably never be used
+    Entry pointIn most circumstances, custom classes should override initialize and use it as your class constructor
 </div>
 
 
@@ -1175,12 +1406,12 @@
     
 
     
-
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="conbo.EventDispatcher.html#initialize">conbo.EventDispatcher#initialize</a>
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="conbo.Class.html#initialize">conbo.Class#initialize</a>
     </li></ul></dd>
+    
+
     
 
     
@@ -1202,7 +1433,181 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6022">line 6022</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2252">line 2252</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="pop"><span class="type-signature"></span>pop<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Remove an item from the end of the collection.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="conbo.List.html#pop">conbo.List#pop</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3284">line 3284</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="push"><span class="type-signature"></span>push<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Add an item to the end of the collection.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="conbo.List.html#push">conbo.List#push</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3265">line 3265</a>
     </li></ul></dd>
     
 
@@ -1369,7 +1774,665 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2695">line 2695</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2720">line 2720</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="setItemAt"><span class="type-signature"></span>setItemAt<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Add (or replace) item at given index with the one specified,similar to array[index] = value;
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="conbo.List.html#setItemAt">conbo.List#setItemAt</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3374">line 3374</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="shift"><span class="type-signature"></span>shift<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Remove an item from the beginning of the collection.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="conbo.List.html#shift">conbo.List#shift</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3316">line 3316</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="slice"><span class="type-signature"></span>slice<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Slice out a sub-array of items from the collection.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="conbo.List.html#slice">conbo.List#slice</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3332">line 3332</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="sort"><span class="type-signature"></span>sort<span class="signature">(compareFunction)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Force the collection to re-sort itself.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>compareFunction</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Compare function to determine sort order</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="conbo.List.html#sort">conbo.List#sort</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3399">line 3399</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="splice"><span class="type-signature"></span>splice<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Splice out a sub-array of items from the collection.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="conbo.List.html#splice">conbo.List#splice</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3343">line 3343</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="toJSON"><span class="type-signature"></span>toJSON<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    The JSON-friendly representation of the List
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="conbo.List.html#toJSON">conbo.List#toJSON</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3419">line 3419</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="unshift"><span class="type-signature"></span>unshift<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Add an item to the beginning of the collection.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="conbo.List.html#unshift">conbo.List#unshift</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3300">line 3300</a>
     </li></ul></dd>
     
 
@@ -1417,7 +2480,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Thu Feb 11 2016 12:14:14 GMT+0000 (GMT Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Thu Feb 11 2016 17:23:24 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

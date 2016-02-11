@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: ItemRenderer</title>
+    <title>JSDoc: Class: Event</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: ItemRenderer</h1>
+    <h1 class="page-title">Class: Event</h1>
 
     
 
@@ -29,7 +29,7 @@
 <header>
     
         <h2>
-            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>ItemRenderer</h2>
+            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>Event</h2>
         
     
 </header>
@@ -41,14 +41,14 @@
 
     
 
-    <h4 class="name" id="ItemRenderer"><span class="type-signature"></span>new ItemRenderer<span class="signature">(options)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Event"><span class="type-signature"></span>new Event<span class="signature">(type)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    ItemRendererA conbo.View class that implements the conbo.IDataRenderer interface
+    Event classBase class for all events triggered in Conbo.js
 </div>
 
 
@@ -84,13 +84,13 @@
 
         <tr>
             
-                <td class="name"><code>options</code></td>
+                <td class="name"><code>type</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">string</span>
 
 
             
@@ -100,7 +100,7 @@
 
             
 
-            <td class="description last">Object containing initialisation options (see View)</td>
+            <td class="description last">The type of event this object represents</td>
         </tr>
 
     
@@ -148,7 +148,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line5835">line 5835</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2495">line 2495</a>
     </li></ul></dd>
     
 
@@ -184,7 +184,7 @@
 
 
     <ul>
-        <li><a href="conbo.View.html">conbo.View</a></li>
+        <li><a href="conbo.Class.html">conbo.Class</a></li>
     </ul>
 
 
@@ -200,73 +200,6 @@
 
     
         <h3 class="subsection-title">Members</h3>
-
-        
-            
-<h4 class="name" id="el"><span class="type-signature"></span>el<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    The Glimpse's element
-</div>
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.Glimpse.html#el">conbo.Glimpse#el</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line5358">line 5358</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
 
         
             
@@ -319,74 +252,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2234">line 2234</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="tagName"><span class="type-signature"></span>tagName<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    The default `tagName` of a Glimpse is `div`.
-</div>
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.Glimpse.html#tagName">conbo.Glimpse#tagName</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line5347">line 5347</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2259">line 2259</a>
     </li></ul></dd>
     
 
@@ -407,155 +273,6 @@
 
     
         <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    <h4 class="name" id="addEventListener"><span class="type-signature"></span>addEventListener<span class="signature">(type, handler)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Add a listener for a particular event type
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>type</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Type of event ('change') or events ('change blur')</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>handler</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Function that should be called</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.EventDispatcher.html#addEventListener">conbo.EventDispatcher#addEventListener</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2677">line 2677</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         
             
@@ -667,7 +384,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2244">line 2244</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2269">line 2269</a>
     </li></ul></dd>
     
 
@@ -764,7 +481,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2253">line 2253</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2278">line 2278</a>
     </li></ul></dd>
     
 
@@ -805,14 +522,106 @@
 
     
 
-    <h4 class="name" id="dispatchChange"><span class="type-signature"></span>dispatchChange<span class="signature">(propName)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="clone"><span class="type-signature"></span>clone<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Dispatch a change event for one or more changed properties
+    Create an identical clone of this event
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2544">line 2544</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Event
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="constructor"><span class="type-signature"></span>constructor<span class="signature">(options)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Constructor: DO NOT override! (Use initialize instead)
 </div>
 
 
@@ -848,7 +657,7 @@
 
         <tr>
             
-                <td class="name"><code>propName</code></td>
+                <td class="name"><code>options</code></td>
             
 
             <td class="type">
@@ -878,11 +687,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.EventDispatcher.html#dispatchChange">conbo.EventDispatcher#dispatchChange</a>
-    </li></ul></dd>
-    
 
     
 
@@ -905,7 +709,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2758">line 2758</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2512">line 2512</a>
     </li></ul></dd>
     
 
@@ -936,232 +740,14 @@
 
     
 
-    <h4 class="name" id="dispatchEvent"><span class="type-signature"></span>dispatchEvent<span class="signature">(event)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="initialize"><span class="type-signature"></span>initialize<span class="signature">(type)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Dispatch the event to listeners
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>event</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">conbo.Event class instance or event type (e.g. 'change')</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.EventDispatcher.html#dispatchEvent">conbo.EventDispatcher#dispatchEvent</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2719">line 2719</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="initialize"><span class="type-signature"></span>initialize<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Initialize is an empty function by default. Override it with your owninitialization logic.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.Glimpse.html#initialize">conbo.Glimpse#initialize</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line5353">line 5353</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="removeEventListener"><span class="type-signature"></span>removeEventListener<span class="signature">(type, handler, scope)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Remove a listener for a particular event type
+    Initialize: Override this!
 </div>
 
 
@@ -1208,43 +794,7 @@
 
             
 
-            <td class="description last">Type of event ('change') or events ('change blur')</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>handler</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Function that should be called</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>scope</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The scope</td>
+            <td class="description last"></td>
         </tr>
 
     
@@ -1263,10 +813,92 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.EventDispatcher.html#removeEventListener">conbo.EventDispatcher#removeEventListener</a>
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="conbo.Class.html#initialize">conbo.Class#initialize</a>
     </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2535">line 2535</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="preventDefault"><span class="type-signature"></span>preventDefault<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Prevent whatever the default framework action for this event is
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
     
 
     
@@ -1290,7 +922,171 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2695">line 2695</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2552">line 2552</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="stopImmediatePropagation"><span class="type-signature"></span>stopImmediatePropagation<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Keep the rest of the handlers from being executed
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2572">line 2572</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="stopPropagation"><span class="type-signature"></span>stopPropagation<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Not currently used
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2562">line 2562</a>
     </li></ul></dd>
     
 
@@ -1338,7 +1134,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Thu Feb 11 2016 12:14:14 GMT+0000 (GMT Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Thu Feb 11 2016 17:23:24 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

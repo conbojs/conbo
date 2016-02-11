@@ -121,7 +121,7 @@ var conbo = function(namespace)
  * @augments	conbo
  * @returns 	{String}
  */
-conbo.VERSION = '3.0.4';
+conbo.VERSION = '3.0.5';
 	
 /**
  * @augments	conbo
@@ -170,6 +170,8 @@ if (!!$)
 	// All ECMAScript 5 native function implementations that we hope to use
 	// are declared here.
 	var
+		nativeIndexOf		= ArrayProto.indexOf,
+		nativeLastIndexOf	= ArrayProto.lastIndexOf,
 		nativeForEach		= ArrayProto.forEach,
 		nativeMap			= ArrayProto.map,
 		nativeReduce		= ArrayProto.reduce,
@@ -180,7 +182,7 @@ if (!!$)
 		nativeIsArray		= Array.isArray,
 		nativeKeys			= Object.keys,
 		nativeBind			= FuncProto.bind;
-
+	
 	// Collection Functions
 	// --------------------
 
@@ -238,6 +240,28 @@ if (!!$)
 	};
 	
 	/**
+	 * Returns the index of the first instance of the specified item in the list
+	 * 
+	 * @param	{object}	obj - The list to search
+	 * @param	{object}	item - The value to find the index of
+	 */
+	conbo.indexOf = function(obj, item)
+	{
+		return nativeIndexOf.call(obj, item);
+	};
+	
+	/**
+	 * Returns the index of the last instance of the specified item in the list
+	 * 
+	 * @param	{object}	obj - The list to search
+	 * @param	{object}	item - The value to find the index of
+	 */
+	conbo.lastIndexOf = function(obj, item)
+	{
+		return nativeLastIndexOf.call(obj, item);
+	};
+	
+	/**
 	 * Return the first value which passes a truth test
 	 * 
 	 * @memberof	conbo
@@ -245,17 +269,36 @@ if (!!$)
 	 * @param		{function}	predicate - Function that tests each value, returning true or false
 	 * @param		{object}	scope - The scope the predicate function should run in (optional)
 	 */
-	conbo.find = function(obj, predicate, scope) {
+	conbo.find = function(obj, predicate, scope) 
+	{
 		var result;
-		any(obj, function(value, index, list) {
-			if (predicate.call(scope, value, index, list)) {
+		
+		conbo.some(obj, function(value, index, list) 
+		{
+			if (predicate.call(scope, value, index, list)) 
+			{
 				result = value;
 				return true;
 			}
 		});
+		
 		return result;
 	};
 
+	/**
+	 * Return the index of the first value which passes a truth test
+	 * 
+	 * @memberof	conbo
+	 * @param		{object}	obj - The list to iterate
+	 * @param		{function}	predicate - Function that tests each value, returning true or false
+	 * @param		{object}	scope - The scope the predicate function should run in (optional)
+	 */
+	conbo.findIndex = function(obj, predicate, scope) 
+	{
+		var value = conbo.find(obj, predicate, scope);
+		return obj.indexOf(value);
+	};
+	
 	/**
 	 * Return all the elements that pass a truth test.
 	 * Delegates to native `filter` if available.
@@ -455,34 +498,7 @@ if (!!$)
 		if (conbo.isFunction(value)) return value;
 		return conbo.property(value);
 	};
-
-	/**
-	 * Sort the object's values by a criterion produced by an iterator.
-	 * 
-	 * @memberof	conbo
-	 * @param		{object}	obj - The list to iterate
-	 * @param		{function}	iterator - Criteria function accepting arguments: values, index, list
-	 * @param		{object}	scope - The scope the iterator function should run in (optional)
-	 */
-	conbo.sortBy = function(obj, iterator, scope) {
-		iterator = lookupIterator(iterator);
-		return conbo.pluck(conbo.map(obj, function(value, index, list) {
-			return {
-				value: value,
-				index: index,
-				criteria: iterator.call(scope, value, index, list)
-			};
-		}).sort(function(left, right) {
-			var a = left.criteria;
-			var b = right.criteria;
-			if (a !== b) {
-				if (a > b || a === void 0) return 1;
-				if (a &lt; b || b === void 0) return -1;
-			}
-			return left.index - right.index;
-		}), 'value');
-	};
-
+	
 	/**
 	 * Convert anything iterable into an Array
 	 * 
@@ -496,18 +512,22 @@ if (!!$)
 		if (obj.length === +obj.length) return conbo.map(obj, conbo.identity);
 		return conbo.values(obj);
 	};
-
+	
 	/**
 	 * Return the number of elements in an object.
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - The object to count the keys of
 	 */
-	conbo.size = function(obj) {
-		if (obj == null) return 0;
-		return (obj.length === +obj.length) ? obj.length : conbo.keys(obj).length;
+	conbo.size = function(obj) 
+	{
+		if (!obj) return 0;
+		
+		return (obj.length === +obj.length)
+			? obj.length 
+			: conbo.keys(obj).length;
 	};
-
+	
 	// Array Functions
 	// ---------------
 
@@ -522,7 +542,7 @@ if (!!$)
 	 */
 	conbo.last = function(array, n, guard) {
 		if (array == null) return void 0;
-		if ((n == null) || guard) return array[array.length - 1];
+		if (n == null || guard) return array[array.length - 1];
 		return slice.call(array, Math.max(array.length - n, 0));
 	};
 
@@ -1139,7 +1159,7 @@ if (!!$)
 	conbo.isElement = function(obj) {
 		return !!(obj &amp;&amp; obj.nodeType === 1);
 	};
-
+	
 	/**
 	 * Is a given value an array?
 	 * Delegates to ECMA5's native Array.isArray
@@ -1474,7 +1494,12 @@ conbo.formatCurrency = function(number, symbol, suffixed, decimals, decimalPoint
  */
 conbo.encodeEntities = function(string)
 {
-	if (!conbo.isString(string)) string = '';
+	if (!conbo.isString(string))
+	{
+		string = conbo.isNumber(string)
+			? string.toString()
+			: '';
+	}
 	
 	return string.replace(/[\u00A0-\u9999&lt;>\&amp;]/gim, function(char)
 	{
@@ -3229,6 +3254,9 @@ conbo.List = conbo.EventDispatcher.extend(
 		conbo.makeAllBindable(this, this.bindable);
 	},
 	
+	/**
+	 * The Array used as the source for this List
+	 */
 	get source()
 	{
 		if (!this._source)
@@ -3251,8 +3279,12 @@ conbo.List = conbo.EventDispatcher.extend(
 	 */
 	get length()
 	{
-		if (!this.source) return 0;
-		return this.source.length;
+		if (this.source)
+		{
+			return this.source.length;
+		}
+		
+		return 0;
 	},
 	
 	/**
@@ -3260,10 +3292,13 @@ conbo.List = conbo.EventDispatcher.extend(
 	 */
 	push: function(item)
 	{
-		if (item)
+		var items = conbo.toArray(arguments);
+		
+		if (items.length)
 		{
-			this.source.push.apply(this.source, this.__applyClass(conbo.toArray(arguments)));
-			this.__updateBindings(conbo.toArray(arguments));
+			
+			this.source.push.apply(this.source, this.__applyClass(items));
+			this.__updateBindings(items);
 			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 			this.dispatchChange('length');
 		}
@@ -3505,14 +3540,13 @@ conbo.List = conbo.EventDispatcher.extend(
 	
 }).implement(conbo.IInjectable);
 
-// Underscore methods that we want to implement on the List.
+// Utility methods that we want to implement on the List.
 var listMethods = 
 [
-	'forEach', 'map', 'reduce', 'reduceRight', 'find', 'filter',
-	'reject', 'every', 'any', 'contains', 'invoke',
+	'forEach', 'map', 'reduce', 'reduceRight', 'find', 'findIndex', 'filter',
+	'reject', 'every', 'any', 'contains', 'invoke', 'indexOf', 'lastIndexOf',
 	'max', 'min', 'toArray', 'size', 'first', 'head', 'take', 'initial', 'rest',
-	'tail', 'drop', 'last', 'without', 'indexOf', 'shuffle', 'lastIndexOf',
-	'isEmpty', 'chain'
+	'tail', 'drop', 'last', 'without', 'shuffle', 'isEmpty', 'chain'
 ];
 
 // Mix in each available Conbo utility method as a proxy
@@ -3528,25 +3562,6 @@ listMethods.forEach(function(method)
 		return conbo.isArray(result)
 			? new conbo.List({source:result})
 			: result;
-	};
-});
-
-// Underscore methods that take a property name as an argument.
-var attributeMethods = ['groupBy', 'countBy', 'sortBy'];
-
-// Use attributes instead of properties.
-conbo.forEach(attributeMethods, function(method)
-{
-	if (!(method in conbo)) return;
-	
-	conbo.List.prototype[method] = function(value, context) 
-	{
-		var iterator = conbo.isFunction(value) ? value : function(item) 
-		{
-			return item.get(value);
-		};
-		
-		return conbo[method](this.source, iterator, context);
 	};
 });
 
@@ -4927,7 +4942,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * Applies View and Glimpse classes DOM elements based on their cb-view 
 	 * attribute or tag name
 	 * 
-	 * @param	rootView	View or Application class instance
+	 * @param	rootView	DOM element, View or Application class instance
 	 * @param	namespace	The current namespace
 	 * @param	type		View type, 'view' or 'glimpse' (default: 'view')
 	 */
@@ -4941,12 +4956,17 @@ conbo.BindingUtils = conbo.Class.extend({},
 			throw new Error(type+' is not a valid type parameter for applyView');
 		}
 		
-		var typeClass = conbo[type.charAt(0).toUpperCase()+type.slice(1)],
+		var $el,
+			typeClass = conbo[type.charAt(0).toUpperCase()+type.slice(1)],
 			scope = this
 			;
 		
+		if (rootView instanceof conbo.View) $el = rootView.$el;
+		else if (rootView instanceof $) $el = rootView;
+		else if (conbo.isElement(rootView)) $el = $(rootView);
+		
 		// Detects cb-* and custom tag names 
-		rootView.$el.find('*').not('.cb-'+type).each(function(index, el)
+		$el.find('*').not('.cb-'+type).each(function(index, el)
 		{
 			var className = $(el).cbAttrs()[type] || conbo.toCamelCase(el.tagName, true),
 				classReference = scope.getClass(className, namespace)
@@ -7042,7 +7062,7 @@ __denumerate(conbo.Router.prototype);
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Thu Feb 11 2016 12:14:13 GMT+0000 (GMT Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Thu Feb 11 2016 17:23:23 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
