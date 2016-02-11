@@ -1016,7 +1016,7 @@
 	conbo.isElement = function(obj) {
 		return !!(obj && obj.nodeType === 1);
 	};
-
+	
 	/**
 	 * Is a given value an array?
 	 * Delegates to ECMA5's native Array.isArray

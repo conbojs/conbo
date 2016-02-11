@@ -672,7 +672,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * Applies View and Glimpse classes DOM elements based on their cb-view 
 	 * attribute or tag name
 	 * 
-	 * @param	rootView	View or Application class instance
+	 * @param	rootView	DOM element, View or Application class instance
 	 * @param	namespace	The current namespace
 	 * @param	type		View type, 'view' or 'glimpse' (default: 'view')
 	 */
@@ -686,12 +686,17 @@ conbo.BindingUtils = conbo.Class.extend({},
 			throw new Error(type+' is not a valid type parameter for applyView');
 		}
 		
-		var typeClass = conbo[type.charAt(0).toUpperCase()+type.slice(1)],
+		var $el,
+			typeClass = conbo[type.charAt(0).toUpperCase()+type.slice(1)],
 			scope = this
 			;
 		
+		if (rootView instanceof conbo.View) $el = rootView.$el;
+		else if (rootView instanceof $) $el = rootView;
+		else if (conbo.isElement(rootView)) $el = $(rootView);
+		
 		// Detects cb-* and custom tag names 
-		rootView.$el.find('*').not('.cb-'+type).each(function(index, el)
+		$el.find('*').not('.cb-'+type).each(function(index, el)
 		{
 			var className = $(el).cbAttrs()[type] || conbo.toCamelCase(el.tagName, true),
 				classReference = scope.getClass(className, namespace)
