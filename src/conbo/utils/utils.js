@@ -27,6 +27,8 @@
 	// All ECMAScript 5 native function implementations that we hope to use
 	// are declared here.
 	var
+		nativeIndexOf		= ArrayProto.indexOf,
+		nativeLastIndexOf	= ArrayProto.lastIndexOf,
 		nativeForEach		= ArrayProto.forEach,
 		nativeMap			= ArrayProto.map,
 		nativeReduce		= ArrayProto.reduce,
@@ -37,7 +39,7 @@
 		nativeIsArray		= Array.isArray,
 		nativeKeys			= Object.keys,
 		nativeBind			= FuncProto.bind;
-
+	
 	// Collection Functions
 	// --------------------
 
@@ -92,6 +94,28 @@
 		});
 		
 		return results;
+	};
+	
+	/**
+	 * Returns the index of the first instance of the specified item in the list
+	 * 
+	 * @param	{object}	obj - The list to search
+	 * @param	{object}	item - The value to find the index of
+	 */
+	conbo.indexOf = function(obj, item)
+	{
+		return nativeIndexOf.call(obj, item);
+	};
+	
+	/**
+	 * Returns the index of the last instance of the specified item in the list
+	 * 
+	 * @param	{object}	obj - The list to search
+	 * @param	{object}	item - The value to find the index of
+	 */
+	conbo.lastIndexOf = function(obj, item)
+	{
+		return nativeLastIndexOf.call(obj, item);
 	};
 	
 	/**
@@ -1327,7 +1351,12 @@ conbo.formatCurrency = function(number, symbol, suffixed, decimals, decimalPoint
  */
 conbo.encodeEntities = function(string)
 {
-	if (!conbo.isString(string)) string = '';
+	if (!conbo.isString(string))
+	{
+		string = conbo.isNumber(string)
+			? string.toString()
+			: '';
+	}
 	
 	return string.replace(/[\u00A0-\u9999<>\&]/gim, function(char)
 	{

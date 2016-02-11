@@ -73,28 +73,10 @@ conbo.List = conbo.EventDispatcher.extend(
 	{
 		if (this.source)
 		{
-			this.source.length;
+			return this.source.length;
 		}
 		
 		return 0;
-	},
-	
-	/**
-	 * Get the index of the first instance of the specified value
-	 * @param	
-	 */
-	indexOf: function(value)
-	{
-		return this.source.indexOf(value);
-	},
-	
-	/**
-	 * Get this index of the last instance of the specified value
-	 * @param	
-	 */
-	lastIndexOf: function(value)
-	{
-		return this.source.lastIndexOf(value);
 	},
 	
 	/**
@@ -102,10 +84,13 @@ conbo.List = conbo.EventDispatcher.extend(
 	 */
 	push: function(item)
 	{
-		if (item)
+		var items = conbo.toArray(arguments);
+		
+		if (items.length)
 		{
-			this.source.push.apply(this.source, this.__applyClass(conbo.toArray(arguments)));
-			this.__updateBindings(conbo.toArray(arguments));
+			
+			this.source.push.apply(this.source, this.__applyClass(items));
+			this.__updateBindings(items);
 			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 			this.dispatchChange('length');
 		}
@@ -347,14 +332,13 @@ conbo.List = conbo.EventDispatcher.extend(
 	
 }).implement(conbo.IInjectable);
 
-// Underscore methods that we want to implement on the List.
+// Utility methods that we want to implement on the List.
 var listMethods = 
 [
-	'forEach', 'map', 'reduce', 'reduceRight', 'find', 'filter',
-	'reject', 'every', 'any', 'contains', 'invoke',
+	'forEach', 'map', 'reduce', 'reduceRight', 'find', 'findIndex', 'filter',
+	'reject', 'every', 'any', 'contains', 'invoke', 'indexOf', 'lastIndexOf',
 	'max', 'min', 'toArray', 'size', 'first', 'head', 'take', 'initial', 'rest',
-	'tail', 'drop', 'last', 'without', 'indexOf', 'shuffle', 'lastIndexOf',
-	'isEmpty', 'chain'
+	'tail', 'drop', 'last', 'without', 'shuffle', 'isEmpty', 'chain'
 ];
 
 // Mix in each available Conbo utility method as a proxy
