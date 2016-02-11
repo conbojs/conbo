@@ -102,17 +102,36 @@
 	 * @param		{function}	predicate - Function that tests each value, returning true or false
 	 * @param		{object}	scope - The scope the predicate function should run in (optional)
 	 */
-	conbo.find = function(obj, predicate, scope) {
+	conbo.find = function(obj, predicate, scope) 
+	{
 		var result;
-		any(obj, function(value, index, list) {
-			if (predicate.call(scope, value, index, list)) {
+		
+		conbo.some(obj, function(value, index, list) 
+		{
+			if (predicate.call(scope, value, index, list)) 
+			{
 				result = value;
 				return true;
 			}
 		});
+		
 		return result;
 	};
 
+	/**
+	 * Return the index of the first value which passes a truth test
+	 * 
+	 * @memberof	conbo
+	 * @param		{object}	obj - The list to iterate
+	 * @param		{function}	predicate - Function that tests each value, returning true or false
+	 * @param		{object}	scope - The scope the predicate function should run in (optional)
+	 */
+	conbo.findIndex = function(obj, predicate, scope) 
+	{
+		var value = conbo.find(obj, predicate, scope);
+		return obj.indexOf(value);
+	};
+	
 	/**
 	 * Return all the elements that pass a truth test.
 	 * Delegates to native `filter` if available.
