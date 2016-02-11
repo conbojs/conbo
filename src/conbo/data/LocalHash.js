@@ -4,7 +4,7 @@
  * @class		conbo.LocalHash
  * @augments	conbo.Hash
  * @author 		Neil Rackett
- * @param 		{object} options - Object containing initialisation options, including 'name' (string) and 'source' (object) containing default values; see Hash for other options
+ * @param 		{object} options - Object containing initialisation options, including 'name' (string), 'session' (Boolean) and 'source' (object) containing default values; see Hash for other options
  */
 conbo.LocalHash = conbo.Hash.extend(
 /** @lends conbo.LocalHash.prototype */
