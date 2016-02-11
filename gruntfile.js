@@ -111,7 +111,7 @@ module.exports = function (grunt)
 			js: 
 			{
 				files: ['src/conbo/**/*.js', 'src/conbo/*.txt'],
-				tasks: ['concat','uglify']
+				tasks: ['concat','string-replace','uglify']
 			}
 		},
 		
