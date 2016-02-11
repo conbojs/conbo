@@ -686,19 +686,20 @@ conbo.BindingUtils = conbo.Class.extend({},
 			throw new Error(type+' is not a valid type parameter for applyView');
 		}
 		
-		var $el,
-			typeClass = conbo[type.charAt(0).toUpperCase()+type.slice(1)],
+		var typeClass = conbo[type.charAt(0).toUpperCase()+type.slice(1)],
 			scope = this
 			;
 		
-		if (rootView instanceof conbo.View) $el = rootView.$el;
-		else if (rootView instanceof $) $el = rootView;
-		else if (conbo.isElement(rootView)) $el = $(rootView);
+		var $rootEl = rootView instanceof conbo.View
+			? rootView.$el
+			: $(rootView)
+			;
 		
 		// Detects cb-* and custom tag names 
-		$el.find('*').not('.cb-'+type).each(function(index, el)
+		$rootEl.find('*').not('.cb-'+type).each(function(index, el)
 		{
-			var className = $(el).cbAttrs()[type] || conbo.toCamelCase(el.tagName, true),
+			var $el = $(el),
+				className = $el.cbAttrs()[type] || conbo.toCamelCase(el.tagName, true),
 				classReference = scope.getClass(className, namespace)
 				;
 			
@@ -708,8 +709,11 @@ conbo.BindingUtils = conbo.Class.extend({},
 				if ((type == 'glimpse' && conbo.isClass(classReference, conbo.Glimpse))
 					|| (type == 'view' && conbo.isClass(classReference, conbo.View)))
 				{
-					// TODO Apply subcontext of "closest" view?
-					new classReference({el:el, context:rootView.subcontext});
+					// Gets the Context of the "closest" parent View
+					var closestView = $el.closest('.cb-view')[0];
+						context = closestView ? closestView.cbView.subcontext : rootView.subcontext;
+					
+					new classReference({el:el, context:context});
 				}
 			}
 		});
