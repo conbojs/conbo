@@ -2,6 +2,8 @@ module.exports = function (grunt)
 {
 	grunt.initConfig
 	({
+		pkg: grunt.file.readJSON('package.json'),
+		
 		concat:
 		{
 			all:
@@ -10,64 +12,64 @@ module.exports = function (grunt)
 				{
 					// conbo-lite.js
 					
-					"build/conbo-lite.js":
+					'build/conbo-lite.js':
 					[
-					 	"src/conbo/header-lite.txt",
-					 	"src/conbo/conbo.js",
-					 	"src/conbo/utils/utils.js",
-					 	"src/conbo/core/Class.js",
-					 	"src/conbo/core/Namespace.js",
-						"src/conbo/core/ServerApplication.js",
-						"src/conbo/events/Event.js",
-						"src/conbo/events/ConboEvent.js",
-						"src/conbo/events/EventDispatcher.js",
-						"src/conbo/data/Hash.js",
-						"src/conbo/data/LocalHash.js",
-					 	"src/conbo/utils/Promise.js",
-						"src/conbo/view/Glimpse.js",
-						"src/conbo/footer.txt"
+					 	'src/conbo/header-lite.txt',
+					 	'src/conbo/conbo.js',
+					 	'src/conbo/utils/utils.js',
+					 	'src/conbo/core/Class.js',
+					 	'src/conbo/core/Namespace.js',
+						'src/conbo/core/ServerApplication.js',
+						'src/conbo/events/Event.js',
+						'src/conbo/events/ConboEvent.js',
+						'src/conbo/events/EventDispatcher.js',
+						'src/conbo/data/Hash.js',
+						'src/conbo/data/LocalHash.js',
+					 	'src/conbo/utils/Promise.js',
+						'src/conbo/view/Glimpse.js',
+						'src/conbo/footer.txt'
 					],
 					
 					// conbo.js
 					
-					"build/conbo.js":
+					'build/conbo.js':
 					[
-						"src/conbo/header.txt",
-					 	"src/conbo/conbo.js",
-					 	"src/conbo/utils/utils.js",
-					 	"src/conbo/utils/dom.js",
-					 	"src/conbo/utils/css.js",
-					 	"src/conbo/core/Class.js",
-					 	"src/conbo/core/Namespace.js",
-					 	"src/conbo/core/IInjectable.js",
-					 	"src/conbo/core/IPreinitialize.js",
-						"src/conbo/events/Event.js",
-						"src/conbo/events/ConboEvent.js",
-						"src/conbo/events/EventDispatcher.js",
-						"src/conbo/core/Context.js",
-						"src/conbo/data/Hash.js",
-						"src/conbo/data/LocalHash.js",
-						"src/conbo/collections/List.js",
-						"src/conbo/collections/LocalList.js",
-						"src/conbo/utils/AttributeBindings.js",
-						"src/conbo/utils/BindingUtils.js",
-						"src/conbo/utils/MutationObserver.js",
-					 	"src/conbo/utils/Promise.js",
-					 	"src/conbo/view/IDataRenderer.js",
-						"src/conbo/view/Glimpse.js",
-						"src/conbo/view/View.js",
-						"src/conbo/view/ItemRenderer.js",
-						"src/conbo/core/Application.js",
-						"src/conbo/core/Command.js",
-						"src/conbo/net/HttpService.js",
-						"src/conbo/net/AsyncToken.js",
-						"src/conbo/net/Responder.js",
-						"src/conbo/net/ISyncable.js",
-						"src/conbo/data/RemoteHash.js",
-						"src/conbo/collections/RemoteList.js",
-						"src/conbo/net/History.js",
-						"src/conbo/net/Router.js",
-						"src/conbo/footer.txt"
+						'src/conbo/header.txt',
+					 	'src/conbo/conbo.js',
+					 	'src/conbo/utils/utils.js',
+					 	'src/conbo/utils/dom.js',
+					 	'src/conbo/utils/css.js',
+					 	'src/conbo/core/Class.js',
+					 	'src/conbo/core/Namespace.js',
+					 	'src/conbo/core/IInjectable.js',
+					 	'src/conbo/core/IPreinitialize.js',
+						'src/conbo/events/Event.js',
+						'src/conbo/events/ConboEvent.js',
+						'src/conbo/events/EventDispatcher.js',
+						'src/conbo/core/Context.js',
+						'src/conbo/data/Hash.js',
+						'src/conbo/data/LocalHash.js',
+						'src/conbo/collections/List.js',
+						'src/conbo/collections/LocalList.js',
+						'src/conbo/utils/AttributeBindings.js',
+						'src/conbo/utils/BindingUtils.js',
+						'src/conbo/utils/MutationObserver.js',
+					 	'src/conbo/utils/Promise.js',
+					 	'src/conbo/view/IDataRenderer.js',
+						'src/conbo/view/Glimpse.js',
+						'src/conbo/view/View.js',
+						'src/conbo/view/ItemRenderer.js',
+						'src/conbo/core/Application.js',
+						'src/conbo/core/Command.js',
+						'src/conbo/net/HttpService.js',
+						'src/conbo/net/AsyncToken.js',
+						'src/conbo/net/Responder.js',
+						'src/conbo/net/ISyncable.js',
+						'src/conbo/data/RemoteHash.js',
+						'src/conbo/collections/RemoteList.js',
+						'src/conbo/net/History.js',
+						'src/conbo/net/Router.js',
+						'src/conbo/footer.txt'
 					]
 				}
 			}
@@ -115,19 +117,49 @@ module.exports = function (grunt)
 		
 		jsdoc:
 		{
-	        dist: 
-	        {
-	            src: ['build/conbo.js'],
-	            options: 
-	            {
-	                configure: 'jsdoc.json',
-	                destination: 'docs',
-	                readme: 'README.md',
-	                package: 'package.json',
-	                access: 'public'
-	            }
-	        }
-	    }
+			dist: 
+			{
+				src: ['build/conbo.js'],
+				options: 
+				{
+					configure: 'jsdoc.json',
+					destination: 'docs',
+					readme: 'README.md',
+					package: 'package.json',
+					access: 'public'
+				}
+			}
+		},
+			
+		'string-replace': 
+		{
+			version: 
+			{
+				files: 
+				{
+					'build/conbo.js': 'build/conbo.js',
+					'build/conbo-lite.js': 'build/conbo-lite.js',
+					'bower.json': 'bower.json'
+				},
+				
+				options: 
+				{
+					replacements: 
+					[
+						// JS
+						{
+							pattern: /{{VERSION}}/g,
+							replacement: '<%= pkg.version %>'
+						},
+						// JSON
+						{
+							pattern: /\"version\": \"\d+.\d+.\d+\"/,
+							replacement: '"version": "<%= pkg.version %>"'
+						}
+					]
+				}
+			}
+		},
 		
 	});
 	
@@ -136,6 +168,7 @@ module.exports = function (grunt)
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-jsdoc');
+	grunt.loadNpmTasks('grunt-string-replace');
 	
-	grunt.registerTask('default', ['concat','uglify']);//,'jsdoc']);
+	grunt.registerTask('default', ['concat','string-replace','uglify']);//,'jsdoc']);
 };

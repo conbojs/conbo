@@ -683,13 +683,14 @@ conbo.BindingUtils = conbo.Class.extend({},
 		
 		if (validTypes.indexOf(type) == -1)
 		{
-			throw new Error(type+' is not a valied type parameter for applyView');
+			throw new Error(type+' is not a valid type parameter for applyView');
 		}
 		
 		var typeClass = conbo[type.charAt(0).toUpperCase()+type.slice(1)],
 			scope = this
 			;
 		
+		// Detects cb-* and custom tag names 
 		rootView.$el.find('*').not('.cb-'+type).each(function(index, el)
 		{
 			var className = $(el).cbAttrs()[type] || conbo.toCamelCase(el.tagName, true),
@@ -699,14 +700,12 @@ conbo.BindingUtils = conbo.Class.extend({},
 			if (classReference 
 				&& conbo.isClass(classReference, typeClass))
 			{
-				if (type == 'glimpse' 
-					&& conbo.isClass(classReference, conbo.View))
+				if ((type == 'glimpse' && conbo.isClass(classReference, conbo.Glimpse))
+					|| (type == 'view' && conbo.isClass(classReference, conbo.View)))
 				{
-					return;
+					// TODO Apply subcontext of "closest" view?
+					new classReference({el:el, context:rootView.subcontext});
 				}
-				
-				// TODO Apply subcontext of "closest" view?
-				new classReference({el:el, context:rootView.subcontext});
 			}
 		});
 		
