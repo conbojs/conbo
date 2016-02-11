@@ -345,18 +345,22 @@
 		if (obj.length === +obj.length) return conbo.map(obj, conbo.identity);
 		return conbo.values(obj);
 	};
-
+	
 	/**
 	 * Return the number of elements in an object.
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - The object to count the keys of
 	 */
-	conbo.size = function(obj) {
-		if (obj == null) return 0;
-		return (obj.length === +obj.length) ? obj.length : conbo.keys(obj).length;
+	conbo.size = function(obj) 
+	{
+		if (!obj) return 0;
+		
+		return (obj.length === +obj.length)
+			? obj.length 
+			: conbo.keys(obj).length;
 	};
-
+	
 	// Array Functions
 	// ---------------
 
@@ -371,7 +375,7 @@
 	 */
 	conbo.last = function(array, n, guard) {
 		if (array == null) return void 0;
-		if ((n == null) || guard) return array[array.length - 1];
+		if (n == null || guard) return array[array.length - 1];
 		return slice.call(array, Math.max(array.length - n, 0));
 	};
 

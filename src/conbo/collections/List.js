@@ -46,6 +46,9 @@ conbo.List = conbo.EventDispatcher.extend(
 		conbo.makeAllBindable(this, this.bindable);
 	},
 	
+	/**
+	 * The Array used as the source for this List
+	 */
 	get source()
 	{
 		if (!this._source)
@@ -68,8 +71,30 @@ conbo.List = conbo.EventDispatcher.extend(
 	 */
 	get length()
 	{
-		if (!this.source) return 0;
-		return this.source.length;
+		if (this.source)
+		{
+			this.source.length;
+		}
+		
+		return 0;
+	},
+	
+	/**
+	 * Get the index of the first instance of the specified value
+	 * @param	
+	 */
+	indexOf: function(value)
+	{
+		return this.source.indexOf(value);
+	},
+	
+	/**
+	 * Get this index of the last instance of the specified value
+	 * @param	
+	 */
+	lastIndexOf: function(value)
+	{
+		return this.source.lastIndexOf(value);
 	},
 	
 	/**
