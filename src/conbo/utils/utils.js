@@ -331,34 +331,7 @@
 		if (conbo.isFunction(value)) return value;
 		return conbo.property(value);
 	};
-
-	/**
-	 * Sort the object's values by a criterion produced by an iterator.
-	 * 
-	 * @memberof	conbo
-	 * @param		{object}	obj - The list to iterate
-	 * @param		{function}	iterator - Criteria function accepting arguments: values, index, list
-	 * @param		{object}	scope - The scope the iterator function should run in (optional)
-	 */
-	conbo.sortBy = function(obj, iterator, scope) {
-		iterator = lookupIterator(iterator);
-		return conbo.pluck(conbo.map(obj, function(value, index, list) {
-			return {
-				value: value,
-				index: index,
-				criteria: iterator.call(scope, value, index, list)
-			};
-		}).sort(function(left, right) {
-			var a = left.criteria;
-			var b = right.criteria;
-			if (a !== b) {
-				if (a > b || a === void 0) return 1;
-				if (a < b || b === void 0) return -1;
-			}
-			return left.index - right.index;
-		}), 'value');
-	};
-
+	
 	/**
 	 * Convert anything iterable into an Array
 	 * 

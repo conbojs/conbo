@@ -348,23 +348,4 @@ listMethods.forEach(function(method)
 	};
 });
 
-// Underscore methods that take a property name as an argument.
-var attributeMethods = ['groupBy', 'countBy', 'sortBy'];
-
-// Use attributes instead of properties.
-conbo.forEach(attributeMethods, function(method)
-{
-	if (!(method in conbo)) return;
-	
-	conbo.List.prototype[method] = function(value, context) 
-	{
-		var iterator = conbo.isFunction(value) ? value : function(item) 
-		{
-			return item.get(value);
-		};
-		
-		return conbo[method](this.source, iterator, context);
-	};
-});
-
 __denumerate(conbo.List.prototype);
