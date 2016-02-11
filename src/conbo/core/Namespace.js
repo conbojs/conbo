@@ -8,6 +8,7 @@
  * @class		conbo.Namespace
  * @augments	conbo.Class
  * @author 		Neil Rackett
+ * @param 		{object} options - Object containing initialisation options
  */
 conbo.Namespace = conbo.Class.extend(
 /** @lends conbo.Namespace.prototype */

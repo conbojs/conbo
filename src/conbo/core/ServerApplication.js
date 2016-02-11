@@ -6,6 +6,7 @@
  * @class		conbo.ServerApplication
  * @augments	conbo.EventDispatcher
  * @author		Neil Rackett
+ * @param 		{object} options - Object containing initialisation options
  */
 conbo.ServerApplication = conbo.EventDispatcher.extend(
 /** @lends conbo.ServerApplication.prototype */
@@ -25,9 +26,12 @@ conbo.ServerApplication = conbo.EventDispatcher.extend(
 		options = conbo.clone(options || {});
 		options.app = this;
 		
-		this.context = new this.contextClass(options);
-		this.initialize.apply(this, arguments);
+		if (this.contextClass)
+		{
+			this.context = new this.contextClass(options);
+		}
 		
+		this.initialize.apply(this, arguments);
 		conbo.makeAllBindable(this, this.bindable);
 	},
 	

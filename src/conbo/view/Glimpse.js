@@ -11,6 +11,7 @@
  * @class		conbo.Glimpse
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
+ * @param 		{object} options - Object containing initialisation options
  */
 conbo.Glimpse = conbo.EventDispatcher.extend(
 /** @lends conbo.Glimpse.prototype */

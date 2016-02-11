@@ -1947,6 +1947,8 @@ var __denumerate = function(obj)
  * scope by specifying a root element
  * 
  * @memberof	conbo
+ * @param		{conbo.Namespace} namespace
+ * @param		{Element} rootEl - Top most element to scan (optional)
  */
 conbo.initDom = function(namespace, rootEl)
 {
@@ -2014,6 +2016,8 @@ var __getObserverIndex = function(namespace, rootEl)
  * scope by specifying a root element
  * 
  * @memberof	conbo
+ * @param		{conbo.Namespace} namespace
+ * @param		{Element} rootEl - Top most element to observe (optional)
  */
 conbo.observeDom = function(namespace, rootEl)
 {
@@ -2056,6 +2060,8 @@ conbo.observeDom = function(namespace, rootEl)
  * Stop watching the DOM for new Applications
  * 
  * @memberof	conbo
+ * @param		{conbo.Namespace} namespace
+ * @param		{Element} rootEl - Top most element to observe (optional)
  */
 conbo.unobserveDom = function(namespace, rootEl)
 {
@@ -2227,7 +2233,8 @@ if (!!$)
 /**
  * Class
  * Extendable base class from which all others extend
- * @class	conbo.Class
+ * @class		conbo.Class
+ * @param 		{object} options - Object containing initialisation options
  */
 conbo.Class = function(options) 
 {
@@ -2376,6 +2383,7 @@ conbo.Class.implement = function()
  * @class		conbo.Namespace
  * @augments	conbo.Class
  * @author 		Neil Rackett
+ * @param 		{object} options - Object containing initialisation options
  */
 conbo.Namespace = conbo.Class.extend(
 /** @lends conbo.Namespace.prototype */
@@ -2495,6 +2503,7 @@ conbo.IPreinitialize =
  * @class		conbo.Event
  * @augments	conbo.Class
  * @author		Neil Rackett
+ * @param 		{string}	type - The type of event this object represents
  */
 conbo.Event = conbo.Class.extend(
 /** @lends conbo.Event.prototype */
@@ -2594,6 +2603,8 @@ __denumerate(conbo.Event.prototype);
  * @class		conbo.ConboEvent
  * @augments	conbo.Event
  * @author		Neil Rackett
+ * @param 		{string}	type - The type of event this object represents
+ * @param 		{object}	options - Properties to be added to this event object
  */
 conbo.ConboEvent = conbo.Event.extend(
 /** @lends conbo.ConboEvent.prototype */
@@ -2666,6 +2677,7 @@ __denumerate(conbo.ConboEvent.prototype);
  * @class		conbo.EventDispatcher
  * @augments	conbo.Class
  * @author		Neil Rackett
+ * @param 		{object} options - Object containing optional initialisation options, including 'context'
  */
 conbo.EventDispatcher = conbo.Class.extend(
 /** @lends conbo.EventDispatcher.prototype */
@@ -2845,6 +2857,7 @@ __denumerate(conbo.EventDispatcher.prototype);
  * @class		conbo.Context
  * @augments	conbo.EventDispatcher
  * @author		Neil Rackett
+ * @param 		{object} options - Object containing initialisation options, including 'app' (Application) and 'namespace' (Namespace) 
  */
 conbo.Context = conbo.EventDispatcher.extend(
 /** @lends conbo.Context.prototype */
@@ -3058,6 +3071,7 @@ __denumerate(conbo.Context.prototype);
  * @class		conbo.Hash
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
+ * @param 		{object} options - Object containing optional initialisation options, including 'source' (object) containing initial values
  */
 conbo.Hash = conbo.EventDispatcher.extend(
 /** @lends conbo.Hash.prototype */
@@ -3117,6 +3131,7 @@ __denumerate(conbo.Hash.prototype);
  * @class		conbo.LocalHash
  * @augments	conbo.Hash
  * @author 		Neil Rackett
+ * @param 		{object} options - Object containing initialisation options, including 'name' (string) and 'source' (object) containing default values; see Hash for other options
  */
 conbo.LocalHash = conbo.Hash.extend(
 /** @lends conbo.LocalHash.prototype */
@@ -3179,6 +3194,7 @@ __denumerate(conbo.LocalHash.prototype);
  * @class		conbo.List
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
+ * @param 		{object} options - Object containing initialisation options, including `source` (array)
  */
 conbo.List = conbo.EventDispatcher.extend(
 /** @lends conbo.List.prototype */
@@ -3370,9 +3386,8 @@ conbo.List = conbo.EventDispatcher.extend(
 	},
 	
 	/**
-	 * Force the collection to re-sort itself. You don't need to call this under
-	 * normal circumstances, as the set will maintain sort order as each item
-	 * is added.
+	 * Force the collection to re-sort itself.
+	 * @param	{function}	compareFunction - Compare function to determine sort order
 	 */
 	sort: function(compareFunction) 
 	{
@@ -3390,7 +3405,7 @@ conbo.List = conbo.EventDispatcher.extend(
 	{
 		return new this.constructor(this.source);
 	},
-
+	
 	/**
 	 * The JSON-friendly representation of the List
 	 */
@@ -3416,6 +3431,7 @@ conbo.List = conbo.EventDispatcher.extend(
 	 * Listen to the events of Bindable values so we can detect changes
 	 * @param 	{any}		models
 	 * @param 	{Boolean}	enabled
+	 * @private
 	 */
 	__updateBindings: function(items, enabled)
 	{
@@ -3436,6 +3452,7 @@ conbo.List = conbo.EventDispatcher.extend(
 	
 	/**
 	 * Enables array access operator, e.g. myList[0]
+	 * @private
 	 */
 	__changeHandler: function(event)
 	{
@@ -3463,6 +3480,9 @@ conbo.List = conbo.EventDispatcher.extend(
 		}
 	},
 	
+	/**
+	 * @private
+	 */
 	__applyClass: function(item)
 	{
 		if (item instanceof Array)
@@ -3539,6 +3559,7 @@ __denumerate(conbo.List.prototype);
  * @class		conbo.LocalList
  * @augments	conbo.List
  * @author 		Neil Rackett
+ * @param 		{object} options - Object containing initialisation options, including 'name' (String) and 'source' (Array) of default options
  */
 conbo.LocalList = conbo.List.extend(
 /** @lends conbo.LocalList.prototype */
@@ -3570,7 +3591,7 @@ conbo.LocalList = conbo.List.extend(
 		// Sync with LocalStorage
 		this.addEventListener(conbo.ConboEvent.CHANGE, function(event)
 		{
-  			storage.setItem(name, JSON.stringify(this.toJSON()));
+  			storage.setItem(name, JSON.stringify(this));
 		}, 
 		this, 1000);
 		
@@ -5149,6 +5170,7 @@ conbo.BindingUtils = conbo.Class.extend({},
  * @class		conbo.MutationObserver
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
+ * @param 		{object} options - Object containing initialisation options
  */
 conbo.MutationObserver = conbo.EventDispatcher.extend(
 /** @lends conbo.MutationObserver.prototype */
@@ -5245,6 +5267,7 @@ conbo.MutationObserver = conbo.EventDispatcher.extend(
  * @class		conbo.Promise
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
+ * @param 		{object} options - Object containing initialisation options
  */
 conbo.Promise = conbo.EventDispatcher.extend(
 /** @lends conbo.Promise.prototype */
@@ -5318,6 +5341,7 @@ conbo.IDataRenderer =
  * @class		conbo.Glimpse
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
+ * @param 		{object} options - Object containing initialisation options
  */
 conbo.Glimpse = conbo.EventDispatcher.extend(
 /** @lends conbo.Glimpse.prototype */
@@ -5431,6 +5455,7 @@ __denumerate(conbo.Glimpse.prototype);
  * @class		conbo.View
  * @augments	conbo.Glimpse
  * @author 		Neil Rackett
+ * @param 		{object}	options - Object containing optional initialisation options, including 'attributes', 'className', 'data', 'el', 'id', 'tagName', 'template', 'templateUrl'
  */
 conbo.View = conbo.Glimpse.extend(
 /** @lends conbo.View */
@@ -5844,6 +5869,7 @@ __denumerate(conbo.View.prototype);
  * @class		conbo.ItemRenderer
  * @augments	conbo.View
  * @author 		Neil Rackett
+ * @param 		{object} options - Object containing initialisation options (see View)
  */
 conbo.ItemRenderer = conbo.View.extend().implement(conbo.IDataRenderer);
 /**
@@ -5854,6 +5880,7 @@ conbo.ItemRenderer = conbo.View.extend().implement(conbo.IDataRenderer);
  * @class		conbo.Application
  * @augments	conbo.View
  * @author		Neil Rackett
+ * @param 		{object} options - Object containing optional initialisation options, see View
  */
 conbo.Application = conbo.View.extend(
 /** @lends conbo.Application.prototype */
@@ -6001,6 +6028,7 @@ __denumerate(conbo.Application.prototype);
  * @class		conbo.Command
  * @augments	conbo.EventDispatcher
  * @author		Neil Rackett
+ * @param 		{object} options - Object containing optional initialisation options, including 'context' (Context)
  */
 conbo.Command = conbo.EventDispatcher.extend(
 /** @lends conbo.Command.prototype */
@@ -6053,6 +6081,7 @@ __denumerate(conbo.Command.prototype);
  * @class		conbo.HttpService
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
+ * @param 		{object} options - Object containing optional initialisation options, including 'rootUrl', 'contentType', 'dataType', 'headers', 'encodeFunction', 'decodeFunction', 'resultClass','makeObjectsBindable'
  */
 conbo.HttpService = conbo.EventDispatcher.extend(
 /** @lends conbo.HttpService.prototype */
@@ -6244,6 +6273,7 @@ conbo.HttpService = conbo.EventDispatcher.extend(
  * @class		conbo.AsyncToken
  * @augments	conbo.Promise
  * @author 		Neil Rackett
+ * @param 		{object} options - Object containing optional initialisation options, including 'makeObjectsBindable' and 'resultClass'
  */
 conbo.AsyncToken = conbo.Promise.extend(
 /** @lends conbo.AsyncToken.prototype */
@@ -6353,6 +6383,9 @@ __denumerate(conbo.AsyncToken.prototype);
  * @class		conbo.Responder
  * @augments	conbo.Class
  * @author 		Neil Rackett
+ * @param 		{function}	resultHandler - Function that handles successful results
+ * @param 		{function}	faultHandler - Function that handles errors
+ * @param 		{option} 	scope - The scope the callback functions should be run in
  */
 conbo.Responder = conbo.Class.extend(
 /** @lends conbo.Responder */
@@ -6392,6 +6425,7 @@ conbo.ISyncable =
  * @class		conbo.RemoteHash
  * @augments	conbo.Hash
  * @author 		Neil Rackett
+ * @param 		{object} options - Object containing initialisation options, see Hash
  */
 conbo.RemoteHash = conbo.Hash.extend(
 /** @lends conbo.RemoteHash.prototype */
@@ -6461,6 +6495,7 @@ __denumerate(conbo.HttpService.prototype);
  * @class		conbo.RemoteList
  * @augments	conbo.List
  * @author 		Neil Rackett
+ * @param 		{object} options - Object containing initialisation options, including HttpService options
  */
 conbo.RemoteList = conbo.List.extend(
 /** @lends conbo.RemoteList.prototype */
@@ -6784,6 +6819,7 @@ var escapeRegExp	= /[\-{}\[\]+?.,\\\^$|#\s]/g;
  * @class		conbo.Router
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
+ * @param 		{object} options - Object containing initialisation options
  */
 conbo.Router = conbo.EventDispatcher.extend(
 /** @lends conbo.Router.prototype */
@@ -7007,7 +7043,7 @@ __denumerate(conbo.Router.prototype);
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Feb 10 2016 16:45:26 GMT+0000 (GMT Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Thu Feb 11 2016 10:47:09 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -11,6 +11,7 @@
  * @class		conbo.List
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
+ * @param 		{object} options - Object containing initialisation options, including `source` (array)
  */
 conbo.List = conbo.EventDispatcher.extend(
 /** @lends conbo.List.prototype */
@@ -202,9 +203,8 @@ conbo.List = conbo.EventDispatcher.extend(
 	},
 	
 	/**
-	 * Force the collection to re-sort itself. You don't need to call this under
-	 * normal circumstances, as the set will maintain sort order as each item
-	 * is added.
+	 * Force the collection to re-sort itself.
+	 * @param	{function}	compareFunction - Compare function to determine sort order
 	 */
 	sort: function(compareFunction) 
 	{
@@ -222,7 +222,7 @@ conbo.List = conbo.EventDispatcher.extend(
 	{
 		return new this.constructor(this.source);
 	},
-
+	
 	/**
 	 * The JSON-friendly representation of the List
 	 */
@@ -248,6 +248,7 @@ conbo.List = conbo.EventDispatcher.extend(
 	 * Listen to the events of Bindable values so we can detect changes
 	 * @param 	{any}		models
 	 * @param 	{Boolean}	enabled
+	 * @private
 	 */
 	__updateBindings: function(items, enabled)
 	{
@@ -268,6 +269,7 @@ conbo.List = conbo.EventDispatcher.extend(
 	
 	/**
 	 * Enables array access operator, e.g. myList[0]
+	 * @private
 	 */
 	__changeHandler: function(event)
 	{
@@ -295,6 +297,9 @@ conbo.List = conbo.EventDispatcher.extend(
 		}
 	},
 	
+	/**
+	 * @private
+	 */
 	__applyClass: function(item)
 	{
 		if (item instanceof Array)

@@ -7,6 +7,7 @@
  * @class		conbo.View
  * @augments	conbo.Glimpse
  * @author 		Neil Rackett
+ * @param 		{object}	options - Object containing optional initialisation options, including 'attributes', 'className', 'data', 'el', 'id', 'tagName', 'template', 'templateUrl'
  */
 conbo.View = conbo.Glimpse.extend(
 /** @lends conbo.View */

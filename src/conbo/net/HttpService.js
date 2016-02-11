@@ -11,6 +11,7 @@
  * @class		conbo.HttpService
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
+ * @param 		{object} options - Object containing optional initialisation options, including 'rootUrl', 'contentType', 'dataType', 'headers', 'encodeFunction', 'decodeFunction', 'resultClass','makeObjectsBindable'
  */
 conbo.HttpService = conbo.EventDispatcher.extend(
 /** @lends conbo.HttpService.prototype */

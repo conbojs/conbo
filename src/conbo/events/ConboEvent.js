@@ -9,6 +9,8 @@
  * @class		conbo.ConboEvent
  * @augments	conbo.Event
  * @author		Neil Rackett
+ * @param 		{string}	type - The type of event this object represents
+ * @param 		{object}	options - Properties to be added to this event object
  */
 conbo.ConboEvent = conbo.Event.extend(
 /** @lends conbo.ConboEvent.prototype */

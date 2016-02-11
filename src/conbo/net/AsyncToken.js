@@ -4,6 +4,7 @@
  * @class		conbo.AsyncToken
  * @augments	conbo.Promise
  * @author 		Neil Rackett
+ * @param 		{object} options - Object containing optional initialisation options, including 'makeObjectsBindable' and 'resultClass'
  */
 conbo.AsyncToken = conbo.Promise.extend(
 /** @lends conbo.AsyncToken.prototype */

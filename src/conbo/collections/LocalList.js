@@ -5,6 +5,7 @@
  * @class		conbo.LocalList
  * @augments	conbo.List
  * @author 		Neil Rackett
+ * @param 		{object} options - Object containing initialisation options, including 'name' (String) and 'source' (Array) of default options
  */
 conbo.LocalList = conbo.List.extend(
 /** @lends conbo.LocalList.prototype */
@@ -36,7 +37,7 @@ conbo.LocalList = conbo.List.extend(
 		// Sync with LocalStorage
 		this.addEventListener(conbo.ConboEvent.CHANGE, function(event)
 		{
-  			storage.setItem(name, JSON.stringify(this.toJSON()));
+  			storage.setItem(name, JSON.stringify(this));
 		}, 
 		this, 1000);
 		

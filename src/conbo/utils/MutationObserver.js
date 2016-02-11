@@ -7,6 +7,7 @@
  * @class		conbo.MutationObserver
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
+ * @param 		{object} options - Object containing initialisation options
  */
 conbo.MutationObserver = conbo.EventDispatcher.extend(
 /** @lends conbo.MutationObserver.prototype */

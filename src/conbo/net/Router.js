@@ -14,6 +14,7 @@ var escapeRegExp	= /[\-{}\[\]+?.,\\\^$|#\s]/g;
  * @class		conbo.Router
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
+ * @param 		{object} options - Object containing initialisation options
  */
 conbo.Router = conbo.EventDispatcher.extend(
 /** @lends conbo.Router.prototype */

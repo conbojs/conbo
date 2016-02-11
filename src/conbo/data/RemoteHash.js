@@ -5,6 +5,7 @@
  * @class		conbo.RemoteHash
  * @augments	conbo.Hash
  * @author 		Neil Rackett
+ * @param 		{object} options - Object containing initialisation options, see Hash
  */
 conbo.RemoteHash = conbo.Hash.extend(
 /** @lends conbo.RemoteHash.prototype */

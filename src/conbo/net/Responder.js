@@ -4,6 +4,9 @@
  * @class		conbo.Responder
  * @augments	conbo.Class
  * @author 		Neil Rackett
+ * @param 		{function}	resultHandler - Function that handles successful results
+ * @param 		{function}	faultHandler - Function that handles errors
+ * @param 		{option} 	scope - The scope the callback functions should be run in
  */
 conbo.Responder = conbo.Class.extend(
 /** @lends conbo.Responder */

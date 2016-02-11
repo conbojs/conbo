@@ -6,6 +6,7 @@
  * @class		conbo.Application
  * @augments	conbo.View
  * @author		Neil Rackett
+ * @param 		{object} options - Object containing optional initialisation options, see View
  */
 conbo.Application = conbo.View.extend(
 /** @lends conbo.Application.prototype */

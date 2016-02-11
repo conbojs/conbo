@@ -4,6 +4,7 @@
  * @class		conbo.Promise
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
+ * @param 		{object} options - Object containing initialisation options
  */
 conbo.Promise = conbo.EventDispatcher.extend(
 /** @lends conbo.Promise.prototype */

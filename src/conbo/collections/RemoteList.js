@@ -5,6 +5,7 @@
  * @class		conbo.RemoteList
  * @augments	conbo.List
  * @author 		Neil Rackett
+ * @param 		{object} options - Object containing initialisation options, including HttpService options
  */
 conbo.RemoteList = conbo.List.extend(
 /** @lends conbo.RemoteList.prototype */

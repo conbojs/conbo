@@ -123,7 +123,8 @@ module.exports = function (grunt)
 	                configure: 'jsdoc.json',
 	                destination: 'docs',
 	                readme: 'README.md',
-	                package: 'package.json'
+	                package: 'package.json',
+	                access: 'public'
 	            }
 	        }
 	    }
@@ -136,5 +137,5 @@ module.exports = function (grunt)
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-jsdoc');
 	
-	grunt.registerTask('default', ['concat','uglify','jsdoc']);
+	grunt.registerTask('default', ['concat','uglify']);//,'jsdoc']);
 };

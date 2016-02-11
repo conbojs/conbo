@@ -8,6 +8,7 @@
  * @class		conbo.Context
  * @augments	conbo.EventDispatcher
  * @author		Neil Rackett
+ * @param 		{object} options - Object containing initialisation options, including 'app' (Application) and 'namespace' (Namespace) 
  */
 conbo.Context = conbo.EventDispatcher.extend(
 /** @lends conbo.Context.prototype */

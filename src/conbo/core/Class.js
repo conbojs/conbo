@@ -1,7 +1,8 @@
 /**
  * Class
  * Extendable base class from which all others extend
- * @class	conbo.Class
+ * @class		conbo.Class
+ * @param 		{object} options - Object containing initialisation options
  */
 conbo.Class = function(options) 
 {

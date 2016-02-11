@@ -10,6 +10,8 @@
  * scope by specifying a root element
  * 
  * @memberof	conbo
+ * @param		{conbo.Namespace} namespace
+ * @param		{Element} rootEl - Top most element to scan (optional)
  */
 conbo.initDom = function(namespace, rootEl)
 {
@@ -77,6 +79,8 @@ var __getObserverIndex = function(namespace, rootEl)
  * scope by specifying a root element
  * 
  * @memberof	conbo
+ * @param		{conbo.Namespace} namespace
+ * @param		{Element} rootEl - Top most element to observe (optional)
  */
 conbo.observeDom = function(namespace, rootEl)
 {
@@ -119,6 +123,8 @@ conbo.observeDom = function(namespace, rootEl)
  * Stop watching the DOM for new Applications
  * 
  * @memberof	conbo
+ * @param		{conbo.Namespace} namespace
+ * @param		{Element} rootEl - Top most element to observe (optional)
  */
 conbo.unobserveDom = function(namespace, rootEl)
 {
