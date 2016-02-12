@@ -1,14 +1,12 @@
 /*
- * Utility methods
- * 
- * A modified subset of Underscore.js methods,
+ * Utility methods: a modified subset of Underscore.js methods, 
  * plus loads of our own
  */
 
 (function() 
 {
 	// Establish the object that gets returned to break out of a loop iteration.
-	var breaker = {};
+	var breaker = false;
 
 	// Save bytes in the minified (but not gzipped) version:
 	var
@@ -29,7 +27,6 @@
 	var
 		nativeIndexOf		= ArrayProto.indexOf,
 		nativeLastIndexOf	= ArrayProto.lastIndexOf,
-		nativeForEach		= ArrayProto.forEach,
 		nativeMap			= ArrayProto.map,
 		nativeReduce		= ArrayProto.reduce,
 		nativeReduceRight	= ArrayProto.reduceRight,
@@ -44,32 +41,42 @@
 	// --------------------
 
 	/**
-	 * Handles objects with the built-in `forEach`, arrays, lists and raw objects,
-	 * delegating to native `forEach` if available.
+	 * Handles objects, arrays, lists and raw objects using a for loop (because 
+	 * tests show that a for loop can be twice as fast as a native forEach).
+	 * 
+	 * Return `false` to break the loop.
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - The list to iterate
 	 * @param		{function}	iterator - Iterator function with parameters: item, index, list
 	 * @param		{object}	scope - The scope the iterator function should run in (optional)
 	 */
-	 conbo.forEach = function(obj, iterator, scope) {
-		if (obj == null) return obj;
-		var i;
-		if (nativeForEach && obj.forEach === nativeForEach) {
-			obj.forEach(iterator, scope);
-		} else if (obj.length === +obj.length) {
-			for (i = 0, length = obj.length; i < length; i++) {
+	 conbo.forEach = function(obj, iterator, scope) 
+	 {
+		if (obj == null) return;
+		
+		var i, length;
+		
+		if (obj.length === +obj.length) 
+		{
+			for (i=0, length=obj.length; i<length; ++i) 
+			{
 				if (iterator.call(scope, obj[i], i, obj) === breaker) return;
 			}
-		} else {
+		}
+		else
+		{
 			var keys = conbo.keys(obj);
-			for (i = 0, length = keys.length; i < length; i++) {
+			
+			for (i=0, length=keys.length; i<length; i++) 
+			{
 				if (iterator.call(scope, obj[keys[i]], keys[i], obj) === breaker) return;
 			}
 		}
+		
 		return obj;
 	};
-
+	
 	var forEach = conbo.forEach;
 	
 	/**
