@@ -1,21 +1,23 @@
 /**
- * List
+ * A bindable Array wrapper that can be used when you don't require 
+ * web service connectivity.
  * 
- * A bindable Array wrapper that can be used as a lightweight alternative to 
- * conbo.Collection for collections that don't require web service connectivity.
- * 
- * Unlike Collection, List doesn't automatically convert added items into
- * Hash or Model, but does automatically detect if Bindable objects are added
- * to it and automatically watches them for changes
+ * Plain objects will automatically be converted into an instance of 
+ * the specified `itemClass` when added to a List, and the appropriate
+ * events dispatched if the items it contains are changed or updated.
  * 
  * @class		conbo.List
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
- * @param 		{object} options - Object containing initialisation options, including `source` (array)
+ * @param 		{object} options - Object containing optional initialisation options, including `source` (array), `context` (Context) and `itemClass` (Class)
  */
 conbo.List = conbo.EventDispatcher.extend(
 /** @lends conbo.List.prototype */
 {
+	/**
+	 * The class to use for items in this list (plain JS objects will 
+	 * automatically be wrapped using this class), defaults to conbo.Hash
+	 */
 	itemClass: conbo.Hash,
 	
 	/**
@@ -88,8 +90,7 @@ conbo.List = conbo.EventDispatcher.extend(
 		
 		if (items.length)
 		{
-			
-			this.source.push.apply(this.source, this.__applyClass(items));
+			this.source.push.apply(this.source, this.__applyItemClass(items));
 			this.__updateBindings(items);
 			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 			this.dispatchChange('length');
@@ -121,7 +122,7 @@ conbo.List = conbo.EventDispatcher.extend(
 	{
 		if (item)
 		{
-			this.source.unshift(this.source, this.__applyClass(conbo.toArray(arguments)));
+			this.source.unshift(this.source, this.__applyItemClass(conbo.toArray(arguments)));
 			this.__updateBindings(conbo.toArray(arguments));
 			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 			this.dispatchChange('length');
@@ -310,21 +311,24 @@ conbo.List = conbo.EventDispatcher.extend(
 	/**
 	 * @private
 	 */
-	__applyClass: function(item)
+	__applyItemClass: function(item)
 	{
 		if (item instanceof Array)
 		{
 			for (var i=0; i<item.length; i++)
 			{
-				item[i] = this.__applyClass(item[i]);
+				item[i] = this.__applyItemClass(item[i]);
 			}
 			
 			return item;
 		}
 		
-		if (conbo.isObject(item) && !conbo.isClass(item))
+		if (conbo.isObject(item) 
+			&& !conbo.isClass(item)
+			&& !(item instanceof conbo.Class)
+			)
 		{
-			item = new this.itemClass({source:item});
+			item = new this.itemClass({source:item, context:this.context});
 		}
 		
 		return item;

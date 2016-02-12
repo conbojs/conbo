@@ -20,7 +20,7 @@ conbo.Hash = conbo.EventDispatcher.extend(
 		
 		if (!!options.context) this.context = options.context;
 		
-		conbo.defaults(this, options.source, this.defaults);	
+		conbo.setDefaults(this, options.source, this.defaults);	
 		delete this.defaults;
 		
 		this.initialize.apply(this, arguments);

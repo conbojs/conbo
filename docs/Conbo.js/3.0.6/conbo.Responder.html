@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Class</title>
+    <title>JSDoc: Class: Responder</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Class</h1>
+    <h1 class="page-title">Class: Responder</h1>
 
     
 
@@ -29,7 +29,7 @@
 <header>
     
         <h2>
-            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>Class</h2>
+            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>Responder</h2>
         
     
 </header>
@@ -41,14 +41,14 @@
 
     
 
-    <h4 class="name" id="Class"><span class="type-signature"></span>new Class<span class="signature">(options)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Responder"><span class="type-signature"></span>new Responder<span class="signature">(resultHandler, faultHandler, scope)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    ClassExtendable base class from which all others extend
+    Responder
 </div>
 
 
@@ -84,13 +84,13 @@
 
         <tr>
             
-                <td class="name"><code>options</code></td>
+                <td class="name"><code>resultHandler</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">function</span>
 
 
             
@@ -100,7 +100,53 @@
 
             
 
-            <td class="description last">Object containing initialisation options</td>
+            <td class="description last">Function that handles successful results</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>faultHandler</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Function that handles errors</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>scope</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">option</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The scope the callback functions should be run in</td>
         </tr>
 
     
@@ -131,6 +177,13 @@
     
 
     
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li>Neil Rackett</li>
+        </ul>
+    </dd>
+    
 
     
 
@@ -141,7 +194,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2230">line 2230</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6422">line 6422</a>
     </li></ul></dd>
     
 
@@ -169,6 +222,17 @@
 
     
     </div>
+
+    
+        <h3 class="subsection-title">Extends</h3>
+
+        
+
+
+    <ul>
+        <li><a href="conbo.Class.html">conbo.Class</a></li>
+    </ul>
+
 
     
 
@@ -207,6 +271,11 @@
     
 
     
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="conbo.Class.html#supro">conbo.Class#supro</a>
+    </li></ul></dd>
+    
 
     
 
@@ -229,7 +298,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2259">line 2259</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2302">line 2302</a>
     </li></ul></dd>
     
 
@@ -250,301 +319,6 @@
 
     
         <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    <h4 class="name" id=".extend"><span class="type-signature">(static) </span>extend<span class="signature">(protoProps, staticProps)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Extend this class to create a new class
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>protoProps</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Object containing the new class's prototype</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>staticProps</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Object containing the new class's static methods and properties</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2308">line 2308</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>var MyClass = conbo.Class.extend({	doSomething:function()	{ 		console.log(':-)'); 	}});</code></pre>
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".implement"><span class="type-signature">(static) </span>implement<span class="signature">(interface)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Implements the specified pseudo-interface(s) on the class, copying the default methods or properties from the partial(s) if they have not already been implemented.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>interface</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Object containing one or more properties or methods to be implemented (an unlimited number of parameters can be passed)</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2352">line 2352</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>var MyClass = conbo.Class.extend().implement(conbo.IInjectable);</code></pre>
-
-
 
         
             
@@ -629,6 +403,11 @@
     
 
     
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="conbo.Class.html#bind">conbo.Class#bind</a>
+    </li></ul></dd>
+    
 
     
 
@@ -651,7 +430,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2269">line 2269</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2312">line 2312</a>
     </li></ul></dd>
     
 
@@ -721,6 +500,11 @@
     
 
     
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="conbo.Class.html#bindAll">conbo.Class#bindAll</a>
+    </li></ul></dd>
+    
 
     
 
@@ -743,7 +527,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2278">line 2278</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2321">line 2321</a>
     </li></ul></dd>
     
 
@@ -813,6 +597,11 @@
     
 
     
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="conbo.Class.html#initialize">conbo.Class#initialize</a>
+    </li></ul></dd>
+    
 
     
 
@@ -835,7 +624,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2252">line 2252</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2295">line 2295</a>
     </li></ul></dd>
     
 
@@ -883,7 +672,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Thu Feb 11 2016 17:23:23 GMT+0000 (GMT Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Feb 12 2016 12:31:15 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

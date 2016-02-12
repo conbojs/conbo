@@ -121,7 +121,7 @@ var conbo = function(namespace)
  * @augments	conbo
  * @returns 	{String}
  */
-conbo.VERSION = '3.0.5';
+conbo.VERSION = '3.0.6';
 	
 /**
  * @augments	conbo
@@ -142,16 +142,14 @@ if (!!$)
 }
 
 /*
- * Utility methods
- * 
- * A modified subset of Underscore.js methods,
+ * Utility methods: a modified subset of Underscore.js methods, 
  * plus loads of our own
  */
 
 (function() 
 {
 	// Establish the object that gets returned to break out of a loop iteration.
-	var breaker = {};
+	var breaker = false;
 
 	// Save bytes in the minified (but not gzipped) version:
 	var
@@ -172,7 +170,6 @@ if (!!$)
 	var
 		nativeIndexOf		= ArrayProto.indexOf,
 		nativeLastIndexOf	= ArrayProto.lastIndexOf,
-		nativeForEach		= ArrayProto.forEach,
 		nativeMap			= ArrayProto.map,
 		nativeReduce		= ArrayProto.reduce,
 		nativeReduceRight	= ArrayProto.reduceRight,
@@ -187,32 +184,42 @@ if (!!$)
 	// --------------------
 
 	/**
-	 * Handles objects with the built-in `forEach`, arrays, lists and raw objects,
-	 * delegating to native `forEach` if available.
+	 * Handles objects, arrays, lists and raw objects using a for loop (because 
+	 * tests show that a for loop can be twice as fast as a native forEach).
+	 * 
+	 * Return `false` to break the loop.
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - The list to iterate
 	 * @param		{function}	iterator - Iterator function with parameters: item, index, list
 	 * @param		{object}	scope - The scope the iterator function should run in (optional)
 	 */
-	 conbo.forEach = function(obj, iterator, scope) {
-		if (obj == null) return obj;
-		var i;
-		if (nativeForEach &amp;&amp; obj.forEach === nativeForEach) {
-			obj.forEach(iterator, scope);
-		} else if (obj.length === +obj.length) {
-			for (i = 0, length = obj.length; i &lt; length; i++) {
+	 conbo.forEach = function(obj, iterator, scope) 
+	 {
+		if (obj == null) return;
+		
+		var i, length;
+		
+		if (obj.length === +obj.length) 
+		{
+			for (i=0, length=obj.length; i&lt;length; ++i) 
+			{
 				if (iterator.call(scope, obj[i], i, obj) === breaker) return;
 			}
-		} else {
+		}
+		else
+		{
 			var keys = conbo.keys(obj);
-			for (i = 0, length = keys.length; i &lt; length; i++) {
+			
+			for (i=0, length=keys.length; i&lt;length; i++) 
+			{
 				if (iterator.call(scope, obj[keys[i]], keys[i], obj) === breaker) return;
 			}
 		}
+		
 		return obj;
 	};
-
+	
 	var forEach = conbo.forEach;
 	
 	/**
@@ -284,7 +291,7 @@ if (!!$)
 		
 		return result;
 	};
-
+	
 	/**
 	 * Return the index of the first value which passes a truth test
 	 * 
@@ -541,7 +548,7 @@ if (!!$)
 	 * @param		{object}	guard - Optional
 	 */
 	conbo.last = function(array, n, guard) {
-		if (array == null) return void 0;
+		if (array == null) return undefined;
 		if (n == null || guard) return array[array.length - 1];
 		return slice.call(array, Math.max(array.length - n, 0));
 	};
@@ -938,11 +945,13 @@ if (!!$)
 	};
 
 	/**
-	 * Extend a given object with all the properties in passed-in object(s).
+	 * Extend a given object by cloning all of the properties of the passed-in 
+	 * object(s), overwriting the target's property descriptors
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to extend
 	 * @returns		{object}
+	 * @see			conbo.setValues
 	 */
 	conbo.extend = function(obj) 
 	{
@@ -958,7 +967,7 @@ if (!!$)
 		
 		return obj;
 	};
-
+	
 	/**
 	 * Return a copy of the object only containing the whitelisted properties.
 	 * 
@@ -997,10 +1006,13 @@ if (!!$)
 	};
 
 	/**
-	 * Fill in a given object with default properties.
+	 * Fill in an object's missing properties by cloning the properties of the 
+	 * source object(s) onto the target object, overwriting the target's
+	 * property descriptors
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to populate
+	 * @see			conbo.setDefaults
 	 */
 	conbo.defaults = function(obj) 
 	{
@@ -1010,14 +1022,39 @@ if (!!$)
 			{
 				for (var propName in source) 
 				{
-					if (obj[propName] !== void 0) continue;
+					if (obj[propName] !== undefined) continue;
 					conbo.cloneProperty(source, propName, obj);
 				}
 			}
 		});
+		
 		return obj;
 	};
-
+	
+	/**
+	 * Fill in missing values on an object by setting the property values on 
+	 * the target object, without affecting the target's property descriptors
+	 * 
+	 * @memberof	conbo
+	 * @param		{object}	obj - Object to populate
+	 */
+	conbo.setDefaults = function(obj) 
+	{
+		forEach(slice.call(arguments, 1), function(source) 
+		{
+			if (source) 
+			{
+				for (var propName in source) 
+				{
+					if (obj[propName] !== undefined) continue;
+					obj[propName] = source[propName];
+				}
+			}
+		});
+		
+		return obj;
+	};
+	
 	/**
 	 * Create a (shallow-cloned) duplicate of an object.
 	 * 
@@ -1257,7 +1294,7 @@ if (!!$)
 	 * @returns		{boolean}
 	 */
 	conbo.isUndefined = function(obj) {
-		return obj === void 0;
+		return obj === undefined;
 	};
 
 	/**
@@ -1526,13 +1563,14 @@ conbo.decodeEntities = function(string)
 
 /**
  * Copies all of the enumerable values from one or more objects and sets
- * them to another.
+ * them to another, without affecting the target object's property
+ * descriptors.
  * 
  * Unlike conbo.extend, setValues only sets the values on the target 
- * object and does not destroy and redifine them
+ * object and does not destroy and redifine them.
  * 
  * @memberof	conbo
- * @param	{Object}	obj		Object to copy properties to
+ * @param		{Object}	obj		Object to copy properties to
  * 
  * @example	
  * conbo.setValues({id:1}, {get name() { return 'Arthur'; }}, {get age() { return 42; }});
@@ -1573,10 +1611,10 @@ conbo.isClass = function(value, classReference)
  * from one object to another
  * 
  * @memberof	conbo
- * @param	source			Source object
- * @param	sourceName		Name of the property on the source
- * @param	target			Target object
- * @param	targetName		Name of the property on the target (default: sourceName)
+ * @param		{object}	source - Source object
+ * @param		{string}	sourceName - Name of the property on the source
+ * @param		{object}	target - Target object
+ * @param		{string} 	targetName - Name of the property on the target (default: sourceName)
  */
 conbo.cloneProperty = function(source, sourceName, target, targetName)
 {
@@ -1768,7 +1806,12 @@ conbo.makeAllBindable = function(obj, propNames, useForIn)
  */
 conbo.isAccessor = function(obj, propName)
 {
-	var descriptor = Object.getOwnPropertyDescriptor(obj, propName);
+	var descriptor;
+	
+	if (obj)
+	{
+		descriptor = Object.getOwnPropertyDescriptor(obj, propName);
+	}
 	
 	// TODO Should we check prototype too, using obj.__proto__ or Object.getPrototypeOf(obj)?
 	
@@ -3111,7 +3154,7 @@ conbo.Hash = conbo.EventDispatcher.extend(
 		
 		if (!!options.context) this.context = options.context;
 		
-		conbo.defaults(this, options.source, this.defaults);	
+		conbo.setDefaults(this, options.source, this.defaults);	
 		delete this.defaults;
 		
 		this.initialize.apply(this, arguments);
@@ -3207,23 +3250,25 @@ conbo.LocalHash = conbo.Hash.extend(
 __denumerate(conbo.LocalHash.prototype);
 
 /**
- * List
+ * A bindable Array wrapper that can be used when you don't require 
+ * web service connectivity.
  * 
- * A bindable Array wrapper that can be used as a lightweight alternative to 
- * conbo.Collection for collections that don't require web service connectivity.
- * 
- * Unlike Collection, List doesn't automatically convert added items into
- * Hash or Model, but does automatically detect if Bindable objects are added
- * to it and automatically watches them for changes
+ * Plain objects will automatically be converted into an instance of 
+ * the specified `itemClass` when added to a List, and the appropriate
+ * events dispatched if the items it contains are changed or updated.
  * 
  * @class		conbo.List
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
- * @param 		{object} options - Object containing initialisation options, including `source` (array)
+ * @param 		{object} options - Object containing optional initialisation options, including `source` (array), `context` (Context) and `itemClass` (Class)
  */
 conbo.List = conbo.EventDispatcher.extend(
 /** @lends conbo.List.prototype */
 {
+	/**
+	 * The class to use for items in this list (plain JS objects will 
+	 * automatically be wrapped using this class), defaults to conbo.Hash
+	 */
 	itemClass: conbo.Hash,
 	
 	/**
@@ -3296,8 +3341,7 @@ conbo.List = conbo.EventDispatcher.extend(
 		
 		if (items.length)
 		{
-			
-			this.source.push.apply(this.source, this.__applyClass(items));
+			this.source.push.apply(this.source, this.__applyItemClass(items));
 			this.__updateBindings(items);
 			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 			this.dispatchChange('length');
@@ -3329,7 +3373,7 @@ conbo.List = conbo.EventDispatcher.extend(
 	{
 		if (item)
 		{
-			this.source.unshift(this.source, this.__applyClass(conbo.toArray(arguments)));
+			this.source.unshift(this.source, this.__applyItemClass(conbo.toArray(arguments)));
 			this.__updateBindings(conbo.toArray(arguments));
 			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 			this.dispatchChange('length');
@@ -3518,21 +3562,24 @@ conbo.List = conbo.EventDispatcher.extend(
 	/**
 	 * @private
 	 */
-	__applyClass: function(item)
+	__applyItemClass: function(item)
 	{
 		if (item instanceof Array)
 		{
 			for (var i=0; i&lt;item.length; i++)
 			{
-				item[i] = this.__applyClass(item[i]);
+				item[i] = this.__applyItemClass(item[i]);
 			}
 			
 			return item;
 		}
 		
-		if (conbo.isObject(item) &amp;&amp; !conbo.isClass(item))
+		if (conbo.isObject(item) 
+			&amp;&amp; !conbo.isClass(item)
+			&amp;&amp; !(item instanceof conbo.Class)
+			)
 		{
-			item = new this.itemClass({source:item});
+			item = new this.itemClass({source:item, context:this.context});
 		}
 		
 		return item;
@@ -4956,19 +5003,20 @@ conbo.BindingUtils = conbo.Class.extend({},
 			throw new Error(type+' is not a valid type parameter for applyView');
 		}
 		
-		var $el,
-			typeClass = conbo[type.charAt(0).toUpperCase()+type.slice(1)],
+		var typeClass = conbo[type.charAt(0).toUpperCase()+type.slice(1)],
 			scope = this
 			;
 		
-		if (rootView instanceof conbo.View) $el = rootView.$el;
-		else if (rootView instanceof $) $el = rootView;
-		else if (conbo.isElement(rootView)) $el = $(rootView);
+		var $rootEl = rootView instanceof conbo.View
+			? rootView.$el
+			: $(rootView)
+			;
 		
 		// Detects cb-* and custom tag names 
-		$el.find('*').not('.cb-'+type).each(function(index, el)
+		$rootEl.find('*').not('.cb-'+type).each(function(index, el)
 		{
-			var className = $(el).cbAttrs()[type] || conbo.toCamelCase(el.tagName, true),
+			var $el = $(el),
+				className = $el.cbAttrs()[type] || conbo.toCamelCase(el.tagName, true),
 				classReference = scope.getClass(className, namespace)
 				;
 			
@@ -4978,8 +5026,11 @@ conbo.BindingUtils = conbo.Class.extend({},
 				if ((type == 'glimpse' &amp;&amp; conbo.isClass(classReference, conbo.Glimpse))
 					|| (type == 'view' &amp;&amp; conbo.isClass(classReference, conbo.View)))
 				{
-					// TODO Apply subcontext of "closest" view?
-					new classReference({el:el, context:rootView.subcontext});
+					// Gets the Context of the "closest" parent View
+					var closestView = $el.closest('.cb-view')[0];
+						context = closestView ? closestView.cbView.subcontext : rootView.subcontext;
+					
+					new classReference({el:el, context:context});
 				}
 			}
 		});
@@ -7062,7 +7113,7 @@ __denumerate(conbo.Router.prototype);
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Thu Feb 11 2016 17:23:23 GMT+0000 (GMT Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Feb 12 2016 12:31:14 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

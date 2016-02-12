@@ -148,7 +148,7 @@
 		
 		return result;
 	};
-
+	
 	/**
 	 * Return the index of the first value which passes a truth test
 	 * 
@@ -405,7 +405,7 @@
 	 * @param		{object}	guard - Optional
 	 */
 	conbo.last = function(array, n, guard) {
-		if (array == null) return void 0;
+		if (array == null) return undefined;
 		if (n == null || guard) return array[array.length - 1];
 		return slice.call(array, Math.max(array.length - n, 0));
 	};
@@ -802,11 +802,13 @@
 	};
 
 	/**
-	 * Extend a given object with all the properties in passed-in object(s).
+	 * Extend a given object by cloning all of the properties of the passed-in 
+	 * object(s), overwriting the target's property descriptors
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to extend
 	 * @returns		{object}
+	 * @see			conbo.setValues
 	 */
 	conbo.extend = function(obj) 
 	{
@@ -822,7 +824,7 @@
 		
 		return obj;
 	};
-
+	
 	/**
 	 * Return a copy of the object only containing the whitelisted properties.
 	 * 
@@ -861,10 +863,13 @@
 	};
 
 	/**
-	 * Fill in a given object with default properties.
+	 * Fill in an object's missing properties by cloning the properties of the 
+	 * source object(s) onto the target object, overwriting the target's
+	 * property descriptors
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to populate
+	 * @see			conbo.setDefaults
 	 */
 	conbo.defaults = function(obj) 
 	{
@@ -874,14 +879,39 @@
 			{
 				for (var propName in source) 
 				{
-					if (obj[propName] !== void 0) continue;
+					if (obj[propName] !== undefined) continue;
 					conbo.cloneProperty(source, propName, obj);
 				}
 			}
 		});
+		
 		return obj;
 	};
-
+	
+	/**
+	 * Fill in missing values on an object by setting the property values on 
+	 * the target object, without affecting the target's property descriptors
+	 * 
+	 * @memberof	conbo
+	 * @param		{object}	obj - Object to populate
+	 */
+	conbo.setDefaults = function(obj) 
+	{
+		forEach(slice.call(arguments, 1), function(source) 
+		{
+			if (source) 
+			{
+				for (var propName in source) 
+				{
+					if (obj[propName] !== undefined) continue;
+					obj[propName] = source[propName];
+				}
+			}
+		});
+		
+		return obj;
+	};
+	
 	/**
 	 * Create a (shallow-cloned) duplicate of an object.
 	 * 
@@ -1121,7 +1151,7 @@
 	 * @returns		{boolean}
 	 */
 	conbo.isUndefined = function(obj) {
-		return obj === void 0;
+		return obj === undefined;
 	};
 
 	/**
@@ -1390,13 +1420,14 @@ conbo.decodeEntities = function(string)
 
 /**
  * Copies all of the enumerable values from one or more objects and sets
- * them to another.
+ * them to another, without affecting the target object's property
+ * descriptors.
  * 
  * Unlike conbo.extend, setValues only sets the values on the target 
- * object and does not destroy and redifine them
+ * object and does not destroy and redifine them.
  * 
  * @memberof	conbo
- * @param	{Object}	obj		Object to copy properties to
+ * @param		{Object}	obj		Object to copy properties to
  * 
  * @example	
  * conbo.setValues({id:1}, {get name() { return 'Arthur'; }}, {get age() { return 42; }});
@@ -1437,10 +1468,10 @@ conbo.isClass = function(value, classReference)
  * from one object to another
  * 
  * @memberof	conbo
- * @param	source			Source object
- * @param	sourceName		Name of the property on the source
- * @param	target			Target object
- * @param	targetName		Name of the property on the target (default: sourceName)
+ * @param		{object}	source - Source object
+ * @param		{string}	sourceName - Name of the property on the source
+ * @param		{object}	target - Target object
+ * @param		{string} 	targetName - Name of the property on the target (default: sourceName)
  */
 conbo.cloneProperty = function(source, sourceName, target, targetName)
 {
@@ -1632,7 +1663,12 @@ conbo.makeAllBindable = function(obj, propNames, useForIn)
  */
 conbo.isAccessor = function(obj, propName)
 {
-	var descriptor = Object.getOwnPropertyDescriptor(obj, propName);
+	var descriptor;
+	
+	if (obj)
+	{
+		descriptor = Object.getOwnPropertyDescriptor(obj, propName);
+	}
 	
 	// TODO Should we check prototype too, using obj.__proto__ or Object.getPrototypeOf(obj)?
 	
