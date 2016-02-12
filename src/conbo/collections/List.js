@@ -342,7 +342,7 @@ var listMethods =
 	'forEach', 'map', 'reduce', 'reduceRight', 'find', 'findIndex', 'filter',
 	'reject', 'every', 'any', 'contains', 'invoke', 'indexOf', 'lastIndexOf',
 	'max', 'min', 'toArray', 'size', 'first', 'head', 'take', 'initial', 'rest',
-	'tail', 'drop', 'last', 'without', 'shuffle', 'isEmpty', 'chain'
+	'tail', 'drop', 'last', 'without', 'shuffle', 'isEmpty', 'chain', 'sortOn'
 ];
 
 // Mix in each available Conbo utility method as a proxy

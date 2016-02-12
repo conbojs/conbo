@@ -25,7 +25,18 @@ conbo('conbo', function(undefined)
 	ns.MyItemRenderer = conbo.ItemRenderer.extend
 	({
 		className: 'item-renderer',
-	}),
+		myList: undefined,
+		
+		initialize: function()
+		{
+			this.bindAll();
+		},
+		
+		removeMe: function()
+		{
+			this.myList.splice(this.index, 1);
+		}
+	});
 	
 	ns.MyApp = conbo.Application.extend
 	({

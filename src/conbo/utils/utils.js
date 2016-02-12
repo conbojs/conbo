@@ -1492,6 +1492,55 @@ conbo.cloneProperty = function(source, sourceName, target, targetName)
 };
 
 /**
+ * Sorts the items in an array according to one or more fields in the array. 
+ * The array should have the following characteristics:
+ * 
+ * <ul>
+ * <li>The array is an indexed array, not an associative array.</li>
+ * <li>Each element of the array holds an object with one or more properties.</li>
+ * <li>All of the objects have at least one property in common, the values of which can be used to sort the array. Such a property is called a field.</li>
+ * </ul>
+ * 
+ * @memberof	conbo
+ * @param		{array}		array - The Array to sort
+ * @param		{string}	fieldName - The field/property name to sort on
+ * @param		{object}	options - Optional sort criteria: `descending` (Boolean), `caseInsensitive` (Boolean)
+ */
+conbo.sortOn = function(array, fieldName, options)
+{
+	options || (options = {});
+	
+	if (conbo.isArray(array) && fieldName)
+	{
+		array.sort(function(a, b)
+		{
+			var values = [a[fieldName], b[fieldName]];
+			
+			// Configure
+			if (options.descending)
+			{
+				values.reverse();
+			}
+			
+			if (options.caseInsensitive)
+			{
+				conbo.forEach(values, function(value, index)
+				{
+					if (conbo.isString(value)) values[index] = value.toLowerCase();
+				});
+			}
+			
+			// Sort
+			if (values[0] < values[1]) return -1;
+			if (values[0] > values[1]) return 1;
+			return 0;
+		});
+	}
+	
+	return array;
+};
+
+/**
  * Is the object an instance of the specified class(es) or implement the
  * specified pseudo-interface(s)?
  * 
