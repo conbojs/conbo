@@ -355,8 +355,11 @@ listMethods.forEach(function(method)
 		var args = [this.source].concat(conbo.toArray(arguments)),
 			result = conbo[method].apply(conbo, args);
 		
+		// TODO What's the performance impact of doing this?
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE));
+		
 		return conbo.isArray(result)
-			? new conbo.List({source:result})
+			? new this.constructor({source:result, itemClass:this.itemClass})
 			: result;
 	};
 });
