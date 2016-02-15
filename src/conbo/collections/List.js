@@ -122,7 +122,7 @@ conbo.List = conbo.EventDispatcher.extend(
 	{
 		if (item)
 		{
-			this.source.unshift(this.source, this.__applyItemClass(conbo.toArray(arguments)));
+			this.source.unshift.apply(this.source, this.__applyItemClass(conbo.toArray(arguments)));
 			this.__updateBindings(conbo.toArray(arguments));
 			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 			this.dispatchChange('length');
@@ -138,9 +138,9 @@ conbo.List = conbo.EventDispatcher.extend(
 	{
 		if (!this.length) return;
 		
-		var item;
+		var item = this.source.shift();
 		
-		this.__updateBindings(item = this.source.shift(), false);
+		this.__updateBindings(item, false);
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
 		this.dispatchChange('length');
 		
@@ -356,10 +356,11 @@ listMethods.forEach(function(method)
 			result = conbo[method].apply(conbo, args);
 		
 		// TODO What's the performance impact of doing this?
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE));
+//		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE));
 		
 		return conbo.isArray(result)
-			? new this.constructor({source:result, itemClass:this.itemClass})
+//			? new this.constructor({source:result}) // TODO Return List of same type as original?
+			? new conbo.List({source:result, itemClass:this.itemClass})
 			: result;
 	};
 });
