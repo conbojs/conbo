@@ -242,7 +242,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 				
 			default:
 				// To support element lists, etc
-				a = conbo.toArray(values);
+				a = conbo.isIterable(values)
+					? conbo.toArray(values)
+					: [];
 				break;
 		}
 		

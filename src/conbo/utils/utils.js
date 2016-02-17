@@ -57,7 +57,7 @@
 		
 		var i, length;
 		
-		if (obj.length === +obj.length) 
+		if (conbo.isIterable(obj)) 
 		{
 			for (i=0, length=obj.length; i<length; ++i) 
 			{
@@ -373,7 +373,7 @@
 	{
 		if (!obj) return [];
 		if (conbo.isArray(obj)) return slice.call(obj);
-		if (obj.length === +obj.length) return conbo.map(obj, conbo.identity);
+		if (conbo.isIterable(obj)) return conbo.map(obj, conbo.identity);
 		return conbo.values(obj);
 	};
 	
@@ -387,7 +387,7 @@
 	{
 		if (!obj) return 0;
 		
-		return (obj.length === +obj.length)
+		return conbo.isIterable(obj)
 			? obj.length 
 			: conbo.keys(obj).length;
 	};
@@ -923,7 +923,7 @@
 		if (!conbo.isObject(obj)) return obj;
 		return conbo.isArray(obj) ? obj.slice() : conbo.extend({}, obj);
 	};
-
+	
 	// Internal recursive comparison function for `isEqual`.
 	var eq = function(a, b, aStack, bStack) {
 		// Identical objects are equal. `0 === -0`, but they aren't identical.
@@ -1041,6 +1041,18 @@
 			|| (!isNaN(value) && !parseFloat(value)) // "0", "0.0", etc
 			|| (conbo.isObject(value) && !conbo.keys(value).length) // {}
 			;
+	};
+	
+	/**
+	 * Can the value be iterated using a for loop? For example an Array, Arguments, ElementsList, etc.
+	 * 
+	 * @memberof	conbo
+	 * @param		{any}		obj - Object that might be iterable 
+	 * @returns		{boolean}
+	 */
+	conbo.isIterable = function(obj)
+	{
+		return obj && obj.length === +obj.length;
 	};
 	
 	/**
