@@ -695,8 +695,8 @@ conbo.BindingUtils = conbo.Class.extend({},
 			: $(rootView)
 			;
 		
-		// Detects cb-* and custom tag names 
-		$rootEl.find('*').not('.cb-'+type).each(function(index, el)
+		// Detects tags with cb-* attributes and custom tag names 
+		$rootEl.find('*').not('.cb-view, .cb-glimpse').each(function(index, el)
 		{
 			var $el = $(el),
 				className = $el.cbAttrs()[type] || conbo.toCamelCase(el.tagName, true),
