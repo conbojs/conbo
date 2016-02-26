@@ -23,7 +23,7 @@ conbo.Event = conbo.Class.extend(
 		}
 		else 
 		{
-			conbo.defaults(this, type);
+			conbo.defineDefaults(this, type);
 		}
 		
 		if (!this.type) 

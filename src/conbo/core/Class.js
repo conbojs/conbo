@@ -89,7 +89,7 @@ conbo.Class.extend = function(protoProps, staticProps)
 		? protoProps.constructor
 		: function() { return parent.apply(this, arguments); };
 	
-	conbo.extend(child, parent, staticProps);
+	conbo.defineValues(child, parent, staticProps);
 	
 	/**
 	 * Set the prototype chain to inherit from parent, without calling
@@ -101,7 +101,7 @@ conbo.Class.extend = function(protoProps, staticProps)
 	
 	if (protoProps)
 	{
-		conbo.extend(child.prototype, protoProps);
+		conbo.defineValues(child.prototype, protoProps);
 	}
 	
 	conbo.makeBindable(child.prototype);
@@ -122,11 +122,11 @@ conbo.Class.extend = function(protoProps, staticProps)
  */
 conbo.Class.implement = function()
 {
-	var implementation = conbo.defaults.apply(conbo, conbo.union([{}], arguments)),
+	var implementation = conbo.defineDefaults.apply(conbo, conbo.union([{}], arguments)),
 		keys = conbo.keys(implementation),
 		prototype = this.prototype;
 	
-	conbo.defaults(this.prototype, implementation);
+	conbo.defineDefaults(this.prototype, implementation);
 	
 	var rejected = conbo.reject(keys, function(key)
 	{

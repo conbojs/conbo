@@ -143,7 +143,7 @@ conbo.Context = conbo.EventDispatcher.extend(
 	 */
 	addTo: function(obj)
 	{
-		return conbo.extend(obj || {}, {context:this});
+		return conbo.defineValues(obj || {}, {context:this});
 	},
 	
 	/**

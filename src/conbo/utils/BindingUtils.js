@@ -584,9 +584,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 						return;
 					}
 					
-					var opts = conbo.extend({propertyName:property}, options);
+					var opts = conbo.defineValues({propertyName:property}, options);
 					var args = [model, property, el, type, parseFunction, opts, param];
-	
+					
 					bindings = bindings.concat(scope.bindAttribute.apply(scope, args));
 				}
 				

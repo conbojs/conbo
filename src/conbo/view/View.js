@@ -133,6 +133,24 @@ conbo.View = conbo.Glimpse.extend(
 	},
 	
 	/**
+	 * A jQuery wrapped version of the body element
+	 * @see		body
+	 */
+	get $body()
+	{
+		return this.$content || this.$el;
+	},
+	
+	/**
+	 * A View's body is the element to which content should be added:
+	 * the View's content, if it exists, or the View's main element, if it doesn't
+	 */
+	get body()
+	{
+		return this.content || this.el;
+	},
+	
+	/**
 	 * The context that will automatically be applied to children
 	 * when binding or appending Views inside of this View
 	 */
@@ -255,7 +273,7 @@ conbo.View = conbo.Glimpse.extend(
 			throw new Error('Parameter must be instance of conbo.View class');
 		}
 	
-		this.$content.append(view.el);
+		this.$body.append(view.el);
 		
 		return this;
 	},
@@ -285,7 +303,7 @@ conbo.View = conbo.Glimpse.extend(
 			throw new Error('Parameter must be instance of conbo.View class');
 		}
 		
-		this.$content.prepend(view.el);
+		this.$body.prepend(view.el);
 		
 		return this;
 	},

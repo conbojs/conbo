@@ -18,7 +18,7 @@ conbo.RemoteList = conbo.List.extend(
 	 */
 	constructor: function(options)
 	{
-		options = conbo.defaults({}, options, this.options);
+		options = conbo.defineDefaults({}, options, this.options);
 		
 		this.context = options.context;
 		this.preinitialize(options);

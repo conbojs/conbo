@@ -93,14 +93,14 @@ conbo.Glimpse = conbo.EventDispatcher.extend(
 		
 		if (!el) 
 		{
-			var attrs = conbo.extend({}, this.attributes);
+			var attrs = conbo.defineValues({}, this.attributes);
 			
 			el = document.createElement(this.tagName);
 			
 			if (this.id) el.id = this.id;
 			if (this.className) el.className = this.className;
 			
-			conbo.extend(el, attrs);
+			conbo.defineValues(el, attrs);
 		}
 		else 
 		{

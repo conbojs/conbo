@@ -802,15 +802,16 @@
 	};
 
 	/**
-	 * Extend a given object by cloning all of the properties of the passed-in 
-	 * object(s), overwriting the target's property descriptors
+	 * Define the values of the given object by cloning all of the properties 
+	 * of the passed-in object(s), destroying and overwriting the target's 
+	 * property descriptors in the process
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to extend
 	 * @returns		{object}
 	 * @see			conbo.setValues
 	 */
-	conbo.extend = function(obj) 
+	conbo.defineValues = function(obj) 
 	{
 		forEach(slice.call(arguments, 1), function(source) 
 		{
@@ -823,6 +824,23 @@
 		});
 		
 		return obj;
+	};
+	
+	/**
+	 * Define the values of the given object by cloning all of the properties 
+	 * of the passed-in object(s), destroying and overwriting the target's 
+	 * property descriptors in the process
+	 * 
+	 * @deprecated	Use conbo.defineValues
+	 * @memberof	conbo
+	 * @param		{object}	obj - Object to extend
+	 * @returns		{object}
+	 * @see			conbo.setValues
+	 */
+	conbo.extend = function(obj)
+	{
+		conbo.warn('conbo.extend is deprecated: use conbo.defineValues or conbo.setValues');
+		conbo.defineDefaults.apply(conbo, arguments);
 	};
 	
 	/**
@@ -871,7 +889,7 @@
 	 * @param		{object}	obj - Object to populate
 	 * @see			conbo.setDefaults
 	 */
-	conbo.defaults = function(obj) 
+	conbo.defineDefaults = function(obj) 
 	{
 		forEach(slice.call(arguments, 1), function(source) 
 		{
@@ -887,6 +905,22 @@
 		
 		return obj;
 	};
+	
+	/**
+	 * Fill in an object's missing properties by cloning the properties of the 
+	 * source object(s) onto the target object, overwriting the target's
+	 * property descriptors
+	 * 
+	 * @deprecated	Use defineDefaults
+	 * @memberof	conbo
+	 * @param		{object}	obj - Object to populate
+	 * @see			conbo.setDefaults
+	 */
+	conbo.defaults = function(obj)
+	{
+		conbo.warn('conbo.defaults is deprecated: use conbo.defineDefaults or conbo.setDefaults');
+		conbo.defineDefaults.apply(conbo, arguments);
+	}
 	
 	/**
 	 * Fill in missing values on an object by setting the property values on 
@@ -921,7 +955,7 @@
 	conbo.clone = function(obj) 
 	{
 		if (!conbo.isObject(obj)) return obj;
-		return conbo.isArray(obj) ? obj.slice() : conbo.extend({}, obj);
+		return conbo.isArray(obj) ? obj.slice() : conbo.defineValues({}, obj);
 	};
 	
 	// Internal recursive comparison function for `isEqual`.
@@ -1435,7 +1469,7 @@ conbo.decodeEntities = function(string)
  * them to another, without affecting the target object's property
  * descriptors.
  * 
- * Unlike conbo.extend, setValues only sets the values on the target 
+ * Unlike conbo.defineValues, setValues only sets the values on the target 
  * object and does not destroy and redifine them.
  * 
  * @memberof	conbo

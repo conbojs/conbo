@@ -17,7 +17,7 @@ conbo.ConboEvent = conbo.Event.extend(
 {
 	initialize: function(type, options)
 	{
-		conbo.defaults(this, options);
+		conbo.defineDefaults(this, options);
 	},
 	
 	toString: function()

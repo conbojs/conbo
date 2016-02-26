@@ -13,7 +13,7 @@ conbo.LocalHash = conbo.Hash.extend(
 	{
 		var defaultName = 'ConboLocalHash';
 		
-		options = conbo.defaults(options || {}, {name:defaultName});
+		options = conbo.defineDefaults(options || {}, {name:defaultName});
 		
 		var name = options.name;
 		

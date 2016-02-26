@@ -26,7 +26,7 @@ conbo.sync = function(method, model, options)
 	var type = methodMap[method];
 
 	// Default options, unless specified.
-	conbo.defaults(options || (options = {}), 
+	conbo.defineDefaults(options || (options = {}), 
 	{
 		emulateHTTP: conbo.emulateHTTP,
 		emulateJSON: conbo.emulateJSON
@@ -95,7 +95,7 @@ conbo.sync = function(method, model, options)
 	}
 	
 	// Make the request, allowing the user to override any Ajax options.
-	var xhr = options.xhr = conbo.ajax(conbo.extend(params, options));
+	var xhr = options.xhr = conbo.ajax(conbo.defineValues(params, options));
 	
 	model.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REQUEST,
 	{

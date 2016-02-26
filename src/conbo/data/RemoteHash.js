@@ -16,7 +16,7 @@ conbo.RemoteHash = conbo.Hash.extend(
 	 */
 	constructor: function(options)
 	{
-		options = conbo.defaults({}, options, this.options);
+		options = conbo.defineDefaults({}, options, this.options);
 		
 		if (!!options.context) this.context = options.context;
 		this.preinitialize(options);

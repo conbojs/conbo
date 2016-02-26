@@ -14,7 +14,7 @@ conbo.LocalList = conbo.List.extend(
 	{
 		var defaultName = 'ConboLocalList';
 		
-		options = conbo.defaults(options || {}, {name:defaultName});
+		options = conbo.defineDefaults(options || {}, {name:defaultName});
 		
 		var name = options.name;
 		
