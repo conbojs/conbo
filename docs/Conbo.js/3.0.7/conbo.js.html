@@ -121,7 +121,7 @@ var conbo = function(namespace)
  * @augments	conbo
  * @returns 	{String}
  */
-conbo.VERSION = '3.0.6';
+conbo.VERSION = '3.0.7';
 	
 /**
  * @augments	conbo
@@ -200,7 +200,7 @@ if (!!$)
 		
 		var i, length;
 		
-		if (obj.length === +obj.length) 
+		if (conbo.isIterable(obj)) 
 		{
 			for (i=0, length=obj.length; i&lt;length; ++i) 
 			{
@@ -516,7 +516,7 @@ if (!!$)
 	{
 		if (!obj) return [];
 		if (conbo.isArray(obj)) return slice.call(obj);
-		if (obj.length === +obj.length) return conbo.map(obj, conbo.identity);
+		if (conbo.isIterable(obj)) return conbo.map(obj, conbo.identity);
 		return conbo.values(obj);
 	};
 	
@@ -530,7 +530,7 @@ if (!!$)
 	{
 		if (!obj) return 0;
 		
-		return (obj.length === +obj.length)
+		return conbo.isIterable(obj)
 			? obj.length 
 			: conbo.keys(obj).length;
 	};
@@ -945,15 +945,16 @@ if (!!$)
 	};
 
 	/**
-	 * Extend a given object by cloning all of the properties of the passed-in 
-	 * object(s), overwriting the target's property descriptors
+	 * Define the values of the given object by cloning all of the properties 
+	 * of the passed-in object(s), destroying and overwriting the target's 
+	 * property descriptors in the process
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to extend
 	 * @returns		{object}
 	 * @see			conbo.setValues
 	 */
-	conbo.extend = function(obj) 
+	conbo.defineValues = function(obj) 
 	{
 		forEach(slice.call(arguments, 1), function(source) 
 		{
@@ -966,6 +967,23 @@ if (!!$)
 		});
 		
 		return obj;
+	};
+	
+	/**
+	 * Define the values of the given object by cloning all of the properties 
+	 * of the passed-in object(s), destroying and overwriting the target's 
+	 * property descriptors in the process
+	 * 
+	 * @deprecated	Use conbo.defineValues
+	 * @memberof	conbo
+	 * @param		{object}	obj - Object to extend
+	 * @returns		{object}
+	 * @see			conbo.setValues
+	 */
+	conbo.extend = function(obj)
+	{
+		conbo.warn('conbo.extend is deprecated: use conbo.defineValues or conbo.setValues');
+		conbo.defineDefaults.apply(conbo, arguments);
 	};
 	
 	/**
@@ -1014,7 +1032,7 @@ if (!!$)
 	 * @param		{object}	obj - Object to populate
 	 * @see			conbo.setDefaults
 	 */
-	conbo.defaults = function(obj) 
+	conbo.defineDefaults = function(obj) 
 	{
 		forEach(slice.call(arguments, 1), function(source) 
 		{
@@ -1030,6 +1048,22 @@ if (!!$)
 		
 		return obj;
 	};
+	
+	/**
+	 * Fill in an object's missing properties by cloning the properties of the 
+	 * source object(s) onto the target object, overwriting the target's
+	 * property descriptors
+	 * 
+	 * @deprecated	Use defineDefaults
+	 * @memberof	conbo
+	 * @param		{object}	obj - Object to populate
+	 * @see			conbo.setDefaults
+	 */
+	conbo.defaults = function(obj)
+	{
+		conbo.warn('conbo.defaults is deprecated: use conbo.defineDefaults or conbo.setDefaults');
+		conbo.defineDefaults.apply(conbo, arguments);
+	}
 	
 	/**
 	 * Fill in missing values on an object by setting the property values on 
@@ -1064,9 +1098,9 @@ if (!!$)
 	conbo.clone = function(obj) 
 	{
 		if (!conbo.isObject(obj)) return obj;
-		return conbo.isArray(obj) ? obj.slice() : conbo.extend({}, obj);
+		return conbo.isArray(obj) ? obj.slice() : conbo.defineValues({}, obj);
 	};
-
+	
 	// Internal recursive comparison function for `isEqual`.
 	var eq = function(a, b, aStack, bStack) {
 		// Identical objects are equal. `0 === -0`, but they aren't identical.
@@ -1184,6 +1218,18 @@ if (!!$)
 			|| (!isNaN(value) &amp;&amp; !parseFloat(value)) // "0", "0.0", etc
 			|| (conbo.isObject(value) &amp;&amp; !conbo.keys(value).length) // {}
 			;
+	};
+	
+	/**
+	 * Can the value be iterated using a for loop? For example an Array, Arguments, ElementsList, etc.
+	 * 
+	 * @memberof	conbo
+	 * @param		{any}		obj - Object that might be iterable 
+	 * @returns		{boolean}
+	 */
+	conbo.isIterable = function(obj)
+	{
+		return obj &amp;&amp; obj.length === +obj.length;
 	};
 	
 	/**
@@ -1566,7 +1612,7 @@ conbo.decodeEntities = function(string)
  * them to another, without affecting the target object's property
  * descriptors.
  * 
- * Unlike conbo.extend, setValues only sets the values on the target 
+ * Unlike conbo.defineValues, setValues only sets the values on the target 
  * object and does not destroy and redifine them.
  * 
  * @memberof	conbo
@@ -1632,6 +1678,55 @@ conbo.cloneProperty = function(source, sourceName, target, targetName)
 	}
 	
 	return this;
+};
+
+/**
+ * Sorts the items in an array according to one or more fields in the array. 
+ * The array should have the following characteristics:
+ * 
+ * &lt;ul>
+ * &lt;li>The array is an indexed array, not an associative array.&lt;/li>
+ * &lt;li>Each element of the array holds an object with one or more properties.&lt;/li>
+ * &lt;li>All of the objects have at least one property in common, the values of which can be used to sort the array. Such a property is called a field.&lt;/li>
+ * &lt;/ul>
+ * 
+ * @memberof	conbo
+ * @param		{array}		array - The Array to sort
+ * @param		{string}	fieldName - The field/property name to sort on
+ * @param		{object}	options - Optional sort criteria: `descending` (Boolean), `caseInsensitive` (Boolean)
+ */
+conbo.sortOn = function(array, fieldName, options)
+{
+	options || (options = {});
+	
+	if (conbo.isArray(array) &amp;&amp; fieldName)
+	{
+		array.sort(function(a, b)
+		{
+			var values = [a[fieldName], b[fieldName]];
+			
+			// Configure
+			if (options.descending)
+			{
+				values.reverse();
+			}
+			
+			if (options.caseInsensitive)
+			{
+				conbo.forEach(values, function(value, index)
+				{
+					if (conbo.isString(value)) values[index] = value.toLowerCase();
+				});
+			}
+			
+			// Sort
+			if (values[0] &lt; values[1]) return -1;
+			if (values[0] > values[1]) return 1;
+			return 0;
+		});
+	}
+	
+	return array;
 };
 
 /**
@@ -2389,7 +2484,7 @@ conbo.Class.extend = function(protoProps, staticProps)
 		? protoProps.constructor
 		: function() { return parent.apply(this, arguments); };
 	
-	conbo.extend(child, parent, staticProps);
+	conbo.defineValues(child, parent, staticProps);
 	
 	/**
 	 * Set the prototype chain to inherit from parent, without calling
@@ -2401,7 +2496,7 @@ conbo.Class.extend = function(protoProps, staticProps)
 	
 	if (protoProps)
 	{
-		conbo.extend(child.prototype, protoProps);
+		conbo.defineValues(child.prototype, protoProps);
 	}
 	
 	conbo.makeBindable(child.prototype);
@@ -2422,11 +2517,11 @@ conbo.Class.extend = function(protoProps, staticProps)
  */
 conbo.Class.implement = function()
 {
-	var implementation = conbo.defaults.apply(conbo, conbo.union([{}], arguments)),
+	var implementation = conbo.defineDefaults.apply(conbo, conbo.union([{}], arguments)),
 		keys = conbo.keys(implementation),
 		prototype = this.prototype;
 	
-	conbo.defaults(this.prototype, implementation);
+	conbo.defineDefaults(this.prototype, implementation);
 	
 	var rejected = conbo.reject(keys, function(key)
 	{
@@ -2516,11 +2611,10 @@ conbo.Namespace = conbo.Class.extend(
 });
 
 /**
- * Injectable
- * 
- * Partial class that enables the Conbo.js framework to add the Context class 
- * to inject specified dependencies (properties of undefined value which match 
- * registered singletons); should be used via the Class.implement method
+ * Partial class that enables the Conbo.js framework to add the application
+ * specific Context class instance and inject specified dependencies 
+ * (properties of undefined value which match registered singletons); should
+ * be used via the Class.implement method
  * 
  * @augments	conbo
  * @example		var C = conbo.Class.extend().implement(conbo.IInjectable);
@@ -2546,6 +2640,7 @@ conbo.IInjectable =
 		
 		__denumerate(this, '__context');
 	}
+	
 };
 
 /**
@@ -2588,7 +2683,7 @@ conbo.Event = conbo.Class.extend(
 		}
 		else 
 		{
-			conbo.defaults(this, type);
+			conbo.defineDefaults(this, type);
 		}
 		
 		if (!this.type) 
@@ -2679,7 +2774,7 @@ conbo.ConboEvent = conbo.Event.extend(
 {
 	initialize: function(type, options)
 	{
-		conbo.defaults(this, options);
+		conbo.defineDefaults(this, options);
 	},
 	
 	toString: function()
@@ -3060,7 +3155,7 @@ conbo.Context = conbo.EventDispatcher.extend(
 	 */
 	addTo: function(obj)
 	{
-		return conbo.extend(obj || {}, {context:this});
+		return conbo.defineValues(obj || {}, {context:this});
 	},
 	
 	/**
@@ -3208,7 +3303,7 @@ conbo.LocalHash = conbo.Hash.extend(
 	{
 		var defaultName = 'ConboLocalHash';
 		
-		options = conbo.defaults(options || {}, {name:defaultName});
+		options = conbo.defineDefaults(options || {}, {name:defaultName});
 		
 		var name = options.name;
 		
@@ -3373,7 +3468,7 @@ conbo.List = conbo.EventDispatcher.extend(
 	{
 		if (item)
 		{
-			this.source.unshift(this.source, this.__applyItemClass(conbo.toArray(arguments)));
+			this.source.unshift.apply(this.source, this.__applyItemClass(conbo.toArray(arguments)));
 			this.__updateBindings(conbo.toArray(arguments));
 			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD));
 			this.dispatchChange('length');
@@ -3389,9 +3484,9 @@ conbo.List = conbo.EventDispatcher.extend(
 	{
 		if (!this.length) return;
 		
-		var item;
+		var item = this.source.shift();
 		
-		this.__updateBindings(item = this.source.shift(), false);
+		this.__updateBindings(item, false);
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
 		this.dispatchChange('length');
 		
@@ -3593,7 +3688,7 @@ var listMethods =
 	'forEach', 'map', 'reduce', 'reduceRight', 'find', 'findIndex', 'filter',
 	'reject', 'every', 'any', 'contains', 'invoke', 'indexOf', 'lastIndexOf',
 	'max', 'min', 'toArray', 'size', 'first', 'head', 'take', 'initial', 'rest',
-	'tail', 'drop', 'last', 'without', 'shuffle', 'isEmpty', 'chain'
+	'tail', 'drop', 'last', 'without', 'shuffle', 'isEmpty', 'chain', 'sortOn'
 ];
 
 // Mix in each available Conbo utility method as a proxy
@@ -3606,8 +3701,12 @@ listMethods.forEach(function(method)
 		var args = [this.source].concat(conbo.toArray(arguments)),
 			result = conbo[method].apply(conbo, args);
 		
+		// TODO What's the performance impact of doing this?
+//		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE));
+		
 		return conbo.isArray(result)
-			? new conbo.List({source:result})
+//			? new this.constructor({source:result}) // TODO Return List of same type as original?
+			? new conbo.List({source:result, itemClass:this.itemClass})
 			: result;
 	};
 });
@@ -3630,7 +3729,7 @@ conbo.LocalList = conbo.List.extend(
 	{
 		var defaultName = 'ConboLocalList';
 		
-		options = conbo.defaults(options || {}, {name:defaultName});
+		options = conbo.defineDefaults(options || {}, {name:defaultName});
 		
 		var name = options.name;
 		
@@ -3915,7 +4014,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 				
 			default:
 				// To support element lists, etc
-				a = conbo.toArray(values);
+				a = conbo.isIterable(values)
+					? conbo.toArray(values)
+					: [];
 				break;
 		}
 		
@@ -4901,9 +5002,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 						return;
 					}
 					
-					var opts = conbo.extend({propertyName:property}, options);
+					var opts = conbo.defineValues({propertyName:property}, options);
 					var args = [model, property, el, type, parseFunction, opts, param];
-	
+					
 					bindings = bindings.concat(scope.bindAttribute.apply(scope, args));
 				}
 				
@@ -5012,8 +5113,8 @@ conbo.BindingUtils = conbo.Class.extend({},
 			: $(rootView)
 			;
 		
-		// Detects cb-* and custom tag names 
-		$rootEl.find('*').not('.cb-'+type).each(function(index, el)
+		// Detects tags with cb-* attributes and custom tag names 
+		$rootEl.find('*').not('.cb-view, .cb-glimpse').each(function(index, el)
 		{
 			var $el = $(el),
 				className = $el.cbAttrs()[type] || conbo.toCamelCase(el.tagName, true),
@@ -5493,14 +5594,14 @@ conbo.Glimpse = conbo.EventDispatcher.extend(
 		
 		if (!el) 
 		{
-			var attrs = conbo.extend({}, this.attributes);
+			var attrs = conbo.defineValues({}, this.attributes);
 			
 			el = document.createElement(this.tagName);
 			
 			if (this.id) el.id = this.id;
 			if (this.className) el.className = this.className;
 			
-			conbo.extend(el, attrs);
+			conbo.defineValues(el, attrs);
 		}
 		else 
 		{
@@ -5651,6 +5752,24 @@ conbo.View = conbo.Glimpse.extend(
 	},
 	
 	/**
+	 * A jQuery wrapped version of the body element
+	 * @see		body
+	 */
+	get $body()
+	{
+		return this.$content || this.$el;
+	},
+	
+	/**
+	 * A View's body is the element to which content should be added:
+	 * the View's content, if it exists, or the View's main element, if it doesn't
+	 */
+	get body()
+	{
+		return this.content || this.el;
+	},
+	
+	/**
 	 * The context that will automatically be applied to children
 	 * when binding or appending Views inside of this View
 	 */
@@ -5773,7 +5892,7 @@ conbo.View = conbo.Glimpse.extend(
 			throw new Error('Parameter must be instance of conbo.View class');
 		}
 	
-		this.$content.append(view.el);
+		this.$body.append(view.el);
 		
 		return this;
 	},
@@ -5803,7 +5922,7 @@ conbo.View = conbo.Glimpse.extend(
 			throw new Error('Parameter must be instance of conbo.View class');
 		}
 		
-		this.$content.prepend(view.el);
+		this.$body.prepend(view.el);
 		
 		return this;
 	},
@@ -6506,7 +6625,7 @@ conbo.RemoteHash = conbo.Hash.extend(
 	 */
 	constructor: function(options)
 	{
-		options = conbo.defaults({}, options, this.options);
+		options = conbo.defineDefaults({}, options, this.options);
 		
 		if (!!options.context) this.context = options.context;
 		this.preinitialize(options);
@@ -6578,7 +6697,7 @@ conbo.RemoteList = conbo.List.extend(
 	 */
 	constructor: function(options)
 	{
-		options = conbo.defaults({}, options, this.options);
+		options = conbo.defineDefaults({}, options, this.options);
 		
 		this.context = options.context;
 		this.preinitialize(options);
@@ -7113,7 +7232,7 @@ __denumerate(conbo.Router.prototype);
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Feb 12 2016 12:31:14 GMT+0000 (GMT Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Mon Feb 29 2016 12:32:39 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
