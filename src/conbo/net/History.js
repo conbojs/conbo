@@ -162,7 +162,7 @@ conbo.History = conbo.EventDispatcher.extend(
 	{
 		var fragment = this.fragment = this.getFragment(fragmentOverride);
 		
-		var matched = conbo.any(this.handlers, function(handler)
+		var matched = conbo.some(this.handlers, function(handler)
 		{
 			if (handler.route.test(fragment))
 			{
