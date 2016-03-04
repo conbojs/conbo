@@ -641,5 +641,5 @@ conbo.AttributeBindings = conbo.Class.extend(
 		
 		el.addEventListener('keypress', el.cbMaxChars);
 	},
-		
+	
 });

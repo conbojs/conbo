@@ -1346,6 +1346,17 @@ conbo.toUnderscoreCase = function(string, separator)
 };
 
 /**
+ * Convert camelCaseWords into kebab-case-words
+ * 
+ * @memberof	conbo
+ * @param		{string}	string - camelCase string to convert to underscore_case
+ */
+conbo.toKebabCase = function(string)
+{
+	return conbo.toUnderscoreCase(string, '-');
+};
+
+/**
  * Add a leading zero to the specified number and return it as a string
  * @memberof 	conbo
  * @param		{number}	number - The number to add a leading zero to

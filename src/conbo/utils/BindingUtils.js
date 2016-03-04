@@ -846,6 +846,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * @param		{string}	name - camelCase version of the attribute name (must include a namespace prefix)
 	 * @param		{function}	handler - function that will handle the data bound to the element
 	 * @param 		{boolean}	readOnly - Whether or not the attribute is read-only (default: false)
+	 * @param 		{boolean}	raw - Whether or not parameters should be passed to the handler as a raw String instead of a bound value (default: false)
 	 * @returns 	{this}		BindingUtils
 	 * 
 	 * @example 
@@ -855,7 +856,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * 	$(el).css('font-name', value);
 	 * });
 	 */
-	registerAttribute: function(name, handler, readOnly)
+	registerAttribute: function(name, handler, readOnly, raw)
 	{
 		if (!conbo.isString(name) || !conbo.isFunction(handler))
 		{
@@ -881,7 +882,12 @@ conbo.BindingUtils = conbo.Class.extend({},
 		
 		BindingUtils__registeredNamespaces = conbo.union(BindingUtils__registeredNamespaces, [ns]);
 		
-		handler.readOnly = !!readOnly;
+		conbo.setValues(handler, 
+		{
+			readOnly: !!readOnly,
+			raw: !!raw
+		});
+		
 		BindingUtils__customAttrs[name] = handler;
 		
 		return this;
