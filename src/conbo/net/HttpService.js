@@ -18,7 +18,12 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 {
 	constructor: function(options)
 	{
-		conbo.setValues(this, conbo.pick(options || {}, 
+		options = conbo.setDefaults({}, options, 
+		{
+			contentType: conbo.HttpService.CONTENT_TYPE_JSON
+		});
+		
+		conbo.setValues(this, conbo.pick(options, 
 		    'rootUrl', 
 		    'contentType', 
 		    'dataType', 
@@ -69,7 +74,7 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 		resultClass || (resultClass = this.resultClass);
 		contentType = this.contentType || conbo.HttpService.CONTENT_TYPE_JSON;
 		command = this.parseUrl(command, data);
-		data = this.encodeFunction(data);
+		data = this.encodeFunction(data, method);
 		
 		var promise = $.ajax
 		({
@@ -139,12 +144,15 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	
 	/**
 	 * Method that encodes data to be sent to the API
+	 * 
 	 * @param	{object}	data - Object containing the data to be sent to the API
+	 * @param	{String}	method - GET, POST, etc (default: GET)
 	 */
-	encodeFunction: function(data)
+	encodeFunction: function(data, method)
 	{
-		return this.contentType == conbo.HttpService.CONTENT_TYPE_JSON
-			? JSON.stringify(data) 
+		return (method || 'GET').toUpperCase() != 'GET' 
+				&& this.contentType == conbo.HttpService.CONTENT_TYPE_JSON
+			? JSON.stringify(data)
 			: data;
 	},
 	
@@ -187,7 +195,6 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	{
 		return 'conbo.HttpService';
 	}
-	
 	
 },
 /** @lends conbo.HttpService */

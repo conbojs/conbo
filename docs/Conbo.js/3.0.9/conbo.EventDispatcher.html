@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Command</title>
+    <title>JSDoc: Class: EventDispatcher</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Command</h1>
+    <h1 class="page-title">Class: EventDispatcher</h1>
 
     
 
@@ -29,7 +29,7 @@
 <header>
     
         <h2>
-            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>Command</h2>
+            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>EventDispatcher</h2>
         
     
 </header>
@@ -41,14 +41,14 @@
 
     
 
-    <h4 class="name" id="Command"><span class="type-signature"></span>new Command<span class="signature">(options)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="EventDispatcher"><span class="type-signature"></span>new EventDispatcher<span class="signature">(options)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    conbo.CommandBase class for commands to be registered in your Context using mapCommand(...)
+    Event DispatcherEvent model designed to bring events into line with DOM events and those found in HTML DOM, jQuery and ActionScript 2 & 3, offering a more predictable, object based approach to event dispatching and handlingShould be used as the base class for any class that won't be used for data binding
 </div>
 
 
@@ -100,7 +100,7 @@
 
             
 
-            <td class="description last">Object containing optional initialisation options, including 'context' (Context)</td>
+            <td class="description last">Object containing optional initialisation options, including 'context'</td>
         </tr>
 
     
@@ -148,7 +148,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6200">line 6200</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2813">line 2813</a>
     </li></ul></dd>
     
 
@@ -184,7 +184,7 @@
 
 
     <ul>
-        <li><a href="conbo.EventDispatcher.html">conbo.EventDispatcher</a></li>
+        <li><a href="conbo.Class.html">conbo.Class</a></li>
     </ul>
 
 
@@ -369,11 +369,6 @@
 
     
 
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.EventDispatcher.html#addEventListener">conbo.EventDispatcher#addEventListener</a>
-    </li></ul></dd>
     
 
     
@@ -671,137 +666,6 @@
 
     
 
-    <h4 class="name" id="constructor"><span class="type-signature"></span>constructor<span class="signature">(options)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Constructor: DO NOT override! (Use initialize instead)
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>options</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        conbo.EventDispatcher#constructor
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6218">line 6218</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
     <h4 class="name" id="dispatchChange"><span class="type-signature"></span>dispatchChange<span class="signature">(propName)</span><span class="type-signature"></span></h4>
 
     
@@ -874,11 +738,6 @@
 
     
 
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.EventDispatcher.html#dispatchChange">conbo.EventDispatcher#dispatchChange</a>
-    </li></ul></dd>
     
 
     
@@ -1006,11 +865,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.EventDispatcher.html#dispatchEvent">conbo.EventDispatcher#dispatchEvent</a>
-    </li></ul></dd>
-    
 
     
 
@@ -1064,88 +918,6 @@
 
     
 
-    <h4 class="name" id="execute"><span class="type-signature"></span>execute<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Execute: should be overriddenWhen a Command is called in response to an event registered with theContext, the class is instantiated, this method is called then the class instance is destroyed
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6238">line 6238</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
     <h4 class="name" id="initialize"><span class="type-signature"></span>initialize<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
@@ -1153,7 +925,7 @@
 
 
 <div class="description">
-    Initialiser included for consistency, but should probably never be used
+    Entry pointIn most circumstances, custom classes should override initialize and use it as your class constructor
 </div>
 
 
@@ -1175,12 +947,12 @@
     
 
     
-
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="conbo.EventDispatcher.html#initialize">conbo.EventDispatcher#initialize</a>
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="conbo.Class.html#initialize">conbo.Class#initialize</a>
     </li></ul></dd>
+    
+
     
 
     
@@ -1202,7 +974,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6229">line 6229</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2401">line 2401</a>
     </li></ul></dd>
     
 
@@ -1342,11 +1114,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.EventDispatcher.html#removeEventListener">conbo.EventDispatcher#removeEventListener</a>
-    </li></ul></dd>
-    
 
     
 
@@ -1417,7 +1184,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Mar 04 2016 18:57:20 GMT+0000 (GMT Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Mar 18 2016 16:33:07 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

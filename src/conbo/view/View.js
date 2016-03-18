@@ -165,13 +165,21 @@ conbo.View = conbo.Glimpse.extend(
 	},
 	
 	/**
-	 * jQuery delegate for element lookup, scoped to DOM elements within the
-	 * current view and automatically excludes nested Views and Applications. 
+	 * jQuery delegate for finding elements within the current view, with 
+	 * nested Views and Applications excluded from the search by default. 
 	 * 
 	 * This should be prefered to global lookups where possible.
+	 * 
+	 * @param	{string}	selector - The jQuery selector to use
+	 * @param	{boolean}	isDeep - Whether or not to include nested views in the search (default: false)
 	 */
-	$: function(selector)
+	$: function(selector, isDeep)
 	{
+		if (isDeep)
+		{
+			return this.$el.find(selector);
+		}
+		
 		var $nestedViews = this.$el.find('.cb-app, [cb-app], .cb-view, [cb-view]');
 		
 		return this.$el.find(selector).filter(function()
