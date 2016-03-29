@@ -1356,6 +1356,24 @@ conbo.toKebabCase = function(string)
 	return conbo.toUnderscoreCase(string, '-');
 };
 
+conbo.padLeft = function(value, minLength, padChar)
+{
+	if (!padChar && padChar !== 0) padChar = ' ';
+	if (!value && value !== 0) value = '';
+	
+	minLength || (minLength = 2);
+	
+	padChar = padChar.toString().charAt(0);
+	string = value.toString();
+	
+	while (string.length < minLength)
+	{
+		string = padChar+string;
+	}
+	
+	return string;
+};
+
 /**
  * Add a leading zero to the specified number and return it as a string
  * @memberof 	conbo
@@ -1364,20 +1382,7 @@ conbo.toKebabCase = function(string)
  */
 conbo.addLeadingZero = function(number, minLength)
 {
-	number || (number = 0);
-	minLength || (minLength = 2);
-	
-	var string = number.toString();
-		
-	if (number < Math.pow(10, minLength-1))
-	{
-		while (string.length < minLength)
-		{
-			string = '0'+string;
-		}
-	}
-	
-	return string;
+	return conbo.padLeft(number, minLength, 0);
 };
 
 /**
