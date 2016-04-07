@@ -1866,11 +1866,11 @@ logMethods.forEach(function(method)
  * Dispatch a property change event from the specified object
  * @private
  */
-var __dispatchChange = function(obj, propName, value)
+var __dispatchChange = function(obj, propName)
 {
 	if (!(obj instanceof conbo.EventDispatcher)) return;
 	
-	var options = {property:propName, value:value};
+	var options = {property:propName, value:obj[propName]};
 	
 	obj.dispatchEvent(new conbo.ConboEvent('change:'+propName, options));
 	obj.dispatchEvent(new conbo.ConboEvent('change', options));

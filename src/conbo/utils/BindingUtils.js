@@ -172,8 +172,15 @@ conbo.BindingUtils = conbo.Class.extend({},
 						
 						default:
 						{
-							$el.val(source[propName]);
-						
+							var setVal = function() 
+							{
+								$el.val(source[propName]); 
+							};
+							
+							// Resolves issue with cb-repeat inside <select>
+							if (type == 'select') conbo.defer(setVal);
+							else setVal();
+							
 							eventType = 'change:'+propName;
 							
 							eventHandler = function(event)
