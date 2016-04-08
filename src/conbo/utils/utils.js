@@ -696,10 +696,16 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{function}	func - Function to call
+	 * @param		{object}	scope - The scope in which to call the function
 	 */
-	conbo.defer = function(func) 
+	conbo.defer = function(func, scope) 
 	{
-		return setTimeout(func, 0);
+		if (scope)
+		{
+			func = conbo.bind(func, scope);
+		}
+		
+		return setTimeout.apply(null, [func, 0].concat(conbo.rest(arguments, 2)));
 	};
 
 	/**
@@ -1074,6 +1080,7 @@
 			|| (conbo.isArray(value) && value.length) // []
 			|| (!isNaN(value) && !parseFloat(value)) // "0", "0.0", etc
 			|| (conbo.isObject(value) && !conbo.keys(value).length) // {}
+			|| ('length' in value && value.length === 0) // Arguments, List, etc
 			;
 	};
 	

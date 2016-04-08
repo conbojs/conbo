@@ -46,6 +46,15 @@ conbo.LocalList = conbo.List.extend(
 		conbo.List.prototype.constructor.call(this, options);
 	},
 	
+	/**
+	 * Immediately writes all data to local storage. If you don't use this method, 
+	 * Conbo writes the data the next time it detects a change to a bindable property.
+	 */
+	flush: function()
+	{
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE));
+	},
+	
 	toString: function()
 	{
 		return 'conbo.LocalList';

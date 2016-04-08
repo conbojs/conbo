@@ -96,7 +96,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			throw new Error('element is undefined');
 		}
 		
-		if (!conbo.isAccessor(source, propName)) // Use isBindable?
+		if (!conbo.isBindable(source, propName))
 		{
 			conbo.warn('It may not be possible to detect changes to "'+propName+'" on class "'+source.toString()+'" because the property is not bindable');
 		}

@@ -65,7 +65,7 @@ conbo.List = conbo.EventDispatcher.extend(
 	{
 		this._source = [];
 		this.push.apply(this, conbo.toArray(value));
-		this.dispatchChange('source');
+		this.dispatchChange('source', 'length');
 	},
 	
 	/**
