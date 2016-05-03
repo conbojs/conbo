@@ -1080,7 +1080,7 @@
 			|| (conbo.isArray(value) && value.length) // []
 			|| (!isNaN(value) && !parseFloat(value)) // "0", "0.0", etc
 			|| (conbo.isObject(value) && !conbo.keys(value).length) // {}
-			|| ('length' in value && value.length === 0) // Arguments, List, etc
+			|| (conbo.isObject(value) && 'length' in value && value.length === 0) // Arguments, List, etc
 			;
 	};
 	
@@ -1308,11 +1308,21 @@ conbo.isSupported =
 	&& !!Object.getOwnPropertyDescriptor;
 
 /**
- * Do nothing
+ * Does nothing, returns undefined, that's it.
  * 
  * @memberof	conbo
  */
 conbo.noop = function() {};
+
+/**
+ * Returns the value of the first parameter passed to it, that's it.
+ * 
+ * @memberof	conbo
+ */
+conbo.noopr = function(value) 
+{
+	return value;
+};
 
 /**
  * Default function to assign to the methods of pseudo-interfaces
@@ -1808,6 +1818,54 @@ conbo.isBindable = function(obj, propName)
 	
 	var descriptor = Object.getOwnPropertyDescriptor(obj, propName);
 	return !!descriptor.set && descriptor.set.bindable;
+};
+
+/**
+ * Parse a template
+ * 
+ * @param	{string}	template - A string containing {{propertyName}}s to be replaced with property values
+ * @param	{object}	data - An object containing the data to be used to populate the template 
+ * @returns	{string}	The populated template
+ */
+conbo.parseTemplate = function(template, data)
+{
+	if (!template) return "";
+	
+	data || (data = {});
+	
+	return template.replace(/{{(.+?)}}/g, function(propNameInBrackets, propName) 
+	{
+		var args = propName.split("|");
+		var value, parseFunction;
+		
+		args[0] = conbo.BindingUtils.cleanPropertyName(args[0]);
+		
+		try { value = eval("data."+args[0]);			} catch(e) {}
+		try { parseFunction = eval("data."+args[1]);	} catch(e) {}
+		
+		if (!conbo.isFunction(parseFunction)) 
+		{
+			parseFunction = conbo.BindingUtils.defaultParseFunction;
+		}
+		
+		return parseFunction(value);
+	});
+};
+
+/**
+ * Converts a template string into a pre-populated templating method that can 
+ * be evaluated for rendering.
+ * 
+ * @param	{string}	template - A string containing {{propertyName}}s to be replaced with property values
+ * @param	{object}	defaults - An object containing default values to use when populating the template (optional)
+ * @returns	{function}	A function that can be called with a data object, returning the populated template
+ */
+conbo.compileTemplate = function(template, defaults)
+{
+	return function(data)
+	{
+		return conbo.parseTemplate(template, conbo.setDefaults(data || {}, defaults));
+	}
 };
 
 /*

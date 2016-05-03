@@ -68,6 +68,11 @@ conbo.View = conbo.Glimpse.extend(
 		}
 		else
 		{
+			if (conbo.isFunction(template))
+			{
+				template = template(this);
+			}
+			
 			if (conbo.isString(template))
 			{
 				this.$el.html(template);

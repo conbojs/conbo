@@ -607,7 +607,6 @@ conbo.BindingUtils = conbo.Class.extend({},
 					
 					el.dispatchEvent(customEvent);
 				});
-				
 			});
 			
 		});
