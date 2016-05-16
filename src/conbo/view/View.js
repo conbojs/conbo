@@ -101,6 +101,14 @@ conbo.View = conbo.Glimpse.extend(
 	},
 	
 	/**
+	 * Does this view have a template?
+	 */
+	get hasTemplate()
+	{
+		return this.template || this.templateUrl;
+	},
+	
+	/**
 	 * A jQuery wrapped version of the `content` element
 	 * 
 	 * @see	#content
@@ -111,9 +119,10 @@ conbo.View = conbo.Glimpse.extend(
 		{
 			var $content = this.$('[cb-content]:first');
 			
-			return $content.length
-				? $content
-				: undefined;
+			if ($content.closest('.cb-view')[0] == this.el)
+			{
+				return $content;
+			}
 		}
 	},
 	
@@ -384,7 +393,7 @@ conbo.View = conbo.Glimpse.extend(
 	 */
 	__initView: function()
 	{
-		if (this.hasContent)
+		if (this.hasTemplate && this.hasContent)
 		{
 			this.$content.html(this.__content);
 		}

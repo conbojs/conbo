@@ -1,8 +1,8 @@
 /**
- * Cached regex for stripping a leading hash/slash and trailing space.
+ * Cached regex for stripping a leading hash/exclamation/slash and trailing space.
  * @private
  */ 
-var routeStripper = /^[#\/]|\s+$/g;
+var routeStripper = /^#!|^[#\/]|\s+$/g;
 
 /**
  * Cached regex for stripping leading and trailing slashes.
@@ -71,7 +71,7 @@ conbo.History = conbo.EventDispatcher.extend(
 	 */
 	getHash: function(window)
 	{
-		var match = (window || this).location.href.match(/#(.*)$/);
+		var match = (window || this).location.href.match(/#!(.*)$/);
 		return match ? match[1] : '';
 	},
 	
@@ -226,11 +226,11 @@ conbo.History = conbo.EventDispatcher.extend(
 		if (replace)
 		{
 			var href = location.href.replace(/(javascript:|#).*$/, '');
-			location.replace(href + '#/' + fragment);
+			location.replace(href + '#!/' + fragment);
 		}
 		else
 		{
-			location.hash = '#/' + fragment;
+			location.hash = '#!/' + fragment;
 		}
 	}
 	

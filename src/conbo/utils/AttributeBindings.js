@@ -416,6 +416,24 @@ conbo.AttributeBindings = conbo.Class.extend(
 		el.addEventListener('bind', handler);
 	},
 	
+	/**
+	 * Uses JavaScript to open an anchor's HREF so that the link will open in
+	 * an iOS WebView instead of Safari
+	 * 
+	 * @param el
+	 */
+	cbJshref: function(el)
+	{
+		if (el.tagName == 'A')
+		{
+			el.onclick = function(event)
+			{
+				window.location = el.href;
+				event.preventDefault();
+				return false;
+			};
+		}
+	},
 	
 	/*
 	 * FORM HANDLING & VALIDATION
