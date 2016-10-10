@@ -99,8 +99,8 @@ conbo.Context = conbo.EventDispatcher.extend(
 	 * Map class instance to a property name
 	 * 
 	 * To inject a property into a class, register the property name
-	 * with the Context and set the value of the property in your
-	 * class to 'use inject' 
+	 * with the Context and declare the value as undefined in your class
+	 * to enable it to be injected at run time
 	 * 
 	 * @example		context.mapSingleton('myProperty', MyModel);
 	 * @example		myProperty: undefined
@@ -136,6 +136,29 @@ conbo.Context = conbo.EventDispatcher.extend(
 		delete this.__singletons[propertyName];
 		
 		return this;
+	},
+	
+	/**
+	 * Map constant value to a property name
+	 * 
+	 * To inject a constant into a class, register the property name
+	 * with the Context and declare the property as undefined in your 
+	 * class to enable it to be injected at run time
+	 * 
+	 * @example		context.mapConstant('MY_VALUE', 123);
+	 * @example		MY_VALUE: undefined
+	 */
+	mapConstant: function(propertyName, value)
+	{
+		return this.mapSingleton(propertyName, value);
+	},
+	
+	/**
+	 * Unmap constant value from a property name
+	 */
+	unmapConstant: function(propertyName)
+	{
+		return this.unmapSingleton(propertyName);
 	},
 	
 	/**

@@ -4,9 +4,7 @@
 	if (typeof module != 'undefined' && module.exports)
 	{
 		var $;
-		
-		try { $ = require('jQuery'); } catch (e) {
-		try { $ = require('jquery'); } catch (e) {}}
+		try { $ = require('jquery'); } catch (e) {}
 		
     	module.exports = create($);
     }
@@ -21,7 +19,7 @@
 	// Global
 	else
 	{
-		window.conbo = create(window.jQuery || window.Zepto || window.ender);
+		window.conbo = create(window.jQuery);
 	}
 	
 	function create($)

@@ -18,7 +18,7 @@ var trailingSlash = /\/$/;
 
 /**
  * conbo.History handles cross-browser history management using the 
- * onhashchange event and URL fragments
+ * onhashchange event and hash-bang URL fragments
  * 
  * @see https://developer.mozilla.org/en-US/docs/DOM/window.onhashchange
  * @class		conbo.History
