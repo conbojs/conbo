@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Glimpse</title>
+    <title>JSDoc: Class: Application</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Glimpse</h1>
+    <h1 class="page-title">Class: Application</h1>
 
     
 
@@ -29,7 +29,7 @@
 <header>
     
         <h2>
-            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>Glimpse</h2>
+            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>Application</h2>
         
     
 </header>
@@ -41,14 +41,14 @@
 
     
 
-    <h4 class="name" id="Glimpse"><span class="type-signature"></span>new Glimpse<span class="signature">(options)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Application"><span class="type-signature"></span>new Application<span class="signature">(options)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    GlimpseA lightweight element wrapper that has no dependencies, no context and no data binding, but is able to apply a super-simple template.It's invisible to View, so it's great for creating components, and you can bind data to it using the `cb-data` attribute to set the data property of your Glimpse
+    ApplicationBase application class for client-side applications
 </div>
 
 
@@ -100,7 +100,7 @@
 
             
 
-            <td class="description last">Object containing initialisation options</td>
+            <td class="description last">Object containing optional initialisation options, see View</td>
         </tr>
 
     
@@ -148,7 +148,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line5491">line 5491</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6209">line 6209</a>
     </li></ul></dd>
     
 
@@ -184,7 +184,7 @@
 
 
     <ul>
-        <li><a href="conbo.EventDispatcher.html">conbo.EventDispatcher</a></li>
+        <li><a href="conbo.View.html">conbo.View</a></li>
     </ul>
 
 
@@ -203,13 +203,13 @@
 
         
             
-<h4 class="name" id="el"><span class="type-signature"></span>el<span class="type-signature"></span></h4>
+<h4 class="name" id="contextClass"><span class="type-signature"></span>contextClass<span class="type-signature"></span></h4>
 
 
 
 
 <div class="description">
-    The Glimpse's element
+    Default context class to useYou'll normally want to override this with your own
 </div>
 
 
@@ -247,7 +247,136 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line5547">line 5547</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6248">line 6248</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="el"><span class="type-signature"></span>el<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    The Glimpse's element
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="conbo.Glimpse.html#el">conbo.Glimpse#el</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line5681">line 5681</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="observeEnabled"><span class="type-signature"></span>observeEnabled<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    If true, the application will automatically apply Glimpse and View classes to elements when they're added to the DOM
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6257">line 6257</a>
     </li></ul></dd>
     
 
@@ -314,7 +443,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2408">line 2408</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2476">line 2476</a>
     </li></ul></dd>
     
 
@@ -354,6 +483,11 @@
     
 
     
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="conbo.Glimpse.html#tagName">conbo.Glimpse#tagName</a>
+    </li></ul></dd>
+    
 
     
 
@@ -376,7 +510,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line5536">line 5536</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line5670">line 5670</a>
     </li></ul></dd>
     
 
@@ -521,7 +655,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2851">line 2851</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2919">line 2919</a>
     </li></ul></dd>
     
 
@@ -657,7 +791,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2418">line 2418</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2486">line 2486</a>
     </li></ul></dd>
     
 
@@ -754,7 +888,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2427">line 2427</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2495">line 2495</a>
     </li></ul></dd>
     
 
@@ -895,7 +1029,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2932">line 2932</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3000">line 3000</a>
     </li></ul></dd>
     
 
@@ -1026,7 +1160,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2893">line 2893</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2961">line 2961</a>
     </li></ul></dd>
     
 
@@ -1086,12 +1220,12 @@
     
 
     
-
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="conbo.EventDispatcher.html#initialize">conbo.EventDispatcher#initialize</a>
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="conbo.Glimpse.html#initialize">conbo.Glimpse#initialize</a>
     </li></ul></dd>
+    
+
     
 
     
@@ -1113,7 +1247,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line5542">line 5542</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line5676">line 5676</a>
     </li></ul></dd>
     
 
@@ -1280,7 +1414,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2869">line 2869</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2937">line 2937</a>
     </li></ul></dd>
     
 
@@ -1328,7 +1462,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Mar 18 2016 16:33:07 GMT+0000 (GMT Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Mon Oct 10 2016 18:42:07 GMT+0100 (GMT Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

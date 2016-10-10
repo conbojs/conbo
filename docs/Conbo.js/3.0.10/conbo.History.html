@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Application</title>
+    <title>JSDoc: Class: History</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Application</h1>
+    <h1 class="page-title">Class: History</h1>
 
     
 
@@ -29,7 +29,7 @@
 <header>
     
         <h2>
-            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>Application</h2>
+            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>History</h2>
         
     
 </header>
@@ -41,14 +41,14 @@
 
     
 
-    <h4 class="name" id="Application"><span class="type-signature"></span>new Application<span class="signature">(options)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="History"><span class="type-signature"></span>new History<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    ApplicationBase application class for client-side applications
+    conbo.History handles cross-browser history management using the onhashchange event and hash-bang URL fragments
 </div>
 
 
@@ -57,55 +57,6 @@
 
 
 
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>options</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Object containing optional initialisation options, see View</td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -148,12 +99,19 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6061">line 6061</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6920">line 6920</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://developer.mozilla.org/en-US/docs/DOM/window.onhashchange">https://developer.mozilla.org/en-US/docs/DOM/window.onhashchange</a></li>
+        </ul>
+    </dd>
     
 
     
@@ -184,7 +142,7 @@
 
 
     <ul>
-        <li><a href="conbo.View.html">conbo.View</a></li>
+        <li><a href="conbo.EventDispatcher.html">conbo.EventDispatcher</a></li>
     </ul>
 
 
@@ -203,13 +161,13 @@
 
         
             
-<h4 class="name" id="contextClass"><span class="type-signature"></span>contextClass<span class="type-signature"></span></h4>
+<h4 class="name" id="isSupported"><span class="type-signature"></span>isSupported<span class="type-signature"></span></h4>
 
 
 
 
 <div class="description">
-    Default context class to useYou'll normally want to override this with your own
+    Whether or not Conbo's History class is supported by the current browser
 </div>
 
 
@@ -247,7 +205,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6100">line 6100</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6964">line 6964</a>
     </li></ul></dd>
     
 
@@ -265,80 +223,13 @@
 
         
             
-<h4 class="name" id="el"><span class="type-signature"></span>el<span class="type-signature"></span></h4>
+<h4 class="name" id="started"><span class="type-signature"></span>started<span class="type-signature"></span></h4>
 
 
 
 
 <div class="description">
-    The Glimpse's element
-</div>
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.Glimpse.html#el">conbo.Glimpse#el</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line5547">line 5547</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="observeEnabled"><span class="type-signature"></span>observeEnabled<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    If true, the application will automatically apply Glimpse and View classes to elements when they're added to the DOM
+    Has the history handling already been started?
 </div>
 
 
@@ -376,7 +267,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6109">line 6109</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6935">line 6935</a>
     </li></ul></dd>
     
 
@@ -443,74 +334,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2408">line 2408</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="tagName"><span class="type-signature"></span>tagName<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    The default `tagName` of a Glimpse is `div`.
-</div>
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.Glimpse.html#tagName">conbo.Glimpse#tagName</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line5536">line 5536</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2476">line 2476</a>
     </li></ul></dd>
     
 
@@ -655,7 +479,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2851">line 2851</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2919">line 2919</a>
     </li></ul></dd>
     
 
@@ -791,7 +615,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2418">line 2418</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2486">line 2486</a>
     </li></ul></dd>
     
 
@@ -888,7 +712,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2427">line 2427</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2495">line 2495</a>
     </li></ul></dd>
     
 
@@ -921,6 +745,88 @@
 
 
     
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="checkUrl"><span class="type-signature"></span>checkUrl<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Checks the current URL to see if it has changed, and if it has,calls `loadUrl`
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7044">line 7044</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1029,7 +935,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2932">line 2932</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3000">line 3000</a>
     </li></ul></dd>
     
 
@@ -1160,7 +1066,171 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2893">line 2893</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2961">line 2961</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="getFragment"><span class="type-signature"></span>getFragment<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Get the cross-browser normalized URL fragment, either from theURL, the hash, or the override.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6983">line 6983</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="getHash"><span class="type-signature"></span>getHash<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Gets the true hash value. Cannot use location.hash directly dueto bug in Firefox where location.hash will always be decoded.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6973">line 6973</a>
     </li></ul></dd>
     
 
@@ -1198,7 +1268,7 @@
 
 
 <div class="description">
-    Initialize is an empty function by default. Override it with your owninitialization logic.
+    Entry pointIn most circumstances, custom classes should override initialize and use it as your class constructor
 </div>
 
 
@@ -1222,7 +1292,7 @@
     
     <dt class="inherited-from">Inherited From:</dt>
     <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.Glimpse.html#initialize">conbo.Glimpse#initialize</a>
+        <a href="conbo.Class.html#initialize">conbo.Class#initialize</a>
     </li></ul></dd>
     
 
@@ -1247,7 +1317,171 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line5542">line 5542</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2469">line 2469</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="loadUrl"><span class="type-signature"></span>loadUrl<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Attempt to load the current URL fragment. If a route succeeds with amatch, returns `true`. If no defined routes matches the fragment, returns `false`.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7062">line 7062</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="navigate"><span class="type-signature"></span>navigate<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Save a fragment into the hash history, or replace the URL stateif the 'replace' option is passed. You are responsible for properlyURL-encoding the fragment in advance.The options object can contain `trigger: true` if you wish to have theroute callback be fired (not usually desirable), or `replace: true`, ifyou wish to modify the current URL without adding an entry to the history.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7087">line 7087</a>
     </li></ul></dd>
     
 
@@ -1414,7 +1648,253 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2869">line 2869</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2937">line 2937</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="route"><span class="type-signature"></span>route<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Add a route to be tested when the fragment changes. Routes addedlater may override previous routes.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7033">line 7033</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="start"><span class="type-signature"></span>start<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Start the hash change handling, returning `true` if the currentURL matches an existing route, and `false` otherwise.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6993">line 6993</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="stop"><span class="type-signature"></span>stop<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Disable conbo.history, perhaps temporarily. Not useful in a real app,but possibly useful for unit testing Routers.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7019">line 7019</a>
     </li></ul></dd>
     
 
@@ -1462,7 +1942,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Mar 18 2016 16:33:06 GMT+0000 (GMT Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Mon Oct 10 2016 18:42:07 GMT+0100 (GMT Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>
