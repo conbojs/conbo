@@ -32,9 +32,7 @@
 	if (typeof module != 'undefined' &amp;&amp; module.exports)
 	{
 		var $;
-		
-		try { $ = require('jQuery'); } catch (e) {
-		try { $ = require('jquery'); } catch (e) {}}
+		try { $ = require('jquery'); } catch (e) {}
 		
     	module.exports = create($);
     }
@@ -49,7 +47,7 @@
 	// Global
 	else
 	{
-		window.conbo = create(window.jQuery || window.Zepto || window.ender);
+		window.conbo = create(window.jQuery);
 	}
 	
 	function create($)
@@ -121,7 +119,7 @@ var conbo = function(namespace)
  * @augments	conbo
  * @returns 	{String}
  */
-conbo.VERSION = '3.0.9';
+conbo.VERSION = '3.0.12';
 	
 /**
  * @augments	conbo
@@ -839,10 +837,16 @@ if (!!$)
 	 * 
 	 * @memberof	conbo
 	 * @param		{function}	func - Function to call
+	 * @param		{object}	scope - The scope in which to call the function
 	 */
-	conbo.defer = function(func) 
+	conbo.defer = function(func, scope) 
 	{
-		return setTimeout(func, 0);
+		if (scope)
+		{
+			func = conbo.bind(func, scope);
+		}
+		
+		return setTimeout.apply(null, [func, 0].concat(conbo.rest(arguments, 2)));
 	};
 
 	/**
@@ -1217,6 +1221,7 @@ if (!!$)
 			|| (conbo.isArray(value) &amp;&amp; value.length) // []
 			|| (!isNaN(value) &amp;&amp; !parseFloat(value)) // "0", "0.0", etc
 			|| (conbo.isObject(value) &amp;&amp; !conbo.keys(value).length) // {}
+			|| (conbo.isObject(value) &amp;&amp; 'length' in value &amp;&amp; value.length === 0) // Arguments, List, etc
 			;
 	};
 	
@@ -1444,11 +1449,21 @@ conbo.isSupported =
 	&amp;&amp; !!Object.getOwnPropertyDescriptor;
 
 /**
- * Do nothing
+ * Does nothing, returns undefined, that's it.
  * 
  * @memberof	conbo
  */
 conbo.noop = function() {};
+
+/**
+ * Returns the value of the first parameter passed to it, that's it.
+ * 
+ * @memberof	conbo
+ */
+conbo.noopr = function(value) 
+{
+	return value;
+};
 
 /**
  * Default function to assign to the methods of pseudo-interfaces
@@ -1499,6 +1514,24 @@ conbo.toKebabCase = function(string)
 	return conbo.toUnderscoreCase(string, '-');
 };
 
+conbo.padLeft = function(value, minLength, padChar)
+{
+	if (!padChar &amp;&amp; padChar !== 0) padChar = ' ';
+	if (!value &amp;&amp; value !== 0) value = '';
+	
+	minLength || (minLength = 2);
+	
+	padChar = padChar.toString().charAt(0);
+	string = value.toString();
+	
+	while (string.length &lt; minLength)
+	{
+		string = padChar+string;
+	}
+	
+	return string;
+};
+
 /**
  * Add a leading zero to the specified number and return it as a string
  * @memberof 	conbo
@@ -1507,20 +1540,7 @@ conbo.toKebabCase = function(string)
  */
 conbo.addLeadingZero = function(number, minLength)
 {
-	number || (number = 0);
-	minLength || (minLength = 2);
-	
-	var string = number.toString();
-		
-	if (number &lt; Math.pow(10, minLength-1))
-	{
-		while (string.length &lt; minLength)
-		{
-			string = '0'+string;
-		}
-	}
-	
-	return string;
+	return conbo.padLeft(number, minLength, 0);
 };
 
 /**
@@ -1941,6 +1961,54 @@ conbo.isBindable = function(obj, propName)
 	return !!descriptor.set &amp;&amp; descriptor.set.bindable;
 };
 
+/**
+ * Parse a template
+ * 
+ * @param	{string}	template - A string containing {{propertyName}}s to be replaced with property values
+ * @param	{object}	data - An object containing the data to be used to populate the template 
+ * @returns	{string}	The populated template
+ */
+conbo.parseTemplate = function(template, data)
+{
+	if (!template) return "";
+	
+	data || (data = {});
+	
+	return template.replace(/{{(.+?)}}/g, function(propNameInBrackets, propName) 
+	{
+		var args = propName.split("|");
+		var value, parseFunction;
+		
+		args[0] = conbo.BindingUtils.cleanPropertyName(args[0]);
+		
+		try { value = eval("data."+args[0]);			} catch(e) {}
+		try { parseFunction = eval("data."+args[1]);	} catch(e) {}
+		
+		if (!conbo.isFunction(parseFunction)) 
+		{
+			parseFunction = conbo.BindingUtils.defaultParseFunction;
+		}
+		
+		return parseFunction(value);
+	});
+};
+
+/**
+ * Converts a template string into a pre-populated templating method that can 
+ * be evaluated for rendering.
+ * 
+ * @param	{string}	template - A string containing {{propertyName}}s to be replaced with property values
+ * @param	{object}	defaults - An object containing default values to use when populating the template (optional)
+ * @returns	{function}	A function that can be called with a data object, returning the populated template
+ */
+conbo.compileTemplate = function(template, defaults)
+{
+	return function(data)
+	{
+		return conbo.parseTemplate(template, conbo.setDefaults(data || {}, defaults));
+	}
+};
+
 /*
  * Polyfill methods for useful ECMAScript 5 methods that aren't quite universal
  */
@@ -2004,11 +2072,11 @@ logMethods.forEach(function(method)
  * Dispatch a property change event from the specified object
  * @private
  */
-var __dispatchChange = function(obj, propName, value)
+var __dispatchChange = function(obj, propName)
 {
 	if (!(obj instanceof conbo.EventDispatcher)) return;
 	
-	var options = {property:propName, value:value};
+	var options = {property:propName, value:obj[propName]};
 	
 	obj.dispatchEvent(new conbo.ConboEvent('change:'+propName, options));
 	obj.dispatchEvent(new conbo.ConboEvent('change', options));
@@ -3122,8 +3190,8 @@ conbo.Context = conbo.EventDispatcher.extend(
 	 * Map class instance to a property name
 	 * 
 	 * To inject a property into a class, register the property name
-	 * with the Context and set the value of the property in your
-	 * class to 'use inject' 
+	 * with the Context and declare the value as undefined in your class
+	 * to enable it to be injected at run time
 	 * 
 	 * @example		context.mapSingleton('myProperty', MyModel);
 	 * @example		myProperty: undefined
@@ -3159,6 +3227,29 @@ conbo.Context = conbo.EventDispatcher.extend(
 		delete this.__singletons[propertyName];
 		
 		return this;
+	},
+	
+	/**
+	 * Map constant value to a property name
+	 * 
+	 * To inject a constant into a class, register the property name
+	 * with the Context and declare the property as undefined in your 
+	 * class to enable it to be injected at run time
+	 * 
+	 * @example		context.mapConstant('MY_VALUE', 123);
+	 * @example		MY_VALUE: undefined
+	 */
+	mapConstant: function(propertyName, value)
+	{
+		return this.mapSingleton(propertyName, value);
+	},
+	
+	/**
+	 * Unmap constant value from a property name
+	 */
+	unmapConstant: function(propertyName)
+	{
+		return this.unmapSingleton(propertyName);
 	},
 	
 	/**
@@ -3346,6 +3437,15 @@ conbo.LocalHash = conbo.Hash.extend(
 		conbo.Hash.prototype.constructor.call(this, options);		
 	},
 	
+	/**
+	 * Immediately writes all data to local storage. If you don't use this method, 
+	 * Conbo writes the data the next time it detects a change to a bindable property.
+	 */
+	flush: function()
+	{
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE));
+	},
+	
 	toString: function()
 	{
 		return 'conbo.LocalHash';
@@ -3422,7 +3522,7 @@ conbo.List = conbo.EventDispatcher.extend(
 	{
 		this._source = [];
 		this.push.apply(this, conbo.toArray(value));
-		this.dispatchChange('source');
+		this.dispatchChange('source', 'length');
 	},
 	
 	/**
@@ -3772,6 +3872,15 @@ conbo.LocalList = conbo.List.extend(
 		conbo.List.prototype.constructor.call(this, options);
 	},
 	
+	/**
+	 * Immediately writes all data to local storage. If you don't use this method, 
+	 * Conbo writes the data the next time it detects a change to a bindable property.
+	 */
+	flush: function()
+	{
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE));
+	},
+	
 	toString: function()
 	{
 		return 'conbo.LocalList';
@@ -4068,10 +4177,11 @@ conbo.AttributeBindings = conbo.Class.extend(
 			var view = new viewClass(conbo.setValues(viewOptions, options));
 			
 			view.$el.addClass('cb-repeat');
-			$el.before(view.el);
 			
 			elements.push(view.el);
 		};
+		
+		$el.before(elements);
 		
 		el.cbRepeat.elements = elements;
 		
@@ -4198,6 +4308,24 @@ conbo.AttributeBindings = conbo.Class.extend(
 		el.addEventListener('bind', handler);
 	},
 	
+	/**
+	 * Uses JavaScript to open an anchor's HREF so that the link will open in
+	 * an iOS WebView instead of Safari
+	 * 
+	 * @param el
+	 */
+	cbJshref: function(el)
+	{
+		if (el.tagName == 'A')
+		{
+			el.onclick = function(event)
+			{
+				window.location = el.href;
+				event.preventDefault();
+				return false;
+			};
+		}
+	},
 	
 	/*
 	 * FORM HANDLING &amp; VALIDATION
@@ -4525,7 +4653,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			throw new Error('element is undefined');
 		}
 		
-		if (!conbo.isAccessor(source, propName)) // Use isBindable?
+		if (!conbo.isBindable(source, propName))
 		{
 			conbo.warn('It may not be possible to detect changes to "'+propName+'" on class "'+source.toString()+'" because the property is not bindable');
 		}
@@ -4601,8 +4729,15 @@ conbo.BindingUtils = conbo.Class.extend({},
 						
 						default:
 						{
-							$el.val(source[propName]);
-						
+							var setVal = function() 
+							{
+								$el.val(source[propName]); 
+							};
+							
+							// Resolves issue with cb-repeat inside &lt;select>
+							if (type == 'select') conbo.defer(setVal);
+							else setVal();
+							
 							eventType = 'change:'+propName;
 							
 							eventHandler = function(event)
@@ -5029,7 +5164,6 @@ conbo.BindingUtils = conbo.Class.extend({},
 					
 					el.dispatchEvent(customEvent);
 				});
-				
 			});
 			
 		});
@@ -5704,6 +5838,11 @@ conbo.View = conbo.Glimpse.extend(
 		}
 		else
 		{
+			if (conbo.isFunction(template))
+			{
+				template = template(this);
+			}
+			
 			if (conbo.isString(template))
 			{
 				this.$el.html(template);
@@ -5732,6 +5871,14 @@ conbo.View = conbo.Glimpse.extend(
 	},
 	
 	/**
+	 * Does this view have a template?
+	 */
+	get hasTemplate()
+	{
+		return this.template || this.templateUrl;
+	},
+	
+	/**
 	 * A jQuery wrapped version of the `content` element
 	 * 
 	 * @see	#content
@@ -5742,9 +5889,10 @@ conbo.View = conbo.Glimpse.extend(
 		{
 			var $content = this.$('[cb-content]:first');
 			
-			return $content.length
-				? $content
-				: undefined;
+			if ($content.closest('.cb-view')[0] == this.el)
+			{
+				return $content;
+			}
 		}
 	},
 	
@@ -6015,7 +6163,7 @@ conbo.View = conbo.Glimpse.extend(
 	 */
 	__initView: function()
 	{
-		if (this.hasContent)
+		if (this.hasTemplate &amp;&amp; this.hasContent)
 		{
 			this.$content.html(this.__content);
 		}
@@ -6063,7 +6211,7 @@ conbo.View = conbo.Glimpse.extend(
 			? '.cb-app'
 			: '.cb-view';
 		
-		var el = this.$el.parents().closest(selector)[0];
+		var el = this.$el.parents(selector)[0];
 		
 		if (el &amp;&amp; (findApp || this.parentApp.$el.has(el).length))
 		{
@@ -6780,10 +6928,10 @@ conbo.RemoteList = conbo.List.extend(
 __denumerate(conbo.HttpService.prototype);
 
 /**
- * Cached regex for stripping a leading hash/slash and trailing space.
+ * Cached regex for stripping a leading hash/exclamation/slash and trailing space.
  * @private
  */ 
-var routeStripper = /^[#\/]|\s+$/g;
+var routeStripper = /^#!|^[#\/]|\s+$/g;
 
 /**
  * Cached regex for stripping leading and trailing slashes.
@@ -6799,7 +6947,7 @@ var trailingSlash = /\/$/;
 
 /**
  * conbo.History handles cross-browser history management using the 
- * onhashchange event and URL fragments
+ * onhashchange event and hash-bang URL fragments
  * 
  * @see https://developer.mozilla.org/en-US/docs/DOM/window.onhashchange
  * @class		conbo.History
@@ -6852,7 +7000,7 @@ conbo.History = conbo.EventDispatcher.extend(
 	 */
 	getHash: function(window)
 	{
-		var match = (window || this).location.href.match(/#(.*)$/);
+		var match = (window || this).location.href.match(/#!?(.*)$/);
 		return match ? match[1] : '';
 	},
 	
@@ -7007,11 +7155,11 @@ conbo.History = conbo.EventDispatcher.extend(
 		if (replace)
 		{
 			var href = location.href.replace(/(javascript:|#).*$/, '');
-			location.replace(href + '#/' + fragment);
+			location.replace(href + '#!/' + fragment);
 		}
 		else
 		{
-			location.hash = '#/' + fragment;
+			location.hash = '#!/' + fragment;
 		}
 	}
 	
@@ -7264,7 +7412,7 @@ __denumerate(conbo.Router.prototype);
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Mar 18 2016 16:33:06 GMT+0000 (GMT Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Nov 02 2016 11:17:27 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

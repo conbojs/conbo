@@ -441,7 +441,7 @@ conbo.View = conbo.Glimpse.extend(
 			? '.cb-app'
 			: '.cb-view';
 		
-		var el = this.$el.parents().closest(selector)[0];
+		var el = this.$el.parents(selector)[0];
 		
 		if (el && (findApp || this.parentApp.$el.has(el).length))
 		{
