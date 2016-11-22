@@ -86,13 +86,13 @@ conbo.AsyncToken = conbo.Promise.extend(
 	{
 		var faultData = 
 		{
-			error: xhr.errorThrown, 
+			error: errorThrown,
 			fault: xhr.responseJSON, 
-			status: xhr.status, 
+			status: xhr.status,
 			xhr: xhr
 		};
 		
-		var event = new conbo.ConboEvent('fault', data);
+		var event = new conbo.ConboEvent('fault', faultData);
 		
 		this.responders.forEach(function(responder)
 		{
