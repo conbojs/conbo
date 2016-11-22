@@ -84,7 +84,8 @@ conbo.AsyncToken = conbo.Promise.extend(
 	// override
 	dispatchFault: function(xhr, status, errorThrown)
 	{
-		var event = new conbo.ConboEvent('fault', {fault:errorThrown, status:xhr.status, xhr:xhr});
+		var fault = xhr.responseJSON || errorThrown;
+		var event = new conbo.ConboEvent('fault', {fault:fault, status:xhr.status, xhr:xhr});
 		
 		this.responders.forEach(function(responder)
 		{
