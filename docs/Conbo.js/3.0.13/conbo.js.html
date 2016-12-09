@@ -119,7 +119,7 @@ var conbo = function(namespace)
  * @augments	conbo
  * @returns 	{String}
  */
-conbo.VERSION = '3.0.12';
+conbo.VERSION = '3.0.13';
 	
 /**
  * @augments	conbo
@@ -951,10 +951,10 @@ if (!!$)
 	/**
 	 * Define the values of the given object by cloning all of the properties 
 	 * of the passed-in object(s), destroying and overwriting the target's 
-	 * property descriptors in the process
+	 * property descriptors and values in the process
 	 * 
 	 * @memberof	conbo
-	 * @param		{object}	obj - Object to extend
+	 * @param		{object}	obj - Object to define properties on
 	 * @returns		{object}
 	 * @see			conbo.setValues
 	 */
@@ -967,6 +967,30 @@ if (!!$)
 			for (var propName in source) 
 			{
 				conbo.cloneProperty(source, propName, obj);
+			}
+		});
+		
+		return obj;
+	};
+	
+	/**
+	 * Define bindable values on the given object using the property names and
+	 * of the passed-in object(s), destroying and overwriting the target's 
+	 * property descriptors and values in the process
+	 * 
+	 * @memberof	conbo
+	 * @param		{object}	obj - Object to define properties on
+	 * @returns		{object}
+	 */
+	conbo.defineBindableValues = function(obj) 
+	{
+		forEach(slice.call(arguments, 1), function(source) 
+		{
+			if (!source) return;
+			
+			for (var propName in source) 
+			{
+				__defineProperty(obj, propName, source[propName]);
 			}
 		});
 		
@@ -987,7 +1011,7 @@ if (!!$)
 	conbo.extend = function(obj)
 	{
 		conbo.warn('conbo.extend is deprecated: use conbo.defineValues or conbo.setValues');
-		conbo.defineDefaults.apply(conbo, arguments);
+		conbo.conbo.defineValues.apply(conbo, arguments);
 	};
 	
 	/**
@@ -1925,27 +1949,24 @@ conbo.makeAllBindable = function(obj, propNames, useForIn)
 };
 
 /**
- * Is the specified property an accessor (with a getter and/or setter)?
+ * Is the specified property an accessor (defined using a getter and/or setter)?
  * 
  * @memberof	conbo
  * @returns		Boolean
  */
 conbo.isAccessor = function(obj, propName)
 {
-	var descriptor;
-	
 	if (obj)
 	{
-		descriptor = Object.getOwnPropertyDescriptor(obj, propName);
+		return !!obj.__lookupGetter__(propName) 
+			|| !!obj.__lookupSetter__(propName);
 	}
 	
-	// TODO Should we check prototype too, using obj.__proto__ or Object.getPrototypeOf(obj)?
-	
-	return !!descriptor &amp;&amp; (!!descriptor.set || !!descriptor.get);
+	return false;
 };
 
 /**
- * Is the specified property bindable?
+ * Is the specified property explicitely bindable?
  * 
  * @memberof	conbo
  * @returns		Boolean
@@ -1957,8 +1978,7 @@ conbo.isBindable = function(obj, propName)
 		return false;
 	}
 	
-	var descriptor = Object.getOwnPropertyDescriptor(obj, propName);
-	return !!descriptor.set &amp;&amp; descriptor.set.bindable;
+	return !!(obj.__lookupSetter__(propName) || {}).bindable;
 };
 
 /**
@@ -2089,24 +2109,28 @@ var __dispatchChange = function(obj, propName)
  * 
  * @param	(Object)	obj			The EventDispatcher object on which the property will be defined
  * @param	(String)	propName	The name of the property to be defined
- * @param	(*)			value		The initial value of the property (optional)
+ * @param	(*)			value		The default value of the property (optional)
  * @param	(Function)	getter		The getter function (optional)
  * @param	(Function)	setter		The setter function (optional)
  * @param	(Boolean)	enumerable	Whether of not the property should be enumerable (optional, default: true)
  * @private
  */
-var __defineProperty = function(obj, propName, getter, setter, enumerable)
+var __defineProperty = function(obj, propName, value, getter, setter, enumerable)
 {
 	if (conbo.isAccessor(obj, propName))
 	{
 		return this;
 	}
 	
-	var value = obj[propName],
-		nogs = !getter &amp;&amp; !setter;
+	if (conbo.isUndefined(value))
+	{
+		value = obj[propName];
+	}
+	
+	var nogs = !getter &amp;&amp; !setter;
 	
 	enumerable = (enumerable !== false);
-		
+	
 	if (nogs)
 	{
 		getter = function()
@@ -2116,11 +2140,14 @@ var __defineProperty = function(obj, propName, getter, setter, enumerable)
 	
 		setter = function(newValue)
 		{
-			if (newValue === value) return;
-			value = newValue;
-			
-			__dispatchChange(this, propName, value);
+			if (!conbo.isEqual(newValue, value)) 
+			{
+				value = newValue;
+				__dispatchChange(this, propName, value);
+			}
 		};
+		
+		setter.bindable = true;
 	}
 	else if (!!setter)
 	{
@@ -2452,24 +2479,21 @@ if (!!$)
 
 if (!!$)
 {
-	$(function()
+	var $head = $('head');
+	
+	if (!!$head.find('#cb-style').length)
 	{
-		var $head = $('head');
-		
-		if (!!$head.find('#cb-style').length)
-		{
-			return;
-		}
-		
-		$('head').append($
-		(
-			'&lt;style id="cb-style" type="text/css">'+
-				'\n.cb-hide { visibility:hidden !important; }'+
-				'\n.cb-exclude { display:none !important; }'+
-				'\n.cb-disable { pointer-events:none !important; cursor:default !important; }'+
-			'\n&lt;/style>'
-		));
-	});
+		return;
+	}
+	
+	$('head').append($
+	(
+		'&lt;style id="cb-style" type="text/css">'+
+			'\n.cb-hide { visibility:hidden !important; }'+
+			'\n.cb-exclude { display:none !important; }'+
+			'\n.cb-disable { pointer-events:none !important; cursor:default !important; }'+
+		'\n&lt;/style>'
+	));
 }
 
 /**
@@ -4171,7 +4195,8 @@ conbo.AttributeBindings = conbo.Class.extend(
 				data: value, 
 				el: $clone, 
 				index: index,
-				isLast: index == a.length-1
+				isLast: index == a.length-1,
+				list: a
 			};
 			
 			var view = new viewClass(conbo.setValues(viewOptions, options));
@@ -4191,23 +4216,16 @@ conbo.AttributeBindings = conbo.Class.extend(
 	},
 	
 	/**
-	 * When used with a standard DOM element, the properties of the element's
-	 * `dataset` (it's `data-*` attributes) are set using the properties of the 
-	 * object being bound to it; you'll need to use a polyfill for IE &lt;= 10
-	 * 
-	 * When used with a Glimpse, the Glimpse's `data` property is set to
-	 * the value of the bound property. 
+	 * Sets the properties of the element's dataset (it's `data-*` attributes)
+	 * using the properties of the object being bound to it. Non-Object values 
+	 * will be disregarded. You'll need to use a polyfill for IE &lt;= 10.
 	 * 
 	 * @param 		el
 	 * @param 		value
 	 */
-	cbData: function(el, value)
+	cbDataset: function(el, value)
 	{
-		if (el.cbGlimpse)
-		{
-			el.cbGlimpse.data = value;
-		}
-		else if (conbo.isObject(value))
+		if (conbo.isObject(value))
 		{
 			conbo.setValues(el.dataset, value);
 		}
@@ -4653,7 +4671,8 @@ conbo.BindingUtils = conbo.Class.extend({},
 			throw new Error('element is undefined');
 		}
 		
-		if (!conbo.isBindable(source, propName))
+		// TODO Why does isBindable fail here?
+		if (!conbo.isAccessor(source, propName))
 		{
 			conbo.warn('It may not be possible to detect changes to "'+propName+'" on class "'+source.toString()+'" because the property is not bindable');
 		}
@@ -5059,9 +5078,13 @@ conbo.BindingUtils = conbo.Class.extend({},
 			view.subcontext.addTo(options);
 		}
 		
-		if (view.context &amp;&amp; view.context.namespace)
+		var ns = view.context &amp;&amp; view.context.namespace;
+		
+		if (ns)
 		{
-			this.applyViews(view, view.context.namespace, 'glimpse');
+			this.applyViews(view, ns, 'glimpse')
+				.applyViews(view, ns, 'view')
+				;
 		}
 		
 		view.$('*').add(view.el).filter(function()
@@ -5647,7 +5670,8 @@ conbo.IDataRenderer =
 {
 	data: undefined,
 	index: -1,
-	isLast: false
+	isLast: false,
+	list: undefined
 };
 
 /**
@@ -5801,7 +5825,8 @@ conbo.View = conbo.Glimpse.extend(
 				'id', 
 				'tagName', 
 				'template', 
-				'templateUrl'
+				'templateUrl',
+				'autoInitTemplate'
 			],
 			
 			// Adds interface properties
@@ -5823,32 +5848,14 @@ conbo.View = conbo.Glimpse.extend(
  		
 		conbo.makeAllBindable(this, (this.bindable || []).concat(['currentState']));
 		
-		var templateUrl = this.templateUrl
-		  , template = this.template
-		  ;
-		
 		if (this.hasContent)
 		{
 			this.__content =  this.$el.html();
 		}
 		
-		if (!!templateUrl)
+		if (this.autoInitTemplate !== false)
 		{
-			this.loadTemplate(templateUrl);
-		}
-		else
-		{
-			if (conbo.isFunction(template))
-			{
-				template = template(this);
-			}
-			
-			if (conbo.isString(template))
-			{
-				this.$el.html(template);
-			}
-			
-			this.__initView();
+			this.initTemplate();
 		}
 	},
 	
@@ -6125,6 +6132,36 @@ conbo.View = conbo.Glimpse.extend(
 	},
 	
 	/**
+	 * Initialize the View's template, either by loading the templateUrl
+	 * or using the contents of the template property, if either exist
+	 */
+	initTemplate: function()
+	{
+		var templateUrl = this.templateUrl
+		  , template = this.template
+		  ;
+		
+		if (!!templateUrl)
+		{
+			this.loadTemplate(templateUrl);
+		}
+		else
+		{
+			if (conbo.isFunction(template))
+			{
+				template = template(this);
+			}
+			
+			if (conbo.isString(template))
+			{
+				this.$el.html(template);
+			}
+			
+			this.__initView();
+		}
+	},
+	
+	/**
 	 * Loads HTML template and apply it to this.el, storing the loaded
 	 * template will in this.template
 	 * 
@@ -6266,7 +6303,7 @@ conbo.Application = conbo.View.extend(
 		options.el || (options.el = this.__findAppElement());
 		
 		conbo.View.prototype.constructor.call(this, options);
-		conbo.BindingUtils.applyViews(this, this.namespace);
+//		conbo.BindingUtils.applyViews(this, this.namespace);
 	},
 	
 	/**
@@ -6455,7 +6492,7 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 			contentType: conbo.HttpService.CONTENT_TYPE_JSON
 		});
 		
-		conbo.setValues(this, conbo.pick(options, 
+		conbo.setValues(this, conbo.setDefaults(conbo.pick(options, 
 		    'rootUrl', 
 		    'contentType', 
 		    'dataType', 
@@ -6464,7 +6501,9 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 		    'decodeFunction', 
 		    'resultClass',
 		    'makeObjectsBindable'
-		));
+		), {
+			dataType: 'json'
+		}));
 		
 		conbo.EventDispatcher.prototype.constructor.apply(this, arguments);
 	},
@@ -6722,7 +6761,15 @@ conbo.AsyncToken = conbo.Promise.extend(
 	// override
 	dispatchFault: function(xhr, status, errorThrown)
 	{
-		var event = new conbo.ConboEvent('fault', {fault:errorThrown, status:xhr.status, xhr:xhr});
+		var faultData = 
+		{
+			error: errorThrown,
+			fault: xhr.responseJSON, 
+			status: xhr.status,
+			xhr: xhr
+		};
+		
+		var event = new conbo.ConboEvent('fault', faultData);
 		
 		this.responders.forEach(function(responder)
 		{
@@ -6830,9 +6877,10 @@ conbo.RemoteHash = conbo.Hash.extend(
 		conbo.Hash.prototype.constructor.apply(this, arguments);
 	},
 	
-	load: function()
+	load: function(data)
 	{
-		this._httpService.call(this._command, this.toJSON(), 'GET');
+		data = arguments.length ? data : this.toJSON();
+		this._httpService.call(this._command, data, 'GET');
 		return this;
 	},
 	
@@ -7412,7 +7460,7 @@ __denumerate(conbo.Router.prototype);
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Nov 02 2016 11:17:27 GMT+0000 (GMT Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Dec 09 2016 17:25:57 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -9,5 +9,6 @@ conbo.IDataRenderer =
 {
 	data: undefined,
 	index: -1,
-	isLast: false
+	isLast: false,
+	list: undefined
 };

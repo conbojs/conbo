@@ -54,7 +54,6 @@ conbo.View = conbo.Glimpse.extend(
  		
 		conbo.makeAllBindable(this, (this.bindable || []).concat(['currentState']));
 		
-		
 		if (this.hasContent)
 		{
 			this.__content =  this.$el.html();

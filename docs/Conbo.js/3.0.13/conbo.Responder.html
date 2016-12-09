@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Namespace</title>
+    <title>JSDoc: Class: Responder</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Namespace</h1>
+    <h1 class="page-title">Class: Responder</h1>
 
     
 
@@ -29,7 +29,7 @@
 <header>
     
         <h2>
-            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>Namespace</h2>
+            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>Responder</h2>
         
     
 </header>
@@ -41,14 +41,14 @@
 
     
 
-    <h4 class="name" id="Namespace"><span class="type-signature"></span>new Namespace<span class="signature">(options)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Responder"><span class="type-signature"></span>new Responder<span class="signature">(resultHandler, faultHandler, scope)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Conbo namespaces enable you to create modular, encapsulated code, similar tohow you might use packages in languages like Java or ActionScript.By default, namespaces will automatically call initDom() when the HTML pagehas finished loading.
+    Responder
 </div>
 
 
@@ -84,13 +84,13 @@
 
         <tr>
             
-                <td class="name"><code>options</code></td>
+                <td class="name"><code>resultHandler</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">function</span>
 
 
             
@@ -100,7 +100,53 @@
 
             
 
-            <td class="description last">Object containing initialisation options</td>
+            <td class="description last">Function that handles successful results</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>faultHandler</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Function that handles errors</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>scope</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">option</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The scope the callback functions should be run in</td>
         </tr>
 
     
@@ -148,7 +194,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2590">line 2590</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6768">line 6768</a>
     </li></ul></dd>
     
 
@@ -252,7 +298,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2476">line 2476</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2500">line 2500</a>
     </li></ul></dd>
     
 
@@ -384,7 +430,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2486">line 2486</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2510">line 2510</a>
     </li></ul></dd>
     
 
@@ -481,7 +527,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2495">line 2495</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2519">line 2519</a>
     </li></ul></dd>
     
 
@@ -512,155 +558,6 @@
 </div>
 
 
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="initDom"><span class="type-signature"></span>initDom<span class="signature">(rootEl)</span><span class="type-signature"> &rarr; {this}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Search the DOM and initialize Applications contained in this namespace
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>rootEl</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Element</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The root element to initialize (optional)</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2630">line 2630</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">this</span>
-
-
-    </dd>
-</dl>
 
     
 
@@ -727,7 +624,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2469">line 2469</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2493">line 2493</a>
     </li></ul></dd>
     
 
@@ -750,304 +647,6 @@
 
 
 
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="observeDom"><span class="type-signature"></span>observeDom<span class="signature">(rootEl)</span><span class="type-signature"> &rarr; {this}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Watch the DOM and automatically initialize Applications contained in this namespace when an element with the appropriate cb-app attributeis added.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>rootEl</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Element</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The root element to initialize (optional)</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2644">line 2644</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">this</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="unobserveDom"><span class="type-signature"></span>unobserveDom<span class="signature">(rootEl)</span><span class="type-signature"> &rarr; {this}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Stop watching the DOM for Applications
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>rootEl</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Element</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The root element to initialize (optional)</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2656">line 2656</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">this</span>
-
-
-    </dd>
-</dl>
-
-    
 
 
 
@@ -1073,7 +672,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Nov 02 2016 11:17:28 GMT+0000 (GMT Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Dec 09 2016 17:25:58 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

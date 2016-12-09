@@ -41,9 +41,10 @@ conbo.RemoteHash = conbo.Hash.extend(
 		conbo.Hash.prototype.constructor.apply(this, arguments);
 	},
 	
-	load: function()
+	load: function(data)
 	{
-		this._httpService.call(this._command, this.toJSON(), 'GET');
+		data = arguments.length ? data : this.toJSON();
+		this._httpService.call(this._command, data, 'GET');
 		return this;
 	},
 	

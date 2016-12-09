@@ -503,9 +503,13 @@ conbo.BindingUtils = conbo.Class.extend({},
 			view.subcontext.addTo(options);
 		}
 		
-		if (view.context && view.context.namespace)
+		var ns = view.context && view.context.namespace;
+		
+		if (ns)
 		{
-			this.applyViews(view, view.context.namespace, 'glimpse');
+			this.applyViews(view, ns, 'glimpse')
+				.applyViews(view, ns, 'view')
+				;
 		}
 		
 		view.$('*').add(view.el).filter(function()
