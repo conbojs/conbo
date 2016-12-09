@@ -279,7 +279,8 @@ conbo.AttributeBindings = conbo.Class.extend(
 				data: value, 
 				el: $clone, 
 				index: index,
-				isLast: index == a.length-1
+				isLast: index == a.length-1,
+				list: a
 			};
 			
 			var view = new viewClass(conbo.setValues(viewOptions, options));
@@ -299,23 +300,16 @@ conbo.AttributeBindings = conbo.Class.extend(
 	},
 	
 	/**
-	 * When used with a standard DOM element, the properties of the element's
-	 * `dataset` (it's `data-*` attributes) are set using the properties of the 
-	 * object being bound to it; you'll need to use a polyfill for IE <= 10
-	 * 
-	 * When used with a Glimpse, the Glimpse's `data` property is set to
-	 * the value of the bound property. 
+	 * Sets the properties of the element's dataset (it's `data-*` attributes)
+	 * using the properties of the object being bound to it. Non-Object values 
+	 * will be disregarded. You'll need to use a polyfill for IE <= 10.
 	 * 
 	 * @param 		el
 	 * @param 		value
 	 */
-	cbData: function(el, value)
+	cbDataset: function(el, value)
 	{
-		if (el.cbGlimpse)
-		{
-			el.cbGlimpse.data = value;
-		}
-		else if (conbo.isObject(value))
+		if (conbo.isObject(value))
 		{
 			conbo.setValues(el.dataset, value);
 		}

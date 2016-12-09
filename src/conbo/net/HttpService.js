@@ -23,7 +23,7 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 			contentType: conbo.HttpService.CONTENT_TYPE_JSON
 		});
 		
-		conbo.setValues(this, conbo.pick(options, 
+		conbo.setValues(this, conbo.setDefaults(conbo.pick(options, 
 		    'rootUrl', 
 		    'contentType', 
 		    'dataType', 
@@ -32,7 +32,9 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 		    'decodeFunction', 
 		    'resultClass',
 		    'makeObjectsBindable'
-		));
+		), {
+			dataType: 'json'
+		}));
 		
 		conbo.EventDispatcher.prototype.constructor.apply(this, arguments);
 	},

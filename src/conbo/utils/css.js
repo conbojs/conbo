@@ -5,22 +5,19 @@
 
 if (!!$)
 {
-	$(function()
+	var $head = $('head');
+	
+	if (!!$head.find('#cb-style').length)
 	{
-		var $head = $('head');
-		
-		if (!!$head.find('#cb-style').length)
-		{
-			return;
-		}
-		
-		$('head').append($
-		(
-			'<style id="cb-style" type="text/css">'+
-				'\n.cb-hide { visibility:hidden !important; }'+
-				'\n.cb-exclude { display:none !important; }'+
-				'\n.cb-disable { pointer-events:none !important; cursor:default !important; }'+
-			'\n</style>'
-		));
-	});
+		return;
+	}
+	
+	$('head').append($
+	(
+		'<style id="cb-style" type="text/css">'+
+			'\n.cb-hide { visibility:hidden !important; }'+
+			'\n.cb-exclude { display:none !important; }'+
+			'\n.cb-disable { pointer-events:none !important; cursor:default !important; }'+
+		'\n</style>'
+	));
 }

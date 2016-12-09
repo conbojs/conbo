@@ -96,7 +96,8 @@ conbo.BindingUtils = conbo.Class.extend({},
 			throw new Error('element is undefined');
 		}
 		
-		if (!conbo.isBindable(source, propName))
+		// TODO Why does isBindable fail here?
+		if (!conbo.isAccessor(source, propName))
 		{
 			conbo.warn('It may not be possible to detect changes to "'+propName+'" on class "'+source.toString()+'" because the property is not bindable');
 		}
@@ -502,9 +503,13 @@ conbo.BindingUtils = conbo.Class.extend({},
 			view.subcontext.addTo(options);
 		}
 		
-		if (view.context && view.context.namespace)
+		var ns = view.context && view.context.namespace;
+		
+		if (ns)
 		{
-			this.applyViews(view, view.context.namespace, 'glimpse');
+			this.applyViews(view, ns, 'glimpse')
+				.applyViews(view, ns, 'view')
+				;
 		}
 		
 		view.$('*').add(view.el).filter(function()

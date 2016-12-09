@@ -810,10 +810,10 @@
 	/**
 	 * Define the values of the given object by cloning all of the properties 
 	 * of the passed-in object(s), destroying and overwriting the target's 
-	 * property descriptors in the process
+	 * property descriptors and values in the process
 	 * 
 	 * @memberof	conbo
-	 * @param		{object}	obj - Object to extend
+	 * @param		{object}	obj - Object to define properties on
 	 * @returns		{object}
 	 * @see			conbo.setValues
 	 */
@@ -826,6 +826,31 @@
 			for (var propName in source) 
 			{
 				conbo.cloneProperty(source, propName, obj);
+			}
+		});
+		
+		return obj;
+	};
+	
+	/**
+	 * Define bindable values on the given object using the property names and
+	 * of the passed-in object(s), destroying and overwriting the target's 
+	 * property descriptors and values in the process
+	 * 
+	 * @memberof	conbo
+	 * @param		{object}	obj - Object to define properties on
+	 * @returns		{object}
+	 */
+	conbo.defineBindableValues = function(obj) 
+	{
+		forEach(slice.call(arguments, 1), function(source) 
+		{
+			if (!source) return;
+			
+			for (var propName in source) 
+			{
+				delete obj[propName];
+				__defineProperty(obj, propName, source[propName]);
 			}
 		});
 		
@@ -846,7 +871,7 @@
 	conbo.extend = function(obj)
 	{
 		conbo.warn('conbo.extend is deprecated: use conbo.defineValues or conbo.setValues');
-		conbo.defineDefaults.apply(conbo, arguments);
+		conbo.conbo.defineValues.apply(conbo, arguments);
 	};
 	
 	/**
@@ -1784,27 +1809,24 @@ conbo.makeAllBindable = function(obj, propNames, useForIn)
 };
 
 /**
- * Is the specified property an accessor (with a getter and/or setter)?
+ * Is the specified property an accessor (defined using a getter and/or setter)?
  * 
  * @memberof	conbo
  * @returns		Boolean
  */
 conbo.isAccessor = function(obj, propName)
 {
-	var descriptor;
-	
 	if (obj)
 	{
-		descriptor = Object.getOwnPropertyDescriptor(obj, propName);
+		return !!obj.__lookupGetter__(propName) 
+			|| !!obj.__lookupSetter__(propName);
 	}
 	
-	// TODO Should we check prototype too, using obj.__proto__ or Object.getPrototypeOf(obj)?
-	
-	return !!descriptor && (!!descriptor.set || !!descriptor.get);
+	return false;
 };
 
 /**
- * Is the specified property bindable?
+ * Is the specified property explicitely bindable?
  * 
  * @memberof	conbo
  * @returns		Boolean
@@ -1816,8 +1838,7 @@ conbo.isBindable = function(obj, propName)
 		return false;
 	}
 	
-	var descriptor = Object.getOwnPropertyDescriptor(obj, propName);
-	return !!descriptor.set && descriptor.set.bindable;
+	return !!(obj.__lookupSetter__(propName) || {}).bindable;
 };
 
 /**
@@ -1948,24 +1969,28 @@ var __dispatchChange = function(obj, propName)
  * 
  * @param	(Object)	obj			The EventDispatcher object on which the property will be defined
  * @param	(String)	propName	The name of the property to be defined
- * @param	(*)			value		The initial value of the property (optional)
+ * @param	(*)			value		The default value of the property (optional)
  * @param	(Function)	getter		The getter function (optional)
  * @param	(Function)	setter		The setter function (optional)
  * @param	(Boolean)	enumerable	Whether of not the property should be enumerable (optional, default: true)
  * @private
  */
-var __defineProperty = function(obj, propName, getter, setter, enumerable)
+var __defineProperty = function(obj, propName, value, getter, setter, enumerable)
 {
 	if (conbo.isAccessor(obj, propName))
 	{
 		return this;
 	}
 	
-	var value = obj[propName],
-		nogs = !getter && !setter;
+	if (conbo.isUndefined(value))
+	{
+		value = obj[propName];
+	}
+	
+	var nogs = !getter && !setter;
 	
 	enumerable = (enumerable !== false);
-		
+	
 	if (nogs)
 	{
 		getter = function()
@@ -1975,11 +2000,14 @@ var __defineProperty = function(obj, propName, getter, setter, enumerable)
 	
 		setter = function(newValue)
 		{
-			if (newValue === value) return;
-			value = newValue;
-			
-			__dispatchChange(this, propName, value);
+			if (!conbo.isEqual(newValue, value)) 
+			{
+				value = newValue;
+				__dispatchChange(this, propName, value);
+			}
 		};
+		
+		setter.bindable = true;
 	}
 	else if (!!setter)
 	{

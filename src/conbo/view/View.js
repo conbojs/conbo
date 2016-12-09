@@ -31,7 +31,8 @@ conbo.View = conbo.Glimpse.extend(
 				'id', 
 				'tagName', 
 				'template', 
-				'templateUrl'
+				'templateUrl',
+				'autoInitTemplate'
 			],
 			
 			// Adds interface properties
@@ -53,32 +54,14 @@ conbo.View = conbo.Glimpse.extend(
  		
 		conbo.makeAllBindable(this, (this.bindable || []).concat(['currentState']));
 		
-		var templateUrl = this.templateUrl
-		  , template = this.template
-		  ;
-		
 		if (this.hasContent)
 		{
 			this.__content =  this.$el.html();
 		}
 		
-		if (!!templateUrl)
+		if (this.autoInitTemplate !== false)
 		{
-			this.loadTemplate(templateUrl);
-		}
-		else
-		{
-			if (conbo.isFunction(template))
-			{
-				template = template(this);
-			}
-			
-			if (conbo.isString(template))
-			{
-				this.$el.html(template);
-			}
-			
-			this.__initView();
+			this.initTemplate();
 		}
 	},
 	
@@ -355,6 +338,36 @@ conbo.View = conbo.Glimpse.extend(
 	},
 	
 	/**
+	 * Initialize the View's template, either by loading the templateUrl
+	 * or using the contents of the template property, if either exist
+	 */
+	initTemplate: function()
+	{
+		var templateUrl = this.templateUrl
+		  , template = this.template
+		  ;
+		
+		if (!!templateUrl)
+		{
+			this.loadTemplate(templateUrl);
+		}
+		else
+		{
+			if (conbo.isFunction(template))
+			{
+				template = template(this);
+			}
+			
+			if (conbo.isString(template))
+			{
+				this.$el.html(template);
+			}
+			
+			this.__initView();
+		}
+	},
+	
+	/**
 	 * Loads HTML template and apply it to this.el, storing the loaded
 	 * template will in this.template
 	 * 
@@ -441,7 +454,7 @@ conbo.View = conbo.Glimpse.extend(
 			? '.cb-app'
 			: '.cb-view';
 		
-		var el = this.$el.parents().closest(selector)[0];
+		var el = this.$el.parents(selector)[0];
 		
 		if (el && (findApp || this.parentApp.$el.has(el).length))
 		{
