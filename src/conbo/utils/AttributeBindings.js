@@ -278,7 +278,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 			{
 				data: value, 
 				el: $clone, 
-				index: indexbD,
+				index: index,
 				isLast: index == a.length-1,
 				list: a
 			};
