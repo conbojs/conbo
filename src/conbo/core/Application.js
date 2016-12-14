@@ -20,7 +20,7 @@ conbo.Application = conbo.View.extend(
 	{
 		options = conbo.clone(options) || {};
 		
-		if (!conbo.instanceOf(this.namespace, conbo.Namespace))
+		if (!(this.ns instanceof conbo.Namespace))
 		{
 			throw new Error('Application namespace must be an instance of conbo.Namespace');
 		}
@@ -30,7 +30,6 @@ conbo.Application = conbo.View.extend(
 		options.el || (options.el = this.__findAppElement());
 		
 		conbo.View.prototype.constructor.call(this, options);
-//		conbo.BindingUtils.applyViews(this, this.namespace);
 	},
 	
 	/**

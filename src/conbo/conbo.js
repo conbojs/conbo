@@ -61,6 +61,18 @@ var conbo = function(namespace)
 };
 
 /**
+ * Internal reference to self, enables full functionality to be used via 
+ * ES2015 import statements
+ * 
+ * @augments	conbo
+ * @returns		{conbo}
+ * 
+ * @example 
+ * import {conbo} from 'conbo';
+ */
+conbo.conbo = conbo;
+
+/**
  * @augments	conbo
  * @returns 	{String}
  */
