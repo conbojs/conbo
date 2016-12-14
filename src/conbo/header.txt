@@ -1,26 +1,26 @@
-(function(window, document, undefined)
+(function(window, document, factory, undefined)
 {
-	// Node.js
+	// Common.js / Node.js
 	if (typeof module != 'undefined' && module.exports)
 	{
 		var $;
 		try { $ = require('jquery'); } catch (e) {}
 		
-    	module.exports = create($);
+    	module.exports = factory($);
     }
     // AMD
     else if (typeof define == 'function' && define.amd) 
 	{
 		define('conbo', ['jquery'], function ($)
 		{
-			return create($);
+			return factory($);
 		});
 	}
 	// Global
 	else
 	{
-		window.conbo = create(window.jQuery);
+		window.conbo = factory(window.jQuery);
 	}
 	
-	function create($)
-	{
+})(this, document, function($) 
+{

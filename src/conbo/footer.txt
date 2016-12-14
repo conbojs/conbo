@@ -1,5 +1,3 @@
 
-		return conbo;
-	}
-	
-}(this, document));
+	return conbo;
+});

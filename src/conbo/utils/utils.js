@@ -172,13 +172,18 @@
 	 * @param		{function}	predicate - Function that tests each value, returning true or false
 	 * @param		{object}	scope - The scope the predicate function should run in (optional)
 	 */
-	conbo.filter = function(obj, predicate, scope) {
+	conbo.filter = function(obj, predicate, scope) 
+	{
 		var results = [];
+		
 		if (obj == null) return results;
 		if (nativeFilter && obj.filter === nativeFilter) return obj.filter(predicate, scope);
-		forEach(obj, function(value, index, list) {
+		
+		forEach(obj, function(value, index, list) 
+		{
 			if (predicate.call(scope, value, index, list)) results.push(value);
 		});
+		
 		return results;
 	};
 
@@ -190,10 +195,13 @@
 	 * @param		{function}	predicate - Function that tests each value, returning true or false
 	 * @param		{object}	scope - The scope the predicate function should run in (optional)
 	 */
-	conbo.reject = function(obj, predicate, scope) {
-		return conbo.filter(obj, function(value, index, list) {
+	conbo.reject = function(obj, predicate, scope) 
+	{
+		return conbo.filter(obj, function(value, index, list) 
+		{
 			return !predicate.call(scope, value, index, list);
-		}, scope);
+		},
+		scope);
 	};
 	
 	/**
@@ -205,14 +213,20 @@
 	 * @param		{function}	predicate - Function that tests each value, returning true or false
 	 * @param		{object}	scope - The scope the predicate function should run in (optional)
 	 */
-	conbo.every = function(obj, predicate, scope) {
+	conbo.every = function(obj, predicate, scope) 
+	{
 		predicate || (predicate = conbo.identity);
+		
 		var result = true;
+		
 		if (obj == null) return result;
 		if (nativeEvery && obj.every === nativeEvery) return obj.every(predicate, scope);
-		forEach(obj, function(value, index, list) {
+		
+		forEach(obj, function(value, index, list) 
+		{
 			if (!(result = result && predicate.call(scope, value, index, list))) return breaker;
 		});
+		
 		return !!result;
 	};
 
@@ -292,18 +306,24 @@
 	 * @param		{function}	iterator - Function that tests each value (optional)
 	 * @param		{object}	scope - The scope the iterator function should run in (optional)
 	 */
-	conbo.max = function(obj, iterator, scope) {
-		if (!iterator && conbo.isArray(obj) && obj[0] === +obj[0] && obj.length < 65535) {
+	conbo.max = function(obj, iterator, scope) 
+	{
+		if (!iterator && conbo.isArray(obj) && obj[0] === +obj[0] && obj.length < 65535) 
+		{
 			return Math.max.apply(Math, obj);
 		}
+		
 		var result = -Infinity, lastComputed = -Infinity;
-		forEach(obj, function(value, index, list) {
+		
+		forEach(obj, function(value, index, list) 
+		{
 			var computed = iterator ? iterator.call(scope, value, index, list) : value;
 			if (computed > lastComputed) {
 				result = value;
 				lastComputed = computed;
 			}
 		});
+		
 		return result;
 	};
 
@@ -315,18 +335,25 @@
 	 * @param		{function}	iterator - Function that tests each value (optional)
 	 * @param		{object}	scope - The scope the iterator function should run in (optional)
 	 */
-	conbo.min = function(obj, iterator, scope) {
+	conbo.min = function(obj, iterator, scope) 
+	{
 		if (!iterator && conbo.isArray(obj) && obj[0] === +obj[0] && obj.length < 65535) {
 			return Math.min.apply(Math, obj);
 		}
+		
 		var result = Infinity, lastComputed = Infinity;
-		forEach(obj, function(value, index, list) {
+		
+		forEach(obj, function(value, index, list) 
+		{
 			var computed = iterator ? iterator.call(scope, value, index, list) : value;
-			if (computed < lastComputed) {
+			
+			if (computed < lastComputed) 
+			{
 				result = value;
 				lastComputed = computed;
 			}
 		});
+		
 		return result;
 	};
 
@@ -357,7 +384,8 @@
 	 * An internal function to generate lookup iterators.
 	 * @private
 	 */
-	var lookupIterator = function(value) {
+	var lookupIterator = function(value) 
+	{
 		if (value == null) return conbo.identity;
 		if (conbo.isFunction(value)) return value;
 		return conbo.property(value);
@@ -404,7 +432,8 @@
 	 * @param		{function}	n - The number of elements to return (default: 1)
 	 * @param		{object}	guard - Optional
 	 */
-	conbo.last = function(array, n, guard) {
+	conbo.last = function(array, n, guard) 
+	{
 		if (array == null) return undefined;
 		if (n == null || guard) return array[array.length - 1];
 		return slice.call(array, Math.max(array.length - n, 0));
@@ -421,7 +450,8 @@
 	 * @param		{function}	n - The number of elements to return (default: 1)
 	 * @param		{object}	guard - Optional
 	 */
-	conbo.rest = function(array, n, guard) {
+	conbo.rest = function(array, n, guard) 
+	{
 		return slice.call(array, (n == null) || guard ? 1 : n);
 	};
 
@@ -431,7 +461,8 @@
 	 * @memberof	conbo
 	 * @param		{array}		array - The array to trim
 	 */
-	conbo.compact = function(array) {
+	conbo.compact = function(array) 
+	{
 		return conbo.filter(array, conbo.identity);
 	};
 
@@ -439,17 +470,25 @@
 	 * Internal implementation of a recursive `flatten` function.
 	 * @private
 	 */
-	var flatten = function(input, shallow, output) {
-		if (shallow && conbo.every(input, conbo.isArray)) {
+	var flatten = function(input, shallow, output) 
+	{
+		if (shallow && conbo.every(input, conbo.isArray)) 
+		{
 			return concat.apply(output, input);
 		}
-		forEach(input, function(value) {
-			if (conbo.isArray(value) || conbo.isArguments(value)) {
+		
+		forEach(input, function(value) 
+		{
+			if (conbo.isArray(value) || conbo.isArguments(value)) 
+			{
 				shallow ? push.apply(output, value) : flatten(value, shallow, output);
-			} else {
+			}
+			else 
+			{
 				output.push(value);
 			}
 		});
+		
 		return output;
 	};
 
@@ -459,7 +498,8 @@
 	 * @memberof	conbo
 	 * @param		{array}		array - The array to flatten
 	 */
-	conbo.flatten = function(array, shallow) {
+	conbo.flatten = function(array, shallow) 
+	{
 		return flatten(array, shallow, []);
 	};
 
@@ -469,7 +509,8 @@
 	 * @memberof	conbo
 	 * @param		{array}		array - The array to remove the specified values from
 	 */
-	conbo.without = function(array) {
+	conbo.without = function(array) 
+	{
 		return conbo.difference(array, slice.call(arguments, 1));
 	};
 
@@ -482,11 +523,15 @@
 	 * @param		{function}	predicate - Function to determine a match, returning true or false
 	 * @returns		{array}
 	 */
-	conbo.partition = function(array, predicate) {
+	conbo.partition = function(array, predicate) 
+	{
 		var pass = [], fail = [];
-		forEach(array, function(elem) {
+		
+		forEach(array, function(elem) 
+		{
 			(predicate(elem) ? pass : fail).push(elem);
 		});
+		
 		return [pass, fail];
 	};
 
@@ -500,21 +545,28 @@
 	 * @param		{object}	iterator - Iterator function
 	 * @param		{object}	scope - The scope the iterator function should run in (optional)
 	 */
-	conbo.uniq = function(array, isSorted, iterator, scope) {
-		if (conbo.isFunction(isSorted)) {
+	conbo.uniq = function(array, isSorted, iterator, scope) 
+	{
+		if (conbo.isFunction(isSorted)) 
+		{
 			scope = iterator;
 			iterator = isSorted;
 			isSorted = false;
 		}
+		
 		var initial = iterator ? conbo.map(array, iterator, scope) : array;
 		var results = [];
 		var seen = [];
-		forEach(initial, function(value, index) {
-			if (isSorted ? (!index || seen[seen.length - 1] !== value) : !conbo.contains(seen, value)) {
+		
+		forEach(initial, function(value, index) 
+		{
+			if (isSorted ? (!index || seen[seen.length - 1] !== value) : !conbo.contains(seen, value)) 
+			{
 				seen.push(value);
 				results.push(array[index]);
 			}
 		});
+		
 		return results;
 	};
 
@@ -524,7 +576,8 @@
 	 * 
 	 * @memberof	conbo
 	 */
-	conbo.union = function() {
+	conbo.union = function() 
+	{
 		return conbo.uniq(conbo.flatten(arguments, true));
 	};
 
@@ -536,10 +589,14 @@
 	 * @param		{array}		array - Array of values
 	 * @returns		{array}
 	 */
-	conbo.intersection = function(array) {
+	conbo.intersection = function(array) 
+	{
 		var rest = slice.call(arguments, 1);
-		return conbo.filter(conbo.uniq(array), function(item) {
-			return conbo.every(rest, function(other) {
+		
+		return conbo.filter(conbo.uniq(array), function(item) 
+		{
+			return conbo.every(rest, function(other) 
+			{
 				return conbo.contains(other, item);
 			});
 		});
@@ -553,7 +610,8 @@
 	 * @param		{array}		array - Array of compare
 	 * @returns		{array}
 	 */
-	conbo.difference = function(array) {
+	conbo.difference = function(array) 
+	{
 		var rest = concat.apply(ArrayProto, slice.call(arguments, 1));
 		return conbo.filter(array, function(value){ return !conbo.contains(rest, value); });
 	};
@@ -568,13 +626,20 @@
 	 * @param		{object}	values - List of values
 	 * @returns		{array}
 	 */
-	conbo.object = function(list, values) {
+	conbo.object = function(list, values) 
+	{
 		if (list == null) return {};
+		
 		var result = {};
-		for (var i = 0, length = list.length; i < length; i++) {
-			if (values) {
+		
+		for (var i = 0, length = list.length; i < length; i++) 
+		{
+			if (values) 
+			{
 				result[list[i]] = values[i];
-			} else {
+			}
+			else 
+			{
 				result[list[i][0]] = list[i][1];
 			}
 		}
@@ -591,18 +656,22 @@
 	 * @param		{number}	stop - Stop
 	 * @param		{number}	stop - Step
 	 */
-	conbo.range = function(start, stop, step) {
-		if (arguments.length <= 1) {
+	conbo.range = function(start, stop, step) 
+	{
+		if (arguments.length <= 1) 
+		{
 			stop = start || 0;
 			start = 0;
 		}
+		
 		step = arguments[2] || 1;
 
 		var length = Math.max(Math.ceil((stop - start) / step), 0);
 		var idx = 0;
 		var range = new Array(length);
 
-		while(idx < length) {
+		while(idx < length) 
+		{
 			range[idx++] = start;
 			start += step;
 		}
@@ -625,12 +694,17 @@
 	 * @param		{function}	func - Method to bind
 	 * @param		{object}	scope - The scope to bind the method to
 	 */
-	conbo.bind = function(func, scope) {
+	conbo.bind = function(func, scope) 
+	{
 		var args;
+		
 		if (nativeBind && func.bind === nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
 		if (!conbo.isFunction(func)) throw new TypeError();
+		
 		args = slice.call(arguments, 2);
-		return function() {
+		
+		return function() 
+		{
 			if (!(this instanceof bound)) return func.apply(scope, args.concat(slice.call(arguments)));
 			ctor.prototype = func.prototype;
 			var self = new ctor();
@@ -649,14 +723,20 @@
 	 * @memberof	conbo
 	 * @param		{function}	func - Method to partially pre-fill
 	 */
-	conbo.partial = function(func) {
+	conbo.partial = function(func) 
+	{
 		var boundArgs = slice.call(arguments, 1);
-		return function() {
+		
+		return function() 
+		{
 			var position = 0;
 			var args = boundArgs.slice();
-			for (var i = 0, length = args.length; i < length; i++) {
+			
+			for (var i = 0, length = args.length; i < length; i++) 
+			{
 				if (args[i] === conbo) args[i] = arguments[position++];
 			}
+			
 			while (position < arguments.length) args.push(arguments[position++]);
 			return func.apply(this, args);
 		};
@@ -718,6 +798,7 @@
 	conbo.once = function(func) 
 	{
 		var ran = false, memo;
+		
 		return function() {
 			if (ran) return memo;
 			ran = true;
@@ -736,7 +817,8 @@
 	 * @param		{function}	func - Function to wrap
 	 * @param		{function}	wrapper - Function to call 
 	 */
-	conbo.wrap = function(func, wrapper) {
+	conbo.wrap = function(func, wrapper) 
+	{
 		return conbo.partial(wrapper, func);
 	};
 	
@@ -744,15 +826,13 @@
 	// ----------------
 
 	/**
-	 * Retrieve the names of an object's properties.
-	 * Delegates to native `Object.keys`
-	 * Conbo.js: Extended to enable keys further up the prototype chain to be found too
+	 * Retrieve the names of an object's enumerable properties
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to get keys from
 	 * @param		{boolean}	useForIn - Whether or not to include prototype keys 
 	 */
-	conbo.keys = function(obj, useForIn) 
+	conbo.keys = function(obj, useForIn)
 	{
 		if (!conbo.isObject(obj)) return [];
 		
@@ -769,6 +849,35 @@
 		}
 		
 		return keys;
+	};
+	
+	/**
+	 * Retrieve the names of every property of an object, regardless of whether it's
+	 * enumerable or unenumerable and where it is on the prototype chain
+	 * 
+	 * @memberof	conbo
+	 * @param		{object}	obj - Object to get keys from
+	 * @param		{boolean}	incInternal - Whether or not to include internal properties beginning __ (default: false)
+	 */
+	conbo.getAllPropertyNames = function(obj, incInternal)
+	{
+		var names = [];
+		
+		do
+		{
+			var props = Object.getOwnPropertyNames(obj);
+			
+			props.forEach(function(name)
+			{
+				if (names.indexOf(name) === -1 && (incInternal || !/^__.+/.test(name)))
+				{
+					names.push(name)
+				}
+			})
+		}
+		while(obj = Object.getPrototypeOf(obj));
+		
+		return names
 	};
 	
 	/**
@@ -794,16 +903,26 @@
 	};
 
 	/**
-	 * Return a sorted list of the function names available on the object.
+	 * Return a sorted list of the function names available on the object,
+	 * including both enumerable and unenumerable functions
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to sort
+	 * @param		{boolean}	incInternal - Whether or not to include internal functions beginning __ (default: false)
 	 */
-	conbo.functions = function(obj) {
+	conbo.functions = function(obj, incInternal) 
+	{
 		var names = [];
-		for (var key in obj) {
-			if (conbo.isFunction(obj[key])) names.push(key);
-		}
+		var allKeys = conbo.getAllPropertyNames(obj, incInternal);
+		
+		allKeys.forEach(function(key)
+		{
+			if (conbo.isFunction(obj[key])) 
+			{
+				names.push(key);
+			}
+		});
+		
 		return names.sort();
 	};
 
@@ -880,15 +999,19 @@
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to copy properties from
 	 */
-	conbo.pick = function(obj) {
+	conbo.pick = function(obj) 
+	{
 		var copy = {};
 		var keys = concat.apply(ArrayProto, slice.call(arguments, 1));
-		forEach(keys, function(key) {
+		
+		forEach(keys, function(key) 
+		{
 			if (key in obj)
 			{
 				conbo.cloneProperty(obj, key, copy);
 			}
 		});
+		
 		return copy;
 	};
 	
@@ -898,9 +1021,11 @@
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to copy
 	 */
-	conbo.omit = function(obj) {
+	conbo.omit = function(obj) 
+	{
 		var copy = {};
 		var keys = concat.apply(ArrayProto, slice.call(arguments, 1));
+		
 		for (var key in obj) 
 		{
 			if (!conbo.contains(keys, key))
@@ -908,6 +1033,7 @@
 				conbo.cloneProperty(obj, key, copy);
 			}
 		}
+		
 		return copy;
 	};
 
@@ -1087,7 +1213,8 @@
 	 * @param		{object}	b - Object to compare
 	 * @returns		{boolean}
 	 */
-	conbo.isEqual = function(a, b) {
+	conbo.isEqual = function(a, b) 
+	{
 		return eq(a, b, [], []);
 	};
 
@@ -1102,7 +1229,7 @@
 	conbo.isEmpty = function(value)
 	{
 		return !value // 0, false, undefined, null, ""
-			|| (conbo.isArray(value) && value.length) // []
+			|| (conbo.isArray(value) && value.length === 0) // []
 			|| (!isNaN(value) && !parseFloat(value)) // "0", "0.0", etc
 			|| (conbo.isObject(value) && !conbo.keys(value).length) // {}
 			|| (conbo.isObject(value) && 'length' in value && value.length === 0) // Arguments, List, etc
@@ -1128,7 +1255,8 @@
 	 * @param		{object}	obj - Value that might be a DOM element
 	 * @returns		{boolean}
 	 */
-	conbo.isElement = function(obj) {
+	conbo.isElement = function(obj) 
+	{
 		return !!(obj && obj.nodeType === 1);
 	};
 	
@@ -1141,7 +1269,8 @@
 	 * @param		{object}	obj - Value that might be an Array
 	 * @returns		{boolean}
 	 */
-	conbo.isArray = nativeIsArray || function(obj) {
+	conbo.isArray = nativeIsArray || function(obj) 
+	{
 		return toString.call(obj) == '[object Array]';
 	};
 
@@ -1151,28 +1280,35 @@
 	 * @memberof	conbo
 	 * @param		{object}	obj - Value that might be an Object
 	 */
-	conbo.isObject = function(obj) {
+	conbo.isObject = function(obj) 
+	{
 		return obj === Object(obj);
 	};
 
 	// Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp.
-	forEach(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp'], function(name) {
-		conbo['is' + name] = function(obj) {
+	forEach(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp'], function(name) 
+	{
+		conbo['is' + name] = function(obj) 
+		{
 			return toString.call(obj) == '[object ' + name + ']';
 		};
 	});
 
 	// Define a fallback version of the method in browsers (ahem, IE), where
 	// there isn't any inspectable "Arguments" type.
-	if (!conbo.isArguments(arguments)) {
-		conbo.isArguments = function(obj) {
+	if (!conbo.isArguments(arguments)) 
+	{
+		conbo.isArguments = function(obj) 
+		{
 			return !!(obj && conbo.has(obj, 'callee'));
 		};
 	}
 	
 	// Optimize `isFunction` if appropriate.
-	if (typeof (/./) !== 'function') {
-		conbo.isFunction = function(obj) {
+	if (typeof (/./) !== 'function') 
+	{
+		conbo.isFunction = function(obj) 
+		{
 			return typeof obj === 'function';
 		};
 	}
@@ -1184,7 +1320,8 @@
 	 * @param		{object}	obj - Value that might be finite
 	 * @returns		{boolean}
 	 */
-	conbo.isFinite = function(obj) {
+	conbo.isFinite = function(obj) 
+	{
 		return isFinite(obj) && !isNaN(parseFloat(obj));
 	};
 
@@ -1195,7 +1332,8 @@
 	 * @param		{object}	obj - Value that might be NaN
 	 * @returns		{boolean}
 	 */
-	conbo.isNaN = function(obj) {
+	conbo.isNaN = function(obj) 
+	{
 		return conbo.isNumber(obj) && obj != +obj;
 	};
 
@@ -1206,7 +1344,8 @@
 	 * @param		{object}	obj - Value that might be a Boolean
 	 * @returns		{boolean}
 	 */
-	conbo.isBoolean = function(obj) {
+	conbo.isBoolean = function(obj) 
+	{
 		return obj === true || obj === false || toString.call(obj) == '[object Boolean]';
 	};
 
@@ -1217,7 +1356,8 @@
 	 * @param		{object}	obj - Value that might be null
 	 * @returns		{boolean}
 	 */
-	conbo.isNull = function(obj) {
+	conbo.isNull = function(obj)
+	{
 		return obj === null;
 	};
 
@@ -1241,7 +1381,8 @@
 	 * @param		{string}	key - Property name
 	 * @returns		{boolean}
 	 */
-	conbo.has = function(obj, key) {
+	conbo.has = function(obj, key)
+	{
 		return hasOwnProperty.call(obj, key);
 	};
 	
@@ -1255,7 +1396,8 @@
 	 * @param		{any}		obj - Value to return
 	 * @returns		{any}
 	 */
-	conbo.identity = function(value) {
+	conbo.identity = function(value) 
+	{
 		return value;
 	};
 	
@@ -1265,8 +1407,10 @@
 	 * @memberof	conbo
 	 * @param		{string}	key - Property name
 	 */
-	conbo.property = function(key) {
-		return function(obj) {
+	conbo.property = function(key) 
+	{
+		return function(obj) 
+		{
 			return obj[key];
 		};
 	};
@@ -1277,12 +1421,18 @@
 	 * @memberof	conbo
 	 * @param		{object}	attrs - Object containing key:value pairs to compare
 	 */
-	conbo.matches = function(attrs) {
-		return function(obj) {
+	conbo.matches = function(attrs) 
+	{
+		return function(obj) 
+		{
 			if (obj === attrs) return true; //avoid comparing an object to itself.
-			for (var key in attrs) {
+			
+			for (var key in attrs) 
+			{
 				if (attrs[key] !== obj[key])
+				{
 					return false;
+				}
 			}
 			return true;
 		};
@@ -1296,11 +1446,14 @@
 	 * @param		{number}	max - Maximum number
 	 * @returns		{number}
 	 */
-	conbo.random = function(min, max) {
-		if (max == null) {
+	conbo.random = function(min, max)
+	{
+		if (max == null) 
+		{
 			max = min;
 			min = 0;
 		}
+		
 		return min + Math.floor(Math.random() * (max - min + 1));
 	};
 	
@@ -1319,630 +1472,630 @@
 		return prefix ? prefix + id : id;
 	};
 	
-})();
-
-
-/**
- * Is Conbo supported by the current browser?
- * 
- * @memberof	conbo
- */
-conbo.isSupported = 
-	window.addEventListener
-	&& !!Object.defineProperty 
-	&& !!Object.getOwnPropertyDescriptor;
-
-/**
- * Does nothing, returns undefined, that's it.
- * 
- * @memberof	conbo
- */
-conbo.noop = function() {};
-
-/**
- * Returns the value of the first parameter passed to it, that's it.
- * 
- * @memberof	conbo
- */
-conbo.noopr = function(value) 
-{
-	return value;
-};
-
-/**
- * Default function to assign to the methods of pseudo-interfaces
- * 
- * @example	IExample = { myMethod:conbo.notImplemented };
- * @memberof	conbo
- */
-conbo.notImplemented = function() 
-{
-	conbo.warn('Method not implemented');
-};
-
-/**
- * Convert dash-or_underscore separated words into camelCaseWords
- * 
- * @memberof	conbo
- * @param		{string}	string - underscore_case_string to convertToCamelCase
- * @param		{boolean}	initCap - Should the first letter be a CapitalLetter? (default: false)
- */
-conbo.toCamelCase = function(string, initCap)
-{
-	var s = (string || '').toLowerCase().replace(/([\W_])([a-z])/g, function (g) { return g[1].toUpperCase(); }).replace(/(\W+)/, '');
-	if (initCap) return s.charAt(0).toUpperCase() + s.slice(1);
-	return s;
-};
-
-/**
- * Convert camelCaseWords into underscore_case_words (or another user defined separator)
- * 
- * @memberof	conbo
- * @param		{string}	string - camelCase string to convert to underscore_case
- * @param		{string}	separator - Default: "_"
- */
-conbo.toUnderscoreCase = function(string, separator)
-{
-	separator || (separator = '_');
-	return (string || '').replace(/\W+/g, separator).replace(/([a-z\d])([A-Z])/g, '$1'+separator+'$2').toLowerCase();
-};
-
-/**
- * Convert camelCaseWords into kebab-case-words
- * 
- * @memberof	conbo
- * @param		{string}	string - camelCase string to convert to underscore_case
- */
-conbo.toKebabCase = function(string)
-{
-	return conbo.toUnderscoreCase(string, '-');
-};
-
-conbo.padLeft = function(value, minLength, padChar)
-{
-	if (!padChar && padChar !== 0) padChar = ' ';
-	if (!value && value !== 0) value = '';
+	/**
+	 * Is Conbo supported by the current browser?
+	 * 
+	 * @memberof	conbo
+	 */
+	conbo.isSupported = 
+		window.addEventListener
+		&& !!Object.defineProperty 
+		&& !!Object.getOwnPropertyDescriptor;
 	
-	minLength || (minLength = 2);
+	/**
+	 * Does nothing, returns undefined, that's it.
+	 * 
+	 * @memberof	conbo
+	 */
+	conbo.noop = function() {};
 	
-	padChar = padChar.toString().charAt(0);
-	string = value.toString();
-	
-	while (string.length < minLength)
+	/**
+	 * Returns the value of the first parameter passed to it, that's it.
+	 * 
+	 * @memberof	conbo
+	 */
+	conbo.noopr = function(value) 
 	{
-		string = padChar+string;
-	}
+		return value;
+	};
 	
-	return string;
-};
-
-/**
- * Add a leading zero to the specified number and return it as a string
- * @memberof 	conbo
- * @param		{number}	number - The number to add a leading zero to
- * @param		{number}	minLength - the minumum length of the returned string (default: 2)
- */
-conbo.addLeadingZero = function(number, minLength)
-{
-	return conbo.padLeft(number, minLength, 0);
-};
-
-/**
- * Format a number using the selected number of decimals, using the 
- * provided decimal point, thousands separator 
- * 
- * @memberof	conbo
- * @see 		http://phpjs.org/functions/number_format/
- * @param 		number
- * @param 		decimals				default: 0
- * @param 		decimalPoint			default: '.'
- * @param 		thousandsSeparator		default: ','
- * @returns		{string}				Formatted number
- */
-conbo.formatNumber = function(number, decimals, decimalPoint, thousandsSeparator) 
-{
-	number = (number+'').replace(/[^0-9+\-Ee.]/g, '');
-	
-	var n = !isFinite(+number) ? 0 : +number,
-		prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
-		sep = conbo.isUndefined(thousandsSeparator) ? ',' : thousandsSeparator,
-		dec = conbo.isUndefined(decimalPoint) ? '.' : decimalPoint,
-		s = n.toFixed(prec).split('.')
-		;
-	
-	if (s[0].length > 3) 
+	/**
+	 * Default function to assign to the methods of pseudo-interfaces
+	 * 
+	 * @example	IExample = { myMethod:conbo.notImplemented };
+	 * @memberof	conbo
+	 */
+	conbo.notImplemented = function() 
 	{
-		s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
-	}
+		conbo.warn('Method not implemented');
+	};
 	
-	if ((s[1] || '').length < prec) 
+	/**
+	 * Convert dash-or_underscore separated words into camelCaseWords
+	 * 
+	 * @memberof	conbo
+	 * @param		{string}	string - underscore_case_string to convertToCamelCase
+	 * @param		{boolean}	initCap - Should the first letter be a CapitalLetter? (default: false)
+	 */
+	conbo.toCamelCase = function(string, initCap)
 	{
-		s[1] = s[1] || '';
-		s[1] += new Array(prec-s[1].length+1).join('0');
-	}
+		var s = (string || '').toLowerCase().replace(/([\W_])([a-z])/g, function (g) { return g[1].toUpperCase(); }).replace(/(\W+)/, '');
+		if (initCap) return s.charAt(0).toUpperCase() + s.slice(1);
+		return s;
+	};
 	
-	return s.join(dec);
-};
-
-/**
- * Format a number as a currency
- * 
- * @memberof	conbo
- * @param number
- * @param symbol
- * @param suffixed
- * @param decimals
- * @param decimalPoint
- * @param thousandsSeparator
- */
-conbo.formatCurrency = function(number, symbol, suffixed, decimals, decimalPoint, thousandsSeparator)
-{
-	if (conbo.isUndefined(decimals)) decimals = 2;
-	symbol || (symbol = '');
-	var n = conbo.formatNumber(number, decimals, decimalPoint, thousandsSeparator);
-	return suffixed ? n+symbol : symbol+n;
-};
-
-/**
- * Encodes all of the special characters contained in a string into HTML 
- * entities, making it safe for use in an HTML document
- * 
- * @memberof	conbo
- * @param string
- */
-conbo.encodeEntities = function(string)
-{
-	if (!conbo.isString(string))
+	/**
+	 * Convert camelCaseWords into underscore_case_words (or another user defined separator)
+	 * 
+	 * @memberof	conbo
+	 * @param		{string}	string - camelCase string to convert to underscore_case
+	 * @param		{string}	separator - Default: "_"
+	 */
+	conbo.toUnderscoreCase = function(string, separator)
 	{
-		string = conbo.isNumber(string)
-			? string.toString()
-			: '';
-	}
+		separator || (separator = '_');
+		return (string || '').replace(/\W+/g, separator).replace(/([a-z\d])([A-Z])/g, '$1'+separator+'$2').toLowerCase();
+	};
 	
-	return string.replace(/[\u00A0-\u9999<>\&]/gim, function(char)
+	/**
+	 * Convert camelCaseWords into kebab-case-words
+	 * 
+	 * @memberof	conbo
+	 * @param		{string}	string - camelCase string to convert to underscore_case
+	 */
+	conbo.toKebabCase = function(string)
 	{
-		return '&#'+char.charCodeAt(0)+';';
-	});
-};
-
-/**
- * Decodes all of the HTML entities contained in an string, replacing them with
- * special characters, making it safe for use in plain text documents
- * 
- * @memberof	conbo
- * @param string
- */
-conbo.decodeEntities = function(string) 
-{
-	if (!conbo.isString(string)) string = '';
+		return conbo.toUnderscoreCase(string, '-');
+	};
 	
-	return string.replace(/&#(\d+);/g, function(match, dec) 
+	conbo.padLeft = function(value, minLength, padChar)
 	{
-		return String.fromCharCode(dec);
-	});
-};
-
-/**
- * Copies all of the enumerable values from one or more objects and sets
- * them to another, without affecting the target object's property
- * descriptors.
- * 
- * Unlike conbo.defineValues, setValues only sets the values on the target 
- * object and does not destroy and redifine them.
- * 
- * @memberof	conbo
- * @param		{Object}	obj		Object to copy properties to
- * 
- * @example	
- * conbo.setValues({id:1}, {get name() { return 'Arthur'; }}, {get age() { return 42; }});
- * => {id:1, name:'Arthur', age:42}
- */
-conbo.setValues = function(obj)
-{
-	conbo.rest(arguments).forEach(function(source) 
-	{
-		if (!source) return;
+		if (!padChar && padChar !== 0) padChar = ' ';
+		if (!value && value !== 0) value = '';
 		
-		for (var propName in source) 
+		minLength || (minLength = 2);
+		
+		padChar = padChar.toString().charAt(0);
+		string = value.toString();
+		
+		while (string.length < minLength)
 		{
-			obj[propName] = source[propName];
+			string = padChar+string;
 		}
-	});
+		
+		return string;
+	};
 	
-	return obj;
-};
-
-/**
- * Is the value a Conbo class?
- * 
- * @memberof	conbo
- * @param		{any}		value - Value that might be a class
- * @param		{class}		classReference - The Conbo class that the value must match or be an extension of (optional) 
- */
-conbo.isClass = function(value, classReference)
-{
-	return !!value 
-		&& typeof value == 'function' 
-		&& value.prototype instanceof (classReference || conbo.Class)
-		;
-};
-
-/**
- * Copies a property, including defined properties and accessors, 
- * from one object to another
- * 
- * @memberof	conbo
- * @param		{object}	source - Source object
- * @param		{string}	sourceName - Name of the property on the source
- * @param		{object}	target - Target object
- * @param		{string} 	targetName - Name of the property on the target (default: sourceName)
- */
-conbo.cloneProperty = function(source, sourceName, target, targetName)
-{
-	targetName || (targetName = sourceName);
-	
-	var descriptor = Object.getOwnPropertyDescriptor(source, sourceName);
-	
-	if (!!descriptor)
+	/**
+	 * Add a leading zero to the specified number and return it as a string
+	 * @memberof 	conbo
+	 * @param		{number}	number - The number to add a leading zero to
+	 * @param		{number}	minLength - the minumum length of the returned string (default: 2)
+	 */
+	conbo.addLeadingZero = function(number, minLength)
 	{
-		Object.defineProperty(target, targetName, descriptor);
-	}
-	else 
-	{
-		target[targetName] = source[sourceName];
-	}
+		return conbo.padLeft(number, minLength, 0);
+	};
 	
-	return this;
-};
-
-/**
- * Sorts the items in an array according to one or more fields in the array. 
- * The array should have the following characteristics:
- * 
- * <ul>
- * <li>The array is an indexed array, not an associative array.</li>
- * <li>Each element of the array holds an object with one or more properties.</li>
- * <li>All of the objects have at least one property in common, the values of which can be used to sort the array. Such a property is called a field.</li>
- * </ul>
- * 
- * @memberof	conbo
- * @param		{array}		array - The Array to sort
- * @param		{string}	fieldName - The field/property name to sort on
- * @param		{object}	options - Optional sort criteria: `descending` (Boolean), `caseInsensitive` (Boolean)
- */
-conbo.sortOn = function(array, fieldName, options)
-{
-	options || (options = {});
-	
-	if (conbo.isArray(array) && fieldName)
+	/**
+	 * Format a number using the selected number of decimals, using the 
+	 * provided decimal point, thousands separator 
+	 * 
+	 * @memberof	conbo
+	 * @see 		http://phpjs.org/functions/number_format/
+	 * @param 		number
+	 * @param 		decimals				default: 0
+	 * @param 		decimalPoint			default: '.'
+	 * @param 		thousandsSeparator		default: ','
+	 * @returns		{string}				Formatted number
+	 */
+	conbo.formatNumber = function(number, decimals, decimalPoint, thousandsSeparator) 
 	{
-		array.sort(function(a, b)
+		number = (number+'').replace(/[^0-9+\-Ee.]/g, '');
+		
+		var n = !isFinite(+number) ? 0 : +number,
+			prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+			sep = conbo.isUndefined(thousandsSeparator) ? ',' : thousandsSeparator,
+			dec = conbo.isUndefined(decimalPoint) ? '.' : decimalPoint,
+			s = n.toFixed(prec).split('.')
+			;
+		
+		if (s[0].length > 3) 
 		{
-			var values = [a[fieldName], b[fieldName]];
-			
-			// Configure
-			if (options.descending)
-			{
-				values.reverse();
-			}
-			
-			if (options.caseInsensitive)
-			{
-				conbo.forEach(values, function(value, index)
-				{
-					if (conbo.isString(value)) values[index] = value.toLowerCase();
-				});
-			}
-			
-			// Sort
-			if (values[0] < values[1]) return -1;
-			if (values[0] > values[1]) return 1;
-			return 0;
+			s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+		}
+		
+		if ((s[1] || '').length < prec) 
+		{
+			s[1] = s[1] || '';
+			s[1] += new Array(prec-s[1].length+1).join('0');
+		}
+		
+		return s.join(dec);
+	};
+	
+	/**
+	 * Format a number as a currency
+	 * 
+	 * @memberof	conbo
+	 * @param number
+	 * @param symbol
+	 * @param suffixed
+	 * @param decimals
+	 * @param decimalPoint
+	 * @param thousandsSeparator
+	 */
+	conbo.formatCurrency = function(number, symbol, suffixed, decimals, decimalPoint, thousandsSeparator)
+	{
+		if (conbo.isUndefined(decimals)) decimals = 2;
+		symbol || (symbol = '');
+		var n = conbo.formatNumber(number, decimals, decimalPoint, thousandsSeparator);
+		return suffixed ? n+symbol : symbol+n;
+	};
+	
+	/**
+	 * Encodes all of the special characters contained in a string into HTML 
+	 * entities, making it safe for use in an HTML document
+	 * 
+	 * @memberof	conbo
+	 * @param string
+	 */
+	conbo.encodeEntities = function(string)
+	{
+		if (!conbo.isString(string))
+		{
+			string = conbo.isNumber(string)
+				? string.toString()
+				: '';
+		}
+		
+		return string.replace(/[\u00A0-\u9999<>\&]/gim, function(char)
+		{
+			return '&#'+char.charCodeAt(0)+';';
 		});
-	}
+	};
 	
-	return array;
-};
-
-/**
- * Is the object an instance of the specified class(es) or implement the
- * specified pseudo-interface(s)?
- * 
- * This method will always return false if the specified object is a Conbo
- * class, because by it's nature a class is not an instance of anything.
- * 
- * @memberof	conbo
- * @param	obj					The class instance
- * @param	classOrInterface	The Conbo class or pseudo-interface to compare against
- * @example						var b = conbo.instanceOf(obj, conbo.EventDispatcher);
- * @example						var b = conbo.instanceOf(obj, conbo.View, conbo.IInjectable);
- */
-conbo.instanceOf = function(obj, classOrInterface)
-{
-	if (!obj || conbo.isClass(obj)) return false;
-	
-	var partials = conbo.rest(arguments);
-	
-	for (var p=0, c=partials.length; p<c; p++)
+	/**
+	 * Decodes all of the HTML entities contained in an string, replacing them with
+	 * special characters, making it safe for use in plain text documents
+	 * 
+	 * @memberof	conbo
+	 * @param string
+	 */
+	conbo.decodeEntities = function(string) 
 	{
-		classOrInterface = partials[p];
+		if (!conbo.isString(string)) string = '';
 		
-		if (!classOrInterface) return false;
-		
-		try { if (obj instanceof classOrInterface) return true; }
-		catch (e) {}
-		
-		if (conbo.isObject(classOrInterface))
+		return string.replace(/&#(\d+);/g, function(match, dec) 
 		{
-			for (var a in classOrInterface)
+			return String.fromCharCode(dec);
+		});
+	};
+	
+	/**
+	 * Copies all of the enumerable values from one or more objects and sets
+	 * them to another, without affecting the target object's property
+	 * descriptors.
+	 * 
+	 * Unlike conbo.defineValues, setValues only sets the values on the target 
+	 * object and does not destroy and redifine them.
+	 * 
+	 * @memberof	conbo
+	 * @param		{Object}	obj		Object to copy properties to
+	 * 
+	 * @example	
+	 * conbo.setValues({id:1}, {get name() { return 'Arthur'; }}, {get age() { return 42; }});
+	 * => {id:1, name:'Arthur', age:42}
+	 */
+	conbo.setValues = function(obj)
+	{
+		conbo.rest(arguments).forEach(function(source) 
+		{
+			if (!source) return;
+			
+			for (var propName in source) 
 			{
-				if (!(a in obj) || conbo.isFunction(obj[a]) != conbo.isFunction(classOrInterface[a])) 
+				obj[propName] = source[propName];
+			}
+		});
+		
+		return obj;
+	};
+	
+	/**
+	 * Is the value a Conbo class?
+	 * 
+	 * @memberof	conbo
+	 * @param		{any}		value - Value that might be a class
+	 * @param		{class}		classReference - The Conbo class that the value must match or be an extension of (optional) 
+	 */
+	conbo.isClass = function(value, classReference)
+	{
+		return !!value 
+			&& typeof value == 'function' 
+			&& value.prototype instanceof (classReference || conbo.Class)
+			;
+	};
+	
+	/**
+	 * Copies a property, including defined properties and accessors, 
+	 * from one object to another
+	 * 
+	 * @memberof	conbo
+	 * @param		{object}	source - Source object
+	 * @param		{string}	sourceName - Name of the property on the source
+	 * @param		{object}	target - Target object
+	 * @param		{string} 	targetName - Name of the property on the target (default: sourceName)
+	 */
+	conbo.cloneProperty = function(source, sourceName, target, targetName)
+	{
+		targetName || (targetName = sourceName);
+		
+		var descriptor = Object.getOwnPropertyDescriptor(source, sourceName);
+		
+		if (!!descriptor)
+		{
+			Object.defineProperty(target, targetName, descriptor);
+		}
+		else 
+		{
+			target[targetName] = source[sourceName];
+		}
+		
+		return this;
+	};
+	
+	/**
+	 * Sorts the items in an array according to one or more fields in the array. 
+	 * The array should have the following characteristics:
+	 * 
+	 * <ul>
+	 * <li>The array is an indexed array, not an associative array.</li>
+	 * <li>Each element of the array holds an object with one or more properties.</li>
+	 * <li>All of the objects have at least one property in common, the values of which can be used to sort the array. Such a property is called a field.</li>
+	 * </ul>
+	 * 
+	 * @memberof	conbo
+	 * @param		{array}		array - The Array to sort
+	 * @param		{string}	fieldName - The field/property name to sort on
+	 * @param		{object}	options - Optional sort criteria: `descending` (Boolean), `caseInsensitive` (Boolean)
+	 */
+	conbo.sortOn = function(array, fieldName, options)
+	{
+		options || (options = {});
+		
+		if (conbo.isArray(array) && fieldName)
+		{
+			array.sort(function(a, b)
+			{
+				var values = [a[fieldName], b[fieldName]];
+				
+				// Configure
+				if (options.descending)
 				{
-					return false;
+					values.reverse();
+				}
+				
+				if (options.caseInsensitive)
+				{
+					conbo.forEach(values, function(value, index)
+					{
+						if (conbo.isString(value)) values[index] = value.toLowerCase();
+					});
+				}
+				
+				// Sort
+				if (values[0] < values[1]) return -1;
+				if (values[0] > values[1]) return 1;
+				return 0;
+			});
+		}
+		
+		return array;
+	};
+	
+	/**
+	 * Is the object an instance of the specified class(es) or implement the
+	 * specified pseudo-interface(s)?
+	 * 
+	 * This method will always return false if the specified object is a Conbo
+	 * class, because by it's nature a class is not an instance of anything.
+	 * 
+	 * @memberof	conbo
+	 * @param	obj					The class instance
+	 * @param	classOrInterface	The Conbo class or pseudo-interface to compare against
+	 * @example						var b = conbo.instanceOf(obj, conbo.EventDispatcher);
+	 * @example						var b = conbo.instanceOf(obj, conbo.View, conbo.IInjectable);
+	 */
+	conbo.instanceOf = function(obj, classOrInterface)
+	{
+		if (!obj || conbo.isClass(obj)) return false;
+		
+		var partials = conbo.rest(arguments);
+		
+		for (var p=0, c=partials.length; p<c; p++)
+		{
+			classOrInterface = partials[p];
+			
+			if (!classOrInterface) return false;
+			
+			try { if (obj instanceof classOrInterface) return true; }
+			catch (e) {}
+			
+			if (conbo.isObject(classOrInterface))
+			{
+				for (var a in classOrInterface)
+				{
+					if (!(a in obj) || conbo.isFunction(obj[a]) != conbo.isFunction(classOrInterface[a])) 
+					{
+						return false;
+					}
 				}
 			}
+			else
+			{
+				return false;
+			}
 		}
-		else
+		
+		return true;
+	};
+	
+	/**
+	 * Loads a CSS file and apply it to the DOM
+	 * 
+	 * @memberof	conbo
+	 * @param 		{String}	url		The CSS file's URL
+	 * @param 		{String}	media	The media attribute (defaults to 'all')
+	 */
+	conbo.loadCss = function(url, media)
+	{
+		if (!('document' in window) || !!document.querySelector('[href="'+url+'"]'))
+		{
+			return this;
+		}
+		
+		var link, head; 
+			
+		link = document.createElement('link');
+		link.rel	= 'stylesheet';
+		link.type = 'text/css';
+		link.href = url;
+		link.media = media || 'all';
+		
+		head = document.getElementsByTagName('head')[0];
+		head.appendChild(link);
+		
+		return this;
+	};
+	
+	/**
+	 * Load a JavaScript file and execute it
+	 * 
+	 * @memberof	conbo
+	 * @param 		{String}	url		The JavaScript file's URL
+	 * @returns		conbo.Promise
+	 */
+	conbo.loadScript = function(url)
+	{
+		if (!$)
+		{
+			conbo.error('conbo.loadScript requires jQuery');
+			return;
+		}
+		
+		var promise = new conbo.Promise();
+		
+		$.getScript(url).done(function(script, status)
+		{
+			promise.dispatchResult(script);
+		})
+		.fail(function(xhr, settings, exception)
+		{
+			promise.dispatchFault(exception);
+		});
+		
+		return promise;
+	};
+	
+	/*
+	 * Property utilities
+	 */
+	
+	/**
+	 * Return the names of all the enumerable properties on the specified object, 
+	 * i.e. all of the keys that aren't functions
+	 * 
+	 * @memberof	conbo
+	 * @see			#keys
+	 * @param		obj			The object to list the properties of
+	 * @param		useForIn	Whether or not to include properties further up the prorotype chain
+	 */
+	conbo.properties = function(obj, useForIn)
+	{
+		return conbo.difference(conbo.keys(obj, useForIn), conbo.functions(obj));
+	};
+	
+	/**
+	 * Makes the specified properties of an object bindable; if no property 
+	 * names are passed, all enumarable properties will be made bindable
+	 * 
+	 * @memberof	conbo
+	 * @see 	#makeAllBindable
+	 * 
+	 * @param	{String}		obj
+	 * @param	{Array}			propNames (optional)
+	 */
+	conbo.makeBindable = function(obj, propNames)
+	{
+		propNames || (propNames = conbo.properties(obj));
+		
+		propNames.forEach(function(propName)
+		{
+			__defineProperty(obj, propName);
+		});
+		
+		return this;
+	};
+	
+	/**
+	 * Makes all existing properties of the specified object bindable, and 
+	 * optionally create additional bindable properties for each of the property 
+	 * names passed in the propNames array
+	 * 
+	 * @memberof	conbo
+	 * @see 		#makeBindable
+	 * 
+	 * @param		{String}		obj
+	 * @param		{Array}			propNames (optional)
+	 * @param		{useForIn}		Whether or not to include properties further up the prototype chain
+	 */
+	conbo.makeAllBindable = function(obj, propNames, useForIn)
+	{
+		propNames = conbo.uniq((propNames || []).concat(conbo.properties(obj, useForIn)));
+		conbo.makeBindable(obj, propNames);
+		
+		return this;
+	};
+	
+	/**
+	 * Is the specified property an accessor (defined using a getter and/or setter)?
+	 * 
+	 * @memberof	conbo
+	 * @returns		Boolean
+	 */
+	conbo.isAccessor = function(obj, propName)
+	{
+		if (obj)
+		{
+			return !!obj.__lookupGetter__(propName) 
+				|| !!obj.__lookupSetter__(propName);
+		}
+		
+		return false;
+	};
+	
+	/**
+	 * Is the specified property explicitely bindable?
+	 * 
+	 * @memberof	conbo
+	 * @returns		Boolean
+	 */
+	conbo.isBindable = function(obj, propName)
+	{
+		if (!conbo.isAccessor(obj, propName))
 		{
 			return false;
 		}
-	}
-	
-	return true;
-};
-
-/**
- * Loads a CSS file and apply it to the DOM
- * 
- * @memberof	conbo
- * @param 		{String}	url		The CSS file's URL
- * @param 		{String}	media	The media attribute (defaults to 'all')
- */
-conbo.loadCss = function(url, media)
-{
-	if (!('document' in window) || !!document.querySelector('[href="'+url+'"]'))
-	{
-		return this;
-	}
-	
-	var link, head; 
 		
-	link = document.createElement('link');
-	link.rel	= 'stylesheet';
-	link.type = 'text/css';
-	link.href = url;
-	link.media = media || 'all';
+		return !!(obj.__lookupSetter__(propName) || {}).bindable;
+	};
 	
-	head = document.getElementsByTagName('head')[0];
-	head.appendChild(link);
-	
-	return this;
-};
-
-/**
- * Load a JavaScript file and execute it
- * 
- * @memberof	conbo
- * @param 		{String}	url		The JavaScript file's URL
- * @returns		conbo.Promise
- */
-conbo.loadScript = function(url)
-{
-	if (!$)
+	/**
+	 * Parse a template
+	 * 
+	 * @param	{string}	template - A string containing {{propertyName}}s to be replaced with property values
+	 * @param	{object}	data - An object containing the data to be used to populate the template 
+	 * @returns	{string}	The populated template
+	 */
+	conbo.parseTemplate = function(template, data)
 	{
-		conbo.error('conbo.loadScript requires jQuery');
-		return;
-	}
-	
-	var promise = new conbo.Promise();
-	
-	$.getScript(url).done(function(script, status)
-	{
-		promise.dispatchResult(script);
-	})
-	.fail(function(xhr, settings, exception)
-	{
-		promise.dispatchFault(exception);
-	});
-	
-	return promise;
-};
-
-/*
- * Property utilities
- */
-
-/**
- * Return the names of all the enumerable properties on the specified object, 
- * i.e. all of the keys that aren't functions
- * 
- * @memberof	conbo
- * @see			#keys
- * @param		obj			The object to list the properties of
- * @param		useForIn	Whether or not to include properties further up the prorotype chain
- */
-conbo.properties = function(obj, useForIn)
-{
-	return conbo.difference(conbo.keys(obj, useForIn), conbo.functions(obj));
-};
-
-/**
- * Makes the specified properties of an object bindable; if no property 
- * names are passed, all enumarable properties will be made bindable
- * 
- * @memberof	conbo
- * @see 	#makeAllBindable
- * 
- * @param	{String}		obj
- * @param	{Array}			propNames (optional)
- */
-conbo.makeBindable = function(obj, propNames)
-{
-	propNames || (propNames = conbo.properties(obj));
-	
-	propNames.forEach(function(propName)
-	{
-		__defineProperty(obj, propName);
-	});
-	
-	return this;
-};
-
-/**
- * Makes all existing properties of the specified object bindable, and 
- * optionally create additional bindable properties for each of the property 
- * names passed in the propNames array
- * 
- * @memberof	conbo
- * @see 		#makeBindable
- * 
- * @param		{String}		obj
- * @param		{Array}			propNames (optional)
- * @param		{useForIn}		Whether or not to include properties further up the prototype chain
- */
-conbo.makeAllBindable = function(obj, propNames, useForIn)
-{
-	propNames = conbo.uniq((propNames || []).concat(conbo.properties(obj, useForIn)));
-	conbo.makeBindable(obj, propNames);
-	
-	return this;
-};
-
-/**
- * Is the specified property an accessor (defined using a getter and/or setter)?
- * 
- * @memberof	conbo
- * @returns		Boolean
- */
-conbo.isAccessor = function(obj, propName)
-{
-	if (obj)
-	{
-		return !!obj.__lookupGetter__(propName) 
-			|| !!obj.__lookupSetter__(propName);
-	}
-	
-	return false;
-};
-
-/**
- * Is the specified property explicitely bindable?
- * 
- * @memberof	conbo
- * @returns		Boolean
- */
-conbo.isBindable = function(obj, propName)
-{
-	if (!conbo.isAccessor(obj, propName))
-	{
-		return false;
-	}
-	
-	return !!(obj.__lookupSetter__(propName) || {}).bindable;
-};
-
-/**
- * Parse a template
- * 
- * @param	{string}	template - A string containing {{propertyName}}s to be replaced with property values
- * @param	{object}	data - An object containing the data to be used to populate the template 
- * @returns	{string}	The populated template
- */
-conbo.parseTemplate = function(template, data)
-{
-	if (!template) return "";
-	
-	data || (data = {});
-	
-	return template.replace(/{{(.+?)}}/g, function(propNameInBrackets, propName) 
-	{
-		var args = propName.split("|");
-		var value, parseFunction;
+		if (!template) return "";
 		
-		args[0] = conbo.BindingUtils.cleanPropertyName(args[0]);
+		data || (data = {});
 		
-		try { value = eval("data."+args[0]);			} catch(e) {}
-		try { parseFunction = eval("data."+args[1]);	} catch(e) {}
-		
-		if (!conbo.isFunction(parseFunction)) 
+		return template.replace(/{{(.+?)}}/g, function(propNameInBrackets, propName) 
 		{
-			parseFunction = conbo.BindingUtils.defaultParseFunction;
-		}
-		
-		return parseFunction(value);
-	});
-};
-
-/**
- * Converts a template string into a pre-populated templating method that can 
- * be evaluated for rendering.
- * 
- * @param	{string}	template - A string containing {{propertyName}}s to be replaced with property values
- * @param	{object}	defaults - An object containing default values to use when populating the template (optional)
- * @returns	{function}	A function that can be called with a data object, returning the populated template
- */
-conbo.compileTemplate = function(template, defaults)
-{
-	return function(data)
-	{
-		return conbo.parseTemplate(template, conbo.setDefaults(data || {}, defaults));
-	}
-};
-
-/*
- * Polyfill methods for useful ECMAScript 5 methods that aren't quite universal
- */
-
-if (!String.prototype.trim) 
-{
-	String.prototype.trim = function () 
-	{
-		return this.replace(/^\s+|\s+$/g,''); 
-	};
-}
-
-if (!window.requestAnimationFrame)
-{
-	window.requestAnimationFrame = (function()
-	{
-		return window.webkitRequestAnimationFrame
-			|| window.mozRequestAnimationFrame
-			|| function(callback)
+			var args = propName.split("|");
+			var value, parseFunction;
+			
+			args[0] = conbo.BindingUtils.cleanPropertyName(args[0]);
+			
+			try { value = eval("data."+args[0]);			} catch(e) {}
+			try { parseFunction = eval("data."+args[1]);	} catch(e) {}
+			
+			if (!conbo.isFunction(parseFunction)) 
 			{
-				window.setTimeout(callback, 1000 / 60);
-			};
-	})();
-}
-
-
-/*
- * Logging
- */
-
-/**
- * Should Conbo output data to the console when calls are made to loggin methods?
- * 
- * @memberof	conbo
- * @example
- * conbo.logEnabled = false;
- * conbo.log('Blah!');
- * conbo.warn('Warning!');
- * conbo.info('Information!'); 
- * conbo.error('Error!');
- * // Result: Nothing will be displayed in the console
- */
-conbo.logEnabled = true;
-
-var logMethods = ['log','warn','info','error'];
-
-logMethods.forEach(function(method)
-{
-	conbo[method] = function()
-	{
-		if (!console || !conbo.logEnabled) return;
-		console[method].apply(console, arguments);		
+				parseFunction = conbo.BindingUtils.defaultParseFunction;
+			}
+			
+			return parseFunction(value);
+		});
 	};
-});
+	
+	/**
+	 * Converts a template string into a pre-populated templating method that can 
+	 * be evaluated for rendering.
+	 * 
+	 * @param	{string}	template - A string containing {{propertyName}}s to be replaced with property values
+	 * @param	{object}	defaults - An object containing default values to use when populating the template (optional)
+	 * @returns	{function}	A function that can be called with a data object, returning the populated template
+	 */
+	conbo.compileTemplate = function(template, defaults)
+	{
+		return function(data)
+		{
+			return conbo.parseTemplate(template, conbo.setDefaults(data || {}, defaults));
+		}
+	};
+	
+	/*
+	 * Polyfill methods for useful ECMAScript 5 methods that aren't quite universal
+	 */
+	
+	if (!String.prototype.trim) 
+	{
+		String.prototype.trim = function () 
+		{
+			return this.replace(/^\s+|\s+$/g,''); 
+		};
+	}
+	
+	if (!window.requestAnimationFrame)
+	{
+		window.requestAnimationFrame = (function()
+		{
+			return window.webkitRequestAnimationFrame
+				|| window.mozRequestAnimationFrame
+				|| function(callback)
+				{
+					window.setTimeout(callback, 1000 / 60);
+				};
+		})();
+	}
+	
+	
+	/*
+	 * Logging
+	 */
+	
+	/**
+	 * Should Conbo output data to the console when calls are made to loggin methods?
+	 * 
+	 * @memberof	conbo
+	 * @example
+	 * conbo.logEnabled = false;
+	 * conbo.log('Blah!');
+	 * conbo.warn('Warning!');
+	 * conbo.info('Information!'); 
+	 * conbo.error('Error!');
+	 * // Result: Nothing will be displayed in the console
+	 */
+	conbo.logEnabled = true;
+	
+	var logMethods = ['log','warn','info','error'];
+	
+	logMethods.forEach(function(method)
+	{
+		conbo[method] = function()
+		{
+			if (!console || !conbo.logEnabled) return;
+			console[method].apply(console, arguments);		
+		};
+	});
+	
+})();
+
 
 /*
  * Internal utility methods

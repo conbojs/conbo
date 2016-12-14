@@ -1,24 +1,22 @@
-(function(window, document, undefined)
+(function(window, document, factory, undefined)
 {
 	// Node.js
 	if (typeof module != 'undefined' && module.exports)
 	{
-    	module.exports = create();
+    	module.exports = factory();
     }
     // AMD
     else if (typeof define == 'function' && define.amd) 
 	{
-		define('conbo', function ()
+		define('conbo', function()
 		{
-			return create();
+			return factory();
 		});
 	}
 	// Global
 	else
 	{
-		window.conbo = create();
+		window.conbo = factory();
 	}
-	
-	function create()
-	{
-	
+})(this, document, function() 
+{
