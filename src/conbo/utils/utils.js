@@ -977,23 +977,6 @@
 	};
 	
 	/**
-	 * Define the values of the given object by cloning all of the properties 
-	 * of the passed-in object(s), destroying and overwriting the target's 
-	 * property descriptors in the process
-	 * 
-	 * @deprecated	Use conbo.defineValues
-	 * @memberof	conbo
-	 * @param		{object}	obj - Object to extend
-	 * @returns		{object}
-	 * @see			conbo.setValues
-	 */
-	conbo.extend = function(obj)
-	{
-		conbo.warn('conbo.extend is deprecated: use conbo.defineValues or conbo.setValues');
-		conbo.conbo.defineValues.apply(conbo, arguments);
-	};
-	
-	/**
 	 * Return a copy of the object only containing the whitelisted properties.
 	 * 
 	 * @memberof	conbo
@@ -1062,22 +1045,6 @@
 		
 		return obj;
 	};
-	
-	/**
-	 * Fill in an object's missing properties by cloning the properties of the 
-	 * source object(s) onto the target object, overwriting the target's
-	 * property descriptors
-	 * 
-	 * @deprecated	Use defineDefaults
-	 * @memberof	conbo
-	 * @param		{object}	obj - Object to populate
-	 * @see			conbo.setDefaults
-	 */
-	conbo.defaults = function(obj)
-	{
-		conbo.warn('conbo.defaults is deprecated: use conbo.defineDefaults or conbo.setDefaults');
-		conbo.defineDefaults.apply(conbo, arguments);
-	}
 	
 	/**
 	 * Fill in missing values on an object by setting the property values on 
@@ -1802,10 +1769,10 @@
 	 * class, because by it's nature a class is not an instance of anything.
 	 * 
 	 * @memberof	conbo
-	 * @param	obj					The class instance
-	 * @param	classOrInterface	The Conbo class or pseudo-interface to compare against
-	 * @example						var b = conbo.instanceOf(obj, conbo.EventDispatcher);
-	 * @example						var b = conbo.instanceOf(obj, conbo.View, conbo.IInjectable);
+	 * @param		obj					The class instance
+	 * @param		classOrInterface	The Conbo class or pseudo-interface to compare against
+	 * @example							var b = conbo.instanceOf(obj, conbo.EventDispatcher);
+	 * @example							var b = conbo.instanceOf(obj, conbo.View, conbo.IInjectable);
 	 */
 	conbo.instanceOf = function(obj, classOrInterface)
 	{

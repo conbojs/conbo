@@ -11,6 +11,16 @@ Browser support
 
 Conbo.js targets the two most recent major releases of Firefox, Chrome (desktop and Android), Safari (desktop and iOS) and Internet Explorer / Edge.
 
+ES2015
+------
+
+From version 3.1, you can import Conbo.js into your ES2015 projects:
+
+```javascript
+import {conbo} from 'conbo';
+```
+
+
 Modular namespace declaration
 -----------------------------
 
