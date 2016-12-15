@@ -1,6 +1,6 @@
 Conbo.js is the best MVCS framework you've never heard of.
 
-It is a lightweight MVC application framework for JavaScript designed for use with ECMAScript 5 compliant browsers to enable developers a take a structured, decoupled, class based approach to application development, in a way that should be be familiar to anyone with experience of languages like ActionScript, C# or Java.
+It is a lightweight MVC application framework for JavaScript designed for use with modern browsers to enable developers a take a structured, decoupled, class based approach to application development, in a way that should be be familiar to anyone with experience of languages like ActionScript, C# or Java.
 
 Features include extendible classes, event bus, dependency injection, data binding, command pattern, pseudo-interfaces and an easy to use event model with scoped event handling, plus simple view state management.
 
@@ -14,10 +14,16 @@ Conbo.js targets the two most recent major releases of Firefox, Chrome (desktop 
 ES2015
 ------
 
-From version 3.1, you can import Conbo.js into your ES2015 projects:
+If you're already using ES2015, or a transpiler like [Babel](https://babeljs.io/), you can import Conbo.js into your ES2015 projects in the same way as any other ES2015 module and all Conbo.js classes can be used with the standard `class...extends` syntax:
 
 ```javascript
 import {conbo} from 'conbo';
+
+class MyClass extends conbo.Class
+{
+	// Your code here
+}
+
 ```
 
 
