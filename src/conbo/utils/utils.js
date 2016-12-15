@@ -1961,7 +1961,7 @@
 	/**
 	 * Parse a template
 	 * 
-	 * @param	{string}	template - A string containing {{propertyName}}s to be replaced with property values
+	 * @param	{string}	template - A string containing property names in {{moustache}} or ${ES2015} format to be replaced with property values
 	 * @param	{object}	data - An object containing the data to be used to populate the template 
 	 * @returns	{string}	The populated template
 	 */
@@ -1971,7 +1971,7 @@
 		
 		data || (data = {});
 		
-		return template.replace(/{{(.+?)}}/g, function(propNameInBrackets, propName) 
+		return template.replace(/(({{(.+?)}})|(\${(.+?)}))/g, function(propNameInBrackets, propName) 
 		{
 			var args = propName.split("|");
 			var value, parseFunction;
@@ -1994,7 +1994,7 @@
 	 * Converts a template string into a pre-populated templating method that can 
 	 * be evaluated for rendering.
 	 * 
-	 * @param	{string}	template - A string containing {{propertyName}}s to be replaced with property values
+	 * @param	{string}	template - A string containing property names in {{moustache}} or ${ES2015} format to be replaced with property values
 	 * @param	{object}	defaults - An object containing default values to use when populating the template (optional)
 	 * @returns	{function}	A function that can be called with a data object, returning the populated template
 	 */

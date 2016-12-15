@@ -12,12 +12,13 @@ if (!!$)
 		return;
 	}
 	
-	$('head').append($
+	$head.append
 	(
 		'<style id="cb-style" type="text/css">'+
 			'\n.cb-hide { visibility:hidden !important; }'+
 			'\n.cb-exclude { display:none !important; }'+
 			'\n.cb-disable { pointer-events:none !important; cursor:default !important; }'+
+			'\n.cb-app span { all:inherit; }'+
 		'\n</style>'
-	));
+	);
 }
