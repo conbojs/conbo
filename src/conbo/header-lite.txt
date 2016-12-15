@@ -1,22 +1,25 @@
-(function(window, document, factory, undefined)
+(function(window, document, factory)
 {
-	// Node.js
-	if (typeof module != 'undefined' && module.exports)
-	{
-    	module.exports = factory();
-    }
-    // AMD
-    else if (typeof define == 'function' && define.amd) 
+	/* Universal Module Definition (UMD) */
+
+    // AMD (recommended)
+    if (typeof define == 'function' && define.amd) 
 	{
 		define('conbo', function()
 		{
-			return factory();
+			return factory(window, document);
 		});
 	}
+	// Common.js & Node.js
+	else if (typeof module != 'undefined' && module.exports)
+	{
+    	module.exports = factory(window, document);
+    }
 	// Global
 	else
 	{
-		window.conbo = factory();
+		window.conbo = factory(window, document);
 	}
-})(this, document, function() 
+	
+})(this, document, function(window, document, undefined)
 {
