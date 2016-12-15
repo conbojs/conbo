@@ -16,11 +16,9 @@ conbo('ns', function()
 		 * HTML templates can be loaded by adding a templateUrl property to your
 		 * class, passing options.templateUrl or loaded a URL using this.loadTemplate('url/of/my.html');
 		 */
-		templateUrl: 'template-1.html',
-		
 		initialize: function()
 		{
-			// Someone's favourite colour
+			this.templateUrl || (this.templateUrl = 'template-1.html');
 			this.favoriteColor = 'blue';
 		}
 	});
@@ -28,14 +26,12 @@ conbo('ns', function()
 	ns.MyOtherView = conbo.View.extend
 	({
 		/**
-		 * HTML templates can be added directly to your class using the templat
+		 * HTML templates can be added directly to your class using the template
 		 * property or passing in options.template to your constructor
 		 */
-		template: 'This is an internal template using the <b>template property of the View class</b> whose favourite colour is <span cb-style="favoriteColor:color" cb-bind="favoriteColor"></span>',
-		
 		initialize: function()
 		{
-			// Someone's favourite colour
+			this.template || (this.template = 'This is an internal template using the <b>template property of the View class</b> whose favourite colour is <span cb-style="favoriteColor:color" cb-bind="favoriteColor"></span>');
 			this.favoriteColor = 'pink';
 		}
 	});

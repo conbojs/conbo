@@ -20,7 +20,8 @@ conbo('ns', function()
 	ns.InputView = conbo.View.extend
 	({
 		tagName: 'p',
-		template: 'Type a number here: <input type="text" cb-bind="myModel.price" />',
+		numRegex: /[0-9\.]/g,
+		template: 'Type a number here: <input type="text" cb-bind="myModel.price" cb-restrict="numRegex" />',
 		
 		/**
 		 * Properties with a value of undefined that have been mapped to 

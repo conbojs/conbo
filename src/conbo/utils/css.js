@@ -18,7 +18,7 @@ if (!!$)
 			'\n.cb-hide { visibility:hidden !important; }'+
 			'\n.cb-exclude { display:none !important; }'+
 			'\n.cb-disable { pointer-events:none !important; cursor:default !important; }'+
-			'\n.cb-app span { all:inherit; }'+
+			'\n.cb-app span { all:inherit; display:inline; }'+
 		'\n</style>'
 	);
 }
