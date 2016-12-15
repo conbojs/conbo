@@ -20,7 +20,7 @@ conbo.Application = conbo.View.extend(
 	{
 		options = conbo.clone(options) || {};
 		
-		if (!(this.ns instanceof conbo.Namespace))
+		if (!(this.namespace instanceof conbo.Namespace))
 		{
 			throw new Error('Application namespace must be an instance of conbo.Namespace');
 		}
