@@ -45,11 +45,6 @@ conbo('ns', function()
 		 * singletons in the context are automatically injected
 		 */
 		myModel: undefined,
-		
-		render: function()
-		{
-			return this;
-		}
 	});
 	
 	ns.OutputView = conbo.View.extend

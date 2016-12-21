@@ -24,19 +24,15 @@ conbo.Router = conbo.EventDispatcher.extend(
 	 * @private
 	 * @param options
 	 */
-	constructor: function(options) 
+	__construct: function(options) 
 	{
-		options || (options = {});
-		
 		if (options.routes) 
 		{
 			this.routes = options.routes;
 		}
 		
 		this.__bindRoutes();
-		
 		this.context = options.context;
-		this.initialize.apply(this, arguments);
 	},
 	
 	get history()

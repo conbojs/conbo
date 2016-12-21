@@ -17,7 +17,7 @@ conbo.Context = conbo.EventDispatcher.extend(
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options
 	 */
-	constructor: function(options)
+	__construct: function(options)
 	{
 		options || (options = {});
 		
@@ -28,16 +28,7 @@ conbo.Context = conbo.EventDispatcher.extend(
 		this.namespace = options.namespace || options.app.namespace;
 		
 		this.addEventListener(conbo.Event.ALL, this.__allHandler);
-		this.initialize.apply(this, arguments);
-		
-		conbo.makeAllBindable(this, this.bindable);
 	},
-	
-	/**
-	 * Initialize: Override this
-	 * @param options
-	 */
-	initialize: function(options) {},
 	
 	/**
 	 * Create a new subcontext that shares the same application

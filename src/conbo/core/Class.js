@@ -6,6 +6,7 @@
  */
 conbo.Class = function(options) 
 {
+	this.preinitialize.apply(this, arguments);
 	this.initialize.apply(this, arguments);
 };
 
@@ -15,10 +16,18 @@ conbo.Class = function(options)
 conbo.Class.prototype =
 {
 	/**
-	 * Entry point
+	 * Preinitialize
 	 * 
-	 * In most circumstances, custom classes should override initialize 
-	 * and use it as your class constructor
+	 * If the constructor has now been overridden, preinitialize is called 
+	 * before any code in the constructor has been run
+	 */
+	preinitialize: function() {},
+	
+	/**
+	 * Initialize (entry point)
+	 * 
+	 * If the constructor has now been overridden, initialize is called 
+	 * immediately after the constructor has completed
 	 */
 	initialize: function() {},
 	

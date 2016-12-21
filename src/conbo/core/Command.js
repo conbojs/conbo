@@ -16,12 +16,10 @@ conbo.Command = conbo.EventDispatcher.extend(
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options
 	 */
-	constructor: function(options)
+	__construct: function(options)
 	{
-		if (!!options) this.context = options.context;
+		this.context = options.context;
 		this.event = options.event || {};
-		this.initialize.apply(this, arguments);
-		conbo.makeAllBindable(this, this.bindable);
 	},
 	
 	/**

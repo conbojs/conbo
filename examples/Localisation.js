@@ -12,11 +12,6 @@ conbo('ns', this, function(window)
 	({
 		initialize: function()
 		{
-			this.addEventListener('result', function(event)
-			{
-				console.info(event.result);
-			});
-			
 			this.localiseTo('en');
 		},
 		

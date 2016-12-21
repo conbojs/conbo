@@ -17,6 +17,8 @@ conbo.Event = conbo.Class.extend(
 	 */
 	constructor: function(type)
 	{
+		this.preinitialize.apply(this, arguments);
+		
 		if (conbo.isString(type)) 
 		{
 			this.type = type;

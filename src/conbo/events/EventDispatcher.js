@@ -13,22 +13,19 @@
  * @author		Neil Rackett
  * @param 		{object} options - Object containing optional initialisation options, including 'context'
  */
-conbo.EventDispatcher = conbo.Class.extend(
+conbo.EventDispatcher = conbo.ConboClass.extend(
 /** @lends conbo.EventDispatcher.prototype */
 {
 	/**
 	 * Do not override: use initialize
 	 * @private
 	 */
-	constructor: function(options)
+	__construct: function(options)
 	{
-		if (!!options && options.context)
+		if (!!options.context)
 		{
 			this.context = options.context;
 		}
-		
-		this.initialize.apply(this, arguments);
-		conbo.makeAllBindable(this, this.bindable);
 	},
 	
 	/**

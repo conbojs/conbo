@@ -14,9 +14,9 @@ conbo.RemoteHash = conbo.Hash.extend(
 	 * Constructor
 	 * @param {Object}	options		Object containing `source` (initial properties), `rootUrl` and `command` parameters
 	 */
-	constructor: function(options)
+	__construct: function(options)
 	{
-		options = conbo.defineDefaults({}, options, this.options);
+		options = conbo.defineDefaults(options, this.options);
 		
 		if (!!options.context) this.context = options.context;
 		this.preinitialize(options);
@@ -38,7 +38,7 @@ conbo.RemoteHash = conbo.Hash.extend(
 		
 		__denumerate(this);
 		
-		conbo.Hash.prototype.constructor.apply(this, arguments);
+		conbo.Hash.prototype.__construct.apply(this, arguments);
 	},
 	
 	load: function(data)

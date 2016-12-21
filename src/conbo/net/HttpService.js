@@ -16,9 +16,9 @@
 conbo.HttpService = conbo.EventDispatcher.extend(
 /** @lends conbo.HttpService.prototype */
 {
-	constructor: function(options)
+	__construct: function(options)
 	{
-		options = conbo.setDefaults({}, options, 
+		options = conbo.setDefaults(options, 
 		{
 			contentType: conbo.HttpService.CONTENT_TYPE_JSON
 		});
@@ -36,7 +36,7 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 			dataType: 'json'
 		}));
 		
-		conbo.EventDispatcher.prototype.constructor.apply(this, arguments);
+		conbo.EventDispatcher.prototype.__construct.apply(this, arguments);
 	},
 	
 	/**

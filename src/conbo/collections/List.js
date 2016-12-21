@@ -24,10 +24,8 @@ conbo.List = conbo.EventDispatcher.extend(
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options
 	 */
-	constructor: function(options) 
+	__construct: function(options) 
 	{
-		options || (options = {});
-		
 		this.addEventListener(conbo.ConboEvent.CHANGE, this.__changeHandler, this, 999);
 		
 		var listOptions = 
@@ -39,13 +37,6 @@ conbo.List = conbo.EventDispatcher.extend(
 		conbo.setValues(this, conbo.pick(options, listOptions));
 		
 		this.source = options.source || [];
-		
-		// @deprecated
-		this.get = this.getItemAt;
-		this.set = this.setItemAt;
-		
-		this.initialize.apply(this, arguments);
-		conbo.makeAllBindable(this, this.bindable);
 	},
 	
 	/**

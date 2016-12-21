@@ -14,18 +14,12 @@ conbo.Hash = conbo.EventDispatcher.extend(
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options
 	 */
-	constructor: function(options)
+	__construct: function(options)
 	{
-		options || (options = {});
-		
 		if (!!options.context) this.context = options.context;
 		
 		conbo.setDefaults(this, options.source, this.defaults);	
 		delete this.defaults;
-		
-		this.initialize.apply(this, arguments);
-		
-		conbo.makeAllBindable(this, this.bindable);
 	},
 	
 	/**

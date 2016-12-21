@@ -11,8 +11,6 @@ conbo.Promise = conbo.EventDispatcher.extend(
 {
 	initialize: function(options)
 	{
-		options || (options = {});
-		
 		this.bindAll('dispatchResult', 'dispatchFault');
 	},
 	

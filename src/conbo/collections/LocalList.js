@@ -10,11 +10,11 @@
 conbo.LocalList = conbo.List.extend(
 /** @lends conbo.LocalList.prototype */
 {
-	constructor: function(options)
+	__construct: function(options)
 	{
 		var defaultName = 'ConboLocalList';
 		
-		options = conbo.defineDefaults(options || {}, {name:defaultName});
+		options = conbo.defineDefaults(options, this.options, {name:defaultName});
 		
 		var name = options.name;
 		
@@ -43,7 +43,7 @@ conbo.LocalList = conbo.List.extend(
 		
 		options.source = getLocal();
 		
-		conbo.List.prototype.constructor.call(this, options);
+		conbo.List.prototype.__construct.call(this, options);
 	},
 	
 	/**

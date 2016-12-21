@@ -17,7 +17,7 @@ conbo.View = conbo.Glimpse.extend(
 	 * @param options
 	 * @private
 	 */
-	constructor: function(options)
+	__construct: function(options)
 	{
 		options = conbo.clone(options) || {};
 		
@@ -48,12 +48,11 @@ conbo.View = conbo.Glimpse.extend(
 		this.__updateEl();
 		this.context = options.context;
 		
-		__defineUnenumerableProperty(this, 'currentState');
-		
- 		this.initialize.apply(this, arguments);
- 		
-		conbo.makeAllBindable(this, (this.bindable || []).concat(['currentState']));
-		
+		conbo.makeBindable(this, ['currentState']);
+	},
+
+	__initialized: function(options)
+	{
 		if (this.hasContent)
 		{
 			this.__content =  this.$el.html();

@@ -38,7 +38,7 @@ conbo.History = conbo.EventDispatcher.extend(
 	 * @param options
 	 * @private
 	 */
-	constructor: function(options)
+	__construct: function(options)
 	{
 		this.handlers = [];
 		this.bindAll('checkUrl');
@@ -49,12 +49,10 @@ conbo.History = conbo.EventDispatcher.extend(
 			this.history = window.history;
 		}
 		
-		if (!!options)
+		if (!!options.context)
 		{
 			this.context = options.context;
 		}
-		
-		this.initialize.apply(this, arguments);
 	},
 	
 	/**

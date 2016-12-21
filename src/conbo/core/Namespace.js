@@ -10,10 +10,10 @@
  * @author 		Neil Rackett
  * @param 		{object} options - Object containing initialisation options
  */
-conbo.Namespace = conbo.Class.extend(
+conbo.Namespace = conbo.ConboClass.extend(
 /** @lends conbo.Namespace.prototype */
 {
-	constructor: function()
+	__construct: function()
 	{
 		if ($)
 		{
@@ -28,8 +28,6 @@ conbo.Namespace = conbo.Class.extend(
 			
 			$(init);
 		}
-		
-		conbo.Class.prototype.constructor.apply(this, arguments);
 	},
 	
 	/**

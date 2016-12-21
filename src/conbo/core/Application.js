@@ -16,7 +16,7 @@ conbo.Application = conbo.View.extend(
 	 * @param options
 	 * @private
 	 */
-	constructor: function(options)
+	__construct: function(options)
 	{
 		options = conbo.clone(options) || {};
 		
@@ -29,7 +29,7 @@ conbo.Application = conbo.View.extend(
 		options.context = new this.contextClass(options);
 		options.el || (options.el = this.__findAppElement());
 		
-		conbo.View.prototype.constructor.call(this, options);
+		conbo.View.prototype.__construct.call(this, options);
 	},
 	
 	/**

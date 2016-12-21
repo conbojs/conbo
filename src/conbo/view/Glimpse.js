@@ -21,10 +21,8 @@ conbo.Glimpse = conbo.EventDispatcher.extend(
 	 * @param options
 	 * @private
 	 */
-	constructor: function(options)
+	__construct: function(options)
 	{
-		options || (options = {});
-		
 		if (options.el)
 		{
 			this.el = options.el;
@@ -36,8 +34,6 @@ conbo.Glimpse = conbo.EventDispatcher.extend(
 		{
 			this.el.innerHTML = this.template;
 		}
-		
-		this.initialize.apply(this, arguments);
 	},
 	
 	/**

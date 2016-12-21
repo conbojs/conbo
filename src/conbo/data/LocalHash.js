@@ -9,11 +9,11 @@
 conbo.LocalHash = conbo.Hash.extend(
 /** @lends conbo.LocalHash.prototype */
 {
-	constructor: function(options)
+	__construct: function(options)
 	{
 		var defaultName = 'ConboLocalHash';
 		
-		options = conbo.defineDefaults(options || {}, {name:defaultName});
+		options = conbo.defineDefaults(options, {name:defaultName});
 		
 		var name = options.name;
 		
@@ -42,7 +42,7 @@ conbo.LocalHash = conbo.Hash.extend(
 		
 		options.source = getLocal();
 		
-		conbo.Hash.prototype.constructor.call(this, options);		
+		conbo.Hash.prototype.__construct.call(this, options);		
 	},
 	
 	/**

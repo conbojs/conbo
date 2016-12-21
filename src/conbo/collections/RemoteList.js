@@ -16,12 +16,11 @@ conbo.RemoteList = conbo.List.extend(
 	 * Constructor
 	 * @param {Object}	options		Object containing 'source' (Array, optional), 'rootUrl', 'command' and (optionally) 'itemClass' parameters
 	 */
-	constructor: function(options)
+	__construct: function(options)
 	{
-		options = conbo.defineDefaults({}, options, this.options);
+		options = conbo.defineDefaults(options, this.options);
 		
 		this.context = options.context;
-		this.preinitialize(options);
 		
 		this._httpService = new conbo.HttpService(options);
 		this._command = options.command;
@@ -39,7 +38,7 @@ conbo.RemoteList = conbo.List.extend(
 		
 		__denumerate(this);
 		
-		conbo.List.prototype.constructor.apply(this, arguments);
+		conbo.List.prototype.__construct.apply(this, arguments);
 	},
 	
 	load: function()
