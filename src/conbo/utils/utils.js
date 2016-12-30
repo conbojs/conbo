@@ -857,9 +857,8 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to get keys from
-	 * @param		{boolean}	incInternal - Whether or not to include internal properties beginning __ (default: false)
 	 */
-	conbo.getAllPropertyNames = function(obj, incInternal)
+	conbo.getAllPropertyNames = function(obj)
 	{
 		var names = [];
 		
@@ -869,7 +868,7 @@
 			
 			props.forEach(function(name)
 			{
-				if (names.indexOf(name) === -1 && (incInternal || !/^__.+/.test(name)))
+				if (names.indexOf(name) === -1)
 				{
 					names.push(name)
 				}
@@ -878,6 +877,45 @@
 		while(obj = Object.getPrototypeOf(obj));
 		
 		return names
+	};
+	
+	/**
+	 * Retrieve the names of every public property (names that do not begin 
+	 * with an underscore) of an object, regardless of whether it's enumerable 
+	 * or unenumerable and where it is on the prototype chain
+	 * 
+	 * @memberof	conbo
+	 * @param		{object}	obj - Object to get keys from
+	 */
+	conbo.getPublicPropertyNames = function(obj)
+	{
+		return conbo.filter(conbo.getAllPropertyNames(obj), function(name) { return !/^_.+/.test(name); });
+	};
+	
+	/**
+	 * Retrieve the names of every private property (names that begin with a 
+	 * single underscore) of an object, regardless of whether it's enumerable 
+	 * or unenumerable and where it is on the prototype chain
+	 * 
+	 * @memberof	conbo
+	 * @param		{object}	obj - Object to get keys from
+	 */
+	conbo.getPrivatePropertyNames = function(obj)
+	{
+		return conbo.filter(conbo.getAllPropertyNames(obj), function(name) { return /^_[a-z\d]+/i.test(name); });
+	};
+	
+	/**
+	 * Retrieve the names of every private property (names that begin with a 
+	 * double underscore) of an object, regardless of whether it's enumerable 
+	 * or unenumerable and where it is on the prototype chain
+	 * 
+	 * @memberof	conbo
+	 * @param		{object}	obj - Object to get keys from
+	 */
+	conbo.getInternalPropertyNames = function(obj)
+	{
+		return conbo.filter(conbo.getAllPropertyNames(obj), function(name) { return /^__.+/.test(name); });
 	};
 	
 	/**
@@ -908,12 +946,11 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to sort
-	 * @param		{boolean}	incInternal - Whether or not to include internal functions beginning __ (default: false)
 	 */
-	conbo.functions = function(obj, incInternal) 
+	conbo.functions = function(obj) 
 	{
 		var names = [];
-		var allKeys = conbo.getAllPropertyNames(obj, incInternal);
+		var allKeys = conbo.getAllPropertyNames(obj);
 		
 		allKeys.forEach(function(key)
 		{
@@ -2159,6 +2196,21 @@ var __defineUnenumerableProperty = function(obj, propName, value)
 	Object.defineProperty(obj, propName, {enumerable:false, configurable:true, writable:true, value:value});
 	return this;
 };
+
+
+/**
+ * Define properties that can't be enumerated
+ * @private
+ */
+var __defineUnenumerableProperties = function(obj, values)
+{
+	conbo.keys(values).forEach(function(key)
+	{
+		__defineUnenumerableProperty(obj, key, obj[key]);
+	});
+	
+	return this;
+}
 
 /**
  * Convert enumerable properties of the specified object into non-enumerable ones

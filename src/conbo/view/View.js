@@ -44,11 +44,10 @@ conbo.View = conbo.Glimpse.extend(
 		);
 		
 		conbo.setValues(this, conbo.pick(options, viewOptions));
+		conbo.makeBindable(this, ['currentState']);
 		
 		this.__updateEl();
 		this.context = options.context;
-		
-		conbo.makeBindable(this, ['currentState']);
 	},
 
 	__initialized: function(options)

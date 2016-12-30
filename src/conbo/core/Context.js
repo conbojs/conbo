@@ -19,15 +19,43 @@ conbo.Context = conbo.EventDispatcher.extend(
 	 */
 	__construct: function(options)
 	{
-		options || (options = {});
-		
-		__defineUnenumerableProperty(this, '__commands', {});
-		__defineUnenumerableProperty(this, '__singletons', {});
-		
-		this.app = options.app;
-		this.namespace = options.namespace || options.app.namespace;
+		__defineUnenumerableProperties(this, 
+		{
+			__commands: {},
+			__singletons: {},
+			__app: options.app,
+			__namespace: options.namespace || options.app.namespace,
+			__parentContext: options instanceof conbo.Context ? options : undefined
+		});
 		
 		this.addEventListener(conbo.Event.ALL, this.__allHandler);
+	},
+	
+	/**
+	 * The Application instance associated with this context
+	 * @returns {conbo.Application}
+	 */
+	get app()
+	{
+		return this.__app;
+	},
+	
+	/**
+	 * The Namespace this context exists in
+	 * @returns {conbo.Namespace}
+	 */
+	get namespace()
+	{
+		return this.__namespace;
+	},
+	
+	/**
+	 * If this is a subcontext, this is a reference to the Context that created it
+	 * @returns {conbo.Context}
+	 */
+	get parentContext()
+	{
+		return this.__parentContext;
 	},
 	
 	/**
@@ -153,7 +181,8 @@ conbo.Context = conbo.EventDispatcher.extend(
 	},
 	
 	/**
-	 * Add this context to the specified Object
+	 * Add this Context to the specified Object, or create an object with a 
+	 * reference to this Context
 	 */
 	addTo: function(obj)
 	{
