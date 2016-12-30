@@ -2204,10 +2204,10 @@ var __defineUnenumerableProperty = function(obj, propName, value)
  */
 var __defineUnenumerableProperties = function(obj, values)
 {
-	conbo.keys(values).forEach(function(key)
+	for (var key in values)
 	{
-		__defineUnenumerableProperty(obj, key, obj[key]);
-	});
+		__defineUnenumerableProperty(obj, key, values[key]);
+	}
 	
 	return this;
 }
