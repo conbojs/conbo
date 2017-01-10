@@ -1,5 +1,5 @@
 /**
- * Advanced data binding example for Conbo.js, using data from a model
+ * Advanced data binding example for ConboJS, using data from a model
  * 
  * @author	Neil Rackett
  */

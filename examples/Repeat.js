@@ -1,6 +1,6 @@
 /**
  * Example of how to use bind arrays and Collections using cb-repeat
- * attributes with Conbo.js
+ * attributes with ConboJS
  * 
  * @author	Neil Rackett
  */

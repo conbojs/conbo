@@ -1,5 +1,5 @@
 /**
- * Binding example for Conbo.js
+ * Binding example for ConboJS
  * 
  * @author	Neil Rackett
  */

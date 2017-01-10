@@ -1,13 +1,13 @@
 /**
- * Hello World example for Conbo.js
- * Demonstrates how to create a new Conbo.js Application
+ * Hello World example for ConboJS
+ * Demonstrates how to create a new ConboJS Application
  * 
  * @author	Neil Rackett
  */
 conbo('ns', conbo, function(conbo)
 {
 	/**
-	 * Namespaces enable Conbo.js binding
+	 * Namespaces enable ConboJS binding
 	 */
 	var ns = this;
 	

@@ -1,5 +1,5 @@
 /**
- * Example of how to use cb-* binding attributes with Conbo.js
+ * Example of how to use cb-* binding attributes with ConboJS
  * @author	Neil Rackett
  */
 conbo('ns', conbo, function(conbo, undefined)

@@ -1,5 +1,5 @@
 /**
- * Context & dependency injection example for Conbo.js
+ * Context & dependency injection example for ConboJS
  * @author	Neil Rackett
  */
 conbo('ns', function()

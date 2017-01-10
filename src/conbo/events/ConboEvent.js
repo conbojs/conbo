@@ -1,10 +1,10 @@
 /**
  * conbo.Event
  * 
- * Default event class for events fired by Conbo.js
+ * Default event class for events fired by ConboJS
  * 
  * For consistency, callback parameters of Backbone.js derived classes 
- * are event object properties in Conbo.js
+ * are event object properties in ConboJS
  * 
  * @class		conbo.ConboEvent
  * @augments	conbo.Event

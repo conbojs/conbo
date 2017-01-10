@@ -1,5 +1,5 @@
 /**
- * States example for Conbo.js
+ * States example for ConboJS
  * Demonstrates how to use states
  * 
  * @author	Neil Rackett

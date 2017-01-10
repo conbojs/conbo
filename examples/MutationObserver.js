@@ -1,5 +1,5 @@
 /**
- * Mutation observer example for Conbo.js
+ * Mutation observer example for ConboJS
  * @author	Neil Rackett
  */
 conbo('ns', function()

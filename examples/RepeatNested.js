@@ -1,6 +1,6 @@
 /**
  * Example of how to use cb-repeat to display nested arrays
- * using Conbo.js
+ * using ConboJS
  * 
  * @author	Neil Rackett
  */

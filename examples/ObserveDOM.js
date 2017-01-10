@@ -1,5 +1,5 @@
 /**
- * observeDom example for Conbo.js
+ * observeDom example for ConboJS
  * @author	Neil Rackett
  */
 conbo('ns', function()

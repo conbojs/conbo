@@ -1,5 +1,5 @@
 /**
- * Binding and parsing example for Conbo.js
+ * Binding and parsing example for ConboJS
  * @author	Neil Rackett
  */
 conbo('ns', function()

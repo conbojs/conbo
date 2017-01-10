@@ -1,5 +1,5 @@
 /**
- * Template example for Conbo.js
+ * Template example for ConboJS
  * 
  * Demonstrates how to load a template into a View class, which will then 
  * automatically be parsed and bound as appropriate

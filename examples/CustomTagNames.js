@@ -1,5 +1,5 @@
 /**
- * Custom tag names example for Conbo.js
+ * Custom tag names example for ConboJS
  * Demonstrates how to use custom tag names
  * 
  * @author	Neil Rackett

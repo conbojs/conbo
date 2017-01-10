@@ -1,5 +1,5 @@
 /**
- * View content example for Conbo.js
+ * View content example for ConboJS
  * Demonstrates how to transfer existing content into a View's template
  * 
  * @author	Neil Rackett

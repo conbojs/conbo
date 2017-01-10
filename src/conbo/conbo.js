@@ -1,5 +1,5 @@
 /*! 
- * Conbo.js: Lightweight MVC application framework for JavaScript
+ * ConboJS: Lightweight MVC application framework for JavaScript
  * http://conbojs.mesmotronic.com/
  * 
  * Copyright (c) 2015 Mesmotronic Limited
@@ -10,7 +10,7 @@
 var __namespaces = {};
 
 /**
- * Conbo.js is a lightweight MVC application framework for JavaScript featuring 
+ * ConboJS is a lightweight MVC application framework for JavaScript featuring 
  * dependency injection, context and encapsulation, data binding, command 
  * pattern and an event model which enables callback scoping and consistent 
  * event handling
@@ -27,6 +27,7 @@ var __namespaces = {};
  * 
  * @example
  * // Conbo can replace the standard minification pattern with modular namespace definitions
+ * // If an Object is returned, its contents will be added to the namespace
  * conbo('com.namespace.example', window, document, conbo, function(window, document, conbo, undefined)
  * {
  * 	var example = this;
@@ -54,7 +55,12 @@ var conbo = function(namespace)
 	
 	if (conbo.isFunction(func))
 	{
-		func.apply(ns, params);
+		var obj = func.apply(ns, params);
+		
+		if (conbo.isObject(obj) && !conbo.isArray(obj))
+		{
+			ns.extend(obj);
+		}
 	}
 	
 	return ns;
@@ -84,7 +90,7 @@ conbo.VERSION = '{{VERSION}}';
  */
 conbo.toString = function() 
 { 
-	return 'Conbo '+this.VERSION; 
+	return 'ConboJS v'+this.VERSION; 
 };
 
 if (!!$)
@@ -94,4 +100,9 @@ if (!!$)
 	 * @namespace	conbo.$
 	 */
 	conbo.$ = $;
+	
+	$(function()
+	{
+		conbo.info(conbo.toString());
+	})
 }

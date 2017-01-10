@@ -1,6 +1,6 @@
 /**
  * Example of how to use bind CSS classes using cb-* 
- * attributes with Conbo.js
+ * attributes with ConboJS
  * 
  * @author	Neil Rackett
  */

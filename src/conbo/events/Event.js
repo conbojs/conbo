@@ -1,7 +1,7 @@
 /**
  * Event class
  * 
- * Base class for all events triggered in Conbo.js
+ * Base class for all events triggered in ConboJS
  * 
  * @class		conbo.Event
  * @augments	conbo.Class

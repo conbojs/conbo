@@ -920,7 +920,7 @@
 	
 	/**
 	 * Retrieve the values of an object's properties.
-	 * Conbo.js: Extended to enable keys further up the prototype chain to be found too
+	 * ConboJS: Extended to enable keys further up the prototype chain to be found too
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to get values from

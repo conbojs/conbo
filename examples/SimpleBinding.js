@@ -1,5 +1,5 @@
 /**
- * Simple data binding example for Conbo.js
+ * Simple data binding example for ConboJS
  * 
  * @author	Neil Rackett
  */

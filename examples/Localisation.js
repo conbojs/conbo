@@ -1,5 +1,5 @@
 /**
- * Simple localisaion example for Conbo.js
+ * Simple localisaion example for ConboJS
  * Demonstrates of dynamic localisaion of an app
  * 
  * @author	Neil Rackett

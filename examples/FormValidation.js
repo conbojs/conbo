@@ -1,5 +1,5 @@
 /**
- * Form validation example for Conbo.js
+ * Form validation example for ConboJS
  * @author	Neil Rackett
  */
 conbo('ns', function()

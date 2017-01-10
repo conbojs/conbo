@@ -1,5 +1,5 @@
 /**
- * Custom attribute example for Conbo.js
+ * Custom attribute example for ConboJS
  * Demonstrates how to create a custom attribute
  * 
  * @author	Neil Rackett

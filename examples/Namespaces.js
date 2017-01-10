@@ -1,5 +1,5 @@
 /**
- * Namespace example for Conbo.js
+ * Namespace example for ConboJS
  * 
  * As well as being able to automatically apply Application and View classes
  * to existing DOM elements using a namespace, Conbo offers a modular method 
@@ -26,7 +26,7 @@ conbo('ns', conbo, function(conbo)
 	var utils = conbo('utils');
 	
 	/**
-	 * By requiring your app to have a namespace, Conbo.js can automatically
+	 * By requiring your app to have a namespace, ConboJS can automatically
 	 * apply your app to existing DOM elements using the cb-app attribute
 	 * and guarantees that the correct Views are applies to existing DOM
 	 * elements that use the cb-view attribute, without any additional

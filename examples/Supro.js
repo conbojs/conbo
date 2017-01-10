@@ -1,5 +1,5 @@
 /**
- * Supro example for Conbo.js
+ * Supro example for ConboJS
  * Demonstrates how to use the supro object
  * 
  * @author	Neil Rackett
