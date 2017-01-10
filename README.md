@@ -11,22 +11,6 @@ Browser support
 
 ConboJS targets the two most recent major releases of Firefox, Chrome (desktop and Android), Safari (desktop and iOS) and Internet Explorer / Edge.
 
-ES2015
-------
-
-If you're already using ES2015, or a transpiler like [Babel](https://babeljs.io/), you can import ConboJS into your ES2015 projects in the same way as any other ES2015 module and all ConboJS classes can be used with the standard `class...extends` syntax:
-
-```javascript
-import {conbo} from 'conbo';
-
-class MyClass extends conbo.Class
-{
-	// Your code here
-}
-
-```
-
-
 Modular namespace declaration
 -----------------------------
 
@@ -147,6 +131,26 @@ All events fired by the framework are `conbo.ConboEvent` event objects, and you 
 ```javascript
 foo.addEventListener("myEvent", this.myFunction, this);
 foo.dispatchEvent(new conbo.Event("myEvent"));
+```
+
+ES2015
+------
+
+If you're already using ES2015, or a transpiler like [Babel](https://babeljs.io/), you can import ConboJS into your ES2015 projects in the same way as any other ES2015 module and all ConboJS classes can be used with the standard `class...extends` syntax:
+
+```javascript
+import {conbo} from 'conbo';
+
+conbo('com.example.es2015', function(undefined)
+{
+	class MyClass extends conbo.Class
+	{
+		// Your code here
+	}
+	
+	// Properties in the return Object are automatically added to the namespace (optional)
+	return {MyClass:MyClass};
+}
 ```
 
 Dependencies
