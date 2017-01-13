@@ -96,10 +96,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 			throw new Error('element is undefined');
 		}
 		
-		// TODO Why does isBindable fail here?
 		if (!conbo.isAccessor(source, propName))
 		{
-			conbo.warn('It may not be possible to detect changes to "'+propName+'" on class "'+source.toString()+'" because the property is not bindable');
+			conbo.makeBindable(source, [propName]);
 		}
 		
 		var scope = this,
@@ -279,7 +278,10 @@ conbo.BindingUtils = conbo.Class.extend({},
 			throw new Error('element is undefined');
 		}
 		
-		//attributeName = conbo.toUnderscoreCase(attributeName, '-');
+		if (!conbo.isAccessor(source, propertyName) && source instanceof conbo.EventDispatcher)
+		{
+			conbo.makeBindable(source, [propertyName]);
+		}
 		
 		var split = attributeName.split('-'),
 			hasNs = split.length > 1
@@ -733,7 +735,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	},
 	
 	/**
-	 * Bind the property of one EventDispatcher class instance (e.g. Hash or Model) to another
+	 * Bind the property of one EventDispatcher class instance (e.g. Hash or List) to another
 	 * 
 	 * @param 	{conbo.EventDispatcher}	source						Class instance which extends conbo.EventDispatcher
 	 * @param 	{String}			sourcePropertyName			Source property name

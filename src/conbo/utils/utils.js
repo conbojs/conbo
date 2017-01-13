@@ -1925,10 +1925,10 @@
 	 * names are passed, all enumarable properties will be made bindable
 	 * 
 	 * @memberof	conbo
-	 * @see 	#makeAllBindable
+	 * @see 		#makeAllBindable
 	 * 
-	 * @param	{String}		obj
-	 * @param	{Array}			propNames (optional)
+	 * @param		{String}		obj
+	 * @param		{Array}			propNames (optional)
 	 */
 	conbo.makeBindable = function(obj, propNames)
 	{
