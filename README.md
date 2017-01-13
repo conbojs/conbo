@@ -1,6 +1,6 @@
 ConboJS is the best JavaScript MVC framework you've never heard of.
 
-It is a lightweight MVC application framework for JavaScript designed for use with modern browsers to enable developers a take a structured, decoupled, class based approach to application development, in a way that should be be familiar to anyone with experience of languages like ActionScript, C# or Java.
+It is a lightweight MVC application framework for JavaScript for use with modern browsers which enables developers a take a structured, decoupled, class based approach to application development, in a way that should be be familiar to anyone with experience of languages like ActionScript/Flex, C# or Java.
 
 Features include extendible classes, event bus, dependency injection, data binding, command pattern, pseudo-interfaces and an easy to use event model with scoped event handling, plus simple view state management.
 
