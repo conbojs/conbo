@@ -211,7 +211,6 @@ conbo.View = conbo.Glimpse.extend(
 			;
 		
 		this.$el.remove();
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
 		
 		if (this.context)
 		{
@@ -222,6 +221,13 @@ conbo.View = conbo.Glimpse.extend(
 			
 			this.context = undefined;
 		}
+		
+		if (this.data)
+		{
+			this.data = undefined;
+		}
+		
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
 		
 		return this;
 	},
