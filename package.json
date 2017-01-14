@@ -1,7 +1,7 @@
 {
 	"name": "ConboJS",
 	"description": "Lightweight MVC application framework for JavaScript",
-	"version": "3.1.1",
+	"version": "3.1.2",
 	"repository": "git@github.com:mesmotronic/conbo-js.git",
 	"license": "MIT",
 	"devDependencies": {

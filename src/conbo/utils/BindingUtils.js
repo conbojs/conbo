@@ -57,6 +57,28 @@ var BindingUtils__isReservedAttr = function(value)
 };
 
 /**
+ * Attempt to make a property bindable if it isn't already
+ * 
+ * @private
+ * @param 		{String}	value
+ * @returns		{Boolean}
+ */
+var BindingUtils__makeBindable = function(source, propName)
+{
+	if (!conbo.isAccessor(source, propName))
+	{
+		if (source instanceof conbo.EventDispatcher)
+		{
+			conbo.makeBindable(source, [propName]);
+		}
+		else
+		{
+			conbo.warn('It may not be possible to detect changes to "'+propName+'" because "'+source.toString()+'" is not an EventDispatcher');
+		}
+	}
+}
+
+/**
  * Binding utility class
  * 
  * Used to bind properties of EventDispatcher class instances to DOM elements, 
@@ -70,7 +92,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 /** @lends conbo.BindingUtils */
 {
 	/**
-	 * Bind a property of a EventDispatcher class instance (e.g. Hash or Model) 
+	 * Bind a property of a EventDispatcher class instance (e.g. Hash or View) 
 	 * to a DOM element's value/content, using Conbo's best judgement to
 	 * work out how the value should be bound to the element.
 	 * 
@@ -86,20 +108,14 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 */
 	bindElement: function(source, propName, element, parseFunction)
 	{
-		if (!(source instanceof conbo.EventDispatcher))
-		{
-			throw new Error('Source is not EventDispatcher');
-		}
+		var isEventDispatcher = source instanceof conbo.EventDispatcher;
 		
 		if (!element)
 		{
 			throw new Error('element is undefined');
 		}
 		
-		if (!conbo.isAccessor(source, propName))
-		{
-			conbo.makeBindable(source, [propName]);
-		}
+		BindingUtils__makeBindable(source, propName);
 		
 		var scope = this,
 			bindings = [],
@@ -127,15 +143,18 @@ conbo.BindingUtils = conbo.Class.extend({},
 						{
 							$el.prop('checked', !!source[propName]);
 							
-							eventType = 'change:'+propName;
-							
-							eventHandler = function(event)
+							if (isEventDispatcher)
 							{
-								$el.prop('checked', !!event.value);
-							};
-							
-							source.addEventListener(eventType, eventHandler);
-							bindings.push([source, eventType, eventHandler]);
+								eventType = 'change:'+propName;
+								
+								eventHandler = function(event)
+								{
+									$el.prop('checked', !!event.value);
+								};
+								
+								source.addEventListener(eventType, eventHandler);
+								bindings.push([source, eventType, eventHandler]);
+							}
 							
 							eventType = 'input change';
 							
@@ -154,18 +173,21 @@ conbo.BindingUtils = conbo.Class.extend({},
 						{
 							if ($el.val() == source[propName]) $el.prop('checked', true);
 							
-							eventType = 'change:'+propName;
-							
-							eventHandler = function(event)
+							if (isEventDispatcher)
 							{
-								if (event.value == null) event.value = '';
-								if ($el.val() != event.value) return; 
+								eventType = 'change:'+propName;
 								
-								$el.prop('checked', true);
-							};
-							
-							source.addEventListener(eventType, eventHandler);
-							bindings.push([source, eventType, eventHandler]);
+								eventHandler = function(event)
+								{
+									if (event.value == null) event.value = '';
+									if ($el.val() != event.value) return; 
+									
+									$el.prop('checked', true);
+								};
+								
+								source.addEventListener(eventType, eventHandler);
+								bindings.push([source, eventType, eventHandler]);
+							}
 							
 							break;
 						}
@@ -181,18 +203,21 @@ conbo.BindingUtils = conbo.Class.extend({},
 							if (type == 'select') conbo.defer(setVal);
 							else setVal();
 							
-							eventType = 'change:'+propName;
-							
-							eventHandler = function(event)
+							if (isEventDispatcher)
 							{
-								if (event.value == null) event.value = '';
-								if ($el.val() == event.value) return;
+								eventType = 'change:'+propName;
 								
-								$el.val(event.value);
-							};
-							
-							source.addEventListener(eventType, eventHandler);
-							bindings.push([source, eventType, eventHandler]);
+								eventHandler = function(event)
+								{
+									if (event.value == null) event.value = '';
+									if ($el.val() == event.value) return;
+									
+									$el.val(event.value);
+								};
+								
+								source.addEventListener(eventType, eventHandler);
+								bindings.push([source, eventType, eventHandler]);
+							}
 							
 							break;
 						}
@@ -215,16 +240,19 @@ conbo.BindingUtils = conbo.Class.extend({},
 				{
 					$el.html(parseFunction(source[propName]));
 					
-					eventType = 'change:'+propName;
-					
-					eventHandler = function(event) 
+					if (isEventDispatcher)
 					{
-						var html = parseFunction(event.value);
-						$el.html(html);
-					};
-					
-					source.addEventListener(eventType, eventHandler);
-					bindings.push([source, eventType, eventHandler]);
+						eventType = 'change:'+propName;
+						
+						eventHandler = function(event) 
+						{
+							var html = parseFunction(event.value);
+							$el.html(html);
+						};
+						
+						source.addEventListener(eventType, eventHandler);
+						bindings.push([source, eventType, eventHandler]);
+					}
 					
 					break;
 				}
@@ -278,11 +306,6 @@ conbo.BindingUtils = conbo.Class.extend({},
 			throw new Error('element is undefined');
 		}
 		
-		if (!conbo.isAccessor(source, propertyName) && source instanceof conbo.EventDispatcher)
-		{
-			conbo.makeBindable(source, [propertyName]);
-		}
-		
 		var split = attributeName.split('-'),
 			hasNs = split.length > 1
 			;
@@ -296,6 +319,8 @@ conbo.BindingUtils = conbo.Class.extend({},
 		{
 			return this.bindElement(source, propertyName, element, parseFunction);
 		}
+		
+		BindingUtils__makeBindable(source, propertyName);
 		
 		var scope = this,
 			eventType,
