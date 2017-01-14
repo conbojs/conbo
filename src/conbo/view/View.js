@@ -201,13 +201,17 @@ conbo.View = conbo.Glimpse.extend(
 	
 	/**
 	 * Remove and destroy this View by taking the element out of the DOM, 
-	 * unbinding it and removing all event listeners
+	 * unbinding it, removing all event listeners and removing it from its
+	 * current Context
 	 */
 	remove: function()
 	{
 		this.unbindView()
 			.removeEventListener()
 			;
+		
+		this.$el.remove();
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
 		
 		if (this.context)
 		{
@@ -218,9 +222,6 @@ conbo.View = conbo.Glimpse.extend(
 			
 			this.context = undefined;
 		}
-		
-		this.$el.remove();
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
 		
 		return this;
 	},
