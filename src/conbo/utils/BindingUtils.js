@@ -15,13 +15,13 @@ var BindingUtils__cbAttrs = new conbo.AttributeBindings()
  * @param 	attribute
  * @param 	value
  * @param 	options
- * @example	BindingUtils.__set.call(target, 'n', 123);
- * @example	BindingUtils.__set.call(target, {n:123, s:'abc'});
+ * @example	BindingUtils__set.call(target, 'n', 123);
+ * @example	BindingUtils__set.call(target, {n:123, s:'abc'});
  * @returns	this
  */
-var BindingUtils__set = function(propName, value)
+var BindingUtils__set = function(propertyName, value)
 {
-	if (this[propName] === value)
+	if (this[propertyName] === value)
 	{
 		return this;
 	}
@@ -33,13 +33,7 @@ var BindingUtils__set = function(propName, value)
 		if (isNaN(value)) value = '';
 	}
 	
-	this[propName] = value;
-	
-	// We're assuming accessors will dispatch their own change events
-	if (!conbo.isAccessor(this, propName))
-	{
-		__dispatchChange(this, propName);
-	}
+	this[propertyName] = value;
 	
 	return this;
 };
@@ -63,17 +57,17 @@ var BindingUtils__isReservedAttr = function(value)
  * @param 		{String}	value
  * @returns		{Boolean}
  */
-var BindingUtils__makeBindable = function(source, propName)
+var BindingUtils__makeBindable = function(source, propertyName)
 {
-	if (!conbo.isAccessor(source, propName))
+	if (!conbo.isAccessor(source, propertyName))
 	{
 		if (source instanceof conbo.EventDispatcher)
 		{
-			conbo.makeBindable(source, [propName]);
+			conbo.makeBindable(source, [propertyName]);
 		}
 		else
 		{
-			conbo.warn('It will not be possible to detect changes to "'+propName+'" because "'+source.toString()+'" is not an EventDispatcher');
+			conbo.warn('It will not be possible to detect changes to "'+propertyName+'" because "'+source.toString()+'" is not an EventDispatcher');
 		}
 	}
 }
@@ -100,13 +94,13 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * which can be used to manipulate bound data in real time
 	 * 
 	 * @param 		{conbo.EventDispatcher}	source				Class instance which extends from conbo.EventDispatcher (e.g. Hash or Model)
-	 * @param 		{String} 				propName			Property name to bind
+	 * @param 		{String} 				propertyName		Property name to bind
 	 * @param 		{DOMElement} 			element				DOM element to bind value to (two-way bind on input/form elements)
 	 * @param 		{Function}				parseFunction		Optional method used to parse values before outputting as HTML
 	 * 
 	 * @returns		{Array}										Array of bindings
 	 */
-	bindElement: function(source, propName, element, parseFunction)
+	bindElement: function(source, propertyName, element, parseFunction)
 	{
 		var isEventDispatcher = source instanceof conbo.EventDispatcher;
 		
@@ -115,7 +109,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			throw new Error('element is undefined');
 		}
 		
-		BindingUtils__makeBindable(source, propName);
+		BindingUtils__makeBindable(source, propertyName);
 		
 		var scope = this,
 			bindings = [],
@@ -141,11 +135,11 @@ conbo.BindingUtils = conbo.Class.extend({},
 					{
 						case 'checkbox':
 						{
-							$el.prop('checked', !!source[propName]);
+							$el.prop('checked', !!source[propertyName]);
 							
 							if (isEventDispatcher)
 							{
-								eventType = 'change:'+propName;
+								eventType = 'change:'+propertyName;
 								
 								eventHandler = function(event)
 								{
@@ -160,7 +154,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 							
 							eventHandler = function(event)
 							{
-								BindingUtils__set.call(source, propName, $el.is(':checked'));
+								BindingUtils__set.call(source, propertyName, $el.is(':checked'));
 							};
 							
 							$el.on(eventType, eventHandler);
@@ -171,11 +165,11 @@ conbo.BindingUtils = conbo.Class.extend({},
 						
 						case 'radio':
 						{
-							if ($el.val() == source[propName]) $el.prop('checked', true);
+							if ($el.val() == source[propertyName]) $el.prop('checked', true);
 							
 							if (isEventDispatcher)
 							{
-								eventType = 'change:'+propName;
+								eventType = 'change:'+propertyName;
 								
 								eventHandler = function(event)
 								{
@@ -196,7 +190,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 						{
 							var setVal = function() 
 							{
-								$el.val(source[propName]); 
+								$el.val(source[propertyName]); 
 							};
 							
 							// Resolves issue with cb-repeat inside <select>
@@ -205,7 +199,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 							
 							if (isEventDispatcher)
 							{
-								eventType = 'change:'+propName;
+								eventType = 'change:'+propertyName;
 								
 								eventHandler = function(event)
 								{
@@ -227,7 +221,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 					
 					eventHandler = function(event)
 					{	
-						BindingUtils__set.call(source, propName, $el.val() === undefined ? $el.html() : $el.val());
+						BindingUtils__set.call(source, propertyName, $el.val() === undefined ? $el.html() : $el.val());
 					};
 					
 					$el.on(eventType, eventHandler);
@@ -238,11 +232,11 @@ conbo.BindingUtils = conbo.Class.extend({},
 				
 				default:
 				{
-					$el.html(parseFunction(source[propName]));
+					$el.html(parseFunction(source[propertyName]));
 					
 					if (isEventDispatcher)
 					{
-						eventType = 'change:'+propName;
+						eventType = 'change:'+propertyName;
 						
 						eventHandler = function(event) 
 						{
@@ -269,7 +263,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 *  @param	el		DOM element
 	 *  @param	view	View class
 	 */
-	unbindElement: function(source, propName, element)
+	unbindElement: function(source, propertyName, element)
 	{
 		// TODO Implement unbindElement
 	},
@@ -760,7 +754,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	},
 	
 	/**
-	 * Bind the property of one EventDispatcher class instance (e.g. Hash or List) to another
+	 * Bind the property of one EventDispatcher class instance (e.g. Hash or View) to another
 	 * 
 	 * @param 	{conbo.EventDispatcher}	source						Class instance which extends conbo.EventDispatcher
 	 * @param 	{String}			sourcePropertyName			Source property name
@@ -780,6 +774,8 @@ conbo.BindingUtils = conbo.Class.extend({},
 		var scope = this;
 		
 		destinationPropertyName || (destinationPropertyName = sourcePropertyName);
+		
+		BindingUtils__makeBindable(source, sourcePropertyName);
 		
 		source.addEventListener('change:'+sourcePropertyName, function(event)
 		{
@@ -824,6 +820,8 @@ conbo.BindingUtils = conbo.Class.extend({},
 			
 			setterFunction = setterFunction[propertyName];
 		}
+		
+		BindingUtils__makeBindable(source, propertyName);
 		
 		source.addEventListener('change:'+propertyName, function(event)
 		{
