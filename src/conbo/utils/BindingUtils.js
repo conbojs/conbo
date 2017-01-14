@@ -73,7 +73,7 @@ var BindingUtils__makeBindable = function(source, propName)
 		}
 		else
 		{
-			conbo.warn('It may not be possible to detect changes to "'+propName+'" because "'+source.toString()+'" is not an EventDispatcher');
+			conbo.warn('It will not be possible to detect changes to "'+propName+'" because "'+source.toString()+'" is not an EventDispatcher');
 		}
 	}
 }
