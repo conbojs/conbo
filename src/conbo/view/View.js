@@ -206,7 +206,18 @@ conbo.View = conbo.Glimpse.extend(
 	remove: function()
 	{
 		this.unbindView()
-			.removeEventListener();
+			.removeEventListener()
+			;
+		
+		if (this.context)
+		{
+			this.context
+				.uninjectSingletons(this)
+				.removeEventListenersByScope(this)
+				;
+			
+			this.context = undefined;
+		}
 		
 		this.$el.remove();
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));

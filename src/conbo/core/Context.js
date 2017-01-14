@@ -191,6 +191,8 @@ conbo.Context = conbo.EventDispatcher.extend(
 	
 	/**
 	 * Inject singleton instances into specified object
+	 * 
+	 * @param	obj		{object} 	The object to inject singletons into
 	 */
 	injectSingletons: function(obj)
 	{
@@ -201,6 +203,24 @@ conbo.Context = conbo.EventDispatcher.extend(
 			if (a in this.__singletons)
 			{
 				obj[a] = this.__singletons[a];
+			}
+		}
+		
+		return this;
+	},
+	
+	/**
+	 * Set all singleton instances on the specified object to undefined
+	 * 
+	 * @param	obj		{object} 	The object to remove singletons from
+	 */
+	uninjectSingletons: function(obj)
+	{
+		for (var a in obj)
+		{
+			if (a in this.__singletons)
+			{
+				obj[a] = undefined;
 			}
 		}
 		

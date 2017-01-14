@@ -30,8 +30,12 @@ conbo.EventDispatcher = conbo.ConboClass.extend(
 	
 	/**
 	 * Add a listener for a particular event type
-	 * @param type		Type of event ('change') or events ('change blur')
-	 * @param handler	Function that should be called
+	 * 
+	 * @param type		{string}	Type of event ('change') or events ('change blur')
+	 * @param handler	{function}	Function that should be called
+	 * @param scope		{object}	The scope in which to run the event handler (optional)
+	 * @param priority	{number}	The event handler's priority when the event is dispatached (default: 0)
+	 * @param once		{boolean}	Should the event listener automatically be removed after it has been called once? (default: false) 
 	 */
 	addEventListener: function(type, handler, scope, priority, once)
 	{
@@ -47,9 +51,10 @@ conbo.EventDispatcher = conbo.ConboClass.extend(
 	
 	/**
 	 * Remove a listener for a particular event type
-	 * @param type		Type of event ('change') or events ('change blur')
-	 * @param handler	Function that should be called
-	 * @param scope	The scope
+	 * 
+	 * @param type		{string}	Type of event ('change') or events ('change blur') (optional: if not specified, all listeners will be removed) 
+	 * @param handler	{function}	Function that should be called (optional: if not specified, all listeners of the specified type will be removed)
+	 * @param scope		{object} 	The scope in which the handler is set to run (optional)
 	 */
 	removeEventListener: function(type, handler, scope)
 	{
@@ -67,6 +72,30 @@ conbo.EventDispatcher = conbo.ConboClass.extend(
 		if (conbo.isString(type)) type = type.split(' ');
 		if (conbo.isArray(type)) conbo.forEach(type, function(value, index, list) { this.__removeEventListener.apply(this, a); }, this);
 		else conbo.forEach(type, function(value, key, list) { this.__removeEventListener.apply(this, a); }, this);
+		
+		return this;
+	},
+	
+	/**
+	 * Remove all event listeners that were added using the specified scope
+	 * @param scope		The scope in which the handlers are set to run
+	 */
+	removeEventListenersByScope: function(scope)
+	{
+		if (!this.__queue) return this;
+		
+		for (var type in this.__queue)
+		{
+			var queue = this.__queue[type];
+			
+			for (var i=0; i<queue.length; i++)
+			{
+				if (queue[i].scope == scope)
+				{
+					queue.splice(i--, 1);
+				}
+			}
+		}
 		
 		return this;
 	},
