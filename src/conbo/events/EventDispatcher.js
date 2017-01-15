@@ -85,7 +85,7 @@ conbo.EventDispatcher = conbo.ConboClass.extend(
 	hasEventListener: function(type, handler, scope)
 	{
 		if (!this.__queue 
-			|| !this.__queue[type]
+			|| !(type in this.__queue)
 			|| !this.__queue[type].length)
 		{
 			return false;
@@ -187,31 +187,41 @@ conbo.EventDispatcher = conbo.ConboClass.extend(
 	__removeEventListener: function(type, handler, scope)
 	{
 		if (type == '*') type = 'all';
-		if (!this.__queue || !(type in this.__queue)) return this;
+		if (!this.__queue) return;
 		
-		var queue = this.__queue[type];
+		var queue, 
+			i, 
+			self = this;
 		
-		if (arguments.length == 1)
+		var removeFromQueue = function(queue, key)
 		{
-			delete this.__queue[type];
-			return this;
-		}
-		
-		for (var i=0; i<queue.length; i++)
-		{
-			if ((!queue[i].handler || queue[i].handler == handler)
-				&& (!queue[i].scope || queue[i].scope == scope))
+			for (i=0; i<queue.length; i++)
 			{
-				queue.splice(i--, 1);
+				if ((!queue[i].handler || queue[i].handler == handler)
+					&& (!queue[i].scope || queue[i].scope == scope))
+				{
+					queue.splice(i--, 1);
+				}
 			}
-		}
+			
+			if (!queue.length)
+			{
+				delete self.__queue[key];
+			}
+		};
 		
-		if (!queue.length)
+		if (type in this.__queue)
 		{
-			delete this.__queue[type];
+			queue = this.__queue[type];
+			removeFromQueue(queue, type);
 		}
-		
-		return this;
+		else if (type == undefined)
+		{
+			conbo.forEach(this.__queue, function(queue, key)
+			{
+				removeFromQueue(queue, key);
+			});
+		}
 	},
 	
 }).implement(conbo.IInjectable);
