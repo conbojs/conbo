@@ -2146,7 +2146,10 @@ var __defineProperty = function(obj, propName, value, getter, setter, enumerable
 	
 	var nogs = !getter && !setter;
 	
-	enumerable = (enumerable !== false);
+	if (arguments.length < 6)
+	{
+		enumerable = propName.indexOf('_') !== 0;
+	}
 	
 	if (nogs)
 	{

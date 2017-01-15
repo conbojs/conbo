@@ -201,8 +201,8 @@ conbo.View = conbo.Glimpse.extend(
 	
 	/**
 	 * Remove and destroy this View by taking the element out of the DOM, 
-	 * unbinding it, removing all event listeners and removing it from its
-	 * current Context
+	 * unbinding it, removing all event listeners and removing the View from 
+	 * its Context
 	 */
 	remove: function()
 	{
@@ -212,19 +212,19 @@ conbo.View = conbo.Glimpse.extend(
 		
 		this.$el.remove();
 		
+		if (this.data)
+		{
+			this.data = undefined;
+		}
+		
 		if (this.context)
 		{
 			this.context
 				.uninjectSingletons(this)
-				.removeEventListenersByScope(this)
+				.removeEventListener(undefined, undefined, this)
 				;
 			
 			this.context = undefined;
-		}
-		
-		if (this.data)
-		{
-			this.data = undefined;
 		}
 		
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
@@ -429,8 +429,9 @@ conbo.View = conbo.Glimpse.extend(
 		
 		delete this.__content;
 		
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.TEMPLATE_LOADED));
-		this.bindView();
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.TEMPLATE_LOADED))
+			.bindView()
+			;
 		
 		conbo.defer(this.bind(function()
 		{
@@ -455,8 +456,10 @@ conbo.View = conbo.Glimpse.extend(
 			this.el = $('<'+this.tagName+'>');
 		}
 		
-		this.$el.attr(attrs);
-		this.$el.addClass('cb-view '+(this.className||''));
+		this.$el
+			.addClass('cb-view '+(this.className||''))
+			.attr(attrs);
+			;
 	},
 	
 	__getParent: function(findApp)
