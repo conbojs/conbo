@@ -1,6 +1,6 @@
 {
 	"name": "conbo",
-	"version": "3.2.1",
+	"version": "3.2.2",
 	"description": "Lightweight MVC application framework for JavaScript",
 	"keywords": [
 		"binding",
@@ -18,7 +18,7 @@
 	"license": "MIT",
 	"author": "Mesmotronic",
 	"files": [
-		"build"
+		"lib"
 	],
 	"main": "./lib/conbo.js",
 	"repository": {
