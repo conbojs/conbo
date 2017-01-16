@@ -25,7 +25,7 @@
 		"watch.sh",
 		"build.cmd",
 		"build-docs.cmd",
-		"watch.cmd",
+		"watch.cmd"
 	],
 	"keywords": [
 		"binding",
@@ -47,7 +47,7 @@
 		"type": "git",
 		"url": "https://github.com/mesmotronic/conbo.git"
 	},
-	"dependencies": [
+	"dependencies": {
 		"jquery": ">=1.7.0"
-	]
+	}
 }
