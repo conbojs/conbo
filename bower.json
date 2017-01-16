@@ -1,22 +1,53 @@
 {
 	"name": "conbo",
-	"version": "3.1.4",
-	"homepage": "https://github.com/mesmotronic/conbo-js",
-	"authors": [
-		"Neil Rackett"
-	],
 	"description": "Lightweight MVC application framework for JavaScript",
-	"main": "build/conbo.js",
+	"main": [
+		"build/conbo.js"
+	],
 	"moduleType": [
 		"amd",
+		"es6",
 		"globals",
 		"node"
 	],
+	"license": "MIT",
+	"ignore": [
+		"docs",
+		"examples",
+		"src",
+		"test",
+		".gitignore",
+		"gruntfile.js",
+		"bower.json",
+		"jsdoc.json",
+		"package.json",
+		".project",
+		"watch.sh",
+		"build.cmd",
+		"build-docs.cmd",
+		"watch.cmd",
+	],
 	"keywords": [
+		"binding",
+		"browser",
+		"client",
 		"conbo",
+		"es2015",
+		"framework",
 		"javascript",
 		"mvc",
-		"binding"
+		"mvcs",
+		"server"
 	],
-	"license": "MIT"
+	"authors": [
+		"Mesmotronic"
+	],
+	"homepage": "https://conbo.mesmotronic.com",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/mesmotronic/conbo.git"
+	},
+	"dependencies": [
+		"jquery": ">=1.7.0"
+	],
 }

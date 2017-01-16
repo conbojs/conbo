@@ -1,9 +1,33 @@
 {
-	"name": "ConboJS",
+	"name": "conbo",
+	"version": "3.2.0",
 	"description": "Lightweight MVC application framework for JavaScript",
-	"version": "3.1.4",
-	"repository": "git@github.com:mesmotronic/conbo-js.git",
+	"keywords": [
+		"binding",
+		"browser",
+		"client",
+		"conbo",
+		"es2015",
+		"framework",
+		"javascript",
+		"mvc",
+		"mvcs",
+		"server"
+	],
+	"homepage": "https://conbo.mesmotronic.com",
 	"license": "MIT",
+	"author": "Mesmotronic",
+	"files": [
+		"build"
+	],
+	"main": "build/conbo.js",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/mesmotronic/conbo.git"
+	},
+	"dependencies": {
+		"jquery": ">=1.7.0"
+	},
 	"devDependencies": {
 		"grunt": "^0.4.5",
 		"grunt-contrib-clean": "^0.5.0",
