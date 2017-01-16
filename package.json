@@ -1,6 +1,6 @@
 {
 	"name": "conbo",
-	"version": "3.2.0",
+	"version": "3.2.1",
 	"description": "Lightweight MVC application framework for JavaScript",
 	"keywords": [
 		"binding",
@@ -20,10 +20,10 @@
 	"files": [
 		"build"
 	],
-	"main": "build/conbo.js",
+	"main": "./lib/conbo.js",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/mesmotronic/conbo.git"
+		"url": "git@github.com:mesmotronic/conbo.git"
 	},
 	"dependencies": {
 		"jquery": ">=1.7.0"
@@ -35,5 +35,6 @@
 		"grunt-contrib-uglify": "^0.2.7",
 		"grunt-contrib-watch": "^0.5.3",
 		"grunt-string-replace": "^1.2.1"
-	}
+	},
+	"readme": "./README.md"
 }

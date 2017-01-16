@@ -69,8 +69,11 @@ conbo.History = conbo.EventDispatcher.extend(
 	 */
 	getHash: function(window)
 	{
-		var match = (window || this).location.href.match(/#!?(.*)$/);
-		return match ? match[1] : '';
+		if (window || this.location)
+		{
+			var match = (window || this).location.href.match(/#!?(.*)$/);
+			return match ? match[1] : '';
+		}
 	},
 	
 	/**

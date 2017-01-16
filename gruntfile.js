@@ -12,7 +12,7 @@ module.exports = function (grunt)
 				{
 					// conbo-lite.js
 					
-					'build/conbo-lite.js':
+					'lib/conbo-lite.js':
 					[
 					 	'src/conbo/header-lite.txt',
 					 	'src/conbo/conbo.js',
@@ -33,7 +33,7 @@ module.exports = function (grunt)
 					
 					// conbo.js
 					
-					'build/conbo.js':
+					'lib/conbo.js':
 					[
 						'src/conbo/header.txt',
 					 	'src/conbo/conbo.js',
@@ -96,14 +96,14 @@ module.exports = function (grunt)
 			
 			lite: 
 			{
-				src: 'build/conbo-lite.js',
-				dest: 'build/conbo-lite.min.js'
+				src: 'lib/conbo-lite.js',
+				dest: 'lib/conbo-lite.min.js'
 			},
 			
 			complete:
 			{
-				src: 'build/conbo.js',
-				dest: 'build/conbo.min.js',
+				src: 'lib/conbo.js',
+				dest: 'lib/conbo.min.js',
 				mangle: true
 			}
 		},
@@ -121,7 +121,7 @@ module.exports = function (grunt)
 		{
 			dist: 
 			{
-				src: ['build/conbo.js'],
+				src: ['lib/conbo.js'],
 				options: 
 				{
 					configure: 'jsdoc.json',
@@ -139,8 +139,8 @@ module.exports = function (grunt)
 			{
 				files: 
 				{
-					'build/conbo.js': 'build/conbo.js',
-					'build/conbo-lite.js': 'build/conbo-lite.js',
+					'lib/conbo.js': 'lib/conbo.js',
+					'lib/conbo-lite.js': 'lib/conbo-lite.js',
 					'bower.json': 'bower.json'
 				},
 				

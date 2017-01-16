@@ -234,7 +234,10 @@ conbo.View = conbo.Glimpse.extend(
 	
 	get $el()
 	{
-		return $(this.el);
+		if ($)
+		{
+			return $(this.el);
+		}
 	},
 	
 	set $el(element)

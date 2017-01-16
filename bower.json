@@ -2,7 +2,7 @@
 	"name": "conbo",
 	"description": "Lightweight MVC application framework for JavaScript",
 	"main": [
-		"build/conbo.js"
+		"./lib/conbo.js"
 	],
 	"moduleType": [
 		"amd",

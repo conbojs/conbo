@@ -13,7 +13,14 @@
 	// Common.js & Node.js
 	else if (typeof module != 'undefined' && module.exports)
 	{
-    	module.exports = factory(window, document, require('jquery'));
+		if (document)
+		{
+    		module.exports = factory(window, document, require('jquery'));
+    	}
+    	else
+    	{
+    		module.exports = factory(window);
+    	}
     }
 	// Global
 	else
@@ -21,5 +28,5 @@
 		window.conbo = factory(window, document, window.$);
 	}
 	
-})(this, document, function(window, document, $, undefined)
+})(this, this.document, function(window, document, $, undefined)
 {
