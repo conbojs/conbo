@@ -193,5 +193,11 @@ Builds are created using Grunt, which requires Node.js; all required modules can
 
 The builds listed above can be created using the command `grunt`. Use `grunt watch`, or run `watch.cmd` (Windows) or `./watch.sh` (Mac, Linux) to auto-build as you edit.
 
+License
+-------
+
+ConboJS is released under MIT license.
+
 **GitHub** https://github.com/mesmotronic/conbo
+
 **Docs** https://conbo.mesmotronic.com/
