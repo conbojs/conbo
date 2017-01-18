@@ -242,4 +242,7 @@ __denumerate(conbo.History.prototype);
 /**
  * Default instance of the History class
  */
-conbo.history = new conbo.History();
+if (document)
+{
+	conbo.history = new conbo.History();
+}
