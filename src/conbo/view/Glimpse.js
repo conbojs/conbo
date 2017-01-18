@@ -48,7 +48,7 @@ conbo.Glimpse = conbo.EventDispatcher.extend(
 	initialize: function(){},
 		
 	/**
-	 * The Glimpse's element
+	 * The class's element
 	 */
 	get el()
 	{

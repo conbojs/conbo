@@ -1,3 +1,5 @@
+var View__templateCache = {};
+
 /**
  * View
  * 
@@ -10,8 +12,55 @@
  * @param 		{object}	options - Object containing optional initialisation options, including 'attributes', 'className', 'data', 'el', 'id', 'tagName', 'template', 'templateUrl'
  */
 conbo.View = conbo.Glimpse.extend(
-/** @lends conbo.View */
+/** 
+ * @lends 		conbo.View.prototype
+ */
 {
+	/**
+	 * @member		{object}	attributes - Attributes to apply to the View's element
+	 * @memberOf	conbo.View.prototype
+	 */
+	
+	/**
+	 * @member		{string}	className - CSS class name(s) to apply to the View's element
+	 * @memberOf	conbo.View.prototype
+	 */
+	
+	/**
+	 * @member		{object}	data - Arbitrary data Object
+	 * @memberOf	conbo.View.prototype
+	 */
+	
+	/**
+	 * @member		{string}	id - ID to apply to the View's element
+	 * @memberOf	conbo.View.prototype
+	 */
+	
+	/**
+	 * @member		{string}	tagName - The tag name to use for the View's element (if no element specified)
+	 * @memberOf	conbo.View.prototype
+	 */
+	
+	/**
+	 * @member		{string}	template - Template to apply to the View's element
+	 * @memberOf	conbo.View.prototype
+	 */
+	
+	/**
+	 * @member		{string}	templateUrl - Template to load and apply to the View's element
+	 * @memberOf	conbo.View.prototype
+	 */
+	
+	/**
+	 * @member		{boolean}	templateCacheEnabled - Whether or not the contents of templateUrl should be cached on first load for use with future instances of this View class (default: true)
+	 * @memberOf	conbo.View.prototype
+	 */
+	
+	/**
+	 * @member		{boolean}	autoInitTemplate - Whether or not the template should automatically be loaded and applied, rather than waiting for the user to call initTemplate (default: true)
+	 * @memberOf	conbo.View.prototype
+	 */
+	
 	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options
@@ -32,6 +81,7 @@ conbo.View = conbo.Glimpse.extend(
 				'tagName', 
 				'template', 
 				'templateUrl',
+				'templateCacheEnabled',
 				'autoInitTemplate'
 			],
 			
@@ -86,7 +136,7 @@ conbo.View = conbo.Glimpse.extend(
 	 */
 	get hasTemplate()
 	{
-		return this.template || this.templateUrl;
+		return !!(this.template || this.templateUrl);
 	},
 	
 	/**
@@ -232,6 +282,9 @@ conbo.View = conbo.Glimpse.extend(
 		return this;
 	},
 	
+	/**
+	 * This View's element wrapped as a jQuery object
+	 */
 	get $el()
 	{
 		if ($)
@@ -245,6 +298,9 @@ conbo.View = conbo.Glimpse.extend(
 		this.el = element;
 	},
 	
+	/**
+	 * This View's element
+	 */
 	get el()
 	{
 		return this.__el;
@@ -362,13 +418,11 @@ conbo.View = conbo.Glimpse.extend(
 	 */
 	initTemplate: function()
 	{
-		var templateUrl = this.templateUrl
-		  , template = this.template
-		  ;
+		var template = this.template;
 		
-		if (!!templateUrl)
+		if (!!this.templateUrl)
 		{
-			this.loadTemplate(templateUrl);
+			this.loadTemplate();
 		}
 		else
 		{
@@ -384,36 +438,53 @@ conbo.View = conbo.Glimpse.extend(
 			
 			this.__initView();
 		}
+		
+		return this;
 	},
 	
 	/**
-	 * Loads HTML template and apply it to this.el, storing the loaded
-	 * template will in this.template
+	 * Load HTML template and use it to populate this View's element
 	 * 
 	 * @param 	{String}	url			A string containing the URL to which the request is sent
-	 * @param 	{Object}	data		A plain object or string that is sent to the server with the request
-	 * @param 	{Function} 	callback	Callback in format function(responseText, textStatus, xmlHttpRequest)
-	 * 
-	 * @see					https://api.jquery.com/load/
 	 */
-	loadTemplate: function(url, data, callbackFunction)
+	loadTemplate: function(url)
 	{
+		url || (url = this.templateUrl);
+		
 		this.unbindView();
 		
-		var completeHandler = this.bind(function(response, status, xhr)
+		if (this.templateCacheEnabled !== false && View__templateCache[url])
 		{
-			this.template = response;
+			this.$el.html(View__templateCache[url]);
+			this.__initView();
 			
-			if (!!callbackFunction)
+			return this;
+		}
+		
+		var loadHandler = this.bind(function(response, status, xhr)
+		{
+			if (status == 'error')
 			{
-				callbackFunction.apply(this, arguments);
+				this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.TEMPLATE_ERROR));
+				this.$el.empty();
+			}
+			else
+			{
+				if (this.templateCacheEnabled !== false)
+				{
+					View__templateCache[url] = response;
+				}
+				
+				this.$el.html(response);
 			}
 			
 			this.__initView();
 		});
 		
-		this.$el.load(url, data, completeHandler);
-	},	
+		this.$el.load(url, undefined, loadHandler);
+		
+		return this;
+	},
 	
 	toString: function()
 	{
@@ -440,6 +511,8 @@ conbo.View = conbo.Glimpse.extend(
 		{
 			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.INIT));
 		}));
+		
+		return this;
 	},
 	
 	/**
@@ -463,6 +536,8 @@ conbo.View = conbo.Glimpse.extend(
 			.addClass('cb-view '+(this.className||''))
 			.attr(attrs);
 			;
+		
+		return this;
 	},
 	
 	__getParent: function(findApp)
@@ -482,8 +557,10 @@ conbo.View = conbo.Glimpse.extend(
 		{
 			return el.cbView;
 		}
+		
+		return undefined;
 	},
-	
+
 });
 
 __denumerate(conbo.View.prototype);
