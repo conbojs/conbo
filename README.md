@@ -1,6 +1,6 @@
 ConboJS is the best JavaScript MVC framework you've never heard of.
 
-It is a lightweight MVC application framework for JavaScript for use with modern browsers which enables developers a take a structured, decoupled, class based approach to application development, in a way that should be be familiar to anyone with experience of languages like ActionScript/Flex, C# or Java.
+It is a lightweight MVC application framework for JavaScript for use with modern browsers which enables developers a take a structured, decoupled, class based approach to application development, in a way that should be be familiar to anyone with experience of languages like ActionScript/Flex, C#/XAML or Java.
 
 Features include extendible classes, event bus, dependency injection, data binding, command pattern, pseudo-interfaces and an easy to use event model with scoped event handling, plus simple view state management.
 
@@ -53,7 +53,7 @@ conbo('com.example.app', window, document, navigator, function(window, document,
 Extendible classes
 ------------------
 
-There's no messing about with prototypes in ConboJS, instead all of your classes simply extend from another, for example:
+There's no messing about with prototypes in ConboJS, all of your classes simply extend from another, for example:
 
 ```javascript
 var MyClass = conbo.Class.extend
@@ -63,6 +63,18 @@ var MyClass = conbo.Class.extend
 		console.log('Welcome to my class!');
 	}
 });
+```
+
+Or if you're using ES2015:
+
+```javascript
+class MyClass extends conbo.Class
+{
+	initialize()
+	{
+		console.log('Welcome to my class!');
+	}
+}
 ```
 
 Interfaces
@@ -121,10 +133,18 @@ example.MyView = conbo.View.extend
 </div>
 ```
 
+Or if you prefer to use custom tag names, simply use a hyphenated, lower case version of your `View` or `Glimpse` class name:
+
+```html
+<my-view>
+	<button cb-onclick="myClickHandler" cb-html="myButtonLabel"></button>
+</my-view>
+```
+
 Consistent event model
 ----------------------
 
-You don't have to remember how many arguments each event handler should have, or in which order they're supposed to be in, because ConboJS has a single, consistent DOM-like event model that offers predictable results.
+You don't have to remember how many arguments each event handler should have, or which order they're supposed to be in, because ConboJS has a single, consistent DOM-like event model that offers predictable results.
 
 All events fired by the framework are `conbo.ConboEvent` event objects, and you can easily create events of your own by using or extending the `conbo.Event` class, for example:
 
@@ -165,10 +185,13 @@ Dependencies
 Builds
 ------
 
-**conbo.js** (24KB minified+gzipped): Includes everything you need to build dynamic web application, including HttpService, RemoteHash and RemoteList classes for working with web services, and History and Router classes for browser integration.
+**conbo.js** (17KB minified+gzipped): Includes everything you need to build dynamic web application, including HttpService, RemoteHash and RemoteList classes for working with web services, and History and Router classes for browser integration.
 
-**conbo-lite.js** (<4KB minified+gzipped): A super-lightweight subset featuring extendible classes and consistent event model. The aim of this subset is to offer the benefits of Conbo's class structure and event model to users who want to create otherwise framework independent modules and code libraries.
+**conbo-lite.js** (8KB minified+gzipped): A super-lightweight subset featuring extendible classes and consistent event model. The aim of this subset is to offer the benefits of Conbo's class structure and event model to users who want to create otherwise framework independent modules and code libraries.
 
 Builds are created using Grunt, which requires Node.js; all required modules can be installed by running "npm install" from the command line in the project folder.
 
 The builds listed above can be created using the command `grunt`. Use `grunt watch`, or run `watch.cmd` (Windows) or `./watch.sh` (Mac, Linux) to auto-build as you edit.
+
+**GitHub** https://github.com/mesmotronic/conbo
+**Docs** https://conbo.mesmotronic.com/
