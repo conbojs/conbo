@@ -55,6 +55,8 @@ Extendible classes
 
 There's no messing about with prototypes in ConboJS, all of your classes simply extend from another, for example:
 
+**JavaScript (ES5)**
+
 ```javascript
 var MyClass = conbo.Class.extend
 ({
@@ -65,7 +67,7 @@ var MyClass = conbo.Class.extend
 });
 ```
 
-Or if you're using ES2015:
+**ES2015**
 
 ```javascript
 class MyClass extends conbo.Class
@@ -133,7 +135,7 @@ example.MyView = conbo.View.extend
 </div>
 ```
 
-Or if you prefer to use custom tag names, simply use a hyphenated, lower case version of your `View` or `Glimpse` class name:
+Or, if you prefer to use custom tag names, simply use a hyphenated, lower case version of your `View` or `Glimpse` class name:
 
 ```html
 <my-view>
@@ -141,36 +143,16 @@ Or if you prefer to use custom tag names, simply use a hyphenated, lower case ve
 </my-view>
 ```
 
-Consistent event model
-----------------------
+Consistent, scoped events
+-------------------------
 
-You don't have to remember how many arguments each event handler should have, or which order they're supposed to be in, because ConboJS has a single, consistent DOM-like event model that offers predictable results.
+With ConboJS you don't have to remember how many arguments each event handler should have or the order they're supposed to be in, because there's a single, consistent DOM-like event model that offers predictable results, even enabling you to set the value to use as `this` when the callback is executed.
 
 All events fired by the framework are `conbo.ConboEvent` event objects, and you can easily create events of your own by using or extending the `conbo.Event` class, for example:
 
 ```javascript
 foo.addEventListener("myEvent", this.myFunction, this);
 foo.dispatchEvent(new conbo.Event("myEvent"));
-```
-
-ES2015
-------
-
-If you're already using ES2015, or a transpiler like [Babel](https://babeljs.io/), you can import ConboJS into your ES2015 projects in the same way as any other ES2015 module and all ConboJS classes can be used with the standard `class...extends` syntax:
-
-```javascript
-import {conbo} from 'conbo';
-
-conbo('com.example.es2015', function(undefined)
-{
-	class MyClass extends conbo.Class
-	{
-		// Your code here
-	}
-	
-	// Properties in the return Object are automatically added to the namespace (optional)
-	return {MyClass:MyClass};
-}
 ```
 
 Dependencies
