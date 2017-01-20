@@ -1,4 +1,4 @@
-![ConboJS](https://raw.githubusercontent.com/mesmotronic/conbo/dev/img/conbo.svg)
+![ConboJS](https://raw.githubusercontent.com/mesmotronic/conbo/dev/img/conbo.png)
 
 ConboJS is the best JavaScript MVC framework you've never heard of.
 
