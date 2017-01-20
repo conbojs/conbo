@@ -6,10 +6,10 @@
 <path fill="#016699" d="M256,224c0,17.674-14.326,32-32,32H32c-17.673,0-32-14.326-32-32V32C0,14.327,14.327,0,32,0h192
 	c17.674,0,32,14.327,32,32V224z"/>
 <g>
-	<circle fill="none" stroke="#FFFFFF" stroke-width="11.875" stroke-miterlimit="10" cx="73.969" cy="128" r="47.5"/>
-	<rect x="108.746" y="110.188" fill="#016699" width="35.625" height="35.625"/>
-	<circle fill="#FFFFFF" cx="73.969" cy="128" r="29.688"/>
-	<circle fill="none" stroke="#FFFFFF" stroke-width="11.875" stroke-miterlimit="10" cx="199.844" cy="128" r="29.688"/>
-	<line fill="none" stroke="#FFFFFF" stroke-width="11.875" stroke-miterlimit="10" x1="73.969" y1="128" x2="170.156" y2="128"/>
+	<circle fill="none" stroke="#FFFFFF" stroke-width="11.875" stroke-miterlimit="10" cx="81.813" cy="128" r="47.5"/>
+	<rect x="108.402" y="108" fill="#016699" width="40" height="40"/>
+	<circle fill="#FFFFFF" cx="81.813" cy="128" r="24"/>
+	<circle fill="none" stroke="#FFFFFF" stroke-width="13.2" stroke-miterlimit="10" cx="188.688" cy="128" r="33"/>
+	<line fill="none" stroke="#FFFFFF" stroke-width="10.4069" stroke-miterlimit="10" x1="81.813" y1="128" x2="155.688" y2="128"/>
 </g>
 </svg>
