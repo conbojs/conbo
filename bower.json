@@ -12,6 +12,7 @@
 	"license": "MIT",
 	"ignore": [
 		"docs",
+		"img",
 		"examples",
 		"src",
 		"test",
