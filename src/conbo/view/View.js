@@ -449,27 +449,30 @@ conbo.View = conbo.Glimpse.extend(
 			return this;
 		}
 		
-		var loadHandler = this.bind(function(response, status, xhr)
+		var resultHandler = function(event)
 		{
-			if (status == 'error')
+			var result = event.result;
+			
+			if (this.templateCacheEnabled !== false)
 			{
-				this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.TEMPLATE_ERROR));
-				$el.empty();
-			}
-			else
-			{
-				if (this.templateCacheEnabled !== false)
-				{
-					View__templateCache[url] = response;
-				}
-				
-				$el.html(response);
+				View__templateCache[url] = result;
 			}
 			
+			$el.html(result);
 			this.__initView();
-		});
+		};
 		
-		$el.load(url, undefined, loadHandler);
+		var faultHandler = function(event)
+		{
+			$el.empty();
+			
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.TEMPLATE_ERROR));
+			this.__initView();
+		};
+		
+		conbo.httpRequest({url:url, dataType:'text'})
+			.then(resultHandler, faultHandler, this)
+			;
 		
 		return this;
 	},
