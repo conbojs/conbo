@@ -69,7 +69,10 @@ conbo('ns', function()
 		 * the application's context (event bus); uses vanilla conbo.Context
 		 * if not specified
 		 */
-		contextClass: ns.MyContext,
+		get contextClass()
+		{
+			return ns.MyContext;
+		},
 		
 		/**
 		 * Entry point

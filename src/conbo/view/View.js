@@ -271,7 +271,7 @@ conbo.View = conbo.Glimpse.extend(
 	},
 	
 	/**
-	 * Take the View's element element out of the DOM
+	 * Take the View's element element from of the DOM
 	 */
 	detach: function() 
 	{
@@ -437,13 +437,13 @@ conbo.View = conbo.Glimpse.extend(
 	{
 		url || (url = this.templateUrl);
 		
-		var el = this.el;
+		var $el = this.$el;
 		
 		this.unbindView();
 		
 		if (this.templateCacheEnabled !== false && View__templateCache[url])
 		{
-			el.innerHTML = View__templateCache[url];
+			$el.html(View__templateCache[url]);
 			this.__initView();
 			
 			return this;
@@ -454,7 +454,7 @@ conbo.View = conbo.Glimpse.extend(
 			if (status == 'error')
 			{
 				this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.TEMPLATE_ERROR));
-				el.innerHTML = '';
+				$el.empty();
 			}
 			else
 			{
@@ -463,13 +463,13 @@ conbo.View = conbo.Glimpse.extend(
 					View__templateCache[url] = response;
 				}
 				
-				el.innerHTML = response;
+				$el.html(response);
 			}
 			
 			this.__initView();
 		});
 		
-		this.$el.load(url, undefined, loadHandler);
+		$el.load(url, undefined, loadHandler);
 		
 		return this;
 	},

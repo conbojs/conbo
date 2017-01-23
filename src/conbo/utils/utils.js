@@ -753,18 +753,32 @@
 	 */
 	conbo.bindAll = function(obj, regExp)
 	{
-		var isRegExp = regExp instanceof RegExp,
-			funcs = slice.call(arguments, 1);
+		var isRegExp = regExp instanceof RegExp;
+		var funcs = slice.call(arguments, 1);
 		
 		if (isRegExp || funcs.length === 0) 
 		{
 			funcs = conbo.functions(obj);
-			if (isRegExp) funcs = conbo.filter(funcs, function(f) { return regExp.test(f); });
+			
+			if (isRegExp) 
+			{
+				funcs = conbo.filter(funcs, function(f) 
+				{
+					return regExp.test(f); 
+				});
+			}
+			else
+			{
+				funcs = conbo.filter(funcs, function(f)
+				{
+					return !conbo.isAccessor(obj, f) && !conbo.isNative(obj[f]);
+				});
+			}
 		}
 		
 		funcs.forEach(function(f)
 		{
-			obj[f] = conbo.bind(obj[f], obj); 
+			obj[f] = conbo.bind(obj[f], obj);
 		});
 		
 		return obj;
@@ -954,7 +968,7 @@
 		
 		allKeys.forEach(function(key)
 		{
-			if (conbo.isFunction(obj[key])) 
+			if (conbo.isFunction(obj[key]))
 			{
 				names.push(key);
 			}
@@ -1970,7 +1984,7 @@
 	 * Is the specified property explicitely bindable?
 	 * 
 	 * @memberof	conbo
-	 * @returns		Boolean
+	 * @returns		{boolean}
 	 */
 	conbo.isBindable = function(obj, propName)
 	{
@@ -1981,6 +1995,17 @@
 		
 		return !!(obj.__lookupSetter__(propName) || {}).bindable;
 	};
+	
+	/**
+	 * Is the specified function native?
+	 * 
+	 * @memberof	conbo
+	 * @returns		{boolean}	true if it's native, false if it's user defined
+	 */
+	conbo.isNative = function(func) 
+	{
+		return !('prototype' in func);
+	}
 	
 	/**
 	 * Parse a template
@@ -2086,7 +2111,6 @@
 	});
 	
 })();
-
 
 /*
  * Internal utility methods
