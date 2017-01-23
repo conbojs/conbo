@@ -101,10 +101,9 @@ conbo.View = conbo.Glimpse.extend(
 
 	__postInitialize: function(options)
 	{
-		if (this.hasContent)
-		{
-			this.__content =  this.$el.html();
-		}
+		__definePrivateProperty(this, '__initialized', true);
+		
+		this.__content =  this.el.innerHTML;
 		
 		if (this.autoInitTemplate !== false)
 		{
@@ -438,11 +437,13 @@ conbo.View = conbo.Glimpse.extend(
 	{
 		url || (url = this.templateUrl);
 		
+		var el = this.el;
+		
 		this.unbindView();
 		
 		if (this.templateCacheEnabled !== false && View__templateCache[url])
 		{
-			this.$el.html(View__templateCache[url]);
+			el.innerHTML = View__templateCache[url];
 			this.__initView();
 			
 			return this;
@@ -453,7 +454,7 @@ conbo.View = conbo.Glimpse.extend(
 			if (status == 'error')
 			{
 				this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.TEMPLATE_ERROR));
-				this.$el.empty();
+				el.innerHTML = '';
 			}
 			else
 			{
@@ -462,7 +463,7 @@ conbo.View = conbo.Glimpse.extend(
 					View__templateCache[url] = response;
 				}
 				
-				this.$el.html(response);
+				el.innerHTML = response;
 			}
 			
 			this.__initView();
@@ -496,13 +497,15 @@ conbo.View = conbo.Glimpse.extend(
 			attrs.id = this.id;
 		}
 		
-		el = element;
+		var el = element;
+		var classList = el.classList;
+		
 		el.cbView = this;
-		el.classList.add('cb-view');
+		classList.add('cb-view');
 		
 		if (this.className)
 		{
-			el.classList.add(this.className);
+			classList.add.apply(classList, this.className.split(' '));
 		}
 		
 		conbo.setValues(el, attrs);
@@ -520,7 +523,7 @@ conbo.View = conbo.Glimpse.extend(
 	{
 		if (this.hasTemplate && this.hasContent)
 		{
-			this.$content.html(this.__content);
+			this.content.innerHTML = this.__content;
 		}
 		
 		delete this.__content;
@@ -531,10 +534,9 @@ conbo.View = conbo.Glimpse.extend(
 		
 		conbo.defer(this.bind(function()
 		{
-			__definePrivateProperty(this, '__initialized', true);
-			
-			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.INIT)); // Deprecated, use CREATION_COMPLETE
-			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CREATION_COMPLETE));
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.INIT)) // Deprecated: use CREATION_COMPLETE
+				.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CREATION_COMPLETE))
+				;
 		}));
 		
 		return this;

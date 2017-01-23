@@ -70,11 +70,10 @@ conbo.Glimpse = conbo.EventDispatcher.extend(
 			attrs.id = this.id;
 		}
 		
+		var el = element;
 		var classList = el.classList;
 		
-		el = element;
 		el.cbGlimpse = this;
-		
 		classList.add('cb-glimpse');
 		
 		if (this.className)

@@ -559,8 +559,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			
 			keys.forEach(function(key)
 			{
-				type = conbo.toUnderscoreCase(key, '-');
-				
+				var type = conbo.toUnderscoreCase(key, '-');
 				var typeSplit = type.split('-');
 				
 				if (typeSplit.length < 2 
@@ -743,7 +742,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 				{
 					// Gets the Context of the "closest" parent View
 					var closestView = $el.closest('.cb-view')[0];
-						context = closestView ? closestView.cbView.subcontext : rootView.subcontext;
+					var context = closestView ? closestView.cbView.subcontext : rootView.subcontext;
 					
 					new classReference({el:el, context:context});
 				}
