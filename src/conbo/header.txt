@@ -1,4 +1,4 @@
-(function(window, document, factory)
+(function(window, document, factory, undefined)
 {
 	/* Universal Module Definition (UMD) */
 
@@ -13,19 +13,12 @@
 	// Common.js & Node.js
 	else if (typeof module != 'undefined' && module.exports)
 	{
-		if (document)
-		{
-    		module.exports = factory(window, document, require('jquery'));
-    	}
-    	else
-    	{
-    		module.exports = factory(window);
-    	}
+   		module.exports = factory(window, document, document ? require('jquery') : undefined);
     }
 	// Global
 	else
 	{
-		window.conbo = factory(window, document, window.$);
+		window.conbo = factory(window, document, window.jQuery);
 	}
 	
 })(this, this.document, function(window, document, $, undefined)

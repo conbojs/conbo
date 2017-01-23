@@ -21,7 +21,7 @@
 		window.conbo = factory(window, document);
 	}
 	
-})(this, this.document, function(window, document, undefined)
+})(this, this.document, function(window, document, $, undefined)
 {
 	'use strict';
 	
