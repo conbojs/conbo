@@ -504,14 +504,10 @@ conbo.View = conbo.Glimpse.extend(
 		var $el = $(el);
 		
 		el.cbView = this;
+		
 		$el.addClass('cb-view');
-		
-		if (this.className)
-		{
-			$el.addClass(this.className);
-		}
-		
-		conbo.setValues(el, attrs);
+		$el.attr(attrs);
+		$el.addClass(this.className);
 		
 		__definePrivateProperty(this, '__el', el);
 		
