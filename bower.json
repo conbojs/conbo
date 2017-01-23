@@ -25,7 +25,8 @@
 		"watch.sh",
 		"build.cmd",
 		"build-docs.cmd",
-		"watch.cmd"
+		"watch.cmd",
+		"ROADMAP.md"
 	],
 	"keywords": [
 		"binding",

@@ -501,14 +501,14 @@ conbo.View = conbo.Glimpse.extend(
 		}
 		
 		var el = element;
-		var classList = el.classList;
+		var $el = $(el);
 		
 		el.cbView = this;
-		classList.add('cb-view');
+		$el.addClass('cb-view');
 		
 		if (this.className)
 		{
-			classList.add.apply(classList, this.className.split(' '));
+			$el.addClass(this.className);
 		}
 		
 		conbo.setValues(el, attrs);

@@ -143,11 +143,11 @@ conbo.AttributeBindings = conbo.Class.extend(
 			conbo.warn('cb-class attributes must specify one or more CSS classes in the format cb-class="myProperty:class-name"');
 		}
 		
-		var classList = el.classList;
+		var $el = $(el);
 		
 		!!value
-			? classList.add.apply(classList, className.split(' '))
-			: classList.remove.apply(classList, className.split(' '))
+			? $el.addClass(className)
+			: $el.removeClass(className)
 			;
 	},
 	
