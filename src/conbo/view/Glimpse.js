@@ -71,16 +71,9 @@ conbo.Glimpse = conbo.EventDispatcher.extend(
 		}
 		
 		var el = element;
-		var classList = el.classList;
-		var classNames = (this.className || '').split(' ');
 		
+		el.className += ' cb-glimpse '+(this.className || '');
 		el.cbGlimpse = this;
-		classList.add('cb-glimpse');
-		
-		classNames.forEach(function(className)
-		{
-			classList.add(className);
-		});
 		
 		conbo.setValues(el, attrs);
 		
