@@ -89,7 +89,7 @@ conbo.ConboEvent = conbo.Event.extend(
 	/** An error occurred while loading the template */
 	TEMPLATE_ERROR:			'templateerror',
 
-	/** Fired by an element after having one or more property bound to it by Conbo */
+	/** Fired by an element after having one or more property bound to it */
 	BIND:					'bind',
 
 	/** All elements in HTML have been bound to the View */
@@ -98,9 +98,18 @@ conbo.ConboEvent = conbo.Event.extend(
 	/** All elements in HTML have been unbound from the View */
 	UNBOUND:				'unbound',			
 
-	/** For a View, this means template loaded, elements bound, DOM rendered */
-	INIT:					'init',				  
+	/** 
+	 * For a View, this means template loaded, elements bound, DOM rendered
+	 * @deprecated
+	 * @see		conbo.ConboEvent.CREATION_COMPLETE 
+	 */
+	INIT:					'init',
 
+	/** 
+	 * View template loaded, elements bound, DOM rendered
+	 */
+	CREATION_COMPLETE:		'creationcomplete',
+	
 	/** The View has been detached from the DOM */
 	DETACH:					'detach',
 	

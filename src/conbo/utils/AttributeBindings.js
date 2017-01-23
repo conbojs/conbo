@@ -58,11 +58,11 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 */
 	cbHide: function(el, value)
 	{
-		var $el = $(el);
+		var classList = el.classList;
 		
 		!!value
-			? $el.addClass('cb-hide')
-			: $el.removeClass('cb-hide');
+			? classList.add('cb-hide')
+			: classList.remove('cb-hide');
 	},
 	
 	/**
@@ -85,11 +85,11 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 */
 	cbExclude: function(el, value)
 	{
-		var $el = $(el);
+		var classList = el.classList;
 		
 		!!value
-			? $el.addClass('cb-exclude')
-			: $el.removeClass('cb-exclude');
+			? classList.add('cb-exclude')
+			: classList.remove('cb-exclude');
 	},
 	
 	/**
@@ -143,11 +143,12 @@ conbo.AttributeBindings = conbo.Class.extend(
 			conbo.warn('cb-class attributes must specify one or more CSS classes in the format cb-class="myProperty:class-name"');
 		}
 		
-		var $el = $(el);
+		var classList = el.classList;
 		
 		!!value
-			? $el.addClass(className)
-			: $el.removeClass(className);
+			? classList.add.apply(classList, className.split(' '))
+			: classList.remove.apply(classList, className.split(' '))
+			;
 	},
 	
 	/**
@@ -159,19 +160,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 */
 	cbClasses: function(el, value)
 	{
-		var $el = $(el);
-		
-		if (el.cbClasses)
-		{
-			$el.removeClass(el.cbClasses);
-		}
-		
-		el.cbClasses = value;
-		
-		if (value)
-		{
-			$el.addClass(value);
-		}
+		el.className = value;
 	},
 	
 	/**
@@ -215,7 +204,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 		
 		var elements = el.cbRepeat.elements || [];
 		
-		$el.removeClass('cb-exclude');
+		el.classList.remove('cb-exclude');
 		
 		if (el.cbRepeat.list != values && values instanceof conbo.List)
 		{
@@ -285,7 +274,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 			
 			var view = new viewClass(conbo.setValues(viewOptions, options));
 			
-			view.$el.addClass('cb-repeat');
+			view.el.classList.add('cb-repeat');
 			
 			elements.push(view.el);
 		};
@@ -296,7 +285,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 		
 		elements.length
 			? $el.detach()
-			: $el.addClass('cb-exclude');
+			: el.classList.add('cb-exclude');
 	},
 	
 	/**

@@ -1874,7 +1874,7 @@
 	};
 	
 	/**
-	 * Load a JavaScript file and execute it
+	 * Load a JavaScript file and executes it
 	 * 
 	 * @memberof	conbo
 	 * @param 		{String}	url		The JavaScript file's URL
@@ -1882,24 +1882,11 @@
 	 */
 	conbo.loadScript = function(url)
 	{
-		if (!$)
-		{
-			conbo.error('conbo.loadScript requires jQuery');
-			return;
-		}
-		
-		var promise = new conbo.Promise();
-		
-		$.getScript(url).done(function(script, status)
-		{
-			promise.dispatchResult(script);
-		})
-		.fail(function(xhr, settings, exception)
-		{
-			promise.dispatchFault(exception);
+		return conbo.httpRequest
+		({
+			url: url,
+			dataType: "script"
 		});
-		
-		return promise;
 	};
 	
 	/*
@@ -2186,10 +2173,12 @@ var __defineProperty = function(obj, propName, value, getter, setter, enumerable
 };
 
 /**
- * Define property that can't be enumerated
+ * Used by ConboJS to define private and internal properties (usually prefixed 
+ * with an underscore) that can't be enumerated
+ * 
  * @private
  */
-var __defineUnenumerableProperty = function(obj, propName, value)
+var __definePrivateProperty = function(obj, propName, value)
 {
 	if (arguments.length == 2)
 	{
@@ -2200,16 +2189,15 @@ var __defineUnenumerableProperty = function(obj, propName, value)
 	return this;
 };
 
-
 /**
  * Define properties that can't be enumerated
  * @private
  */
-var __defineUnenumerableProperties = function(obj, values)
+var __definePrivateProperties = function(obj, values)
 {
 	for (var key in values)
 	{
-		__defineUnenumerableProperty(obj, key, values[key]);
+		__definePrivateProperty(obj, key, values[key]);
 	}
 	
 	return this;

@@ -6,6 +6,7 @@
  */
 conbo.Class = function(options) 
 {
+	this.declarations.apply(this, arguments);
 	this.preinitialize.apply(this, arguments);
 	this.initialize.apply(this, arguments);
 };
@@ -16,18 +17,17 @@ conbo.Class = function(options)
 conbo.Class.prototype =
 {
 	/**
-	 * Preinitialize
-	 * 
-	 * If the constructor has now been overridden, preinitialize is called 
-	 * before any code in the constructor has been run
+	 * Declarations is used to declare instance properties used by this class 
+	 */
+	declarations: function() {},
+	
+	/**
+	 * Preinitialize is called before any code in the constructor has been run
 	 */
 	preinitialize: function() {},
 	
 	/**
-	 * Initialize (entry point)
-	 * 
-	 * If the constructor has now been overridden, initialize is called 
-	 * immediately after the constructor has completed
+	 * Initialize (entry point) is called immediately after the constructor has completed
 	 */
 	initialize: function() {},
 	

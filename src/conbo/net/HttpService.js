@@ -69,30 +69,20 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	 */
 	call: function(command, data, method, resultClass)
 	{
-		var contentType;
-		
 		data = conbo.clone(data || {});
-		method || (method = 'GET');
-		resultClass || (resultClass = this.resultClass);
-		contentType = this.contentType || conbo.HttpService.CONTENT_TYPE_JSON;
 		command = this.parseUrl(command, data);
 		data = this.encodeFunction(data, method);
 		
-		var promise = $.ajax
+		var token = conbo.httpRequest
 		({
 			data: data,
-			type: method,
+			type: method || 'GET',
 			headers: this.headers,
 			url: this.rootUrl+command,
-			contentType: contentType,
+			contentType: this.contentType || conbo.HttpService.CONTENT_TYPE_JSON,
 			dataType: this.dataType,
-			dataFilter: this.decodeFunction
-		});
-		
-		var token = new conbo.AsyncToken
-		({
-			promise: promise, 
-			resultClass: resultClass, 
+			dataFilter: this.decodeFunction,
+			resultClass: resultClass || this.resultClass, 
 			makeObjectsBindable: this.makeObjectsBindable
 		});
 		

@@ -23,12 +23,13 @@ conbo.ConboClass = conbo.Class.extend(
 		var args = conbo.toArray(arguments);
 		if (args[0] === undefined) args[0] = {};
 		
+		this.declarations.apply(this, args);
 		this.preinitialize.apply(this, args);
 		this.__construct.apply(this, args);
 		
 		this.initialize.apply(this, args);
 		conbo.makeAllBindable(this, this.bindable);
-		this.__initialized.apply(this, args);
+		this.__postInitialize.apply(this, args);
 	},
 	
 	toString: function()
@@ -36,8 +37,15 @@ conbo.ConboClass = conbo.Class.extend(
 		return 'conbo.ConboClass';
 	},
 	
+	/**
+	 * @private
+	 */
 	__construct: function() {},
-	__initialized: function() {}
+	
+	/**
+	 * @private
+	 */
+	__postInitialize: function() {}
 	
 });
 

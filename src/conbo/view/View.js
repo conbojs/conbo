@@ -76,13 +76,12 @@ conbo.View = conbo.Glimpse.extend(
 				'attributes',
 				'className', 
 				'data', 
-				'el', 
 				'id', 
 				'tagName', 
 				'template', 
 				'templateUrl',
 				'templateCacheEnabled',
-				'autoInitTemplate'
+				'autoInitTemplate',
 			],
 			
 			// Adds interface properties
@@ -96,11 +95,11 @@ conbo.View = conbo.Glimpse.extend(
 		conbo.setValues(this, conbo.pick(options, viewOptions));
 		conbo.makeBindable(this, ['currentState']);
 		
-		this.__updateEl();
 		this.context = options.context;
+		this.__setEl(options.el || document.createElement(this.tagName));
 	},
 
-	__initialized: function(options)
+	__postInitialize: function(options)
 	{
 		if (this.hasContent)
 		{
@@ -114,12 +113,43 @@ conbo.View = conbo.Glimpse.extend(
 	},
 	
 	/**
+	 * This View's element wrapped as a jQuery object
+	 * @deprecated
+	 */
+	get $el()
+	{
+		if (this.__el)
+		{
+			return $(this.el);
+		}
+	},
+	
+	/**
+	 * This View's element
+	 */
+	get el()
+	{
+		return this.__el;
+	},
+	
+	/**
+	 * Has this view completed its life cycle phases?
+	 */
+	get initialized()
+	{
+		return !!this.__initialized;
+	},
+	
+	/**
 	 * Returns a reference to the parent View of this View, based on this 
 	 * View element's position in the DOM
 	 */
 	get parent()
 	{
-		return this.__getParent();
+		if (this.initialized)
+		{
+			return this.__getParent();
+		}
 	},
 	
 	/**
@@ -128,7 +158,10 @@ conbo.View = conbo.Glimpse.extend(
 	 */
 	get parentApp()
 	{
-		return this.__getParent(true);
+		if (this.initialized)
+		{
+			return this.__getParent(true);
+		}
 	},
 	
 	/**
@@ -146,7 +179,7 @@ conbo.View = conbo.Glimpse.extend(
 	 */
 	get $content()
 	{
-		if (this.el)
+		if (this.initialized)
 		{
 			var $content = this.$('[cb-content]:first');
 			
@@ -280,52 +313,6 @@ conbo.View = conbo.Glimpse.extend(
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
 		
 		return this;
-	},
-	
-	/**
-	 * This View's element wrapped as a jQuery object
-	 */
-	get $el()
-	{
-		if ($)
-		{
-			return $(this.el);
-		}
-	},
-	
-	set $el(element)
-	{
-		this.el = element;
-	},
-	
-	/**
-	 * This View's element
-	 */
-	get el()
-	{
-		return this.__el;
-	},
-	
-	/**
-	 * Change the view's element (`this.el` property) and re-bind events
-	 */
-	set el(element)
-	{
-		var isBound = !!this.__bindings;
-		var el = this.__el;
-		var $el = $(element);
-		
-		if (!!el) delete el.cbView;
-		if (isBound) this.unbindView();
-		
-		el = $el[0];
-		el.cbView = this;
-		
-		__defineUnenumerableProperty(this, '__el', el);
-		
-		if (isBound) this.bindView();
-		
-		this.dispatchChange('el');
 	},
 	
 	/**
@@ -492,7 +479,42 @@ conbo.View = conbo.Glimpse.extend(
 	},
 	
 	/**
+	 * Set this View's element
+	 * @private
+	 */
+	__setEl: function(element)
+	{
+		if (element instanceof $)
+		{
+			element = element[0];
+		}
+		
+		var attrs = conbo.setValues({}, this.attributes);
+		
+		if (this.id && !element.id) 
+		{
+			attrs.id = this.id;
+		}
+		
+		el = element;
+		el.cbView = this;
+		el.classList.add('cb-view');
+		
+		if (this.className)
+		{
+			el.classList.add(this.className);
+		}
+		
+		conbo.setValues(el, attrs);
+		
+		__definePrivateProperty(this, '__el', el);
+		
+		return this;
+	},
+	
+	/**
 	 * Populate and render the View's HTML content
+	 * @private
 	 */
 	__initView: function()
 	{
@@ -509,58 +531,35 @@ conbo.View = conbo.Glimpse.extend(
 		
 		conbo.defer(this.bind(function()
 		{
-			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.INIT));
+			__definePrivateProperty(this, '__initialized', true);
+			
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.INIT)); // Deprecated, use CREATION_COMPLETE
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CREATION_COMPLETE));
 		}));
 		
 		return this;
 	},
 	
-	/**
-	 * Ensure that the View has a DOM element to render and that its attributes,
-	 * ID and classes are set correctly using the `id`, `className` and 
-	 * `tagName` properties.
-	 * 
-	 * @private
-	 */
-	__updateEl: function() 
+	__getParent: function(selectApp)
 	{
-		var attrs = conbo.setValues({}, this.attributes);
-		
-		if (!this.el) 
-		{
-			if (this.id) attrs.id = this.id;
-			this.el = $('<'+this.tagName+'>');
-		}
-		
-		this.$el
-			.addClass('cb-view '+(this.className||''))
-			.attr(attrs);
-			;
-		
-		return this;
-	},
-	
-	__getParent: function(findApp)
-	{
-		if (!this.el || conbo.instanceOf(this, conbo.Application))
+		if (!this.el 
+			|| !this.el.parentElement 
+			|| conbo.instanceOf(this, conbo.Application)
+			)
 		{
 			return;
 		}
 		
-		var selector = findApp
-			? '.cb-app'
-			: '.cb-view';
-		
+		var selector = selectApp ? '.cb-app' : '.cb-view';
 		var el = this.$el.parents(selector)[0];
+		var parentApp = this.parentApp;
 		
-		if (el && (findApp || this.parentApp.$el.has(el).length))
+		if (el && (selectApp || (parentApp && parentApp.$el.has(el).length)))
 		{
 			return el.cbView;
 		}
-		
-		return undefined;
-	},
-
+	}
+	
 });
 
 __denumerate(conbo.View.prototype);

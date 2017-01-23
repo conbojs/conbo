@@ -63,6 +63,7 @@ module.exports = function (grunt)
 						'src/conbo/view/ItemRenderer.js',
 						'src/conbo/core/Application.js',
 						'src/conbo/core/Command.js',
+						'src/conbo/net/httpRequest.js',
 						'src/conbo/net/HttpService.js',
 						'src/conbo/net/AsyncToken.js',
 						'src/conbo/net/Responder.js',

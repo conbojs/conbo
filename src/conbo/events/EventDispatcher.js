@@ -59,7 +59,7 @@ conbo.EventDispatcher = conbo.ConboClass.extend(
 	{
 		if (!arguments.length)
 		{
-			__defineUnenumerableProperty(this, '__queue', {});
+			__definePrivateProperty(this, '__queue', {});
 			return this;
 		}
 		
@@ -171,7 +171,7 @@ conbo.EventDispatcher = conbo.ConboClass.extend(
 	__addEventListener: function(type, handler, scope, priority, once)
 	{
 		if (type == '*') type = 'all';
-		if (!this.__queue) __defineUnenumerableProperty(this, '__queue', {});
+		if (!this.__queue) __definePrivateProperty(this, '__queue', {});
 		
 		if (!this.hasEventListener(type, handler, scope))
 		{
@@ -226,5 +226,5 @@ conbo.EventDispatcher = conbo.ConboClass.extend(
 	
 }).implement(conbo.IInjectable);
 
-__defineUnenumerableProperty(conbo.EventDispatcher.prototype, 'bindable');
+__definePrivateProperty(conbo.EventDispatcher.prototype, 'bindable');
 __denumerate(conbo.EventDispatcher.prototype);

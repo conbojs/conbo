@@ -1,17 +1,45 @@
-(function(window, document, factory)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: conbo.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: conbo.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>(function(window, document, factory)
 {
 	/* Universal Module Definition (UMD) */
 
     // AMD (recommended)
-    if (typeof define == 'function' && define.amd) 
+    if (typeof define == 'function' &amp;&amp; define.amd) 
 	{
 		define('conbo', ['jquery'], function($)
 		{
 			return factory(window, document, $);
 		});
 	}
-	// Common.js & Node.js
-	else if (typeof module != 'undefined' && module.exports)
+	// Common.js &amp; Node.js
+	else if (typeof module != 'undefined' &amp;&amp; module.exports)
 	{
 		if (document)
 		{
@@ -89,7 +117,7 @@ var conbo = function(namespace)
 	{
 		var obj = func.apply(ns, params);
 		
-		if (conbo.isObject(obj) && !conbo.isArray(obj))
+		if (conbo.isObject(obj) &amp;&amp; !conbo.isArray(obj))
 		{
 			ns.extend(obj);
 		}
@@ -200,7 +228,7 @@ if (!!$)
 		
 		if (conbo.isIterable(obj)) 
 		{
-			for (i=0, length=obj.length; i<length; ++i) 
+			for (i=0, length=obj.length; i&lt;length; ++i) 
 			{
 				if (iterator.call(scope, obj[i], i, obj) === breaker) return;
 			}
@@ -209,7 +237,7 @@ if (!!$)
 		{
 			var keys = conbo.keys(obj);
 			
-			for (i=0, length=keys.length; i<length; i++) 
+			for (i=0, length=keys.length; i&lt;length; i++) 
 			{
 				if (iterator.call(scope, obj[keys[i]], keys[i], obj) === breaker) return;
 			}
@@ -234,7 +262,7 @@ if (!!$)
 		var results = [];
 		
 		if (obj == null) return results;
-		if (nativeMap && obj.map === nativeMap) return obj.map(iterator, scope);
+		if (nativeMap &amp;&amp; obj.map === nativeMap) return obj.map(iterator, scope);
 		
 		forEach(obj, function(value, index, list) 
 		{
@@ -318,7 +346,7 @@ if (!!$)
 		var results = [];
 		
 		if (obj == null) return results;
-		if (nativeFilter && obj.filter === nativeFilter) return obj.filter(predicate, scope);
+		if (nativeFilter &amp;&amp; obj.filter === nativeFilter) return obj.filter(predicate, scope);
 		
 		forEach(obj, function(value, index, list) 
 		{
@@ -361,11 +389,11 @@ if (!!$)
 		var result = true;
 		
 		if (obj == null) return result;
-		if (nativeEvery && obj.every === nativeEvery) return obj.every(predicate, scope);
+		if (nativeEvery &amp;&amp; obj.every === nativeEvery) return obj.every(predicate, scope);
 		
 		forEach(obj, function(value, index, list) 
 		{
-			if (!(result = result && predicate.call(scope, value, index, list))) return breaker;
+			if (!(result = result &amp;&amp; predicate.call(scope, value, index, list))) return breaker;
 		});
 		
 		return !!result;
@@ -385,7 +413,7 @@ if (!!$)
 		predicate || (predicate = conbo.identity);
 		var result = false;
 		if (obj == null) return result;
-		if (nativeSome && obj.some === nativeSome) return obj.some(predicate, scope);
+		if (nativeSome &amp;&amp; obj.some === nativeSome) return obj.some(predicate, scope);
 		forEach(obj, function(value, index, list) {
 			if (result || (result = predicate.call(scope, value, index, list))) return breaker;
 		});
@@ -449,7 +477,7 @@ if (!!$)
 	 */
 	conbo.max = function(obj, iterator, scope) 
 	{
-		if (!iterator && conbo.isArray(obj) && obj[0] === +obj[0] && obj.length < 65535) 
+		if (!iterator &amp;&amp; conbo.isArray(obj) &amp;&amp; obj[0] === +obj[0] &amp;&amp; obj.length &lt; 65535) 
 		{
 			return Math.max.apply(Math, obj);
 		}
@@ -478,7 +506,7 @@ if (!!$)
 	 */
 	conbo.min = function(obj, iterator, scope) 
 	{
-		if (!iterator && conbo.isArray(obj) && obj[0] === +obj[0] && obj.length < 65535) {
+		if (!iterator &amp;&amp; conbo.isArray(obj) &amp;&amp; obj[0] === +obj[0] &amp;&amp; obj.length &lt; 65535) {
 			return Math.min.apply(Math, obj);
 		}
 		
@@ -488,7 +516,7 @@ if (!!$)
 		{
 			var computed = iterator ? iterator.call(scope, value, index, list) : value;
 			
-			if (computed < lastComputed) 
+			if (computed &lt; lastComputed) 
 			{
 				result = value;
 				lastComputed = computed;
@@ -613,7 +641,7 @@ if (!!$)
 	 */
 	var flatten = function(input, shallow, output) 
 	{
-		if (shallow && conbo.every(input, conbo.isArray)) 
+		if (shallow &amp;&amp; conbo.every(input, conbo.isArray)) 
 		{
 			return concat.apply(output, input);
 		}
@@ -773,7 +801,7 @@ if (!!$)
 		
 		var result = {};
 		
-		for (var i = 0, length = list.length; i < length; i++) 
+		for (var i = 0, length = list.length; i &lt; length; i++) 
 		{
 			if (values) 
 			{
@@ -799,7 +827,7 @@ if (!!$)
 	 */
 	conbo.range = function(start, stop, step) 
 	{
-		if (arguments.length <= 1) 
+		if (arguments.length &lt;= 1) 
 		{
 			stop = start || 0;
 			start = 0;
@@ -811,7 +839,7 @@ if (!!$)
 		var idx = 0;
 		var range = new Array(length);
 
-		while(idx < length) 
+		while(idx &lt; length) 
 		{
 			range[idx++] = start;
 			start += step;
@@ -839,7 +867,7 @@ if (!!$)
 	{
 		var args;
 		
-		if (nativeBind && func.bind === nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
+		if (nativeBind &amp;&amp; func.bind === nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
 		if (!conbo.isFunction(func)) throw new TypeError();
 		
 		args = slice.call(arguments, 2);
@@ -873,12 +901,12 @@ if (!!$)
 			var position = 0;
 			var args = boundArgs.slice();
 			
-			for (var i = 0, length = args.length; i < length; i++) 
+			for (var i = 0, length = args.length; i &lt; length; i++) 
 			{
 				if (args[i] === conbo) args[i] = arguments[position++];
 			}
 			
-			while (position < arguments.length) args.push(arguments[position++]);
+			while (position &lt; arguments.length) args.push(arguments[position++]);
 			return func.apply(this, args);
 		};
 	};
@@ -977,7 +1005,7 @@ if (!!$)
 	{
 		if (!conbo.isObject(obj)) return [];
 		
-		if (nativeKeys && !useForIn)
+		if (nativeKeys &amp;&amp; !useForIn)
 		{
 			return nativeKeys(obj);
 		}
@@ -1073,7 +1101,7 @@ if (!!$)
 		var length = keys.length;
 		var values = new Array(length);
 		
-		for (var i = 0; i < length; i++)
+		for (var i = 0; i &lt; length; i++)
 		{
 			values[i] = obj[keys[i]];
 		}
@@ -1289,9 +1317,9 @@ if (!!$)
 				return +a == +b;
 			// RegExps are compared by their source patterns and flags.
 			case '[object RegExp]':
-				return a.source == b.source &&
-							 a.global == b.global &&
-							 a.multiline == b.multiline &&
+				return a.source == b.source &amp;&amp;
+							 a.global == b.global &amp;&amp;
+							 a.multiline == b.multiline &amp;&amp;
 							 a.ignoreCase == b.ignoreCase;
 		}
 		if (typeof a != 'object' || typeof b != 'object') return false;
@@ -1306,9 +1334,9 @@ if (!!$)
 		// Objects with different constructors are not equivalent, but `Object`s
 		// from different frames are.
 		var aCtor = a.constructor, bCtor = b.constructor;
-		if (aCtor !== bCtor && !(conbo.isFunction(aCtor) && (aCtor instanceof aCtor) &&
-														 conbo.isFunction(bCtor) && (bCtor instanceof bCtor))
-												&& ('constructor' in a && 'constructor' in b)) {
+		if (aCtor !== bCtor &amp;&amp; !(conbo.isFunction(aCtor) &amp;&amp; (aCtor instanceof aCtor) &amp;&amp;
+														 conbo.isFunction(bCtor) &amp;&amp; (bCtor instanceof bCtor))
+												&amp;&amp; ('constructor' in a &amp;&amp; 'constructor' in b)) {
 			return false;
 		}
 		// Add the first object to the stack of traversed objects.
@@ -1333,13 +1361,13 @@ if (!!$)
 					// Count the expected number of properties.
 					size++;
 					// Deep compare each member.
-					if (!(result = conbo.has(b, key) && eq(a[key], b[key], aStack, bStack))) break;
+					if (!(result = conbo.has(b, key) &amp;&amp; eq(a[key], b[key], aStack, bStack))) break;
 				}
 			}
 			// Ensure that both objects contain the same number of properties.
 			if (result) {
 				for (key in b) {
-					if (conbo.has(b, key) && !(size--)) break;
+					if (conbo.has(b, key) &amp;&amp; !(size--)) break;
 				}
 				result = !size;
 			}
@@ -1374,10 +1402,10 @@ if (!!$)
 	conbo.isEmpty = function(value)
 	{
 		return !value // 0, false, undefined, null, ""
-			|| (conbo.isArray(value) && value.length === 0) // []
-			|| (!isNaN(value) && !parseFloat(value)) // "0", "0.0", etc
-			|| (conbo.isObject(value) && !conbo.keys(value).length) // {}
-			|| (conbo.isObject(value) && 'length' in value && value.length === 0) // Arguments, List, etc
+			|| (conbo.isArray(value) &amp;&amp; value.length === 0) // []
+			|| (!isNaN(value) &amp;&amp; !parseFloat(value)) // "0", "0.0", etc
+			|| (conbo.isObject(value) &amp;&amp; !conbo.keys(value).length) // {}
+			|| (conbo.isObject(value) &amp;&amp; 'length' in value &amp;&amp; value.length === 0) // Arguments, List, etc
 			;
 	};
 	
@@ -1390,7 +1418,7 @@ if (!!$)
 	 */
 	conbo.isIterable = function(obj)
 	{
-		return obj && obj.length === +obj.length;
+		return obj &amp;&amp; obj.length === +obj.length;
 	};
 	
 	/**
@@ -1402,7 +1430,7 @@ if (!!$)
 	 */
 	conbo.isElement = function(obj) 
 	{
-		return !!(obj && obj.nodeType === 1);
+		return !!(obj &amp;&amp; obj.nodeType === 1);
 	};
 	
 	/**
@@ -1445,7 +1473,7 @@ if (!!$)
 	{
 		conbo.isArguments = function(obj) 
 		{
-			return !!(obj && conbo.has(obj, 'callee'));
+			return !!(obj &amp;&amp; conbo.has(obj, 'callee'));
 		};
 	}
 	
@@ -1467,7 +1495,7 @@ if (!!$)
 	 */
 	conbo.isFinite = function(obj) 
 	{
-		return isFinite(obj) && !isNaN(parseFloat(obj));
+		return isFinite(obj) &amp;&amp; !isNaN(parseFloat(obj));
 	};
 
 	/**
@@ -1479,7 +1507,7 @@ if (!!$)
 	 */
 	conbo.isNaN = function(obj) 
 	{
-		return conbo.isNumber(obj) && obj != +obj;
+		return conbo.isNumber(obj) &amp;&amp; obj != +obj;
 	};
 
 	/**
@@ -1624,8 +1652,8 @@ if (!!$)
 	 */
 	conbo.isSupported = 
 		window.addEventListener
-		&& !!Object.defineProperty 
-		&& !!Object.getOwnPropertyDescriptor;
+		&amp;&amp; !!Object.defineProperty 
+		&amp;&amp; !!Object.getOwnPropertyDescriptor;
 	
 	/**
 	 * Does nothing, returns undefined, that's it.
@@ -1695,15 +1723,15 @@ if (!!$)
 	
 	conbo.padLeft = function(value, minLength, padChar)
 	{
-		if (!padChar && padChar !== 0) padChar = ' ';
-		if (!value && value !== 0) value = '';
+		if (!padChar &amp;&amp; padChar !== 0) padChar = ' ';
+		if (!value &amp;&amp; value !== 0) value = '';
 		
 		minLength || (minLength = 2);
 		
 		padChar = padChar.toString().charAt(0);
 		string = value.toString();
 		
-		while (string.length < minLength)
+		while (string.length &lt; minLength)
 		{
 			string = padChar+string;
 		}
@@ -1750,7 +1778,7 @@ if (!!$)
 			s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
 		}
 		
-		if ((s[1] || '').length < prec) 
+		if ((s[1] || '').length &lt; prec) 
 		{
 			s[1] = s[1] || '';
 			s[1] += new Array(prec-s[1].length+1).join('0');
@@ -1794,9 +1822,9 @@ if (!!$)
 				: '';
 		}
 		
-		return string.replace(/[\u00A0-\u9999<>\&]/gim, function(char)
+		return string.replace(/[\u00A0-\u9999&lt;>\&amp;]/gim, function(char)
 		{
-			return '&#'+char.charCodeAt(0)+';';
+			return '&amp;#'+char.charCodeAt(0)+';';
 		});
 	};
 	
@@ -1811,7 +1839,7 @@ if (!!$)
 	{
 		if (!conbo.isString(string)) string = '';
 		
-		return string.replace(/&#(\d+);/g, function(match, dec) 
+		return string.replace(/&amp;#(\d+);/g, function(match, dec) 
 		{
 			return String.fromCharCode(dec);
 		});
@@ -1857,8 +1885,8 @@ if (!!$)
 	conbo.isClass = function(value, classReference)
 	{
 		return !!value 
-			&& typeof value == 'function' 
-			&& value.prototype instanceof (classReference || conbo.Class)
+			&amp;&amp; typeof value == 'function' 
+			&amp;&amp; value.prototype instanceof (classReference || conbo.Class)
 			;
 	};
 	
@@ -1894,11 +1922,11 @@ if (!!$)
 	 * Sorts the items in an array according to one or more fields in the array. 
 	 * The array should have the following characteristics:
 	 * 
-	 * <ul>
-	 * <li>The array is an indexed array, not an associative array.</li>
-	 * <li>Each element of the array holds an object with one or more properties.</li>
-	 * <li>All of the objects have at least one property in common, the values of which can be used to sort the array. Such a property is called a field.</li>
-	 * </ul>
+	 * &lt;ul>
+	 * &lt;li>The array is an indexed array, not an associative array.&lt;/li>
+	 * &lt;li>Each element of the array holds an object with one or more properties.&lt;/li>
+	 * &lt;li>All of the objects have at least one property in common, the values of which can be used to sort the array. Such a property is called a field.&lt;/li>
+	 * &lt;/ul>
 	 * 
 	 * @memberof	conbo
 	 * @param		{array}		array - The Array to sort
@@ -1909,7 +1937,7 @@ if (!!$)
 	{
 		options || (options = {});
 		
-		if (conbo.isArray(array) && fieldName)
+		if (conbo.isArray(array) &amp;&amp; fieldName)
 		{
 			array.sort(function(a, b)
 			{
@@ -1930,7 +1958,7 @@ if (!!$)
 				}
 				
 				// Sort
-				if (values[0] < values[1]) return -1;
+				if (values[0] &lt; values[1]) return -1;
 				if (values[0] > values[1]) return 1;
 				return 0;
 			});
@@ -1958,7 +1986,7 @@ if (!!$)
 		
 		var partials = conbo.rest(arguments);
 		
-		for (var p=0, c=partials.length; p<c; p++)
+		for (var p=0, c=partials.length; p&lt;c; p++)
 		{
 			classOrInterface = partials[p];
 			
@@ -2272,9 +2300,9 @@ var __defineProperty = function(obj, propName, value, getter, setter, enumerable
 		value = obj[propName];
 	}
 	
-	var nogs = !getter && !setter;
+	var nogs = !getter &amp;&amp; !setter;
 	
-	if (arguments.length < 6)
+	if (arguments.length &lt; 6)
 	{
 		enumerable = propName.indexOf('_') !== 0;
 	}
@@ -2407,7 +2435,7 @@ conbo.initDom = function(namespace, rootEl)
 	   		  ;
 	   		
 	   		if (appClass 
-	   			&& conbo.isClass(appClass, conbo.Application))
+	   			&amp;&amp; conbo.isClass(appClass, conbo.Application))
 	   		{
 	   			new appClass({el:el});
 	   		}
@@ -2429,11 +2457,11 @@ var __getObserverIndex = function(namespace, rootEl)
 {
 	var length = __observers.length;
 	
-	for (var i=0; i<length; i++)
+	for (var i=0; i&lt;length; i++)
 	{
 		var observer = __observers[i];
 		
-		if (observer[0] == namespace && observer[1] == rootEl)
+		if (observer[0] == namespace &amp;&amp; observer[1] == rootEl)
 		{
 			return i;
 		}
@@ -2477,7 +2505,7 @@ conbo.observeDom = function(namespace, rootEl)
 			var $node = $(node);
 			var appName = $node.cbAttrs().app;
 			
-			if (namespace[appName] && !$node.hasClass('cb-app'))
+			if (namespace[appName] &amp;&amp; !$node.hasClass('cb-app'))
 			{
 				new namespace[appName]({el:node});
 			}
@@ -2577,7 +2605,7 @@ if (!!$)
 			count = 0,
 			propertyName;
 		
-		for (var i=0; i<attrs.length; ++i)
+		for (var i=0; i&lt;attrs.length; ++i)
 		{
 			if (attrs[i].name.indexOf('cb-') !== 0) continue;
 			
@@ -2629,9 +2657,9 @@ if (!!$)
 			;
 		
 		if (!keys.length) return false;
-		if (!!attrs && !args.length) return true;
-		if (!!args[0] && !args[1]) return args[0] in attrs;
-		if (!!args[0] && !!args[1]) return attrs[args[0]] == args[1];
+		if (!!attrs &amp;&amp; !args.length) return true;
+		if (!!args[0] &amp;&amp; !args[1]) return args[0] in attrs;
+		if (!!args[0] &amp;&amp; !!args[1]) return attrs[args[0]] == args[1];
 		return false;
 	};
 	
@@ -2652,12 +2680,12 @@ if (!!$)
 	
 	$head.append
 	(
-		'<style id="cb-style" type="text/css">'+
+		'&lt;style id="cb-style" type="text/css">'+
 			'\n.cb-hide { visibility:hidden !important; }'+
 			'\n.cb-exclude { display:none !important; }'+
 			'\n.cb-disable { pointer-events:none !important; cursor:default !important; }'+
 			'\n.cb-app span { font:inherit; color:inherit; }'+
-		'\n</style>'
+		'\n&lt;/style>'
 	);
 }
 
@@ -2757,7 +2785,7 @@ conbo.Class.extend = function(protoProps, staticProps)
 	 * (the 'constructor' property in your `extend` definition), or defaulted
 	 * by us to simply call the parent's constructor.
 	 */
-	child = protoProps && conbo.has(protoProps, 'constructor')
+	child = protoProps &amp;&amp; conbo.has(protoProps, 'constructor')
 		? protoProps.constructor
 		: function() { return parent.apply(this, arguments); };
 	
@@ -3198,7 +3226,7 @@ conbo.ConboEvent = conbo.Event.extend(
 	/** The View has been detached from the DOM */
 	DETACH:					'detach',
 	
-	// Web Services & Promises
+	// Web Services &amp; Promises
 	
 	/** A result has been received */
 	RESULT:					'result',
@@ -3214,7 +3242,7 @@ __denumerate(conbo.ConboEvent.prototype);
  * Event Dispatcher
  * 
  * Event model designed to bring events into line with DOM events and those 
- * found in HTML DOM, jQuery and ActionScript 2 & 3, offering a more 
+ * found in HTML DOM, jQuery and ActionScript 2 &amp; 3, offering a more 
  * predictable, object based approach to event dispatching and handling
  * 
  * Should be used as the base class for any class that won't be used for 
@@ -3306,10 +3334,10 @@ conbo.EventDispatcher = conbo.ConboClass.extend(
 		var queue = this.__queue[type];
 		var length = queue.length;
 		
-		for (var i=0; i<length; i++)
+		for (var i=0; i&lt;length; i++)
 		{
 			if ((!handler || queue[i].handler == handler) 
-				&& (!scope || queue[i].scope == scope))
+				&amp;&amp; (!scope || queue[i].scope == scope))
 			{
 				return true;
 			}
@@ -3338,7 +3366,7 @@ conbo.EventDispatcher = conbo.ConboClass.extend(
 			event = new conbo.Event(event);
 		}
 		
-		if (!this.__queue || (!(event.type in this.__queue) && !this.__queue.all)) return this;
+		if (!this.__queue || (!(event.type in this.__queue) &amp;&amp; !this.__queue.all)) return this;
 		
 		if (!event.target) event.target = this;
 		event.currentTarget = this;
@@ -3346,7 +3374,7 @@ conbo.EventDispatcher = conbo.ConboClass.extend(
 		var queue = conbo.union(this.__queue[event.type] || [], this.__queue.all || []);
 		if (!queue || !queue.length) return this;
 		
-		for (var i=0, length=queue.length; i<length; ++i)
+		for (var i=0, length=queue.length; i&lt;length; ++i)
 		{
 			var value = queue[i];
 			var returnValue = value.handler.call(value.scope || this, event);
@@ -3407,10 +3435,10 @@ conbo.EventDispatcher = conbo.ConboClass.extend(
 		
 		var removeFromQueue = function(queue, key)
 		{
-			for (i=0; i<queue.length; i++)
+			for (i=0; i&lt;queue.length; i++)
 			{
 				if ((!queue[i].handler || queue[i].handler == handler)
-					&& (!queue[i].scope || queue[i].scope == scope))
+					&amp;&amp; (!queue[i].scope || queue[i].scope == scope))
 				{
 					queue.splice(i--, 1);
 				}
@@ -3524,7 +3552,7 @@ conbo.Context = conbo.EventDispatcher.extend(
 		
 		if (this.__mapMulti(eventType, commandClass, this.mapCommand)) return;
 		
-		if (this.__commands[eventType] && this.__commands[eventType].indexOf(commandClass) != -1)
+		if (this.__commands[eventType] &amp;&amp; this.__commands[eventType].indexOf(commandClass) != -1)
 		{
 			return;
 		}
@@ -4131,7 +4159,7 @@ conbo.List = conbo.EventDispatcher.extend(
 			});
 		});
 		
-		for (i=0; i<this.length; i++)
+		for (i=0; i&lt;this.length; i++)
 		{
 			define(i);
 		}
@@ -4149,7 +4177,7 @@ conbo.List = conbo.EventDispatcher.extend(
 	{
 		if (item instanceof Array)
 		{
-			for (var i=0; i<item.length; i++)
+			for (var i=0; i&lt;item.length; i++)
 			{
 				item[i] = this.__applyItemClass(item[i]);
 			}
@@ -4158,8 +4186,8 @@ conbo.List = conbo.EventDispatcher.extend(
 		}
 		
 		if (conbo.isObject(item) 
-			&& !conbo.isClass(item)
-			&& !(item instanceof conbo.Class)
+			&amp;&amp; !conbo.isClass(item)
+			&amp;&amp; !(item instanceof conbo.Class)
 			)
 		{
 			item = new this.itemClass({source:item, context:this.context});
@@ -4385,16 +4413,16 @@ conbo.AttributeBindings = conbo.Class.extend(
 	
 	/**
 	 * Inserts text into the element so that it appears on screen exactly as
-	 * it's written by converting special characters (<, >, &, etc) into HTML
-	 * entities before rendering them, e.g. "8 < 10" becomes "8 &lt; 10", and
-	 * line breaks into <br/>
+	 * it's written by converting special characters (&lt;, >, &amp;, etc) into HTML
+	 * entities before rendering them, e.g. "8 &lt; 10" becomes "8 &amp;lt; 10", and
+	 * line breaks into &lt;br/>
 	 * 
 	 * @param 		el
 	 * @param 		value
 	 */
 	cbText: function(el, value)
 	{
-		value = conbo.encodeEntities(value).replace(/\r?\n|\r/g, '<br/>');
+		value = conbo.encodeEntities(value).replace(/\r?\n|\r/g, '&lt;br/>');
 		$(el).html(value);
 	},
 	
@@ -4463,7 +4491,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 		
 		options || (options = {});
 		
-		if (options.context && options.context.namespace)
+		if (options.context &amp;&amp; options.context.namespace)
 		{
 			viewClass = conbo.BindingUtils.getClass(itemRendererClassName, options.context.namespace);
 		}
@@ -4475,7 +4503,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 		
 		el.classList.remove('cb-exclude');
 		
-		if (el.cbRepeat.list != values && values instanceof conbo.List)
+		if (el.cbRepeat.list != values &amp;&amp; values instanceof conbo.List)
 		{
 			if (el.cbRepeat.list)
 			{
@@ -4521,11 +4549,11 @@ conbo.AttributeBindings = conbo.Class.extend(
 		
 		// Switched from forEach loop to resolve issues using "new Array(n)"
 		// see: http://stackoverflow.com/questions/23460301/foreach-on-array-of-undefined-created-by-array-constructor
-		for (var index=0,length=a.length; index<length; ++index)
+		for (var index=0,length=a.length; index&lt;length; ++index)
 		{
 			var value = values[index];
 			
-			if (conbo.isObject(value) && !(value instanceof conbo.Hash))
+			if (conbo.isObject(value) &amp;&amp; !(value instanceof conbo.Hash))
 			{
 				value = new conbo.Hash({source:value});
 			}
@@ -4560,7 +4588,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 	/**
 	 * Sets the properties of the element's dataset (it's `data-*` attributes)
 	 * using the properties of the object being bound to it. Non-Object values 
-	 * will be disregarded. You'll need to use a polyfill for IE <= 10.
+	 * will be disregarded. You'll need to use a polyfill for IE &lt;= 10.
 	 * 
 	 * @param 		el
 	 * @param 		value
@@ -4576,7 +4604,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 	/**
 	 * When used with a standard DOM element, the properties of the element's
 	 * `dataset` (it's `data-*` attributes) are set using the properties of the 
-	 * object being bound to it; you'll need to use a polyfill for IE <= 10
+	 * object being bound to it; you'll need to use a polyfill for IE &lt;= 10
 	 * 
 	 * When used with a Glimpse, the Glimpse's `data` property is set to
 	 * the value of the bound property. 
@@ -4711,7 +4739,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 	},
 	
 	/*
-	 * FORM HANDLING & VALIDATION
+	 * FORM HANDLING &amp; VALIDATION
 	 */
 	
 	/**
@@ -4967,7 +4995,7 @@ var BindingUtils__set = function(propertyName, value)
 	}
 	
 	// Ensure numbers are returned as Number not String
-	if (value && conbo.isString(value) && !isNaN(value))
+	if (value &amp;&amp; conbo.isString(value) &amp;&amp; !isNaN(value))
 	{
 		value = parseFloat(value);
 		if (isNaN(value)) value = '';
@@ -5133,7 +5161,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 								$el.val(source[propertyName]); 
 							};
 							
-							// Resolves issue with cb-repeat inside <select>
+							// Resolves issue with cb-repeat inside &lt;select>
 							if (type == 'select') conbo.defer(setVal);
 							else setVal();
 							
@@ -5263,9 +5291,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 			camelCase = conbo.toCamelCase(attributeName),
 			ns = split[0],
 			isConboNs = (ns == 'cb'),
-			isConbo = isConboNs && camelCase in BindingUtils__cbAttrs,
-			isCustom = !isConbo && camelCase in BindingUtils__customAttrs,
-			isNative = isConboNs && split.length == 2 && split[1] in element,
+			isConbo = isConboNs &amp;&amp; camelCase in BindingUtils__cbAttrs,
+			isCustom = !isConbo &amp;&amp; camelCase in BindingUtils__customAttrs,
+			isNative = isConboNs &amp;&amp; split.length == 2 &amp;&amp; split[1] in element,
 			attrFuncs = BindingUtils__cbAttrs
 			;
 		
@@ -5315,7 +5343,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 				
 				switch (true)
 				{
-					case nativeAttr.indexOf('on') !== 0 && conbo.isFunction(element[nativeAttr]):
+					case nativeAttr.indexOf('on') !== 0 &amp;&amp; conbo.isFunction(element[nativeAttr]):
 					{
 						conbo.warn(attributeName+' is not a recognised attribute, did you mean cb-on'+nativeAttr+'?');
 						break;
@@ -5464,7 +5492,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			view.subcontext.addTo(options);
 		}
 		
-		var ns = view.context && view.context.namespace;
+		var ns = view.context &amp;&amp; view.context.namespace;
 		
 		if (ns)
 		{
@@ -5503,7 +5531,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 				
 				var typeSplit = type.split('-');
 				
-				if (typeSplit.length < 2 
+				if (typeSplit.length &lt; 2 
 					|| BindingUtils__registeredNamespaces.indexOf(typeSplit[0]) == -1 
 					|| BindingUtils__isReservedAttr(type))
 				{
@@ -5519,12 +5547,12 @@ conbo.BindingUtils = conbo.Class.extend({},
 				
 				var splitsLength = splits.length;
 				
-				for (var i=0; i<splitsLength; i++)
+				for (var i=0; i&lt;splitsLength; i++)
 				{
 					var parseFunction,
 						d = splits[i];
 					
-					if (!d && !conbo.isString(d))
+					if (!d &amp;&amp; !conbo.isString(d))
 					{
 						scope.applyAttribute(el, type);
 						break;
@@ -5616,7 +5644,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 					}
 					
 					case binding[0] instanceof conbo.EventDispatcher:
-					case !!binding[0] && !!binding[0].removeEventListener:
+					case !!binding[0] &amp;&amp; !!binding[0].removeEventListener:
 					{
 						binding[0].removeEventListener(binding[1], binding[2]);
 						break;
@@ -5676,10 +5704,10 @@ conbo.BindingUtils = conbo.Class.extend({},
 				;
 			
 			if (classReference 
-				&& conbo.isClass(classReference, typeClass))
+				&amp;&amp; conbo.isClass(classReference, typeClass))
 			{
-				if ((type == 'glimpse' && conbo.isClass(classReference, conbo.Glimpse))
-					|| (type == 'view' && conbo.isClass(classReference, conbo.View)))
+				if ((type == 'glimpse' &amp;&amp; conbo.isClass(classReference, conbo.Glimpse))
+					|| (type == 'view' &amp;&amp; conbo.isClass(classReference, conbo.View)))
 				{
 					// Gets the Context of the "closest" parent View
 					var closestView = $el.closest('.cb-view')[0];
@@ -5728,7 +5756,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 			BindingUtils__set.call(destination, destinationPropertyName, event.value);
 		});
 		
-		if (twoWay && destination instanceof conbo.EventDispatcher)
+		if (twoWay &amp;&amp; destination instanceof conbo.EventDispatcher)
 		{
 			this.bindProperty(destination, destinationPropertyName, source, sourcePropertyName);
 		}
@@ -5826,7 +5854,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * @returns 	{this}		BindingUtils
 	 * 
 	 * @example 
-	 * // HTML: <div my-font-name="myProperty"></div>
+	 * // HTML: &lt;div my-font-name="myProperty">&lt;/div>
 	 * conbo.BindingUtils.registerAttribute('myFontName', function(el, value, options, param)
 	 * {
 	 * 	$(el).css('font-name', value);
@@ -5842,7 +5870,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 		
 		var split = conbo.toUnderscoreCase(name).split('_');
 		
-		if (split.length < 2)
+		if (split.length &lt; 2)
 		{
 			conbo.warn("registerAttribute: "+name+" does not include a namespace, e.g. "+conbo.toCamelCase('my-'+name));
 			return this;
@@ -6145,7 +6173,7 @@ conbo.Glimpse = conbo.EventDispatcher.extend(
 	{
 		var attrs = conbo.setValues({}, this.attributes);
 		
-		if (this.id && !element.id) 
+		if (this.id &amp;&amp; !element.id) 
 		{
 			attrs.id = this.id;
 		}
@@ -6553,7 +6581,7 @@ conbo.View = conbo.Glimpse.extend(
 	/**
 	 * Automatically bind elements to properties of this View
 	 * 
-	 * @example	<div cb-bind="property|parseMethod" cb-hide="property">Hello!</div> 
+	 * @example	&lt;div cb-bind="property|parseMethod" cb-hide="property">Hello!&lt;/div> 
 	 * @returns	this
 	 */
 	bindView: function()
@@ -6615,7 +6643,7 @@ conbo.View = conbo.Glimpse.extend(
 		
 		this.unbindView();
 		
-		if (this.templateCacheEnabled !== false && View__templateCache[url])
+		if (this.templateCacheEnabled !== false &amp;&amp; View__templateCache[url])
 		{
 			this.$el.html(View__templateCache[url]);
 			this.__initView();
@@ -6666,7 +6694,7 @@ conbo.View = conbo.Glimpse.extend(
 		
 		var attrs = conbo.setValues({}, this.attributes);
 		
-		if (this.id && !element.id) 
+		if (this.id &amp;&amp; !element.id) 
 		{
 			attrs.id = this.id;
 		}
@@ -6693,7 +6721,7 @@ conbo.View = conbo.Glimpse.extend(
 	 */
 	__initView: function()
 	{
-		if (this.hasTemplate && this.hasContent)
+		if (this.hasTemplate &amp;&amp; this.hasContent)
 		{
 			this.$content.html(this.__content);
 		}
@@ -6729,7 +6757,7 @@ conbo.View = conbo.Glimpse.extend(
 		var el = this.$el.parents(selector)[0];
 		var parentApp = this.parentApp;
 		
-		if (el && (selectApp || (parentApp && parentApp.$el.has(el).length)))
+		if (el &amp;&amp; (selectApp || (parentApp &amp;&amp; parentApp.$el.has(el).length)))
 		{
 			return el.cbView;
 		}
@@ -6866,7 +6894,7 @@ conbo.Application = conbo.View.extend(
 		for (var a in this.namespace)
 		{
 			if (conbo.isClass(this.namespace[a])
-				&& this instanceof this.namespace[a])
+				&amp;&amp; this instanceof this.namespace[a])
 			{
 				appName = a;
 				break;
@@ -7024,7 +7052,7 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	{
 		value = String(value);
 		
-		if (value && value.slice(-1) != '/')
+		if (value &amp;&amp; value.slice(-1) != '/')
 		{
 			value += '/';
 		}
@@ -7116,7 +7144,7 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	encodeFunction: function(data, method)
 	{
 		return (method || 'GET').toUpperCase() != 'GET' 
-				&& this.contentType == conbo.HttpService.CONTENT_TYPE_JSON
+				&amp;&amp; this.contentType == conbo.HttpService.CONTENT_TYPE_JSON
 			? JSON.stringify(data)
 			: data;
 	},
@@ -7218,7 +7246,7 @@ conbo.AsyncToken = conbo.Promise.extend(
 	{
 		var resultClass = this.resultClass;
 		
-		if (!resultClass && this.makeObjectsBindable)
+		if (!resultClass &amp;&amp; this.makeObjectsBindable)
 		{
 			switch (true)
 			{
@@ -7812,7 +7840,7 @@ conbo.Router = conbo.EventDispatcher.extend(
 		{
 			var args = this.__extractParameters(route, fragment);
 			
-			callback && callback.apply(this, args);
+			callback &amp;&amp; callback.apply(this, args);
 			
 			var options = 
 			{
@@ -7894,7 +7922,7 @@ conbo.Router = conbo.EventDispatcher.extend(
 	 */
 	__routeToRegExp: function(route) 
 	{
-		route = route.replace(escapeRegExp, '\\$&')
+		route = route.replace(escapeRegExp, '\\$&amp;')
 			.replace(optionalParam, '(?:$1)?')
 			.replace(namedParam, function(match, optional){
 				return optional ? match : '([^\/]+)';
@@ -7935,3 +7963,26 @@ __denumerate(conbo.Router.prototype);
 
 	return conbo;
 });
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="conbo.Application.html">Application</a></li><li><a href="conbo.AsyncToken.html">AsyncToken</a></li><li><a href="conbo.AttributeBindings.html">AttributeBindings</a></li><li><a href="conbo.BindingUtils.html">BindingUtils</a></li><li><a href="conbo.Class.html">Class</a></li><li><a href="conbo.Command.html">Command</a></li><li><a href="conbo.ConboClass.html">ConboClass</a></li><li><a href="conbo.ConboEvent.html">ConboEvent</a></li><li><a href="conbo.Context.html">Context</a></li><li><a href="conbo.Event.html">Event</a></li><li><a href="conbo.EventDispatcher.html">EventDispatcher</a></li><li><a href="conbo.Glimpse.html">Glimpse</a></li><li><a href="conbo.Hash.html">Hash</a></li><li><a href="conbo.History.html">History</a></li><li><a href="conbo.HttpService.html">HttpService</a></li><li><a href="conbo.ItemRenderer.html">ItemRenderer</a></li><li><a href="conbo.List.html">List</a></li><li><a href="conbo.LocalHash.html">LocalHash</a></li><li><a href="conbo.LocalList.html">LocalList</a></li><li><a href="conbo.MutationObserver.html">MutationObserver</a></li><li><a href="conbo.Namespace.html">Namespace</a></li><li><a href="conbo.Promise.html">Promise</a></li><li><a href="conbo.RemoteHash.html">RemoteHash</a></li><li><a href="conbo.RemoteList.html">RemoteList</a></li><li><a href="conbo.Responder.html">Responder</a></li><li><a href="conbo.Router.html">Router</a></li><li><a href="conbo.View.html">View</a></li></ul><h3>Namespaces</h3><ul><li><a href="conbo.html">conbo</a></li><li><a href="conbo.$.html">$</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Mon Jan 23 2017 09:20:08 GMT+0000 (GMT Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

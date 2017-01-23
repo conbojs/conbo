@@ -23,12 +23,7 @@ conbo.Glimpse = conbo.EventDispatcher.extend(
 	 */
 	__construct: function(options)
 	{
-		if (options.el)
-		{
-			this.el = options.el;
-		}
-		
-		this.__ensureElement();
+		this.__setEl(options.el || document.createElement(this.tagName));
 		
 		if (this.template)
 		{
@@ -37,16 +32,18 @@ conbo.Glimpse = conbo.EventDispatcher.extend(
 	},
 	
 	/**
-	 * The default `tagName` of a Glimpse is `div`.
+	 * The default `tagName` is `div`
 	 */
-	tagName: 'div',
+	get tagName()
+	{
+		return this.__tagName || 'div';
+	},
 	
-	/**
-	 * Initialize is an empty function by default. Override it with your own
-	 * initialization logic.
-	 */
-	initialize: function(){},
-		
+	set tagName(value)
+	{
+		__definePrivateProperty(this, '__tagName', value);
+	},
+	
 	/**
 	 * The class's element
 	 */
@@ -55,58 +52,42 @@ conbo.Glimpse = conbo.EventDispatcher.extend(
 		return this.__el;
 	},
 	
-	set el(element)
-	{
-		if (this.__el)
-		{
-			this.__el.className = this.el.className.replace('cb-glimpse', '');
-			delete this.el.cbGlimpse;
-		}
-		
-		__defineUnenumerableProperty(this, '__el', element);
-		
-		element.className += ' cb-glimpse';
-		element.cbGlimpse = this;
-		
-		this.dispatchChange('el');
-	},
-	
 	toString: function()
 	{
 		return 'conbo.Glimpse';
 	},
 	
 	/**
-	 * Ensure that the View has a DOM element to render into, creating 
-	 * a new element using the `id`, `className` and `tagName` properties if
-	 * one does not already exist
-	 * 
+	 * Set this View's element
 	 * @private
 	 */
-	__ensureElement: function() 
+	__setEl: function(element)
 	{
-		var el = this.el;
+		var attrs = conbo.setValues({}, this.attributes);
 		
-		if (!el) 
+		if (this.id && !element.id) 
 		{
-			var attrs = conbo.defineValues({}, this.attributes);
-			
-			el = document.createElement(this.tagName);
-			
-			if (this.id) el.id = this.id;
-			if (this.className) el.className = this.className;
-			
-			conbo.defineValues(el, attrs);
-		}
-		else 
-		{
-			if (this.className) el.className += ' '+this.className;
+			attrs.id = this.id;
 		}
 		
-		this.el = el;
+		var classList = el.classList;
+		
+		el = element;
+		el.cbGlimpse = this;
+		
+		classList.add('cb-glimpse');
+		
+		if (this.className)
+		{
+			classList.add.apply(classList, this.className.split(' '));
+		}
+		
+		conbo.setValues(el, attrs);
+		
+		__definePrivateProperty(this, '__el', el);
 		
 		return this;
-	},
+	}
 	
 });
 

@@ -37,6 +37,22 @@ conbo.Promise = conbo.EventDispatcher.extend(
 	},
 	
 	/**
+	 * Shorthand method for adding a result and fault event handlers
+	 *  
+	 * @param	{function}	resultHandler
+	 * @param	{function}	faultHandler
+	 * @param	{object}	scope
+	 * @returns	{conbo.Promise}
+	 */
+	then: function(resultHandler, faultHandler, scope)
+	{
+		if (resultHandler) this.addEveventListener('result', resultHandler, scope);
+		if (faultHandler) this.addEveventListener('fault', faultHandler, scope);
+		
+		return this;
+	},
+	
+	/**
 	 * The class name as a string
 	 * @returns {String}
 	 */

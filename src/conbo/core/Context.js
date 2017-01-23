@@ -19,7 +19,7 @@ conbo.Context = conbo.EventDispatcher.extend(
 	 */
 	__construct: function(options)
 	{
-		__defineUnenumerableProperties(this, 
+		__definePrivateProperties(this, 
 		{
 			__commands: {},
 			__singletons: {},

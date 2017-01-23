@@ -15,9 +15,9 @@ conbo('ns', function()
 	{
 		/**
 		 * You can't declare data properties in ES2015 classes, so you should
-		 * declare them using the `preinitialize` method or user a get/set accessor
+		 * declare them using the `declarations` method or user a get/set accessor
 		 */
-		preinitialize()
+		declarations()
 		{
 			this.name = 'Conbo';
 		}
@@ -54,7 +54,7 @@ conbo('ns', function()
 		 * Properties with a value of undefined that have been mapped to 
 		 * singletons in the context are automatically injected
 		 */
-		preinitialize()
+		declarations()
 		{
 			this.myModel = undefined;
 		}
@@ -80,7 +80,7 @@ conbo('ns', function()
 		 * Properties with a value of undefined that have been mapped to 
 		 * singletons in the context are automatically injected
 		 */
-		preinitialize()
+		declarations()
 		{
 			this.myModel = undefined;
 		}

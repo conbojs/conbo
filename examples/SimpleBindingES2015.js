@@ -20,7 +20,11 @@ conbo('ns', function()
 				'<h1>Hello <span cb-bind="name" />!</h1>',
 		}
 			
-		initialize()
+		/**
+		 * You can't declare data properties in ES2015 classes, so you should
+		 * declare them using the `declarations` method or user a get/set accessor
+		 */
+		declarations()
 		{
 			this.name = "Conbo";
 		}

@@ -100,7 +100,7 @@ conbo.History = conbo.EventDispatcher.extend(
 		this.started = true;
 		this.fragment = this.getFragment();
 		
-		$(window).on('hashchange', this.checkUrl);
+		window.addEventListener('hashchange', this.checkUrl);
 		
 		if (!(options || {}).silent)
 		{
@@ -118,7 +118,7 @@ conbo.History = conbo.EventDispatcher.extend(
 	 */
 	stop: function()
 	{
-		$(window).off('hashchange', this.checkUrl);
+		window.removeEventListener('hashchange', this.checkUrl);
 		this.started = false;
 		
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.STOPPED));
