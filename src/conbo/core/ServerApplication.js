@@ -21,18 +21,12 @@ conbo.ServerApplication = conbo.EventDispatcher.extend(
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options
 	 */
-	constructor: function(options)
+	__construct: function(options)
 	{
 		options = conbo.clone(options || {});
 		options.app = this;
 		
-		if (this.contextClass)
-		{
-			this.context = new this.contextClass(options);
-		}
-		
-		this.initialize.apply(this, arguments);
-		conbo.makeAllBindable(this, this.bindable);
+		this.context = new this.contextClass(options);
 	},
 	
 	toString: function()
