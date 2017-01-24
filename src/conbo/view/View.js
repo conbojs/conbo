@@ -531,12 +531,12 @@ conbo.View = conbo.Glimpse.extend(
 			.bindView()
 			;
 		
-		conbo.defer(this.bind(function()
+		conbo.defer(function()
 		{
 			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.INIT)) // Deprecated: use CREATION_COMPLETE
 				.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CREATION_COMPLETE))
 				;
-		}));
+		}, this);
 		
 		return this;
 	},

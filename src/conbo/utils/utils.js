@@ -53,7 +53,7 @@
 	 */
 	 conbo.forEach = function(obj, iterator, scope) 
 	 {
-		if (obj == null) return;
+		if (obj == undefined) return;
 		
 		var i, length;
 		
@@ -92,7 +92,7 @@
 	{
 		var results = [];
 		
-		if (obj == null) return results;
+		if (obj == undefined) return results;
 		if (nativeMap && obj.map === nativeMap) return obj.map(iterator, scope);
 		
 		forEach(obj, function(value, index, list) 
@@ -176,7 +176,7 @@
 	{
 		var results = [];
 		
-		if (obj == null) return results;
+		if (obj == undefined) return results;
 		if (nativeFilter && obj.filter === nativeFilter) return obj.filter(predicate, scope);
 		
 		forEach(obj, function(value, index, list) 
@@ -219,7 +219,7 @@
 		
 		var result = true;
 		
-		if (obj == null) return result;
+		if (obj == undefined) return result;
 		if (nativeEvery && obj.every === nativeEvery) return obj.every(predicate, scope);
 		
 		forEach(obj, function(value, index, list) 
@@ -243,7 +243,7 @@
 	{
 		predicate || (predicate = conbo.identity);
 		var result = false;
-		if (obj == null) return result;
+		if (obj == undefined) return result;
 		if (nativeSome && obj.some === nativeSome) return obj.some(predicate, scope);
 		forEach(obj, function(value, index, list) {
 			if (result || (result = predicate.call(scope, value, index, list))) return breaker;
@@ -262,7 +262,7 @@
 	 */
 	conbo.contains = function(obj, target) 
 	{
-		if (obj == null) return false;
+		if (obj == undefined) return false;
 		return obj.indexOf(target) != -1;
 	};
 
@@ -386,7 +386,7 @@
 	 */
 	var lookupIterator = function(value) 
 	{
-		if (value == null) return conbo.identity;
+		if (value == undefined) return conbo.identity;
 		if (conbo.isFunction(value)) return value;
 		return conbo.property(value);
 	};
@@ -434,8 +434,8 @@
 	 */
 	conbo.last = function(array, n, guard) 
 	{
-		if (array == null) return undefined;
-		if (n == null || guard) return array[array.length - 1];
+		if (array == undefined) return undefined;
+		if (n == undefined || guard) return array[array.length - 1];
 		return slice.call(array, Math.max(array.length - n, 0));
 	};
 
@@ -452,7 +452,7 @@
 	 */
 	conbo.rest = function(array, n, guard) 
 	{
-		return slice.call(array, (n == null) || guard ? 1 : n);
+		return slice.call(array, (n == undefined) || guard ? 1 : n);
 	};
 
 	/**
@@ -628,7 +628,7 @@
 	 */
 	conbo.object = function(list, values) 
 	{
-		if (list == null) return {};
+		if (list == undefined) return {};
 		
 		var result = {};
 		
@@ -708,7 +708,7 @@
 			if (!(this instanceof bound)) return func.apply(scope, args.concat(slice.call(arguments)));
 			ctor.prototype = func.prototype;
 			var self = new ctor();
-			ctor.prototype = null;
+			ctor.prototype = undefined;
 			var result = func.apply(self, args.concat(slice.call(arguments)));
 			if (Object(result) === result) return result;
 			return self;
@@ -799,7 +799,7 @@
 			func = conbo.bind(func, scope);
 		}
 		
-		return setTimeout.apply(null, [func, 0].concat(conbo.rest(arguments, 2)));
+		return setTimeout.apply(undefined, [func, 0].concat(conbo.rest(arguments, 2)));
 	};
 
 	/**
@@ -817,7 +817,7 @@
 			if (ran) return memo;
 			ran = true;
 			memo = func.apply(this, arguments);
-			func = null;
+			func = undefined;
 			return memo;
 		};
 	};
@@ -1466,7 +1466,7 @@
 	 */
 	conbo.random = function(min, max)
 	{
-		if (max == null) 
+		if (max == undefined) 
 		{
 			max = min;
 			min = 0;
