@@ -242,27 +242,4 @@ if (!!$)
 		});
 	};
 	
-	/**
-	 * Find elements based on their cb-attribute
-	 * @memberof	conbo.$
-	 * 
-	 * @example
-	 * $(':cbAttr');
-	 * $('div:cbAttr');
-	 */
-	$.expr[':'].cbAttr = function(el, index, meta, stack)
-	{
-		var $el = $(el),
-			args = (meta[3] || '').split(','),
-			attrs = $el.cbAttrs(),
-			keys = conbo.keys(attrs)
-			;
-		
-		if (!keys.length) return false;
-		if (!!attrs && !args.length) return true;
-		if (!!args[0] && !args[1]) return args[0] in attrs;
-		if (!!args[0] && !!args[1]) return attrs[args[0]] == args[1];
-		return false;
-	};
-	
 }
