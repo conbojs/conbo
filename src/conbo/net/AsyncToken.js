@@ -63,7 +63,7 @@ conbo.AsyncToken = conbo.Promise.extend(
 		
 		if (resultClass)
 		{
-			result = new resultClass(result);
+			result = new resultClass({source:result});
 		}
 		
 		var event = new conbo.ConboEvent('result', {result:result, status:xhr.status, xhr:xhr});

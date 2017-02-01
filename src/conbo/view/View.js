@@ -505,9 +505,10 @@ conbo.View = conbo.Glimpse.extend(
 		
 		el.cbView = this;
 		
-		$el.addClass('cb-view');
-		$el.attr(attrs);
-		$el.addClass(this.className);
+		$el.addClass('cb-view')
+			.addClass(this.className)
+			.attr(attrs)
+			;
 		
 		__definePrivateProperty(this, '__el', el);
 		
@@ -553,9 +554,15 @@ conbo.View = conbo.Glimpse.extend(
 		
 		var selector = selectApp ? '.cb-app' : '.cb-view';
 		var el = this.$el.parents(selector)[0];
+		
+		if (selectApp)
+		{
+			return el ? el.cbView : undefined;
+		}
+		
 		var parentApp = this.parentApp;
 		
-		if (el && (selectApp || (parentApp && parentApp.$el.has(el).length)))
+		if (el && (parentApp && parentApp.$el.has(el).length))
 		{
 			return el.cbView;
 		}

@@ -160,7 +160,19 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 */
 	cbClasses: function(el, value)
 	{
-		el.className = value;
+		var $el = $(el);
+		
+		if (el.cbClasses)
+		{
+			$el.removeClass(el.cbClasses);
+		}
+		
+		el.cbClasses = value;
+		
+		if (value)
+		{
+			$el.addClass(value);
+		}
 	},
 	
 	/**

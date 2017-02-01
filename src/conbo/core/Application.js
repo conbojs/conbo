@@ -89,6 +89,13 @@ conbo.Application = conbo.View.extend(
 		return 'conbo.Application';
 	},
 	
+	__setEl: function(element)
+	{
+		conbo.View.prototype.__setEl.call(this, element);
+		this.$el.addClass('cb-app');
+		return this;
+	},
+	
 	/**
 	 * Find element with matching cb-app attribute, if it exists
 	 * @private
@@ -127,17 +134,6 @@ conbo.Application = conbo.View.extend(
 			el = $(selector)[0];
 		
 		return el || undefined;
-	},
-	
-	/**
-	 * Ensure that this class has an element
-	 * @override
-	 * @private
-	 */
-	__updateEl: function()
-	{
-		conbo.View.prototype.__updateEl.call(this);
-		this.$el.addClass('cb-app');
 	},
 	
 });

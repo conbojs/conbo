@@ -75,7 +75,10 @@ conbo.Glimpse = conbo.EventDispatcher.extend(
 		el.className += ' cb-glimpse '+(this.className || '');
 		el.cbGlimpse = this;
 		
-		conbo.setValues(el, attrs);
+		for (var attr in attrs)
+		{
+			el.setAttribute(attr, attrs[attr]);		
+		}		
 		
 		__definePrivateProperty(this, '__el', el);
 		
