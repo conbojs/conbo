@@ -4,7 +4,7 @@
  * @class		conbo.Class
  * @param 		{object} options - Object containing initialisation options
  */
-conbo.Class = function(options) 
+conbo.Class = function() 
 {
 	this.declarations.apply(this, arguments);
 	this.preinitialize.apply(this, arguments);
@@ -112,8 +112,6 @@ conbo.Class.extend = function(protoProps, staticProps)
 	{
 		conbo.defineValues(child.prototype, protoProps);
 	}
-	
-	conbo.makeBindable(child.prototype);
 	
 	return child;
 };
