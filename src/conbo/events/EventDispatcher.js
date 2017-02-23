@@ -1,4 +1,63 @@
 /**
+ * @private
+ */
+var EventDispatcher__addEventListener = function(type, handler, scope, priority, once)
+{
+	if (type == '*') type = 'all';
+	if (!this.__queue) __definePrivateProperty(this, '__queue', {});
+	
+	if (!this.hasEventListener(type, handler, scope))
+	{
+		if (!(type in this.__queue)) this.__queue[type] = [];
+		this.__queue[type].push({handler:handler, scope:scope, once:once, priority:priority||0});
+		this.__queue[type].sort(function(a,b){return b.priority-a.priority;});
+	}
+};
+
+/**
+ * @private
+ */
+var EventDispatcher__removeEventListener = function(type, handler, scope)
+{
+	if (type == '*') type = 'all';
+	if (!this.__queue) return;
+	
+	var queue, 
+		i, 
+		self = this;
+	
+	var removeFromQueue = function(queue, key)
+	{
+		for (i=0; i<queue.length; i++)
+		{
+			if ((!queue[i].handler || queue[i].handler == handler)
+				&& (!queue[i].scope || queue[i].scope == scope))
+			{
+				queue.splice(i--, 1);
+			}
+		}
+		
+		if (!queue.length)
+		{
+			delete self.__queue[key];
+		}
+	};
+	
+	if (type in this.__queue)
+	{
+		queue = this.__queue[type];
+		removeFromQueue(queue, type);
+	}
+	else if (type == undefined)
+	{
+		conbo.forEach(this.__queue, function(queue, key)
+		{
+			removeFromQueue(queue, key);
+		});
+	}
+};
+
+/**
  * Event Dispatcher
  * 
  * Event model designed to bring events into line with DOM events and those 
@@ -43,7 +102,7 @@ conbo.EventDispatcher = conbo.ConboClass.extend(
 		if (!handler || !conbo.isFunction(handler)) throw new Error('Event handler is undefined or not a function');
 
 		if (conbo.isString(type)) type = type.split(' ');
-		if (conbo.isArray(type)) conbo.forEach(type, function(value, index, list) { this.__addEventListener(value, handler, scope, priority, !!once); }, this);
+		if (conbo.isArray(type)) conbo.forEach(type, function(value, index, list) { EventDispatcher__addEventListener.call(this, value, handler, scope, priority, !!once); }, this);
 		
 		return this;
 	},
@@ -68,7 +127,7 @@ conbo.EventDispatcher = conbo.ConboClass.extend(
 		
 		conbo.forEach(type, function(value, index, list) 
 		{
-			this.__removeEventListener(value, handler, scope); 
+			EventDispatcher__removeEventListener.call(this, value, handler, scope); 
 		}, 
 		this);
 		
@@ -138,7 +197,7 @@ conbo.EventDispatcher = conbo.ConboClass.extend(
 		{
 			var value = queue[i];
 			var returnValue = value.handler.call(value.scope || this, event);
-			if (value.once) this.__removeEventListener(event.type, value.handler, value.scope);
+			if (value.once) EventDispatcher__removeEventListener.call(this, event.type, value.handler, value.scope);
 			if (returnValue === false || event.immediatePropagationStopped) break;
 		}
 		
@@ -164,66 +223,6 @@ conbo.EventDispatcher = conbo.ConboClass.extend(
 	{
 		return 'conbo.EventDispatcher';
 	},
-
-	/**
-	 * @private
-	 */
-	__addEventListener: function(type, handler, scope, priority, once)
-	{
-		if (type == '*') type = 'all';
-		if (!this.__queue) __definePrivateProperty(this, '__queue', {});
-		
-		if (!this.hasEventListener(type, handler, scope))
-		{
-			if (!(type in this.__queue)) this.__queue[type] = [];
-			this.__queue[type].push({handler:handler, scope:scope, once:once, priority:priority||0});
-			this.__queue[type].sort(function(a,b){return b.priority-a.priority;});
-		}
-	},
-	
-	/**
-	 * @private
-	 */
-	__removeEventListener: function(type, handler, scope)
-	{
-		if (type == '*') type = 'all';
-		if (!this.__queue) return;
-		
-		var queue, 
-			i, 
-			self = this;
-		
-		var removeFromQueue = function(queue, key)
-		{
-			for (i=0; i<queue.length; i++)
-			{
-				if ((!queue[i].handler || queue[i].handler == handler)
-					&& (!queue[i].scope || queue[i].scope == scope))
-				{
-					queue.splice(i--, 1);
-				}
-			}
-			
-			if (!queue.length)
-			{
-				delete self.__queue[key];
-			}
-		};
-		
-		if (type in this.__queue)
-		{
-			queue = this.__queue[type];
-			removeFromQueue(queue, type);
-		}
-		else if (type == undefined)
-		{
-			conbo.forEach(this.__queue, function(queue, key)
-			{
-				removeFromQueue(queue, key);
-			});
-		}
-	},
-	
 }).implement(conbo.IInjectable);
 
 __definePrivateProperty(conbo.EventDispatcher.prototype, 'bindable');

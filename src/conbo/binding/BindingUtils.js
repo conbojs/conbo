@@ -6,17 +6,12 @@ var BindingUtils__cbAttrs = new conbo.AttributeBindings()
 	;
 
 /**
- * Set the value of one or more property and dispatch a change:[propertyName] event
- * 
- * Event handlers, in line with conbo.Model change:[propertyName] handlers, 
- * should be in the format handler(source, value) {...}
+ * Set the value of a property, ensuring Numbers are types correctly
  * 
  * @private
- * @param 	attribute
+ * @param 	propertyName
  * @param 	value
- * @param 	options
  * @example	BindingUtils__set.call(target, 'n', 123);
- * @example	BindingUtils__set.call(target, {n:123, s:'abc'});
  * @returns	this
  */
 var BindingUtils__set = function(propertyName, value)
@@ -129,13 +124,13 @@ conbo.BindingUtils = conbo.Class.extend({},
 				case 'SELECT':
 				case 'TEXTAREA':
 				{	
-					var type = ($el.attr('type') || tagName).toLowerCase();
+					var type = (el.type || tagName).toLowerCase();
 					
 					switch (type)
 					{
 						case 'checkbox':
 						{
-							$el.prop('checked', !!source[propertyName]);
+							el.checked = !!source[propertyName];
 							
 							if (isEventDispatcher)
 							{
@@ -143,7 +138,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 								
 								eventHandler = function(event)
 								{
-									$el.prop('checked', !!event.value);
+									el.checked = !!event.value;
 								};
 								
 								source.addEventListener(eventType, eventHandler);
@@ -154,7 +149,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 							
 							eventHandler = function(event)
 							{
-								BindingUtils__set.call(source, propertyName, $el.is(':checked'));
+								BindingUtils__set.call(source, propertyName, el.checked);
 							};
 							
 							$el.on(eventType, eventHandler);
@@ -165,7 +160,10 @@ conbo.BindingUtils = conbo.Class.extend({},
 						
 						case 'radio':
 						{
-							if ($el.val() == source[propertyName]) $el.prop('checked', true);
+							if (el.value == source[propertyName]) 
+							{
+								el.checked = true;
+							}
 							
 							if (isEventDispatcher)
 							{
@@ -174,9 +172,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 								eventHandler = function(event)
 								{
 									if (event.value == null) event.value = '';
-									if ($el.val() != event.value) return; 
+									if (el.value != event.value) return; 
 									
-									$el.prop('checked', true);
+									el.checked = true;
 								};
 								
 								source.addEventListener(eventType, eventHandler);
@@ -190,7 +188,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 						{
 							var setVal = function() 
 							{
-								$el.val(source[propertyName]); 
+								el.value = source[propertyName]; 
 							};
 							
 							// Resolves issue with cb-repeat inside <select>
@@ -204,9 +202,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 								eventHandler = function(event)
 								{
 									if (event.value == null) event.value = '';
-									if ($el.val() == event.value) return;
+									if (el.value == event.value) return;
 									
-									$el.val(event.value);
+									el.value = event.value;
 								};
 								
 								source.addEventListener(eventType, eventHandler);
@@ -221,7 +219,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 					
 					eventHandler = function(event)
 					{	
-						BindingUtils__set.call(source, propertyName, $el.val() === undefined ? $el.html() : $el.val());
+						BindingUtils__set.call(source, propertyName, el.value === undefined ? el.innerHTML : el.value);
 					};
 					
 					$el.on(eventType, eventHandler);
@@ -232,7 +230,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 				
 				default:
 				{
-					$el.html(parseFunction(source[propertyName]));
+					el.innerHTML = parseFunction(source[propertyName]);
 					
 					if (isEventDispatcher)
 					{
@@ -241,7 +239,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 						eventHandler = function(event) 
 						{
 							var html = parseFunction(event.value);
-							$el.html(html);
+							el.innerHTML = html;
 						};
 						
 						source.addEventListener(eventType, eventHandler);

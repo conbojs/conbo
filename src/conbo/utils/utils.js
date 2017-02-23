@@ -802,6 +802,41 @@
 		return setTimeout.apply(undefined, [func, 0].concat(conbo.rest(arguments, 2)));
 	};
 
+	var callLater__tasks = [];
+	
+	var callLater__run = function()
+	{
+		var task;
+		
+		while (task = callLater__tasks.shift()) 
+		{
+			task();
+		}
+	};
+	
+	/**
+	 * Calls a function at the start of the next animation frame, useful when 
+	 * updating multiple elements in the DOM
+	 * 
+	 * @memberof	conbo
+	 * @param		{function}	func - Function to call
+	 * @param		{object}	scope - The scope in which to call the function
+	 */
+	conbo.callLater = function(func, scope)
+	{
+		if (callLater__run.length === 0)
+		{
+			window.requestAnimationFrame(callLater__run);
+		}
+		
+		var task = function()
+		{
+			func.apply(scope, conbo.rest(arguments, 2));
+		}
+		
+		callLater__tasks.push(task);
+	};
+	
 	/**
 	 * Returns a function that will be executed at most one time, no matter how
 	 * often you call it. Useful for lazy initialization.
@@ -2073,6 +2108,7 @@
 		{
 			return window.webkitRequestAnimationFrame
 				|| window.mozRequestAnimationFrame
+				|| window.msRequestAnimationFrame
 				|| function(callback)
 				{
 					window.setTimeout(callback, 1000 / 60);

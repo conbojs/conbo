@@ -59,7 +59,7 @@ var conbo = function(namespace)
 		
 		if (conbo.isObject(obj) && !conbo.isArray(obj))
 		{
-			ns.extend(obj);
+			ns.import(obj);
 		}
 	}
 	
