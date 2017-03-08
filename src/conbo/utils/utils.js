@@ -1,6 +1,5 @@
 /*
- * Utility methods: a modified subset of Underscore.js methods, 
- * plus loads of our own
+ * Utility methods: a modified subset of Underscore.js methods and loads of our own
  */
 
 (function() 
@@ -907,7 +906,7 @@
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to get keys from
 	 */
-	conbo.getAllPropertyNames = function(obj)
+	conbo.getPropertyNames = function(obj)
 	{
 		var names = [];
 		
@@ -923,7 +922,7 @@
 				}
 			})
 		}
-		while(obj = Object.getPrototypeOf(obj));
+		while (obj = Object.getPrototypeOf(obj));
 		
 		return names
 	};
@@ -938,7 +937,10 @@
 	 */
 	conbo.getPublicPropertyNames = function(obj)
 	{
-		return conbo.filter(conbo.getAllPropertyNames(obj), function(name) { return !/^_.+/.test(name); });
+		return conbo.filter(conbo.getPropertyNames(obj), function(name)
+		{
+			return !/^_.+/.test(name); 
+		});
 	};
 	
 	/**
@@ -951,7 +953,10 @@
 	 */
 	conbo.getPrivatePropertyNames = function(obj)
 	{
-		return conbo.filter(conbo.getAllPropertyNames(obj), function(name) { return /^_[a-z\d]+/i.test(name); });
+		return conbo.filter(conbo.getPropertyNames(obj), function(name) 
+		{
+			return /^_[a-z\d]+/i.test(name); 
+		});
 	};
 	
 	/**
@@ -964,7 +969,60 @@
 	 */
 	conbo.getInternalPropertyNames = function(obj)
 	{
-		return conbo.filter(conbo.getAllPropertyNames(obj), function(name) { return /^__.+/.test(name); });
+		return conbo.filter(conbo.getPropertyNames(obj), function(name) 
+		{
+			return /^__.+/.test(name); 
+		});
+	};
+	
+	/**
+	 * Retrieve the names of every function of an object, regardless of whether 
+	 * it's enumerable or unenumerable and where it is on the prototype chain
+	 * 
+	 * @memberof	conbo
+	 * @param		{object}	obj - Object to get keys from
+	 * @param		{boolean}	includeAccessors - Whether or not to include accessors that contain functions (default: false)
+	 */
+	conbo.getFunctionNames = function(obj, includeAccessors)
+	{
+		return conbo.filter(conbo.getPropertyNames(obj), function(name) 
+		{
+			return includeAccessors
+				? conbo.isFunction(obj, name)
+				: conbo.isFunc(obj, name)
+				;
+		});
+	},
+	
+	/**
+	 * Retrieve the names of every function of an object, regardless of whether 
+	 * it's enumerable or unenumerable and where it is on the prototype chain
+	 * 
+	 * @memberof	conbo
+	 * @param		{object}	obj - Object to get keys from
+	 */
+	conbo.getVariableNames = function(obj)
+	{
+		return conbo.difference(conbo.getPropertyNames(obj), conbo.getFunctionNames(obj));
+	};
+	
+	/**
+	 * Returns a property descriptor for a property of a given object, 
+	 * regardless of where it is in the prototype chain
+	 * 
+	 * @memberof	conbo
+	 * @param		{object}	obj - Object containing the property
+	 * @param		{string}	propName - Name of the property
+	 * 
+	 */
+	conbo.getPropertyDescriptor = function(obj, propName)
+	{
+		do
+		{
+			var descriptor = Object.getOwnPropertyDescriptor(obj, propName);
+			if (descriptor) return descriptor;
+		}
+		while (obj = Object.getPrototypeOf(obj))
 	};
 	
 	/**
@@ -994,12 +1052,14 @@
 	 * including both enumerable and unenumerable functions
 	 * 
 	 * @memberof	conbo
+	 * @deprecated
+	 * @see			#getFunctionNames
 	 * @param		{object}	obj - Object to sort
 	 */
 	conbo.functions = function(obj) 
 	{
 		var names = [];
-		var allKeys = conbo.getAllPropertyNames(obj);
+		var allKeys = conbo.getPropertyNames(obj);
 		
 		allKeys.forEach(function(key)
 		{
@@ -1365,6 +1425,23 @@
 			return typeof obj === 'function';
 		};
 	}
+	
+	/**
+	 * Detects whether the specified property is a defined function (accessors
+	 * containing functions will return false)
+	 * 
+	 * @memberof	conbo
+	 * @see			#isFunction
+	 * 
+	 * @param		{object}	Object containing the property
+	 * @param		{string}	The name of the property
+	 * @returns		{boolean}	true if it's a function
+	 */
+	conbo.isFunc = function(obj, propName)
+	{
+		var descriptor = conbo.getPropertyDescriptor(obj, "f");
+		return descriptor && typeof(descriptor.value) == 'function';
+	};
 	
 	/**
 	 * Is a given object a finite number?
@@ -1895,11 +1972,12 @@
 	};
 	
 	/**
-	 * Loads a CSS file and apply it to the DOM
+	 * Loads a CSS file and applies it to the DOM
 	 * 
 	 * @memberof	conbo
 	 * @param 		{String}	url		The CSS file's URL
 	 * @param 		{String}	media	The media attribute (defaults to 'all')
+	 * @returns		conbo.Promise
 	 */
 	conbo.loadCss = function(url, media)
 	{
@@ -1908,18 +1986,33 @@
 			return this;
 		}
 		
-		var link, head; 
+		var link, head, promise;
+		
+		promise = new conbo.Promise();
 			
 		link = document.createElement('link');
-		link.rel	= 'stylesheet';
+		link.rel = 'stylesheet';
 		link.type = 'text/css';
-		link.href = url;
 		link.media = media || 'all';
 		
-		head = document.getElementsByTagName('head')[0];
-		head.appendChild(link);
+		link.addEventListener('load', function(event)
+		{
+			promise.dispatchResult();
+		});
 		
-		return this;
+		link.addEventListener('error', function(event)
+		{
+			promise.dispatchFault();
+		});
+		
+		link.href = url;
+		
+		document
+			.querySelector('head')
+			.appendChild(link)
+			;
+		
+		return promise;
 	};
 	
 	/**
@@ -1947,7 +2040,8 @@
 	 * i.e. all of the keys that aren't functions
 	 * 
 	 * @memberof	conbo
-	 * @see			#keys
+	 * @see			#getVariableNames
+	 * @deprecated
 	 * @param		obj			The object to list the properties of
 	 * @param		useForIn	Whether or not to include properties further up the prorotype chain
 	 */
@@ -1958,17 +2052,17 @@
 	
 	/**
 	 * Makes the specified properties of an object bindable; if no property 
-	 * names are passed, all enumarable properties will be made bindable
+	 * names are passed, all variables will be made bindable
 	 * 
 	 * @memberof	conbo
 	 * @see 		#makeAllBindable
 	 * 
-	 * @param		{String}		obj
+	 * @param		{Object}		obj
 	 * @param		{Array}			propNames (optional)
 	 */
 	conbo.makeBindable = function(obj, propNames)
 	{
-		propNames || (propNames = conbo.properties(obj));
+		propNames || (propNames = conbo.getVariableNames(obj));
 		
 		propNames.forEach(function(propName)
 		{
@@ -1988,11 +2082,10 @@
 	 * 
 	 * @param		{String}		obj
 	 * @param		{Array}			propNames (optional)
-	 * @param		{useForIn}		Whether or not to include properties further up the prototype chain
 	 */
-	conbo.makeAllBindable = function(obj, propNames, useForIn)
+	conbo.makeAllBindable = function(obj, propNames)
 	{
-		propNames = conbo.uniq((propNames || []).concat(conbo.properties(obj, useForIn)));
+		propNames = conbo.uniq((propNames || []).concat(conbo.getVariableNames(obj)));
 		conbo.makeBindable(obj, propNames);
 		
 		return this;
@@ -2002,7 +2095,9 @@
 	 * Is the specified property an accessor (defined using a getter and/or setter)?
 	 * 
 	 * @memberof	conbo
-	 * @returns		Boolean
+	 * @param		{object}	Object containing the property
+	 * @param		{string}	The name of the property
+	 * @returns		{Boolean}
 	 */
 	conbo.isAccessor = function(obj, propName)
 	{
@@ -2019,6 +2114,7 @@
 	 * Is the specified property explicitely bindable?
 	 * 
 	 * @memberof	conbo
+	 * @deprecated
 	 * @returns		{boolean}
 	 */
 	conbo.isBindable = function(obj, propName)
@@ -2040,7 +2136,7 @@
 	conbo.isNative = function(func) 
 	{
 		return !('prototype' in func);
-	}
+	};
 	
 	/**
 	 * Parse a template
@@ -2221,7 +2317,7 @@ var __defineProperty = function(obj, propName, value, getter, setter, enumerable
 		setter = conbo.wrap(setter, function(fn, newValue)
 		{
 			fn.call(this, newValue);
-			__dispatchChange(this, propName, obj[propName]);
+			__dispatchChange(this, propName);
 		});
 		
 		setter.bindable = true;

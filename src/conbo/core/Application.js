@@ -38,7 +38,12 @@ conbo.Application = conbo.View.extend(
 	 */
 	get contextClass() 
 	{
-		return conbo.Context;
+		return this.__contextClass || conbo.Context;
+	},
+	
+	set contextClass(value)
+	{
+		this.__contextClass = value;
 	},
 	
 	/**

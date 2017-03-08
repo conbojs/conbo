@@ -257,8 +257,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 		while (elements.length)
 		{
 			var rEl = elements.pop();
+			var rView = rEl.cbView || rEl.cbGlimpse;
 			
-			if (rEl.cbView) rEl.cbView.remove();
+			if (rView) rView.remove();
 			else $(rEl).remove();
 		}
 		
