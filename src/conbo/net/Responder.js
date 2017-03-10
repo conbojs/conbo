@@ -7,6 +7,8 @@
  * @param 		{function}	resultHandler - Function that handles successful results
  * @param 		{function}	faultHandler - Function that handles errors
  * @param 		{option} 	scope - The scope the callback functions should be run in
+ * @fires		conbo.ConboEvent#RESULT
+ * @fires		conbo.ConboEvent#FAULT
  */
 conbo.Responder = conbo.Class.extend(
 /** @lends conbo.Responder */

@@ -10,6 +10,9 @@
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
  * @param 		{object} options - Object containing optional initialisation options, including `source` (array), `context` (Context) and `itemClass` (Class)
+ * @fires		conbo.ConboEvent#CHANGE
+ * @fires		conbo.ConboEvent#ADD
+ * @fires		conbo.ConboEvent#REMOVE
  */
 conbo.List = conbo.EventDispatcher.extend(
 /** @lends conbo.List.prototype */

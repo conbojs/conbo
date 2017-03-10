@@ -10,6 +10,14 @@ var View__templateCache = {};
  * @augments	conbo.Glimpse
  * @author 		Neil Rackett
  * @param 		{object}	options - Object containing optional initialisation options, including 'attributes', 'className', 'data', 'el', 'id', 'tagName', 'template', 'templateUrl'
+ * @fires		conbo.ConboEvent#ADD
+ * @fires		conbo.ConboEvent#DETACH
+ * @fires		conbo.ConboEvent#REMOVE
+ * @fires		conbo.ConboEvent#BIND
+ * @fires		conbo.ConboEvent#UNBIND
+ * @fires		conbo.ConboEvent#TEMPLATE_COMPLETE
+ * @fires		conbo.ConboEvent#TEMPLATE_FAULT
+ * @fires		conbo.ConboEvent#CREATION_COMPLETE
  */
 conbo.View = conbo.Glimpse.extend(
 /** 

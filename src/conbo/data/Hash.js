@@ -6,6 +6,7 @@
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
  * @param 		{object} options - Object containing optional initialisation options, including 'source' (object) containing initial values
+ * @fires		conbo.ConboEvent#CHANGE
  */
 conbo.Hash = conbo.EventDispatcher.extend(
 /** @lends conbo.Hash.prototype */

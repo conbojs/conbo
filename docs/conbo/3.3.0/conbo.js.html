@@ -3867,6 +3867,7 @@ __denumerate(conbo.Context.prototype);
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
  * @param 		{object} options - Object containing optional initialisation options, including 'source' (object) containing initial values
+ * @fires		conbo.ConboEvent#CHANGE
  */
 conbo.Hash = conbo.EventDispatcher.extend(
 /** @lends conbo.Hash.prototype */
@@ -3921,6 +3922,7 @@ __denumerate(conbo.Hash.prototype);
  * @augments	conbo.Hash
  * @author 		Neil Rackett
  * @param 		{object} options - Object containing initialisation options, including 'name' (string), 'session' (Boolean) and 'source' (object) containing default values; see Hash for other options
+ * @fires		conbo.ConboEvent#CHANGE
  */
 conbo.LocalHash = conbo.Hash.extend(
 /** @lends conbo.LocalHash.prototype */
@@ -3991,6 +3993,9 @@ __denumerate(conbo.LocalHash.prototype);
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
  * @param 		{object} options - Object containing optional initialisation options, including `source` (array), `context` (Context) and `itemClass` (Class)
+ * @fires		conbo.ConboEvent#CHANGE
+ * @fires		conbo.ConboEvent#ADD
+ * @fires		conbo.ConboEvent#REMOVE
  */
 conbo.List = conbo.EventDispatcher.extend(
 /** @lends conbo.List.prototype */
@@ -4346,6 +4351,9 @@ __denumerate(conbo.List.prototype);
  * @augments	conbo.List
  * @author 		Neil Rackett
  * @param 		{object} options - Object containing initialisation options, including 'name' (String), 'session' (Boolean) and 'source' (Array) of default options
+ * @fires		conbo.ConboEvent#CHANGE
+ * @fires		conbo.ConboEvent#ADD
+ * @fires		conbo.ConboEvent#REMOVE
  */
 conbo.LocalList = conbo.List.extend(
 /** @lends conbo.LocalList.prototype */
@@ -6053,6 +6061,8 @@ conbo.BindingUtils = conbo.Class.extend({},
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
  * @param 		{object} options - Object containing initialisation options
+ * @fires		conbo.ConboEvent#ADD
+ * @fires		conbo.ConboEvent#REMOVE
  */
 conbo.MutationObserver = conbo.EventDispatcher.extend(
 /** @lends conbo.MutationObserver.prototype */
@@ -6150,6 +6160,8 @@ conbo.MutationObserver = conbo.EventDispatcher.extend(
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
  * @param 		{object} options - Object containing initialisation options
+ * @fires		conbo.ConboEvent#RESULT
+ * @fires		conbo.ConboEvent#FAULT
  */
 conbo.Promise = conbo.EventDispatcher.extend(
 /** @lends conbo.Promise.prototype */
@@ -6342,6 +6354,14 @@ var View__templateCache = {};
  * @augments	conbo.Glimpse
  * @author 		Neil Rackett
  * @param 		{object}	options - Object containing optional initialisation options, including 'attributes', 'className', 'data', 'el', 'id', 'tagName', 'template', 'templateUrl'
+ * @fires		conbo.ConboEvent#ADD
+ * @fires		conbo.ConboEvent#DETACH
+ * @fires		conbo.ConboEvent#REMOVE
+ * @fires		conbo.ConboEvent#BIND
+ * @fires		conbo.ConboEvent#UNBIND
+ * @fires		conbo.ConboEvent#TEMPLATE_COMPLETE
+ * @fires		conbo.ConboEvent#TEMPLATE_FAULT
+ * @fires		conbo.ConboEvent#CREATION_COMPLETE
  */
 conbo.View = conbo.Glimpse.extend(
 /** 
@@ -6922,6 +6942,14 @@ conbo.ItemRenderer = conbo.View.extend().implement(conbo.IDataRenderer);
  * @augments	conbo.View
  * @author		Neil Rackett
  * @param 		{object} options - Object containing optional initialisation options, see View
+ * @fires		conbo.ConboEvent#ADD
+ * @fires		conbo.ConboEvent#DETACH
+ * @fires		conbo.ConboEvent#REMOVE
+ * @fires		conbo.ConboEvent#BIND
+ * @fires		conbo.ConboEvent#UNBIND
+ * @fires		conbo.ConboEvent#TEMPLATE_COMPLETE
+ * @fires		conbo.ConboEvent#TEMPLATE_FAULT
+ * @fires		conbo.ConboEvent#CREATION_COMPLETE
  */
 conbo.Application = conbo.View.extend(
 /** @lends conbo.Application.prototype */
@@ -7148,6 +7176,8 @@ conbo.httpRequest = function(options)
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
  * @param 		{object} options - Object containing optional initialisation options, including 'rootUrl', 'contentType', 'dataType', 'headers', 'encodeFunction', 'decodeFunction', 'resultClass','makeObjectsBindable'
+ * @fires		conbo.ConboEvent#RESULT
+ * @fires		conbo.ConboEvent#FAULT
  */
 conbo.HttpService = conbo.EventDispatcher.extend(
 /** @lends conbo.HttpService.prototype */
@@ -7339,6 +7369,8 @@ conbo.HttpService = conbo.EventDispatcher.extend(
  * @augments	conbo.Promise
  * @author 		Neil Rackett
  * @param 		{object} options - Object containing optional initialisation options, including 'makeObjectsBindable' and 'resultClass'
+ * @fires		conbo.ConboEvent#RESULT
+ * @fires		conbo.ConboEvent#FAULT
  */
 conbo.AsyncToken = conbo.Promise.extend(
 /** @lends conbo.AsyncToken.prototype */
@@ -7459,6 +7491,8 @@ __denumerate(conbo.AsyncToken.prototype);
  * @param 		{function}	resultHandler - Function that handles successful results
  * @param 		{function}	faultHandler - Function that handles errors
  * @param 		{option} 	scope - The scope the callback functions should be run in
+ * @fires		conbo.ConboEvent#RESULT
+ * @fires		conbo.ConboEvent#FAULT
  */
 conbo.Responder = conbo.Class.extend(
 /** @lends conbo.Responder */
@@ -7499,6 +7533,9 @@ conbo.ISyncable =
  * @augments	conbo.Hash
  * @author 		Neil Rackett
  * @param 		{object} options - Object containing initialisation options, see Hash
+ * @fires		conbo.ConboEvent#CHANGE
+ * @fires		conbo.ConboEvent#RESULT
+ * @fires		conbo.ConboEvent#FAULT
  */
 conbo.RemoteHash = conbo.Hash.extend(
 /** @lends conbo.RemoteHash.prototype */
@@ -7526,8 +7563,8 @@ conbo.RemoteHash = conbo.Hash.extend(
 		};
 		
 		this._httpService
-			.addEventListener('result', resultHandler, this)
-			.addEventListener('fault', this.dispatchEvent, this);
+			.addEventListener(conbo.ConboEvent.RESULT, resultHandler, this)
+			.addEventListener(conbo.ConboEvent.FAULT, this.dispatchEvent, this);
 		
 		__denumerate(this);
 		
@@ -7570,6 +7607,11 @@ __denumerate(conbo.HttpService.prototype);
  * @augments	conbo.List
  * @author 		Neil Rackett
  * @param 		{object} options - Object containing initialisation options, including HttpService options
+ * @fires		conbo.ConboEvent#CHANGE
+ * @fires		conbo.ConboEvent#ADD
+ * @fires		conbo.ConboEvent#REMOVE
+ * @fires		conbo.ConboEvent#RESULT
+ * @fires		conbo.ConboEvent#FAULT
  */
 conbo.RemoteList = conbo.List.extend(
 /** @lends conbo.RemoteList.prototype */
@@ -7596,8 +7638,8 @@ conbo.RemoteList = conbo.List.extend(
 		};
 		
 		this._httpService
-			.addEventListener('result', resultHandler, this)
-			.addEventListener('fault', this.dispatchEvent, this)
+			.addEventListener(conbo.ConboEvent.RESULT, resultHandler, this)
+			.addEventListener(conbo.ConboEvent.FAULT, this.dispatchEvent, this)
 			;
 		
 		__denumerate(this);
@@ -8042,7 +8084,7 @@ __denumerate(conbo.Router.prototype);
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Mar 10 2017 20:19:23 GMT+0000 (GMT Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Mar 10 2017 21:34:54 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

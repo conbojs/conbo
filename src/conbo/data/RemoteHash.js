@@ -6,6 +6,9 @@
  * @augments	conbo.Hash
  * @author 		Neil Rackett
  * @param 		{object} options - Object containing initialisation options, see Hash
+ * @fires		conbo.ConboEvent#CHANGE
+ * @fires		conbo.ConboEvent#RESULT
+ * @fires		conbo.ConboEvent#FAULT
  */
 conbo.RemoteHash = conbo.Hash.extend(
 /** @lends conbo.RemoteHash.prototype */
@@ -33,8 +36,8 @@ conbo.RemoteHash = conbo.Hash.extend(
 		};
 		
 		this._httpService
-			.addEventListener('result', resultHandler, this)
-			.addEventListener('fault', this.dispatchEvent, this);
+			.addEventListener(conbo.ConboEvent.RESULT, resultHandler, this)
+			.addEventListener(conbo.ConboEvent.FAULT, this.dispatchEvent, this);
 		
 		__denumerate(this);
 		

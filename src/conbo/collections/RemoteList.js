@@ -6,6 +6,11 @@
  * @augments	conbo.List
  * @author 		Neil Rackett
  * @param 		{object} options - Object containing initialisation options, including HttpService options
+ * @fires		conbo.ConboEvent#CHANGE
+ * @fires		conbo.ConboEvent#ADD
+ * @fires		conbo.ConboEvent#REMOVE
+ * @fires		conbo.ConboEvent#RESULT
+ * @fires		conbo.ConboEvent#FAULT
  */
 conbo.RemoteList = conbo.List.extend(
 /** @lends conbo.RemoteList.prototype */
@@ -32,8 +37,8 @@ conbo.RemoteList = conbo.List.extend(
 		};
 		
 		this._httpService
-			.addEventListener('result', resultHandler, this)
-			.addEventListener('fault', this.dispatchEvent, this)
+			.addEventListener(conbo.ConboEvent.RESULT, resultHandler, this)
+			.addEventListener(conbo.ConboEvent.FAULT, this.dispatchEvent, this)
 			;
 		
 		__denumerate(this);
