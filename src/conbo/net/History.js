@@ -104,7 +104,8 @@ conbo.History = conbo.EventDispatcher.extend(
 		
 		if (!(options || {}).silent)
 		{
-			return this.loadUrl();
+			this.loadUrl();
+			return this;
 		}
 		
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.STARTED));
