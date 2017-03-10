@@ -3,6 +3,8 @@
  * event and hash-bang URL fragments
  * 
  * @author 		Neil Rackett
+ * @fires		conbo.ConboEvent#CHANGE
+ * @fires		conbo.ConboEvent#FAULT
  */
 conbo.History = conbo.EventDispatcher.extend(
 /** @lends conbo.History.prototype */
@@ -16,7 +18,7 @@ conbo.History = conbo.EventDispatcher.extend(
 		this.bindAll('__checkUrl');
 	},
 	
-	start: function(options)
+	start: function()
 	{
 		window.addEventListener('hashchange', this.__checkUrl);
 		

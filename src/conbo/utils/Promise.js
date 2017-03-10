@@ -62,5 +62,3 @@ conbo.Promise = conbo.EventDispatcher.extend(
 	},
 	
 });
-
-//__denumerate(conbo.Promise.prototype);

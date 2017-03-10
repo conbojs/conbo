@@ -10,16 +10,18 @@
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
  * @param 		{object} options - Object containing initialisation options
- * @fires		conbo.ConboEvent#ROUTE
- * @fires		conbo.ConboEvent#STARTED
- * @fires		conbo.ConboEvent#STOPPED
+ * @fires		conbo.ConboEvent#CHANGE
  * @fires		conbo.ConboEvent#FAULT
+ * @fires		conbo.ConboEvent#ROUTE
+ * @fires		conbo.ConboEvent#START
+ * @fires		conbo.ConboEvent#STOP
  */
 conbo.Router = conbo.EventDispatcher.extend(
 /** @lends conbo.Router.prototype */
 {
 	/**
 	 * Whether or the Router class is supported by the current browser
+	 * @type	{boolean}
 	 */
 	get isSupported()
 	{
@@ -27,9 +29,7 @@ conbo.Router = conbo.EventDispatcher.extend(
 	},
 	
 	/**
-	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @private
-	 * @param options
 	 */
 	__construct: function(options) 
 	{
@@ -42,7 +42,10 @@ conbo.Router = conbo.EventDispatcher.extend(
 		this.context = options.context;
 	},
 	
-	start: function(options)
+	/**
+	 * Start the router
+	 */
+	start: function()
 	{
 		if (!this.__history)
 		{
@@ -52,7 +55,7 @@ conbo.Router = conbo.EventDispatcher.extend(
 			this.__history
 				.addEventListener(conbo.ConboEvent.FAULT, this.dispatchEvent, this)
 				.addEventListener(conbo.ConboEvent.CHANGE, this.dispatchEvent, this)
-				.start(options)
+				.start()
 				;
 			
 			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.START));
@@ -61,6 +64,9 @@ conbo.Router = conbo.EventDispatcher.extend(
 		return this;
 	},
 	
+	/**
+	 * Stop the router
+	 */
 	stop: function()
 	{
 		if (this.__history)
@@ -121,7 +127,6 @@ conbo.Router = conbo.EventDispatcher.extend(
 				route:		route,
 				name:		name,
 				parameters:	args,
-				fragment:	path, // Deprecated
 				path:		path
 			};
 			
@@ -153,8 +158,9 @@ conbo.Router = conbo.EventDispatcher.extend(
 	 */
 	get path()
 	{
-		return this.__history.getPath();
+		return this.__history ? this.__history.getPath() : '';
 	},
+	
 	set path(value)
 	{
 		return this.setPath(path, options);

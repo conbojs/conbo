@@ -44,17 +44,17 @@ conbo.List = conbo.EventDispatcher.extend(
 	 */
 	get source()
 	{
-		if (!this._source)
+		if (!this.__source)
 		{
-			this._source = [];
+			this.__source = [];
 		}
 		
-		return this._source;
+		return this.__source;
 	},
 	
 	set source(value)
 	{
-		this._source = [];
+		this.__source = [];
 		this.push.apply(this, conbo.toArray(value));
 		this.dispatchChange('source', 'length');
 	},
