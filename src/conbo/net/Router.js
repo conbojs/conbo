@@ -42,8 +42,11 @@ conbo.Router = conbo.EventDispatcher.extend(
 	
 	start: function(options)
 	{
-		this.history.start(options);
-		this.history.addEventListener(conbo.ConboEvent.NAVIGATE, this.dispatchEvent, this);
+		this.history
+			.start(options)
+			.addEventListener(conbo.ConboEvent.NAVIGATE, this.dispatchEvent, this)
+			;
+		
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.STARTED));
 		
 		return this;
@@ -51,8 +54,11 @@ conbo.Router = conbo.EventDispatcher.extend(
 	
 	stop: function()
 	{
-		this.history.stop();
-		this.history.removeEventListener(conbo.ConboEvent.NAVIGATE, this.dispatchEvent, this);
+		this.history
+			.stop()
+			.removeEventListener(conbo.ConboEvent.NAVIGATE, this.dispatchEvent, this)
+			;
+		
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.STOPPED));
 		
 		return this;
@@ -175,9 +181,11 @@ conbo.Router = conbo.EventDispatcher.extend(
 	 */
 	__routeToRegExp: function(route) 
 	{
-		route = route.replace(escapeRegExp, '\\$&')
+		route = route
+			.replace(escapeRegExp, '\\$&')
 			.replace(optionalParam, '(?:$1)?')
-			.replace(namedParam, function(match, optional){
+			.replace(namedParam, function(match, optional)
+			{
 				return optional ? match : '([^\/]+)';
 			})
 			.replace(splatParam, '(.*?)');

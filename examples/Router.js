@@ -20,7 +20,7 @@ conbo('example', function()
 			this.routes =
 			{
 				'bold/:name': 'BoldView',
-				'2(/:name)': 'ItalicView', 
+				'italic(/:name)': 'ItalicView', 
 				'*invalid': ''
 			}
 		}
@@ -30,7 +30,7 @@ conbo('example', function()
 	{
 		initialize()
 		{
-			this.mapSingleton('router', MyRouter);
+			this.mapSingleton('router', MyRouter, this.addTo());
 		}
 	}
 	
@@ -51,7 +51,7 @@ conbo('example', function()
 	{
 		declarations(options)
 		{
-			this.template = '<i>See you later <span cb-text="name"></span>!</i>';
+			this.template = '<i>See you later, <span cb-text="name"></span>!</i>';
 		}
 	}
 	
@@ -62,10 +62,16 @@ conbo('example', function()
 			this.contextClass = MyContext;
 			this.namespace = ns;
 			
+			// Use undefined for property injection
 			this.router = undefined;
 		}
 		
 		initialize()
+		{
+			this.addEventListener('creationcomplete', this.creationCompleteHandler, this);
+		}
+		
+		creationCompleteHandler(event)
 		{
 			this.router
 				.addEventListener('route', this.routeHandler, this)
@@ -75,18 +81,20 @@ conbo('example', function()
 		
 		routeHandler(event)
 		{
+			this.content.innerHTML = '';
+			
 			if (event.name)
 			{
-				this.content = new ns[event.name]().el;
+				var options = {name:event.parameters[0]};
+				this.content.appendChild(new ns[event.name](options).el);
 				return;
 			}
-			
-			console.log(this);
 			
 			this.content.innerHTML = "Click a link below to test the router!";
 		}
 	}
 	
+	// Appends the specified classes to the current namespace
 	return {
 		RouterExample: RouterExample,
 		BoldView: BoldView,
