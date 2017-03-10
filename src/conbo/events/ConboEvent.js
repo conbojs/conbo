@@ -59,15 +59,15 @@ conbo.ConboEvent = conbo.Event.extend(
 
 	/** 
 	 * Something has started
-	 * @event	conbo.ConboEvent#STARTED
+	 * @event	conbo.ConboEvent#START
 	 */
-	STARTED:			'started',
+	START:				'start',
 
 	/**
 	 * Something has stopped
-	 * @event	conbo.ConboEvent#STOPPED
+	 * @event	conbo.ConboEvent#STOP
 	 */
-	STOPPED:			'stopped',
+	STOP:				'stop',
 	
 	/**
 	 * A template has loaded 

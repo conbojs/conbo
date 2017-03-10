@@ -55,7 +55,7 @@ conbo.Router = conbo.EventDispatcher.extend(
 				.start(options)
 				;
 			
-			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.STARTED));
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.START));
 		}
 		
 		return this;
@@ -72,7 +72,7 @@ conbo.Router = conbo.EventDispatcher.extend(
 			
 			delete this.__history;
 			
-			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.STOPPED));
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.STOP));
 		}
 		
 		return this;
