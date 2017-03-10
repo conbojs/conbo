@@ -466,7 +466,7 @@ conbo.View = conbo.Glimpse.extend(
 		{
 			$el.empty();
 			
-			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.TEMPLATE_ERROR));
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.TEMPLATE_FAULT));
 			this.__initView();
 		};
 		
@@ -528,7 +528,7 @@ conbo.View = conbo.Glimpse.extend(
 		
 		delete this.__content;
 		
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.TEMPLATE_LOADED))
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.TEMPLATE_COMPLETE))
 			.bindView()
 			;
 		
