@@ -383,7 +383,7 @@ conbo.View = conbo.Glimpse.extend(
 	bindView: function()
 	{
 		conbo.BindingUtils.bindView(this);
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.BOUND));
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.BIND));
 		return this;
 	},
 	
@@ -394,7 +394,7 @@ conbo.View = conbo.Glimpse.extend(
 	unbindView: function() 
 	{
 		conbo.BindingUtils.unbindView(this);
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.UNBOUND));
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.UNBIND));
 		return this;
 	},
 	
@@ -534,9 +534,7 @@ conbo.View = conbo.Glimpse.extend(
 		
 		conbo.defer(function()
 		{
-			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.INIT)) // Deprecated: use CREATION_COMPLETE
-				.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CREATION_COMPLETE))
-				;
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CREATION_COMPLETE));
 		}, this);
 		
 		return this;

@@ -184,7 +184,7 @@ if (!!$)
 			
 			conbo.forEach($el[0].attributes, function(p)
 			{
-				a[conbo.toCamelCase(p.nodeName)] = p.nodeValue;
+				a[conbo.toCamelCase(p.nodeName)] = p.value;
 			});
 			
 			return a;

@@ -1,8 +1,3 @@
-var optionalParam 	= /\((.*?)\)/g;
-var namedParam		= /(\(\?)?:\w+/g;
-var splatParam		= /\*\w+/g;
-var escapeRegExp	= /[\-{}\[\]+?.,\\\^$|#\s]/g;
-
 /**
  * Router
  * 
@@ -15,10 +10,22 @@ var escapeRegExp	= /[\-{}\[\]+?.,\\\^$|#\s]/g;
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
  * @param 		{object} options - Object containing initialisation options
+ * @fires		conbo.ConboEvent#ROUTE
+ * @fires		conbo.ConboEvent#STARTED
+ * @fires		conbo.ConboEvent#STOPPED
+ * @fires		conbo.ConboEvent#FAULT
  */
 conbo.Router = conbo.EventDispatcher.extend(
 /** @lends conbo.Router.prototype */
 {
+	/**
+	 * Whether or the Router class is supported by the current browser
+	 */
+	get isSupported()
+	{
+		return 'onhashchange' in window;
+	},
+	
 	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @private
@@ -31,48 +38,55 @@ conbo.Router = conbo.EventDispatcher.extend(
 			this.routes = options.routes;
 		}
 		
-		this.__bindRoutes();
+		this.historyClass = conbo.History;
 		this.context = options.context;
-	},
-	
-	get history()
-	{
-		return conbo.history;
 	},
 	
 	start: function(options)
 	{
-		this.history
-			.start(options)
-			.addEventListener(conbo.ConboEvent.NAVIGATE, this.dispatchEvent, this)
-			;
-		
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.STARTED));
+		if (!this.__history)
+		{
+			this.__history = new this.historyClass();
+			this.__bindRoutes();
+			
+			this.__history
+				.addEventListener(conbo.ConboEvent.FAULT, this.dispatchEvent, this)
+				.addEventListener(conbo.ConboEvent.CHANGE, this.dispatchEvent, this)
+				.start(options)
+				;
+			
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.STARTED));
+		}
 		
 		return this;
 	},
 	
 	stop: function()
 	{
-		this.history
-			.stop()
-			.removeEventListener(conbo.ConboEvent.NAVIGATE, this.dispatchEvent, this)
-			;
-		
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.STOPPED));
+		if (this.__history)
+		{
+			this.__history
+				.removeEventListener()
+				.stop()
+				;
+			
+			delete this.__history;
+			
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.STOPPED));
+		}
 		
 		return this;
 	},
 	
 	/**
-	 * Manually bind a single named route to a callback. For example:
+	 * Adds a named route
 	 * 
 	 * @example
-	 * 		this.route('search/:query/p:num', 'search', function(query, num) {
+	 * 		this.addRoute('search/:query/p:num', 'search', function(query, num) {
 	 * 			 ...
 	 * 		});
 	 */ 
-	route: function(route, name, callback) 
+	addRoute: function(route, name, callback) 
 	{
 		if (!conbo.isRegExp(route)) 
 		{
@@ -95,9 +109,9 @@ conbo.Router = conbo.EventDispatcher.extend(
 			callback = this[name];
 		}
 		
-		this.history.route(route, this.bind(function(fragment)
+		this.__history.addRoute(route, this.bind(function(path)
 		{
-			var args = this.__extractParameters(route, fragment);
+			var args = this.__extractParameters(route, path);
 			
 			callback && callback.apply(this, args);
 			
@@ -107,42 +121,43 @@ conbo.Router = conbo.EventDispatcher.extend(
 				route:		route,
 				name:		name,
 				parameters:	args,
-				fragment:	fragment
+				fragment:	path, // Deprecated
+				path:		path
 			};
 			
 			this.dispatchEvent(new conbo.ConboEvent('route:'+name, options));
 			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ROUTE, options));
-			
-			this.history.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ROUTE, options));
 		}));
 		
 		return this;
 	},
 	
 	/**
-	 * Simple proxy to `this.history` to save a fragment into the history.
+	 * Sets the current path, optionally replacing the current path or silently 
+	 * without triggering a route event
+	 * 
+	 * @param	{string}	path - The path to navigate to
+	 * @param	{object}	options - Object containing options: trigger (true) and replace (false)
 	 */
-	navigate: function(fragment, options) 
+	setPath: function(path, options) 
 	{
-		this.history.navigate(fragment, options);
+		options = conbo.setDefaults({}, options, {trigger:true});
+		
+		this.__history.setPath(path, options);
 		return this;
 	},
 	
-	navigateTo: function(fragment, options) 
-	{
-		options || (options = {});
-		options.trigger = true;
-		
-		return this.navigate(fragment, options);
-	},
-	
+	/**
+	 * Get or set the current path using the default options
+	 * @type	{string}
+	 */
 	get path()
 	{
-		return this.history.getHash();
+		return this.__history.getPath();
 	},
 	set path(value)
 	{
-		this.navigateTo(value);
+		return this.setPath(path, options);
 	},
 	
 	toString: function()
@@ -151,7 +166,7 @@ conbo.Router = conbo.EventDispatcher.extend(
 	},
 	
 	/**
-	 * Bind all defined routes to `this.history`. We have to reverse the
+	 * Bind all defined routes. We have to reverse the
 	 * order of the routes here to support behavior where the most general
 	 * routes can be defined at the bottom of the route map.
 	 * 
@@ -159,17 +174,14 @@ conbo.Router = conbo.EventDispatcher.extend(
 	 */
 	__bindRoutes: function() 
 	{
-		if (!this.routes)
-		{
-			return;
-		}
+		if (!this.routes) return;
 		
-		var route,
-			routes = conbo.keys(this.routes);
+		var route;
+		var routes = conbo.keys(this.routes);
 		
 		while ((route = routes.pop()) != null)
 		{
-			this.route(route, this.routes[route]);
+			this.addRoute(route, this.routes[route]);
 		}
 	},
 	
@@ -181,7 +193,14 @@ conbo.Router = conbo.EventDispatcher.extend(
 	 */
 	__routeToRegExp: function(route) 
 	{
+		var rootStripper 	= /^\/+|\/+$/g;
+		var optionalParam 	= /\((.*?)\)/g;
+		var namedParam		= /(\(\?)?:\w+/g;
+		var splatParam		= /\*\w+/g;
+		var escapeRegExp	= /[\-{}\[\]+?.,\\\^$|#\s]/g;
+		
 		route = route
+			.replace(rootStripper, '')
 			.replace(escapeRegExp, '\\$&')
 			.replace(optionalParam, '(?:$1)?')
 			.replace(namedParam, function(match, optional)

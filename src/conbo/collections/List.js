@@ -211,7 +211,6 @@ conbo.List = conbo.EventDispatcher.extend(
 	sort: function(compareFunction) 
 	{
 		this.source.sort(compareFunction);
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.SORT));
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE));
 		
 		return this;

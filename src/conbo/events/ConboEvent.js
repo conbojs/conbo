@@ -27,100 +27,94 @@ conbo.ConboEvent = conbo.Event.extend(
 },
 /** @lends conbo.ConboEvent */
 {
-	/** Special event fires for any triggered event */
-	ALL:					'*',
-	
-	/** When a save call fails on the server (Properties: model, xhr, options) */
-	ERROR:					'error',
-	
-	/** (Properties: model, error, options) when a model's validation fails on the client */	
-	INVALID:				'invalid', 			
+	/** 
+	 * Special event fires for any triggered event 
+	 * @event	conbo.ConboEvent#ALL
+	 */
+	ALL:				'*',
 
 	/**
-	 * When a Bindable instance's attributes have changed (Properties: property, value)
-	 * Also, `change:[attribute]` when a specific attribute has been updated (Properties: property, value)								
+	 * Something has changed, also 'change:[name]' (Properties: property, value)
+	 * @event	conbo.ConboEvent#CHANGE
 	 */
-	CHANGE:					'change',
+	CHANGE:				'change',
 	
-	/** when a model is added to a collection (Properties: model, collection, options) */
-	ADD:					'add', 				
+	/** 
+	 * When something is added
+	 * @event	conbo.ConboEvent#ADD
+	 */
+	ADD:				'add', 				
 
 	/**
-	 * When a model is removed from a collection (Properties: model, collection, options)
-	 * or a View's element has been removed from the DOM
+	 * Something was removed
+	 * @event	conbo.ConboEvent#REMOVE
 	 */
-	REMOVE:					'remove',
-
-	/** (Properties: model, collection, options) when a model is destroyed */
-	DESTROY:				'destroy', 			
-
-	/** (Properties: collection, options) when the collection's entire contents have been replaced */
-	RESET:					'reset', 			
-
-	/** (Properties: collection, options) when the collection has been re-sorted */
-	SORT:					'sort', 			
-
-	/** (Properties: model, xhr, options) when a model (or collection) has started a request to the server */	
-	REQUEST:				'request', 			
-
-	/** (Properties: model, response, options) when a model (or collection) has been successfully synced with the server */
-	SYNC:					'sync',
+	REMOVE:				'remove',
 
 	/**
-	 * (Properties: router, route, params) Fired by history (or router) when any route has been matched
-	 * Also, 'route:[name]' // (Properties: params) Fired by the router when a specific route is matched 
+	 * The route has changed, also 'route:[name]' (Properties: router, route, name, parameters, path)
+	 * @event	conbo.ConboEvent#ROUTE
 	 */
-	ROUTE:					'route', 			
-											
-	/** Dispatched by history (or router) when the path changes, regardless of whether the route has changed */
-	NAVIGATE:				'navigate',
-
-	/** A process, e.g. history, has started */
-	STARTED:				'started',
-
-	/** A process, e.g. history, has stopped */
-	STOPPED:				'stopped',
-	
-	// View
-	
-	/** Template data has been loaded into the View and can now be manipulated in the DOM */
-	TEMPLATE_LOADED:		'templateloaded',
-
-	/** An error occurred while loading the template */
-	TEMPLATE_ERROR:			'templateerror',
-
-	/** Fired by an element after having one or more property bound to it */
-	BIND:					'bind',
-
-	/** All elements in HTML have been bound to the View */
-	BOUND:					'bound',			
-
-	/** All elements in HTML have been unbound from the View */
-	UNBOUND:				'unbound',			
+	ROUTE:				'route', 			
 
 	/** 
-	 * For a View, this means template loaded, elements bound, DOM rendered
-	 * @deprecated
-	 * @see		conbo.ConboEvent.CREATION_COMPLETE 
+	 * Something has started
+	 * @event	conbo.ConboEvent#STARTED
 	 */
-	INIT:					'init',
+	STARTED:			'started',
+
+	/**
+	 * Something has stopped
+	 * @event	conbo.ConboEvent#STOPPED
+	 */
+	STOPPED:			'stopped',
+	
+	/**
+	 * A template has loaded 
+	 * @event	conbo.ConboEvent#TEMPLATE_LOADED
+	 */
+	TEMPLATE_LOADED:	'templateloaded',
 
 	/** 
-	 * View template loaded, elements bound, DOM rendered
+	 * A template error has occurred 
+	 * @event	conbo.ConboEvent#TEMPLATE_ERROR
 	 */
-	CREATION_COMPLETE:		'creationcomplete',
+	TEMPLATE_ERROR:		'templateerror',
+
+	/** 
+	 * Something has been bound 
+	 * @event	conbo.ConboEvent#BIND
+	 */
+	BIND:				'bind',
+
+	/** 
+	 * Something has been unbound 
+	 * @event	conbo.ConboEvent#UNBIND
+	 */
+	UNBIND:				'unbind',			
+
+	/** 
+	 * Something has been created
+	 * @event	conbo.ConboEvent#CREATION_COMPLETE
+	 */
+	CREATION_COMPLETE:	'creationcomplete',
 	
-	/** The View has been detached from the DOM */
-	DETACH:					'detach',
+	/** 
+	 * Something has been detached
+	 * @event	conbo.ConboEvent#DETACH
+	 */
+	DETACH:				'detach',
 	
-	// Web Services & Promises
+	/** 
+	 * A result has been received 
+	 * @event	conbo.ConboEvent#RESULT
+	 */
+	RESULT:				'result',
 	
-	/** A result has been received */
-	RESULT:					'result',
-	
-	/** A fault has occurred */
-	FAULT:					'fault',			
+	/** 
+	 * A fault has occurred 
+	 * @event	conbo.ConboEvent#FAULT
+	 */
+	FAULT:				'fault',			
 	
 });
-
-__denumerate(conbo.ConboEvent.prototype);

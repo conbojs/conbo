@@ -1,6 +1,6 @@
 /**
- * Hello World example for ConboJS
- * Demonstrates how to create a new ConboJS Application
+ * Router example for ConboJS
+ * Demonstrates how to use basic routing in ConboJS 
  * 
  * @author	Neil Rackett
  */
@@ -20,8 +20,7 @@ conbo('example', function()
 			this.routes =
 			{
 				'bold/:name': 'BoldView',
-				'italic(/:name)': 'ItalicView', 
-				'*invalid': ''
+				'italic(/:name)': 'ItalicView'
 			}
 		}
 	}
@@ -74,23 +73,23 @@ conbo('example', function()
 		creationCompleteHandler(event)
 		{
 			this.router
-				.addEventListener('route', this.routeHandler, this)
+				.addEventListener('fault', this.faultHandler, this) // Unrecognised route
+				.addEventListener('route', this.routeHandler, this) // Recognised route
 				.start()
 				;
 		}
 		
 		routeHandler(event)
 		{
+			var options = {name:event.parameters[0]};
+			
 			this.content.innerHTML = '';
-			
-			if (event.name)
-			{
-				var options = {name:event.parameters[0]};
-				this.content.appendChild(new ns[event.name](options).el);
-				return;
-			}
-			
-			this.content.innerHTML = "Click a link below to test the router!";
+			this.content.appendChild(new ns[event.name](options).el);
+		}
+		
+		faultHandler(event)
+		{
+			this.content.innerHTML = "I don't recognise that route, try another one from the list below!";
 		}
 	}
 	
@@ -99,6 +98,6 @@ conbo('example', function()
 		RouterExample: RouterExample,
 		BoldView: BoldView,
 		ItalicView: ItalicView
-	}
+	};
 	
 });

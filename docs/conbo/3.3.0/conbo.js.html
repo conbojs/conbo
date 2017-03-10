@@ -163,8 +163,7 @@ if (!!$)
 }
 
 /*
- * Utility methods: a modified subset of Underscore.js methods, 
- * plus loads of our own
+ * Utility methods: a modified subset of Underscore.js methods and loads of our own
  */
 
 (function() 
@@ -1217,6 +1216,8 @@ if (!!$)
 	 * including both enumerable and unenumerable functions
 	 * 
 	 * @memberof	conbo
+	 * @deprecated
+	 * @see			#getFunctionNames
 	 * @param		{object}	obj - Object to sort
 	 */
 	conbo.functions = function(obj) 
@@ -1588,6 +1589,23 @@ if (!!$)
 			return typeof obj === 'function';
 		};
 	}
+	
+	/**
+	 * Detects whether the specified property is a defined function (accessors
+	 * containing functions will return false)
+	 * 
+	 * @memberof	conbo
+	 * @see			#isFunction
+	 * 
+	 * @param		{object}	Object containing the property
+	 * @param		{string}	The name of the property
+	 * @returns		{boolean}	true if it's a function
+	 */
+	conbo.isFunc = function(obj, propName)
+	{
+		var descriptor = conbo.getPropertyDescriptor(obj, "f");
+		return descriptor &amp;&amp; typeof(descriptor.value) == 'function';
+	};
 	
 	/**
 	 * Is a given object a finite number?
@@ -2118,11 +2136,12 @@ if (!!$)
 	};
 	
 	/**
-	 * Loads a CSS file and apply it to the DOM
+	 * Loads a CSS file and applies it to the DOM
 	 * 
 	 * @memberof	conbo
 	 * @param 		{String}	url		The CSS file's URL
 	 * @param 		{String}	media	The media attribute (defaults to 'all')
+	 * @returns		conbo.Promise
 	 */
 	conbo.loadCss = function(url, media)
 	{
@@ -2131,18 +2150,33 @@ if (!!$)
 			return this;
 		}
 		
-		var link, head; 
+		var link, head, promise;
+		
+		promise = new conbo.Promise();
 			
 		link = document.createElement('link');
-		link.rel	= 'stylesheet';
+		link.rel = 'stylesheet';
 		link.type = 'text/css';
-		link.href = url;
 		link.media = media || 'all';
 		
-		head = document.getElementsByTagName('head')[0];
-		head.appendChild(link);
+		link.addEventListener('load', function(event)
+		{
+			promise.dispatchResult();
+		});
 		
-		return this;
+		link.addEventListener('error', function(event)
+		{
+			promise.dispatchFault();
+		});
+		
+		link.href = url;
+		
+		document
+			.querySelector('head')
+			.appendChild(link)
+			;
+		
+		return promise;
 	};
 	
 	/**
@@ -2170,7 +2204,8 @@ if (!!$)
 	 * i.e. all of the keys that aren't functions
 	 * 
 	 * @memberof	conbo
-	 * @see			#keys
+	 * @see			#getVariableNames
+	 * @deprecated
 	 * @param		obj			The object to list the properties of
 	 * @param		useForIn	Whether or not to include properties further up the prorotype chain
 	 */
@@ -2265,23 +2300,6 @@ if (!!$)
 	conbo.isNative = function(func) 
 	{
 		return !('prototype' in func);
-	};
-	
-	/**
-	 * Detects whether the specified property is a defined function (accessors
-	 * containing functions will return false)
-	 * 
-	 * @memberof	conbo
-	 * @see			conbo.isFunction
-	 * 
-	 * @param		{object}	Object containing the property
-	 * @param		{string}	The name of the property
-	 * @returns		{boolean}	true if it's a function
-	 */
-	conbo.isFunc = function(obj, propName)
-	{
-		var descriptor = conbo.getPropertyDescriptor(obj, "f");
-		return descriptor &amp;&amp; typeof(descriptor.value) == 'function';
 	};
 	
 	/**
@@ -2715,7 +2733,7 @@ if (!!$)
 			
 			conbo.forEach($el[0].attributes, function(p)
 			{
-				a[conbo.toCamelCase(p.nodeName)] = p.nodeValue;
+				a[conbo.toCamelCase(p.nodeName)] = p.value;
 			});
 			
 			return a;
@@ -2775,26 +2793,19 @@ if (!!$)
 	
 }
 /*
- * CSS styles and utilities
+ * CSS styles used by ConboJS
  * @author 	Neil Rackett
  */
 
-if (!!$)
+if (document &amp;&amp; !document.querySelector('#cb-style'))
 {
-	var $head = $('head');
-	
-	if (!$head.find('#cb-style').length)
-	{
-		$head.append
-		(
-			'&lt;style id="cb-style" type="text/css">'+
-				'\n.cb-hide { visibility:hidden !important; }'+
-				'\n.cb-exclude { display:none !important; }'+
-				'\n.cb-disable { pointer-events:none !important; cursor:default !important; }'+
-				'\n.cb-app span { font:inherit; color:inherit; }'+
-			'\n&lt;/style>'
-		);
-	}
+	document.querySelector('head').innerHTML += 
+		'&lt;style id="cb-style" type="text/css">'+
+			'\n.cb-hide { visibility:hidden !important; }'+
+			'\n.cb-exclude { display:none !important; }'+
+			'\n.cb-disable { pointer-events:none !important; cursor:default !important; }'+
+			'\n.cb-app span { font:inherit; color:inherit; }'+
+		'\n&lt;/style>';
 }
 
 /**
@@ -3246,103 +3257,97 @@ conbo.ConboEvent = conbo.Event.extend(
 },
 /** @lends conbo.ConboEvent */
 {
-	/** Special event fires for any triggered event */
-	ALL:					'*',
-	
-	/** When a save call fails on the server (Properties: model, xhr, options) */
-	ERROR:					'error',
-	
-	/** (Properties: model, error, options) when a model's validation fails on the client */	
-	INVALID:				'invalid', 			
+	/** 
+	 * Special event fires for any triggered event 
+	 * @event	conbo.ConboEvent#ALL
+	 */
+	ALL:				'*',
 
 	/**
-	 * When a Bindable instance's attributes have changed (Properties: property, value)
-	 * Also, `change:[attribute]` when a specific attribute has been updated (Properties: property, value)								
+	 * Something has changed, also 'change:[name]' (Properties: property, value)
+	 * @event	conbo.ConboEvent#CHANGE
 	 */
-	CHANGE:					'change',
+	CHANGE:				'change',
 	
-	/** when a model is added to a collection (Properties: model, collection, options) */
-	ADD:					'add', 				
+	/** 
+	 * When something is added
+	 * @event	conbo.ConboEvent#ADD
+	 */
+	ADD:				'add', 				
 
 	/**
-	 * When a model is removed from a collection (Properties: model, collection, options)
-	 * or a View's element has been removed from the DOM
+	 * Something was removed
+	 * @event	conbo.ConboEvent#REMOVE
 	 */
-	REMOVE:					'remove',
-
-	/** (Properties: model, collection, options) when a model is destroyed */
-	DESTROY:				'destroy', 			
-
-	/** (Properties: collection, options) when the collection's entire contents have been replaced */
-	RESET:					'reset', 			
-
-	/** (Properties: collection, options) when the collection has been re-sorted */
-	SORT:					'sort', 			
-
-	/** (Properties: model, xhr, options) when a model (or collection) has started a request to the server */	
-	REQUEST:				'request', 			
-
-	/** (Properties: model, response, options) when a model (or collection) has been successfully synced with the server */
-	SYNC:					'sync',
+	REMOVE:				'remove',
 
 	/**
-	 * (Properties: router, route, params) Fired by history (or router) when any route has been matched
-	 * Also, 'route:[name]' // (Properties: params) Fired by the router when a specific route is matched 
+	 * The route has changed, also 'route:[name]' (Properties: router, route, name, parameters, path)
+	 * @event	conbo.ConboEvent#ROUTE
 	 */
-	ROUTE:					'route', 			
-											
-	/** Dispatched by history (or router) when the path changes, regardless of whether the route has changed */
-	NAVIGATE:				'navigate',
-
-	/** A process, e.g. history, has started */
-	STARTED:				'started',
-
-	/** A process, e.g. history, has stopped */
-	STOPPED:				'stopped',
-	
-	// View
-	
-	/** Template data has been loaded into the View and can now be manipulated in the DOM */
-	TEMPLATE_LOADED:		'templateloaded',
-
-	/** An error occurred while loading the template */
-	TEMPLATE_ERROR:			'templateerror',
-
-	/** Fired by an element after having one or more property bound to it */
-	BIND:					'bind',
-
-	/** All elements in HTML have been bound to the View */
-	BOUND:					'bound',			
-
-	/** All elements in HTML have been unbound from the View */
-	UNBOUND:				'unbound',			
+	ROUTE:				'route', 			
 
 	/** 
-	 * For a View, this means template loaded, elements bound, DOM rendered
-	 * @deprecated
-	 * @see		conbo.ConboEvent.CREATION_COMPLETE 
+	 * Something has started
+	 * @event	conbo.ConboEvent#STARTED
 	 */
-	INIT:					'init',
+	STARTED:			'started',
+
+	/**
+	 * Something has stopped
+	 * @event	conbo.ConboEvent#STOPPED
+	 */
+	STOPPED:			'stopped',
+	
+	/**
+	 * A template has loaded 
+	 * @event	conbo.ConboEvent#TEMPLATE_LOADED
+	 */
+	TEMPLATE_LOADED:	'templateloaded',
 
 	/** 
-	 * View template loaded, elements bound, DOM rendered
+	 * A template error has occurred 
+	 * @event	conbo.ConboEvent#TEMPLATE_ERROR
 	 */
-	CREATION_COMPLETE:		'creationcomplete',
+	TEMPLATE_ERROR:		'templateerror',
+
+	/** 
+	 * Something has been bound 
+	 * @event	conbo.ConboEvent#BIND
+	 */
+	BIND:				'bind',
+
+	/** 
+	 * Something has been unbound 
+	 * @event	conbo.ConboEvent#UNBIND
+	 */
+	UNBIND:				'unbind',			
+
+	/** 
+	 * Something has been created
+	 * @event	conbo.ConboEvent#CREATION_COMPLETE
+	 */
+	CREATION_COMPLETE:	'creationcomplete',
 	
-	/** The View has been detached from the DOM */
-	DETACH:					'detach',
+	/** 
+	 * Something has been detached
+	 * @event	conbo.ConboEvent#DETACH
+	 */
+	DETACH:				'detach',
 	
-	// Web Services &amp; Promises
+	/** 
+	 * A result has been received 
+	 * @event	conbo.ConboEvent#RESULT
+	 */
+	RESULT:				'result',
 	
-	/** A result has been received */
-	RESULT:					'result',
-	
-	/** A fault has occurred */
-	FAULT:					'fault',			
+	/** 
+	 * A fault has occurred 
+	 * @event	conbo.ConboEvent#FAULT
+	 */
+	FAULT:				'fault',			
 	
 });
-
-__denumerate(conbo.ConboEvent.prototype);
 
 /**
  * @private
@@ -4187,7 +4192,6 @@ conbo.List = conbo.EventDispatcher.extend(
 	sort: function(compareFunction) 
 	{
 		this.source.sort(compareFunction);
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.SORT));
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE));
 		
 		return this;
@@ -6280,6 +6284,17 @@ conbo.Glimpse = conbo.EventDispatcher.extend(
 		return this.__el;
 	},
 	
+	/**
+	 * querySelectorAll delegate for finding elements contained within the
+	 * current Glimpse; this should be prefered to global lookups where possible.
+	 * 
+	 * @param	{string}	selector - The selector to use
+	 */
+	$: function(selector)
+	{
+		return this.el.querySelectorAll(selector);
+	},
+	
 	toString: function()
 	{
 		return 'conbo.Glimpse';
@@ -6702,7 +6717,7 @@ conbo.View = conbo.Glimpse.extend(
 	bindView: function()
 	{
 		conbo.BindingUtils.bindView(this);
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.BOUND));
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.BIND));
 		return this;
 	},
 	
@@ -6713,7 +6728,7 @@ conbo.View = conbo.Glimpse.extend(
 	unbindView: function() 
 	{
 		conbo.BindingUtils.unbindView(this);
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.UNBOUND));
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.UNBIND));
 		return this;
 	},
 	
@@ -6853,9 +6868,7 @@ conbo.View = conbo.Glimpse.extend(
 		
 		conbo.defer(function()
 		{
-			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.INIT)) // Deprecated: use CREATION_COMPLETE
-				.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CREATION_COMPLETE))
-				;
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CREATION_COMPLETE));
 		}, this);
 		
 		return this;
@@ -7622,169 +7635,127 @@ conbo.RemoteList = conbo.List.extend(
 __denumerate(conbo.HttpService.prototype);
 
 /**
- * Cached regex for stripping a leading hash/exclamation/slash and trailing space.
- * @private
- */ 
-var routeStripper = /^#!|^[#\/]|\s+$/g;
-
-/**
- * Cached regex for stripping leading and trailing slashes.
- * @private
- */
-var rootStripper = /^\/+|\/+$/g;
-
-/**
- * Cached regex for removing a trailing slash.
- * @private
- */
-var trailingSlash = /\/$/;
-
-/**
- * conbo.History handles cross-browser history management using the 
- * onhashchange event and hash-bang URL fragments
+ * Default history manager used by Router, implemented using onhashchange 
+ * event and hash-bang URL fragments
  * 
- * @see https://developer.mozilla.org/en-US/docs/DOM/window.onhashchange
- * @class		conbo.History
- * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
  */
 conbo.History = conbo.EventDispatcher.extend(
 /** @lends conbo.History.prototype */
 {
-	/**
-	 * Has the history handling already been started?
-	 */
-	started: false,
-	
-	/**
-	 * Constructor: DO NOT override! (Use initialize instead)
-	 * @param options
-	 * @private
-	 */
 	__construct: function(options)
 	{
 		this.handlers = [];
-		this.bindAll('checkUrl');
+		this.location = window.location;
+		this.history = window.history;
 		
-		if (typeof window !== 'undefined')
-		{
-			this.location = window.location;
-			this.history = window.history;
-		}
-		
-		if (!!options.context)
-		{
-			this.context = options.context;
-		}
+		this.bindAll('__checkUrl');
 	},
 	
-	/**
-	 * Whether or not Conbo's History class is supported by the current browser
-	 */
-	get isSupported()
-	{
-		return 'onhashchange' in window;
-	},
-	
-	/**
-	 * Gets the true hash value. Cannot use location.hash directly due
-	 * to bug in Firefox where location.hash will always be decoded.
-	 */
-	getHash: function(window)
-	{
-		if (window || this.location)
-		{
-			var match = (window || this).location.href.match(/#!?(.*)$/);
-			return match ? match[1] : '';
-		}
-	},
-	
-	/**
-	 * Get the cross-browser normalized URL fragment, either from the
-	 * URL, the hash, or the override.
-	 */
-	getFragment: function(fragment)
-	{
-		fragment || (fragment = this.getHash());
-		return fragment.replace(routeStripper, '');
-	},
-	
-	/**
-	 * Start the hash change handling, returning `true` if the current
-	 * URL matches an existing route, and `false` otherwise.
-	 */
 	start: function(options)
 	{
-		if (this.started)
-		{
-			throw new Error("conbo.history has already been started");
-		}
+		window.addEventListener('hashchange', this.__checkUrl);
 		
-		this.started = true;
-		this.fragment = this.getFragment();
-		
-		window.addEventListener('hashchange', this.checkUrl);
-		
-		if (!(options || {}).silent)
-		{
-			return this.loadUrl();
-		}
-		
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.STARTED));
+		this.fragment = this.__getFragment();
+		this.__loadUrl();
 		
 		return this;
 	},
 	
-	/**
-	 * Disable conbo.history, perhaps temporarily. Not useful in a real app,
-	 * but possibly useful for unit testing Routers.
-	 */
 	stop: function()
 	{
-		window.removeEventListener('hashchange', this.checkUrl);
-		this.started = false;
-		
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.STOPPED));
-		
+		window.removeEventListener('hashchange', this.__checkUrl);
 		return this;
 	},
 	
-	/**
-	 * Add a route to be tested when the fragment changes. Routes added
-	 * later may override previous routes.
-	 */
-	route: function(route, callback)
+	addRoute: function(route, callback)
 	{
 		this.handlers.unshift({route:route, callback:callback});
+		return this;
+	},
+	
+	/**
+	 * The current path
+	 * @returns	{string}
+	 */
+	getPath: function()
+	{
+		// Workaround for bug in Firefox where location.hash will always be decoded
+		var match = this.location.href.match(/#!?(.*)$/);
+		return match ? match[1] : '';
+	},
+	
+	/**
+	 * Set the current path
+	 * 
+	 * @param	{string}	path - The path
+	 * @param	{}
+	 */
+	setPath: function(fragment, options)
+	{
+		options || (options = {});
+		fragment = this.__getFragment(fragment);
+		
+		if (this.fragment === fragment) 
+		{
+			return;
+		}
+		
+		var location = this.location;
+		
+		this.fragment = fragment;
+		
+		if (options.replace)
+		{
+			var href = location.href.replace(/(javascript:|#).*$/, '');
+			location.replace(href + '#!/' + fragment);
+		}
+		else
+		{
+			location.hash = '#!/' + fragment;
+		}
+		
+		if (options.trigger) 
+		{
+			this.__loadUrl(fragment);
+		}
 		
 		return this;
 	},
 	
 	/**
-	 * Checks the current URL to see if it has changed, and if it has,
-	 * calls `loadUrl`
+	 * @private
 	 */
-	checkUrl: function(e)
+	__checkUrl: function(event)
 	{
-		var changed = this.getFragment() !== this.fragment;
+		var changed = this.__getFragment() !== this.fragment;
 		
 		if (changed)
 		{
-			this.loadUrl() || this.loadUrl(this.getHash());
+			this.__loadUrl();
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE));
 		}
-		
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.NAVIGATE));
 		
 		return !changed;
 	},
 	
 	/**
-	 * Attempt to load the current URL fragment. If a route succeeds with a
-	 * match, returns `true`. If no defined routes matches the fragment, returns `false`.
+	 * Get the cross-browser normalized URL fragment, either from the URL, the hash, or the override.
+	 * @private
 	 */
-	loadUrl: function(fragmentOverride)
+	__getFragment: function(fragment)
 	{
-		var fragment = this.fragment = this.getFragment(fragmentOverride);
+		return (fragment || this.getPath()).replace(/^#!|^[#\/]|\s+$/g, '');
+	},
+	
+	/**
+	 * Attempt to load the current URL fragment
+	 * @private
+	 * @returns 	{boolean}	Whether or not the path is a valid route
+	 */
+	__loadUrl: function(fragmentOverride)
+	{
+		var fragment = this.fragment = this.__getFragment(fragmentOverride);
 		
 		var matched = conbo.some(this.handlers, function(handler)
 		{
@@ -7795,85 +7766,15 @@ conbo.History = conbo.EventDispatcher.extend(
 			}
 		});
 		
+		if (!matched)
+		{
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.FAULT));
+		}
+		
 		return matched;
 	},
 	
-	/**
-	 * Save a fragment into the hash history, or replace the URL state
-	 * if the 'replace' option is passed. You are responsible for properly
-	 * URL-encoding the fragment in advance.
-	 * 
-	 * The options object can contain `trigger: true` if you wish to have the
-	 * route callback be fired (not usually desirable), or `replace: true`, if
-	 * you wish to modify the current URL without adding an entry to the history.
-	 */
-	navigate: function(fragment, options)
-	{
-		if (!this.started) return false;
-		
-		if (!options || options === true)
-		{
-			options = {trigger: options};
-		}
-		
-		fragment = this.getFragment(fragment);
-		
-		if (this.fragment === fragment) 
-		{
-			return;
-		}
-		
-		this.fragment = fragment;
-		this.__updateHash(this.location, fragment, options.replace);
-		
-		if (options.trigger) 
-		{
-			this.loadUrl(fragment);
-		}
-		
-		return this;
-	},
-	
-	toString: function()
-	{
-		return 'conbo.History';
-	},
-	
-	/**
-	 * Update the hash location, either replacing the current entry, or
-	 * adding a new one to the browser history.
-	 * 
-	 * @private
-	 */
-	__updateHash: function(location, fragment, replace)
-	{
-		if (replace)
-		{
-			var href = location.href.replace(/(javascript:|#).*$/, '');
-			location.replace(href + '#!/' + fragment);
-		}
-		else
-		{
-			location.hash = '#!/' + fragment;
-		}
-	}
-	
-}).implement(conbo.IInjectable);
-
-__denumerate(conbo.History.prototype);
-
-/**
- * Default instance of the History class
- */
-if (document)
-{
-	conbo.history = new conbo.History();
-}
-
-var optionalParam 	= /\((.*?)\)/g;
-var namedParam		= /(\(\?)?:\w+/g;
-var splatParam		= /\*\w+/g;
-var escapeRegExp	= /[\-{}\[\]+?.,\\\^$|#\s]/g;
+});
 
 /**
  * Router
@@ -7887,10 +7788,22 @@ var escapeRegExp	= /[\-{}\[\]+?.,\\\^$|#\s]/g;
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
  * @param 		{object} options - Object containing initialisation options
+ * @fires		conbo.ConboEvent#ROUTE
+ * @fires		conbo.ConboEvent#STARTED
+ * @fires		conbo.ConboEvent#STOPPED
+ * @fires		conbo.ConboEvent#FAULT
  */
 conbo.Router = conbo.EventDispatcher.extend(
 /** @lends conbo.Router.prototype */
 {
+	/**
+	 * Whether or the Router class is supported by the current browser
+	 */
+	get isSupported()
+	{
+		return 'onhashchange' in window;
+	},
+	
 	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @private
@@ -7903,42 +7816,55 @@ conbo.Router = conbo.EventDispatcher.extend(
 			this.routes = options.routes;
 		}
 		
-		this.__bindRoutes();
+		this.historyClass = conbo.History;
 		this.context = options.context;
-	},
-	
-	get history()
-	{
-		return conbo.history;
 	},
 	
 	start: function(options)
 	{
-		this.history.start(options);
-		this.history.addEventListener(conbo.ConboEvent.NAVIGATE, this.dispatchEvent, this);
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.STARTED));
+		if (!this.__history)
+		{
+			this.__history = new this.historyClass();
+			this.__bindRoutes();
+			
+			this.__history
+				.addEventListener(conbo.ConboEvent.FAULT, this.dispatchEvent, this)
+				.addEventListener(conbo.ConboEvent.CHANGE, this.dispatchEvent, this)
+				.start(options)
+				;
+			
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.STARTED));
+		}
 		
 		return this;
 	},
 	
 	stop: function()
 	{
-		this.history.stop();
-		this.history.removeEventListener(conbo.ConboEvent.NAVIGATE, this.dispatchEvent, this);
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.STOPPED));
+		if (this.__history)
+		{
+			this.__history
+				.removeEventListener()
+				.stop()
+				;
+			
+			delete this.__history;
+			
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.STOPPED));
+		}
 		
 		return this;
 	},
 	
 	/**
-	 * Manually bind a single named route to a callback. For example:
+	 * Adds a named route
 	 * 
 	 * @example
-	 * 		this.route('search/:query/p:num', 'search', function(query, num) {
+	 * 		this.addRoute('search/:query/p:num', 'search', function(query, num) {
 	 * 			 ...
 	 * 		});
 	 */ 
-	route: function(route, name, callback) 
+	addRoute: function(route, name, callback) 
 	{
 		if (!conbo.isRegExp(route)) 
 		{
@@ -7961,9 +7887,9 @@ conbo.Router = conbo.EventDispatcher.extend(
 			callback = this[name];
 		}
 		
-		this.history.route(route, this.bind(function(fragment)
+		this.__history.addRoute(route, this.bind(function(path)
 		{
-			var args = this.__extractParameters(route, fragment);
+			var args = this.__extractParameters(route, path);
 			
 			callback &amp;&amp; callback.apply(this, args);
 			
@@ -7973,42 +7899,43 @@ conbo.Router = conbo.EventDispatcher.extend(
 				route:		route,
 				name:		name,
 				parameters:	args,
-				fragment:	fragment
+				fragment:	path, // Deprecated
+				path:		path
 			};
 			
 			this.dispatchEvent(new conbo.ConboEvent('route:'+name, options));
 			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ROUTE, options));
-			
-			this.history.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ROUTE, options));
 		}));
 		
 		return this;
 	},
 	
 	/**
-	 * Simple proxy to `this.history` to save a fragment into the history.
+	 * Sets the current path, optionally replacing the current path or silently 
+	 * without triggering a route event
+	 * 
+	 * @param	{string}	path - The path to navigate to
+	 * @param	{object}	options - Object containing options: trigger (true) and replace (false)
 	 */
-	navigate: function(fragment, options) 
+	setPath: function(path, options) 
 	{
-		this.history.navigate(fragment, options);
+		options = conbo.setDefaults({}, options, {trigger:true});
+		
+		this.__history.setPath(path, options);
 		return this;
 	},
 	
-	navigateTo: function(fragment, options) 
-	{
-		options || (options = {});
-		options.trigger = true;
-		
-		return this.navigate(fragment, options);
-	},
-	
+	/**
+	 * Get or set the current path using the default options
+	 * @type	{string}
+	 */
 	get path()
 	{
-		return this.history.getHash();
+		return this.__history.getPath();
 	},
 	set path(value)
 	{
-		this.navigateTo(value);
+		return this.setPath(path, options);
 	},
 	
 	toString: function()
@@ -8017,7 +7944,7 @@ conbo.Router = conbo.EventDispatcher.extend(
 	},
 	
 	/**
-	 * Bind all defined routes to `this.history`. We have to reverse the
+	 * Bind all defined routes. We have to reverse the
 	 * order of the routes here to support behavior where the most general
 	 * routes can be defined at the bottom of the route map.
 	 * 
@@ -8025,17 +7952,14 @@ conbo.Router = conbo.EventDispatcher.extend(
 	 */
 	__bindRoutes: function() 
 	{
-		if (!this.routes)
-		{
-			return;
-		}
+		if (!this.routes) return;
 		
-		var route,
-			routes = conbo.keys(this.routes);
+		var route;
+		var routes = conbo.keys(this.routes);
 		
 		while ((route = routes.pop()) != null)
 		{
-			this.route(route, this.routes[route]);
+			this.addRoute(route, this.routes[route]);
 		}
 	},
 	
@@ -8047,9 +7971,18 @@ conbo.Router = conbo.EventDispatcher.extend(
 	 */
 	__routeToRegExp: function(route) 
 	{
-		route = route.replace(escapeRegExp, '\\$&amp;')
+		var rootStripper 	= /^\/+|\/+$/g;
+		var optionalParam 	= /\((.*?)\)/g;
+		var namedParam		= /(\(\?)?:\w+/g;
+		var splatParam		= /\*\w+/g;
+		var escapeRegExp	= /[\-{}\[\]+?.,\\\^$|#\s]/g;
+		
+		route = route
+			.replace(rootStripper, '')
+			.replace(escapeRegExp, '\\$&amp;')
 			.replace(optionalParam, '(?:$1)?')
-			.replace(namedParam, function(match, optional){
+			.replace(namedParam, function(match, optional)
+			{
 				return optional ? match : '([^\/]+)';
 			})
 			.replace(splatParam, '(.*?)');
@@ -8098,13 +8031,13 @@ __denumerate(conbo.Router.prototype);
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="conbo.Application.html">Application</a></li><li><a href="conbo.AsyncToken.html">AsyncToken</a></li><li><a href="conbo.AttributeBindings.html">AttributeBindings</a></li><li><a href="conbo.BindingUtils.html">BindingUtils</a></li><li><a href="conbo.Class.html">Class</a></li><li><a href="conbo.Command.html">Command</a></li><li><a href="conbo.ConboClass.html">ConboClass</a></li><li><a href="conbo.ConboEvent.html">ConboEvent</a></li><li><a href="conbo.Context.html">Context</a></li><li><a href="conbo.Event.html">Event</a></li><li><a href="conbo.EventDispatcher.html">EventDispatcher</a></li><li><a href="conbo.Glimpse.html">Glimpse</a></li><li><a href="conbo.Hash.html">Hash</a></li><li><a href="conbo.History.html">History</a></li><li><a href="conbo.HttpService.html">HttpService</a></li><li><a href="conbo.ItemRenderer.html">ItemRenderer</a></li><li><a href="conbo.List.html">List</a></li><li><a href="conbo.LocalHash.html">LocalHash</a></li><li><a href="conbo.LocalList.html">LocalList</a></li><li><a href="conbo.MutationObserver.html">MutationObserver</a></li><li><a href="conbo.Namespace.html">Namespace</a></li><li><a href="conbo.Promise.html">Promise</a></li><li><a href="conbo.RemoteHash.html">RemoteHash</a></li><li><a href="conbo.RemoteList.html">RemoteList</a></li><li><a href="conbo.Responder.html">Responder</a></li><li><a href="conbo.Router.html">Router</a></li><li><a href="conbo.View.html">View</a></li></ul><h3>Namespaces</h3><ul><li><a href="conbo.html">conbo</a></li><li><a href="conbo.$.html">$</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="conbo.Application.html">Application</a></li><li><a href="conbo.AsyncToken.html">AsyncToken</a></li><li><a href="conbo.AttributeBindings.html">AttributeBindings</a></li><li><a href="conbo.BindingUtils.html">BindingUtils</a></li><li><a href="conbo.Class.html">Class</a></li><li><a href="conbo.Command.html">Command</a></li><li><a href="conbo.ConboClass.html">ConboClass</a></li><li><a href="conbo.ConboEvent.html">ConboEvent</a></li><li><a href="conbo.Context.html">Context</a></li><li><a href="conbo.Event.html">Event</a></li><li><a href="conbo.EventDispatcher.html">EventDispatcher</a></li><li><a href="conbo.Glimpse.html">Glimpse</a></li><li><a href="conbo.Hash.html">Hash</a></li><li><a href="conbo.HttpService.html">HttpService</a></li><li><a href="conbo.ItemRenderer.html">ItemRenderer</a></li><li><a href="conbo.List.html">List</a></li><li><a href="conbo.LocalHash.html">LocalHash</a></li><li><a href="conbo.LocalList.html">LocalList</a></li><li><a href="conbo.MutationObserver.html">MutationObserver</a></li><li><a href="conbo.Namespace.html">Namespace</a></li><li><a href="conbo.Promise.html">Promise</a></li><li><a href="conbo.RemoteHash.html">RemoteHash</a></li><li><a href="conbo.RemoteList.html">RemoteList</a></li><li><a href="conbo.Responder.html">Responder</a></li><li><a href="conbo.Router.html">Router</a></li><li><a href="conbo.View.html">View</a></li></ul><h3>Events</h3><ul><li><a href="conbo.ConboEvent.html#event:ADD">ADD</a></li><li><a href="conbo.ConboEvent.html#event:ALL">ALL</a></li><li><a href="conbo.ConboEvent.html#event:BIND">BIND</a></li><li><a href="conbo.ConboEvent.html#event:CHANGE">CHANGE</a></li><li><a href="conbo.ConboEvent.html#event:CREATION_COMPLETE">CREATION_COMPLETE</a></li><li><a href="conbo.ConboEvent.html#event:DETACH">DETACH</a></li><li><a href="conbo.ConboEvent.html#event:FAULT">FAULT</a></li><li><a href="conbo.ConboEvent.html#event:REMOVE">REMOVE</a></li><li><a href="conbo.ConboEvent.html#event:RESULT">RESULT</a></li><li><a href="conbo.ConboEvent.html#event:ROUTE">ROUTE</a></li><li><a href="conbo.ConboEvent.html#event:STARTED">STARTED</a></li><li><a href="conbo.ConboEvent.html#event:STOPPED">STOPPED</a></li><li><a href="conbo.ConboEvent.html#event:TEMPLATE_ERROR">TEMPLATE_ERROR</a></li><li><a href="conbo.ConboEvent.html#event:TEMPLATE_LOADED">TEMPLATE_LOADED</a></li><li><a href="conbo.ConboEvent.html#event:UNBIND">UNBIND</a></li></ul><h3>Namespaces</h3><ul><li><a href="conbo.html">conbo</a></li><li><a href="conbo.$.html">$</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Mar 07 2017 10:10:10 GMT+0000 (GMT Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Mar 10 2017 19:39:17 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
