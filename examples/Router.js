@@ -67,14 +67,14 @@ conbo('example', function()
 		
 		initialize()
 		{
-			this.addEventListener('creationcomplete', this.creationCompleteHandler, this);
+			this.addEventListener(conbo.ConboEvent.CREATION_COMPLETE, this.creationCompleteHandler, this);
 		}
 		
 		creationCompleteHandler(event)
 		{
 			this.router
-				.addEventListener('fault', this.faultHandler, this) // Unrecognised route
-				.addEventListener('route', this.routeHandler, this) // Recognised route
+				.addEventListener(conbo.ConboEvent.FAULT, this.faultHandler, this) // Unrecognised route
+				.addEventListener(conbo.ConboEvent.ROUTE, this.routeHandler, this) // Recognised route
 				.start()
 				;
 		}

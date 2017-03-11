@@ -143,8 +143,8 @@ conbo.Application = conbo.View.extend(
 		
 		if (!appName) return undefined;
 		
-		var selector = '[cb-app="'+appName+'"]',
-			el = $(selector)[0];
+		var selector = '[cb-app="'+appName+'"]';
+		var el = $(selector)[0];
 		
 		return el || undefined;
 	},

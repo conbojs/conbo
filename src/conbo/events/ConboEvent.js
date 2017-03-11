@@ -96,7 +96,7 @@ conbo.ConboEvent = conbo.Event.extend(
 	 * @event			conbo.ConboEvent#TEMPLATE_COMPLETE
      * @type 			{conbo.ConboEvent}
 	 */
-	TEMPLATE_COMPLETE:	'templatecomplete',
+	TEMPLATE_COMPLETE:	'templateComplete',
 
 	/** 
 	 * A template error has occurred
@@ -104,7 +104,7 @@ conbo.ConboEvent = conbo.Event.extend(
 	 * @event			conbo.ConboEvent#TEMPLATE_FAULT
      * @type 			{conbo.ConboEvent}
 	 */
-	TEMPLATE_FAULT:		'templatefault',
+	TEMPLATE_FAULT:		'templateFault',
 
 	/** 
 	 * Something has been bound
@@ -128,7 +128,7 @@ conbo.ConboEvent = conbo.Event.extend(
 	 * @event			conbo.ConboEvent#CREATION_COMPLETE
      * @type 			{conbo.ConboEvent}
 	 */
-	CREATION_COMPLETE:	'creationcomplete',
+	CREATION_COMPLETE:	'creationComplete',
 	
 	/** 
 	 * Something has been detached
