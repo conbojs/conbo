@@ -88,169 +88,165 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * This method of binding also allows for the use of a parse function,
 	 * which can be used to manipulate bound data in real time
 	 * 
-	 * @param 		{conbo.EventDispatcher}	source				Class instance which extends from conbo.EventDispatcher (e.g. Hash or Model)
-	 * @param 		{String} 				propertyName		Property name to bind
-	 * @param 		{DOMElement} 			element				DOM element to bind value to (two-way bind on input/form elements)
-	 * @param 		{Function}				parseFunction		Optional method used to parse values before outputting as HTML
+	 * @param 		{conbo.EventDispatcher}	source			Class instance which extends from conbo.EventDispatcher
+	 * @param 		{String} 				propertyName	Property name to bind
+	 * @param 		{DOMElement} 			el				DOM element to bind value to (two-way bind on input/form elements)
+	 * @param 		{Function}				parseFunction	Optional method used to parse values before outputting as HTML
 	 * 
-	 * @returns		{Array}										Array of bindings
+	 * @returns		{Array}									Array of bindings
 	 */
-	bindElement: function(source, propertyName, element, parseFunction)
+	bindElement: function(source, propertyName, el, parseFunction)
 	{
 		var isEventDispatcher = source instanceof conbo.EventDispatcher;
 		
-		if (!element)
+		if (!el)
 		{
-			throw new Error('element is undefined');
+			throw new Error('el is undefined');
 		}
 		
 		BindingUtils__makeBindable(source, propertyName);
 		
-		var scope = this,
-			bindings = [],
-			eventType,
-			eventHandler;
+		var scope = this;
+		var bindings = [];
+		var eventType;
+		var eventHandler;
 		
 		parseFunction || (parseFunction = this.defaultParseFunction);
 		
-		$(element).each(function(index, el)
+		var ep = new conbo.EventProxy(el);
+		var tagName = el.tagName;
+		
+		switch (tagName)
 		{
-			var $el = $(el);
-			var tagName = $el[0].tagName;
-			
-			switch (tagName)
-			{
-				case 'INPUT':
-				case 'SELECT':
-				case 'TEXTAREA':
-				{	
-					var type = (el.type || tagName).toLowerCase();
-					
-					switch (type)
+			case 'INPUT':
+			case 'SELECT':
+			case 'TEXTAREA':
+			{	
+				var type = (el.type || tagName).toLowerCase();
+				
+				switch (type)
+				{
+					case 'checkbox':
 					{
-						case 'checkbox':
+						el.checked = !!source[propertyName];
+						
+						if (isEventDispatcher)
 						{
-							el.checked = !!source[propertyName];
-							
-							if (isEventDispatcher)
-							{
-								eventType = 'change:'+propertyName;
-								
-								eventHandler = function(event)
-								{
-									el.checked = !!event.value;
-								};
-								
-								source.addEventListener(eventType, eventHandler);
-								bindings.push([source, eventType, eventHandler]);
-							}
-							
-							eventType = 'input change';
+							eventType = 'change:'+propertyName;
 							
 							eventHandler = function(event)
 							{
-								BindingUtils__set.call(source, propertyName, el.checked);
+								el.checked = !!event.value;
 							};
 							
-							$el.on(eventType, eventHandler);
-							bindings.push([$el, eventType, eventHandler]);
-							
-							return;
+							source.addEventListener(eventType, eventHandler);
+							bindings.push([source, eventType, eventHandler]);
 						}
 						
-						case 'radio':
-						{
-							if (el.value == source[propertyName]) 
-							{
-								el.checked = true;
-							}
-							
-							if (isEventDispatcher)
-							{
-								eventType = 'change:'+propertyName;
-								
-								eventHandler = function(event)
-								{
-									if (event.value == null) event.value = '';
-									if (el.value != event.value) return; 
-									
-									el.checked = true;
-								};
-								
-								source.addEventListener(eventType, eventHandler);
-								bindings.push([source, eventType, eventHandler]);
-							}
-							
-							break;
-						}
+						eventType = 'input change';
 						
-						default:
+						eventHandler = function(event)
 						{
-							var setVal = function() 
-							{
-								el.value = source[propertyName]; 
-							};
-							
-							// Resolves issue with cb-repeat inside <select>
-							if (type == 'select') conbo.defer(setVal);
-							else setVal();
-							
-							if (isEventDispatcher)
-							{
-								eventType = 'change:'+propertyName;
-								
-								eventHandler = function(event)
-								{
-									if (event.value == null) event.value = '';
-									if (el.value == event.value) return;
-									
-									el.value = event.value;
-								};
-								
-								source.addEventListener(eventType, eventHandler);
-								bindings.push([source, eventType, eventHandler]);
-							}
-							
-							break;
-						}
-					}
-					
-					eventType = 'input change';
-					
-					eventHandler = function(event)
-					{	
-						BindingUtils__set.call(source, propertyName, el.value === undefined ? el.innerHTML : el.value);
-					};
-					
-					$el.on(eventType, eventHandler);
-					bindings.push([$el, eventType, eventHandler]);
-					
-					break;
-				}
-				
-				default:
-				{
-					el.innerHTML = parseFunction(source[propertyName]);
-					
-					if (isEventDispatcher)
-					{
-						eventType = 'change:'+propertyName;
-						
-						eventHandler = function(event) 
-						{
-							var html = parseFunction(event.value);
-							el.innerHTML = html;
+							BindingUtils__set.call(source, propertyName, el.checked);
 						};
 						
-						source.addEventListener(eventType, eventHandler);
-						bindings.push([source, eventType, eventHandler]);
+						ep.addEventListener(eventType, eventHandler);
+						bindings.push([ep, eventType, eventHandler]);
+						
+						return;
 					}
 					
-					break;
+					case 'radio':
+					{
+						if (el.value == source[propertyName]) 
+						{
+							el.checked = true;
+						}
+						
+						if (isEventDispatcher)
+						{
+							eventType = 'change:'+propertyName;
+							
+							eventHandler = function(event)
+							{
+								if (event.value == null) event.value = '';
+								if (el.value != event.value) return; 
+								
+								el.checked = true;
+							};
+							
+							source.addEventListener(eventType, eventHandler);
+							bindings.push([source, eventType, eventHandler]);
+						}
+						
+						break;
+					}
+					
+					default:
+					{
+						var setVal = function() 
+						{
+							el.value = source[propertyName]; 
+						};
+						
+						// Resolves issue with cb-repeat inside <select>
+						if (type == 'select') conbo.defer(setVal);
+						else setVal();
+						
+						if (isEventDispatcher)
+						{
+							eventType = 'change:'+propertyName;
+							
+							eventHandler = function(event)
+							{
+								if (event.value == null) event.value = '';
+								if (el.value == event.value) return;
+								
+								el.value = event.value;
+							};
+							
+							source.addEventListener(eventType, eventHandler);
+							bindings.push([source, eventType, eventHandler]);
+						}
+						
+						break;
+					}
 				}
+				
+				eventType = 'input change';
+				
+				eventHandler = function(event)
+				{
+					BindingUtils__set.call(source, propertyName, el.value === undefined ? el.innerHTML : el.value);
+				};
+				
+				ep.addEventListener(eventType, eventHandler);
+				bindings.push([ep, eventType, eventHandler]);
+				
+				break;
 			}
 			
-		});
+			default:
+			{
+				el.innerHTML = parseFunction(source[propertyName]);
+				
+				if (isEventDispatcher)
+				{
+					eventType = 'change:'+propertyName;
+					
+					eventHandler = function(event) 
+					{
+						var html = parseFunction(event.value);
+						el.innerHTML = html;
+					};
+					
+					source.addEventListener(eventType, eventHandler);
+					bindings.push([source, eventType, eventHandler]);
+				}
+				
+				break;
+			}
+		}
 		
 		return bindings;
 	},
@@ -388,8 +384,13 @@ conbo.BindingUtils = conbo.Class.extend({},
 							return this;
 						}
 						
-						$(element).on(nativeAttr.substr(2), source[propertyName]);
-						return this;
+						eventType = nativeAttr.substr(2);
+						eventHandler = source[propertyName];
+						
+						element.addEventListener(eventType, eventHandler);
+						bindings.push([element, eventType, eventHandler]);
+						
+						break;
 					}
 					
 					// ... otherwise, bind to the native property
@@ -417,7 +418,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 						
 						bindings.push([source, eventType, eventHandler]);
 						
-						var $el = $(element);
+						var ep = new conbo.EventProxy(element);
 						
 						eventHandler = function()
 		     			{
@@ -425,9 +426,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 		     			};
 						
 		     			eventType = 'input change';
-						$el.on(eventType, eventHandler);
+						ep.addEventListener(eventType, eventHandler);
 						
-						bindings.push([$el, eventType, eventHandler]);
+						bindings.push([ep, eventType, eventHandler]);
 						
 						break;
 					}
@@ -665,32 +666,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 			
 			try
 			{
-				switch (true)
-				{
-					case binding[0] instanceof $:
-					{
-						binding[0].off(binding[1], binding[2]);
-						break;
-					}
-					
-					case binding[0] instanceof conbo.EventDispatcher:
-					case !!binding[0] && !!binding[0].removeEventListener:
-					{
-						binding[0].removeEventListener(binding[1], binding[2]);
-						break;
-					}
-					
-					default:
-					{
-						// Looks like the object's been deleted!
-						break;
-					}
-				}
+				binding[0].removeEventListener(binding[1], binding[2]);
 			}
-			catch (e) 
-			{
-				// TODO ?
-			}
+			catch (e) {}
 		}
 		
 		delete view.__bindings;
