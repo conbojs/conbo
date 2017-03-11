@@ -451,6 +451,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * 
 	 * @param 	{DOMElement}			element			DOM element to bind value to (two-way bind on input/form elements)
 	 * @param 	{String}				attributeName	The attribute to bind as it appears in HTML, e.g. "cb-prop-name"
+	 * @returns	{conbo.BindingUtils}	A reference to this object 
 	 * 
 	 * @example
 	 * conbo.BindingUtils.applyAttribute(el, "my-custom-attr");
@@ -498,7 +499,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * properties of EventDispatcher class instances (e.g. Hash or Model)
 	 * 
 	 * @param 	{conbo.View}		view		The View class controlling the element
-	 * @returns	{this}
+	 * @returns	{conbo.BindingUtils}	A reference to this object 
 	 */
 	bindView: function(view)
 	{
@@ -642,7 +643,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	/**
 	 * Removes all data binding from the specified View instance
 	 * @param 	{conbo.View}	view
-	 * @return	{this}
+	 * @returns	{conbo.BindingUtils}	A reference to this object 
 	 */
 	unbindView: function(view)
 	{
@@ -704,6 +705,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * @param	rootView	DOM element, View or Application class instance
 	 * @param	namespace	The current namespace
 	 * @param	type		View type, 'view' or 'glimpse' (default: 'view')
+	 * @returns	{conbo.BindingUtils}	A reference to this object 
 	 */
 	applyViews: function(rootView, namespace, type)
 	{
@@ -758,8 +760,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * @param 	{any}				destination					Object or class instance which extends conbo.EventDispatcher
 	 * @param 	{String}			destinationPropertyName		Optional (default: sourcePropertyName)
 	 * @param 	{Boolean}			twoWay						Optional (default: false)
-	 * 
-	 * @returns	{this}
+	 * @returns	{conbo.BindingUtils}	A reference to this object 
 	 */
 	bindProperty: function(source, sourcePropertyName, destination, destinationPropertyName, twoWay)
 	{
@@ -800,6 +801,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * @param 	{conbo.EventDispatcher}	source				Class instance which extends conbo.EventDispatcher
 	 * @param 	{String}			propertyName
 	 * @param 	{Function}			setterFunction
+	 * @returns	{conbo.BindingUtils}	A reference to this object 
 	 */
 	bindSetter: function(source, propertyName, setterFunction)
 	{
@@ -831,8 +833,8 @@ conbo.BindingUtils = conbo.Class.extend({},
 	/**
 	 * Default parse function
 	 * 
-	 * @param	value
-	 * @returns	{any}
+	 * @param	{*} 		value - The value to be parsed
+	 * @returns	{function}
 	 */
 	defaultParseFunction: function(value)
 	{
@@ -854,8 +856,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 	/**
 	 * Attempt to convert string into a conbo.Class in the specified namespace
 	 * 
-	 * @param 		name
-	 * @returns		Class
+	 * @param 		{string} className - The name of the class
+	 * @param 		{conbo.Namespace} namespace - The namespace containing the class
+	 * @returns		{conbo.Class}
 	 */
 	getClass: function(className, namespace)
 	{
@@ -880,7 +883,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * @param		{function}	handler - function that will handle the data bound to the element
 	 * @param 		{boolean}	readOnly - Whether or not the attribute is read-only (default: false)
 	 * @param 		{boolean}	raw - Whether or not parameters should be passed to the handler as a raw String instead of a bound value (default: false)
-	 * @returns 	{this}		BindingUtils
+	 * @returns		{conbo.BindingUtils}	A reference to this object 
 	 * 
 	 * @example 
 	 * // HTML: <div my-font-name="myProperty"></div>
@@ -932,7 +935,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * @see			#registerAttribute
 	 * @param 		{object}				handlers - Object containing one or more custom attribute handlers
 	 * @param 		{boolean}				readOnly - Whether or not the attributes are read-only (default: false)
-	 * @returns 	{conbo.BindingUtils}	BindingUtils
+	 * @returns		{conbo.BindingUtils}	A reference to this object 
 	 * 
 	 * @example
 	 * conbo.BindingUtils.registerAttributes({myFoo:myFooFunction, myBar:myBarFunction});

@@ -47,7 +47,7 @@ conbo.Event = conbo.Class.extend(
 	
 	/**
 	 * Create an identical clone of this event
-	 * @returns 	Event
+	 * @returns 	{conbo.Event}	A clone of this event
 	 */
 	clone: function()
 	{
@@ -56,16 +56,17 @@ conbo.Event = conbo.Class.extend(
 	
 	/**
 	 * Prevent whatever the default framework action for this event is
+	 * @returns	{conbo.Event}	A reference to this event 
 	 */
 	preventDefault: function() 
 	{
 		this.defaultPrevented = true;
-		
 		return this;
 	},
 	
 	/**
 	 * Not currently used
+	 * @returns	{conbo.Event}	A reference to this event 
 	 */
 	stopPropagation: function() 
 	{
@@ -76,6 +77,7 @@ conbo.Event = conbo.Class.extend(
 	
 	/**
 	 * Keep the rest of the handlers from being executed
+	 * @returns	{conbo.Event}	A reference to this event 
 	 */
 	stopImmediatePropagation: function() 
 	{

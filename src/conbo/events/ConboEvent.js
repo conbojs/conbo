@@ -29,91 +29,130 @@ conbo.ConboEvent = conbo.Event.extend(
 {
 	/** 
 	 * Special event used to listed for all event types 
-	 * @event	conbo.ConboEvent#ALL
+	 * 
+	 * @event			conbo.ConboEvent#ALL
+     * @type 			{conbo.ConboEvent}
 	 */
 	ALL:				'*',
 
 	/**
-	 * Something has changed, also 'change:[name]' (Properties: property, value)
-	 * @event	conbo.ConboEvent#CHANGE
+	 * Something has changed (also 'change:[name]')
+	 * 
+	 * @event			conbo.ConboEvent#CHANGE
+     * @type 			{conbo.ConboEvent}
+     * @property		{string} property - The name of the property that changed
+     * @property		{*} value - The new value of the property
 	 */
 	CHANGE:				'change',
 	
 	/** 
 	 * Something was added
-	 * @event	conbo.ConboEvent#ADD
+	 * 
+	 * @event			conbo.ConboEvent#ADD
+     * @type 			{conbo.ConboEvent}
 	 */
 	ADD:				'add', 				
 
 	/**
 	 * Something was removed
-	 * @event	conbo.ConboEvent#REMOVE
+	 * 
+	 * @event			conbo.ConboEvent#REMOVE
+     * @type 			{conbo.ConboEvent}
 	 */
 	REMOVE:				'remove',
 
 	/**
-	 * The route has changed, also 'route:[name]' (Properties: router, route, name, parameters, path)
-	 * @event	conbo.ConboEvent#ROUTE
+	 * The route has changed (also 'route:[name]')
+	 * 
+	 * @event			conbo.ConboEvent#ROUTE
+     * @type 			{conbo.ConboEvent}
+     * @property		{conbo.Router}	router - The router that handled the route change
+     * @property		{RegExp} 		route - The route that was followed
+     * @property		{string} 		name - The name assigned to the route
+     * @property		{array} 		parameters - The parameters extracted from the route
+     * @property		{string} 		path - The new path 
 	 */
 	ROUTE:				'route', 			
 
 	/** 
 	 * Something has started
-	 * @event	conbo.ConboEvent#START
+	 * 
+	 * @event			conbo.ConboEvent#START
+     * @type 			{conbo.ConboEvent}
 	 */
 	START:				'start',
 
 	/**
 	 * Something has stopped
-	 * @event	conbo.ConboEvent#STOP
+	 * 
+	 * @event			conbo.ConboEvent#STOP
+     * @type 			{conbo.ConboEvent}
 	 */
 	STOP:				'stop',
 	
 	/**
 	 * A template is ready to use
-	 * @event	conbo.ConboEvent#TEMPLATE_COMPLETE
+	 * 
+	 * @event			conbo.ConboEvent#TEMPLATE_COMPLETE
+     * @type 			{conbo.ConboEvent}
 	 */
 	TEMPLATE_COMPLETE:	'templatecomplete',
 
 	/** 
-	 * A template error has occurred 
-	 * @event	conbo.ConboEvent#TEMPLATE_FAULT
+	 * A template error has occurred
+	 *  
+	 * @event			conbo.ConboEvent#TEMPLATE_FAULT
+     * @type 			{conbo.ConboEvent}
 	 */
 	TEMPLATE_FAULT:		'templatefault',
 
 	/** 
-	 * Something has been bound 
-	 * @event	conbo.ConboEvent#BIND
+	 * Something has been bound
+	 *  
+	 * @event			conbo.ConboEvent#BIND
+     * @type 			{conbo.ConboEvent}
 	 */
 	BIND:				'bind',
 
 	/** 
-	 * Something has been unbound 
-	 * @event	conbo.ConboEvent#UNBIND
+	 * Something has been unbound
+	 *  
+	 * @event			conbo.ConboEvent#UNBIND
+     * @type 			{conbo.ConboEvent}
 	 */
 	UNBIND:				'unbind',			
 
 	/** 
 	 * Something has been created and it's ready to use
-	 * @event	conbo.ConboEvent#CREATION_COMPLETE
+	 * 
+	 * @event			conbo.ConboEvent#CREATION_COMPLETE
+     * @type 			{conbo.ConboEvent}
 	 */
 	CREATION_COMPLETE:	'creationcomplete',
 	
 	/** 
 	 * Something has been detached
-	 * @event	conbo.ConboEvent#DETACH
+	 * 
+	 * @event			conbo.ConboEvent#DETACH
+     * @type 			{conbo.ConboEvent}
 	 */
 	DETACH:				'detach',
 	
 	/** 
-	 * A result has been received 
-	 * @event	conbo.ConboEvent#RESULT
+	 * A result has been received
+	 *  
+	 * @event			conbo.ConboEvent#RESULT
+     * @type 			{conbo.ConboEvent}
+     * @property		{*} result - The data received 
 	 */
 	RESULT:				'result',
 	
 	/** 
-	 * A fault has occurred 
-	 * @event	conbo.ConboEvent#FAULT
+	 * A fault has occurred
+	 *  
+	 * @event			conbo.ConboEvent#FAULT
+     * @type 			{conbo.ConboEvent}
+     * @property		{*} fault - The fault received 
 	 */
 	FAULT:				'fault',			
 	

@@ -3178,7 +3178,7 @@ conbo.Event = conbo.Class.extend(
 	
 	/**
 	 * Create an identical clone of this event
-	 * @returns 	Event
+	 * @returns 	{conbo.Event}	A clone of this event
 	 */
 	clone: function()
 	{
@@ -3187,16 +3187,17 @@ conbo.Event = conbo.Class.extend(
 	
 	/**
 	 * Prevent whatever the default framework action for this event is
+	 * @returns	{conbo.Event}	A reference to this event 
 	 */
 	preventDefault: function() 
 	{
 		this.defaultPrevented = true;
-		
 		return this;
 	},
 	
 	/**
 	 * Not currently used
+	 * @returns	{conbo.Event}	A reference to this event 
 	 */
 	stopPropagation: function() 
 	{
@@ -3207,6 +3208,7 @@ conbo.Event = conbo.Class.extend(
 	
 	/**
 	 * Keep the rest of the handlers from being executed
+	 * @returns	{conbo.Event}	A reference to this event 
 	 */
 	stopImmediatePropagation: function() 
 	{
@@ -3259,91 +3261,130 @@ conbo.ConboEvent = conbo.Event.extend(
 {
 	/** 
 	 * Special event used to listed for all event types 
-	 * @event	conbo.ConboEvent#ALL
+	 * 
+	 * @event			conbo.ConboEvent#ALL
+     * @type 			{conbo.ConboEvent}
 	 */
 	ALL:				'*',
 
 	/**
-	 * Something has changed, also 'change:[name]' (Properties: property, value)
-	 * @event	conbo.ConboEvent#CHANGE
+	 * Something has changed (also 'change:[name]')
+	 * 
+	 * @event			conbo.ConboEvent#CHANGE
+     * @type 			{conbo.ConboEvent}
+     * @property		{string} property - The name of the property that changed
+     * @property		{*} value - The new value of the property
 	 */
 	CHANGE:				'change',
 	
 	/** 
 	 * Something was added
-	 * @event	conbo.ConboEvent#ADD
+	 * 
+	 * @event			conbo.ConboEvent#ADD
+     * @type 			{conbo.ConboEvent}
 	 */
 	ADD:				'add', 				
 
 	/**
 	 * Something was removed
-	 * @event	conbo.ConboEvent#REMOVE
+	 * 
+	 * @event			conbo.ConboEvent#REMOVE
+     * @type 			{conbo.ConboEvent}
 	 */
 	REMOVE:				'remove',
 
 	/**
-	 * The route has changed, also 'route:[name]' (Properties: router, route, name, parameters, path)
-	 * @event	conbo.ConboEvent#ROUTE
+	 * The route has changed (also 'route:[name]')
+	 * 
+	 * @event			conbo.ConboEvent#ROUTE
+     * @type 			{conbo.ConboEvent}
+     * @property		{conbo.Router}	router - The router that handled the route change
+     * @property		{RegExp} 		route - The route that was followed
+     * @property		{string} 		name - The name assigned to the route
+     * @property		{array} 		parameters - The parameters extracted from the route
+     * @property		{string} 		path - The new path 
 	 */
 	ROUTE:				'route', 			
 
 	/** 
 	 * Something has started
-	 * @event	conbo.ConboEvent#START
+	 * 
+	 * @event			conbo.ConboEvent#START
+     * @type 			{conbo.ConboEvent}
 	 */
 	START:				'start',
 
 	/**
 	 * Something has stopped
-	 * @event	conbo.ConboEvent#STOP
+	 * 
+	 * @event			conbo.ConboEvent#STOP
+     * @type 			{conbo.ConboEvent}
 	 */
 	STOP:				'stop',
 	
 	/**
 	 * A template is ready to use
-	 * @event	conbo.ConboEvent#TEMPLATE_COMPLETE
+	 * 
+	 * @event			conbo.ConboEvent#TEMPLATE_COMPLETE
+     * @type 			{conbo.ConboEvent}
 	 */
 	TEMPLATE_COMPLETE:	'templatecomplete',
 
 	/** 
-	 * A template error has occurred 
-	 * @event	conbo.ConboEvent#TEMPLATE_FAULT
+	 * A template error has occurred
+	 *  
+	 * @event			conbo.ConboEvent#TEMPLATE_FAULT
+     * @type 			{conbo.ConboEvent}
 	 */
 	TEMPLATE_FAULT:		'templatefault',
 
 	/** 
-	 * Something has been bound 
-	 * @event	conbo.ConboEvent#BIND
+	 * Something has been bound
+	 *  
+	 * @event			conbo.ConboEvent#BIND
+     * @type 			{conbo.ConboEvent}
 	 */
 	BIND:				'bind',
 
 	/** 
-	 * Something has been unbound 
-	 * @event	conbo.ConboEvent#UNBIND
+	 * Something has been unbound
+	 *  
+	 * @event			conbo.ConboEvent#UNBIND
+     * @type 			{conbo.ConboEvent}
 	 */
 	UNBIND:				'unbind',			
 
 	/** 
 	 * Something has been created and it's ready to use
-	 * @event	conbo.ConboEvent#CREATION_COMPLETE
+	 * 
+	 * @event			conbo.ConboEvent#CREATION_COMPLETE
+     * @type 			{conbo.ConboEvent}
 	 */
 	CREATION_COMPLETE:	'creationcomplete',
 	
 	/** 
 	 * Something has been detached
-	 * @event	conbo.ConboEvent#DETACH
+	 * 
+	 * @event			conbo.ConboEvent#DETACH
+     * @type 			{conbo.ConboEvent}
 	 */
 	DETACH:				'detach',
 	
 	/** 
-	 * A result has been received 
-	 * @event	conbo.ConboEvent#RESULT
+	 * A result has been received
+	 *  
+	 * @event			conbo.ConboEvent#RESULT
+     * @type 			{conbo.ConboEvent}
+     * @property		{*} result - The data received 
 	 */
 	RESULT:				'result',
 	
 	/** 
-	 * A fault has occurred 
-	 * @event	conbo.ConboEvent#FAULT
+	 * A fault has occurred
+	 *  
+	 * @event			conbo.ConboEvent#FAULT
+     * @type 			{conbo.ConboEvent}
+     * @property		{*} fault - The fault received 
 	 */
 	FAULT:				'fault',			
 	
@@ -3441,11 +3482,12 @@ conbo.EventDispatcher = conbo.ConboClass.extend(
 	/**
 	 * Add a listener for a particular event type
 	 * 
-	 * @param type		{string}	Type of event ('change') or events ('change blur')
-	 * @param handler	{function}	Function that should be called
-	 * @param scope		{object}	The scope in which to run the event handler (optional)
-	 * @param priority	{number}	The event handler's priority when the event is dispatached (default: 0)
-	 * @param once		{boolean}	Should the event listener automatically be removed after it has been called once? (default: false) 
+	 * @param 	{string}		type - Type of event ('change') or events ('change blur')
+	 * @param 	{function}	handler - Function that should be called
+	 * @param 	{object}		scope - The scope in which to run the event handler (optional)
+	 * @param 	{number}		priority - The event handler's priority when the event is dispatached (default: 0)
+	 * @param 	{boolean}		once - Should the event listener automatically be removed after it has been called once? (default: false)
+	 * @returns	{conbo.EventDispatcher}	A reference to this class instance 
 	 */
 	addEventListener: function(type, handler, scope, priority, once)
 	{
@@ -3461,9 +3503,10 @@ conbo.EventDispatcher = conbo.ConboClass.extend(
 	/**
 	 * Remove a listener for a particular event type
 	 * 
-	 * @param type		{string}	Type of event ('change') or events ('change blur') (optional: if not specified, all listeners will be removed) 
-	 * @param handler	{function}	Function that should be called (optional: if not specified, all listeners of the specified type will be removed)
-	 * @param scope		{object} 	The scope in which the handler is set to run (optional)
+	 * @param {string}		type - Type of event ('change') or events ('change blur') (optional: if not specified, all listeners will be removed) 
+	 * @param {function}	handler - Function that should be called (optional: if not specified, all listeners of the specified type will be removed)
+	 * @param {object} 		scope - The scope in which the handler is set to run (optional)
+	 * @returns	{conbo.EventDispatcher}	A reference to this class instance 
 	 */
 	removeEventListener: function(type, handler, scope)
 	{
@@ -3488,9 +3531,10 @@ conbo.EventDispatcher = conbo.ConboClass.extend(
 	/**
 	 * Does this object have an event listener of the specified type?
 	 * 
-	 * @param type		{string}	Type of event (e.g. 'change') 
-	 * @param handler	{function}	Function that should be called (optional)
-	 * @param scope		{object} 	The scope in which the handler is set to run (optional)
+	 * @param 	{string}	type - Type of event (e.g. 'change') 
+	 * @param 	{function}	handler - Function that should be called (optional)
+	 * @param 	{object} 	scope - The scope in which the handler is set to run (optional)
+	 * @returns	{boolean}	True if this object has the specified event listener, false if it does not
 	 */
 	hasEventListener: function(type, handler, scope)
 	{
@@ -3518,7 +3562,8 @@ conbo.EventDispatcher = conbo.ConboClass.extend(
 	
 	/**
 	 * Dispatch the event to listeners
-	 * @param event		conbo.Event class instance or event type (e.g. 'change')
+	 * @param {conbo.Event} 	event - The event to dispatch
+	 * @returns	{conbo.EventDispatcher}	A reference to this class instance 
 	 */
 	dispatchEvent: function(event)
 	{
@@ -3557,9 +3602,10 @@ conbo.EventDispatcher = conbo.ConboClass.extend(
 	
 	/**
 	 * Dispatch a change event for one or more changed properties
-	 * @param propName
+	 * @param {string}	propName - The name of the property that has changed
+	 * @returns	{conbo.EventDispatcher}	A reference to this class instance 
 	 */
-	dispatchChange: function()
+	dispatchChange: function(propName)
 	{
 		conbo.forEach(arguments, function(propName)
 		{
@@ -3574,6 +3620,7 @@ conbo.EventDispatcher = conbo.ConboClass.extend(
 	{
 		return 'conbo.EventDispatcher';
 	},
+	
 }).implement(conbo.IInjectable);
 
 __definePrivateProperty(conbo.EventDispatcher.prototype, 'bindable');
@@ -5549,6 +5596,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * 
 	 * @param 	{DOMElement}			element			DOM element to bind value to (two-way bind on input/form elements)
 	 * @param 	{String}				attributeName	The attribute to bind as it appears in HTML, e.g. "cb-prop-name"
+	 * @returns	{conbo.BindingUtils}	A reference to this object 
 	 * 
 	 * @example
 	 * conbo.BindingUtils.applyAttribute(el, "my-custom-attr");
@@ -5596,7 +5644,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * properties of EventDispatcher class instances (e.g. Hash or Model)
 	 * 
 	 * @param 	{conbo.View}		view		The View class controlling the element
-	 * @returns	{this}
+	 * @returns	{conbo.BindingUtils}	A reference to this object 
 	 */
 	bindView: function(view)
 	{
@@ -5740,7 +5788,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	/**
 	 * Removes all data binding from the specified View instance
 	 * @param 	{conbo.View}	view
-	 * @return	{this}
+	 * @returns	{conbo.BindingUtils}	A reference to this object 
 	 */
 	unbindView: function(view)
 	{
@@ -5802,6 +5850,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * @param	rootView	DOM element, View or Application class instance
 	 * @param	namespace	The current namespace
 	 * @param	type		View type, 'view' or 'glimpse' (default: 'view')
+	 * @returns	{conbo.BindingUtils}	A reference to this object 
 	 */
 	applyViews: function(rootView, namespace, type)
 	{
@@ -5856,8 +5905,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * @param 	{any}				destination					Object or class instance which extends conbo.EventDispatcher
 	 * @param 	{String}			destinationPropertyName		Optional (default: sourcePropertyName)
 	 * @param 	{Boolean}			twoWay						Optional (default: false)
-	 * 
-	 * @returns	{this}
+	 * @returns	{conbo.BindingUtils}	A reference to this object 
 	 */
 	bindProperty: function(source, sourcePropertyName, destination, destinationPropertyName, twoWay)
 	{
@@ -5898,6 +5946,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * @param 	{conbo.EventDispatcher}	source				Class instance which extends conbo.EventDispatcher
 	 * @param 	{String}			propertyName
 	 * @param 	{Function}			setterFunction
+	 * @returns	{conbo.BindingUtils}	A reference to this object 
 	 */
 	bindSetter: function(source, propertyName, setterFunction)
 	{
@@ -5929,8 +5978,8 @@ conbo.BindingUtils = conbo.Class.extend({},
 	/**
 	 * Default parse function
 	 * 
-	 * @param	value
-	 * @returns	{any}
+	 * @param	{*} 		value - The value to be parsed
+	 * @returns	{function}
 	 */
 	defaultParseFunction: function(value)
 	{
@@ -5952,8 +6001,9 @@ conbo.BindingUtils = conbo.Class.extend({},
 	/**
 	 * Attempt to convert string into a conbo.Class in the specified namespace
 	 * 
-	 * @param 		name
-	 * @returns		Class
+	 * @param 		{string} className - The name of the class
+	 * @param 		{conbo.Namespace} namespace - The namespace containing the class
+	 * @returns		{conbo.Class}
 	 */
 	getClass: function(className, namespace)
 	{
@@ -5978,7 +6028,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * @param		{function}	handler - function that will handle the data bound to the element
 	 * @param 		{boolean}	readOnly - Whether or not the attribute is read-only (default: false)
 	 * @param 		{boolean}	raw - Whether or not parameters should be passed to the handler as a raw String instead of a bound value (default: false)
-	 * @returns 	{this}		BindingUtils
+	 * @returns		{conbo.BindingUtils}	A reference to this object 
 	 * 
 	 * @example 
 	 * // HTML: &lt;div my-font-name="myProperty">&lt;/div>
@@ -6030,7 +6080,7 @@ conbo.BindingUtils = conbo.Class.extend({},
 	 * @see			#registerAttribute
 	 * @param 		{object}				handlers - Object containing one or more custom attribute handlers
 	 * @param 		{boolean}				readOnly - Whether or not the attributes are read-only (default: false)
-	 * @returns 	{conbo.BindingUtils}	BindingUtils
+	 * @returns		{conbo.BindingUtils}	A reference to this object 
 	 * 
 	 * @example
 	 * conbo.BindingUtils.registerAttributes({myFoo:myFooFunction, myBar:myBarFunction});
@@ -8084,7 +8134,7 @@ __denumerate(conbo.Router.prototype);
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Mar 10 2017 21:34:54 GMT+0000 (GMT Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sat Mar 11 2017 11:09:19 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

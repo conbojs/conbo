@@ -90,11 +90,12 @@ conbo.EventDispatcher = conbo.ConboClass.extend(
 	/**
 	 * Add a listener for a particular event type
 	 * 
-	 * @param type		{string}	Type of event ('change') or events ('change blur')
-	 * @param handler	{function}	Function that should be called
-	 * @param scope		{object}	The scope in which to run the event handler (optional)
-	 * @param priority	{number}	The event handler's priority when the event is dispatached (default: 0)
-	 * @param once		{boolean}	Should the event listener automatically be removed after it has been called once? (default: false) 
+	 * @param 	{string}		type - Type of event ('change') or events ('change blur')
+	 * @param 	{function}	handler - Function that should be called
+	 * @param 	{object}		scope - The scope in which to run the event handler (optional)
+	 * @param 	{number}		priority - The event handler's priority when the event is dispatached (default: 0)
+	 * @param 	{boolean}		once - Should the event listener automatically be removed after it has been called once? (default: false)
+	 * @returns	{conbo.EventDispatcher}	A reference to this class instance 
 	 */
 	addEventListener: function(type, handler, scope, priority, once)
 	{
@@ -110,9 +111,10 @@ conbo.EventDispatcher = conbo.ConboClass.extend(
 	/**
 	 * Remove a listener for a particular event type
 	 * 
-	 * @param type		{string}	Type of event ('change') or events ('change blur') (optional: if not specified, all listeners will be removed) 
-	 * @param handler	{function}	Function that should be called (optional: if not specified, all listeners of the specified type will be removed)
-	 * @param scope		{object} 	The scope in which the handler is set to run (optional)
+	 * @param {string}		type - Type of event ('change') or events ('change blur') (optional: if not specified, all listeners will be removed) 
+	 * @param {function}	handler - Function that should be called (optional: if not specified, all listeners of the specified type will be removed)
+	 * @param {object} 		scope - The scope in which the handler is set to run (optional)
+	 * @returns	{conbo.EventDispatcher}	A reference to this class instance 
 	 */
 	removeEventListener: function(type, handler, scope)
 	{
@@ -137,9 +139,10 @@ conbo.EventDispatcher = conbo.ConboClass.extend(
 	/**
 	 * Does this object have an event listener of the specified type?
 	 * 
-	 * @param type		{string}	Type of event (e.g. 'change') 
-	 * @param handler	{function}	Function that should be called (optional)
-	 * @param scope		{object} 	The scope in which the handler is set to run (optional)
+	 * @param 	{string}	type - Type of event (e.g. 'change') 
+	 * @param 	{function}	handler - Function that should be called (optional)
+	 * @param 	{object} 	scope - The scope in which the handler is set to run (optional)
+	 * @returns	{boolean}	True if this object has the specified event listener, false if it does not
 	 */
 	hasEventListener: function(type, handler, scope)
 	{
@@ -167,7 +170,8 @@ conbo.EventDispatcher = conbo.ConboClass.extend(
 	
 	/**
 	 * Dispatch the event to listeners
-	 * @param event		conbo.Event class instance or event type (e.g. 'change')
+	 * @param {conbo.Event} 	event - The event to dispatch
+	 * @returns	{conbo.EventDispatcher}	A reference to this class instance 
 	 */
 	dispatchEvent: function(event)
 	{
@@ -206,9 +210,10 @@ conbo.EventDispatcher = conbo.ConboClass.extend(
 	
 	/**
 	 * Dispatch a change event for one or more changed properties
-	 * @param propName
+	 * @param {string}	propName - The name of the property that has changed
+	 * @returns	{conbo.EventDispatcher}	A reference to this class instance 
 	 */
-	dispatchChange: function()
+	dispatchChange: function(propName)
 	{
 		conbo.forEach(arguments, function(propName)
 		{
@@ -223,6 +228,7 @@ conbo.EventDispatcher = conbo.ConboClass.extend(
 	{
 		return 'conbo.EventDispatcher';
 	},
+	
 }).implement(conbo.IInjectable);
 
 __definePrivateProperty(conbo.EventDispatcher.prototype, 'bindable');
