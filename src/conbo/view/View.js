@@ -250,11 +250,11 @@ conbo.View = conbo.Glimpse.extend(
 	},
 	
 	/**
-	 * jQuery delegate for finding elements within the current view, with 
-	 * nested Views and Applications excluded from the search by default. 
+	 * jQuery delegate for finding elements within the current View, but not
+	 * within child Views 
 	 * 
-	 * This should be prefered to global lookups where possible.
-	 * 
+	 * @deprecated
+	 * @see					#querySelectorAll
 	 * @param	{string}	selector - The jQuery selector to use
 	 * @param	{boolean}	isDeep - Whether or not to include nested views in the search (default: false)
 	 */
@@ -276,6 +276,28 @@ conbo.View = conbo.Glimpse.extend(
 			
 			return true;
 		});
+	},
+	
+	/**
+	 * Uses querySelectorAll to find all matching elements contained within the
+	 * current View's element, but not within the elements of child Views
+	 * 
+	 * @param	{string}	selector - The selector to use
+	 * @returns	{array}		All elements matching the selector
+	 */
+	querySelectorAll: function(selector)
+	{
+		var results = conbo.toArray(this.el.querySelectorAll(selector));
+		var views = this.el.querySelectorAll('.cb-view');
+		
+		// Remove elements in child Views
+		conbo.forEach(views, function(el)
+		{
+			var els = conbo.toArray(el.querySelectorAll(selector));
+			results = conbo.difference(results, els.concat(el));
+		});
+		
+		return results;
 	},
 	
 	/**
@@ -496,7 +518,7 @@ conbo.View = conbo.Glimpse.extend(
 	 */
 	__setEl: function(element)
 	{
-		if (element instanceof $)
+		if ($ && element instanceof $)
 		{
 			element = element[0];
 		}

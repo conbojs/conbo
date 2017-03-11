@@ -57,17 +57,6 @@ conbo.Glimpse = conbo.EventDispatcher.extend(
 		return this.__el;
 	},
 	
-	/**
-	 * querySelectorAll delegate for finding elements contained within the
-	 * current Glimpse; this should be prefered to global lookups where possible.
-	 * 
-	 * @param	{string}	selector - The selector to use
-	 */
-	$: function(selector)
-	{
-		return this.el.querySelectorAll(selector);
-	},
-	
 	toString: function()
 	{
 		return 'conbo.Glimpse';
