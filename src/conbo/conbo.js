@@ -59,7 +59,7 @@ var conbo = function(namespace)
 		
 		if (conbo.isObject(obj) && !conbo.isArray(obj))
 		{
-			ns.import(obj);
+			ns.add(obj);
 		}
 	}
 	
@@ -93,16 +93,16 @@ conbo.toString = function()
 	return 'ConboJS v'+this.VERSION; 
 };
 
-if (!!$)
+/**
+ * Local jQuery instance used by Conbo internally (not available in lite build)
+ * @namespace	conbo.$
+ */
+conbo.$ = $;
+
+if (document)
 {
-	/**
-	 * Local jQuery instance used by Conbo internally (not available in lite build)
-	 * @namespace	conbo.$
-	 */
-	conbo.$ = $;
-	
-	$(function()
+	document.addEventListener('DOMContentLoaded', function()
 	{
 		conbo.info(conbo.toString());
-	})
+	});
 }

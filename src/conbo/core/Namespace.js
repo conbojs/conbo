@@ -15,18 +15,16 @@ conbo.Namespace = conbo.ConboClass.extend(
 {
 	__construct: function()
 	{
-		if ($)
+		if (document)
 		{
 			// Automatically initializes the DOM when the page is completely loaded
-			var init = this.bind(function()
+			document.addEventListener('DOMContentLoaded', this.bind(function()
 			{
 				if (this.autoInit !== false)
 				{
 					this.initDom();
 				}
-			});
-			
-			$(init);
+			}));
 		}
 	},
 	
@@ -72,10 +70,10 @@ conbo.Namespace = conbo.ConboClass.extend(
 	 * Add classes, properties or methods to the namespace. Using this method
 	 * will not overwrite existing items of the same name.
 	 * 
-	 * @param 	{object}	obj - An object containing items to add to the namespace 
-	 * @returns	{this}
+	 * @param 	{object}			obj - An object containing items to add to the namespace 
+	 * @returns	{conbo.Namespace}	This Namespace instance
 	 */
-	import: function(obj)
+	add: function(obj)
 	{
 		conbo.setDefaults.apply(conbo, [this].concat(conbo.toArray(arguments)));
 		return this;
