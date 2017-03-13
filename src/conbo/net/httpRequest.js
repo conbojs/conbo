@@ -77,28 +77,6 @@ conbo.httpRequest = function(options)
 		{
 			switch (dataType)
 			{
-				// TODO Do we need HTML support?
-//				case 'html':
-//				{
-//					var el;
-//					var div = document.createElement("div");
-//					var fragment = document.createDocumentFragment();
-//					
-//					div.innerHTML = result;
-//					
-//					while (el = div.firstChild)
-//					{
-//						fragment.appendChild(el);
-//					}
-//					
-//					result = fragment;
-//					
-//					break;
-//				}
-				
-				// TODO Implement JSONP support?
-//				case 'jsonp':
-				
 				// TODO Does this work?
 				case 'script':
 				{
@@ -113,6 +91,8 @@ conbo.httpRequest = function(options)
 					
 					break;
 				}
+				
+				// TODO Add jsonp and html support?
 			}
 		}
 		

@@ -68,6 +68,7 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	 * @param	{Object}	data - Object containing the data to send to the web service
 	 * @param	{String}	method - GET, POST, etc (default: GET)
 	 * @param	{Class}		resultClass - Optional
+	 * @returns	{conbo.Promise}
 	 */
 	call: function(command, data, method, resultClass)
 	{
@@ -75,7 +76,7 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 		command = this.parseUrl(command, data);
 		data = this.encodeFunction(data, method);
 		
-		var token = conbo.httpRequest
+		var promise = conbo.httpRequest
 		({
 			data: data,
 			type: method || 'GET',
@@ -88,9 +89,9 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 			makeObjectsBindable: this.makeObjectsBindable
 		});
 		
-		token.then(this.dispatchEvent, this.dispatchEvent, this);
+		promise.then(this.dispatchEvent, this.dispatchEvent, this);
 		
-		return token;
+		return promise;
 	},
 	
 	/**

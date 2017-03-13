@@ -160,11 +160,9 @@ foo.dispatchEvent(new conbo.Event("myEvent"));
 Dependencies
 ------------
 
-**Conbo**: jQuery 1.7+
+**Conbo**: jQuery 1.7+ / 3+ slim build recommended
 
-**Conbo Lite**: None
-
-**Server Side**: None
+**Lite**: None
 
 Builds
 ------
