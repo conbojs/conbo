@@ -33,8 +33,8 @@ conbo.Hash = conbo.EventDispatcher.extend(
 			return String(value).indexOf('_') !== 0; 
 		};
 		
-		var obj = {},
-			keys = conbo.filter(conbo.properties(this), filter);
+		var obj = {};
+		var keys = conbo.filter(conbo.properties(this), filter);
 		
 		keys.forEach(function(value) 
 		{

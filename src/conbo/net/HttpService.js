@@ -22,7 +22,7 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	{
 		options = conbo.setDefaults(options, 
 		{
-			contentType: conbo.HttpService.CONTENT_TYPE_JSON
+			contentType: conbo.CONTENT_TYPE_JSON
 		});
 		
 		conbo.setValues(this, conbo.setDefaults(conbo.pick(options, 
@@ -81,14 +81,14 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 			type: method || 'GET',
 			headers: this.headers,
 			url: this.rootUrl+command,
-			contentType: this.contentType || conbo.HttpService.CONTENT_TYPE_JSON,
+			contentType: this.contentType || conbo.CONTENT_TYPE_JSON,
 			dataType: this.dataType,
 			dataFilter: this.decodeFunction,
 			resultClass: resultClass || this.resultClass, 
 			makeObjectsBindable: this.makeObjectsBindable
 		});
 		
-		token.addResponder(new conbo.Responder(this.dispatchEvent, this.dispatchEvent, this));
+		token.then(this.dispatchEvent, this.dispatchEvent, this);
 		
 		return token;
 	},
@@ -144,10 +144,7 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	 */
 	encodeFunction: function(data, method)
 	{
-		return (method || 'GET').toUpperCase() != 'GET' 
-				&& this.contentType == conbo.HttpService.CONTENT_TYPE_JSON
-			? JSON.stringify(data)
-			: data;
+		return data;
 	},
 	
 	/**
@@ -190,10 +187,5 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 		return 'conbo.HttpService';
 	}
 	
-},
-/** @lends conbo.HttpService */
-{
-	CONTENT_TYPE_JSON: 'application/json',
-	CONTENT_TYPE_FORM: 'application/x-www-form-urlencoded'
 })
 .implement(conbo.IInjectable);

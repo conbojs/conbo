@@ -231,5 +231,5 @@ conbo.EventDispatcher = conbo.ConboClass.extend(
 	
 }).implement(conbo.IInjectable);
 
-__definePrivateProperty(conbo.EventDispatcher.prototype, 'bindable');
+//__definePrivateProperty(conbo.EventDispatcher.prototype, 'bindable');
 __denumerate(conbo.EventDispatcher.prototype);

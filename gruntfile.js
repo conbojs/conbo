@@ -16,6 +16,7 @@ module.exports = function (grunt)
 					[
 					 	'src/conbo/header-lite.txt',
 					 	'src/conbo/conbo.js',
+					 	'src/conbo/utils/internal.js',
 					 	'src/conbo/utils/utils.js',
 					 	'src/conbo/core/Class.js',
 					 	'src/conbo/core/ConboClass.js',
@@ -37,6 +38,7 @@ module.exports = function (grunt)
 					[
 						'src/conbo/header.txt',
 					 	'src/conbo/conbo.js',
+					 	'src/conbo/utils/internal.js',
 					 	'src/conbo/utils/utils.js',
 					 	'src/conbo/utils/dom.js',
 					 	'src/conbo/utils/css.js',
@@ -48,6 +50,7 @@ module.exports = function (grunt)
 						'src/conbo/events/Event.js',
 						'src/conbo/events/ConboEvent.js',
 						'src/conbo/events/EventDispatcher.js',
+						'src/conbo/events/EventProxy.js',
 						'src/conbo/core/Context.js',
 						'src/conbo/data/Hash.js',
 						'src/conbo/data/LocalHash.js',
@@ -65,8 +68,6 @@ module.exports = function (grunt)
 						'src/conbo/core/Command.js',
 						'src/conbo/net/httpRequest.js',
 						'src/conbo/net/HttpService.js',
-						'src/conbo/net/AsyncToken.js',
-						'src/conbo/net/Responder.js',
 						'src/conbo/net/ISyncable.js',
 						'src/conbo/data/RemoteHash.js',
 						'src/conbo/collections/RemoteList.js',

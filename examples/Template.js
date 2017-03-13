@@ -14,7 +14,7 @@ conbo('ns', function()
 	({
 		/**
 		 * HTML templates can be loaded by adding a templateUrl property to your
-		 * class, passing options.templateUrl or loaded a URL using this.loadTemplate('url/of/my.html');
+		 * class, passing options.templateUrl or loading a URL using this.loadTemplate('url/of/my.html');
 		 */
 		initialize: function()
 		{

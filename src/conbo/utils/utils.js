@@ -910,6 +910,8 @@
 	{
 		var names = [];
 		
+		if (!obj) return names;
+		
 		do
 		{
 			var props = Object.getOwnPropertyNames(obj);
@@ -1017,6 +1019,8 @@
 	 */
 	conbo.getPropertyDescriptor = function(obj, propName)
 	{
+		if (!obj) return;
+		
 		do
 		{
 			var descriptor = Object.getOwnPropertyDescriptor(obj, propName);
@@ -1613,21 +1617,10 @@
 		&& !!Object.getOwnPropertyDescriptor;
 	
 	/**
-	 * Does nothing, returns undefined, that's it.
-	 * 
+	 * A function that does nothing
 	 * @memberof	conbo
 	 */
-	conbo.noop = function() {};
-	
-	/**
-	 * Returns the value of the first parameter passed to it, that's it.
-	 * 
-	 * @memberof	conbo
-	 */
-	conbo.noopr = function(value) 
-	{
-		return value;
-	};
+	conbo.noop = function() {}; 
 	
 	/**
 	 * Default function to assign to the methods of pseudo-interfaces
@@ -2212,6 +2205,46 @@
 		})();
 	}
 	
+	/**
+	 * Serialise an Object as a query string  suitable for appending to a URL 
+	 * as GET parameters, e.g. foo=1&bar=2
+	 * 
+	 * @param	{object}	obj	- The Object to encode
+	 * @returns	{string}	The URL encoded string 
+	 */
+	conbo.toQueryString = function(obj)
+	{
+		return conbo.keys(obj).map(function(key) {
+		    return key + '=' + encodeURIComponent(obj[key]);
+		}).join('&');
+	};
+	
+	/**
+	 * Returns the value of the property matching the specified name, optionally
+	 * searching for a case insensitive match. This is useful when extracting 
+	 * response headers, where the case of properties such as "Content-Type" 
+	 * cannot always be predicted
+	 * 
+	 * @param	{object}	obj - The object containing the property
+	 * @param	{string}	propName - The property name
+	 * @param	{boolean}	caseSensitive - Whether to search for a case-insensitive match (default: true)
+	 * @returns	{*}			The value of the specified property
+	 */
+	conbo.getValue = function(obj, propName, caseSensitive)
+	{
+		if (caseSensitive !== false)
+		{
+			return obj[propName];
+		}
+		
+		for (var a in obj)
+		{
+			if (a.toLowerCase() == propName.toLowerCase())
+			{
+				return obj[a];
+			}
+		}
+	};
 	
 	/*
 	 * Logging
@@ -2221,6 +2254,7 @@
 	 * Should Conbo output data to the console when calls are made to loggin methods?
 	 * 
 	 * @memberof	conbo
+	 * @type		{boolean}
 	 * @example
 	 * conbo.logEnabled = false;
 	 * conbo.log('Blah!');
@@ -2230,6 +2264,26 @@
 	 * // Result: Nothing will be displayed in the console
 	 */
 	conbo.logEnabled = true;
+	
+	/**
+	 * @member		{function}	log - Add a log message to the console
+	 * @memberOf	conbo
+	 */
+	
+	/**
+	 * @member		{function}	warn - Add a warning message to the console
+	 * @memberOf	conbo
+	 */
+	
+	/**
+	 * @member		{function}	info - Add information to the console
+	 * @memberOf	conbo
+	 */
+	
+	/**
+	 * @member		{function}	error - Add an error log message to the console
+	 * @memberOf	conbo
+	 */
 	
 	var logMethods = ['log','warn','info','error'];
 	
@@ -2243,142 +2297,3 @@
 	});
 	
 })();
-
-/*
- * Internal utility methods
- */
-
-/**
- * Dispatch a property change event from the specified object
- * @private
- */
-var __dispatchChange = function(obj, propName)
-{
-	if (!(obj instanceof conbo.EventDispatcher)) return;
-	
-	var options = {property:propName, value:obj[propName]};
-	
-	obj.dispatchEvent(new conbo.ConboEvent('change:'+propName, options));
-	obj.dispatchEvent(new conbo.ConboEvent('change', options));
-	
-	return this;
-};
-
-/**
- * Creates a property which can be bound to DOM elements and others
- * 
- * @param	(Object)	obj			The EventDispatcher object on which the property will be defined
- * @param	(String)	propName	The name of the property to be defined
- * @param	(*)			value		The default value of the property (optional)
- * @param	(Function)	getter		The getter function (optional)
- * @param	(Function)	setter		The setter function (optional)
- * @param	(Boolean)	enumerable	Whether of not the property should be enumerable (optional, default: true)
- * @private
- */
-var __defineProperty = function(obj, propName, value, getter, setter, enumerable)
-{
-	if (conbo.isAccessor(obj, propName))
-	{
-		return this;
-	}
-	
-	if (conbo.isUndefined(value))
-	{
-		value = obj[propName];
-	}
-	
-	var nogs = !getter && !setter;
-	
-	if (arguments.length < 6)
-	{
-		enumerable = propName.indexOf('_') !== 0;
-	}
-	
-	if (nogs)
-	{
-		getter = function()
-		{
-			return value;
-		};
-	
-		setter = function(newValue)
-		{
-			if (!conbo.isEqual(newValue, value)) 
-			{
-				value = newValue;
-				__dispatchChange(this, propName, value);
-			}
-		};
-		
-		setter.bindable = true;
-	}
-	else if (!!setter)
-	{
-		setter = conbo.wrap(setter, function(fn, newValue)
-		{
-			fn.call(this, newValue);
-			__dispatchChange(this, propName);
-		});
-		
-		setter.bindable = true;
-	}
-	
-	Object.defineProperty(obj, propName, {enumerable:enumerable, configurable:true, get:getter, set:setter});
-	
-	return this;
-};
-
-/**
- * Used by ConboJS to define private and internal properties (usually prefixed 
- * with an underscore) that can't be enumerated
- * 
- * @private
- */
-var __definePrivateProperty = function(obj, propName, value)
-{
-	if (arguments.length == 2)
-	{
-		value = obj[propName];
-	}
-	
-	Object.defineProperty(obj, propName, {enumerable:false, configurable:true, writable:true, value:value});
-	return this;
-};
-
-/**
- * Define properties that can't be enumerated
- * @private
- */
-var __definePrivateProperties = function(obj, values)
-{
-	for (var key in values)
-	{
-		__definePrivateProperty(obj, key, values[key]);
-	}
-	
-	return this;
-}
-
-/**
- * Convert enumerable properties of the specified object into non-enumerable ones
- * @private
- */
-var __denumerate = function(obj)
-{
-	var regExp = arguments[1];
-	
-	var keys = regExp instanceof RegExp
-		? conbo.filter(conbo.keys(obj), function(key) { return regExp.test(key); })
-		: (arguments.length > 1 ? conbo.rest(arguments) : conbo.keys(obj));
-	
-	keys.forEach(function(key)
-	{
-		var descriptor = Object.getOwnPropertyDescriptor(obj, key) 
-			|| {value:obj[key], configurable:true, writable:true};
-		
-		descriptor.enumerable = false;
-		Object.defineProperty(obj, key, descriptor);
-	});
-	
-	return this;
-};

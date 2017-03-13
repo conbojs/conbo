@@ -125,7 +125,7 @@ conbo.View = conbo.Glimpse.extend(
 	 */
 	get $el()
 	{
-		if (this.__el)
+		if (this.el)
 		{
 			return $(this.el);
 		}
@@ -186,15 +186,8 @@ conbo.View = conbo.Glimpse.extend(
 	 */
 	get $content()
 	{
-		if (this.initialized)
-		{
-			var $content = this.$('[cb-content]:first');
-			
-			if ($content.closest('.cb-view')[0] == this.el)
-			{
-				return $content;
-			}
-		}
+		var content = this.content;
+		if (content) return $(content); 
 	},
 	
 	/**
@@ -203,10 +196,7 @@ conbo.View = conbo.Glimpse.extend(
 	 */
 	get content()
 	{
-		if (this.$content)
-		{
-			return this.$content[0];
-		}
+		return this.querySelectorAll('[cb-content]')[0];
 	},
 	
 	/**
@@ -260,6 +250,8 @@ conbo.View = conbo.Glimpse.extend(
 	 */
 	$: function(selector, isDeep)
 	{
+//		__deprecated('View.$ is deprecated, you should use View.querySelectorAll instead');
+		
 		if (isDeep)
 		{
 			return this.$el.find(selector);
@@ -287,17 +279,22 @@ conbo.View = conbo.Glimpse.extend(
 	 */
 	querySelectorAll: function(selector)
 	{
-		var results = conbo.toArray(this.el.querySelectorAll(selector));
-		var views = this.el.querySelectorAll('.cb-view');
-		
-		// Remove elements in child Views
-		conbo.forEach(views, function(el)
+		if (this.el)
 		{
-			var els = conbo.toArray(el.querySelectorAll(selector));
-			results = conbo.difference(results, els.concat(el));
-		});
+			var results = conbo.toArray(this.el.querySelectorAll(selector));
+			var views = this.el.querySelectorAll('.cb-view');
+			
+			// Remove elements in child Views
+			conbo.forEach(views, function(el)
+			{
+				var els = conbo.toArray(el.querySelectorAll(selector));
+				results = conbo.difference(results, els.concat(el));
+			});
+			
+			return results;
+		}
 		
-		return results;
+		return [];
 	},
 	
 	/**
@@ -467,6 +464,7 @@ conbo.View = conbo.Glimpse.extend(
 	{
 		url || (url = this.templateUrl);
 		
+		var el = this.body;
 		var $el = this.$el;
 		
 		this.unbindView();
@@ -488,7 +486,8 @@ conbo.View = conbo.Glimpse.extend(
 				View__templateCache[url] = result;
 			}
 			
-			$el.html(result);
+			el.innerHTML = result;
+			
 			this.__initView();
 		};
 		
@@ -500,7 +499,8 @@ conbo.View = conbo.Glimpse.extend(
 			this.__initView();
 		};
 		
-		conbo.httpRequest({url:url, dataType:'text'})
+		conbo
+			.httpRequest({url:url, dataType:'text'})
 			.then(resultHandler, faultHandler, this)
 			;
 		
