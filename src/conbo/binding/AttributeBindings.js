@@ -58,11 +58,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 */
 	cbHide: function(el, value)
 	{
-		var $el = $(el);
-		
 		!!value
-			? $el.addClass('cb-hide')
-			: $el.removeClass('cb-hide');
+			? conbo.addClass(el, 'cb-hide')
+			: conbo.removeClass(el, 'cb-hide');
 	},
 	
 	/**
@@ -85,11 +83,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 */
 	cbExclude: function(el, value)
 	{
-		var $el = $(el);
-		
 		!!value
-			? $el.addClass('cb-exclude')
-			: $el.removeClass('cb-exclude');
+			? conbo.addClass(el, 'cb-exclude')
+			: conbo.removeClass(el, 'cb-exclude');
 	},
 	
 	/**
@@ -126,7 +122,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 	cbText: function(el, value)
 	{
 		value = conbo.encodeEntities(value).replace(/\r?\n|\r/g, '<br/>');
-		$(el).html(value);
+		el.innerHTML = value;
 	},
 	
 	/**
@@ -143,11 +139,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 			conbo.warn('cb-class attributes must specify one or more CSS classes in the format cb-class="myProperty:class-name"');
 		}
 		
-		var $el = $(el);
-		
 		!!value
-			? $el.addClass(className)
-			: $el.removeClass(className)
+			? conbo.addClass(el, className)
+			: conbo.removeClass(el, className)
 			;
 	},
 	
@@ -160,18 +154,16 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 */
 	cbClasses: function(el, value)
 	{
-		var $el = $(el);
-		
 		if (el.cbClasses)
 		{
-			$el.removeClass(el.cbClasses);
+			conbo.removeClass(el, el.cbClasses);
 		}
 		
 		el.cbClasses = value;
 		
 		if (value)
 		{
-			$el.addClass(value);
+			conbo.addClass(el, value);
 		}
 	},
 	
@@ -188,7 +180,8 @@ conbo.AttributeBindings = conbo.Class.extend(
 			conbo.warn('cb-style attributes must specify one or more styles in the format cb-style="myProperty:style-name"');
 		}
 		
-		$(el).css(styleName, value);
+		styleName = conbo.toCamelCase(styleName);
+		el.style[styleName] = value;
 	},
 	
 	/**
@@ -216,7 +209,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 		
 		var elements = el.cbRepeat.elements || [];
 		
-		$el.removeClass('cb-exclude');
+		conbo.removeClass(el, 'cb-exclude');
 		
 		if (el.cbRepeat.list != values && values instanceof conbo.List)
 		{
@@ -662,8 +655,6 @@ conbo.AttributeBindings = conbo.Class.extend(
 	{
 		// TODO Restrict to text input fields?
 		
-		var $el = $(el);
-		
 		if (el.cbMaxChars)
 		{
 			el.removeEventListener('keypress', el.cbMaxChars);
@@ -671,7 +662,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 		
 		el.cbMaxChars = function(event)
 		{
-			if (($el.val() || $el.html()).length >= value)
+			if ((el.value || el.innerHTML).length >= value)
 			{
 				event.preventDefault();
 			}

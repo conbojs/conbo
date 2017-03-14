@@ -20,15 +20,6 @@ conbo.Router = conbo.EventDispatcher.extend(
 /** @lends conbo.Router.prototype */
 {
 	/**
-	 * Whether or the Router class is supported by the current browser
-	 * @type	{boolean}
-	 */
-	get isSupported()
-	{
-		return 'onhashchange' in window;
-	},
-	
-	/**
 	 * @private
 	 */
 	__construct: function(options) 

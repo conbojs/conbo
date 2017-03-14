@@ -74,13 +74,16 @@ conbo.MutationObserver = conbo.EventDispatcher.extend(
 		
 		if (el) 
 		{
-			el.removeEventListener('DOMNodeInserted', __addHandler);
-			el.removeEventListener('DOMNodeRemoved', __removeHandler);
+			el.removeEventListener('DOMNodeInserted', this.__addHandler);
+			el.removeEventListener('DOMNodeRemoved', this.__removeHandler);
 		}
 		
 		return this;
 	},
 	
+	/**
+	 * @private
+	 */
 	__addHandler: function(event)
 	{
 		var nodes = conbo.isArray(event)
@@ -90,6 +93,9 @@ conbo.MutationObserver = conbo.EventDispatcher.extend(
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ADD, {nodes:nodes}));
 	},
 	
+	/**
+	 * @private
+	 */
 	__removeHandler: function(event)
 	{
 		var nodes = conbo.isArray(event)

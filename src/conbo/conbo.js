@@ -99,10 +99,14 @@ conbo.toString = function()
  */
 conbo.$ = $;
 
+var __domContentLoaded = false;
+
 if (document)
 {
 	document.addEventListener('DOMContentLoaded', function()
 	{
+		__domContentLoaded = true;
+		
 		conbo.info(conbo.toString());
 	});
 }

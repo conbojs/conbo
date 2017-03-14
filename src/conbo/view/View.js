@@ -155,7 +155,7 @@ conbo.View = conbo.Glimpse.extend(
 	{
 		if (this.initialized)
 		{
-			return this.__getParent();
+			return this.__getParent('cb-view');
 		}
 	},
 	
@@ -167,7 +167,7 @@ conbo.View = conbo.Glimpse.extend(
 	{
 		if (this.initialized)
 		{
-			return this.__getParent(true);
+			return this.__getParent('cb-app');
 		}
 	},
 	
@@ -471,7 +471,7 @@ conbo.View = conbo.Glimpse.extend(
 		
 		if (this.templateCacheEnabled !== false && View__templateCache[url])
 		{
-			$el.html(View__templateCache[url]);
+			el.innerHTML = View__templateCache[url];
 			this.__initView();
 			
 			return this;
@@ -570,31 +570,14 @@ conbo.View = conbo.Glimpse.extend(
 		return this;
 	},
 	
-	__getParent: function(selectApp)
+	__getParent: function(className) 
 	{
-		if (!this.el 
-			|| !this.el.parentElement 
-			|| conbo.instanceOf(this, conbo.Application)
-			)
-		{
-			return;
-		}
-		
-		var selector = selectApp ? '.cb-app' : '.cb-view';
-		var el = this.$el.parents(selector)[0];
-		
-		if (selectApp)
-		{
-			return el ? el.cbView : undefined;
-		}
-		
-		var parentApp = this.parentApp;
-		
-		if (el && (parentApp && parentApp.$el.has(el).length))
-		{
-			return el.cbView;
-		}
-	}
+		var el = this.el;
+		if (!el) return;
+		// TODO Use !el.classList.contains(className) when it's more widely supported
+	    while ((el = el.parentElement) && el.className.split(' ').indexOf(className) == -1);
+	    if (el) return el.cbView;
+	},
 	
 });
 

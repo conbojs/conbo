@@ -1,4 +1,3 @@
-
 /*
  * Internal utility methods
  */
