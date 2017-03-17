@@ -714,32 +714,28 @@
 				;
 			
 			var rootEl = conbo.isElement(rootView) ? rootView : rootView.el;
-			var notView = conbo.toArray(rootEl.querySelectorAll(':not(.cb-view)'));
-			var notGlimpse = conbo.toArray(rootEl.querySelectorAll(':not(.cb-glimpse)'));
 			
-			// Detects tags with cb-* attributes and custom tag names 
-			conbo.intersection(notView, notGlimpse).forEach(function(el)
+			for (var className in namespace)
 			{
-				var ep = __ep(el),
-					className = ep.cbAttributes()[type] || conbo.toCamelCase(el.tagName, true),
-					classReference = scope.getClass(className, namespace)
-					;
+				var classReference = scope.getClass(className, namespace);
+				var isView = conbo.isClass(classReference, conbo.View);
+				var isGlimpse = conbo.isClass(classReference, conbo.Glimpse) && !isView;
 				
-				if (classReference && conbo.isClass(classReference, typeClass))
+				if ((type == 'glimpse' && isGlimpse) || (type == 'view' && isView))
 				{
-					var isView = conbo.isClass(classReference, conbo.View);
-					var isGlimpse = conbo.isClass(classReference, conbo.Glimpse) && !isView;
+					var tagName = conbo.toKebabCase(className);
+					var nodes = conbo.toArray(rootEl.querySelectorAll(tagName+':not(.cb-'+type+'), [cb-'+type+'='+className+']:not(.cb-'+type+')'));
 					
-					if ((type == 'glimpse' && isGlimpse) || (type == 'view' && isView))
+					nodes.forEach(function(el)
 					{
-						// Gets the Context of the "closest" parent View
+						var ep = __ep(el);
 						var closestView = ep.closest('.cb-view');
 						var context = closestView ? closestView.cbView.subcontext : rootView.subcontext;
 						
 						new classReference({el:el, context:context});
-					}
+					});
 				}
-			});
+			}
 			
 			return this;
 		},
