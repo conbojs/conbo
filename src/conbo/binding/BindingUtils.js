@@ -543,7 +543,7 @@
 			.each(function(index, el)
 			{
 				var $el = $(el);
-				var attrs = conbo.getAttributes(el);
+				var attrs = __ep(el).getAttributes();
 				
 				if (!conbo.keys(attrs).length) 
 				{
@@ -709,7 +709,7 @@
 			$rootEl.find('*').not('.cb-view, .cb-glimpse').each(function(index, el)
 			{
 				var $el = $(el),
-					className = conbo.cbAttributes(el)[type] || conbo.toCamelCase(el.tagName, true),
+					className = __ep(el).cbAttributes()[type] || conbo.toCamelCase(el.tagName, true),
 					classReference = scope.getClass(className, namespace)
 					;
 				

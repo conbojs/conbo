@@ -35,7 +35,7 @@
 			
 			nodes.forEach(function(el)
 			{
-		   		var appName = conbo.getAttributes(el).cbApp || conbo.toCamelCase(el.tagName, true);
+		   		var appName = __ep(el).getAttributes().cbApp || conbo.toCamelCase(el.tagName, true);
 		   		var appClass = namespace[appName];
 		   		
 		   		if (appClass && conbo.isClass(appClass, conbo.Application))
@@ -152,99 +152,6 @@
 		}
 		
 		return this;
-	};
-	
-	// Temporary jQuery replacement or proxy methods to facilitate a jQuery free world...
-	
-	/**
-	 * Returns object containing the value of all attributes on a DOM element
-	 * 
-	 * @memberof	conbo
-	 * @param 		{Element}	el - DOM Element
-	 * 
-	 * @example
-	 * conbo.getAttributes(el); // results in something like {src:"foo/bar.jpg"}
-	 */
-	conbo.getAttributes = function(el)
-	{
-		var a = {};
-		
-		conbo.forEach(el.attributes, function(p)
-		{
-			a[conbo.toCamelCase(p.name)] = p.value;
-		});
-		
-		return a;
-	};
-	
-	/**
-	 * Returns object containing the value of all cb-* attributes on a DOM element
-	 * 
-	 * @memberof	conbo
-	 * @param 		{Element}	el - Target DOM Element
-	 * 
-	 * @example
-	 * conbo.cbAttributes(el);
-	 */
-	conbo.cbAttributes = function(el)
-	{
-		var a = {};
-		
-		conbo.forEach(el.attributes, function(p)
-		{
-			if (p.name.indexOf('cb-') === 0)
-			{
-				a[conbo.toCamelCase(p.name.substr(3))] = p.value;
-			}
-		});
-		
-		return a;
-	};
-	
-	/**
-	 * Temporary method to add CSS classes to elements while we wait for classList 
-	 * to become more widely supported
-	 *  
-	 * @memberof	conbo
-	 * @param 		{Element}	el - Target DOM Element
-	 * @param 		{string}	className - One or more CSS class names, separated by spaces
-	 */
-	conbo.addClass = function(el, className)
-	{
-		var newClasses = className.trim().split(' ');
-		var allClasses = el.className.trim().split(' ').concat(newClasses);
-		
-		el.className = conbo.uniq(conbo.compact(allClasses)).join(' ');
-	};
-	
-	/**
-	 * Temporary method to remove CSS classes from elements while we wait for 
-	 * classList to become more widely supported
-	 * 
-	 * @memberof	conbo
-	 * @param 		{Element}	el - Target DOM Element
-	 * @param 		{string}	className - One or more CSS class names, separated by spaces
-	 */
-	conbo.removeClass = function(el, className)
-	{
-		var newClasses = className.trim().split(' ');
-		var allClasses = conbo.difference(el.className.trim().split(' '), newClasses);
-		
-		el.className = conbo.uniq(conbo.compact(allClasses)).join(' ');
-	};
-	
-	/**
-	 * Temporary method to test for a CSS class on an element while we wait for classList 
-	 * to become more widely supported
-	 *  
-	 * @memberof	conbo
-	 * @param 		{Element}	el - Target DOM Element
-	 * @param 		{string}	className - CSS class name
-	 */
-	conbo.hasClass = function(el, className)
-	{
-		var allClasses = el.className.trim().split(' ');
-		return allClasses.indexOf(className) != -1;
 	};
 	
 })();

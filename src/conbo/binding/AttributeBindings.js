@@ -58,9 +58,11 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 */
 	cbHide: function(el, value)
 	{
+		var ep = __ep(el);
+		
 		!!value
-			? conbo.addClass(el, 'cb-hide')
-			: conbo.removeClass(el, 'cb-hide');
+			? ep.addClass('cb-hide')
+			: ep.removeClass('cb-hide');
 	},
 	
 	/**
@@ -83,9 +85,11 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 */
 	cbExclude: function(el, value)
 	{
+		var ep = __ep(el);
+		
 		!!value
-			? conbo.addClass(el, 'cb-exclude')
-			: conbo.removeClass(el, 'cb-exclude');
+			? ep.addClass('cb-exclude')
+			: ep.removeClass('cb-exclude');
 	},
 	
 	/**
@@ -107,7 +111,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 */
 	cbHtml: function(el, value)
 	{
-		$(el).html(value);
+		el.innerHTML = value;
 	},
 	
 	/**
@@ -140,8 +144,8 @@ conbo.AttributeBindings = conbo.Class.extend(
 		}
 		
 		!!value
-			? conbo.addClass(el, className)
-			: conbo.removeClass(el, className)
+			? __ep(el).addClass(className)
+			: __ep(el).removeClass(className)
 			;
 	},
 	
@@ -156,14 +160,14 @@ conbo.AttributeBindings = conbo.Class.extend(
 	{
 		if (el.cbClasses)
 		{
-			conbo.removeClass(el, el.cbClasses);
+			__ep(el).removeClass(el.cbClasses);
 		}
 		
 		el.cbClasses = value;
 		
 		if (value)
 		{
-			conbo.addClass(el, value);
+			__ep(el).addClass(value);
 		}
 	},
 	
@@ -185,17 +189,17 @@ conbo.AttributeBindings = conbo.Class.extend(
 	},
 	
 	/**
-	 * Repeat the selected element
+	 * Repeat the selected element with the specified View or Glimpse class 
+	 * applied to it
 	 * 
 	 * @param 		el
 	 * @param 		value
 	 */
 	cbRepeat: function(el, values, options, itemRendererClassName)
 	{
-		var a, 
-			args = conbo.toArray(arguments),
-			$el = $(el),
-			viewClass;
+		var a; 
+		var args = conbo.toArray(arguments);
+		var viewClass;
 		
 		options || (options = {});
 		
@@ -209,7 +213,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 		
 		var elements = el.cbRepeat.elements || [];
 		
-		conbo.removeClass(el, 'cb-exclude');
+		__ep(el).removeClass('cb-exclude');
 		
 		if (el.cbRepeat.list != values && values instanceof conbo.List)
 		{
@@ -231,20 +235,25 @@ conbo.AttributeBindings = conbo.Class.extend(
 		{
 			case values instanceof Array:
 			case values instanceof conbo.List:
+			{
 				a = values;
 				break;
-				
+			}
+			
 			default:
+			{
 				// To support element lists, etc
 				a = conbo.isIterable(values)
 					? conbo.toArray(values)
 					: [];
 				break;
+			}
 		}
 		
-		if (elements.length)
+		// Ensure the original element is re-inserted into the DOM before proceeding
+		if (elements.length && elements[0].parentNode)
 		{
-			$(elements[0]).before($el);
+			elements[0].parentNode.insertBefore(el, elements[0]);
 		}
 		
 		while (elements.length)
@@ -253,45 +262,52 @@ conbo.AttributeBindings = conbo.Class.extend(
 			var rView = rEl.cbView || rEl.cbGlimpse;
 			
 			if (rView) rView.remove();
-			else $(rEl).remove();
+			else rEl.parentNode.removeChild(rEl);
 		}
 		
 		// Switched from forEach loop to resolve issues using "new Array(n)"
 		// see: http://stackoverflow.com/questions/23460301/foreach-on-array-of-undefined-created-by-array-constructor
 		for (var index=0,length=a.length; index<length; ++index)
 		{
-			var value = values[index];
+			var value = a[index];
+			var clone = el.cloneNode(true);
 			
 			if (conbo.isObject(value) && !(value instanceof conbo.Hash))
 			{
 				value = new conbo.Hash({source:value});
 			}
 			
-			var $clone = $el.clone().removeAttr('cb-repeat');
+			clone.removeAttribute('cb-repeat');
 			
 			var viewOptions = 
 			{
 				data: value, 
-				el: $clone, 
+				el: clone, 
 				index: index,
 				isLast: index == a.length-1,
-				list: a
+				list: a,
+				className: 'cb-repeat'
 			};
 			
 			var view = new viewClass(conbo.setValues(viewOptions, options));
 			
-			view.$el.addClass('cb-repeat');
-			
 			elements.push(view.el);
 		};
 		
-		$el.before(elements);
+		var fragment = document.createDocumentFragment();
 		
+		elements.forEach(function(el)
+		{
+			fragment.appendChild(el);
+		});
+		
+		el.parentNode.insertBefore(fragment, el);
 		el.cbRepeat.elements = elements;
 		
 		elements.length
-			? $el.detach()
-			: $el.addClass('cb-exclude');
+			? el.parentNode.removeChild(el)
+			: el.className += ' cb-exclude'
+			;
 	},
 	
 	/**
@@ -397,11 +413,8 @@ conbo.AttributeBindings = conbo.Class.extend(
 	{
 		if (!!value)
 		{
-			var $el = $(el);
-			
-			// TODO Remove any bindings?
-			
-			$el.remove();
+			// TODO Remove binding, etc?
+			el.parentNode.removeChild(el);
 		}
 	},
 	
@@ -461,29 +474,29 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 */
 	cbDetectChange: function(el, value)
 	{
-		var $el = $(el)
-			, $form = $el.closest('form')
-			, originalValue = $el.val() || $el.html()
-			;
+		var ep = __ep(el); 
+		var form = ep.closest('form');
+		var fp = __ep(form);
+		var originalValue = el.value || el.innerHTML;
 		
 		var updateForm = function()
 		{
-			$form.removeClass('cb-changed cb-unchanged')
-				.addClass($form.find('.cb-changed').length ? 'cb-changed' : 'cb-unchanged');
+			fp.removeClass('cb-changed cb-unchanged')
+				.addClass(form.querySelector('.cb-changed') ? 'cb-changed' : 'cb-unchanged');
 		};
 		
 		var changeHandler = function()
 		{
-			var changed = (($el.val() || $el.html()) != originalValue);
+			var changed = (el.value || el.innerHTML) != originalValue;
 			
-			$el.removeClass('cb-changed cb-unchanged')
+			ep.removeClass('cb-changed cb-unchanged')
 				.addClass(changed ? 'cb-changed' : 'cb-unchanged')
 				;
 			
 			updateForm();
 		};
 		
-		$el.on('change input', changeHandler)
+		ep.addEventListener('change input', changeHandler)
 			.addClass('cb-unchanged')
 			;
 		
@@ -531,13 +544,12 @@ conbo.AttributeBindings = conbo.Class.extend(
 			return;
 		}
 		
-		var $el = $(el)
-			, $form = $el.closest('form')
-			;
+		var ep = __ep(el);
+		var form = ep.closest('form');
 		
 		var removeClass = function(regEx) 
 		{
-			return function (index, classes) 
+			return function (classes) 
 			{
 				return classes.split(/\s+/).filter(function (el)
 				{
@@ -551,7 +563,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 		{
 			// Form item
 			
-			var value = $el.val() || $el.html()
+			var value = el.value || el.innerHTML
 				, result = validateFunction(value) 
 				, valid = (result === true)
 				, classes = []
@@ -564,30 +576,30 @@ conbo.AttributeBindings = conbo.Class.extend(
 				classes.push('cb-invalid-'+result);
 			}
 			
-			$el.removeClass('cb-valid cb-invalid')
+			ep.removeClass('cb-valid cb-invalid')
 				.removeClass(removeClass(/^cb-invalid-/))
 				.addClass(classes.join(' '))
 				;
 			
 			// Form
 			
-			if ($form.length)
+			if (form)
 			{
-				$form.removeClass('cb-valid cb-invalid')
+				var fp = __ep(form);
+				
+				fp.removeClass('cb-valid cb-invalid')
 					.removeClass(removeClass(/^cb-invalid-/))
 					;
 				
 				if (valid) 
 				{
-					valid = !$form.find('.cb-invalid').length;
+					valid = !form.querySelector('.cb-invalid');
 					
 					if (valid)
 					{
-						$form.find('[required]').each(function() 
+						conbo.toArray(form.querySelectorAll('[required]')).forEach(function(rEl) 
 						{
-							var $el = $(this);
-							
-							if (!$.trim($el.val() || $el.html()))
+							if (!String(rEl.value || rEl.innerHTML).trim())
 							{
 								valid = false;
 								return false; 
@@ -596,12 +608,12 @@ conbo.AttributeBindings = conbo.Class.extend(
 					}
 				}
 				
-				$form.addClass(valid ? 'cb-valid' : 'cb-invalid');
+				fp.addClass(valid ? 'cb-valid' : 'cb-invalid');
 			}
 			
 		};
 		
-		$el.on('change input blur', validate);
+		ep.addEventListener('change input blur', validate);
 	},
 	
 	/**

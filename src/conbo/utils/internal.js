@@ -145,3 +145,12 @@ var __deprecated = function(message)
 {
 	conbo.warn('Deprecation warning: '+message);
 };
+
+/**
+ * Shortcut for new conbo.ElementProxy(el);
+ * @private
+ */
+var __ep = function(el)
+{
+	return new conbo.ElementProxy(el);
+};

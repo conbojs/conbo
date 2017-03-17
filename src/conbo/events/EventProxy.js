@@ -12,9 +12,9 @@
 conbo.EventProxy = conbo.Class.extend(
 /** @lends conbo.EventProxy.prototype */
 {
-	constructor: function(eventDispatcher)
+	constructor: function(obj)
 	{
-		this.__eventDispatcher = eventDispatcher;
+		this.__obj = obj;
 	},
 	
 	/**
@@ -26,30 +26,33 @@ conbo.EventProxy = conbo.Class.extend(
 	 */
 	addEventListener: function(type, handler)
 	{
-		var eventDispatcher = this.__eventDispatcher;
+		var obj = this.__obj;
 		
-		switch (true)
+		if (obj)
 		{
-			case $ && eventDispatcher instanceof $:
+			switch (true)
 			{
-				eventDispatcher.on(type, handler);
-				break;
-			}
-			
-			case eventDispatcher instanceof conbo.EventDispatcher:
-			{
-				eventDispatcher.addEventListener(type, handler);
-				break;
-			}
-			
-			default:
-			{
-				var types = type.split(' ');
-				
-				types.forEach(function(type)
+				case $ && obj instanceof $:
 				{
-					eventDispatcher.addEventListener(type, handler);
-				});
+					obj.on(type, handler);
+					break;
+				}
+				
+				case obj instanceof conbo.EventDispatcher:
+				{
+					obj.addEventListener(type, handler);
+					break;
+				}
+				
+				default:
+				{
+					var types = type.split(' ');
+					
+					types.forEach(function(type)
+					{
+						obj.addEventListener(type, handler);
+					});
+				}
 			}
 		}
 		
@@ -65,30 +68,33 @@ conbo.EventProxy = conbo.Class.extend(
 	 */
 	removeEventListener: function(type, handler)
 	{
-		var eventDispatcher = this.__eventDispatcher;
+		var obj = this.__obj;
 		
-		switch (true)
+		if (obj)
 		{
-			case $ && eventDispatcher instanceof $:
+			switch (true)
 			{
-				eventDispatcher.off(type, handler);
-				break;
-			}
-			
-			case eventDispatcher instanceof conbo.EventDispatcher:
-			{
-				eventDispatcher.removeEventListener(type, handler);
-				break;
-			}
-			
-			default:
-			{
-				var types = type.split(' ');
-				
-				types.forEach(function(type)
+				case $ && obj instanceof $:
 				{
-					eventDispatcher.removeEventListener(type, handler);
-				});
+					obj.off(type, handler);
+					break;
+				}
+				
+				case obj instanceof conbo.obj:
+				{
+					obj.removeEventListener(type, handler);
+					break;
+				}
+				
+				default:
+				{
+					var types = type.split(' ');
+					
+					types.forEach(function(type)
+					{
+						obj.removeEventListener(type, handler);
+					});
+				}
 			}
 		}
 		
