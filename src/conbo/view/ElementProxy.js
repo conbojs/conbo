@@ -15,8 +15,7 @@ conbo.ElementProxy = conbo.EventProxy.extend(
 	/**
 	 * Returns object containing the value of all attributes on a DOM element
 	 * 
-	 * @param 		{Element}	el - DOM Element
-	 * @returns		{array}
+	 * @returns		{object}
 	 * 
 	 * @example
 	 * ep.getAttributes(); // results in something like {src:"foo/bar.jpg"}
@@ -38,9 +37,32 @@ conbo.ElementProxy = conbo.EventProxy.extend(
 	},
 	
 	/**
+	 * Sets the attributes on a DOM element from an Object, converting camelCase to kebab-case, if needed
+	 * 
+	 * @param 		{Element}	obj - Object containing the attributes to set
+	 * @returns		{conbo.ElementProxy}
+	 * 
+	 * @example
+	 * ep.setAttributes({foo:1, bar:"red"});
+	 */
+	setAttributes: function(obj)
+	{
+		var el = this.__obj;
+		
+		if (el && obj)
+		{
+			conbo.forEach(obj, function(value, name)
+			{
+				el.setAttribute(conbo.toKebabCase(name), value);
+			});
+		}
+		
+		return this;
+	},
+	
+	/**
 	 * Returns object containing the value of all cb-* attributes on a DOM element
 	 * 
-	 * @param 		{Element}	el - Target DOM Element
 	 * @returns		{array}
 	 * 
 	 * @example

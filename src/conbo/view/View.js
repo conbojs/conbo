@@ -85,6 +85,7 @@ conbo.View = conbo.Glimpse.extend(
 				'className', 
 				'data', 
 				'id', 
+				'style', 
 				'tagName', 
 				'template', 
 				'templateUrl',
@@ -116,18 +117,6 @@ conbo.View = conbo.Glimpse.extend(
 		if (this.autoInitTemplate !== false)
 		{
 			this.initTemplate();
-		}
-	},
-	
-	/**
-	 * This View's element wrapped as a jQuery object
-	 * @deprecated
-	 */
-	get $el()
-	{
-		if (this.el)
-		{
-			return $(this.el);
 		}
 	},
 	
@@ -180,17 +169,6 @@ conbo.View = conbo.Glimpse.extend(
 	},
 	
 	/**
-	 * A jQuery wrapped version of the `content` element
-	 * 
-	 * @see	#content
-	 */
-	get $content()
-	{
-		var content = this.content;
-		if (content) return $(content); 
-	},
-	
-	/**
 	 * The element into which HTML content should be placed; this is either the 
 	 * first DOM element with a `cb-content` or the root element of this view
 	 */
@@ -205,15 +183,6 @@ conbo.View = conbo.Glimpse.extend(
 	get hasContent()
 	{
 		return !!this.content;
-	},
-	
-	/**
-	 * A jQuery wrapped version of the body element
-	 * @see		body
-	 */
-	get $body()
-	{
-		return this.$content || this.$el;
 	},
 	
 	/**
@@ -237,37 +206,6 @@ conbo.View = conbo.Glimpse.extend(
 	set subcontext(value)
 	{
 		this.__subcontext = value;
-	},
-	
-	/**
-	 * jQuery delegate for finding elements within the current View, but not
-	 * within child Views 
-	 * 
-	 * @deprecated
-	 * @see					#querySelectorAll
-	 * @param	{string}	selector - The jQuery selector to use
-	 * @param	{boolean}	isDeep - Whether or not to include nested views in the search (default: false)
-	 */
-	$: function(selector, isDeep)
-	{
-//		__deprecated('View.$ is deprecated, you should use View.querySelectorAll instead');
-		
-		if (isDeep)
-		{
-			return this.$el.find(selector);
-		}
-		
-		var $nestedViews = this.$el.find('.cb-app, [cb-app], .cb-view, [cb-view]');
-		
-		return this.$el.find(selector).filter(function()
-		{
-			if (!!$nestedViews.find(this).length || !!$nestedViews.filter(this).length) 
-			{
-				return false;
-			}
-			
-			return true;
-		});
 	},
 	
 	/**
@@ -298,12 +236,15 @@ conbo.View = conbo.Glimpse.extend(
 	},
 	
 	/**
-	 * Take the View's element element from of the DOM
+	 * Take the View's element element out of the DOM
 	 */
 	detach: function() 
 	{
-		this.$el.detach();		
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.DETACH));
+		if (this.el.parentNode)
+		{
+			this.el.parentNode.removeChild(el);		
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.DETACH));
+		}
 		
 		return this;
 	},
@@ -311,15 +252,16 @@ conbo.View = conbo.Glimpse.extend(
 	/**
 	 * Remove and destroy this View by taking the element out of the DOM, 
 	 * unbinding it, removing all event listeners and removing the View from 
-	 * its Context
+	 * its Context.
+	 * 
+	 * You should use a REMOVE event handler to destroy any event listeners,
+	 * timers or other code you may have added.
 	 */
 	remove: function()
 	{
 		this.unbindView()
 			.removeEventListener()
 			;
-		
-		this.$el.remove();
 		
 		if (this.data)
 		{
@@ -335,6 +277,9 @@ conbo.View = conbo.Glimpse.extend(
 			
 			this.context = undefined;
 		}
+		
+		// TODO Remove jQuery dependencies
+		this.$el.remove();
 		
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
 		
@@ -366,7 +311,7 @@ conbo.View = conbo.Glimpse.extend(
 			throw new Error('Parameter must be instance of conbo.View class');
 		}
 	
-		this.$body.append(view.el);
+		this.body.appendChild(view.el);
 		
 		return this;
 	},
@@ -396,7 +341,11 @@ conbo.View = conbo.Glimpse.extend(
 			throw new Error('Parameter must be instance of conbo.View class');
 		}
 		
-		this.$body.prepend(view.el);
+		var firstChild = this.body.firstChild;
+		
+		firstChild
+			? this.body.insertBefore(view.el, firstChild)
+			: this.appendView(view);
 		
 		return this;
 	},
@@ -446,7 +395,7 @@ conbo.View = conbo.Glimpse.extend(
 			
 			if (conbo.isString(template))
 			{
-				this.$el.html(template);
+				this.el.innerHTML = template;
 			}
 			
 			this.__initView();
@@ -465,7 +414,6 @@ conbo.View = conbo.Glimpse.extend(
 		url || (url = this.templateUrl);
 		
 		var el = this.body;
-		var $el = this.$el;
 		
 		this.unbindView();
 		
@@ -487,13 +435,12 @@ conbo.View = conbo.Glimpse.extend(
 			}
 			
 			el.innerHTML = result;
-			
 			this.__initView();
 		};
 		
 		var faultHandler = function(event)
 		{
-			$el.empty();
+			el.innerHTML = '';
 			
 			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.TEMPLATE_FAULT));
 			this.__initView();
@@ -512,32 +459,105 @@ conbo.View = conbo.Glimpse.extend(
 		return 'conbo.View';
 	},
 	
+	
+	/* JQUERY SHORTCUTS (deprecated) */
+	
+	/**
+	 * jQuery delegate for finding elements within the current View, but not
+	 * within child Views 
+	 * 
+	 * @deprecated
+	 * @see					#querySelectorAll
+	 * @param	{string}	selector - The jQuery selector to use
+	 * @param	{boolean}	deep - Whether or not to include nested views in the search (default: false)
+	 */
+	$: function(selector, deep)
+	{
+		if (deep)
+		{
+			return this.$el.find(selector);
+		}
+		
+		var $nestedViews = this.$el.find('.cb-app, [cb-app], .cb-view, [cb-view]');
+		
+		return this.$el.find(selector).filter(function()
+		{
+			if (!!$nestedViews.find(this).length || !!$nestedViews.filter(this).length) 
+			{
+				return false;
+			}
+			
+			return true;
+		});
+	},
+	
+	/**
+	 * This View's element wrapped as a jQuery object
+	 * @deprecated
+	 */
+	get $el()
+	{
+		if (this.el)
+		{
+			return $(this.el);
+		}
+	},
+	
+	/**
+	 * A jQuery wrapped version of the `content` element
+	 * 
+	 * @deprecated
+	 * @see	#content
+	 */
+	get $content()
+	{
+		var content = this.content;
+		if (content) return $(content); 
+	},
+	
+	/**
+	 * A jQuery wrapped version of the body element
+	 * @see		body
+	 */
+	get $body()
+	{
+		return this.$content || this.$el;
+	},
+
+	
+	/* INTERNAL */
+	
 	/**
 	 * Set this View's element
 	 * @private
 	 */
-	__setEl: function(element)
+	__setEl: function(el)
 	{
-		if ($ && element instanceof $)
+		if (!conbo.isElement(el))
 		{
-			element = element[0];
+			conbo.error('Invalid element passed to View');
+			return;
 		}
 		
 		var attrs = conbo.setValues({}, this.attributes);
 		
-		if (this.id && !element.id) 
+		if (this.id && !el.id) 
 		{
 			attrs.id = this.id;
 		}
 		
-		var el = element;
-		var $el = $(el);
+		if (this.style) 
+		{
+			conbo.setValues(el.style, this.style);
+		}
+		
+		var ep = __ep(el);
 		
 		el.cbView = this;
 		
-		$el.addClass('cb-view')
+		ep.addClass('cb-view')
 			.addClass(this.className)
-			.attr(attrs)
+			.setAttributes(attrs)
 			;
 		
 		__definePrivateProperty(this, '__el', el);
