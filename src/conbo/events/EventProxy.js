@@ -32,7 +32,9 @@ conbo.EventProxy = conbo.Class.extend(
 		{
 			switch (true)
 			{
-				case $ && obj instanceof $:
+				// TODO Remove the last tiny piece of jQuery support?
+				case conbo.$ && obj instanceof conbo.$:
+				case window.$ && obj instanceof window.$:
 				{
 					obj.on(type, handler);
 					break;
@@ -74,7 +76,9 @@ conbo.EventProxy = conbo.Class.extend(
 		{
 			switch (true)
 			{
-				case $ && obj instanceof $:
+				// TODO Remove the last tiny piece of jQuery support?
+				case conbo.$ && obj instanceof conbo.$:
+				case window.$ && obj instanceof window.$:
 				{
 					obj.off(type, handler);
 					break;

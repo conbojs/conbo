@@ -33,8 +33,12 @@ conbo('ns', function()
 		
 		addView: function()
 		{
-			this.$el.append('<p cb-view="MyView" />');
-		}
+			var div = document.createElement('DIV');
+			div.setAttribute('cb-view', 'MyView');
+			
+			this.el.appendChild(div);
+		},
+		
 	});
 	
 });

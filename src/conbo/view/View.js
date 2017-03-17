@@ -20,9 +20,7 @@ var View__templateCache = {};
  * @fires		conbo.ConboEvent#CREATION_COMPLETE
  */
 conbo.View = conbo.Glimpse.extend(
-/** 
- * @lends 		conbo.View.prototype
- */
+/** @lends 		conbo.View.prototype */
 {
 	/**
 	 * @member		{object}	attributes - Attributes to apply to the View's element
@@ -174,7 +172,7 @@ conbo.View = conbo.Glimpse.extend(
 	 */
 	get content()
 	{
-		return this.querySelectorAll('[cb-content]')[0];
+		return this.querySelector('[cb-content]');
 	},
 	
 	/**
@@ -209,6 +207,18 @@ conbo.View = conbo.Glimpse.extend(
 	},
 	
 	/**
+	 * Uses querySelector to find the first matching element contained within the
+	 * current View's element, but not within the elements of child Views
+	 * 
+	 * @param	{string}	selector - The selector to use
+	 * @returns	{Element}	The first matching element
+	 */
+	querySelector: function(selector)
+	{
+		return this.querySelectorAll(selector)[0];
+	},
+	
+	/**
 	 * Uses querySelectorAll to find all matching elements contained within the
 	 * current View's element, but not within the elements of child Views
 	 * 
@@ -220,7 +230,7 @@ conbo.View = conbo.Glimpse.extend(
 		if (this.el)
 		{
 			var results = conbo.toArray(this.el.querySelectorAll(selector));
-			var views = this.el.querySelectorAll('.cb-view');
+			var views = this.el.querySelectorAll('.cb-view, [cb-view], [cb-app]');
 			
 			// Remove elements in child Views
 			conbo.forEach(views, function(el)
@@ -240,9 +250,11 @@ conbo.View = conbo.Glimpse.extend(
 	 */
 	detach: function() 
 	{
-		if (this.el.parentNode)
+		var el = this.el;
+		
+		if (el.parentNode)
 		{
-			this.el.parentNode.removeChild(el);		
+			el.parentNode.removeChild(el);		
 			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.DETACH));
 		}
 		
@@ -278,10 +290,9 @@ conbo.View = conbo.Glimpse.extend(
 			this.context = undefined;
 		}
 		
-		// TODO Remove jQuery dependencies
-		this.$el.remove();
-		
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
+		this.detach()
+			.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE))
+			;
 		
 		return this;
 	},
@@ -457,79 +468,6 @@ conbo.View = conbo.Glimpse.extend(
 	toString: function()
 	{
 		return 'conbo.View';
-	},
-	
-	
-	/* JQUERY SHORTCUTS (deprecated) */
-	
-	/**
-	 * jQuery delegate for finding elements within the current View, but not
-	 * within child Views 
-	 * 
-	 * @deprecated
-	 * @see					#querySelectorAll
-	 * @param	{string}	selector - The jQuery selector to use
-	 * @param	{boolean}	deep - Whether or not to include nested views in the search (default: false)
-	 */
-	$: function(selector, deep)
-	{
-		__deprecated('View.$ is deprecated, use View.querySelectorAll');
-		
-		if (deep)
-		{
-			return this.$el.find(selector);
-		}
-		
-		var $nestedViews = this.$el.find('.cb-app, [cb-app], .cb-view, [cb-view]');
-		
-		return this.$el.find(selector).filter(function()
-		{
-			if (!!$nestedViews.find(this).length || !!$nestedViews.filter(this).length) 
-			{
-				return false;
-			}
-			
-			return true;
-		});
-	},
-	
-	/**
-	 * This View's element wrapped as a jQuery object
-	 * @deprecated
-	 */
-	get $el()
-	{
-		__deprecated('View.$el is deprecated, use View.el');
-		
-		if (this.el)
-		{
-			return $(this.el);
-		}
-	},
-	
-	/**
-	 * A jQuery wrapped version of the `content` element
-	 * 
-	 * @deprecated
-	 * @see	#content
-	 */
-	get $content()
-	{
-		__deprecated('View.$content is deprecated, use View.content');
-		
-		var content = this.content;
-		if (content) return $(content); 
-	},
-	
-	/**
-	 * A jQuery wrapped version of the body element
-	 * @see		body
-	 */
-	get $body()
-	{
-		__deprecated('View.$body is deprecated, use View.body');
-		
-		return this.$content || this.$el;
 	},
 
 	

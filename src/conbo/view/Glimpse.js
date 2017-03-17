@@ -66,24 +66,27 @@ conbo.Glimpse = conbo.EventDispatcher.extend(
 	 * Set this View's element
 	 * @private
 	 */
-	__setEl: function(element)
+	__setEl: function(el)
 	{
 		var attrs = conbo.setValues({}, this.attributes);
 		
-		if (this.id && !element.id) 
+		if (this.id && !el.id) 
 		{
 			attrs.id = this.id;
 		}
-		
-		var el = element;
 		
 		el.className += ' cb-glimpse '+(this.className || '');
 		el.cbGlimpse = this;
 		
 		for (var attr in attrs)
 		{
-			el.setAttribute(attr, attrs[attr]);		
+			el.setAttribute(conbo.toKebabCase(attr), attrs[attr]);		
 		}		
+		
+		if (this.style)
+		{
+			el.style = conbo.setValues(el.style, this.style);
+		}
 		
 		__definePrivateProperty(this, '__el', el);
 		

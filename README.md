@@ -157,13 +157,6 @@ foo.addEventListener("myEvent", this.myFunction, this);
 foo.dispatchEvent(new conbo.Event("myEvent"));
 ```
 
-Dependencies
-------------
-
-**Conbo**: jQuery 1.7+ / 3+ slim build recommended
-
-**Lite**: None
-
 Builds
 ------
 

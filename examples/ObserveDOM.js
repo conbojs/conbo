@@ -19,18 +19,9 @@ conbo('ns', function()
 	ns.observeDom();
 });
 
-$(function()
+document.querySelector('#jsButton').addEventListener('click', function(event)
 {
-	$('#jsButton').on('click', function(event)
-	{
-		var div = document.createElement('DIV');
-		div.setAttribute('cb-app', 'MyApp');
-		document.body.appendChild(div);
-	});
-	
-	$('#jqueryButton').on('click', function(event)
-	{
-		$('body').append('<div cb-app="MyApp" />');
-	});
-	
+	var div = document.createElement('DIV');
+	div.setAttribute('cb-app', 'MyApp');
+	document.body.appendChild(div);
 });

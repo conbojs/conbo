@@ -530,7 +530,6 @@
 			
 			var options = {view:view},
 				bindings = [],
-				$ignored = view.$('[cb-repeat]'),
 				scope = this;
 			
 			if (!!view.subcontext) 
@@ -547,15 +546,17 @@
 					;
 			}
 			
-			view.$('*').add(view.el).filter(function()
+			var ignored = [];
+			
+			view.querySelectorAll('[cb-repeat]').forEach(function(el)
 			{
-				if (this == view.el) return true;
-				if ($ignored.find(this).length) return false;
-				return true;
-			})
-			.each(function(index, el)
+				ignored = ignored.concat(conbo.toArray(el.querySelectorAll('*')));
+			});
+			
+			var elements = conbo.difference(view.querySelectorAll('*').concat([view.el]), ignored);
+			
+			elements.forEach(function(el, index)
 			{
-				var $el = $(el);
 				var attrs = __ep(el).getAttributes();
 				
 				if (!conbo.keys(attrs).length) 
@@ -701,10 +702,9 @@
 		 */
 		applyViews: function(rootView, namespace, type)
 		{
-			var validTypes = ['view', 'glimpse'];
 			type || (type = 'view');
 			
-			if (validTypes.indexOf(type) == -1)
+			if (['view', 'glimpse'].indexOf(type) == -1)
 			{
 				throw new Error(type+' is not a valid type parameter for applyView');
 			}
@@ -713,27 +713,27 @@
 				scope = this
 				;
 			
-			var $rootEl = rootView instanceof conbo.View
-				? rootView.$el
-				: $(rootView)
-				;
+			var rootEl = conbo.isElement(rootView) ? rootView : rootView.el;
+			var notView = conbo.toArray(rootEl.querySelectorAll(':not(.cb-view)'));
+			var notGlimpse = conbo.toArray(rootEl.querySelectorAll(':not(.cb-glimpse)'));
 			
 			// Detects tags with cb-* attributes and custom tag names 
-			$rootEl.find('*').not('.cb-view, .cb-glimpse').each(function(index, el)
+			conbo.intersection(notView, notGlimpse).forEach(function(el)
 			{
-				var $el = $(el),
-					className = __ep(el).cbAttributes()[type] || conbo.toCamelCase(el.tagName, true),
+				var ep = __ep(el),
+					className = ep.cbAttributes()[type] || conbo.toCamelCase(el.tagName, true),
 					classReference = scope.getClass(className, namespace)
 					;
 				
-				if (classReference 
-					&& conbo.isClass(classReference, typeClass))
+				if (classReference && conbo.isClass(classReference, typeClass))
 				{
-					if ((type == 'glimpse' && conbo.isClass(classReference, conbo.Glimpse))
-						|| (type == 'view' && conbo.isClass(classReference, conbo.View)))
+					var isView = conbo.isClass(classReference, conbo.View);
+					var isGlimpse = conbo.isClass(classReference, conbo.Glimpse) && !isView;
+					
+					if ((type == 'glimpse' && isGlimpse) || (type == 'view' && isView))
 					{
 						// Gets the Context of the "closest" parent View
-						var closestView = $el.closest('.cb-view')[0];
+						var closestView = ep.closest('.cb-view');
 						var context = closestView ? closestView.cbView.subcontext : rootView.subcontext;
 						
 						new classReference({el:el, context:context});

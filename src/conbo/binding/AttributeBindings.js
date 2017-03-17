@@ -37,7 +37,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 			? !!this[f].multiple
 			: false;
 	},
-		
+	
 	/**
 	 * Makes an element visible
 	 * 

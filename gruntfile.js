@@ -14,7 +14,7 @@ module.exports = function (grunt)
 					
 					'lib/conbo-lite.js':
 					[
-					 	'src/conbo/header-lite.txt',
+					 	'src/conbo/header.txt',
 					 	'src/conbo/conbo.js',
 					 	'src/conbo/utils/internal.js',
 					 	'src/conbo/utils/utils.js',
@@ -60,6 +60,7 @@ module.exports = function (grunt)
 						'src/conbo/binding/BindingUtils.js',
 						'src/conbo/utils/MutationObserver.js',
 					 	'src/conbo/utils/Promise.js',
+					 	'src/conbo/view/ElementProxy.js',
 					 	'src/conbo/view/IDataRenderer.js',
 						'src/conbo/view/Glimpse.js',
 						'src/conbo/view/View.js',

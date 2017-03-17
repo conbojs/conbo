@@ -4,7 +4,7 @@
  * 
  * @author	Neil Rackett
  */
-conbo('conbo', function(undefined)
+conbo('example', function(undefined)
 {
 	'use strict'
 	
@@ -35,7 +35,13 @@ conbo('conbo', function(undefined)
 		removeMe: function()
 		{
 			this.myList.splice(this.index, 1);
-		}
+		},
+		
+		toString: function()
+		{
+			return 'MyItemRenderer';
+		},
+		
 	});
 	
 	ns.MyApp = conbo.Application.extend
@@ -100,7 +106,13 @@ conbo('conbo', function(undefined)
 		removeItem: function(event)
 		{
 			this.myList.pop();
-		}
+		},
+		
+		toString: function()
+		{
+			return 'MyApp';
+		},
+		
 	});
 	
 });

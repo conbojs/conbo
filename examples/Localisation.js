@@ -46,9 +46,7 @@ conbo('ns', this, function(window)
 		
 		onChangeLocalisation: function(event)
 		{
-			var $el = conbo.$(event.target),
-				lang = $el.data('lang');
-			
+			var lang = event.target.dataset.lang;
 			this.localisation.localiseTo(lang);
 		}
 		

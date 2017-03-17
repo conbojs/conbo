@@ -13,7 +13,7 @@ conbo('ns', conbo, function(conbo)
 	 */
 	conbo.BindingUtils.registerAttribute('customItalic', function(el, value, options, param)
 	{
-		$(el).css('font-style', value ? 'italic' : 'normal');
+		el.style.fontStyle = value ? 'italic' : 'normal';
 	});
 	
 	/**
@@ -21,7 +21,7 @@ conbo('ns', conbo, function(conbo)
 	 */
 	conbo.BindingUtils.registerAttribute('customBlue', function(el)
 	{
-		$(el).css('color', 'blue');
+		el.style.color = 'blue';
 	}, 
 	true);
 	

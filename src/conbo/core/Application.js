@@ -68,16 +68,18 @@ conbo.Application = conbo.View.extend(
 		if (value == this.observeEnabled) return;
 		
 		var mo;
-			
+		
 		if (value)
 		{
 			mo = new conbo.MutationObserver();
 			mo.observe(this.el);
 			
-			mo.addEventListener(conbo.ConboEvent.ADD, function()
+			mo.addEventListener(conbo.ConboEvent.ADD, function(event)
 			{
-				conbo.BindingUtils.applyViews(this, this.namespace);
-				conbo.BindingUtils.applyViews(this, this.namespace, 'glimpse');
+				conbo.BindingUtils
+					.applyViews(this, this.namespace)
+					.applyViews(this, this.namespace, 'glimpse')
+					;
 			}, 
 			this);
 			
@@ -105,7 +107,7 @@ conbo.Application = conbo.View.extend(
 	__setEl: function(element)
 	{
 		conbo.View.prototype.__setEl.call(this, element);
-		this.$el.addClass('cb-app');
+		__ep(this.el).addClass('cb-app');
 		return this;
 	},
 	

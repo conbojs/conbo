@@ -93,12 +93,6 @@ conbo.toString = function()
 	return 'ConboJS v'+this.VERSION; 
 };
 
-/**
- * Local jQuery instance used by Conbo internally (not available in lite build)
- * @namespace	conbo.$
- */
-conbo.$ = $;
-
 var __domContentLoaded = false;
 
 if (document)

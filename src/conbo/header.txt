@@ -5,23 +5,23 @@
     // AMD (recommended)
     if (typeof define == 'function' && define.amd) 
 	{
-		define('conbo', ['jquery'], function($)
+		define('conbo', function()
 		{
-			return factory(window, document, $);
+			return factory(window, document);
 		});
 	}
 	// Common.js & Node.js
 	else if (typeof module != 'undefined' && module.exports)
 	{
-   		module.exports = factory(window, document, document ? require('jquery') : undefined);
+   		module.exports = factory(window, document);
     }
 	// Global
 	else
 	{
-		window.conbo = factory(window, document, window.jQuery);
+		window.conbo = factory(window, document);
 	}
 	
-})(this, this.document, function(window, document, $, undefined)
+})(this, this.document, function(window, document, undefined)
 {
 	'use strict';
 	
