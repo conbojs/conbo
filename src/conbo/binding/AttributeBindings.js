@@ -365,10 +365,12 @@ conbo.AttributeBindings = conbo.Class.extend(
 		var view = options.view;
 		var states = value.split(' ');
 		
-		var stateChangeHandler = function()
+		console.log(states);
+		
+		var stateChangeHandler = this.bind(function()
 		{
 			this.cbInclude(el, states.indexOf(view.currentState) != -1);
-		};
+		});
 		
 		view.addEventListener('change:currentState', stateChangeHandler, this);
 		stateChangeHandler.call(this);

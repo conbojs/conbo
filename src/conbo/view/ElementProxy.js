@@ -101,7 +101,7 @@ conbo.ElementProxy = conbo.EventProxy.extend(
 		{
 			// TODO Use classList when it's more widely supported
 			var newClasses = className.trim().split(' ');
-			var allClasses = el.className.trim().split(' ').concat(newClasses);
+			var allClasses = (el.className || '').trim().split(' ').concat(newClasses);
 			
 			el.className = conbo.uniq(conbo.compact(allClasses)).join(' ');
 		}
@@ -128,7 +128,7 @@ conbo.ElementProxy = conbo.EventProxy.extend(
 			
 			// TODO Use classList when it's more widely supported
 			
-			var allClasses = el.className.trim().split(' ');
+			var allClasses = (el.className || '').trim().split(' ');
 			var classesToRemove = className.trim().split(' ');
 			
 			allClasses = conbo.difference(allClasses, classesToRemove);
@@ -152,7 +152,7 @@ conbo.ElementProxy = conbo.EventProxy.extend(
 		if (el && className)
 		{
 			// TODO Use classList when it's more widely supported
-			var allClasses = el.className.trim().split(' ');
+			var allClasses = (el.className || '').trim().split(' ');
 			return allClasses.indexOf(className) != -1;
 		}
 		

@@ -473,6 +473,8 @@ conbo.View = conbo.Glimpse.extend(
 	 */
 	$: function(selector, deep)
 	{
+		__deprecated('View.$ is deprecated, use View.querySelectorAll');
+		
 		if (deep)
 		{
 			return this.$el.find(selector);
@@ -497,6 +499,8 @@ conbo.View = conbo.Glimpse.extend(
 	 */
 	get $el()
 	{
+		__deprecated('View.$el is deprecated, use View.el');
+		
 		if (this.el)
 		{
 			return $(this.el);
@@ -511,6 +515,8 @@ conbo.View = conbo.Glimpse.extend(
 	 */
 	get $content()
 	{
+		__deprecated('View.$content is deprecated, use View.content');
+		
 		var content = this.content;
 		if (content) return $(content); 
 	},
@@ -521,6 +527,8 @@ conbo.View = conbo.Glimpse.extend(
 	 */
 	get $body()
 	{
+		__deprecated('View.$body is deprecated, use View.body');
+		
 		return this.$content || this.$el;
 	},
 

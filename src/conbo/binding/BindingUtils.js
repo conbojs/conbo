@@ -69,6 +69,19 @@
 	}
 	
 	/**
+	 * Remove everything except alphanumeric, dot, space and underscore 
+	 * characters from Strings
+	 * 
+	 * @private
+	 * @param 		{String}	value - String value to clean
+	 * @returns		{String}
+	 */
+	var BindingUtils__cleanPropertyName = function(value)
+	{
+		return (value || '').trim().replace(/[^\w\._\s]/g, '');
+	};
+	
+	/**
 	 * Binding utility class
 	 * 
 	 * Used to bind properties of EventDispatcher class instances to DOM elements, 
@@ -594,13 +607,13 @@
 							v = b[0].split(':'),
 							propertyName = v[0],
 							param = v[1],
-							split = scope.cleanPropertyName(propertyName).split('.'),
+							split = BindingUtils__cleanPropertyName(propertyName).split('.'),
 							property = split.pop(),
 							model;
 						
 						try
 						{
-							parseFunction = !!b[1] ? eval('view.'+scope.cleanPropertyName(b[1])) : undefined;
+							parseFunction = !!b[1] ? eval('view.'+BindingUtils__cleanPropertyName(b[1])) : undefined;
 							parseFunction = conbo.isFunction(parseFunction) ? parseFunction : undefined;
 						}
 						catch (e) {}
@@ -818,18 +831,6 @@
 		defaultParseFunction: function(value)
 		{
 			return typeof(value) == 'undefined' ? '' : value;
-		},
-		
-		/**
-		 * Remove everything except alphanumberic, dots and underscores from Strings
-		 * 
-		 * @private
-		 * @param 		{String}	view		String value to clean
-		 * @returns		{String}
-		 */
-		cleanPropertyName: function(value)
-		{
-			return (value || '').replace(/[^\w\._]/g, '');
 		},
 		
 		/**

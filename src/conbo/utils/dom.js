@@ -113,9 +113,10 @@
 		{
 			event.nodes.forEach(function(node)
 			{
-				var appName = conbo.cbAttributes(node).app;
+				var ep = __ep(node);
+				var appName = ep.cbAttributes().app || conbo.toCamelCase(node.tagName, true);
 				
-				if (namespace[appName] && !conbo.hasClass(node, 'cb-app'))
+				if (appName && namespace[appName] && !ep.hasClass('cb-app'))
 				{
 					new namespace[appName]({el:node});
 				}
