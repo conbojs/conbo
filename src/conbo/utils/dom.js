@@ -35,7 +35,7 @@
 			
 			nodes.forEach(function(el)
 			{
-		   		var appName = __ep(el).getAttributes().cbApp || conbo.toCamelCase(el.tagName, true);
+		   		var appName = __ep(el).attributes.cbApp || conbo.toCamelCase(el.tagName, true);
 		   		var appClass = namespace[appName];
 		   		
 		   		if (appClass && conbo.isClass(appClass, conbo.Application))
@@ -114,7 +114,7 @@
 			event.nodes.forEach(function(node)
 			{
 				var ep = __ep(node);
-				var appName = ep.cbAttributes().app || conbo.toCamelCase(node.tagName, true);
+				var appName = ep.cbAttributes.app || conbo.toCamelCase(node.tagName, true);
 				
 				if (appName && namespace[appName] && !ep.hasClass('cb-app'))
 				{

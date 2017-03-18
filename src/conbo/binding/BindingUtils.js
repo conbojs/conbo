@@ -557,7 +557,7 @@
 			
 			elements.forEach(function(el, index)
 			{
-				var attrs = __ep(el).getAttributes();
+				var attrs = __ep(el).attributes;
 				
 				if (!conbo.keys(attrs).length) 
 				{
@@ -724,7 +724,7 @@
 				if ((type == 'glimpse' && isGlimpse) || (type == 'view' && isView))
 				{
 					var tagName = conbo.toKebabCase(className);
-					var nodes = conbo.toArray(rootEl.querySelectorAll(tagName+':not(.cb-'+type+'), [cb-'+type+'='+className+']:not(.cb-'+type+')'));
+					var nodes = conbo.toArray(rootEl.querySelectorAll(tagName+':not(.cb-'+type+'):not([cb-repeat]), [cb-'+type+'='+className+']:not(.cb-'+type+'):not([cb-repeat])'));
 					
 					nodes.forEach(function(el)
 					{

@@ -24,8 +24,10 @@ conbo('example', function(undefined)
 	 */
 	ns.MyItemRenderer = conbo.ItemRenderer.extend
 	({
-		className: 'item-renderer',
-		myList: undefined,
+		declarations: function()
+		{
+			this.className = 'item-renderer';
+		},
 		
 		initialize: function()
 		{
@@ -34,12 +36,26 @@ conbo('example', function(undefined)
 		
 		removeMe: function()
 		{
-			this.myList.splice(this.index, 1);
+			this.list.splice(this.index, 1);
 		},
 		
 		toString: function()
 		{
 			return 'MyItemRenderer';
+		},
+		
+	});
+	
+	ns.AnotherItemRenderer = ns.MyItemRenderer.extend
+	({
+		declarations: function()
+		{
+			this.className = 'another-item-renderer';
+		},
+		
+		toString: function()
+		{
+			return 'AnotherItemRenderer';
 		},
 		
 	});

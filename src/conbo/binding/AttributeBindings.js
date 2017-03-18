@@ -43,6 +43,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * <div cb-show="propertyName"></div>
 	 */
 	cbShow: function(el, value)
 	{
@@ -55,6 +58,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * <div cb-hide="propertyName"></div>
 	 */
 	cbHide: function(el, value)
 	{
@@ -70,6 +76,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * <div cb-include="propertyName"></div>
 	 */
 	cbInclude: function(el, value)
 	{
@@ -82,6 +91,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * <div cb-exclude="propertyName"></div>
 	 */
 	cbExclude: function(el, value)
 	{
@@ -97,6 +109,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * <div cb-enabled="propertyName"></div>
 	 */
 	cbEnabled: function(el, value)
 	{
@@ -108,6 +123,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * <div cb-html="propertyName"></div>
 	 */
 	cbHtml: function(el, value)
 	{
@@ -122,6 +140,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * <div cb-text="propertyName"></div>
 	 */
 	cbText: function(el, value)
 	{
@@ -135,6 +156,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * <div cb-class="propertyName:my-class-name"></div>
 	 */
 	cbClass: function(el, value, options, className)
 	{
@@ -155,6 +179,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * <div cb-classes="propertyName"></div>
 	 */
 	cbClasses: function(el, value)
 	{
@@ -176,6 +203,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * <div cb-="propertyName:font-weight"></div>
 	 */
 	cbStyle: function(el, value, options, styleName)
 	{
@@ -189,22 +219,33 @@ conbo.AttributeBindings = conbo.Class.extend(
 	},
 	
 	/**
-	 * Repeat the selected element with the specified View or Glimpse class 
-	 * applied to it
+	 * Repeats the element once for each item of the specified list or Array,
+	 * applying the specified Glimpse or View class to the element and passing
+	 * each value to the item renderer as a "data" property.
+	 * 
+	 * The optional item renderer class can be specified by following the 
+	 * property name with a colon and the class name or by using the tag name.
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * <li cb-repeat="people" cb-hml="data.firstName"></li>
+	 * <li cb-repeat="people:PersonItemRenderer" cb-hml="data.firstName"></li>
+	 * <person-item-renderer cb-repeat="people"></person-item-renderer>
 	 */
 	cbRepeat: function(el, values, options, itemRendererClassName)
 	{
 		var a; 
 		var args = conbo.toArray(arguments);
 		var viewClass;
+		var ep = __ep(el);
 		
 		options || (options = {});
 		
 		if (options.context && options.context.namespace)
 		{
+			itemRendererClassName || (itemRendererClassName = conbo.toCamelCase(el.tagName, true));
 			viewClass = conbo.BindingUtils.getClass(itemRendererClassName, options.context.namespace);
 		}
 		
@@ -213,7 +254,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 		
 		var elements = el.cbRepeat.elements || [];
 		
-		__ep(el).removeClass('cb-exclude');
+		ep.removeClass('cb-exclude');
 		
 		if (el.cbRepeat.list != values && values instanceof conbo.List)
 		{
@@ -317,6 +358,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * <div cb-dataset="propertyName"></div>
 	 */
 	cbDataset: function(el, value)
 	{
@@ -336,6 +380,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * <div cb-data="propertyName"></div>
 	 */
 	cbData: function(el, value)
 	{
@@ -354,18 +401,17 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * matches one of the states listed in the attribute's value; multiple states should
 	 * be separated by spaces
 	 * 
-	 * @example		cb-include-in="happy sad melancholy"
-	 * 
 	 * @param 		el
 	 * @param 		value
 	 * @param 		options
+	 * 
+	 * @example
+	 * <div cb-include-in="happy sad elated"></div>
 	 */
 	cbIncludeIn: function(el, value, options)
 	{
 		var view = options.view;
 		var states = value.split(' ');
-		
-		console.log(states);
 		
 		var stateChangeHandler = this.bind(function()
 		{
@@ -381,11 +427,12 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * matches one of the states listed in the attribute's value; multiple states should
 	 * be separated by spaces
 	 * 
-	 * @example		cb-exclude-from="confused frightened"
-	 * 
 	 * @param 		el
 	 * @param 		value
 	 * @param 		options
+	 * 
+	 * @example
+	 * <div cb-exclude-from="confused frightened"></div>
 	 */
 	cbExcludeFrom: function(el, value, options)
 	{
@@ -410,6 +457,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * <div cb-remove="propertyName"></div>
 	 */
 	cbRemove: function(el, value)
 	{
@@ -425,6 +475,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * <div cb-keep="propertyName"></div>
 	 */
 	cbKeep: function(el, value)
 	{
@@ -437,6 +490,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * <div cb-onbind="functionName"></div>
 	 */
 	cbOnbind: function(el, handler)
 	{
@@ -448,6 +504,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * an iOS WebView instead of Safari
 	 * 
 	 * @param el
+	 * 
+	 * @example
+	 * <div cb-jshref="propertyName"></div>
 	 */
 	cbJshref: function(el)
 	{
@@ -473,6 +532,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * <div cb-detect-change></div>
 	 */
 	cbDetectChange: function(el, value)
 	{
@@ -511,6 +573,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * <div cb-validate="functionName"></div>
 	 */
 	cbValidate: function(el, validator)
 	{
@@ -623,6 +688,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * <div cb-restrict="propertyName"></div>
 	 */
 	cbRestrict: function(el, value)
 	{
@@ -664,6 +732,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * <div cb-max-chars="propertyName"></div>
 	 */
 	cbMaxChars: function(el, value)
 	{

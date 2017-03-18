@@ -18,7 +18,7 @@ conbo.ElementProxy = conbo.EventProxy.extend(
 	 * @returns		{object}
 	 * 
 	 * @example
-	 * ep.getAttributes(); // results in something like {src:"foo/bar.jpg"}
+	 * ep.attributes; // results in something like {src:"foo/bar.jpg"}
 	 */
 	getAttributes: function()
 	{
@@ -61,14 +61,30 @@ conbo.ElementProxy = conbo.EventProxy.extend(
 	},
 	
 	/**
+	 * @see #getAttributes
+	 */
+	get attributes()
+	{
+		return this.getAttributes();
+	},
+	
+	/**
+	 * @see #setAttributes
+	 */
+	set attributes(value)
+	{
+		return this.setAttributes(value);
+	},
+	
+	/**
 	 * Returns object containing the value of all cb-* attributes on a DOM element
 	 * 
 	 * @returns		{array}
 	 * 
 	 * @example
-	 * conbo.cbAttributes();
+	 * ep.cbAttributes.view;
 	 */
-	cbAttributes: function()
+	get cbAttributes()
 	{
 		var el = this.__obj;
 		var a = {};

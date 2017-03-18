@@ -27,6 +27,17 @@
 				content:'"';
 			}
 			
+			.another-item-renderer
+			{
+				display: inline-block;
+				margin: 12px 12px 0 0;
+				border: 1px solid #CCC;
+				padding: 24px 12px;
+				text-align: center;
+				width: 150px;
+				line-height: 24px;
+			}
+			
 			.scroller
 			{
 				width: 300px;
@@ -50,6 +61,9 @@
 			<li cb-repeat="myList:MyItemRenderer" cb-onclick="removeMe">My name is <span cb-html="data.name"></span></li>
 		</ul>
 		
+		<another-item-renderer cb-repeat="myList" cb-onclick="removeMe">
+			Click here to remove<br /><span cb-html="data.name"></span>
+		</another-item-renderer>
 		
 		<script src="../lib/conbo.js"></script>
 		<script src="Repeat.js"></script>
