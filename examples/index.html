@@ -1,46 +1,94 @@
 <!DOCTYPE html>
 <html>
 
-    <head>
-        <title>ConboJS 4 usage examples</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0">
-    </head>
-    
-    <body>
-        <h1>ConboJS 4 usage examples</h1>
-        
-        <h2>ES5</h2>
-        <ul>
-	        <li><a href="HelloWorld.html">Hello World</a></li>
-	        <li><a href="Namespaces.html">Namespaces</a></li>
-	        <li><a href="AdvancedBinding.html">Advanced Binding</a></li>
-	        <li><a href="BindingAttributes.html">Binding Attributes</a></li>
-	        <li><a href="BindingCSS.html">Binding CSS Classes</a></li>
-	        <li><a href="ContextAndInjection.html">Context &amp; Injection</a></li>
-	        <li><a href="Localisation.html">Localisation</a></li>
-	        <li><a href="ParseFunctions.html">Parse Functions</a></li>
-	        <li><a href="Repeat.html">Repeat</a></li>
-	        <li><a href="RepeatNested.html">Nested Repeat</a></li>
-	        <li><a href="Template.html">Template</a></li>
-	        <li><a href="Accessors.html">Accessors</a></li>
-	        <li><a href="States.html">States</a></li>
-	        <li><a href="Supro.html">Supro</a></li>
-	        <li><a href="MutationObserver.html">Mutation Observer</a></li>
-	        <li><a href="ObserveDOM.html">Observe DOM</a></li>
-	        <li><a href="FormValidation.html">Form Validation</a></li>
-	        <li><a href="CustomAttributes.html">Custom Attributes</a></li>
-	        <li><a href="CustomTagNames.html">Custom Tag Names</a></li>
-	        <li><a href="ViewContent.html">View Content</a></li>
-	        <li><a href="ViewLifecycle.html">View Lifecycle</a></li>
-        </ul>
-        
-        <h2>ES2015</h2>
-        <ul>
-	        <li><a href="SimpleBinding.html">Simple Binding</a></li>
-	        <li><a href="AdvancedBindingES2015.html">Advanced Binding</a></li>
-	        <li><a href="Router.html">Router</a></li>
-        </ul>
-        
-    </body>
+	<head>
+		<title>ConboJS 4 usage examples</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0" />
+	</head>
+	
+	<body cb-app="ConboExamples">
+	
+		<h1>ConboJS 4 usage examples</h1>
+		
+		<div cb-repeat="examples">
+			<h2 cb-html="data.name"></h2>
+			<ul>
+				<li cb-repeat="data.urls"><a cb-href="data.href" cb-text="data.name"></a></li>
+			</ul>
+		</div>
+		
+		<script src="../lib/conbo.js"></script>
+		<script>
+			conbo('conbo.examples', function()
+			{
+				var ns = this;
+				
+				class ConboExamples extends conbo.Application
+				{
+					declarations()
+					{
+						this.namespace = ns;
+						
+						this.examples =
+						[
+							{
+								name:'ES5',
+								
+								urls:
+								[
+									{href:"HelloWorld.html", name:"Hello World (Application)"},
+									{href:"Namespaces.html", name:"Namespaces (Namespace)"},
+									{href:"SimpleBinding.html", name:"Simple Binding (cb-bind)"},
+									{href:"AdvancedBinding.html", name:"Advanced Binding (cb-bind, Context, Hash)"},
+									{href:"BindingAttributes.html", name:"Binding Attributes (cb-*)"},
+									{href:"BindingCSS.html", name:"Binding CSS Classes (cb-class)"},
+									{href:"ContextAndInjection.html", name:"Context & Injection (Context, Hash, Command)"},
+									{href:"Localisation.html", name:"Localisation (cb-text, RemoteHash)"},
+									{href:"ParseFunctions.html", name:"Parse Functions (cb-*)"},
+									{href:"Repeat.html", name:"Repeat (cb-repeat)"},
+									{href:"RepeatNested.html", name:"Nested Repeat (cb-repeat)"},
+									{href:"Template.html", name:"Template (View.template, View.templateUrl)"},
+									{href:"Accessors.html", name:"Accessors (get/set)"},
+									{href:"States.html", name:"States (cb-include-in, cb-exclude-from, currentState)"},
+									{href:"Supro.html", name:"Supro (Class.supro)"},
+									{href:"MutationObserver.html", name:"Mutation Observer (Application.observeEnabled)"},
+									{href:"ObserveDOM.html", name:"Observe DOM (Namespace.observeDom)"},
+									{href:"FormValidation.html", name:"Form Validation (cb-validate, cb-restrict, cb-max-chars, cb-detect-change, ...)"},
+									{href:"CustomAttributes.html", name:"Custom Attributes (BindingUtils.registerAttribute)"},
+									{href:"CustomTagNames.html", name:"Custom Tag Names (<my-view>)"},
+									{href:"ViewContent.html", name:"View Content (cb-content)"},
+									{href:"ViewLifecycle.html", name:"View Lifecycle (View)"}
+								]
+							},
+							
+							{
+								name:'ES2015',
+								
+								urls:
+								[
+									{href:"SimpleBindingES2015.html", name:"Simple Binding (cb-bind)"},
+									{href:"AdvancedBindingES2015.html", name:"Advanced Binding (cb-bind, Context, Hash)"},
+									{href:"Router.html", name:"Router (Router)"}
+								]
+							}
+						];
+						
+						this.examples.forEach(function(example)
+						{
+							conbo.sortOn(example.urls, 'name', {caseInsensitive:true});
+						});
+						
+					}
+					
+				}
+				
+				return {
+					ConboExamples: ConboExamples
+				};
+				
+			});
+		</script>
+		
+	</body>
 
 </html>

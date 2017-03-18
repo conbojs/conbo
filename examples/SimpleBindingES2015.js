@@ -16,10 +16,10 @@ conbo('ns', function()
 		
 		get template()
 		{
-			return '<p>My name is <input type="text" cb-bind="name" /></p>'+
-				'<h1>Hello <span cb-bind="name" />!</h1>',
+			return	'<p>My name is <input type="text" cb-bind="name" /></p>'+
+					'<h1>Hello <span cb-bind="name" />!</h1>';
 		}
-			
+		
 		/**
 		 * You can't declare data properties in ES2015 classes, so you should
 		 * declare them using the `declarations` method or user a get/set accessor
