@@ -6,6 +6,7 @@
  * Dispatch a property change event from the specified object
  * @private
  */
+
 var __dispatchChange = function(obj, propName)
 {
 	if (!(obj instanceof conbo.EventDispatcher)) return;

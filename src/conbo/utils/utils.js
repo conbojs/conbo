@@ -783,6 +783,37 @@
 		return obj;
 	};
 	
+	
+	var ready__domContentLoaded = !document || ['complete', 'loaded'].indexOf(document.readyState) != -1;
+	
+	/**
+	 * Calls the specified function as soon as the DOM is ready, or at the end 
+	 * of the current callstack if the DOM is already ready
+	 * 
+	 * @memberof	conbo
+	 * @param		{function}	func - The function to call
+	 * @param		{object}	scope - The scope in which to run the specified function
+	 */
+	conbo.ready = function(func, scope)
+	{
+		var args = conbo.toArray(arguments);
+		
+		var readyHandler = function()
+		{
+			if (document)
+			{
+				document.removeEventListener('DOMContentLoaded', readyHandler);
+			}
+			
+			ready__domContentLoaded = true;
+			conbo.defer.apply(conbo, args);
+		};
+		
+		ready__domContentLoaded
+			? readyHandler()
+			: document.addEventListener('DOMContentLoaded', readyHandler);
+	};
+	
 	/**
 	 * Defers a function, scheduling it to run after the current call stack has
 	 * cleared.

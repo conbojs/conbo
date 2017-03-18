@@ -1,3 +1,8 @@
 
+	conbo.ready(function()
+	{
+		conbo.info(conbo.toString());
+	});
+
 	return conbo;
 });

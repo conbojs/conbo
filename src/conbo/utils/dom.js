@@ -45,14 +45,7 @@
 		   	});
 		};
 		
-		if (__domContentLoaded)
-		{
-			initDom();
-		}
-		else
-		{
-			document.addEventListener('DOMContentLoaded', initDom);
-		}
+		conbo.ready(initDom);
 		
 		return this;	
 	};

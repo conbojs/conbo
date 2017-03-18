@@ -15,17 +15,15 @@ conbo.Namespace = conbo.ConboClass.extend(
 {
 	__construct: function()
 	{
-		if (document)
+		var readyHandler = function()
 		{
-			// Automatically initializes the DOM when the page is completely loaded
-			document.addEventListener('DOMContentLoaded', this.bind(function()
+			if (document && this.autoInit !== false)
 			{
-				if (this.autoInit !== false)
-				{
-					this.initDom();
-				}
-			}));
-		}
+				this.initDom();
+			}
+		};
+		
+		conbo.ready(readyHandler, this);
 	},
 	
 	/**
@@ -36,6 +34,8 @@ conbo.Namespace = conbo.ConboClass.extend(
 	 */
 	initDom: function(rootEl)
 	{
+		console.log("GO!?");
+		
 		conbo.initDom(this, rootEl);
 		return this;
 	},

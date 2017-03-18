@@ -92,15 +92,3 @@ conbo.toString = function()
 { 
 	return 'ConboJS v'+this.VERSION; 
 };
-
-var __domContentLoaded = false;
-
-if (document)
-{
-	document.addEventListener('DOMContentLoaded', function()
-	{
-		__domContentLoaded = true;
-		
-		conbo.info(conbo.toString());
-	});
-}
