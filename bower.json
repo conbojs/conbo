@@ -47,8 +47,5 @@
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/mesmotronic/conbo.git"
-	},
-	"dependencies": {
-		"jquery": ">=1.7.0"
 	}
 }
