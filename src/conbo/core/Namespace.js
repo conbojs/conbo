@@ -34,8 +34,6 @@ conbo.Namespace = conbo.ConboClass.extend(
 	 */
 	initDom: function(rootEl)
 	{
-		console.log("GO!?");
-		
 		conbo.initDom(this, rootEl);
 		return this;
 	},

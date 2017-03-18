@@ -4,6 +4,15 @@
 	<head>
 		<title>ConboJS 4 usage examples</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0" />
+		
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+		<style>
+			html, body { font-family: 'Open Sans', sans-serif; font-size: 14px; }
+			html { margin: 0 16px; padding: 0; }
+			a { color: #00C; text-decoration: none; }
+			i { color: #CCC; }
+		</style>
+		
 	</head>
 	
 	<body cb-app="ConboExamples">
@@ -13,7 +22,7 @@
 		<div cb-repeat="examples">
 			<h2 cb-html="data.name"></h2>
 			<ul>
-				<li cb-repeat="data.urls"><a cb-href="data.href" cb-text="data.name"></a></li>
+				<li cb-repeat="data.urls:ListItemRenderer"><a cb-href="data.href" cb-html="data.name|formatName"></a></li>
 			</ul>
 		</div>
 		
@@ -82,8 +91,20 @@
 					
 				}
 				
+				class ListItemRenderer extends conbo.ItemRenderer
+				{
+					formatName(name)
+					{
+						var r = /(.+)\((.+)\)/;
+						var m = r.exec(name); 
+						
+						return m[1]+'<i> &ndash; '+m[2]+'</i>';
+					}
+				}
+				
 				return {
-					ConboExamples: ConboExamples
+					ConboExamples: ConboExamples,
+					ListItemRenderer: ListItemRenderer
 				};
 				
 			});

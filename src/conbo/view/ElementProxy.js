@@ -203,7 +203,7 @@ conbo.ElementProxy = conbo.EventProxy.extend(
 			var parent;
 			
 			// traverse parents
-			while (el) 
+			while (el)
 			{
 				parent = el.parentElement;
 				

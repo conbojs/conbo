@@ -147,7 +147,7 @@ conbo.View = conbo.Glimpse.extend(
 	{
 		if (this.initialized)
 		{
-			return this.__getParent('cb-view');
+			return this.__getParent('.cb-view');
 		}
 	},
 	
@@ -159,7 +159,7 @@ conbo.View = conbo.Glimpse.extend(
 	{
 		if (this.initialized)
 		{
-			return this.__getParent('cb-app');
+			return this.__getParent('.cb-app');
 		}
 	},
 	
@@ -541,12 +541,9 @@ conbo.View = conbo.Glimpse.extend(
 		return this;
 	},
 	
-	__getParent: function(className) 
+	__getParent: function(selector) 
 	{
-		var el = this.el;
-		if (!el) return;
-		// TODO Use !el.classList.contains(className) when it's more widely supported
-	    while ((el = el.parentElement) && el.className.split(' ').indexOf(className) == -1);
+		var el = __ep(this.el).closest(selector);
 	    if (el) return el.cbView;
 	},
 	
