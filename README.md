@@ -1,17 +1,19 @@
-![ConboJS](https://raw.githubusercontent.com/mesmotronic/conbo/dev/img/conbo.png)
+![ConboJS](https://raw.githubusercontent.com/mesmotronic/conbo/master/img/conbo.png)
 
 ConboJS is the best JavaScript MVC framework you've never heard of.
 
 It is a lightweight MVC application framework for JavaScript for use with modern browsers which enables developers a take a structured, decoupled, class based approach to application development, in a way that should be be familiar to anyone with experience of languages like ActionScript/Flex, C#/XAML or Java.
 
-Features include extendible classes, event bus, dependency injection, data binding, command pattern, pseudo-interfaces and an easy to use event model with scoped event handling, plus simple view state management and support for ES2015, AMD and CommonJS.
+Features include extendible classes, event bus, dependency injection, data binding, command pattern, pseudo-interfaces and an easy to use event model with scoped event handling, plus simple view state management and support for ES2015.
 
-Development of ConboJS is focussed on single page applications (SPA) and self-contained modules, like widgets and media players, where it can be used stand-alone or as an AMD module, but also offers a great base for server-side Node.js applications.
+ConboJS requires no special IDEs, compilers or transpilers, it just makes regular JavaScript nicer.
+
+Development of ConboJS is focussed on single page applications (SPA) and self-contained modules, like widgets and media players. It can be loaded as a global, an AMD module or using CommonJS, meaning it can also offer a great base for server-side Node.js applications.
 
 Browser support
 ---------------
 
-ConboJS targets the two most recent major releases of Firefox, Chrome (desktop and Android), Safari (desktop and iOS) and Internet Explorer / Edge.
+ConboJS targets the two most recent major releases of Firefox, Chrome (desktop and Android), Safari (desktop and iOS) and Edge / Internet Explorer.
 
 Modular namespace declaration
 -----------------------------
@@ -57,7 +59,7 @@ Extendible classes
 
 There's no messing about with prototypes in ConboJS, all of your classes simply extend from another, for example:
 
-**JavaScript (ES5)**
+**ES5**
 
 ```javascript
 var MyClass = conbo.Class.extend
@@ -137,7 +139,7 @@ example.MyView = conbo.View.extend
 </div>
 ```
 
-Or, if you prefer to use custom tag names, simply use a hyphenated, lower case version of your `View` or `Glimpse` class name:
+Or, if you prefer to use custom tag names, simply use a hyphenated, lower case version of your `Application`, `View` or `Glimpse` class name:
 
 ```html
 <my-view>
