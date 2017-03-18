@@ -137,7 +137,7 @@ conbo.conbo = conbo;
  * @augments	conbo
  * @returns 	{String}
  */
-conbo.VERSION = '4.0.0-rc1';
+conbo.VERSION = '4.0.0';
 	
 /**
  * @augments	conbo
@@ -2654,7 +2654,7 @@ var __ep = function(el)
 			
 			nodes.forEach(function(el)
 			{
-		   		var appName = __ep(el).getAttributes().cbApp || conbo.toCamelCase(el.tagName, true);
+		   		var appName = __ep(el).attributes.cbApp || conbo.toCamelCase(el.tagName, true);
 		   		var appClass = namespace[appName];
 		   		
 		   		if (appClass &amp;&amp; conbo.isClass(appClass, conbo.Application))
@@ -2733,7 +2733,7 @@ var __ep = function(el)
 			event.nodes.forEach(function(node)
 			{
 				var ep = __ep(node);
-				var appName = ep.cbAttributes().app || conbo.toCamelCase(node.tagName, true);
+				var appName = ep.cbAttributes.app || conbo.toCamelCase(node.tagName, true);
 				
 				if (appName &amp;&amp; namespace[appName] &amp;&amp; !ep.hasClass('cb-app'))
 				{
@@ -4598,6 +4598,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * &lt;div cb-show="propertyName">&lt;/div>
 	 */
 	cbShow: function(el, value)
 	{
@@ -4610,6 +4613,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * &lt;div cb-hide="propertyName">&lt;/div>
 	 */
 	cbHide: function(el, value)
 	{
@@ -4625,6 +4631,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * &lt;div cb-include="propertyName">&lt;/div>
 	 */
 	cbInclude: function(el, value)
 	{
@@ -4637,6 +4646,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * &lt;div cb-exclude="propertyName">&lt;/div>
 	 */
 	cbExclude: function(el, value)
 	{
@@ -4652,6 +4664,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * &lt;div cb-enabled="propertyName">&lt;/div>
 	 */
 	cbEnabled: function(el, value)
 	{
@@ -4663,6 +4678,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * &lt;div cb-html="propertyName">&lt;/div>
 	 */
 	cbHtml: function(el, value)
 	{
@@ -4677,6 +4695,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * &lt;div cb-text="propertyName">&lt;/div>
 	 */
 	cbText: function(el, value)
 	{
@@ -4690,6 +4711,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * &lt;div cb-class="propertyName:my-class-name">&lt;/div>
 	 */
 	cbClass: function(el, value, options, className)
 	{
@@ -4710,6 +4734,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * &lt;div cb-classes="propertyName">&lt;/div>
 	 */
 	cbClasses: function(el, value)
 	{
@@ -4731,6 +4758,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * &lt;div cb-="propertyName:font-weight">&lt;/div>
 	 */
 	cbStyle: function(el, value, options, styleName)
 	{
@@ -4744,22 +4774,33 @@ conbo.AttributeBindings = conbo.Class.extend(
 	},
 	
 	/**
-	 * Repeat the selected element with the specified View or Glimpse class 
-	 * applied to it
+	 * Repeats the element once for each item of the specified list or Array,
+	 * applying the specified Glimpse or View class to the element and passing
+	 * each value to the item renderer as a "data" property.
+	 * 
+	 * The optional item renderer class can be specified by following the 
+	 * property name with a colon and the class name or by using the tag name.
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * &lt;li cb-repeat="people" cb-hml="data.firstName">&lt;/li>
+	 * &lt;li cb-repeat="people:PersonItemRenderer" cb-hml="data.firstName">&lt;/li>
+	 * &lt;person-item-renderer cb-repeat="people">&lt;/person-item-renderer>
 	 */
 	cbRepeat: function(el, values, options, itemRendererClassName)
 	{
 		var a; 
 		var args = conbo.toArray(arguments);
 		var viewClass;
+		var ep = __ep(el);
 		
 		options || (options = {});
 		
 		if (options.context &amp;&amp; options.context.namespace)
 		{
+			itemRendererClassName || (itemRendererClassName = conbo.toCamelCase(el.tagName, true));
 			viewClass = conbo.BindingUtils.getClass(itemRendererClassName, options.context.namespace);
 		}
 		
@@ -4768,7 +4809,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 		
 		var elements = el.cbRepeat.elements || [];
 		
-		__ep(el).removeClass('cb-exclude');
+		ep.removeClass('cb-exclude');
 		
 		if (el.cbRepeat.list != values &amp;&amp; values instanceof conbo.List)
 		{
@@ -4872,6 +4913,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * &lt;div cb-dataset="propertyName">&lt;/div>
 	 */
 	cbDataset: function(el, value)
 	{
@@ -4891,6 +4935,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * &lt;div cb-data="propertyName">&lt;/div>
 	 */
 	cbData: function(el, value)
 	{
@@ -4909,18 +4956,17 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * matches one of the states listed in the attribute's value; multiple states should
 	 * be separated by spaces
 	 * 
-	 * @example		cb-include-in="happy sad melancholy"
-	 * 
 	 * @param 		el
 	 * @param 		value
 	 * @param 		options
+	 * 
+	 * @example
+	 * &lt;div cb-include-in="happy sad elated">&lt;/div>
 	 */
 	cbIncludeIn: function(el, value, options)
 	{
 		var view = options.view;
 		var states = value.split(' ');
-		
-		console.log(states);
 		
 		var stateChangeHandler = this.bind(function()
 		{
@@ -4936,11 +4982,12 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * matches one of the states listed in the attribute's value; multiple states should
 	 * be separated by spaces
 	 * 
-	 * @example		cb-exclude-from="confused frightened"
-	 * 
 	 * @param 		el
 	 * @param 		value
 	 * @param 		options
+	 * 
+	 * @example
+	 * &lt;div cb-exclude-from="confused frightened">&lt;/div>
 	 */
 	cbExcludeFrom: function(el, value, options)
 	{
@@ -4965,6 +5012,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * &lt;div cb-remove="propertyName">&lt;/div>
 	 */
 	cbRemove: function(el, value)
 	{
@@ -4980,6 +5030,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * &lt;div cb-keep="propertyName">&lt;/div>
 	 */
 	cbKeep: function(el, value)
 	{
@@ -4992,6 +5045,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * &lt;div cb-onbind="functionName">&lt;/div>
 	 */
 	cbOnbind: function(el, handler)
 	{
@@ -5003,6 +5059,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * an iOS WebView instead of Safari
 	 * 
 	 * @param el
+	 * 
+	 * @example
+	 * &lt;div cb-jshref="propertyName">&lt;/div>
 	 */
 	cbJshref: function(el)
 	{
@@ -5028,6 +5087,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * &lt;div cb-detect-change>&lt;/div>
 	 */
 	cbDetectChange: function(el, value)
 	{
@@ -5066,6 +5128,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * &lt;div cb-validate="functionName">&lt;/div>
 	 */
 	cbValidate: function(el, validator)
 	{
@@ -5178,6 +5243,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * &lt;div cb-restrict="propertyName">&lt;/div>
 	 */
 	cbRestrict: function(el, value)
 	{
@@ -5219,6 +5287,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @param 		el
 	 * @param 		value
+	 * 
+	 * @example
+	 * &lt;div cb-max-chars="propertyName">&lt;/div>
 	 */
 	cbMaxChars: function(el, value)
 	{
@@ -5801,7 +5872,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 			
 			elements.forEach(function(el, index)
 			{
-				var attrs = __ep(el).getAttributes();
+				var attrs = __ep(el).attributes;
 				
 				if (!conbo.keys(attrs).length) 
 				{
@@ -5958,32 +6029,28 @@ conbo.AttributeBindings = conbo.Class.extend(
 				;
 			
 			var rootEl = conbo.isElement(rootView) ? rootView : rootView.el;
-			var notView = conbo.toArray(rootEl.querySelectorAll(':not(.cb-view)'));
-			var notGlimpse = conbo.toArray(rootEl.querySelectorAll(':not(.cb-glimpse)'));
 			
-			// Detects tags with cb-* attributes and custom tag names 
-			conbo.intersection(notView, notGlimpse).forEach(function(el)
+			for (var className in namespace)
 			{
-				var ep = __ep(el),
-					className = ep.cbAttributes()[type] || conbo.toCamelCase(el.tagName, true),
-					classReference = scope.getClass(className, namespace)
-					;
+				var classReference = scope.getClass(className, namespace);
+				var isView = conbo.isClass(classReference, conbo.View);
+				var isGlimpse = conbo.isClass(classReference, conbo.Glimpse) &amp;&amp; !isView;
 				
-				if (classReference &amp;&amp; conbo.isClass(classReference, typeClass))
+				if ((type == 'glimpse' &amp;&amp; isGlimpse) || (type == 'view' &amp;&amp; isView))
 				{
-					var isView = conbo.isClass(classReference, conbo.View);
-					var isGlimpse = conbo.isClass(classReference, conbo.Glimpse) &amp;&amp; !isView;
+					var tagName = conbo.toKebabCase(className);
+					var nodes = conbo.toArray(rootEl.querySelectorAll(tagName+':not(.cb-'+type+'):not([cb-repeat]), [cb-'+type+'='+className+']:not(.cb-'+type+'):not([cb-repeat])'));
 					
-					if ((type == 'glimpse' &amp;&amp; isGlimpse) || (type == 'view' &amp;&amp; isView))
+					nodes.forEach(function(el)
 					{
-						// Gets the Context of the "closest" parent View
+						var ep = __ep(el);
 						var closestView = ep.closest('.cb-view');
 						var context = closestView ? closestView.cbView.subcontext : rootView.subcontext;
 						
 						new classReference({el:el, context:context});
-					}
+					});
 				}
-			});
+			}
 			
 			return this;
 		},
@@ -6376,7 +6443,7 @@ conbo.ElementProxy = conbo.EventProxy.extend(
 	 * @returns		{object}
 	 * 
 	 * @example
-	 * ep.getAttributes(); // results in something like {src:"foo/bar.jpg"}
+	 * ep.attributes; // results in something like {src:"foo/bar.jpg"}
 	 */
 	getAttributes: function()
 	{
@@ -6419,14 +6486,30 @@ conbo.ElementProxy = conbo.EventProxy.extend(
 	},
 	
 	/**
+	 * @see #getAttributes
+	 */
+	get attributes()
+	{
+		return this.getAttributes();
+	},
+	
+	/**
+	 * @see #setAttributes
+	 */
+	set attributes(value)
+	{
+		return this.setAttributes(value);
+	},
+	
+	/**
 	 * Returns object containing the value of all cb-* attributes on a DOM element
 	 * 
 	 * @returns		{array}
 	 * 
 	 * @example
-	 * conbo.cbAttributes();
+	 * ep.cbAttributes.view;
 	 */
-	cbAttributes: function()
+	get cbAttributes()
 	{
 		var el = this.__obj;
 		var a = {};
@@ -6752,6 +6835,11 @@ conbo.View = conbo.Glimpse.extend(
 	__construct: function(options)
 	{
 		options = conbo.clone(options) || {};
+		
+		if (options.className)
+		{
+			options.className += ' '+this.className;
+		}
 		
 		var viewOptions = conbo.union
 		(
@@ -8453,7 +8541,7 @@ __denumerate(conbo.Router.prototype);
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Mar 17 2017 16:23:15 GMT+0000 (GMT Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sat Mar 18 2017 16:11:17 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
