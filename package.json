@@ -1,13 +1,17 @@
 {
 	"name": "conbo",
-	"version": "4.0.0-rc2",
+	"version": "4.0.0",
 	"description": "Lightweight MVC application framework for JavaScript",
 	"keywords": [
+		"attributes",
 		"binding",
 		"browser",
+		"classes",
 		"client",
 		"conbo",
+		"custom",
 		"es2015",
+		"es5",
 		"framework",
 		"javascript",
 		"mvc",
