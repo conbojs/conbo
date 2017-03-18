@@ -1,6 +1,6 @@
 {
 	"name": "conbo",
-	"version": "4.0.0-rc1",
+	"version": "4.0.0-rc2",
 	"description": "Lightweight MVC application framework for JavaScript",
 	"keywords": [
 		"binding",
@@ -24,9 +24,6 @@
 	"repository": {
 		"type": "git",
 		"url": "git@github.com:mesmotronic/conbo.git"
-	},
-	"dependencies": {
-		"jquery": ">=1.7.0"
 	},
 	"devDependencies": {
 		"grunt": "^0.4.5",
