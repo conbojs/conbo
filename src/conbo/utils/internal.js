@@ -61,7 +61,7 @@ var __defineProperty = function(obj, propName, value, getter, setter, enumerable
 			if (!conbo.isEqual(newValue, value)) 
 			{
 				value = newValue;
-				__dispatchChange(this, propName, value);
+				__dispatchChange(this, propName);
 			}
 		};
 		

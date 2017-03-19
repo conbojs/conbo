@@ -703,17 +703,26 @@
 	/**
 	 * Bind one or more of an object's methods to that object. Remaining arguments
 	 * are the method names to be bound. If no additional arguments are passed,
-	 * all of the objects methods are bound to it.
+	 * all of the objects methods that are not native or accessors are bound to it.
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to bind methods to
 	 */
 	conbo.bindAll = function(obj)
 	{
-		var funcs = arguments.length > 1 
-			? conbo.rest(arguments)
-			: conbo.functions(obj)
-			;
+		var funcs;
+		
+		if (arguments.length > 1)
+		{
+			funcs = conbo.rest(arguments);
+		}
+		else
+		{
+			funcs = conbo.filter(conbo.functions(obj), function(func)
+			{
+				return !(conbo.isAccessor(obj, func) || conbo.isNative(func));
+			});
+		}
 		
 		funcs.forEach(function(func)
 		{
