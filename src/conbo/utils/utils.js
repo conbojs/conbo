@@ -691,15 +691,18 @@
 	/**
 	 * Create a function bound to a given object (assigning `this`)
 	 * 
+	 * @deprecated
 	 * @memberof	conbo
 	 * @param		{function}	func - Method to bind
 	 * @param		{object}	scope - The scope to bind the method to
 	 */
 	conbo.bind = function(func, scope) 
 	{
-		return func.bind(scope);
+		__deprecated('conbo.bind is deprecated, use native function.bind(obj)');
+		
+		return func.bind.apply(func, conbo.rest(arguments));
 	};
-
+	
 	/**
 	 * Bind one or more of an object's methods to that object. Remaining arguments
 	 * are the method names to be bound. If no additional arguments are passed,
@@ -801,7 +804,7 @@
 	{
 		if (scope)
 		{
-			func = conbo.bind(func, scope);
+			func = func.bind(scope);
 		}
 		
 		return setTimeout.apply(undefined, [func, 0].concat(conbo.rest(arguments, 2)));

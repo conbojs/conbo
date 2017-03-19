@@ -42,13 +42,15 @@ conbo.Class.prototype =
 	},
 	
 	/**
-	 * Scope one or more methods to this class instance
-	 * @param 	{function} method - The function to bind to this class instance
+	 * Scope a function to this class instance
+	 * 
+	 * @deprecated
+	 * @param 	{function} 	func - The function to bind to this class instance
 	 * @returns	this
 	 */
-	bind: function(method)
+	bind: function(func)
 	{
-		return conbo.bind.apply(conbo, [method, this].concat(conbo.rest(arguments)));
+		return conbo.bind.apply(conbo, [func, this].concat(conbo.rest(arguments)));
 	},
 	
 	/**
