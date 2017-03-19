@@ -2,6 +2,8 @@
  * Utility methods: a modified subset of Underscore.js methods and loads of our own
  */
 
+// TODO Remove methods that are now available natively in all target browsers
+
 (function() 
 {
 	// Establish the object that gets returned to break out of a loop iteration.
@@ -11,7 +13,8 @@
 	var
 		ArrayProto = Array.prototype, 
 		ObjProto = Object.prototype, 
-		FuncProto = Function.prototype;
+		FuncProto = Function.prototype
+		;
 
 	// Create quick reference variables for speed access to core prototypes.
 	var
@@ -19,7 +22,8 @@
 		slice			= ArrayProto.slice,
 		concat			= ArrayProto.concat,
 		toString		= ObjProto.toString,
-		hasOwnProperty	= ObjProto.hasOwnProperty;
+		hasOwnProperty	= ObjProto.hasOwnProperty
+		;
 
 	// All ECMAScript 5 native function implementations that we hope to use
 	// are declared here.
@@ -33,8 +37,8 @@
 		nativeEvery			= ArrayProto.every,
 		nativeSome			= ArrayProto.some,
 		nativeIsArray		= Array.isArray,
-		nativeKeys			= Object.keys,
-		nativeBind			= FuncProto.bind;
+		nativeKeys			= Object.keys
+		;
 	
 	// Collection Functions
 	// --------------------
@@ -685,9 +689,7 @@
 	var ctor = function(){};
 
 	/**
-	 * Create a function bound to a given object (assigning `this`, and arguments,
-	 * optionally). Delegates to native `Function.bind` if
-	 * available.
+	 * Create a function bound to a given object (assigning `this`)
 	 * 
 	 * @memberof	conbo
 	 * @param		{function}	func - Method to bind
@@ -695,23 +697,30 @@
 	 */
 	conbo.bind = function(func, scope) 
 	{
-		var args;
+		return func.bind(scope);
+	};
+
+	/**
+	 * Bind one or more of an object's methods to that object. Remaining arguments
+	 * are the method names to be bound. If no additional arguments are passed,
+	 * all of the objects methods are bound to it.
+	 * 
+	 * @memberof	conbo
+	 * @param		{object}	obj - Object to bind methods to
+	 */
+	conbo.bindAll = function(obj)
+	{
+		var funcs = arguments.length > 1 
+			? conbo.rest(arguments)
+			: conbo.functions(obj)
+			;
 		
-		if (nativeBind && func.bind === nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
-		if (!conbo.isFunction(func)) throw new TypeError();
-		
-		args = slice.call(arguments, 2);
-		
-		return function() 
+		funcs.forEach(function(func)
 		{
-			if (!(this instanceof bound)) return func.apply(scope, args.concat(slice.call(arguments)));
-			ctor.prototype = func.prototype;
-			var self = new ctor();
-			ctor.prototype = undefined;
-			var result = func.apply(self, args.concat(slice.call(arguments)));
-			if (Object(result) === result) return result;
-			return self;
-		};
+			obj[func] = obj[func].bind(obj);
+		});
+		
+		return obj;
 	};
 
 	/**
@@ -739,50 +748,7 @@
 			while (position < arguments.length) args.push(arguments[position++]);
 			return func.apply(this, args);
 		};
-	};
-
-	/**
-	 * Bind a number of an object's methods to that object. Remaining arguments
-	 * are the method names to be bound. Useful for ensuring that all callbacks
-	 * defined on an object belong to it.
-	 * 
-	 * @memberof	conbo
-	 * @param		{object}	obj - Object to bind methods to
-	 * @param		{regexp}	regExp - Method name filter (optional)
-	 */
-	conbo.bindAll = function(obj, regExp)
-	{
-		var isRegExp = regExp instanceof RegExp;
-		var funcs = slice.call(arguments, 1);
-		
-		if (isRegExp || funcs.length === 0) 
-		{
-			funcs = conbo.functions(obj);
-			
-			if (isRegExp) 
-			{
-				funcs = conbo.filter(funcs, function(f) 
-				{
-					return regExp.test(f); 
-				});
-			}
-			else
-			{
-				funcs = conbo.filter(funcs, function(f)
-				{
-					return !conbo.isAccessor(obj, f) && !conbo.isNative(obj[f]);
-				});
-			}
-		}
-		
-		funcs.forEach(function(f)
-		{
-			obj[f] = conbo.bind(obj[f], obj);
-		});
-		
-		return obj;
-	};
-	
+	};	
 	
 	var ready__domContentLoaded = !document || ['complete', 'loaded'].indexOf(document.readyState) != -1;
 	
@@ -1021,7 +987,7 @@
 		return conbo.filter(conbo.getPropertyNames(obj), function(name) 
 		{
 			return includeAccessors
-				? conbo.isFunction(obj, name)
+				? conbo.isFunction(obj[name])
 				: conbo.isFunc(obj, name)
 				;
 		});
@@ -1474,7 +1440,7 @@
 	 */
 	conbo.isFunc = function(obj, propName)
 	{
-		var descriptor = conbo.getPropertyDescriptor(obj, "f");
+		var descriptor = conbo.getPropertyDescriptor(obj, propName);
 		return descriptor && typeof(descriptor.value) == 'function';
 	};
 	
