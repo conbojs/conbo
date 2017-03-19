@@ -1,27 +1,28 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>ConboJS - States</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0">
-</head>
-<body>
-	
-	<div cb-app="MyApp">
-	
-		<select cb-bind="currentState">
-			<option>happy</option>
-			<option>sad</option>
-			<option>confused</option>
-		</select>
+	<head>
+		<title>ConboJS - States</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0">
+		<link href="examples.css" rel="stylesheet">
+	</head>
+	<body>
 		
-		<h1 cb-include-in="happy">:-)</h1>
-		<h1 cb-include-in="sad">:-(</h1>
-		<h1 cb-include-in="confused">:-/</h1>
+		<div cb-app="MyApp">
 		
-	</div>
-
+			<select cb-bind="currentState">
+				<option>happy</option>
+				<option>sad</option>
+				<option>confused</option>
+			</select>
+			
+			<h1 cb-include-in="happy">:-)</h1>
+			<h1 cb-include-in="sad">:-(</h1>
+			<h1 cb-include-in="confused">:-/</h1>
+			
+		</div>
 	
-	<script src="../lib/conbo.js"></script>
-	<script src="States.js"></script>
-</body>
+		
+		<script src="../lib/conbo.js"></script>
+		<script src="States.js"></script>
+	</body>
 </html>

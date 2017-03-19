@@ -110,8 +110,8 @@ conbo('ns', function()
 		{
 			this.appendView
 			(
-				new ns.InputView(this.context.addTo()), 
-				new ns.OutputView(this.context.addTo())
+				new ns.OutputView(this.context.addTo()),
+				new ns.InputView(this.context.addTo()) 
 			);
 		}
 	}

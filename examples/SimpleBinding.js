@@ -12,9 +12,9 @@ conbo('ns', function()
 		namespace: ns,
 		
 		template:
-			'<p>My name is <input type="text" cb-bind="name" /></p>'+
-			'<h1>Hello <span cb-bind="name" />!</h1>',
-			
+			'<h1>Hello <span cb-bind="name" />!</h1>'+
+			'<p>My name is <input type="text" cb-bind="name" /></p>',
+		
 		initialize: function()
 		{
 			this.name = "Conbo";

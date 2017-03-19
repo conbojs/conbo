@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>ConboJS - Custom Attributes</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0">
-</head>
-<body>
-
-	<div cb-app="MyApp">
-		<h1 custom-italic="myValue">Custom attributes with ConboJS</h1>
-		<p custom-blue custom-italic="myValue">This paragraph has a read-only custom attribute</p>
-		<label><input type="checkbox" cb-checked="myValue" /> Click here to toggle italics using a custom attribute</label>
-	</div>
+	<head>
+		<title>ConboJS - Custom Attributes</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0">
+		<link href="examples.css" rel="stylesheet">
+	</head>
+	<body>
 	
-	
-	<script src="../lib/conbo.js"></script>
-	<script src="CustomAttributes.js"></script>
-</body>
+		<div cb-app="MyApp">
+			<h1 custom-italic="myValue">Custom attributes with ConboJS</h1>
+			<p custom-blue custom-italic="myValue">This paragraph has a read-only custom attribute</p>
+			<label><input type="checkbox" cb-checked="myValue" /> Click here to toggle italics using a custom attribute</label>
+		</div>
+		
+		
+		<script src="../lib/conbo.js"></script>
+		<script src="CustomAttributes.js"></script>
+	</body>
 </html>

@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>ConboJS - Hello Template</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0">
-</head>
-<body cb-app="MyApp">
+	<head>
+		<title>ConboJS - Hello Template</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0">
+		<link href="examples.css" rel="stylesheet">
+	</head>
+	<body cb-app="MyApp">
+		
+		<h1>All kinds of templates, all bound to your data!</h1>
+		
+		<div cb-view="MyLoadedView">Loading...</div>
+		<div cb-view="MyOtherView">Loading...</div>
+		
+		
+		<script src="../lib/conbo.js"></script>
+		<script src="Template.js"></script>
 	
-	<h1>All kinds of templates, all bound to your data!</h1>
-	
-	<div cb-view="MyLoadedView">Loading...</div>
-	<div cb-view="MyOtherView">Loading...</div>
-	
-	
-	<script src="../lib/conbo.js"></script>
-	<script src="Template.js"></script>
-
-</body>
+	</body>
 </html>

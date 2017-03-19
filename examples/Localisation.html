@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>ConboJS - Localisation is easy with ConboJS</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0">
-	<meta charset="UTF-8">
-</head>
-<body>
-	
-	<div cb-app="LocalisedApp">
-		<div cb-view="LocalisedView">
-			<h1 cb-text="localisation.hello"></h1>
-			<p cb-text="localisation.select_language"></p>
-			<p>
-				<button data-lang="en" cb-text="localisation.en" cb-onclick="onChangeLocalisation"></button>
-				<button data-lang="fr" cb-text="localisation.fr" cb-onclick="onChangeLocalisation"></button>
-				<button data-lang="de" cb-text="localisation.de" cb-onclick="onChangeLocalisation"></button>
-				<button data-lang="es" cb-text="localisation.es" cb-onclick="onChangeLocalisation"></button>
-			</p>
-			<p><span cb-text="localisation.browser_using"></span> <span cb-text="browserLocale"></span></p>
+	<head>
+		<title>ConboJS - Localisation is easy with ConboJS</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0">
+		<link href="examples.css" rel="stylesheet">
+		<meta charset="UTF-8">
+	</head>
+	<body>
+		
+		<div cb-app="LocalisedApp">
+			<div cb-view="LocalisedView">
+				<h1 cb-text="localisation.hello"></h1>
+				<p cb-text="localisation.select_language"></p>
+				<p>
+					<button data-lang="en" cb-text="localisation.en" cb-onclick="onChangeLocalisation"></button>
+					<button data-lang="fr" cb-text="localisation.fr" cb-onclick="onChangeLocalisation"></button>
+					<button data-lang="de" cb-text="localisation.de" cb-onclick="onChangeLocalisation"></button>
+					<button data-lang="es" cb-text="localisation.es" cb-onclick="onChangeLocalisation"></button>
+				</p>
+				<p><span cb-text="localisation.browser_using"></span> <span cb-text="browserLocale"></span></p>
+			</div>
 		</div>
-	</div>
-	
-	
-	<script src="../lib/conbo.js"></script>
-	<script src="Localisation.js"></script>
-</body>
+		
+		<script src="../lib/conbo.js"></script>
+		<script src="Localisation.js"></script>
+	</body>
 </html>

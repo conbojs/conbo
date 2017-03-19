@@ -698,7 +698,7 @@
 	 */
 	conbo.bind = function(func, scope) 
 	{
-		__deprecated('conbo.bind is deprecated, use native function.bind(obj)');
+//		__deprecated('conbo.bind is deprecated, use native function.bind(obj)');
 		
 		return func.bind.apply(func, conbo.rest(arguments));
 	};
@@ -2137,7 +2137,10 @@
 	 */
 	conbo.isNative = function(func) 
 	{
-		return !('prototype' in func);
+		try { return !('prototype' in func); }
+		catch (e) {}
+		
+		return false;
 	};
 	
 	/**
