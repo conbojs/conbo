@@ -699,7 +699,6 @@
 	conbo.bind = function(func, scope) 
 	{
 //		__deprecated('conbo.bind is deprecated, use native function.bind(obj)');
-		
 		return func.bind.apply(func, conbo.rest(arguments));
 	};
 	
@@ -721,9 +720,9 @@
 		}
 		else
 		{
-			funcs = conbo.filter(conbo.functions(obj), function(func)
+			funcs = conbo.filter(conbo.getFunctionNames(obj), function(func)
 			{
-				return !(conbo.isAccessor(obj, func) || conbo.isNative(func));
+				return !(conbo.isAccessor(obj, func) || conbo.isNative(obj[func]));
 			});
 		}
 		
@@ -856,7 +855,8 @@
 	{
 		var ran = false, memo;
 		
-		return function() {
+		return function() 
+		{
 			if (ran) return memo;
 			ran = true;
 			memo = func.apply(this, arguments);
@@ -887,25 +887,10 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to get keys from
-	 * @param		{boolean}	useForIn - Whether or not to include prototype keys 
 	 */
-	conbo.keys = function(obj, useForIn)
+	conbo.keys = function(obj)
 	{
-		if (!conbo.isObject(obj)) return [];
-		
-		if (nativeKeys && !useForIn)
-		{
-			return nativeKeys(obj);
-		}
-		
-		var keys = [];
-		
-		for (var key in obj)
-		{
-			if (useForIn || conbo.has(obj, key)) keys.push(key);
-		}
-		
-		return keys;
+		return nativeKeys(obj);
 	};
 	
 	/**
@@ -996,7 +981,7 @@
 	 */
 	conbo.getFunctionNames = function(obj, includeAccessors)
 	{
-		return conbo.filter(conbo.getPropertyNames(obj), function(name) 
+		return conbo.filter(conbo.getPropertyNames(obj).sort(), function(name) 
 		{
 			return includeAccessors
 				? conbo.isFunction(obj[name])
@@ -1039,16 +1024,16 @@
 	};
 	
 	/**
-	 * Retrieve the values of an object's properties.
-	 * ConboJS: Extended to enable keys further up the prototype chain to be found too
+	 * Retrieve the values of an object's properties, optionally including
+	 * values further up the prototype chain
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to get values from
-	 * @param		{boolean}	useForIn - Whether or not to include prototype keys 
+	 * @param		{boolean}	deep - Whether or not to include prototype keys 
 	 */
-	conbo.values = function(obj, useForIn) 
+	conbo.values = function(obj, deep) 
 	{
-		var keys = conbo.keys(obj, useForIn);
+		var keys = deep ? conbo.keys(obj) : conbo.getPropertyNames(obj);
 		var length = keys.length;
 		var values = new Array(length);
 		
@@ -1064,6 +1049,7 @@
 	 * Return a sorted list of the function names available on the object,
 	 * including both enumerable and unenumerable functions
 	 * 
+	 * @deprecated
 	 * @memberof	conbo
 	 * @deprecated
 	 * @see			#getFunctionNames
@@ -1071,18 +1057,8 @@
 	 */
 	conbo.functions = function(obj) 
 	{
-		var names = [];
-		var allKeys = conbo.getPropertyNames(obj);
-		
-		allKeys.forEach(function(key)
-		{
-			if (conbo.isFunction(obj[key]))
-			{
-				names.push(key);
-			}
-		});
-		
-		return names.sort();
+		__deprecated("conbo.functions is deprecated, use conbo.getFunctionNames");
+		return conbo.getFunctionNames();
 	};
 
 	/**
@@ -1411,6 +1387,36 @@
 		return obj === Object(obj);
 	};
 
+	/**
+	 * @member		{function}	isArguments - Is the specified object Arguments? 
+	 * @memberOf	conbo
+	 */
+	
+	/**
+	 * @member		{function}	isFunction - Is the specified object a Function? 
+	 * @memberOf	conbo
+	 */
+	
+	/**
+	 * @member		{function}	isString - Is the specified object a String? 
+	 * @memberOf	conbo
+	 */
+	
+	/**
+	 * @member		{function}	isNumber - Is the specified object a Number? 
+	 * @memberOf	conbo
+	 */
+	
+	/**
+	 * @member		{function}	isDate - Is the specified object a Date? 
+	 * @memberOf	conbo
+	 */
+	
+	/**
+	 * @member		{function}	isRegExp - Is the specified object a RegExp (regular expression)? 
+	 * @memberOf	conbo
+	 */
+	
 	// Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp.
 	forEach(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp'], function(name) 
 	{
@@ -1431,7 +1437,7 @@
 	}
 	
 	// Optimize `isFunction` if appropriate.
-	if (typeof (/./) !== 'function') 
+	if (typeof(/./) !== 'function') 
 	{
 		conbo.isFunction = function(obj) 
 		{
@@ -1440,8 +1446,8 @@
 	}
 	
 	/**
-	 * Detects whether the specified property is a defined function (accessors
-	 * containing functions will return false)
+	 * Detects whether the specified property was defined as a function, meaning
+	 * accessors containing functions are excluded
 	 * 
 	 * @memberof	conbo
 	 * @see			#isFunction
@@ -1511,7 +1517,8 @@
 	 * @param		{object}	obj - Value that might be undefined
 	 * @returns		{boolean}
 	 */
-	conbo.isUndefined = function(obj) {
+	conbo.isUndefined = function(obj) 
+	{
 		return obj === undefined;
 	};
 
@@ -2041,15 +2048,16 @@
 	 * Return the names of all the enumerable properties on the specified object, 
 	 * i.e. all of the keys that aren't functions
 	 * 
+	 * @deprecated
 	 * @memberof	conbo
 	 * @see			#getVariableNames
 	 * @deprecated
 	 * @param		obj			The object to list the properties of
-	 * @param		useForIn	Whether or not to include properties further up the prorotype chain
 	 */
-	conbo.properties = function(obj, useForIn)
+	conbo.properties = function(obj)
 	{
-		return conbo.difference(conbo.keys(obj, useForIn), conbo.functions(obj));
+		__deprecated('conbo.properties is deprecated, use conbo.getVariableNames');
+		return conbo.getVariableNames(obj);
 	};
 	
 	/**
@@ -2076,8 +2084,8 @@
 	
 	/**
 	 * Makes all existing properties of the specified object bindable, and 
-	 * optionally create additional bindable properties for each of the property 
-	 * names passed in the propNames array
+	 * optionally creates additional bindable properties for each of the property 
+	 * names in the propNames array
 	 * 
 	 * @memberof	conbo
 	 * @see 		#makeBindable
