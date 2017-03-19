@@ -883,11 +883,12 @@
 	// ----------------
 
 	/**
-	 * Retrieve the names of an object's enumerable properties
+	 * Extends Object.keys to retrieve the names of an object's enumerable properties
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to get keys from
 	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain
+	 * @returns		{array}
 	 */
 	conbo.keys = function(obj, deep)
 	{
@@ -895,9 +896,9 @@
 		
 		var keys = [];
 		
-		for (var a in obj) 
+		for (var key in obj) 
 		{
-			keys.push(a); 
+			keys.push(key); 
 		}
 		
 		return keys;
@@ -907,11 +908,13 @@
 	 * Retrieve the names of an object's enumerable functions
 	 * 
 	 * @memberof	conbo
+	 * @see			#keys
 	 * @param		{object}	obj - Object to get keys from
 	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain
 	 * @param		{boolean}	includeAccessors - Whether or not to include accessors that contain functions (default: false)
+	 * @returns		{array}
 	 */
-	conbo.functionKeys = function(obj, deep, includeAccessors)
+	conbo.functions = function(obj, deep, includeAccessors)
 	{
 		return conbo.filter(conbo.keys(obj, deep).sort(), function(name) 
 		{
@@ -923,55 +926,84 @@
 	 * Retrieve the names of an object's enumerable variables
 	 * 
 	 * @memberof	conbo
+	 * @see			#keys
 	 * @param		{object}	obj - Object to get keys from
 	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain
+	 * @returns		{array}
 	 */
-	conbo.variableKeys = function(obj, deep)
+	conbo.variables = function(obj, deep)
 	{
-		return conbo.difference(conbo.keys(obj, deep), conbo.functionKeys(obj, deep));
+		return conbo.difference(conbo.keys(obj, deep), conbo.functions(obj, deep));
 	};
 	
 	/**
-	 * Retrieve the names of every property of an object, regardless of whether it's
-	 * enumerable or unenumerable and where it is on the prototype chain
+	 * Retrieve the names of an object's enumerable variables
+	 * 
+	 * @deprecated
+	 * @memberof	conbo
+	 * @see			#keys
+	 * @param		{object}	obj - Object to get keys from
+	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain
+	 * @returns		{array}
+	 */
+	conbo.properties = function(obj, deep)
+	{
+		__deprecated('conbo.properties is deprecated, use conbo.variables');
+		return conbo.variables(obj, deep);
+	};
+	
+	/**
+	 * Extends Object.getOwnPropertyNames to retrieve the names of every 
+	 * property of an object, regardless of whether it's enumerable or 
+	 * unenumerable
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to get keys from
+	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain
+	 * @returns		{array}
 	 */
-	conbo.getPropertyNames = function(obj)
+	conbo.getPropertyNames = function(obj, deep)
 	{
-		var names = [];
-		
-		if (!obj) return names;
-		
-		do
+		if (deep)
 		{
-			var props = Object.getOwnPropertyNames(obj);
+			var names = [];
 			
-			props.forEach(function(name)
+			if (!obj) return names;
+			
+			do
 			{
-				if (names.indexOf(name) === -1)
+				var props = Object.getOwnPropertyNames(obj);
+				
+				props.forEach(function(name)
 				{
-					names.push(name)
-				}
-			})
+					if (names.indexOf(name) === -1)
+					{
+						names.push(name)
+					}
+				});
+			}
+			while (obj = Object.getPrototypeOf(obj));
+			
+			return names;
 		}
-		while (obj = Object.getPrototypeOf(obj));
 		
-		return names
+		return Object.getOwnPropertyNames(obj);
 	};
 	
 	/**
 	 * Retrieve the names of every public property (names that do not begin 
 	 * with an underscore) of an object, regardless of whether it's enumerable 
-	 * or unenumerable and where it is on the prototype chain
+	 * or unenumerable
 	 * 
 	 * @memberof	conbo
+	 * @see			#getPropertyNames
 	 * @param		{object}	obj - Object to get keys from
+	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain
+	 * @returns		{array}
 	 */
-	conbo.getPublicPropertyNames = function(obj)
+	conbo.getPublicPropertyNames = function(obj, deep)
 	{
-		return conbo.filter(conbo.getPropertyNames(obj), function(name)
+		return conbo.filter(conbo.getPropertyNames(obj, deep), function(name)
 		{
 			return !/^_.+/.test(name); 
 		});
@@ -980,14 +1012,17 @@
 	/**
 	 * Retrieve the names of every private property (names that begin with a 
 	 * single underscore) of an object, regardless of whether it's enumerable 
-	 * or unenumerable and where it is on the prototype chain
+	 * or unenumerable
 	 * 
 	 * @memberof	conbo
+	 * @see			#getPropertyNames
 	 * @param		{object}	obj - Object to get keys from
+	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain
+	 * @returns		{array}
 	 */
-	conbo.getPrivatePropertyNames = function(obj)
+	conbo.getPrivatePropertyNames = function(obj, deep)
 	{
-		return conbo.filter(conbo.getPropertyNames(obj), function(name) 
+		return conbo.filter(conbo.getPropertyNames(obj, deep), function(name) 
 		{
 			return /^_[a-z\d]+/i.test(name); 
 		});
@@ -996,79 +1031,60 @@
 	/**
 	 * Retrieve the names of every private property (names that begin with a 
 	 * double underscore) of an object, regardless of whether it's enumerable 
-	 * or unenumerable and where it is on the prototype chain
+	 * or unenumerable
 	 * 
 	 * @memberof	conbo
+	 * @see			#getPropertyNames
 	 * @param		{object}	obj - Object to get keys from
+	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain
+	 * @returns		{array}
 	 */
-	conbo.getInternalPropertyNames = function(obj)
+	conbo.getInternalPropertyNames = function(obj, deep)
 	{
-		return conbo.filter(conbo.getPropertyNames(obj), function(name) 
+		return conbo.filter(conbo.getPropertyNames(obj, deep), function(name) 
 		{
 			return /^__.+/.test(name); 
 		});
 	};
 	
 	/**
-	 * Retrieve the names of every function of an object, regardless of whether 
-	 * it's enumerable or unenumerable and where it is on the prototype chain
+	 * Retrieves the names of every function of an object, regardless of whether 
+	 * it's enumerable or unenumerable
 	 * 
 	 * @memberof	conbo
+	 * @see			#getPropertyNames
 	 * @param		{object}	obj - Object to get keys from
+	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain
 	 * @param		{boolean}	includeAccessors - Whether or not to include accessors that contain functions (default: false)
+	 * @returns		{array}
 	 */
-	conbo.getFunctionNames = function(obj, includeAccessors)
+	conbo.getFunctionNames = function(obj, deep, includeAccessors)
 	{
-		return conbo.filter(conbo.getPropertyNames(obj).sort(), function(name) 
+		return conbo.filter(conbo.getPropertyNames(obj, deep).sort(), function(name) 
 		{
 			return includeAccessors ? conbo.isFunction(obj[name]) : conbo.isFunc(obj, name);
 		});
 	},
 	
 	/**
-	 * Retrieve the names of every variable of an object, regardless of whether 
-	 * it's enumerable or unenumerable and where it is on the prototype chain
+	 * Retrieves the names of every variable of an object, regardless of whether 
+	 * it's enumerable or unenumerable
 	 * 
 	 * @memberof	conbo
+	 * @see			#getPropertyNames
 	 * @param		{object}	obj - Object to get keys from
+	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain
+	 * @returns		{array}
 	 */
-	conbo.getVariableNames = function(obj)
+	conbo.getVariableNames = function(obj, deep)
 	{
-		return conbo.difference(conbo.getPropertyNames(obj), conbo.getFunctionNames(obj));
+		return conbo.difference(conbo.getPropertyNames(obj, deep), conbo.getFunctionNames(obj));
 	};
 	
 	/**
-	 * Retrieve the names of the objects own functions, regardless of whether or not they are enumerable
-	 * 
-	 * @memberof	conbo
-	 * @param		{object}	obj - Object to get keys from
-	 * @param		{boolean}	includeAccessors - Whether or not to include accessors that contain functions (default: false)
-	 */
-	conbo.getOwnFunctionNames = function(obj, includeAccessors)
-	{
-		return conbo.filter(Object.getOwnPropertyNames(obj).sort(), function(name) 
-		{
-			return includeAccessors
-				? conbo.isFunction(obj[name])
-				: conbo.isFunc(obj, name)
-				;
-		});
-	},
-	
-	/**
-	 * Retrieve the names of an objects own variables, regardless of whether or not they are enumerable
-	 * 
-	 * @memberof	conbo
-	 * @param		{object}	obj - Object to get keys from
-	 */
-	conbo.getOwnVariableNames = function(obj)
-	{
-		return conbo.difference(Object.getOwnPropertyNames(obj), conbo.getOwnFunctionNames(obj));
-	};
-	
-	/**
-	 * Returns a property descriptor for a property of a given object, 
-	 * regardless of where it is in the prototype chain
+	 * Extends Object.getOwnPropertyDescriptor to return a property descriptor 
+	 * for a property of a given object, regardless of where it is in the 
+	 * prototype chain
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object containing the property
@@ -1107,22 +1123,6 @@
 		}
 		
 		return values;
-	};
-
-	/**
-	 * Return a sorted list of the function names available on the object,
-	 * including both enumerable and unenumerable functions
-	 * 
-	 * @deprecated
-	 * @memberof	conbo
-	 * @deprecated
-	 * @see			#getFunctionNames
-	 * @param		{object}	obj - Object to sort
-	 */
-	conbo.functions = function(obj) 
-	{
-		__deprecated("conbo.functions is deprecated, use conbo.getFunctionNames");
-		return conbo.getFunctionNames();
 	};
 
 	/**
@@ -2107,22 +2107,6 @@
 	/*
 	 * Property utilities
 	 */
-	
-	/**
-	 * Return the names of all the enumerable properties on the specified object, 
-	 * i.e. all of the keys that aren't functions
-	 * 
-	 * @deprecated
-	 * @memberof	conbo
-	 * @see			#getVariableNames
-	 * @param		{object} 	obj - The object to list the properties of
-	 * @param		{boolean}	deep - Whether or not to include keys further up the prototype chain
-	 */
-	conbo.properties = function(obj, deep)
-	{
-		__deprecated('conbo.properties is deprecated, use conbo.variableKeys');
-		return conbo.variableKeys(obj, deep);
-	};
 	
 	/**
 	 * Makes the specified properties of an object bindable; if no property 
