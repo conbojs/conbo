@@ -137,7 +137,7 @@ conbo.conbo = conbo;
  * @augments	conbo
  * @returns 	{String}
  */
-conbo.VERSION = '4.0.2';
+conbo.VERSION = '4.0.3';
 	
 /**
  * @augments	conbo
@@ -211,7 +211,7 @@ var __defineProperty = function(obj, propName, value, getter, setter, enumerable
 			if (!conbo.isEqual(newValue, value)) 
 			{
 				value = newValue;
-				__dispatchChange(this, propName, value);
+				__dispatchChange(this, propName);
 			}
 		};
 		
@@ -310,6 +310,8 @@ var __ep = function(el)
  * Utility methods: a modified subset of Underscore.js methods and loads of our own
  */
 
+// TODO Remove methods that are now available natively in all target browsers
+
 (function() 
 {
 	// Establish the object that gets returned to break out of a loop iteration.
@@ -319,7 +321,8 @@ var __ep = function(el)
 	var
 		ArrayProto = Array.prototype, 
 		ObjProto = Object.prototype, 
-		FuncProto = Function.prototype;
+		FuncProto = Function.prototype
+		;
 
 	// Create quick reference variables for speed access to core prototypes.
 	var
@@ -327,7 +330,8 @@ var __ep = function(el)
 		slice			= ArrayProto.slice,
 		concat			= ArrayProto.concat,
 		toString		= ObjProto.toString,
-		hasOwnProperty	= ObjProto.hasOwnProperty;
+		hasOwnProperty	= ObjProto.hasOwnProperty
+		;
 
 	// All ECMAScript 5 native function implementations that we hope to use
 	// are declared here.
@@ -341,8 +345,8 @@ var __ep = function(el)
 		nativeEvery			= ArrayProto.every,
 		nativeSome			= ArrayProto.some,
 		nativeIsArray		= Array.isArray,
-		nativeKeys			= Object.keys,
-		nativeBind			= FuncProto.bind;
+		nativeKeys			= Object.keys
+		;
 	
 	// Collection Functions
 	// --------------------
@@ -993,33 +997,49 @@ var __ep = function(el)
 	var ctor = function(){};
 
 	/**
-	 * Create a function bound to a given object (assigning `this`, and arguments,
-	 * optionally). Delegates to native `Function.bind` if
-	 * available.
+	 * Create a function bound to a given object (assigning `this`)
 	 * 
+	 * @deprecated
 	 * @memberof	conbo
 	 * @param		{function}	func - Method to bind
 	 * @param		{object}	scope - The scope to bind the method to
 	 */
 	conbo.bind = function(func, scope) 
 	{
-		var args;
+//		__deprecated('conbo.bind is deprecated, use native function.bind(obj)');
+		return func.bind.apply(func, conbo.rest(arguments));
+	};
+	
+	/**
+	 * Bind one or more of an object's methods to that object. Remaining arguments
+	 * are the method names to be bound. If no additional arguments are passed,
+	 * all of the objects methods that are not native or accessors are bound to it.
+	 * 
+	 * @memberof	conbo
+	 * @param		{object}	obj - Object to bind methods to
+	 */
+	conbo.bindAll = function(obj)
+	{
+		var funcs;
 		
-		if (nativeBind &amp;&amp; func.bind === nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
-		if (!conbo.isFunction(func)) throw new TypeError();
-		
-		args = slice.call(arguments, 2);
-		
-		return function() 
+		if (arguments.length > 1)
 		{
-			if (!(this instanceof bound)) return func.apply(scope, args.concat(slice.call(arguments)));
-			ctor.prototype = func.prototype;
-			var self = new ctor();
-			ctor.prototype = undefined;
-			var result = func.apply(self, args.concat(slice.call(arguments)));
-			if (Object(result) === result) return result;
-			return self;
-		};
+			funcs = conbo.rest(arguments);
+		}
+		else
+		{
+			funcs = conbo.filter(conbo.getFunctionNames(obj), function(func)
+			{
+				return !(conbo.isAccessor(obj, func) || conbo.isNative(obj[func]));
+			});
+		}
+		
+		funcs.forEach(function(func)
+		{
+			obj[func] = obj[func].bind(obj);
+		});
+		
+		return obj;
 	};
 
 	/**
@@ -1047,50 +1067,7 @@ var __ep = function(el)
 			while (position &lt; arguments.length) args.push(arguments[position++]);
 			return func.apply(this, args);
 		};
-	};
-
-	/**
-	 * Bind a number of an object's methods to that object. Remaining arguments
-	 * are the method names to be bound. Useful for ensuring that all callbacks
-	 * defined on an object belong to it.
-	 * 
-	 * @memberof	conbo
-	 * @param		{object}	obj - Object to bind methods to
-	 * @param		{regexp}	regExp - Method name filter (optional)
-	 */
-	conbo.bindAll = function(obj, regExp)
-	{
-		var isRegExp = regExp instanceof RegExp;
-		var funcs = slice.call(arguments, 1);
-		
-		if (isRegExp || funcs.length === 0) 
-		{
-			funcs = conbo.functions(obj);
-			
-			if (isRegExp) 
-			{
-				funcs = conbo.filter(funcs, function(f) 
-				{
-					return regExp.test(f); 
-				});
-			}
-			else
-			{
-				funcs = conbo.filter(funcs, function(f)
-				{
-					return !conbo.isAccessor(obj, f) &amp;&amp; !conbo.isNative(obj[f]);
-				});
-			}
-		}
-		
-		funcs.forEach(function(f)
-		{
-			obj[f] = conbo.bind(obj[f], obj);
-		});
-		
-		return obj;
-	};
-	
+	};	
 	
 	var ready__domContentLoaded = !document || ['complete', 'loaded'].indexOf(document.readyState) != -1;
 	
@@ -1134,7 +1111,7 @@ var __ep = function(el)
 	{
 		if (scope)
 		{
-			func = conbo.bind(func, scope);
+			func = func.bind(scope);
 		}
 		
 		return setTimeout.apply(undefined, [func, 0].concat(conbo.rest(arguments, 2)));
@@ -1186,7 +1163,8 @@ var __ep = function(el)
 	{
 		var ran = false, memo;
 		
-		return function() {
+		return function() 
+		{
 			if (ran) return memo;
 			ran = true;
 			memo = func.apply(this, arguments);
@@ -1217,25 +1195,48 @@ var __ep = function(el)
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to get keys from
-	 * @param		{boolean}	useForIn - Whether or not to include prototype keys 
+	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain
 	 */
-	conbo.keys = function(obj, useForIn)
+	conbo.keys = function(obj, deep)
 	{
-		if (!conbo.isObject(obj)) return [];
-		
-		if (nativeKeys &amp;&amp; !useForIn)
-		{
-			return nativeKeys(obj);
-		}
+		return nativeKeys(obj);
 		
 		var keys = [];
 		
-		for (var key in obj)
+		for (var a in obj) 
 		{
-			if (useForIn || conbo.has(obj, key)) keys.push(key);
+			keys.push(a); 
 		}
 		
 		return keys;
+	};
+	
+	/**
+	 * Retrieve the names of an object's enumerable functions
+	 * 
+	 * @memberof	conbo
+	 * @param		{object}	obj - Object to get keys from
+	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain
+	 * @param		{boolean}	includeAccessors - Whether or not to include accessors that contain functions (default: false)
+	 */
+	conbo.functionKeys = function(obj, deep, includeAccessors)
+	{
+		return conbo.filter(conbo.keys(obj, deep).sort(), function(name) 
+		{
+			return includeAccessors ? conbo.isFunction(obj[name]) : conbo.isFunc(obj, name);
+		});
+	};
+	
+	/**
+	 * Retrieve the names of an object's enumerable variables
+	 * 
+	 * @memberof	conbo
+	 * @param		{object}	obj - Object to get keys from
+	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain
+	 */
+	conbo.variableKeys = function(obj, deep)
+	{
+		return conbo.difference(conbo.keys(obj, deep), conbo.functionKeys(obj, deep));
 	};
 	
 	/**
@@ -1326,17 +1327,14 @@ var __ep = function(el)
 	 */
 	conbo.getFunctionNames = function(obj, includeAccessors)
 	{
-		return conbo.filter(conbo.getPropertyNames(obj), function(name) 
+		return conbo.filter(conbo.getPropertyNames(obj).sort(), function(name) 
 		{
-			return includeAccessors
-				? conbo.isFunction(obj, name)
-				: conbo.isFunc(obj, name)
-				;
+			return includeAccessors ? conbo.isFunction(obj[name]) : conbo.isFunc(obj, name);
 		});
 	},
 	
 	/**
-	 * Retrieve the names of every function of an object, regardless of whether 
+	 * Retrieve the names of every variable of an object, regardless of whether 
 	 * it's enumerable or unenumerable and where it is on the prototype chain
 	 * 
 	 * @memberof	conbo
@@ -1345,6 +1343,35 @@ var __ep = function(el)
 	conbo.getVariableNames = function(obj)
 	{
 		return conbo.difference(conbo.getPropertyNames(obj), conbo.getFunctionNames(obj));
+	};
+	
+	/**
+	 * Retrieve the names of the objects own functions, regardless of whether or not they are enumerable
+	 * 
+	 * @memberof	conbo
+	 * @param		{object}	obj - Object to get keys from
+	 * @param		{boolean}	includeAccessors - Whether or not to include accessors that contain functions (default: false)
+	 */
+	conbo.getOwnFunctionNames = function(obj, includeAccessors)
+	{
+		return conbo.filter(Object.getOwnPropertyNames(obj).sort(), function(name) 
+		{
+			return includeAccessors
+				? conbo.isFunction(obj[name])
+				: conbo.isFunc(obj, name)
+				;
+		});
+	},
+	
+	/**
+	 * Retrieve the names of an objects own variables, regardless of whether or not they are enumerable
+	 * 
+	 * @memberof	conbo
+	 * @param		{object}	obj - Object to get keys from
+	 */
+	conbo.getOwnVariableNames = function(obj)
+	{
+		return conbo.difference(Object.getOwnPropertyNames(obj), conbo.getOwnFunctionNames(obj));
 	};
 	
 	/**
@@ -1369,16 +1396,16 @@ var __ep = function(el)
 	};
 	
 	/**
-	 * Retrieve the values of an object's properties.
-	 * ConboJS: Extended to enable keys further up the prototype chain to be found too
+	 * Retrieve the values of an object's properties, optionally including
+	 * values further up the prototype chain
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to get values from
-	 * @param		{boolean}	useForIn - Whether or not to include prototype keys 
+	 * @param		{boolean}	deep - Whether or not to include prototype keys 
 	 */
-	conbo.values = function(obj, useForIn) 
+	conbo.values = function(obj, deep) 
 	{
-		var keys = conbo.keys(obj, useForIn);
+		var keys = deep ? conbo.keys(obj) : conbo.getPropertyNames(obj);
 		var length = keys.length;
 		var values = new Array(length);
 		
@@ -1394,6 +1421,7 @@ var __ep = function(el)
 	 * Return a sorted list of the function names available on the object,
 	 * including both enumerable and unenumerable functions
 	 * 
+	 * @deprecated
 	 * @memberof	conbo
 	 * @deprecated
 	 * @see			#getFunctionNames
@@ -1401,18 +1429,8 @@ var __ep = function(el)
 	 */
 	conbo.functions = function(obj) 
 	{
-		var names = [];
-		var allKeys = conbo.getPropertyNames(obj);
-		
-		allKeys.forEach(function(key)
-		{
-			if (conbo.isFunction(obj[key]))
-			{
-				names.push(key);
-			}
-		});
-		
-		return names.sort();
+		__deprecated("conbo.functions is deprecated, use conbo.getFunctionNames");
+		return conbo.getFunctionNames();
 	};
 
 	/**
@@ -1741,6 +1759,36 @@ var __ep = function(el)
 		return obj === Object(obj);
 	};
 
+	/**
+	 * @member		{function}	isArguments - Is the specified object Arguments? 
+	 * @memberOf	conbo
+	 */
+	
+	/**
+	 * @member		{function}	isFunction - Is the specified object a Function? 
+	 * @memberOf	conbo
+	 */
+	
+	/**
+	 * @member		{function}	isString - Is the specified object a String? 
+	 * @memberOf	conbo
+	 */
+	
+	/**
+	 * @member		{function}	isNumber - Is the specified object a Number? 
+	 * @memberOf	conbo
+	 */
+	
+	/**
+	 * @member		{function}	isDate - Is the specified object a Date? 
+	 * @memberOf	conbo
+	 */
+	
+	/**
+	 * @member		{function}	isRegExp - Is the specified object a RegExp (regular expression)? 
+	 * @memberOf	conbo
+	 */
+	
 	// Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp.
 	forEach(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp'], function(name) 
 	{
@@ -1761,7 +1809,7 @@ var __ep = function(el)
 	}
 	
 	// Optimize `isFunction` if appropriate.
-	if (typeof (/./) !== 'function') 
+	if (typeof(/./) !== 'function') 
 	{
 		conbo.isFunction = function(obj) 
 		{
@@ -1770,8 +1818,8 @@ var __ep = function(el)
 	}
 	
 	/**
-	 * Detects whether the specified property is a defined function (accessors
-	 * containing functions will return false)
+	 * Detects whether the specified property was defined as a function, meaning
+	 * accessors containing functions are excluded
 	 * 
 	 * @memberof	conbo
 	 * @see			#isFunction
@@ -1782,7 +1830,7 @@ var __ep = function(el)
 	 */
 	conbo.isFunc = function(obj, propName)
 	{
-		var descriptor = conbo.getPropertyDescriptor(obj, "f");
+		var descriptor = conbo.getPropertyDescriptor(obj, propName);
 		return descriptor &amp;&amp; typeof(descriptor.value) == 'function';
 	};
 	
@@ -1841,7 +1889,8 @@ var __ep = function(el)
 	 * @param		{object}	obj - Value that might be undefined
 	 * @returns		{boolean}
 	 */
-	conbo.isUndefined = function(obj) {
+	conbo.isUndefined = function(obj) 
+	{
 		return obj === undefined;
 	};
 
@@ -2371,15 +2420,16 @@ var __ep = function(el)
 	 * Return the names of all the enumerable properties on the specified object, 
 	 * i.e. all of the keys that aren't functions
 	 * 
+	 * @deprecated
 	 * @memberof	conbo
 	 * @see			#getVariableNames
-	 * @deprecated
-	 * @param		obj			The object to list the properties of
-	 * @param		useForIn	Whether or not to include properties further up the prorotype chain
+	 * @param		{object} 	obj - The object to list the properties of
+	 * @param		{boolean}	deep - Whether or not to include keys further up the prototype chain
 	 */
-	conbo.properties = function(obj, useForIn)
+	conbo.properties = function(obj, deep)
 	{
-		return conbo.difference(conbo.keys(obj, useForIn), conbo.functions(obj));
+		__deprecated('conbo.properties is deprecated, use conbo.variableKeys');
+		return conbo.variableKeys(obj, deep);
 	};
 	
 	/**
@@ -2406,8 +2456,8 @@ var __ep = function(el)
 	
 	/**
 	 * Makes all existing properties of the specified object bindable, and 
-	 * optionally create additional bindable properties for each of the property 
-	 * names passed in the propNames array
+	 * optionally creates additional bindable properties for each of the property 
+	 * names in the propNames array
 	 * 
 	 * @memberof	conbo
 	 * @see 		#makeBindable
@@ -2467,7 +2517,10 @@ var __ep = function(el)
 	 */
 	conbo.isNative = function(func) 
 	{
-		return !('prototype' in func);
+		try { return !('prototype' in func); }
+		catch (e) {}
+		
+		return false;
 	};
 	
 	/**
@@ -2848,13 +2901,15 @@ conbo.Class.prototype =
 	},
 	
 	/**
-	 * Scope one or more methods to this class instance
-	 * @param 	{function} method - The function to bind to this class instance
+	 * Scope a function to this class instance
+	 * 
+	 * @deprecated
+	 * @param 	{function} 	func - The function to bind to this class instance
 	 * @returns	this
 	 */
-	bind: function(method)
+	bind: function(func)
 	{
-		return conbo.bind.apply(conbo, [method, this].concat(conbo.rest(arguments)));
+		return conbo.bind.apply(conbo, [func, this].concat(conbo.rest(arguments)));
 	},
 	
 	/**
@@ -3043,8 +3098,6 @@ conbo.Namespace = conbo.ConboClass.extend(
 	 */
 	initDom: function(rootEl)
 	{
-		console.log("GO!?");
-		
 		conbo.initDom(this, rootEl);
 		return this;
 	},
@@ -4049,7 +4102,7 @@ conbo.Hash = conbo.EventDispatcher.extend(
 		};
 		
 		var obj = {};
-		var keys = conbo.filter(conbo.properties(this), filter);
+		var keys = conbo.filter(conbo.variableKeys(this), filter);
 		
 		keys.forEach(function(value) 
 		{
@@ -6641,7 +6694,7 @@ conbo.ElementProxy = conbo.EventProxy.extend(
 			var parent;
 			
 			// traverse parents
-			while (el) 
+			while (el)
 			{
 				parent = el.parentElement;
 				
@@ -6872,8 +6925,8 @@ conbo.View = conbo.Glimpse.extend(
 			// Adds interface properties
 			conbo.intersection
 			(
-				conbo.properties(this, true), 
-				conbo.properties(options)
+				conbo.variableKeys(this, true), 
+				conbo.variableKeys(options)
 			)
 		);
 		
@@ -6920,7 +6973,7 @@ conbo.View = conbo.Glimpse.extend(
 	{
 		if (this.initialized)
 		{
-			return this.__getParent('cb-view');
+			return this.__getParent('.cb-view');
 		}
 	},
 	
@@ -6932,7 +6985,7 @@ conbo.View = conbo.Glimpse.extend(
 	{
 		if (this.initialized)
 		{
-			return this.__getParent('cb-app');
+			return this.__getParent('.cb-app');
 		}
 	},
 	
@@ -7314,12 +7367,9 @@ conbo.View = conbo.Glimpse.extend(
 		return this;
 	},
 	
-	__getParent: function(className) 
+	__getParent: function(selector) 
 	{
-		var el = this.el;
-		if (!el) return;
-		// TODO Use !el.classList.contains(className) when it's more widely supported
-	    while ((el = el.parentElement) &amp;&amp; el.className.split(' ').indexOf(className) == -1);
+		var el = __ep(this.el).closest(selector);
 	    if (el) return el.cbView;
 	},
 	
@@ -8035,7 +8085,7 @@ conbo.RemoteHash = conbo.Hash.extend(
 		
 		var resultHandler = function(event)
 		{
-			conbo.makeBindable(this, conbo.properties(event.result));
+			conbo.makeBindable(this, conbo.variableKeys(event.result));
 			conbo.setValues(this, event.result);
 			
 			this.dispatchEvent(event);
@@ -8559,7 +8609,7 @@ __denumerate(conbo.Router.prototype);
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sat Mar 18 2017 18:48:15 GMT+0000 (GMT Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sun Mar 19 2017 20:46:49 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
