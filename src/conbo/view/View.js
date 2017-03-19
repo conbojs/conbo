@@ -99,8 +99,8 @@ conbo.View = conbo.Glimpse.extend(
 			// Adds interface properties
 			conbo.intersection
 			(
-				conbo.properties(this, true), 
-				conbo.properties(options)
+				conbo.variableKeys(this, true), 
+				conbo.variableKeys(options)
 			)
 		);
 		
