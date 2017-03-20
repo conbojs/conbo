@@ -216,11 +216,12 @@ conbo.View = conbo.Glimpse.extend(
 	 * current View's element, but not within the elements of child Views
 	 * 
 	 * @param	{string}	selector - The selector to use
+	 * @param	{boolean}	deep - Include elements in child Views?
 	 * @returns	{Element}	The first matching element
 	 */
-	querySelector: function(selector)
+	querySelector: function(selector, deep)
 	{
-		return this.querySelectorAll(selector)[0];
+		return this.querySelectorAll(selector, deep)[0];
 	},
 	
 	/**
@@ -228,21 +229,26 @@ conbo.View = conbo.Glimpse.extend(
 	 * current View's element, but not within the elements of child Views
 	 * 
 	 * @param	{string}	selector - The selector to use
+	 * @param	{boolean}	deep - Include elements in child Views?
 	 * @returns	{array}		All elements matching the selector
 	 */
-	querySelectorAll: function(selector)
+	querySelectorAll: function(selector, deep)
 	{
 		if (this.el)
 		{
 			var results = conbo.toArray(this.el.querySelectorAll(selector));
-			var views = this.el.querySelectorAll('.cb-view, [cb-view], [cb-app]');
 			
-			// Remove elements in child Views
-			conbo.forEach(views, function(el)
+			if (!deep)
 			{
-				var els = conbo.toArray(el.querySelectorAll(selector));
-				results = conbo.difference(results, els.concat(el));
-			});
+				var views = this.el.querySelectorAll('.cb-view, [cb-view], [cb-app]');
+				
+				// Remove elements in child Views
+				conbo.forEach(views, function(el)
+				{
+					var els = conbo.toArray(el.querySelectorAll(selector));
+					results = conbo.difference(results, els.concat(el));
+				});
+			}
 			
 			return results;
 		}
