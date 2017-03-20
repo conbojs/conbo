@@ -720,7 +720,7 @@
 		}
 		else
 		{
-			funcs = conbo.filter(conbo.getFunctionNames(obj), function(func)
+			funcs = conbo.filter(conbo.getFunctionNames(obj, true), function(func)
 			{
 				return !(conbo.isAccessor(obj, func) || conbo.isNative(obj[func]));
 			});
@@ -918,7 +918,7 @@
 	 */
 	conbo.functions = function(obj, deep, includeAccessors)
 	{
-		return conbo.filter(conbo.keys(obj, deep).sort(), function(name) 
+		return conbo.filter(conbo.keys(obj, deep), function(name) 
 		{
 			return includeAccessors ? conbo.isFunction(obj[name]) : conbo.isFunc(obj, name);
 		});
@@ -973,9 +973,9 @@
 		if (deep)
 		{
 			var names = [];
-			do { names = names.concat(conbo.difference(names, Object.getOwnPropertyNames(obj))); }
+			do { names = names.concat(Object.getOwnPropertyNames(obj)); }
 			while (obj = Object.getPrototypeOf(obj));
-			return names;
+			return conbo.uniq(names);
 		}
 		
 		return Object.getOwnPropertyNames(obj);
@@ -1014,7 +1014,7 @@
 	 */
 	conbo.getVariableNames = function(obj, deep)
 	{
-		return conbo.difference(conbo.getPropertyNames(obj, deep), conbo.getFunctionNames(obj));
+		return conbo.difference(conbo.getPropertyNames(obj, deep), conbo.getFunctionNames(obj, deep));
 	};
 	
 	/**
@@ -1040,20 +1040,20 @@
 	};
 	
 	/**
-	 * Retrieve the values of an object's properties, optionally including
-	 * values further up the prototype chain
+	 * Retrieve the values of an object's enumerable properties, optionally 
+	 * including values further up the prototype chain
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to get values from
-	 * @param		{boolean}	deep - Whether or not to include prototype keys 
+	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain
 	 */
 	conbo.values = function(obj, deep) 
 	{
-		var keys = deep ? conbo.keys(obj) : conbo.getPropertyNames(obj);
+		var keys = conbo.keys(obj, deep);
 		var length = keys.length;
 		var values = new Array(length);
 		
-		for (var i = 0; i < length; i++)
+		for (var i=0; i<length; i++)
 		{
 			values[i] = obj[keys[i]];
 		}
@@ -2056,7 +2056,7 @@
 	 */
 	conbo.makeBindable = function(obj, propNames)
 	{
-		propNames || (propNames = conbo.getVariableNames(obj));
+		propNames = conbo.uniq(propNames || conbo.getVariableNames(obj, true));
 		
 		propNames.forEach(function(propName)
 		{
@@ -2079,7 +2079,7 @@
 	 */
 	conbo.makeAllBindable = function(obj, propNames)
 	{
-		propNames = conbo.uniq((propNames || []).concat(conbo.getVariableNames(obj)));
+		propNames = (propNames || []).concat(conbo.getVariableNames(obj, true));
 		conbo.makeBindable(obj, propNames);
 		
 		return this;

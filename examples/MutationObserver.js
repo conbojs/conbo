@@ -8,7 +8,7 @@ conbo('ns', function()
 	
 	ns.MyView = conbo.View.extend
 	({
-		template: 'An automagically instantiated view! <button cb-onclick="close">X</button>',
+		template: 'An automagically instantiated view! <button style="float:right" cb-onclick="close">X</button>',
 		
 		initialize: function()
 		{
