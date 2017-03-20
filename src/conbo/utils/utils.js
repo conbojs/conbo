@@ -893,15 +893,12 @@
 	 */
 	conbo.keys = function(obj, deep)
 	{
+		if (!obj) return [];
+		
 		if (deep)
 		{
 			var keys = [];
-			
-			for (var key in obj) 
-			{
-				keys.push(key); 
-			}
-			
+			for (var key in obj) { keys.push(key); }
 			return keys;
 		}
 		
@@ -971,26 +968,13 @@
 	 */
 	conbo.getPropertyNames = function(obj, deep)
 	{
+		if (!obj) return [];
+		
 		if (deep)
 		{
 			var names = [];
-			
-			if (!obj) return names;
-			
-			do
-			{
-				var props = Object.getOwnPropertyNames(obj);
-				
-				props.forEach(function(name)
-				{
-					if (names.indexOf(name) === -1)
-					{
-						names.push(name)
-					}
-				});
-			}
+			do { names = names.concat(conbo.difference(names, Object.getOwnPropertyNames(obj))); }
 			while (obj = Object.getPrototypeOf(obj));
-			
 			return names;
 		}
 		
