@@ -133,7 +133,7 @@ conbo.Router = conbo.EventDispatcher.extend(
 	 * without triggering a route event
 	 * 
 	 * @param	{string}	path - The path to navigate to
-	 * @param	{object}	options - Object containing options: trigger (true) and replace (false)
+	 * @param	{object}	options - Object containing options: trigger (default: true) and replace (default: false)
 	 */
 	setPath: function(path, options) 
 	{

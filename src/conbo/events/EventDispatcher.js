@@ -93,7 +93,7 @@
 		 * Add a listener for a particular event type
 		 * 
 		 * @param 	{string}		type - Type of event ('change') or events ('change blur')
-		 * @param 	{function}	handler - Function that should be called
+		 * @param 	{function}		handler - Function that should be called
 		 * @param 	{object}		scope - The scope in which to run the event handler (optional)
 		 * @param 	{number}		priority - The event handler's priority when the event is dispatached (default: 0)
 		 * @param 	{boolean}		once - Should the event listener automatically be removed after it has been called once? (default: false)

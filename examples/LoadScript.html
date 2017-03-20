@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>ConboJS - Load Script</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0">
+		<link href="examples.css" rel="stylesheet">
+	</head>
+	<body>
+		<h1>Load Script</h1>
+		<p id="output">Loading...</p>
+		<script src="../lib/conbo.js"></script>
+		<script>
+			function ScriptLoader()
+			{
+				this.name = "Conbo";
+				conbo.loadScript('LoadScript.js', this);
+			}
+			new ScriptLoader();
+		</script>
+	</body>
+</html>

@@ -204,7 +204,7 @@ conbo.httpRequest = function(options)
 	
 	'onload' in xhr
 		? xhr.onload = loadHandler // XHR2
-		: xhr.onreadystatechange = readyStateChangeHandler; // XHR1, so should never be needed
+		: xhr.onreadystatechange = readyStateChangeHandler; // XHR1 (should never be needed)
 	
 	xhr.onerror = errorHandler;
 	xhr.onprogress = function() {}; // IE9 must have unique onprogress function
