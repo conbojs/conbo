@@ -14,7 +14,7 @@ conbo.httpRequest = function(options)
 {
 	if (!options)
 	{
-		throw new Error('httpRequest called without any parameters');
+		throw new Error('httpRequest called without any options');
 	}
 	
 	var promise = new conbo.Promise();
@@ -29,16 +29,6 @@ conbo.httpRequest = function(options)
 	var dataType = options.dataType || 'json';
 	var decodeFunction = options.decodeFunction || options.dataFilter;
 	
-	var called = false;
-	var callback = function(err, response, body)
-	{
-		if (!called)
-		{
-			called = true;
-			options.callback(err, response, body);
-		}
-	}
-
 	var getXml = function()
 	{
 		if (xhr.responseType === "document") 
@@ -69,7 +59,6 @@ conbo.httpRequest = function(options)
 		{
 			switch (dataType)
 			{
-				// TODO Does this work?
 				case 'script':
 				{
 					(function() { eval(result); }).call(options.scope || window);
@@ -83,8 +72,6 @@ conbo.httpRequest = function(options)
 					
 					break;
 				}
-				
-				// TODO Add jsonp and html support?
 			}
 		}
 		
@@ -181,11 +168,6 @@ conbo.httpRequest = function(options)
 		}
 	};
 	
-//	if (dataType == 'json' && !conbo.getValue(headers, "Accept", false)) 
-//	{
-//		 headers["Accept"] = conbo.CONTENT_TYPE_JSON;
-//	}
-	
 	if (method !== "GET" && method !== "HEAD") 
 	{
 		conbo.getValue(headers, "Content-Type", false) || (headers["Content-Type"] = contentType);
@@ -223,10 +205,7 @@ conbo.httpRequest = function(options)
 			if (aborted) return;
 			aborted = true; // IE9 may still call readystatechange
 			xhr.abort("timeout");
-			var e = new Error("XMLHttpRequest timeout");
-			e.code = "ETIMEDOUT";
-			
-			errorHandler(e);
+			errorHandler();
 		}, 
 		options.timeout);
 	}
