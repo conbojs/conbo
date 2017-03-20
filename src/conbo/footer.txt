@@ -1,7 +1,7 @@
 
 	conbo.ready(function()
 	{
-		conbo.info(conbo.toString());
+		conbo.info('%c'+conbo.toString(), 'font-weight:bold');
 	});
 
 	return conbo;

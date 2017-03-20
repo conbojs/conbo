@@ -38,14 +38,6 @@ conbo.httpRequest = function(options)
 			options.callback(err, response, body);
 		}
 	}
-	
-	var readyStateChangeHandler = function() 
-	{
-		if (xhr.readyState === 4) 
-		{
-			conbo.defer(loadHandler);
-		}
-	};
 
 	var getXml = function()
 	{
@@ -80,7 +72,7 @@ conbo.httpRequest = function(options)
 				// TODO Does this work?
 				case 'script':
 				{
-					(function() { eval(result); }).call(window);
+					(function() { eval(result); }).call(options.scope || window);
 					break;
 				}
 				
@@ -136,7 +128,7 @@ conbo.httpRequest = function(options)
 		return newValue;
 	};
 	
-	var errorHandler = function(event) 
+	var errorHandler = function() 
 	{
 		clearTimeout(timeoutTimer);
 		
@@ -154,7 +146,7 @@ conbo.httpRequest = function(options)
 	};
 	
 	// will load the data & process the response in a special response object
-	var loadHandler = function(event) 
+	var loadHandler = function() 
 	{
 		if (aborted) return;
 		
@@ -164,7 +156,7 @@ conbo.httpRequest = function(options)
 		
 		if (status === 0 || status >= 400)
 		{
-			errorHandler(event);
+			errorHandler();
 			return;
 		}
 		
@@ -180,6 +172,14 @@ conbo.httpRequest = function(options)
 		
 		promise.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.RESULT, response));
 	}
+	
+	var readyStateChangeHandler = function() 
+	{
+		if (xhr.readyState === 4) 
+		{
+			conbo.defer(loadHandler);
+		}
+	};
 	
 //	if (dataType == 'json' && !conbo.getValue(headers, "Accept", false)) 
 //	{
@@ -202,8 +202,10 @@ conbo.httpRequest = function(options)
 		data = undefined;
 	}
 	
-	xhr.onreadystatechange = readyStateChangeHandler;
-	xhr.onload = loadHandler;
+	'onload' in xhr
+		? xhr.onload = loadHandler // XHR2
+		: xhr.onreadystatechange = readyStateChangeHandler; // XHR1, so should never be needed
+	
 	xhr.onerror = errorHandler;
 	xhr.onprogress = function() {}; // IE9 must have unique onprogress function
 	xhr.onabort = function() { aborted = true; };

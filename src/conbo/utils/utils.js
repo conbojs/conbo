@@ -2028,15 +2028,17 @@
 	 * Load a JavaScript file and executes it
 	 * 
 	 * @memberof	conbo
-	 * @param 		{String}	url		The JavaScript file's URL
+	 * @param 		{String}	url - The JavaScript file's URL
+	 * @param 		{object}	scope - The scope in which to run the loaded script
 	 * @returns		conbo.Promise
 	 */
-	conbo.loadScript = function(url)
+	conbo.loadScript = function(url, scope)
 	{
 		return conbo.httpRequest
 		({
 			url: url,
-			dataType: "script"
+			dataType: "script",
+			scope: scope
 		});
 	};
 	
