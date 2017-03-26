@@ -2257,29 +2257,54 @@
 	};
 	
 	/**
-	 * Returns a version of the object that can easily be converted into JSON,
-	 * with all functions, unenumerable,  private (prefixed _) properties removed
+	 * If no toJSON method is present on the specified Object, this method 
+	 * returns a version of the object that can easily be converted into JSON, 
+	 * with all functions, unenumerable and private properties removed.
+	 * 
+	 * This method can also be assigned to an Object or Array as the toJSON
+	 * method so that it will be used by JSON.stringify().
 	 * 
 	 * @memberof	conbo
 	 * @param		{*}			obj - Object to convert
 	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain?
 	 * @returns		{*}			JSON friendly version of the object
+	 * 
+	 * @example
+	 * conbo.jsonify(myObj); // Defers to myObj.toJSON() if it exists
+	 * conbo.jsonify.call(myObj); // Ignores myObj.toJSON(), even if it exists
+	 * myObj.toJSON = conbo.jsonify; // Assign this method to your Object
 	 */
 	conbo.jsonify = function(obj, deep)
 	{
+		if (this != conbo)
+		{
+			deep = obj;
+			obj = this;
+		}
+		
 		if (conbo.isObject(obj))
 		{
-			if (conbo.isArray(obj))
+			if (this != obj && 'toJSON' in obj)
 			{
-				return conbo.map(obj, conbo.jsonify);
+				return obj.toJSON();
 			}
-			
-			var keys = conbo.filter(conbo.variables(obj, deep), function(key)
+			else
 			{
-				return /^[a-z]*$/i.test(key);
-			});
-			
-			return conbo.pick.apply(conbo, [obj].concat(keys));
+				if (conbo.isArray(obj))
+				{
+					return conbo.map(obj, function(item)
+					{
+						return conbo.jsonify(item, deep);
+					});
+				}
+				
+				var keys = conbo.filter(conbo.variables(obj, deep), function(key)
+				{
+					return /^[a-z]*$/i.test(key);
+				});
+				
+				return conbo.pick.apply(conbo, [obj].concat(keys));
+			}
 		}
 		
 		return obj;
