@@ -159,6 +159,17 @@ foo.addEventListener("myEvent", this.myFunction, this);
 foo.dispatchEvent(new conbo.Event("myEvent"));
 ```
 
+Naming conventions
+------------------
+
+The naming conventions used by ConboJS should be familiar to anyone who uses JavaScript or ActionScript on a regular basis:
+
+* `ClassNames` are camel case with an initial capital letter
+* `IInterfaceNames` are camel case with an initial capital letter, prefixed with a capital I
+* `publicPropertyAndMethodNames` are camel case, starting with a lower case letter
+* `_privatePropertyAndMethodNames` are user defined properties and methods used within the current class only, prefixed with an underscore
+* `__internalPropertyAndMethodNames` are prefixed with a double underscore to indicate that they are for internal use by the framework only
+
 Builds
 ------
 
