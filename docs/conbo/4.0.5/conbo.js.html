@@ -137,7 +137,7 @@ conbo.conbo = conbo;
  * @augments	conbo
  * @returns 	{String}
  */
-conbo.VERSION = '4.0.4';
+conbo.VERSION = '4.0.5';
 	
 /**
  * @augments	conbo
@@ -1196,7 +1196,7 @@ var __ep = function(el)
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to get keys from
-	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain
+	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain?
 	 * @returns		{array}
 	 */
 	conbo.keys = function(obj, deep)
@@ -1220,7 +1220,7 @@ var __ep = function(el)
 	 * @memberof	conbo
 	 * @see			#keys
 	 * @param		{object}	obj - Object to get keys from
-	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain
+	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain?
 	 * @param		{boolean}	includeAccessors - Whether or not to include accessors that contain functions (default: false)
 	 * @returns		{array}
 	 */
@@ -1239,7 +1239,7 @@ var __ep = function(el)
 	 * @memberof	conbo
 	 * @see			#keys
 	 * @param		{object}	obj - Object to get keys from
-	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain
+	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain?
 	 * @returns		{array}
 	 */
 	conbo.variables = function(obj, deep)
@@ -1255,7 +1255,7 @@ var __ep = function(el)
 	 * @memberof	conbo
 	 * @see			#keys
 	 * @param		{object}	obj - Object to get keys from
-	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain
+	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain?
 	 * @returns		{array}
 	 */
 	conbo.properties = function(obj, deep)
@@ -1271,7 +1271,7 @@ var __ep = function(el)
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to get keys from
-	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain
+	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain?
 	 * @returns		{array}
 	 */
 	conbo.getPropertyNames = function(obj, deep)
@@ -1297,7 +1297,7 @@ var __ep = function(el)
 	 * @memberof	conbo
 	 * @see			#getPropertyNames
 	 * @param		{object}	obj - Object to get keys from
-	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain
+	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain?
 	 * @param		{boolean}	includeAccessors - Whether or not to include accessors that contain functions (default: false)
 	 * @returns		{array}
 	 */
@@ -1317,7 +1317,7 @@ var __ep = function(el)
 	 * @memberof	conbo
 	 * @see			#getPropertyNames
 	 * @param		{object}	obj - Object to get keys from
-	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain
+	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain?
 	 * @returns		{array}
 	 */
 	conbo.getVariableNames = function(obj, deep)
@@ -1353,7 +1353,7 @@ var __ep = function(el)
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to get values from
-	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain
+	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain?
 	 */
 	conbo.values = function(obj, deep) 
 	{
@@ -2448,6 +2448,7 @@ var __ep = function(el)
 	/**
 	 * Parse a template
 	 * 
+	 * @memberof	conbo
 	 * @param	{string}	template - A string containing property names in {{moustache}} or ${ES2015} format to be replaced with property values
 	 * @param	{object}	data - An object containing the data to be used to populate the template 
 	 * @returns	{string}	The populated template
@@ -2481,6 +2482,7 @@ var __ep = function(el)
 	 * Converts a template string into a pre-populated templating method that can 
 	 * be evaluated for rendering.
 	 * 
+	 * @memberof	conbo
 	 * @param	{string}	template - A string containing property names in {{moustache}} or ${ES2015} format to be replaced with property values
 	 * @param	{object}	defaults - An object containing default values to use when populating the template (optional)
 	 * @returns	{function}	A function that can be called with a data object, returning the populated template
@@ -2523,8 +2525,9 @@ var __ep = function(el)
 	 * Serialise an Object as a query string  suitable for appending to a URL 
 	 * as GET parameters, e.g. foo=1&amp;bar=2
 	 * 
-	 * @param	{object}	obj	- The Object to encode
-	 * @returns	{string}	The URL encoded string 
+	 * @memberof	conbo
+	 * @param		{object}	obj	- The Object to encode
+	 * @returns		{string}	The URL encoded string 
 	 */
 	conbo.toQueryString = function(obj)
 	{
@@ -2539,10 +2542,11 @@ var __ep = function(el)
 	 * response headers, where the case of properties such as "Content-Type" 
 	 * cannot always be predicted
 	 * 
-	 * @param	{object}	obj - The object containing the property
-	 * @param	{string}	propName - The property name
-	 * @param	{boolean}	caseSensitive - Whether to search for a case-insensitive match (default: true)
-	 * @returns	{*}			The value of the specified property
+	 * @memberof	conbo
+	 * @param		{object}	obj - The object containing the property
+	 * @param		{string}	propName - The property name
+	 * @param		{boolean}	caseSensitive - Whether to search for a case-insensitive match (default: true)
+	 * @returns		{*}			The value of the specified property
 	 */
 	conbo.getValue = function(obj, propName, caseSensitive)
 	{
@@ -2560,6 +2564,62 @@ var __ep = function(el)
 		}
 	};
 	
+	/**
+	 * Prepare data for submission to web services.
+	 * 
+	 * If no toJSON method is present on the specified Object, this method 
+	 * returns a version of the object that can easily be converted into JSON, 
+	 * with all functions, unenumerable and private properties removed.
+	 * 
+	 * This method can be assigned to an Object or Array as the toJSON method 
+	 * for use with JSON.stringify().
+	 * 
+	 * @memberof	conbo
+	 * @param		{*}			obj - Object to convert
+	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain?
+	 * @returns		{*}			JSON ready version of the object
+	 * 
+	 * @example
+	 * conbo.jsonify(myObj); // Defers to myObj.toJSON() if it exists
+	 * conbo.jsonify.call(myObj); // Ignores myObj.toJSON(), even if it exists
+	 * myObj.toJSON = conbo.jsonify; // Assign this method to your Object
+	 */
+	conbo.jsonify = function(obj, deep)
+	{
+		if (this != conbo)
+		{
+			deep = obj;
+			obj = this;
+		}
+		
+		if (conbo.isObject(obj))
+		{
+			if (this != obj &amp;&amp; 'toJSON' in obj)
+			{
+				return obj.toJSON();
+			}
+			else
+			{
+				if (conbo.isArray(obj))
+				{
+					return conbo.map(obj, function(item)
+					{
+						return conbo.jsonify(item, deep);
+					});
+				}
+				
+				var keys = conbo.filter(conbo.variables(obj, deep), function(key)
+				{
+					return /^[a-z]*$/i.test(key);
+				});
+				
+				return conbo.pick.apply(conbo, [obj].concat(keys));
+			}
+		}
+		
+		return obj;
+	};
+	
 	/*
 	 * Logging
 	 */
@@ -2571,31 +2631,31 @@ var __ep = function(el)
 	 * @type		{boolean}
 	 * @example
 	 * conbo.logEnabled = false;
-	 * conbo.log('Blah!');
-	 * conbo.warn('Warning!');
-	 * conbo.info('Information!'); 
-	 * conbo.error('Error!');
-	 * // Result: Nothing will be displayed in the console
+	 * conbo.log('Blah!'); // Nothing will be displayed in the console
 	 */
 	conbo.logEnabled = true;
 	
 	/**
 	 * @member		{function}	log - Add a log message to the console
+	 * @function
 	 * @memberOf	conbo
 	 */
 	
 	/**
 	 * @member		{function}	warn - Add a warning message to the console
+	 * @function
 	 * @memberOf	conbo
 	 */
 	
 	/**
 	 * @member		{function}	info - Add information to the console
+	 * @function
 	 * @memberOf	conbo
 	 */
 	
 	/**
 	 * @member		{function}	error - Add an error log message to the console
+	 * @function
 	 * @memberOf	conbo
 	 */
 	
@@ -4002,38 +4062,32 @@ conbo.Hash = conbo.EventDispatcher.extend(
 /** @lends conbo.Hash.prototype */
 {
 	/**
+	 * @deprecated 
+	 * @member		{object}	_defaults - The default values to use if not all properties are set. 
+	 * 										This property is now deprected, defaults should be set in declarations() 
+	 * @memberOf	conbo.Hash.prototype
+	 */
+	
+	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options
 	 */
 	__construct: function(options)
 	{
-		if (!!options.context) this.context = options.context;
+		if (!!options.context) 
+		{
+			this.context = options.context;
+		}
 		
-		conbo.setDefaults(this, options.source, this.defaults);	
-		delete this.defaults;
+		conbo.setValues(this, conbo.setDefaults({}, options.source, this.toJSON(), this._defaults));
+		delete this._defaults;
 	},
 	
 	/**
-	 * Return an object that can easily be converted into JSON
+	 * Returns a version of this object that can easily be converted into JSON
+	 * @function
 	 */
-	toJSON: function()
-	{
-		var filter = function(value) 
-		{
-			return String(value).indexOf('_') !== 0; 
-		};
-		
-		var obj = {};
-		var keys = conbo.filter(conbo.variables(this), filter);
-		
-		keys.forEach(function(value) 
-		{
-			obj[value] = this[value]; 
-		}, 
-		this);
-		
-		return obj;
-	},
+	toJSON: conbo.jsonify,
 	
 	toString: function()
 	{
@@ -4344,15 +4398,7 @@ conbo.List = conbo.EventDispatcher.extend(
 	 */
 	toJSON: function() 
 	{
-		var a = [];
-		
-		this.forEach(function(item)
-		{
-			if (conbo.isFunction(item.toJSON)) a.push(item.toJSON());
-			else a.push(item);
-		});
-		
-		return a;
+		return conbo.jsonify(this.source);
 	},
 	
 	toString: function()
@@ -7546,7 +7592,7 @@ conbo.httpRequest = function(options)
 {
 	if (!options)
 	{
-		throw new Error('httpRequest called without any parameters');
+		throw new Error('httpRequest called without any options');
 	}
 	
 	var promise = new conbo.Promise();
@@ -7561,16 +7607,6 @@ conbo.httpRequest = function(options)
 	var dataType = options.dataType || 'json';
 	var decodeFunction = options.decodeFunction || options.dataFilter;
 	
-	var called = false;
-	var callback = function(err, response, body)
-	{
-		if (!called)
-		{
-			called = true;
-			options.callback(err, response, body);
-		}
-	}
-
 	var getXml = function()
 	{
 		if (xhr.responseType === "document") 
@@ -7601,7 +7637,6 @@ conbo.httpRequest = function(options)
 		{
 			switch (dataType)
 			{
-				// TODO Does this work?
 				case 'script':
 				{
 					(function() { eval(result); }).call(options.scope || window);
@@ -7615,8 +7650,6 @@ conbo.httpRequest = function(options)
 					
 					break;
 				}
-				
-				// TODO Add jsonp and html support?
 			}
 		}
 		
@@ -7713,11 +7746,6 @@ conbo.httpRequest = function(options)
 		}
 	};
 	
-//	if (dataType == 'json' &amp;&amp; !conbo.getValue(headers, "Accept", false)) 
-//	{
-//		 headers["Accept"] = conbo.CONTENT_TYPE_JSON;
-//	}
-	
 	if (method !== "GET" &amp;&amp; method !== "HEAD") 
 	{
 		conbo.getValue(headers, "Content-Type", false) || (headers["Content-Type"] = contentType);
@@ -7755,10 +7783,7 @@ conbo.httpRequest = function(options)
 			if (aborted) return;
 			aborted = true; // IE9 may still call readystatechange
 			xhr.abort("timeout");
-			var e = new Error("XMLHttpRequest timeout");
-			e.code = "ETIMEDOUT";
-			
-			errorHandler(e);
+			errorHandler();
 		}, 
 		options.timeout);
 	}
@@ -8550,7 +8575,7 @@ __denumerate(conbo.Router.prototype);
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Mon Mar 20 2017 22:23:27 GMT+0000 (GMT Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sun Mar 26 2017 16:40:12 GMT+0100 (GMT Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

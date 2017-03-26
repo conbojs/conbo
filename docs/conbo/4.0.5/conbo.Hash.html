@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: LocalHash</title>
+    <title>JSDoc: Class: Hash</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: LocalHash</h1>
+    <h1 class="page-title">Class: Hash</h1>
 
     
 
@@ -29,7 +29,7 @@
 <header>
     
         <h2>
-            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>LocalHash</h2>
+            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>Hash</h2>
         
     
 </header>
@@ -41,14 +41,14 @@
 
     
 
-    <h4 class="name" id="LocalHash"><span class="type-signature"></span>new LocalHash<span class="signature">(options)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Hash"><span class="type-signature"></span>new Hash<span class="signature">(options)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    A persistent Hash that stores data in LocalStorage or Session
+    conbo.HashA Hash is a bindable object of associated keys and values
 </div>
 
 
@@ -100,7 +100,7 @@
 
             
 
-            <td class="description last">Object containing initialisation options, including 'name' (string), 'session' (Boolean) and 'source' (object) containing default values; see Hash for other options</td>
+            <td class="description last">Object containing optional initialisation options, including 'source' (object) containing initial values</td>
         </tr>
 
     
@@ -148,7 +148,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4019">line 4019</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4023">line 4023</a>
     </li></ul></dd>
     
 
@@ -189,7 +189,7 @@
 
 
     <ul>
-        <li><a href="conbo.Hash.html">conbo.Hash</a></li>
+        <li><a href="conbo.EventDispatcher.html">conbo.EventDispatcher</a></li>
     </ul>
 
 
@@ -205,6 +205,80 @@
 
     
         <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="_defaults"><span class="type-signature"></span>_defaults<span class="type-signature"> :object</span></h4>
+
+
+
+
+<div class="description">
+    The default values to use if not all properties are set. 										This property is now deprected, defaults should be set in declarations()
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <dt class="important tag-deprecated">Deprecated:</dt><dd class="yes-def tag-deprecated"><ul class="dummy"><li>Yes</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4036">line 4036</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
 
         
             
@@ -257,7 +331,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2792">line 2792</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2852">line 2852</a>
     </li></ul></dd>
     
 
@@ -361,7 +435,7 @@
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="conbo.Hash.html#__construct">conbo.Hash#__construct</a>
+        conbo.EventDispatcher#__construct
     </li></ul></dd>
     
 
@@ -384,7 +458,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3980">line 3980</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4047">line 4047</a>
     </li></ul></dd>
     
 
@@ -612,7 +686,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3435">line 3435</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3495">line 3495</a>
     </li></ul></dd>
     
 
@@ -772,7 +846,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2804">line 2804</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2864">line 2864</a>
     </li></ul></dd>
     
 
@@ -869,7 +943,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2813">line 2813</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2873">line 2873</a>
     </li></ul></dd>
     
 
@@ -966,7 +1040,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2775">line 2775</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2835">line 2835</a>
     </li></ul></dd>
     
 
@@ -1102,7 +1176,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3551">line 3551</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3611">line 3611</a>
     </li></ul></dd>
     
 
@@ -1260,7 +1334,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3511">line 3511</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3571">line 3571</a>
     </li></ul></dd>
     
 
@@ -1305,88 +1379,6 @@
 </dl>
 
     
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="flush"><span class="type-signature"></span>flush<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Immediately writes all data to local storage. If you don't use this method, Conbo writes the data the next time it detects a change to a bindable property.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4071">line 4071</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1546,7 +1538,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3482">line 3482</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3542">line 3542</a>
     </li></ul></dd>
     
 
@@ -1655,7 +1647,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2785">line 2785</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2845">line 2845</a>
     </li></ul></dd>
     
 
@@ -1742,7 +1734,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2780">line 2780</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2840">line 2840</a>
     </li></ul></dd>
     
 
@@ -1924,7 +1916,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3454">line 3454</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3514">line 3514</a>
     </li></ul></dd>
     
 
@@ -1984,7 +1976,7 @@
 
 
 <div class="description">
-    Return an object that can easily be converted into JSON
+    Returns a version of this object that can easily be converted into JSON
 </div>
 
 
@@ -2005,11 +1997,6 @@
 
     
 
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.Hash.html#toJSON">conbo.Hash#toJSON</a>
-    </li></ul></dd>
     
 
     
@@ -2033,7 +2020,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3991">line 3991</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4062">line 4062</a>
     </li></ul></dd>
     
 
@@ -2081,7 +2068,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Mon Mar 20 2017 22:23:28 GMT+0000 (GMT Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sun Mar 26 2017 16:40:13 GMT+0100 (GMT Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

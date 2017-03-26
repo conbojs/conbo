@@ -888,7 +888,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to get keys from
-	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain
+	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain?
 	 * @returns		{array}
 	 */
 	conbo.keys = function(obj, deep)
@@ -912,7 +912,7 @@
 	 * @memberof	conbo
 	 * @see			#keys
 	 * @param		{object}	obj - Object to get keys from
-	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain
+	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain?
 	 * @param		{boolean}	includeAccessors - Whether or not to include accessors that contain functions (default: false)
 	 * @returns		{array}
 	 */
@@ -931,7 +931,7 @@
 	 * @memberof	conbo
 	 * @see			#keys
 	 * @param		{object}	obj - Object to get keys from
-	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain
+	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain?
 	 * @returns		{array}
 	 */
 	conbo.variables = function(obj, deep)
@@ -947,7 +947,7 @@
 	 * @memberof	conbo
 	 * @see			#keys
 	 * @param		{object}	obj - Object to get keys from
-	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain
+	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain?
 	 * @returns		{array}
 	 */
 	conbo.properties = function(obj, deep)
@@ -963,7 +963,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to get keys from
-	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain
+	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain?
 	 * @returns		{array}
 	 */
 	conbo.getPropertyNames = function(obj, deep)
@@ -989,7 +989,7 @@
 	 * @memberof	conbo
 	 * @see			#getPropertyNames
 	 * @param		{object}	obj - Object to get keys from
-	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain
+	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain?
 	 * @param		{boolean}	includeAccessors - Whether or not to include accessors that contain functions (default: false)
 	 * @returns		{array}
 	 */
@@ -1009,7 +1009,7 @@
 	 * @memberof	conbo
 	 * @see			#getPropertyNames
 	 * @param		{object}	obj - Object to get keys from
-	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain
+	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain?
 	 * @returns		{array}
 	 */
 	conbo.getVariableNames = function(obj, deep)
@@ -1045,7 +1045,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to get values from
-	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain
+	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain?
 	 */
 	conbo.values = function(obj, deep) 
 	{
@@ -2257,17 +2257,19 @@
 	};
 	
 	/**
+	 * Prepare data for submission to web services.
+	 * 
 	 * If no toJSON method is present on the specified Object, this method 
 	 * returns a version of the object that can easily be converted into JSON, 
 	 * with all functions, unenumerable and private properties removed.
 	 * 
-	 * This method can also be assigned to an Object or Array as the toJSON
-	 * method so that it will be used by JSON.stringify().
+	 * This method can be assigned to an Object or Array as the toJSON method 
+	 * for use with JSON.stringify().
 	 * 
 	 * @memberof	conbo
 	 * @param		{*}			obj - Object to convert
 	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain?
-	 * @returns		{*}			JSON friendly version of the object
+	 * @returns		{*}			JSON ready version of the object
 	 * 
 	 * @example
 	 * conbo.jsonify(myObj); // Defers to myObj.toJSON() if it exists
@@ -2321,31 +2323,31 @@
 	 * @type		{boolean}
 	 * @example
 	 * conbo.logEnabled = false;
-	 * conbo.log('Blah!');
-	 * conbo.warn('Warning!');
-	 * conbo.info('Information!'); 
-	 * conbo.error('Error!');
-	 * // Result: Nothing will be displayed in the console
+	 * conbo.log('Blah!'); // Nothing will be displayed in the console
 	 */
 	conbo.logEnabled = true;
 	
 	/**
 	 * @member		{function}	log - Add a log message to the console
+	 * @function
 	 * @memberOf	conbo
 	 */
 	
 	/**
 	 * @member		{function}	warn - Add a warning message to the console
+	 * @function
 	 * @memberOf	conbo
 	 */
 	
 	/**
 	 * @member		{function}	info - Add information to the console
+	 * @function
 	 * @memberOf	conbo
 	 */
 	
 	/**
 	 * @member		{function}	error - Add an error log message to the console
+	 * @function
 	 * @memberOf	conbo
 	 */
 	
