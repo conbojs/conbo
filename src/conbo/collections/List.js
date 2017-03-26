@@ -232,15 +232,7 @@ conbo.List = conbo.EventDispatcher.extend(
 	 */
 	toJSON: function() 
 	{
-		var a = [];
-		
-		this.forEach(function(item)
-		{
-			if (conbo.isFunction(item.toJSON)) a.push(item.toJSON());
-			else a.push(item);
-		});
-		
-		return a;
+		return conbo.jsonify(this.source);
 	},
 	
 	toString: function()

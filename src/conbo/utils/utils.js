@@ -2140,6 +2140,7 @@
 	/**
 	 * Parse a template
 	 * 
+	 * @memberof	conbo
 	 * @param	{string}	template - A string containing property names in {{moustache}} or ${ES2015} format to be replaced with property values
 	 * @param	{object}	data - An object containing the data to be used to populate the template 
 	 * @returns	{string}	The populated template
@@ -2173,6 +2174,7 @@
 	 * Converts a template string into a pre-populated templating method that can 
 	 * be evaluated for rendering.
 	 * 
+	 * @memberof	conbo
 	 * @param	{string}	template - A string containing property names in {{moustache}} or ${ES2015} format to be replaced with property values
 	 * @param	{object}	defaults - An object containing default values to use when populating the template (optional)
 	 * @returns	{function}	A function that can be called with a data object, returning the populated template
@@ -2215,8 +2217,9 @@
 	 * Serialise an Object as a query string  suitable for appending to a URL 
 	 * as GET parameters, e.g. foo=1&bar=2
 	 * 
-	 * @param	{object}	obj	- The Object to encode
-	 * @returns	{string}	The URL encoded string 
+	 * @memberof	conbo
+	 * @param		{object}	obj	- The Object to encode
+	 * @returns		{string}	The URL encoded string 
 	 */
 	conbo.toQueryString = function(obj)
 	{
@@ -2231,10 +2234,11 @@
 	 * response headers, where the case of properties such as "Content-Type" 
 	 * cannot always be predicted
 	 * 
-	 * @param	{object}	obj - The object containing the property
-	 * @param	{string}	propName - The property name
-	 * @param	{boolean}	caseSensitive - Whether to search for a case-insensitive match (default: true)
-	 * @returns	{*}			The value of the specified property
+	 * @memberof	conbo
+	 * @param		{object}	obj - The object containing the property
+	 * @param		{string}	propName - The property name
+	 * @param		{boolean}	caseSensitive - Whether to search for a case-insensitive match (default: true)
+	 * @returns		{*}			The value of the specified property
 	 */
 	conbo.getValue = function(obj, propName, caseSensitive)
 	{
@@ -2250,6 +2254,35 @@
 				return obj[a];
 			}
 		}
+	};
+	
+	/**
+	 * Returns a version of the object that can easily be converted into JSON,
+	 * with all functions, unenumerable,  private (prefixed _) properties removed
+	 * 
+	 * @memberof	conbo
+	 * @param		{*}			obj - Object to convert
+	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain?
+	 * @returns		{*}			JSON friendly version of the object
+	 */
+	conbo.jsonify = function(obj, deep)
+	{
+		if (conbo.isObject(obj))
+		{
+			if (conbo.isArray(obj))
+			{
+				return conbo.map(obj, conbo.jsonify);
+			}
+			
+			var keys = conbo.filter(conbo.variables(obj, deep), function(key)
+			{
+				return /^[a-z]*$/i.test(key);
+			});
+			
+			return conbo.pick.apply(conbo, [obj].concat(keys));
+		}
+		
+		return obj;
 	};
 	
 	/*

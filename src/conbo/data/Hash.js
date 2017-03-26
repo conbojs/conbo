@@ -28,21 +28,7 @@ conbo.Hash = conbo.EventDispatcher.extend(
 	 */
 	toJSON: function()
 	{
-		var filter = function(value) 
-		{
-			return String(value).indexOf('_') !== 0; 
-		};
-		
-		var obj = {};
-		var keys = conbo.filter(conbo.variables(this), filter);
-		
-		keys.forEach(function(value) 
-		{
-			obj[value] = this[value]; 
-		}, 
-		this);
-		
-		return obj;
+		return conbo.jsonify(this);
 	},
 	
 	toString: function()
