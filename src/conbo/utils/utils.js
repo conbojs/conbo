@@ -53,6 +53,7 @@
 	 * @param		{object}	obj - The list to iterate
 	 * @param		{function}	iterator - Iterator function with parameters: item, index, list
 	 * @param		{object}	scope - The scope the iterator function should run in (optional)
+	 * @returns		{void}
 	 */
 	 conbo.forEach = function(obj, iterator, scope) 
 	 {
@@ -90,6 +91,7 @@
 	 * @param		{object}	obj - The list to iterate
 	 * @param		{function}	iterator - Iterator function with parameters: item, index, list
 	 * @param		{object}	scope - The scope the iterator function should run in (optional)
+	 * @returns		{array}
 	 */
 	conbo.map = function(obj, iterator, scope) 
 	{
@@ -109,8 +111,10 @@
 	/**
 	 * Returns the index of the first instance of the specified item in the list
 	 * 
-	 * @param	{object}	obj - The list to search
-	 * @param	{object}	item - The value to find the index of
+	 * @memberof	conbo
+	 * @param		{object}	obj - The list to search
+	 * @param		{object}	item - The value to find the index of
+	 * @returns		{number}
 	 */
 	conbo.indexOf = function(obj, item)
 	{
@@ -120,8 +124,10 @@
 	/**
 	 * Returns the index of the last instance of the specified item in the list
 	 * 
-	 * @param	{object}	obj - The list to search
-	 * @param	{object}	item - The value to find the index of
+	 * @memberof	conbo
+	 * @param		{object}	obj - The list to search
+	 * @param		{object}	item - The value to find the index of
+	 * @returns		{number}
 	 */
 	conbo.lastIndexOf = function(obj, item)
 	{
@@ -135,6 +141,7 @@
 	 * @param		{object}	obj - The list to iterate
 	 * @param		{function}	predicate - Function that tests each value, returning true or false
 	 * @param		{object}	scope - The scope the predicate function should run in (optional)
+	 * @returns		{*}
 	 */
 	conbo.find = function(obj, predicate, scope) 
 	{
@@ -159,6 +166,7 @@
 	 * @param		{object}	obj - The list to iterate
 	 * @param		{function}	predicate - Function that tests each value, returning true or false
 	 * @param		{object}	scope - The scope the predicate function should run in (optional)
+	 * @returns		{number}
 	 */
 	conbo.findIndex = function(obj, predicate, scope) 
 	{
@@ -174,6 +182,7 @@
 	 * @param		{object}	obj - The list to iterate
 	 * @param		{function}	predicate - Function that tests each value, returning true or false
 	 * @param		{object}	scope - The scope the predicate function should run in (optional)
+	 * @returns		{array}
 	 */
 	conbo.filter = function(obj, predicate, scope) 
 	{
@@ -197,6 +206,7 @@
 	 * @param		{object}	obj - The list to iterate
 	 * @param		{function}	predicate - Function that tests each value, returning true or false
 	 * @param		{object}	scope - The scope the predicate function should run in (optional)
+	 * @returns		{array}
 	 */
 	conbo.reject = function(obj, predicate, scope) 
 	{
@@ -215,6 +225,7 @@
 	 * @param		{object}	obj - The list to iterate
 	 * @param		{function}	predicate - Function that tests each value, returning true or false
 	 * @param		{object}	scope - The scope the predicate function should run in (optional)
+	 * @returns		{boolean}
 	 */
 	conbo.every = function(obj, predicate, scope) 
 	{
@@ -241,6 +252,7 @@
 	 * @param		{object}	obj - The list to iterate
 	 * @param		{function}	predicate - Function that tests each value, returning true or false
 	 * @param		{object}	scope - The scope the predicate function should run in (optional)
+	 * @returns		{array}
 	 */
 	conbo.some = function(obj, predicate, scope) 
 	{
@@ -262,6 +274,7 @@
 	 * @memberof	conbo
 	 * @param		{object}	obj - The list to iterate
 	 * @param		{function}	target - The value to match
+	 * @returns		{boolean}
 	 */
 	conbo.contains = function(obj, target) 
 	{
@@ -275,6 +288,7 @@
 	 * @memberof	conbo
 	 * @param		{object}	obj - The list to iterate
 	 * @param		{function}	method - Function to invoke on every item
+	 * @returns		{array}
 	 */
 	conbo.invoke = function(obj, method) 
 	{
@@ -291,8 +305,9 @@
 	 * Convenience version of a common use case of `map`: fetching a property.
 	 * 
 	 * @memberof	conbo
-	 * @param		{object}	obj - Object
+	 * @param		{object}	obj - Array obj Objects
 	 * @param		{string}	key - Property name
+	 * @returns		{array}
 	 */
 	conbo.pluck = function(obj, key) 
 	{
@@ -308,6 +323,7 @@
 	 * @param		{object}	obj - The list to iterate
 	 * @param		{function}	iterator - Function that tests each value (optional)
 	 * @param		{object}	scope - The scope the iterator function should run in (optional)
+	 * @returns		{object}
 	 */
 	conbo.max = function(obj, iterator, scope) 
 	{
@@ -337,6 +353,7 @@
 	 * @param		{object}	obj - The list to iterate
 	 * @param		{function}	iterator - Function that tests each value (optional)
 	 * @param		{object}	scope - The scope the iterator function should run in (optional)
+	 * @returns		{object}
 	 */
 	conbo.min = function(obj, iterator, scope) 
 	{
@@ -366,6 +383,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - The list to shuffle
+	 * @returns		{array}
 	 */
 	conbo.shuffle = function(obj) 
 	{
@@ -399,6 +417,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - The object to convert into an Array 
+	 * @returns		{array}
 	 */
 	conbo.toArray = function(obj) 
 	{
@@ -413,6 +432,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - The object to count the keys of
+	 * @returns		{number}
 	 */
 	conbo.size = function(obj) 
 	{
@@ -434,6 +454,7 @@
 	 * @param		{array}		array - The array to slice
 	 * @param		{function}	n - The number of elements to return (default: 1)
 	 * @param		{object}	guard - Optional
+	 * @returns		{object}
 	 */
 	conbo.last = function(array, n, guard) 
 	{
@@ -452,6 +473,7 @@
 	 * @param		{array}		array - The array to slice
 	 * @param		{function}	n - The number of elements to return (default: 1)
 	 * @param		{object}	guard - Optional
+	 * @returns		{array}
 	 */
 	conbo.rest = function(array, n, guard) 
 	{
@@ -463,6 +485,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{array}		array - The array to trim
+	 * @returns		{array}
 	 */
 	conbo.compact = function(array) 
 	{
@@ -500,6 +523,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{array}		array - The array to flatten
+	 * @returns		{array}
 	 */
 	conbo.flatten = function(array, shallow) 
 	{
@@ -511,6 +535,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{array}		array - The array to remove the specified values from
+	 * @returns		{array}
 	 */
 	conbo.without = function(array) 
 	{
@@ -547,6 +572,7 @@
 	 * @param		{boolean}	isSorted - Should the returned array be sorted?
 	 * @param		{object}	iterator - Iterator function
 	 * @param		{object}	scope - The scope the iterator function should run in (optional)
+	 * @returns		{array}
 	 */
 	conbo.uniq = function(array, isSorted, iterator, scope) 
 	{
@@ -578,6 +604,8 @@
 	 * the passed-in arrays.
 	 * 
 	 * @memberof	conbo
+	 * @param		{...array}	array - Arrays to merge
+	 * @returns		{array}
 	 */
 	conbo.union = function() 
 	{
@@ -589,7 +617,7 @@
 	 * passed-in arrays.
 	 * 
 	 * @memberof	conbo
-	 * @param		{array}		array - Array of values
+	 * @param		{...array}	array - Arrays of values
 	 * @returns		{array}
 	 */
 	conbo.intersection = function(array) 
@@ -610,7 +638,7 @@
 	 * Only the elements present in just the first array will remain.
 	 * 
 	 * @memberof	conbo
-	 * @param		{array}		array - Array of compare
+	 * @param		{...array}	array - Arrays of compare
 	 * @returns		{array}
 	 */
 	conbo.difference = function(array) 
@@ -653,11 +681,12 @@
 	 * Generate an integer Array containing an arithmetic progression. A port of
 	 * the native Python `range()` function.
 	 * 
-	 * @see http://docs.python.org/library/functions.html#range
+	 * @see 		http://docs.python.org/library/functions.html#range
 	 * @memberof	conbo
 	 * @param		{number}	start - Start
 	 * @param		{number}	stop - Stop
 	 * @param		{number}	stop - Step
+	 * @returns		{array}
 	 */
 	conbo.range = function(start, stop, step) 
 	{
@@ -691,10 +720,11 @@
 	/**
 	 * Create a function bound to a given object (assigning `this`)
 	 * 
-	 * @deprecated
+	 * @deprecated	Use native Function.bind
 	 * @memberof	conbo
 	 * @param		{function}	func - Method to bind
 	 * @param		{object}	scope - The scope to bind the method to
+	 * @returns		{function}
 	 */
 	conbo.bind = function(func, scope) 
 	{
@@ -709,6 +739,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to bind methods to
+	 * @returns		{void}
 	 */
 	conbo.bindAll = function(obj)
 	{
@@ -736,11 +767,11 @@
 
 	/**
 	 * Partially apply a function by creating a version that has had some of its
-	 * arguments pre-filled, without changing its dynamic `this` scope. _ acts
-	 * as a placeholder, allowing any combination of arguments to be pre-filled.
+	 * arguments pre-filled, without changing its dynamic `this` scope.
 	 * 
 	 * @memberof	conbo
 	 * @param		{function}	func - Method to partially pre-fill
+	 * @returns		{function}
 	 */
 	conbo.partial = function(func) 
 	{
@@ -770,6 +801,7 @@
 	 * @memberof	conbo
 	 * @param		{function}	func - The function to call
 	 * @param		{object}	scope - The scope in which to run the specified function
+	 * @returns		{conbo}
 	 */
 	conbo.ready = function(func, scope)
 	{
@@ -789,6 +821,8 @@
 		ready__domContentLoaded
 			? readyHandler()
 			: document.addEventListener('DOMContentLoaded', readyHandler);
+			
+		return conbo;
 	};
 	
 	/**
@@ -798,6 +832,7 @@
 	 * @memberof	conbo
 	 * @param		{function}	func - Function to call
 	 * @param		{object}	scope - The scope in which to call the function
+	 * @returns		{number}	ID that can be used with clearInterval
 	 */
 	conbo.defer = function(func, scope) 
 	{
@@ -828,6 +863,7 @@
 	 * @memberof	conbo
 	 * @param		{function}	func - Function to call
 	 * @param		{object}	scope - The scope in which to call the function
+	 * @returns		{conbo}
 	 */
 	conbo.callLater = function(func, scope)
 	{
@@ -842,6 +878,8 @@
 		}
 		
 		callLater__tasks.push(task);
+		
+		return conbo;
 	};
 	
 	/**
@@ -850,6 +888,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{function}	func - Function to call
+	 * @returns		{function}
 	 */
 	conbo.once = function(func) 
 	{
@@ -872,7 +911,8 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{function}	func - Function to wrap
-	 * @param		{function}	wrapper - Function to call 
+	 * @param		{function}	wrapper - Function to call
+	 * @returns		{function}
 	 */
 	conbo.wrap = function(func, wrapper) 
 	{
@@ -943,7 +983,7 @@
 	 * Extends Object.keys to retrieve the names of an object's enumerable 
 	 * variables
 	 * 
-	 * @deprecated
+	 * @deprecated	Use conbo.keys
 	 * @memberof	conbo
 	 * @see			#keys
 	 * @param		{object}	obj - Object to get keys from
@@ -1025,7 +1065,7 @@
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object containing the property
 	 * @param		{string}	propName - Name of the property
-	 * 
+	 * @returns		{object}
 	 */
 	conbo.getPropertyDescriptor = function(obj, propName)
 	{
@@ -1046,6 +1086,7 @@
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to get values from
 	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain?
+	 * @returns		{array}
 	 */
 	conbo.values = function(obj, deep) 
 	{
@@ -1116,6 +1157,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to copy properties from
+	 * @returns		{object}
 	 */
 	conbo.pick = function(obj) 
 	{
@@ -1138,6 +1180,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to copy
+	 * @returns		{object}
 	 */
 	conbo.omit = function(obj) 
 	{
@@ -1162,6 +1205,8 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to populate
+	 * @param		{...object}	obj - Objects containing default values
+	 * @returns		{object}
 	 * @see			conbo.setDefaults
 	 */
 	conbo.defineDefaults = function(obj) 
@@ -1187,6 +1232,8 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to populate
+	 * @param		{...object}	obj - Objects containging default values
+	 * @returns		{object}
 	 */
 	conbo.setDefaults = function(obj) 
 	{
@@ -1210,6 +1257,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to clone
+	 * @returns		{object}
 	 */
 	conbo.clone = function(obj) 
 	{
@@ -1381,6 +1429,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - Value that might be an Object
+	 * @returns		{boolean}
 	 */
 	conbo.isObject = function(obj) 
 	{
@@ -1388,33 +1437,45 @@
 	};
 
 	/**
-	 * @member		{function}	isArguments - Is the specified object Arguments? 
 	 * @memberOf	conbo
+	 * @member		{function}	isArguments - Is the specified object Arguments?
+	 * @param		{object}	obj - The object to test
+	 * @returns		{boolean}
 	 */
 	
 	/**
+	 * @memberOf	conbo
 	 * @member		{function}	isFunction - Is the specified object a Function? 
-	 * @memberOf	conbo
+	 * @param		{object}	obj - The object to test
+	 * @returns		{boolean}
 	 */
 	
 	/**
+	 * @memberOf	conbo
 	 * @member		{function}	isString - Is the specified object a String? 
-	 * @memberOf	conbo
+	 * @param		{object}	obj - The object to test
+	 * @returns		{boolean}
 	 */
 	
 	/**
+	 * @memberOf	conbo
 	 * @member		{function}	isNumber - Is the specified object a Number? 
-	 * @memberOf	conbo
+	 * @param		{object}	obj - The object to test
+	 * @returns		{boolean}
 	 */
 	
 	/**
+	 * @memberOf	conbo
 	 * @member		{function}	isDate - Is the specified object a Date? 
-	 * @memberOf	conbo
+	 * @param		{object}	obj - The object to test
+	 * @returns		{boolean}
 	 */
 	
 	/**
-	 * @member		{function}	isRegExp - Is the specified object a RegExp (regular expression)? 
 	 * @memberOf	conbo
+	 * @member		{function}	isRegExp - Is the specified object a RegExp (regular expression)? 
+	 * @param		{object}	obj - The object to test
+	 * @returns		{boolean}
 	 */
 	
 	// Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp.
@@ -1452,8 +1513,8 @@
 	 * @memberof	conbo
 	 * @see			#isFunction
 	 * 
-	 * @param		{object}	Object containing the property
-	 * @param		{string}	The name of the property
+	 * @param		{object}	obj - Object containing the property
+	 * @param		{string}	propName - The name of the property
 	 * @returns		{boolean}	true if it's a function
 	 */
 	conbo.isFunc = function(obj, propName)
@@ -1527,6 +1588,7 @@
 	 * on itself (in other words, not on a prototype).
 	 * 
 	 * @memberof	conbo
+	 * @deprecated	Use Object.hasOwnProperty
 	 * @param		{object}	obj - Object
 	 * @param		{string}	key - Property name
 	 * @returns		{boolean}
@@ -1543,8 +1605,8 @@
 	 * Keep the identity function around for default iterators.
 	 * 
 	 * @memberof	conbo
-	 * @param		{any}		obj - Value to return
-	 * @returns		{any}
+	 * @param		{*}		obj - Value to return
+	 * @returns		{*}
 	 */
 	conbo.identity = function(value) 
 	{
@@ -1556,6 +1618,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{string}	key - Property name
+	 * @returns		{function}
 	 */
 	conbo.property = function(key) 
 	{
@@ -1570,6 +1633,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	attrs - Object containing key:value pairs to compare
+	 * @returns		{function}
 	 */
 	conbo.matches = function(attrs) 
 	{
@@ -1584,6 +1648,7 @@
 					return false;
 				}
 			}
+			
 			return true;
 		};
 	};
@@ -1615,6 +1680,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{string}	prefix - String to prefix unique ID with
+	 * @returns		{string}
 	 */
 	conbo.uniqueId = function(prefix) 
 	{
@@ -1626,6 +1692,7 @@
 	 * Is Conbo supported by the current browser?
 	 * 
 	 * @memberof	conbo
+	 * @type		{boolean}
 	 */
 	conbo.isSupported = 
 		window.addEventListener
@@ -1635,6 +1702,7 @@
 	/**
 	 * A function that does nothing
 	 * @memberof	conbo
+	 * @returns		{function}
 	 */
 	conbo.noop = function() {}; 
 	
@@ -1643,6 +1711,7 @@
 	 * 
 	 * @example	IExample = { myMethod:conbo.notImplemented };
 	 * @memberof	conbo
+	 * @returns		{function}
 	 */
 	conbo.notImplemented = function() 
 	{
@@ -1655,6 +1724,7 @@
 	 * @memberof	conbo
 	 * @param		{string}	string - underscore_case_string to convertToCamelCase
 	 * @param		{boolean}	initCap - Should the first letter be a CapitalLetter? (default: false)
+	 * @returns		{string}
 	 */
 	conbo.toCamelCase = function(string, initCap)
 	{
@@ -1669,6 +1739,7 @@
 	 * @memberof	conbo
 	 * @param		{string}	string - camelCase string to convert to underscore_case
 	 * @param		{string}	separator - Default: "_"
+	 * @returns		{string}
 	 */
 	conbo.toUnderscoreCase = function(string, separator)
 	{
@@ -1681,12 +1752,22 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{string}	string - camelCase string to convert to underscore_case
+	 * @returns		{string}
 	 */
 	conbo.toKebabCase = function(string)
 	{
 		return conbo.toUnderscoreCase(string, '-');
 	};
 	
+	/**
+	 * Pads a string with the specified character to the specified length
+	 * 
+	 * @memberof	conbo
+	 * @param		{string}	value - String to pad
+	 * @param		{number}	minLength - Minimum length of the padded string
+	 * @param		{string}	padChar - The character to use to pad the string
+	 * @returns		{string}
+	 */
 	conbo.padLeft = function(value, minLength, padChar)
 	{
 		if (!padChar && padChar !== 0) padChar = ' ';
@@ -1710,6 +1791,7 @@
 	 * @memberof 	conbo
 	 * @param		{number}	number - The number to add a leading zero to
 	 * @param		{number}	minLength - the minumum length of the returned string (default: 2)
+	 * @returns		{string}
 	 */
 	conbo.addLeadingZero = function(number, minLength)
 	{
@@ -1757,12 +1839,13 @@
 	 * Format a number as a currency
 	 * 
 	 * @memberof	conbo
-	 * @param number
-	 * @param symbol
-	 * @param suffixed
-	 * @param decimals
-	 * @param decimalPoint
-	 * @param thousandsSeparator
+	 * @param 		{number}	number
+	 * @param 		{string}	symbol
+	 * @param 		{boolean}	suffixed
+	 * @param 		{number}	decimals
+	 * @param 		{string}	decimalPoint
+	 * @param 		{string}	thousandsSeparator
+	 * @returns		{string}
 	 */
 	conbo.formatCurrency = function(number, symbol, suffixed, decimals, decimalPoint, thousandsSeparator)
 	{
@@ -1777,7 +1860,8 @@
 	 * entities, making it safe for use in an HTML document
 	 * 
 	 * @memberof	conbo
-	 * @param string
+	 * @param 		{string}	string - String to encode
+	 * @returns		{string}
 	 */
 	conbo.encodeEntities = function(string)
 	{
@@ -1799,7 +1883,8 @@
 	 * special characters, making it safe for use in plain text documents
 	 * 
 	 * @memberof	conbo
-	 * @param string
+	 * @param 		{string}	string - String to dencode
+	 * @returns		{string}
 	 */
 	conbo.decodeEntities = function(string) 
 	{
@@ -1821,6 +1906,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{Object}	obj		Object to copy properties to
+	 * @returns		{object}
 	 * 
 	 * @example	
 	 * conbo.setValues({id:1}, {get name() { return 'Arthur'; }}, {get age() { return 42; }});
@@ -1847,6 +1933,7 @@
 	 * @memberof	conbo
 	 * @param		{any}		value - Value that might be a class
 	 * @param		{class}		classReference - The Conbo class that the value must match or be an extension of (optional) 
+	 * @returns		{boolean}
 	 */
 	conbo.isClass = function(value, classReference)
 	{
@@ -1865,6 +1952,7 @@
 	 * @param		{string}	sourceName - Name of the property on the source
 	 * @param		{object}	target - Target object
 	 * @param		{string} 	targetName - Name of the property on the target (default: sourceName)
+	 * @returns		{conbo}
 	 */
 	conbo.cloneProperty = function(source, sourceName, target, targetName)
 	{
@@ -1898,6 +1986,7 @@
 	 * @param		{array}		array - The Array to sort
 	 * @param		{string}	fieldName - The field/property name to sort on
 	 * @param		{object}	options - Optional sort criteria: `descending` (Boolean), `caseInsensitive` (Boolean)
+	 * @returns		{array}
 	 */
 	conbo.sortOn = function(array, fieldName, options)
 	{
@@ -1941,10 +2030,11 @@
 	 * class, because by it's nature a class is not an instance of anything.
 	 * 
 	 * @memberof	conbo
-	 * @param		obj					The class instance
-	 * @param		classOrInterface	The Conbo class or pseudo-interface to compare against
-	 * @example							var b = conbo.instanceOf(obj, conbo.EventDispatcher);
-	 * @example							var b = conbo.instanceOf(obj, conbo.View, conbo.IInjectable);
+	 * @param		{object}				obj - The class instance
+	 * @param		{conbo.Class|object}	classOrInterface - The Conbo class or pseudo-interface to compare against
+	 * @example								var b = conbo.instanceOf(obj, conbo.EventDispatcher);
+	 * @example								var b = conbo.instanceOf(obj, conbo.View, conbo.IInjectable);
+	 * @returns		{boolean}
 	 */
 	conbo.instanceOf = function(obj, classOrInterface)
 	{
@@ -1986,7 +2076,7 @@
 	 * @memberof	conbo
 	 * @param 		{String}	url		The CSS file's URL
 	 * @param 		{String}	media	The media attribute (defaults to 'all')
-	 * @returns		conbo.Promise
+	 * @returns		{conbo.Promise}
 	 */
 	conbo.loadCss = function(url, media)
 	{
@@ -2030,7 +2120,7 @@
 	 * @memberof	conbo
 	 * @param 		{String}	url - The JavaScript file's URL
 	 * @param 		{object}	scope - The scope in which to run the loaded script
-	 * @returns		conbo.Promise
+	 * @returns		{conbo.Promise}
 	 */
 	conbo.loadScript = function(url, scope)
 	{
@@ -2055,6 +2145,7 @@
 	 * 
 	 * @param		{Object}		obj
 	 * @param		{Array}			propNames (optional)
+	 * @returns		{conbo}
 	 */
 	conbo.makeBindable = function(obj, propNames)
 	{
@@ -2078,6 +2169,7 @@
 	 * 
 	 * @param		{String}		obj
 	 * @param		{Array}			propNames (optional)
+	 * @returns		{conbo}
 	 */
 	conbo.makeAllBindable = function(obj, propNames)
 	{
@@ -2093,7 +2185,7 @@
 	 * @memberof	conbo
 	 * @param		{object}	Object containing the property
 	 * @param		{string}	The name of the property
-	 * @returns		{Boolean}
+	 * @returns		{boolean}
 	 */
 	conbo.isAccessor = function(obj, propName)
 	{
@@ -2110,7 +2202,8 @@
 	 * Is the specified property explicitely bindable?
 	 * 
 	 * @memberof	conbo
-	 * @deprecated
+	 * @see			#isBindabel
+	 * @deprecated	Use conbo.isAccessor
 	 * @returns		{boolean}
 	 */
 	conbo.isBindable = function(obj, propName)
@@ -2127,6 +2220,7 @@
 	 * Is the specified function native?
 	 * 
 	 * @memberof	conbo
+	 * @param		{function}	func - The function that might be native
 	 * @returns		{boolean}	true if it's native, false if it's user defined
 	 */
 	conbo.isNative = function(func) 
@@ -2175,9 +2269,9 @@
 	 * be evaluated for rendering.
 	 * 
 	 * @memberof	conbo
-	 * @param	{string}	template - A string containing property names in {{moustache}} or ${ES2015} format to be replaced with property values
-	 * @param	{object}	defaults - An object containing default values to use when populating the template (optional)
-	 * @returns	{function}	A function that can be called with a data object, returning the populated template
+	 * @param		{string}	template - A string containing property names in {{moustache}} or ${ES2015} format to be replaced with property values
+	 * @param		{object}	defaults - An object containing default values to use when populating the template (optional)
+	 * @returns		{function}	A function that can be called with a data object, returning the populated template
 	 */
 	conbo.compileTemplate = function(template, defaults)
 	{
@@ -2261,7 +2355,8 @@
 	 * 
 	 * If no toJSON method is present on the specified Object, this method 
 	 * returns a version of the object that can easily be converted into JSON, 
-	 * with all functions, unenumerable and private properties removed.
+	 * made up of its own properties with all functions, unenumerable and 
+	 * private properties removed.
 	 * 
 	 * This method can be assigned to an Object or Array as the toJSON method 
 	 * for use with JSON.stringify().
@@ -2328,27 +2423,31 @@
 	conbo.logEnabled = true;
 	
 	/**
+	 * @memberOf	conbo
 	 * @member		{function}	log - Add a log message to the console
+	 * @returns		{void}
 	 * @function
-	 * @memberOf	conbo
 	 */
 	
 	/**
+	 * @memberOf	conbo
 	 * @member		{function}	warn - Add a warning message to the console
+	 * @returns		{void}
 	 * @function
-	 * @memberOf	conbo
 	 */
 	
 	/**
+	 * @memberOf	conbo
 	 * @member		{function}	info - Add information to the console
+	 * @returns		{void}
 	 * @function
-	 * @memberOf	conbo
 	 */
 	
 	/**
-	 * @member		{function}	error - Add an error log message to the console
-	 * @function
 	 * @memberOf	conbo
+	 * @member		{function}	error - Add an error log message to the console
+	 * @returns		{void}
+	 * @function
 	 */
 	
 	var logMethods = ['log','warn','info','error'];

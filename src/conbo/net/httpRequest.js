@@ -3,7 +3,8 @@
  * 
  * Sends data to and/or loads data from a URL; options object is roughly 
  * analogous to the jQuery.ajax() settings object, but also accepts additional
- * `resultClass` and `makeObjectsBindable` parameters
+ * `resultClass` and `makeObjectsBindable` parameters, but does nor currently
+ * support 'xml' or 'jsonp' data types.
  * 
  * @see			http://api.jquery.com/jquery.ajax/
  * @memberof	conbo
@@ -26,7 +27,7 @@ conbo.httpRequest = function(options)
 	var headers = options.headers || {};
 	var timeoutTimer;
 	var contentType = conbo.getValue(headers, "Content-Type", false) || options.contentType || conbo.CONTENT_TYPE_JSON;
-	var dataType = options.dataType || 'json';
+	var dataType = options.dataType || conbo.DATA_TYPE_JSON;
 	var decodeFunction = options.decodeFunction || options.dataFilter;
 	
 	var getXml = function()
@@ -59,17 +60,23 @@ conbo.httpRequest = function(options)
 		{
 			switch (dataType)
 			{
-				case 'script':
+				case conbo.DATA_TYPE_SCRIPT:
 				{
 					(function() { eval(result); }).call(options.scope || window);
 					break;
 				}
 				
-				case 'json':
+				case conbo.DATA_TYPE_JSON:
 				{
 					try { result = JSON.parse(result); }
 					catch (e) { result = undefined; }
 					
+					break;
+				}
+				
+				case conbo.DATA_TYPE_TEXT:
+				{
+					// Nothing to do
 					break;
 				}
 			}
