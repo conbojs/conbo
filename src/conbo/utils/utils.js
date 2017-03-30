@@ -535,6 +535,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{array}		array - The array to remove the specified values from
+	 * @param		{...*}		Items to remove from the array
 	 * @returns		{array}
 	 */
 	conbo.without = function(array) 
@@ -2387,7 +2388,7 @@
 			}
 			else
 			{
-				if (conbo.isArray(obj))
+				if (conbo.isIterable(obj))
 				{
 					return conbo.map(obj, function(item)
 					{

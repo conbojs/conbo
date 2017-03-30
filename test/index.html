@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	
+	<head>
+		<title>ConboJS Unit Tests</title>
+		<link rel="stylesheet" href="../node_modules/mocha/mocha.css">
+		<meta charset="UTF-8">
+	</head>
+	
+	<body>
+		
+		<!-- Load and configure Mocha -->
+		<div id="mocha"></div>
+		<script src="../node_modules/mocha/mocha.js"></script>
+		<script src="../node_modules/chai/chai.js"></script>
+		<script>mocha.setup('bdd');</script>
+		
+		<!-- Load ConboJS -->
+		<script src="../lib/conbo.js"></script>
+		
+		<!-- Load tests -->
+		<script src="binding.js"></script>
+		<script src="collections.js"></script>
+		<script src="core.js"></script>
+		<script src="data.js"></script>
+		<script src="events.js"></script>
+		<script src="net.js"></script>
+		<script src="utils.js"></script>
+		<script src="view.js"></script>
+		
+		<!-- Let's go! -->
+		<script>mocha.run();</script>
+		
+	</body>
+	
+</html>
