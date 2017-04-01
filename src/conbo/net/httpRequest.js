@@ -8,14 +8,18 @@
  * 
  * @see			http://api.jquery.com/jquery.ajax/
  * @memberof	conbo
- * @param 		{object} options - Object containing URL and other settings for the HTTP request
+ * @param 		{string|object}		options - URL string or Object containing URL and other settings for the HTTP request
  * @returns		{conbo.Promise}
  */
 conbo.httpRequest = function(options)
 {
-	if (!options)
+	if (conbo.isString(options))
 	{
-		throw new Error('httpRequest called without any options');
+		options = {url:options};
+	}
+	else if (!conbo.isObject(options) || !options.url)
+	{
+		throw new Error('httpRequest called without specifying a URL');
 	}
 	
 	var promise = new conbo.Promise();
@@ -242,3 +246,11 @@ conbo.httpRequest = function(options)
 	
 	return promise;
 };
+
+/**
+ * Pseudonym for httpRequest
+ * @memberof	conbo
+ * @see			#httpRequest
+ * @function
+ */
+conbo.fetch = conbo.httpRequest;
