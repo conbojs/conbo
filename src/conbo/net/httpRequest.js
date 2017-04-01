@@ -246,11 +246,3 @@ conbo.httpRequest = function(options)
 	
 	return promise;
 };
-
-/**
- * Pseudonym for httpRequest
- * @memberof	conbo
- * @see			#httpRequest
- * @function
- */
-conbo.fetch = conbo.httpRequest;
