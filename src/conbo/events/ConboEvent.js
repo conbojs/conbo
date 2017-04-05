@@ -101,10 +101,10 @@ conbo.ConboEvent = conbo.Event.extend(
 	/** 
 	 * A template error has occurred
 	 *  
-	 * @event			conbo.ConboEvent#TEMPLATE_FAULT
+	 * @event			conbo.ConboEvent#TEMPLATE_ERROR
      * @type 			{conbo.ConboEvent}
 	 */
-	TEMPLATE_FAULT:		'templateFault',
+	TEMPLATE_ERROR:		'templateError',
 
 	/** 
 	 * Something has been bound

@@ -48,7 +48,7 @@
 		},
 		
 		/**
-		 * Shorthand method for adding a result and fault event handlers
+		 * Shorthand method for adding a result and/or fault event handlers
 		 *  
 		 * @param	{function}	resultHandler
 		 * @param	{function}	faultHandler
@@ -58,6 +58,20 @@
 		then: function(resultHandler, faultHandler, scope)
 		{
 			if (resultHandler) this.addEventListener('result', resultHandler, scope);
+			if (faultHandler) this.addEventListener('fault', faultHandler, scope);
+			
+			return this;
+		},
+		
+		/**
+		 * Shorthand method for adding a fault event handler
+		 *  
+		 * @param	{function}	faultHandler
+		 * @param	{object}	scope
+		 * @returns	{conbo.Promise}
+		 */
+		catch: function(faultHandler, scope)
+		{
 			if (faultHandler) this.addEventListener('fault', faultHandler, scope);
 			
 			return this;

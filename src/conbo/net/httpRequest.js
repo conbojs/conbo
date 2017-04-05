@@ -15,9 +15,10 @@ conbo.httpRequest = function(options)
 {
 	if (conbo.isString(options))
 	{
-		options = {url:options};
+		options = setDefaults({url:options}, argument[1]);
 	}
-	else if (!conbo.isObject(options) || !options.url)
+	
+	if (!conbo.isObject(options) || !options.url)
 	{
 		throw new Error('httpRequest called without specifying a URL');
 	}

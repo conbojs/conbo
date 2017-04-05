@@ -16,7 +16,7 @@ var View__templateCache = {};
  * @fires		conbo.ConboEvent#BIND
  * @fires		conbo.ConboEvent#UNBIND
  * @fires		conbo.ConboEvent#TEMPLATE_COMPLETE
- * @fires		conbo.ConboEvent#TEMPLATE_FAULT
+ * @fires		conbo.ConboEvent#TEMPLATE_ERROR
  * @fires		conbo.ConboEvent#CREATION_COMPLETE
  */
 conbo.View = conbo.Glimpse.extend(
@@ -464,7 +464,7 @@ conbo.View = conbo.Glimpse.extend(
 		{
 			el.innerHTML = '';
 			
-			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.TEMPLATE_FAULT));
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.TEMPLATE_ERROR));
 			this.__initView();
 		};
 		

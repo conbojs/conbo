@@ -13,7 +13,7 @@
  * @fires		conbo.ConboEvent#BIND
  * @fires		conbo.ConboEvent#UNBIND
  * @fires		conbo.ConboEvent#TEMPLATE_COMPLETE
- * @fires		conbo.ConboEvent#TEMPLATE_FAULT
+ * @fires		conbo.ConboEvent#TEMPLATE_ERROR
  * @fires		conbo.ConboEvent#CREATION_COMPLETE
  */
 conbo.Application = conbo.View.extend(
