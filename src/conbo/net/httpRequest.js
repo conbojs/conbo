@@ -1,21 +1,27 @@
 /**
  * HTTP Request
  * 
- * Sends data to and/or loads data from a URL; options object is roughly 
- * analogous to the jQuery.ajax() settings object, but also accepts additional
- * `resultClass` and `makeObjectsBindable` parameters, but does nor currently
- * support 'xml' or 'jsonp' data types.
+ * Sends data to and/or loads data from a URL; advanced requests can be made 
+ * by passing a single options object, roughly analogous to the jQuery.ajax() 
+ * settings object plus `resultClass` and `makeObjectsBindable` properties;
+ * or by passing URL, data and method parameters.
+ * 
+ * @example		conbo.httpRequest("http://www.foo.com/bar", {user:1}, "GET");
+ * @example		conbo.httpRequest({url:"http://www.foo.com/bar", data:{user:1}, method:"GET", headers:{'X-Token':'ABC123'}});
  * 
  * @see			http://api.jquery.com/jquery.ajax/
  * @memberof	conbo
- * @param 		{string|object}		options - URL string or Object containing URL and other settings for the HTTP request
+ * @param 		{string|object}		options - URL string (simple) or Object containing URL and other settings for the HTTP request (advanced)
+ * @param 		{object}			data - Data to be sent with request (ignored when using options object)
+ * @param 		{string}			method - HTTP method to use, e.g. "GET" or "POST" (ignored when using options object)
  * @returns		{conbo.Promise}
  */
 conbo.httpRequest = function(options)
 {
+	// Simple mode
 	if (conbo.isString(options))
 	{
-		options = setDefaults({url:options}, argument[1]);
+		options = {url:options, data:arguments[1], method:arguments[2]};
 	}
 	
 	if (!conbo.isObject(options) || !options.url)
