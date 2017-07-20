@@ -2,7 +2,7 @@
  * ConboJS: Lightweight MVC application framework for JavaScript
  * http://conbojs.mesmotronic.com/
  * 
- * Copyright (c) 2015 Mesmotronic Limited
+ * Copyright (c) 2017 Mesmotronic Limited
  * Released under the MIT license
  * http://www.mesmotronic.com/legal/mit
  */
@@ -68,7 +68,7 @@ var conbo = function(namespace)
 
 /**
  * Internal reference to self, enables full functionality to be used via 
- * ES2015 import statements
+ * ES2015+ import statements
  * 
  * @augments	conbo
  * @returns		{conbo}
