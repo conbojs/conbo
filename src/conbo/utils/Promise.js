@@ -6,23 +6,38 @@
 	};
 	
 	/**
-	 * Promise
+	 * A Promise is a proxy for a value not necessarily known when the promise is created. 
+	 * It allows you to associate handlers with an asynchronous action's eventual success 
+	 * value or failure reason. This lets asynchronous methods return values like synchronous 
+	 * methods: instead of immediately returning the final value, the asynchronous method 
+	 * returns a promise to supply the value at some point in the future.
+	 * 
+	 * The Conbo implementation varies slightly from ES6 in that the values passed to the
+	 * resolve and reject methods are ResultEvent and FaultEvent objects, respectively.
 	 * 
 	 * @class		conbo.Promise
 	 * @augments	conbo.EventDispatcher
 	 * @author 		Neil Rackett
-	 * @param 		{object} options - Object containing initialisation options
+	 * @param 		{function} executor - A function that is passed with the arguments resolve and reject, which is executed immediately by the Promise (optional)
 	 * @fires		conbo.ConboEvent#RESULT
 	 * @fires		conbo.ConboEvent#FAULT
 	 */
 	conbo.Promise = conbo.EventDispatcher.extend(
 	/** @lends conbo.Promise.prototype */
 	{
-		initialize: function(options)
+		initialize: function(executor)
 		{
 			this.bindAll('dispatchResult', 'dispatchFault')
 				.addEventListener('result fault', Promise__removeEventListeners, this, Number.NEGATIVE_INFINITY)
 				;
+			
+			this.resolve = this.dispatchResult;
+			this.reject = this.dispatchFault;
+			
+			if (conbo.isFunction(executor))
+			{
+				executor(dispatchResult, dispatchFault);
+			}
 		},
 		
 		/**

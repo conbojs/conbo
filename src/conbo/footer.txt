@@ -1,7 +1,10 @@
 
 	conbo.ready(function()
 	{
-		conbo.info('%c'+conbo.toString(), 'font-weight:bold');
+		conbo.isNode
+			? conbo.info(conbo.toString())
+			: conbo.info('%c'+conbo.toString(), 'font-weight:bold')
+			;
 	});
 
 	return conbo;

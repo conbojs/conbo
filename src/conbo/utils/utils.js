@@ -884,30 +884,6 @@
 	};
 	
 	/**
-	 * Call a function at the specified time (currently to the nearest minute)
-	 * 
-	 * @memberof	conbo
-	 * @param		{function}	func - Function to call
-	 * @param		{date}		date - Date object specifying the date and time at which to call the function
-	 * @returns		{conbo}
-	 */
-	conbo.callAt = function(func, date)
-	{
-		(function callAt() 
-		{
-			var now = new Date();
-			
-			now.getTime() >= date.getTime()
-				? func()
-				: setTimeout(callAt, 60000 - (now%60000))
-				;
-		})();
-		
-		return conbo;
-	};
-
-	
-	/**
 	 * Returns a function that will be executed at most one time, no matter how
 	 * often you call it. Useful for lazy initialization.
 	 * 
@@ -1725,7 +1701,16 @@
 		&& !!Object.getOwnPropertyDescriptor;
 	
 	/**
+	 * Is this script being run using Node.js?
+	 * 
+	 * @memberof	conbo
+	 * @type		{boolean}
+	 */
+	conbo.isNode = Object.prototype.toString.call(typeof process !== 'undefined' ? process : 0) === '[object process]';
+	
+	/**
 	 * A function that does nothing
+	 * 
 	 * @memberof	conbo
 	 * @returns		{function}
 	 */
