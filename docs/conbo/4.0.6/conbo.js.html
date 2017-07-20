@@ -137,7 +137,7 @@ conbo.conbo = conbo;
  * @augments	conbo
  * @returns 	{String}
  */
-conbo.VERSION = '4.0.5';
+conbo.VERSION = '4.0.6';
 	
 /**
  * @augments	conbo
@@ -888,6 +888,7 @@ var __ep = function(el)
 	 * 
 	 * @memberof	conbo
 	 * @param		{array}		array - The array to remove the specified values from
+	 * @param		{...*}		Items to remove from the array
 	 * @returns		{array}
 	 */
 	conbo.without = function(array) 
@@ -2053,7 +2054,16 @@ var __ep = function(el)
 		&amp;&amp; !!Object.getOwnPropertyDescriptor;
 	
 	/**
+	 * Is this script being run using Node.js?
+	 * 
+	 * @memberof	conbo
+	 * @type		{boolean}
+	 */
+	conbo.isNode = Object.prototype.toString.call(typeof process !== 'undefined' ? process : 0) === '[object process]';
+	
+	/**
 	 * A function that does nothing
+	 * 
 	 * @memberof	conbo
 	 * @returns		{function}
 	 */
@@ -2740,7 +2750,7 @@ var __ep = function(el)
 			}
 			else
 			{
-				if (conbo.isArray(obj))
+				if (conbo.isIterable(obj))
 				{
 					return conbo.map(obj, function(item)
 					{
@@ -3506,10 +3516,10 @@ conbo.ConboEvent = conbo.Event.extend(
 	/** 
 	 * A template error has occurred
 	 *  
-	 * @event			conbo.ConboEvent#TEMPLATE_FAULT
+	 * @event			conbo.ConboEvent#TEMPLATE_ERROR
      * @type 			{conbo.ConboEvent}
 	 */
-	TEMPLATE_FAULT:		'templateFault',
+	TEMPLATE_ERROR:		'templateError',
 
 	/** 
 	 * Something has been bound
@@ -3911,6 +3921,46 @@ conbo.EventProxy = conbo.Class.extend(
 	},
 	
 });
+
+/**
+ * Server Application 
+ * 
+ * Base class for applications that don't require DOM, e.g. Node.js
+ * 
+ * @class		conbo.ServerApplication
+ * @augments	conbo.EventDispatcher
+ * @author		Neil Rackett
+ * @param 		{object} options - Object containing initialisation options
+ */
+conbo.ServerApplication = conbo.EventDispatcher.extend(
+/** @lends conbo.ServerApplication.prototype */
+{
+	/**
+	 * Default context class to use
+	 * You'll normally want to override this with your own
+	 */
+	contextClass: conbo.Context,
+	
+	/**
+	 * Constructor: DO NOT override! (Use initialize instead)
+	 * @param options
+	 */
+	__construct: function(options)
+	{
+		options = conbo.clone(options || {});
+		options.app = this;
+		
+		this.context = new this.contextClass(options);
+	},
+	
+	toString: function()
+	{
+		return 'conbo.ServerApplication';
+	}
+	
+}).implement(conbo.IInjectable);
+
+__denumerate(conbo.ServerApplication.prototype);
 
 /**
  * conbo.Context
@@ -6542,23 +6592,38 @@ conbo.MutationObserver = conbo.EventDispatcher.extend(
 	};
 	
 	/**
-	 * Promise
+	 * A Promise is a proxy for a value not necessarily known when the promise is created. 
+	 * It allows you to associate handlers with an asynchronous action's eventual success 
+	 * value or failure reason. This lets asynchronous methods return values like synchronous 
+	 * methods: instead of immediately returning the final value, the asynchronous method 
+	 * returns a promise to supply the value at some point in the future.
+	 * 
+	 * The Conbo implementation varies slightly from ES6 in that the values passed to the
+	 * resolve and reject methods are ResultEvent and FaultEvent objects, respectively.
 	 * 
 	 * @class		conbo.Promise
 	 * @augments	conbo.EventDispatcher
 	 * @author 		Neil Rackett
-	 * @param 		{object} options - Object containing initialisation options
+	 * @param 		{function} executor - A function that is passed with the arguments resolve and reject, which is executed immediately by the Promise (optional)
 	 * @fires		conbo.ConboEvent#RESULT
 	 * @fires		conbo.ConboEvent#FAULT
 	 */
 	conbo.Promise = conbo.EventDispatcher.extend(
 	/** @lends conbo.Promise.prototype */
 	{
-		initialize: function(options)
+		initialize: function(executor)
 		{
 			this.bindAll('dispatchResult', 'dispatchFault')
 				.addEventListener('result fault', Promise__removeEventListeners, this, Number.NEGATIVE_INFINITY)
 				;
+			
+			this.resolve = this.dispatchResult;
+			this.reject = this.dispatchFault;
+			
+			if (conbo.isFunction(executor))
+			{
+				executor(dispatchResult, dispatchFault);
+			}
 		},
 		
 		/**
@@ -6584,7 +6649,7 @@ conbo.MutationObserver = conbo.EventDispatcher.extend(
 		},
 		
 		/**
-		 * Shorthand method for adding a result and fault event handlers
+		 * Shorthand method for adding a result and/or fault event handlers
 		 *  
 		 * @param	{function}	resultHandler
 		 * @param	{function}	faultHandler
@@ -6594,6 +6659,20 @@ conbo.MutationObserver = conbo.EventDispatcher.extend(
 		then: function(resultHandler, faultHandler, scope)
 		{
 			if (resultHandler) this.addEventListener('result', resultHandler, scope);
+			if (faultHandler) this.addEventListener('fault', faultHandler, scope);
+			
+			return this;
+		},
+		
+		/**
+		 * Shorthand method for adding a fault event handler
+		 *  
+		 * @param	{function}	faultHandler
+		 * @param	{object}	scope
+		 * @returns	{conbo.Promise}
+		 */
+		catch: function(faultHandler, scope)
+		{
 			if (faultHandler) this.addEventListener('fault', faultHandler, scope);
 			
 			return this;
@@ -6965,7 +7044,7 @@ var View__templateCache = {};
  * @fires		conbo.ConboEvent#BIND
  * @fires		conbo.ConboEvent#UNBIND
  * @fires		conbo.ConboEvent#TEMPLATE_COMPLETE
- * @fires		conbo.ConboEvent#TEMPLATE_FAULT
+ * @fires		conbo.ConboEvent#TEMPLATE_ERROR
  * @fires		conbo.ConboEvent#CREATION_COMPLETE
  */
 conbo.View = conbo.Glimpse.extend(
@@ -7413,7 +7492,7 @@ conbo.View = conbo.Glimpse.extend(
 		{
 			el.innerHTML = '';
 			
-			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.TEMPLATE_FAULT));
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.TEMPLATE_ERROR));
 			this.__initView();
 		};
 		
@@ -7532,7 +7611,7 @@ conbo.ItemRenderer = conbo.View.extend().implement(conbo.IDataRenderer);
  * @fires		conbo.ConboEvent#BIND
  * @fires		conbo.ConboEvent#UNBIND
  * @fires		conbo.ConboEvent#TEMPLATE_COMPLETE
- * @fires		conbo.ConboEvent#TEMPLATE_FAULT
+ * @fires		conbo.ConboEvent#TEMPLATE_ERROR
  * @fires		conbo.ConboEvent#CREATION_COMPLETE
  */
 conbo.Application = conbo.View.extend(
@@ -7723,21 +7802,32 @@ __denumerate(conbo.Command.prototype);
 /**
  * HTTP Request
  * 
- * Sends data to and/or loads data from a URL; options object is roughly 
- * analogous to the jQuery.ajax() settings object, but also accepts additional
- * `resultClass` and `makeObjectsBindable` parameters, but does nor currently
- * support 'xml' or 'jsonp' data types.
+ * Sends data to and/or loads data from a URL; advanced requests can be made 
+ * by passing a single options object, roughly analogous to the jQuery.ajax() 
+ * settings object plus `resultClass` and `makeObjectsBindable` properties;
+ * or by passing URL, data and method parameters.
+ * 
+ * @example		conbo.httpRequest("http://www.foo.com/bar", {user:1}, "GET");
+ * @example		conbo.httpRequest({url:"http://www.foo.com/bar", data:{user:1}, method:"GET", headers:{'X-Token':'ABC123'}});
  * 
  * @see			http://api.jquery.com/jquery.ajax/
  * @memberof	conbo
- * @param 		{object} options - Object containing URL and other settings for the HTTP request
+ * @param 		{string|object}		urlOrOptions - URL string or Object containing URL and other settings for the HTTP request
+ * @param 		{object}			data - Data to be sent with request (ignored when using options object)
+ * @param 		{string}			method - HTTP method to use, e.g. "GET" or "POST" (ignored when using options object)
  * @returns		{conbo.Promise}
  */
 conbo.httpRequest = function(options)
 {
-	if (!options)
+	// Simple mode
+	if (conbo.isString(options))
 	{
-		throw new Error('httpRequest called without any options');
+		options = {url:options, data:arguments[1], method:arguments[2]};
+	}
+	
+	if (!conbo.isObject(options) || !options.url)
+	{
+		throw new Error('httpRequest called without specifying a URL');
 	}
 	
 	var promise = new conbo.Promise();
@@ -8705,7 +8795,10 @@ __denumerate(conbo.Router.prototype);
 
 	conbo.ready(function()
 	{
-		conbo.info('%c'+conbo.toString(), 'font-weight:bold');
+		conbo.isNode
+			? conbo.info(conbo.toString())
+			: conbo.info('%c'+conbo.toString(), 'font-weight:bold')
+			;
 	});
 
 	return conbo;
@@ -8720,13 +8813,13 @@ __denumerate(conbo.Router.prototype);
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="conbo.Application.html">Application</a></li><li><a href="conbo.AttributeBindings.html">AttributeBindings</a></li><li><a href="conbo.BindingUtils.html">BindingUtils</a></li><li><a href="conbo.Class.html">Class</a></li><li><a href="conbo.Command.html">Command</a></li><li><a href="conbo.ConboClass.html">ConboClass</a></li><li><a href="conbo.ConboEvent.html">ConboEvent</a></li><li><a href="conbo.Context.html">Context</a></li><li><a href="conbo.ElementProxy.html">ElementProxy</a></li><li><a href="conbo.Event.html">Event</a></li><li><a href="conbo.EventDispatcher.html">EventDispatcher</a></li><li><a href="conbo.EventProxy.html">EventProxy</a></li><li><a href="conbo.Glimpse.html">Glimpse</a></li><li><a href="conbo.Hash.html">Hash</a></li><li><a href="conbo.HttpService.html">HttpService</a></li><li><a href="conbo.ItemRenderer.html">ItemRenderer</a></li><li><a href="conbo.List.html">List</a></li><li><a href="conbo.LocalHash.html">LocalHash</a></li><li><a href="conbo.LocalList.html">LocalList</a></li><li><a href="conbo.MutationObserver.html">MutationObserver</a></li><li><a href="conbo.Namespace.html">Namespace</a></li><li><a href="conbo.Promise.html">Promise</a></li><li><a href="conbo.RemoteHash.html">RemoteHash</a></li><li><a href="conbo.RemoteList.html">RemoteList</a></li><li><a href="conbo.Router.html">Router</a></li><li><a href="conbo.View.html">View</a></li></ul><h3>Events</h3><ul><li><a href="conbo.ConboEvent.html#event:ADD">ADD</a></li><li><a href="conbo.ConboEvent.html#event:ALL">ALL</a></li><li><a href="conbo.ConboEvent.html#event:BIND">BIND</a></li><li><a href="conbo.ConboEvent.html#event:CHANGE">CHANGE</a></li><li><a href="conbo.ConboEvent.html#event:CREATION_COMPLETE">CREATION_COMPLETE</a></li><li><a href="conbo.ConboEvent.html#event:DETACH">DETACH</a></li><li><a href="conbo.ConboEvent.html#event:FAULT">FAULT</a></li><li><a href="conbo.ConboEvent.html#event:REMOVE">REMOVE</a></li><li><a href="conbo.ConboEvent.html#event:RESULT">RESULT</a></li><li><a href="conbo.ConboEvent.html#event:ROUTE">ROUTE</a></li><li><a href="conbo.ConboEvent.html#event:START">START</a></li><li><a href="conbo.ConboEvent.html#event:STOP">STOP</a></li><li><a href="conbo.ConboEvent.html#event:TEMPLATE_COMPLETE">TEMPLATE_COMPLETE</a></li><li><a href="conbo.ConboEvent.html#event:TEMPLATE_FAULT">TEMPLATE_FAULT</a></li><li><a href="conbo.ConboEvent.html#event:UNBIND">UNBIND</a></li></ul><h3>Namespaces</h3><ul><li><a href="conbo.html">conbo</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="conbo.Application.html">Application</a></li><li><a href="conbo.AttributeBindings.html">AttributeBindings</a></li><li><a href="conbo.BindingUtils.html">BindingUtils</a></li><li><a href="conbo.Class.html">Class</a></li><li><a href="conbo.Command.html">Command</a></li><li><a href="conbo.ConboClass.html">ConboClass</a></li><li><a href="conbo.ConboEvent.html">ConboEvent</a></li><li><a href="conbo.Context.html">Context</a></li><li><a href="conbo.ElementProxy.html">ElementProxy</a></li><li><a href="conbo.Event.html">Event</a></li><li><a href="conbo.EventDispatcher.html">EventDispatcher</a></li><li><a href="conbo.EventProxy.html">EventProxy</a></li><li><a href="conbo.Glimpse.html">Glimpse</a></li><li><a href="conbo.Hash.html">Hash</a></li><li><a href="conbo.HttpService.html">HttpService</a></li><li><a href="conbo.ItemRenderer.html">ItemRenderer</a></li><li><a href="conbo.List.html">List</a></li><li><a href="conbo.LocalHash.html">LocalHash</a></li><li><a href="conbo.LocalList.html">LocalList</a></li><li><a href="conbo.MutationObserver.html">MutationObserver</a></li><li><a href="conbo.Namespace.html">Namespace</a></li><li><a href="conbo.Promise.html">Promise</a></li><li><a href="conbo.RemoteHash.html">RemoteHash</a></li><li><a href="conbo.RemoteList.html">RemoteList</a></li><li><a href="conbo.Router.html">Router</a></li><li><a href="conbo.ServerApplication.html">ServerApplication</a></li><li><a href="conbo.View.html">View</a></li></ul><h3>Events</h3><ul><li><a href="conbo.ConboEvent.html#event:ADD">ADD</a></li><li><a href="conbo.ConboEvent.html#event:ALL">ALL</a></li><li><a href="conbo.ConboEvent.html#event:BIND">BIND</a></li><li><a href="conbo.ConboEvent.html#event:CHANGE">CHANGE</a></li><li><a href="conbo.ConboEvent.html#event:CREATION_COMPLETE">CREATION_COMPLETE</a></li><li><a href="conbo.ConboEvent.html#event:DETACH">DETACH</a></li><li><a href="conbo.ConboEvent.html#event:FAULT">FAULT</a></li><li><a href="conbo.ConboEvent.html#event:REMOVE">REMOVE</a></li><li><a href="conbo.ConboEvent.html#event:RESULT">RESULT</a></li><li><a href="conbo.ConboEvent.html#event:ROUTE">ROUTE</a></li><li><a href="conbo.ConboEvent.html#event:START">START</a></li><li><a href="conbo.ConboEvent.html#event:STOP">STOP</a></li><li><a href="conbo.ConboEvent.html#event:TEMPLATE_COMPLETE">TEMPLATE_COMPLETE</a></li><li><a href="conbo.ConboEvent.html#event:TEMPLATE_ERROR">TEMPLATE_ERROR</a></li><li><a href="conbo.ConboEvent.html#event:UNBIND">UNBIND</a></li></ul><h3>Namespaces</h3><ul><li><a href="conbo.html">conbo</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Mon Mar 27 2017 09:04:18 GMT+0100 (GMT Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Thu Jul 20 2017 17:05:56 GMT+0100 (GMT Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

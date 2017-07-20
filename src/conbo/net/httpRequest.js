@@ -11,7 +11,7 @@
  * 
  * @see			http://api.jquery.com/jquery.ajax/
  * @memberof	conbo
- * @param 		{string|object}		options - URL string (simple) or Object containing URL and other settings for the HTTP request (advanced)
+ * @param 		{string|object}		urlOrOptions - URL string or Object containing URL and other settings for the HTTP request
  * @param 		{object}			data - Data to be sent with request (ignored when using options object)
  * @param 		{string}			method - HTTP method to use, e.g. "GET" or "POST" (ignored when using options object)
  * @returns		{conbo.Promise}
