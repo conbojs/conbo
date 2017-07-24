@@ -76,7 +76,7 @@ conbo.View = conbo.Glimpse.extend(
 	{
 		options = conbo.clone(options) || {};
 		
-		if (options.className)
+		if (options.className && this.className)
 		{
 			options.className += ' '+this.className;
 		}
