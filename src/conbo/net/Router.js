@@ -154,7 +154,7 @@ conbo.Router = conbo.EventDispatcher.extend(
 	
 	set path(value)
 	{
-		return this.setPath(path, options);
+		return this.setPath(value);
 	},
 	
 	toString: function()

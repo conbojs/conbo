@@ -62,7 +62,7 @@ conbo.Context = conbo.EventDispatcher.extend(
 	 * Create a new subcontext that shares the same application
 	 * and namespace as this one
 	 * 
-	 * @param	The context class to use (default: conbo.Context)
+	 * @param	{class} contextClass - The context class to use (default: conbo.Context)
 	 * @returns {conbo.Context}
 	 */
 	createSubcontext: function(contextClass)
@@ -73,6 +73,8 @@ conbo.Context = conbo.EventDispatcher.extend(
 	
 	/**
 	 * Map specified Command class the given event
+	 * @param	{string}	eventType - The name of the event
+	 * @param	{class}		commandClass - The command class to instantiate when the event is dispatched
 	 */
 	mapCommand: function(eventType, commandClass)
 	{
