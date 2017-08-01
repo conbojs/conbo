@@ -85,10 +85,7 @@ conbo.Router = conbo.EventDispatcher.extend(
 	 */ 
 	addRoute: function(route, name, callback) 
 	{
-		if (!conbo.isRegExp(route)) 
-		{
-			route = this.__routeToRegExp(route);
-		}
+		var regExp = conbo.isRegExp(route) ? route : this.__routeToRegExp(route);
 		
 		if (!callback) 
 		{
@@ -106,24 +103,31 @@ conbo.Router = conbo.EventDispatcher.extend(
 			callback = this[name];
 		}
 		
-		this.__history.addRoute(route, this.bind(function(path)
+		this.__history.addRoute(regExp, (function(path)
 		{
-			var args = this.__extractParameters(route, path);
+			var args = this.__extractParameters(regExp, path);
+			
+			var params = conbo.isString(route) 
+				? conbo.object(route.match(/:\w+/g).map(function(r) { return r.substr(1); }), args) 
+				: {}
+				;
 			
 			callback && callback.apply(this, args);
 			
 			var options = 
 			{
 				router:		this,
-				route:		route,
+				route:		regExp,
 				name:		name,
 				parameters:	args,
+				params:		params,
 				path:		path
 			};
 			
 			this.dispatchEvent(new conbo.ConboEvent('route:'+name, options));
 			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ROUTE, options));
-		}));
+			
+		}).bind(this));
 		
 		return this;
 	},

@@ -2033,45 +2033,78 @@
 	};
 	
 	/**
-	 * Is the object an instance of the specified class(es) or implement the
-	 * specified pseudo-interface(s)?
+	 * Is the object an instance of the specified class(es) or an implementation 
+	 * of the specified pseudo-interface?
 	 * 
 	 * This method will always return false if the specified object is a Conbo
 	 * class, because by it's nature a class is not an instance of anything.
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}				obj - The class instance
-	 * @param		{conbo.Class|object}	classOrInterface - The Conbo class or pseudo-interface to compare against
-	 * @example								var b = conbo.instanceOf(obj, conbo.EventDispatcher);
-	 * @example								var b = conbo.instanceOf(obj, conbo.View, conbo.IInjectable);
+	 * @param		{conbo.Class|object}	classOrInterface - The class or pseudo-interface to compare against
+	 * @example								var b = conbo.instanceOf(user, MyUserClass);
 	 * @returns		{boolean}
 	 */
 	conbo.instanceOf = function(obj, classOrInterface)
 	{
-		if (!obj || conbo.isClass(obj)) return false;
-		
-		var partials = conbo.rest(arguments);
-		
-		for (var p=0, c=partials.length; p<c; p++)
+		if (!obj || conbo.isClass(obj) || !classOrInterface) 
 		{
-			classOrInterface = partials[p];
-			
-			if (!classOrInterface) return false;
-			
-			try { if (obj instanceof classOrInterface) return true; }
-			catch (e) {}
-			
-			if (conbo.isObject(classOrInterface))
+			return false;
+		}
+		
+		// Class instances
+		
+		try
+		{
+			if (obj instanceof classOrInterface // User defined class 
+				|| (constructor in obj && obj.constructor === classOrInterface) // Primitive class
+				)
 			{
-				for (var a in classOrInterface)
+				return true; 
+			}
+		}
+		catch (e) {}
+		
+		// Pseudo-interfaces
+		
+		if (conbo.implementationOf(obj, classOrInterface))
+		{
+			return true;
+		}
+		
+		if (conbo.isObject(classOrInterface))
+		{
+			for (var a in classOrInterface)
+			{
+				if (!(a in obj) || conbo.isFunction(obj[a]) != conbo.isFunction(classOrInterface[a]))
 				{
-					if (!(a in obj) || conbo.isFunction(obj[a]) != conbo.isFunction(classOrInterface[a])) 
-					{
-						return false;
-					}
+					return false;
 				}
 			}
-			else
+		}
+		else
+		{
+			return false;
+		}
+		
+		return true;
+	};
+	
+	/**
+	 * Compares the specified object to a strict interface that requires each
+	 * property to be of a specified class
+	 * 
+	 * @memberof	conbo
+	 * @param		{object}				obj - The class instance
+	 * @param		{object}				strictInterface - The strict pseudo-interface to compare against
+	 * @example								conbo.implementationOf({name:"Foo", age:42}, {name:String, age:Number});
+	 * @returns		{boolean}
+	 */
+	conbo.implementationOf = function(obj, strictInterface)
+	{
+		for (var a in strictInterface)
+		{
+			if (!(a in obj) || !conbo.instanceOf(obj[a], strictInterface[a]))
 			{
 				return false;
 			}
