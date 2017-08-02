@@ -10,6 +10,6 @@ if (document && !document.querySelector('#cb-style'))
 			'\n.cb-hide { visibility:hidden !important; }'+
 			'\n.cb-exclude { display:none !important; }'+
 			'\n.cb-disable { pointer-events:none !important; cursor:default !important; }'+
-			'\n.cb-app span { font:inherit; color:inherit; }'+
+			'\nspan { font:inherit; color:inherit; }'+
 		'\n</style>';
 }
