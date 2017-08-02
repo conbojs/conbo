@@ -36,7 +36,7 @@ conbo.Router = conbo.EventDispatcher.extend(
 	/**
 	 * Start the router
 	 */
-	start: function()
+	start: function(options)
 	{
 		if (!this.__history)
 		{
@@ -46,7 +46,7 @@ conbo.Router = conbo.EventDispatcher.extend(
 			this.__history
 				.addEventListener(conbo.ConboEvent.FAULT, this.dispatchEvent, this)
 				.addEventListener(conbo.ConboEvent.CHANGE, this.dispatchEvent, this)
-				.start()
+				.start(options)
 				;
 			
 			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.START));
