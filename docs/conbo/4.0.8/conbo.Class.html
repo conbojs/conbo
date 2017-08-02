@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: EventProxy</title>
+    <title>JSDoc: Class: Class</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: EventProxy</h1>
+    <h1 class="page-title">Class: Class</h1>
 
     
 
@@ -29,7 +29,7 @@
 <header>
     
         <h2>
-            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>EventProxy</h2>
+            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>Class</h2>
         
     
 </header>
@@ -41,14 +41,14 @@
 
     
 
-    <h4 class="name" id="EventProxy"><span class="type-signature"></span>new EventProxy<span class="signature">(eventDispatcher)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Class"><span class="type-signature"></span>new Class<span class="signature">(options)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Event ProxyStandardises the adding and removing of event listeners across DOM elements,Conbo EventDispatchers and jQuery instances
+    ClassExtendable base class from which all others extend
 </div>
 
 
@@ -84,7 +84,7 @@
 
         <tr>
             
-                <td class="name"><code>eventDispatcher</code></td>
+                <td class="name"><code>options</code></td>
             
 
             <td class="type">
@@ -100,7 +100,7 @@
 
             
 
-            <td class="description last">Element, EventDispatcher or jQuery object to be proxied</td>
+            <td class="description last">Object containing initialisation options</td>
         </tr>
 
     
@@ -118,117 +118,6 @@
 
     
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-author">Author:</dt>
-    <dd class="tag-author">
-        <ul>
-            <li>Neil Rackett</li>
-        </ul>
-    </dd>
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3788">line 3788</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    </div>
-
-    
-        <h3 class="subsection-title">Extends</h3>
-
-        
-
-
-    <ul>
-        <li><a href="conbo.Class.html">conbo.Class</a></li>
-    </ul>
-
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-        <h3 class="subsection-title">Members</h3>
-
-        
-            
-<h4 class="name" id="supro"><span class="type-signature"></span>supro<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    Similar to `super` in ActionScript or Java, this property enables you to access properties and methods of the super class prototype, which is the case of JavaScript is the next prototype up the chain
-</div>
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.Class.html#supro">conbo.Class#supro</a>
-    </li></ul></dd>
     
 
     
@@ -268,6 +157,94 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="supro"><span class="type-signature"></span>supro<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Similar to `super` in ActionScript or Java, this property enables you to access properties and methods of the super class prototype, which is the case of JavaScript is the next prototype up the chain
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3044">line 3044</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
         
     
 
@@ -279,14 +256,14 @@
 
     
 
-    <h4 class="name" id="addEventListener"><span class="type-signature"></span>addEventListener<span class="signature">(type, handler)</span><span class="type-signature"> &rarr; {<a href="conbo.EventProxy.html">conbo.EventProxy</a>}</span></h4>
+    <h4 class="name" id=".extend"><span class="type-signature">(static) </span>extend<span class="signature">(protoProps, staticProps)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Add a listener for a particular event type
+    Extend this class to create a new class
 </div>
 
 
@@ -322,13 +299,13 @@
 
         <tr>
             
-                <td class="name"><code>type</code></td>
+                <td class="name"><code>protoProps</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">object</span>
 
 
             
@@ -338,20 +315,20 @@
 
             
 
-            <td class="description last">Type of event ('change') or events ('change blur')</td>
+            <td class="description last">Object containing the new class's prototype</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>handler</code></td>
+                <td class="name"><code>staticProps</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">function</span>
+<span class="param-type">object</span>
 
 
             
@@ -361,7 +338,7 @@
 
             
 
-            <td class="description last">Function that should be called</td>
+            <td class="description last">Object containing the new class's static methods and properties</td>
         </tr>
 
     
@@ -402,7 +379,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3814">line 3814</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3095">line 3095</a>
     </li></ul></dd>
     
 
@@ -425,28 +402,147 @@
 
 
 
-<h5>Returns:</h5>
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var MyClass = conbo.Class.extend({	doSomething:function()	{ 		console.log(':-)'); 	}});</code></pre>
+
+
 
         
-<div class="param-desc">
-    A reference to this class instance
+            
+
+    
+
+    <h4 class="name" id=".implement"><span class="type-signature">(static) </span>implement<span class="signature">(interface)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Implements the specified pseudo-interface(s) on the class, copying the default methods or properties from the partial(s) if they have not already been implemented.
 </div>
 
 
 
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
         
-<span class="param-type"><a href="conbo.EventProxy.html">conbo.EventProxy</a></span>
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>interface</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
 
 
-    </dd>
-</dl>
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object containing one or more properties or methods to be implemented (an unlimited number of parameters can be passed)</td>
+        </tr>
 
     
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3137">line 3137</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var MyClass = conbo.Class.extend().implement(conbo.IInjectable);</code></pre>
 
 
 
@@ -533,11 +629,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.Class.html#bind">conbo.Class#bind</a>
-    </li></ul></dd>
-    
 
     
 
@@ -562,7 +653,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3018">line 3018</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3056">line 3056</a>
     </li></ul></dd>
     
 
@@ -632,11 +723,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.Class.html#bindAll">conbo.Class#bindAll</a>
-    </li></ul></dd>
-    
 
     
 
@@ -659,7 +745,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3027">line 3027</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3065">line 3065</a>
     </li></ul></dd>
     
 
@@ -729,11 +815,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.Class.html#declarations">conbo.Class#declarations</a>
-    </li></ul></dd>
-    
 
     
 
@@ -756,7 +837,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2989">line 2989</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3027">line 3027</a>
     </li></ul></dd>
     
 
@@ -816,11 +897,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.Class.html#initialize">conbo.Class#initialize</a>
-    </li></ul></dd>
-    
 
     
 
@@ -843,7 +919,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2999">line 2999</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3037">line 3037</a>
     </li></ul></dd>
     
 
@@ -903,11 +979,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.Class.html#preinitialize">conbo.Class#preinitialize</a>
-    </li></ul></dd>
-    
 
     
 
@@ -930,7 +1001,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2994">line 2994</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3032">line 3032</a>
     </li></ul></dd>
     
 
@@ -953,182 +1024,6 @@
 
 
 
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="removeEventListener"><span class="type-signature"></span>removeEventListener<span class="signature">(type, handler)</span><span class="type-signature"> &rarr; {<a href="conbo.EventProxy.html">conbo.EventProxy</a>}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Remove a listener for a particular event type
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>type</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Type of event ('change') or events ('change blur')</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>handler</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Function that should be called</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3858">line 3858</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    A reference to this class instance
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="conbo.EventProxy.html">conbo.EventProxy</a></span>
-
-
-    </dd>
-</dl>
-
-    
 
 
 
@@ -1154,7 +1049,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Jul 26 2017 13:55:14 GMT+0100 (GMT Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Aug 02 2017 11:59:48 GMT+0100 (GMT Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>
