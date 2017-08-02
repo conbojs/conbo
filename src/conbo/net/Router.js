@@ -108,7 +108,7 @@ conbo.Router = conbo.EventDispatcher.extend(
 			var args = this.__extractParameters(regExp, path);
 			
 			var params = conbo.isString(route) 
-				? conbo.object(route.match(/:\w+/g).map(function(r) { return r.substr(1); }), args) 
+				? conbo.object((route.match(/:\w+/g) || []).map(function(r) { return r.substr(1); }), args) 
 				: {}
 				;
 			
