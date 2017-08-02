@@ -754,7 +754,7 @@
 		{
 			funcs = conbo.filter(conbo.getFunctionNames(obj, true), function(func)
 			{
-				return !(conbo.isAccessor(obj, func) || conbo.isNative(obj[func]));
+				return !conbo.isNative(obj[func]);
 			});
 		}
 		
@@ -2266,12 +2266,17 @@
 	 * @param		{function}	func - The function that might be native
 	 * @returns		{boolean}	true if it's native, false if it's user defined
 	 */
-	conbo.isNative = function(func) 
+	conbo.isNative = function(value) 
 	{
-		try { return !('prototype' in func); }
-		catch (e) {}
+		var toString = Object.prototype.toString;
+		var fnToString = Function.prototype.toString;
+		var reHostCtor = /^\[object .+?Constructor\]$/;
+		var reNative = RegExp('^'+String(toString).replace(/[.*+?^${}()|[\]\/\\]/g, '\\$&').replace(/toString|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$');
+		var type = typeof value;
 		
-		return false;
+		return type == 'function'
+			? reNative.test(fnToString.call(value))
+			: (value && type == 'object' && reHostCtor.test(toString.call(value))) || false;
 	};
 	
 	/**
