@@ -88,6 +88,7 @@
 	 * Delegates to native `map` if available.
 	 * 
 	 * @memberof	conbo
+	 * @deprecated	Use Array.prototype.map
 	 * @param		{object}	obj - The list to iterate
 	 * @param		{function}	iterator - Iterator function with parameters: item, index, list
 	 * @param		{object}	scope - The scope the iterator function should run in (optional)
@@ -112,6 +113,7 @@
 	 * Returns the index of the first instance of the specified item in the list
 	 * 
 	 * @memberof	conbo
+	 * @deprecated	Use Array.prototype.indexOf
 	 * @param		{object}	obj - The list to search
 	 * @param		{object}	item - The value to find the index of
 	 * @returns		{number}
@@ -125,6 +127,7 @@
 	 * Returns the index of the last instance of the specified item in the list
 	 * 
 	 * @memberof	conbo
+	 * @deprecated	Use Array.prototype.lastIndexOf
 	 * @param		{object}	obj - The list to search
 	 * @param		{object}	item - The value to find the index of
 	 * @returns		{number}
@@ -179,6 +182,7 @@
 	 * Delegates to native `filter` if available.
 	 * 
 	 * @memberof	conbo
+	 * @deprecated	Use Array.prototype.filter
 	 * @param		{object}	obj - The list to iterate
 	 * @param		{function}	predicate - Function that tests each value, returning true or false
 	 * @param		{object}	scope - The scope the predicate function should run in (optional)
@@ -222,6 +226,7 @@
 	 * Delegates to native `every` if available.
 	 * 
 	 * @memberof	conbo
+	 * @deprecated	Use Array.prototype.every
 	 * @param		{object}	obj - The list to iterate
 	 * @param		{function}	predicate - Function that tests each value, returning true or false
 	 * @param		{object}	scope - The scope the predicate function should run in (optional)
@@ -249,6 +254,7 @@
 	 * Delegates to native `some` if available.
 	 * 
 	 * @memberof	conbo
+	 * @deprecated	Use Array.prototype.some
 	 * @param		{object}	obj - The list to iterate
 	 * @param		{function}	predicate - Function that tests each value, returning true or false
 	 * @param		{object}	scope - The scope the predicate function should run in (optional)
@@ -721,7 +727,7 @@
 	/**
 	 * Create a function bound to a given object (assigning `this`)
 	 * 
-	 * @deprecated	Use native Function.bind
+	 * @deprecated	Use Function.prototype.bind
 	 * @memberof	conbo
 	 * @param		{function}	func - Method to bind
 	 * @param		{object}	scope - The scope to bind the method to
@@ -729,7 +735,6 @@
 	 */
 	conbo.bind = function(func, scope) 
 	{
-//		__deprecated('conbo.bind is deprecated, use native function.bind(obj)');
 		return func.bind.apply(func, conbo.rest(arguments));
 	};
 	
@@ -796,8 +801,8 @@
 	var ready__domContentLoaded = !document || ['complete', 'loaded'].indexOf(document.readyState) != -1;
 	
 	/**
-	 * Calls the specified function as soon as the DOM is ready, or at the end 
-	 * of the current callstack if the DOM is already ready
+	 * Calls the specified function as soon as the DOM is ready, if it is not already,
+	 * otherwise call it at the end of the current callstack
 	 * 
 	 * @memberof	conbo
 	 * @param		{function}	func - The function to call
@@ -924,8 +929,8 @@
 	// ----------------
 
 	/**
-	 * Extends Object.keys to retrieve the names of an object's enumerable 
-	 * properties
+	 * Extends Object.keys to retrieve the names of an object's 
+	 * enumerable properties
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}	obj - Object to get keys from
@@ -947,8 +952,8 @@
 	};
 	
 	/**
-	 * Extends Object.keys to retrieve the names of an object's enumerable 
-	 * functions
+	 * Extends Object.keys to retrieve the names of an object's 
+	 * enumerable functions
 	 * 
 	 * @memberof	conbo
 	 * @see			#keys
@@ -981,8 +986,8 @@
 	};
 	
 	/**
-	 * Extends Object.keys to retrieve the names of an object's enumerable 
-	 * variables
+	 * Extends Object.keys to retrieve the names of an object's 
+	 * enumerable variables
 	 * 
 	 * @deprecated	Use conbo.keys
 	 * @memberof	conbo
@@ -1416,6 +1421,7 @@
 	 * Delegates to ECMA5's native Array.isArray
 	 * 
 	 * @function
+	 * @deprecated	Use Array.isArray
 	 * @memberof	conbo
 	 * @param		{object}	obj - Value that might be an Array
 	 * @returns		{boolean}
@@ -1589,7 +1595,7 @@
 	 * on itself (in other words, not on a prototype).
 	 * 
 	 * @memberof	conbo
-	 * @deprecated	Use Object.hasOwnProperty
+	 * @deprecated	Use Object.prototype.hasOwnProperty
 	 * @param		{object}	obj - Object
 	 * @param		{string}	key - Property name
 	 * @returns		{boolean}
@@ -1688,6 +1694,29 @@
 		var id = ++idCounter + '';
 		return prefix ? prefix + id : id;
 	};
+	
+	/**
+	 * Generated a version 4 RFC4122 UUID
+	 * 
+	 * @memberof	conbo
+	 * @returns		{string}
+	 */
+	conbo.guid = function() 
+	{
+		if (window.crypto)
+		{
+			return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, function(c) 
+			{
+			    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+			});
+		}
+		
+		return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) 
+		{
+			var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+			return v.toString(16);
+		});
+	}	
 	
 	/**
 	 * Is Conbo supported by the current browser?
@@ -2036,8 +2065,11 @@
 	/**
 	 * Performs a comparison of an object against a class or interface, returning 
 	 * true is the object is an an instance of the specified class or has the same 
-	 * properties as a specified interface (if strict is false) or is a strict
-	 * implementation of the interface (if strict is true). 
+	 * properties as a specified interface (default) or is a strict implementation 
+	 * of the interface (strict is true).
+	 * 
+	 * Unlike native instanceof, this method works with both native and user 
+	 * defined classes.
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}				obj - The class instance
@@ -2089,9 +2121,8 @@
 	
 	/**
 	 * Performs a comparison of an object against a class or interface, returning 
-	 * true is the object is an an instance of the specified class or a strict 
-	 * implementation of the specified pseudo-interface, where each property is 
-	 * an instance of the class specified in the interface.
+	 * true is the object is an an instance of the specified class or is a strict
+	 * implementation of the interface
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}				obj - The class instance
@@ -2117,7 +2148,7 @@
 	{
 		if (!('document' in window) || !!document.querySelector('[href="'+url+'"]'))
 		{
-			return this;
+			return undefined;
 		}
 		
 		var link, head, promise;
@@ -2237,7 +2268,7 @@
 	 * Is the specified property explicitely bindable?
 	 * 
 	 * @memberof	conbo
-	 * @see			#isBindabel
+	 * @see			#isAccessor
 	 * @deprecated	Use conbo.isAccessor
 	 * @returns		{boolean}
 	 */
@@ -2275,9 +2306,9 @@
 	 * Parse a template
 	 * 
 	 * @memberof	conbo
-	 * @param	{string}	template - A string containing property names in {{moustache}} or ${ES2015} format to be replaced with property values
-	 * @param	{object}	data - An object containing the data to be used to populate the template 
-	 * @returns	{string}	The populated template
+	 * @param		{string}	template - A string containing property names in {{moustache}} or ${ES2015} format to be replaced with property values
+	 * @param		{object}	data - An object containing the data to be used to populate the template 
+	 * @returns		{string}	The populated template
 	 */
 	conbo.parseTemplate = function(template, data)
 	{
