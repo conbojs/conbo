@@ -4,7 +4,7 @@ ConboJS is the best JavaScript MVC framework you've never heard of.
 
 It is a lightweight MVC application framework for JavaScript for use with modern browsers which enables developers a take a structured, decoupled, class based approach to application development, in a way that should be be familiar to anyone with experience of languages like ActionScript/Flex, C#/XAML or Java.
 
-Features include extendible classes, event bus, dependency injection, data binding, command pattern, pseudo-interfaces and an easy to use event model with scoped event handling, plus simple view state management and support for ES2015.
+Features include extendible classes, event bus, dependency injection, data binding, command pattern, pseudo-interfaces and an easy to use event model with scoped event handling, plus simple view state management and support for ES2015 syntax.
 
 ConboJS requires no special IDEs, compilers or transpilers, it just makes regular JavaScript nicer.
 
@@ -71,7 +71,7 @@ var MyClass = conbo.Class.extend
 });
 ```
 
-**ES2015**
+**ES2015 / TypeScript**
 
 ```javascript
 class MyClass extends conbo.Class
@@ -96,19 +96,19 @@ var myInstance = new MyClass();
 conbo.instanceOf(myInstance, MyInterface); // true
 ```
 
-Functions specified as `conbo.notImplemented` will throw an error if they are not implemented in the class instance.
+Functions specified as `conbo.notImplemented` will throw an error if they called but not implemented in the class instance.
 
 Unlike interfaces in languages such as Java or ActionScript, however, interfaces in ConboJS can contain default functionality, which will be used if the class has not implemented the interface in full, for example:
 
 ```javascript
-var MyInterface = { logSomething: function() { conbo.log('Something!'); } };
-var MyClass = conbo.Class.extend().implement(MyInterface);
-var myInstance = new MyClass();
+var ILogger = { logSomething: function() { conbo.log('Something!'); } };
+var Logger = conbo.Class.extend().implement(ILogger);
+var logger = new Logger();
 
-myInstance.logSomething(); // Outputs: "Something!"
+logger.logSomething(); // Outputs: "Something!"
 ```
 
-You can also create a strict interface, specifying the class of each property, and then perform a strict comparison against an object or instance:
+You can also create a strict interface, specifying the class of each property, and then perform a strict comparison against an object or class instance:
 
 ```javascript
 var IPerson = { name: String, age: Number };
@@ -128,15 +128,18 @@ To this end, the framework's ever expanding data binding features enable you to 
 **In your View class**
 
 ```javascript
-example.MyView = conbo.View.extend
-({
-	myButtonLabel: 'Click me!',
+class MyView extends conbo.View
+{
+	declarations()
+	{
+		this.myButtonLabel = 'Click me!';
+	}
 	
-	myClickHandler: function(event)
+	myClickHandler(event)
 	{
 		alert('You clicked a button!');
 	}
-});
+}
 ```
 
 **In your HTML**
