@@ -1909,7 +1909,8 @@
 	/**
 	 * Copies all of the enumerable values from one or more objects and sets
 	 * them to another, without affecting the target object's property
-	 * descriptors.
+	 * descriptors. Unlike Object.assign(), the properties copied are not
+	 * limited to own properties.
 	 * 
 	 * Unlike conbo.defineValues, setValues only sets the values on the target 
 	 * object and does not destroy and redifine them.
@@ -2033,16 +2034,14 @@
 	};
 	
 	/**
-	 * Is the object an instance of the specified class(es) or an implementation 
-	 * of the specified pseudo-interface?
-	 * 
-	 * This method will always return false if the specified object is a Conbo
-	 * class, because by it's nature a class is not an instance of anything.
+	 * Performs a shallow comparison of an object to see if it is an instance of 
+	 * the specified class or has the same properties as a specified pseudo-interface
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}				obj - The class instance
 	 * @param		{conbo.Class|object}	classOrInterface - The class or pseudo-interface to compare against
-	 * @example								var b = conbo.instanceOf(user, MyUserClass);
+	 * @example								var b = conbo.instanceOf(user, UserClass);
+	 * @example								var b = conbo.instanceOf(user, IUser);
 	 * @returns		{boolean}
 	 */
 	conbo.instanceOf = function(obj, classOrInterface)
@@ -2065,18 +2064,13 @@
 		}
 		catch (e) {}
 		
-		// Pseudo-interfaces
-		
-		if (conbo.implementationOf(obj, classOrInterface))
-		{
-			return true;
-		}
+		// Pseudo-interface
 		
 		if (conbo.isObject(classOrInterface))
 		{
 			for (var a in classOrInterface)
 			{
-				if (!(a in obj) || conbo.isFunction(obj[a]) != conbo.isFunction(classOrInterface[a]))
+				if (!(a in obj))
 				{
 					return false;
 				}
@@ -2091,23 +2085,53 @@
 	};
 	
 	/**
-	 * Compares the specified object to a strict interface that requires each
-	 * property to be of a specified class
+	 * Performs a strict comparison of an object, returning true is the object
+	 * is an an instance of the specified class or a strict implementation of 
+	 * a pseudo-interface, where each property is an instance of the class 
+	 * specified in the interface.
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}				obj - The class instance
-	 * @param		{object}				strictInterface - The strict pseudo-interface to compare against
-	 * @example								conbo.implementationOf({name:"Foo", age:42}, {name:String, age:Number});
+	 * @param		{conbo.Class|object}	classOrInterface - The class or pseudo-interface to compare against
+	 * @example								var b = conbo.instanceOf(user, UserClass);
+	 * @example								var b = conbo.instanceOf(user, IUser);
 	 * @returns		{boolean}
 	 */
-	conbo.implementationOf = function(obj, strictInterface)
+	conbo.is = function(obj, classOrInterface)
 	{
-		for (var a in strictInterface)
+		if (!obj || conbo.isClass(obj) || !classOrInterface) 
 		{
-			if (!(a in obj) || !conbo.instanceOf(obj[a], strictInterface[a]))
+			return false;
+		}
+		
+		// Class instances
+		
+		try
+		{
+			if (obj instanceof classOrInterface // User defined class 
+				|| (constructor in obj && obj.constructor === classOrInterface) // Primitive class
+				)
 			{
-				return false;
+				return true; 
 			}
+		}
+		catch (e) {}
+		
+		// Pseudo-interface
+		
+		if (conbo.isObject(classOrInterface))
+		{
+			for (var a in classOrInterface)
+			{
+				if (!(a in obj) || !conbo.instanceOf(obj[a], strictInterface[a]))
+				{
+					return false;
+				}
+			}
+		}
+		else
+		{
+			return false;
 		}
 		
 		return true;

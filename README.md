@@ -89,26 +89,32 @@ Interfaces
 In ConboJS, an interface is a code snippet, in the form of a JavaScript Object, that you can apply to a class and test against, for example:
 
 ```javascript
-
-var MyInterface = { getStuff: conbo.notImplemented };
+var MyInterface = { getStuff: Function };
 var MyClass = conbo.Class.extend({getStuff:function(){ return 'Stuff!'; }}).implement(MyInterface);
 var myInstance = new MyClass();
 
 conbo.instanceOf(myInstance, MyInterface); // true
 ```
 
-Any interface method specified as `conbo.notImplemented` *must* be implemented and an error will be thrown if they are not.
-
 Unlike interfaces in languages such as Java or ActionScript, however, interfaces in ConboJS can contain default functionality, which will be used if the class has not implemented the interface in full, for example:
 
 ```javascript
-
 var MyInterface = { logSomething: function() { conbo.log('Something!'); } };
 var MyClass = conbo.Class.extend().implement(MyInterface);
 var myInstance = new MyClass();
 
 myInstance.logSomething(); // Outputs: "Something!"
 ```
+
+You can also create a strict interface, specifying the class of each property, and then perform a strict comparison against an object or instance:
+
+```javascript
+var IPerson = { name: String, age: Number };
+var person = { name: "Foo", age 69 };
+
+conbo.is(person, IPerson); // true
+```
+
 
 Decoupling & data binding
 -------------------------
