@@ -1696,7 +1696,7 @@
 	};
 	
 	/**
-	 * Generated a version 4 RFC4122 UUID
+	 * Generates a version 4 RFC4122 UUID
 	 * 
 	 * @memberof	conbo
 	 * @returns		{string}
@@ -1707,14 +1707,14 @@
 		{
 			return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, function(c) 
 			{
-			    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+			    return (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
 			});
 		}
 		
 		return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) 
 		{
-			var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-			return v.toString(16);
+			var r = Math.random() * 16 | 0;
+			return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
 		});
 	}	
 	
@@ -2091,21 +2091,20 @@
 		try
 		{
 			if (obj instanceof classOrInterface // User defined class 
-				|| (constructor in obj && obj.constructor === classOrInterface) // Primitive class
-				)
+				|| obj.constructor === classOrInterface) // Primitive class
 			{
 				return true; 
 			}
 		}
-		catch (e) {}
+		catch(e) {}
 		
 		// Pseudo-interface
 		
-		if (conbo.isObject(classOrInterface))
+		if (conbo.isObject(classOrInterface) && conbo.keys(classOrInterface).length)
 		{
 			for (var a in classOrInterface)
 			{
-				if (!(a in obj) || (strict && !conbo.instanceOf(obj[a], classOrInterface[a])))
+				if (!(a in obj) || (strict && !conbo.isUndefined(classOrInterface[a]) && !conbo.instanceOf(obj[a], classOrInterface[a])))
 				{
 					return false;
 				}

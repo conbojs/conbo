@@ -86,36 +86,30 @@ class MyClass extends conbo.Class
 Interfaces
 ----------
 
-In ConboJS, an interface is a code snippet, in the form of a JavaScript Object, that you can apply to a class and test against, for example:
+In ConboJS, an interface is a code snippet, in the form of a JavaScript Object, that you can implement and and test against. They come in 2 forms, strict and partial.
+
+A strict interface is intened for use in a similar way to languages such as Java or ActionScript, enabling you to specify the class of each property (or use `undefined` for any) and then perform a strict comparison against an object or class instance:
 
 ```javascript
-var MyInterface = { getStuff: conbo.notImplemented };
-var MyClass = conbo.Class.extend({getStuff:function(){ return 'Stuff!'; }}).implement(MyInterface);
-var myInstance = new MyClass();
+var IPerson = { name: String, age: Number };
+var person = { name: "Foo", age: 69 };
 
-conbo.instanceOf(myInstance, MyInterface); // true
+conbo.is(person, IPerson); // true
 ```
 
-Functions specified as `conbo.notImplemented` will throw an error if they called but not implemented in the class instance.
-
-Unlike interfaces in languages such as Java or ActionScript, however, interfaces in ConboJS can contain default functionality, which will be used if the class has not implemented the interface in full, for example:
+Alternatively, to enable developers to add and test for functionality that is not included in the prototype chain, interfaces in ConboJS can contain default functionality, which will be used if the class has not implemented the interface in full, for example:
 
 ```javascript
 var ILogger = { logSomething: function() { conbo.log('Something!'); } };
 var Logger = conbo.Class.extend().implement(ILogger);
 var logger = new Logger();
 
+conbo.instanceOf(logger, ILogger); // true
+
 logger.logSomething(); // Outputs: "Something!"
 ```
 
-You can also create a strict interface, specifying the class of each property, and then perform a strict comparison against an object or class instance:
-
-```javascript
-var IPerson = { name: String, age: Number };
-var person = { name: "Foo", age 69 };
-
-conbo.is(person, IPerson); // true
-```
+In this example, a shallow comparison is used, verifying that the expected properties are present, but ignoring their values. Pre-populating a method with `conbo.notImplemented` will ensure that it throws an error when called but not implemented in a class instance.
 
 
 Decoupling & data binding
