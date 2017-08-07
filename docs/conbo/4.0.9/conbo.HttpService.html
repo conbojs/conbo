@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Glimpse</title>
+    <title>JSDoc: Class: HttpService</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Glimpse</h1>
+    <h1 class="page-title">Class: HttpService</h1>
 
     
 
@@ -29,7 +29,7 @@
 <header>
     
         <h2>
-            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>Glimpse</h2>
+            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>HttpService</h2>
         
     
 </header>
@@ -41,14 +41,14 @@
 
     
 
-    <h4 class="name" id="Glimpse"><span class="type-signature"></span>new Glimpse<span class="signature">(options)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="HttpService"><span class="type-signature"></span>new HttpService<span class="signature">(options)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    GlimpseA lightweight element wrapper that has no dependencies, no context and no data binding, but is able to apply a super-simple template.It's invisible to View, so it's great for creating components, and you can bind data to it using the `cb-data` attribute to set the data property of your Glimpse
+    HTTP ServiceBase class for HTTP data services, with default configuration designed for use with JSON REST APIs.For XML data sources, you will need to override decodeFunction to parse response data, change the contentType and implement encodeFunction if you're using RPC.
 </div>
 
 
@@ -100,7 +100,7 @@
 
             
 
-            <td class="description last">Object containing initialisation options</td>
+            <td class="description last">Object containing optional initialisation options, including 'rootUrl', 'contentType', 'dataType', 'headers', 'encodeFunction', 'decodeFunction', 'resultClass','makeObjectsBindable'</td>
         </tr>
 
     
@@ -148,7 +148,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6942">line 6942</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line8093">line 8093</a>
     </li></ul></dd>
     
 
@@ -162,6 +162,13 @@
 
 
 
+
+<h5>Fires:</h5>
+<ul>
+    <li><a href="conbo.ConboEvent.html#event:RESULT">conbo.ConboEvent#event:RESULT</a></li>
+
+    <li><a href="conbo.ConboEvent.html#event:FAULT">conbo.ConboEvent#event:FAULT</a></li>
+</ul>
 
 
 
@@ -203,13 +210,13 @@
 
         
             
-<h4 class="name" id="el"><span class="type-signature"></span>el<span class="type-signature"></span></h4>
+<h4 class="name" id="rootUrl"><span class="type-signature"></span>rootUrl<span class="type-signature"></span></h4>
 
 
 
 
 <div class="description">
-    The class's element
+    The root URL of the web service
 </div>
 
 
@@ -247,7 +254,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6996">line 6996</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line8139">line 8139</a>
     </li></ul></dd>
     
 
@@ -314,7 +321,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3044">line 3044</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3067">line 3067</a>
     </li></ul></dd>
     
 
@@ -331,16 +338,127 @@
 
 
         
-            
-<h4 class="name" id="tagName"><span class="type-signature"></span>tagName<span class="type-signature"></span></h4>
+    
 
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="addCommand"><span class="type-signature"></span>addCommand<span class="signature">(command, method, resultClass)</span><span class="type-signature"></span></h4>
+
+    
 
 
 
 <div class="description">
-    The default `tagName` is `div`
+    Add one or more remote commands as methods of this class instance
 </div>
 
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>command</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The name of the command</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>method</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">GET, POST, etc (default: GET)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>resultClass</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Class</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Optional</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -376,7 +494,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6983">line 6983</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line8195">line 8195</a>
     </li></ul></dd>
     
 
@@ -392,11 +510,146 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
         
+            
+
+    
+
+    <h4 class="name" id="addCommands"><span class="type-signature"></span>addCommands<span class="signature">(commands)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Add multiple commands as methods of this class instance
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>commands</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
     
 
     
-        <h3 class="subsection-title">Methods</h3>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line8216">line 8216</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         
             
@@ -600,7 +853,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3687">line 3687</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3710">line 3710</a>
     </li></ul></dd>
     
 
@@ -760,7 +1013,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3056">line 3056</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3079">line 3079</a>
     </li></ul></dd>
     
 
@@ -857,7 +1110,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3065">line 3065</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3088">line 3088</a>
     </li></ul></dd>
     
 
@@ -888,6 +1141,224 @@
 </div>
 
 
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="call"><span class="type-signature"></span>call<span class="signature">(command, data, method, resultClass)</span><span class="type-signature"> &rarr; {<a href="conbo.Promise.html">conbo.Promise</a>}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Call a method of the web service
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>command</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The name of the command</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object containing the data to send to the web service</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>method</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">GET, POST, etc (default: GET)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>resultClass</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Class</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Optional</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line8165">line 8165</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="conbo.Promise.html">conbo.Promise</a></span>
+
+
+    </dd>
+</dl>
 
     
 
@@ -954,7 +1425,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3027">line 3027</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3050">line 3050</a>
     </li></ul></dd>
     
 
@@ -1090,7 +1561,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3803">line 3803</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3826">line 3826</a>
     </li></ul></dd>
     
 
@@ -1248,7 +1719,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3763">line 3763</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3786">line 3786</a>
     </li></ul></dd>
     
 
@@ -1293,6 +1764,160 @@
 </dl>
 
     
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="encodeFunction"><span class="type-signature"></span>encodeFunction<span class="signature">(data, method)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Method that encodes data to be sent to the API
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object containing the data to be sent to the API</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>method</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">GET, POST, etc (default: GET)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line8238">line 8238</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1452,7 +2077,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3734">line 3734</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3757">line 3757</a>
     </li></ul></dd>
     
 
@@ -1561,7 +2186,89 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3037">line 3037</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3060">line 3060</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="parseUrl"><span class="type-signature"></span>parseUrl<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Splice data into URL and remove spliced properties from data object
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line8246">line 8246</a>
     </li></ul></dd>
     
 
@@ -1648,7 +2355,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3032">line 3032</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3055">line 3055</a>
     </li></ul></dd>
     
 
@@ -1830,7 +2537,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3706">line 3706</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3729">line 3729</a>
     </li></ul></dd>
     
 
@@ -1900,7 +2607,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Aug 02 2017 11:59:48 GMT+0100 (GMT Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Mon Aug 07 2017 10:58:57 GMT+0100 (GMT Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>
