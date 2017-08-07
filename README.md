@@ -4,7 +4,7 @@ ConboJS is the best JavaScript MVC framework you've never heard of.
 
 It is a lightweight MVC application framework for JavaScript for use with modern browsers which enables developers a take a structured, decoupled, class based approach to application development, in a way that should be be familiar to anyone with experience of languages like ActionScript/Flex, C#/XAML or Java.
 
-Features include extendible classes, event bus, dependency injection, data binding, command pattern, pseudo-interfaces and an easy to use event model with scoped event handling, plus simple view state management and support for ES2015.
+Features include extendible classes, event bus, dependency injection, data binding, command pattern, pseudo-interfaces and an easy to use event model with scoped event handling, plus simple view state management and support for ES2015 syntax.
 
 ConboJS requires no special IDEs, compilers or transpilers, it just makes regular JavaScript nicer.
 
@@ -71,7 +71,7 @@ var MyClass = conbo.Class.extend
 });
 ```
 
-**ES2015**
+**ES2015 / TypeScript**
 
 ```javascript
 class MyClass extends conbo.Class
@@ -86,29 +86,31 @@ class MyClass extends conbo.Class
 Interfaces
 ----------
 
-In ConboJS, an interface is a code snippet, in the form of a JavaScript Object, that you can apply to a class and test against, for example:
+In ConboJS, an interface is a code snippet, in the form of a JavaScript Object, that you can implement and and test against. They come in 2 forms, strict and partial.
+
+A strict interface is intened for use in a similar way to languages such as Java or ActionScript, enabling you to specify the class of each property (or use `undefined` for any) and then perform a strict comparison against an object or class instance:
 
 ```javascript
+var IPerson = { name: String, age: Number };
+var person = { name: "Foo", age: 69 };
 
-var MyInterface = { getStuff: conbo.notImplemented };
-var MyClass = conbo.Class.extend({getStuff:function(){ return 'Stuff!'; }}).implement(MyInterface);
-var myInstance = new MyClass();
-
-conbo.instanceOf(myInstance, MyInterface); // true
+conbo.is(person, IPerson); // true
 ```
 
-Any interface method specified as `conbo.notImplemented` *must* be implemented and an error will be thrown if they are not.
-
-Unlike interfaces in languages such as Java or ActionScript, however, interfaces in ConboJS can contain default functionality, which will be used if the class has not implemented the interface in full, for example:
+Alternatively, to enable developers to add and test for functionality that is not included in the prototype chain, interfaces in ConboJS can contain default functionality, which will be used if the class has not implemented the interface in full, for example:
 
 ```javascript
+var ILogger = { logSomething: function() { conbo.log('Something!'); } };
+var Logger = conbo.Class.extend().implement(ILogger);
+var logger = new Logger();
 
-var MyInterface = { logSomething: function() { conbo.log('Something!'); } };
-var MyClass = conbo.Class.extend().implement(MyInterface);
-var myInstance = new MyClass();
+conbo.instanceOf(logger, ILogger); // true
 
-myInstance.logSomething(); // Outputs: "Something!"
+logger.logSomething(); // Outputs: "Something!"
 ```
+
+In this example, a shallow comparison is used, verifying that the expected properties are present, but ignoring their values. Pre-populating a method with `conbo.notImplemented` will ensure that it throws an error when called but not implemented in a class instance.
+
 
 Decoupling & data binding
 -------------------------
@@ -120,15 +122,18 @@ To this end, the framework's ever expanding data binding features enable you to 
 **In your View class**
 
 ```javascript
-example.MyView = conbo.View.extend
-({
-	myButtonLabel: 'Click me!',
+class MyView extends conbo.View
+{
+	declarations()
+	{
+		this.myButtonLabel = 'Click me!';
+	}
 	
-	myClickHandler: function(event)
+	myClickHandler(event)
 	{
 		alert('You clicked a button!');
 	}
-});
+}
 ```
 
 **In your HTML**

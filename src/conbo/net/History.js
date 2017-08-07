@@ -18,12 +18,18 @@ conbo.History = conbo.EventDispatcher.extend(
 		this.bindAll('__checkUrl');
 	},
 	
-	start: function()
+	start: function(options)
 	{
+		options || (options = {});
+		
 		window.addEventListener('hashchange', this.__checkUrl);
 		
 		this.fragment = this.__getFragment();
-		this.__loadUrl();
+		
+		if (options.trigger !== false)
+		{
+			this.__loadUrl();
+		}
 		
 		return this;
 	},
