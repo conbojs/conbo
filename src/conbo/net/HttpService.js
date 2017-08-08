@@ -38,6 +38,17 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 			dataType: 'json'
 		}));
 		
+		var verbs = ['POST', 'GET', 'PUT', 'PATCH', 'DELETE'];
+		
+		verbs.forEach(function(verb)
+		{
+			this[verb.toLowerCase()] = function(command, data, method, resultClass)
+			{
+				return this.call(command, data, verb, resultClass);
+			};
+		}, 
+		this);
+		
 		conbo.EventDispatcher.prototype.__construct.apply(this, arguments);
 	},
 	
@@ -62,7 +73,7 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	},
 	
 	/**
-	 * Call a method of the web service
+	 * Call a method of the web service using the specified verb
 	 * 
 	 * @param	{String}	command - The name of the command
 	 * @param	{Object}	data - Object containing the data to send to the web service
@@ -93,6 +104,46 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 		
 		return promise;
 	},
+	
+	/**
+	 * @member	{function}	post - Call a method of the web service using the POST verb
+	 * @param	{String}	command - The name of the command
+	 * @param	{Object}	data - Object containing the data to send to the web service
+	 * @param	{Class}		resultClass - Optional
+	 * @returns	{conbo.Promise}
+	 */
+	
+	/**
+	 * @member	{function}	get - Call a method of the web service using the GET verb
+	 * @param	{String}	command - The name of the command
+	 * @param	{Object}	data - Object containing the data to send to the web service
+	 * @param	{Class}		resultClass - Optional
+	 * @returns	{conbo.Promise}
+	 */
+	
+	/**
+	 * @member	{function}	put - Call a method of the web service using the PUT verb
+	 * @param	{String}	command - The name of the command
+	 * @param	{Object}	data - Object containing the data to send to the web service
+	 * @param	{Class}		resultClass - Optional
+	 * @returns	{conbo.Promise}
+	 */
+	
+	/**
+	 * @member	{function}	patch - Call a method of the web service using the PATCH verb
+	 * @param	{String}	command - The name of the command
+	 * @param	{Object}	data - Object containing the data to send to the web service
+	 * @param	{Class}		resultClass - Optional
+	 * @returns	{conbo.Promise}
+	 */
+	
+	/**
+	 * @member	{function}	delete - Call a method of the web service using the DELETE verb
+	 * @param	{String}	command - The name of the command
+	 * @param	{Object}	data - Object containing the data to send to the web service
+	 * @param	{Class}		resultClass - Optional
+	 * @returns	{conbo.Promise}
+	 */
 	
 	/**
 	 * Add one or more remote commands as methods of this class instance
