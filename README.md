@@ -15,8 +15,8 @@ Browser support
 
 ConboJS targets the two most recent major releases of Firefox, Chrome (desktop and Android), Safari (desktop and iOS) and Edge / Internet Explorer.
 
-Modular namespace declaration
------------------------------
+Modular namespace declarations
+------------------------------
 
 ConboJS brings the familiar concepts of packages and imports to JavaScript in the form of modular namespaces, optimised to work as an alternative to the commonly used minification pattern, for example:
 
@@ -52,6 +52,15 @@ conbo('com.example.app', window, document, navigator, function(window, document,
 
 	utils.doSomething(app.BEST_FRAMEWORK+' makes me '+app.SMILE);
 });
+```
+
+**ES2015 / TypeScript**
+
+If you're already using the ES2015 `import` syntax, or would like to import code from AMD or CommonJS modules, it's easy to add classes from your code library to your application namespace, to take advantage of ConboJS features like auto instantiation and data binding:
+
+```javascript
+import { MyView, FooView, BarView } from "my-module";
+conbo('com.example.app').add({ MyView, FooView, BarView });
 ```
 
 Extendible classes
@@ -182,7 +191,7 @@ Builds
 
 **conbo-lite.js** (8KB minified+gzipped): A super-lightweight subset featuring extendible classes and consistent event model. The aim of this subset is to offer the benefits of Conbo's class structure and event model to users who want to create otherwise framework independent modules and code libraries.
 
-Builds are created using Grunt, which requires Node.js; all required modules can be installed by running "npm install" from the command line in the project folder.
+Builds are created using Grunt, which requires Node.js; all required modules can be installed by running `npm install` from the command line in the project folder.
 
 The builds listed above can be created using the command `grunt`. Use `grunt watch`, or run `watch.cmd` (Windows) or `./watch.sh` (Mac, Linux) to auto-build as you edit.
 
