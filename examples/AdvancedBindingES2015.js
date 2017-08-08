@@ -121,12 +121,6 @@ conbo('ns', function()
 	 * but you can declare classes in the format `ns.MyClass = class extends SuperClass { ... }`
 	 * if you prefer
 	 */
-	return {
-		MyModel: MyModel,
-		MyContext: MyContext,
-		InputView: InputView,
-		OutputView: OutputView,
-		MyApp: MyApp
-	}
+	return { MyModel, MyContext, InputView, OutputView, MyApp };
 	
 });
