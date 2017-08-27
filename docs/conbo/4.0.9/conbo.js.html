@@ -114,7 +114,7 @@ var conbo = function(namespace)
 		
 		if (conbo.isObject(obj) &amp;&amp; !conbo.isArray(obj))
 		{
-			ns.add(obj);
+			ns.import(obj);
 		}
 	}
 	
@@ -2444,17 +2444,16 @@ var __ep = function(el)
 		try
 		{
 			if (obj instanceof classOrInterface // User defined class 
-				|| (constructor in obj &amp;&amp; obj.constructor === classOrInterface) // Primitive class
-				)
+				|| obj.constructor === classOrInterface) // Primitive class
 			{
 				return true; 
 			}
 		}
-		catch (e) {}
+		catch(e) {}
 		
 		// Pseudo-interface
 		
-		if (conbo.isObject(classOrInterface))
+		if (conbo.isObject(classOrInterface) &amp;&amp; conbo.keys(classOrInterface).length)
 		{
 			for (var a in classOrInterface)
 			{
@@ -3332,7 +3331,7 @@ conbo.Namespace = conbo.ConboClass.extend(
 	 * @param 	{object}			obj - An object containing items to add to the namespace 
 	 * @returns	{conbo.Namespace}	This Namespace instance
 	 */
-	add: function(obj)
+	import: function(obj)
 	{
 		conbo.setDefaults.apply(conbo, [this].concat(conbo.toArray(arguments)));
 		return this;
@@ -8158,6 +8157,17 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 			dataType: 'json'
 		}));
 		
+		var verbs = ['POST', 'GET', 'PUT', 'PATCH', 'DELETE'];
+		
+		verbs.forEach(function(verb)
+		{
+			this[verb.toLowerCase()] = function(command, data, method, resultClass)
+			{
+				return this.call(command, data, verb, resultClass);
+			};
+		}, 
+		this);
+		
 		conbo.EventDispatcher.prototype.__construct.apply(this, arguments);
 	},
 	
@@ -8182,7 +8192,7 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	},
 	
 	/**
-	 * Call a method of the web service
+	 * Call a method of the web service using the specified verb
 	 * 
 	 * @param	{String}	command - The name of the command
 	 * @param	{Object}	data - Object containing the data to send to the web service
@@ -8213,6 +8223,46 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 		
 		return promise;
 	},
+	
+	/**
+	 * @member	{function}	post - Call a method of the web service using the POST verb
+	 * @param	{String}	command - The name of the command
+	 * @param	{Object}	data - Object containing the data to send to the web service
+	 * @param	{Class}		resultClass - Optional
+	 * @returns	{conbo.Promise}
+	 */
+	
+	/**
+	 * @member	{function}	get - Call a method of the web service using the GET verb
+	 * @param	{String}	command - The name of the command
+	 * @param	{Object}	data - Object containing the data to send to the web service
+	 * @param	{Class}		resultClass - Optional
+	 * @returns	{conbo.Promise}
+	 */
+	
+	/**
+	 * @member	{function}	put - Call a method of the web service using the PUT verb
+	 * @param	{String}	command - The name of the command
+	 * @param	{Object}	data - Object containing the data to send to the web service
+	 * @param	{Class}		resultClass - Optional
+	 * @returns	{conbo.Promise}
+	 */
+	
+	/**
+	 * @member	{function}	patch - Call a method of the web service using the PATCH verb
+	 * @param	{String}	command - The name of the command
+	 * @param	{Object}	data - Object containing the data to send to the web service
+	 * @param	{Class}		resultClass - Optional
+	 * @returns	{conbo.Promise}
+	 */
+	
+	/**
+	 * @member	{function}	delete - Call a method of the web service using the DELETE verb
+	 * @param	{String}	command - The name of the command
+	 * @param	{Object}	data - Object containing the data to send to the web service
+	 * @param	{Class}		resultClass - Optional
+	 * @returns	{conbo.Promise}
+	 */
 	
 	/**
 	 * Add one or more remote commands as methods of this class instance
@@ -8883,13 +8933,13 @@ __denumerate(conbo.Router.prototype);
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="conbo.Application.html">Application</a></li><li><a href="conbo.AttributeBindings.html">AttributeBindings</a></li><li><a href="conbo.BindingUtils.html">BindingUtils</a></li><li><a href="conbo.Class.html">Class</a></li><li><a href="conbo.Command.html">Command</a></li><li><a href="conbo.ConboClass.html">ConboClass</a></li><li><a href="conbo.ConboEvent.html">ConboEvent</a></li><li><a href="conbo.Context.html">Context</a></li><li><a href="conbo.ElementProxy.html">ElementProxy</a></li><li><a href="conbo.Event.html">Event</a></li><li><a href="conbo.EventDispatcher.html">EventDispatcher</a></li><li><a href="conbo.EventProxy.html">EventProxy</a></li><li><a href="conbo.Glimpse.html">Glimpse</a></li><li><a href="conbo.Hash.html">Hash</a></li><li><a href="conbo.HttpService.html">HttpService</a></li><li><a href="conbo.ItemRenderer.html">ItemRenderer</a></li><li><a href="conbo.List.html">List</a></li><li><a href="conbo.LocalHash.html">LocalHash</a></li><li><a href="conbo.LocalList.html">LocalList</a></li><li><a href="conbo.MutationObserver.html">MutationObserver</a></li><li><a href="conbo.Namespace.html">Namespace</a></li><li><a href="conbo.Promise.html">Promise</a></li><li><a href="conbo.RemoteHash.html">RemoteHash</a></li><li><a href="conbo.RemoteList.html">RemoteList</a></li><li><a href="conbo.Router.html">Router</a></li><li><a href="conbo.ServerApplication.html">ServerApplication</a></li><li><a href="conbo.View.html">View</a></li></ul><h3>Events</h3><ul><li><a href="conbo.ConboEvent.html#event:ADD">ADD</a></li><li><a href="conbo.ConboEvent.html#event:ALL">ALL</a></li><li><a href="conbo.ConboEvent.html#event:BIND">BIND</a></li><li><a href="conbo.ConboEvent.html#event:CHANGE">CHANGE</a></li><li><a href="conbo.ConboEvent.html#event:CREATION_COMPLETE">CREATION_COMPLETE</a></li><li><a href="conbo.ConboEvent.html#event:DETACH">DETACH</a></li><li><a href="conbo.ConboEvent.html#event:FAULT">FAULT</a></li><li><a href="conbo.ConboEvent.html#event:REMOVE">REMOVE</a></li><li><a href="conbo.ConboEvent.html#event:RESULT">RESULT</a></li><li><a href="conbo.ConboEvent.html#event:ROUTE">ROUTE</a></li><li><a href="conbo.ConboEvent.html#event:START">START</a></li><li><a href="conbo.ConboEvent.html#event:STOP">STOP</a></li><li><a href="conbo.ConboEvent.html#event:TEMPLATE_COMPLETE">TEMPLATE_COMPLETE</a></li><li><a href="conbo.ConboEvent.html#event:TEMPLATE_ERROR">TEMPLATE_ERROR</a></li><li><a href="conbo.ConboEvent.html#event:UNBIND">UNBIND</a></li></ul><h3>Namespaces</h3><ul><li><a href="conbo.html">conbo</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="conbo.Application.html">Application</a></li><li><a href="conbo.AttributeBindings.html">AttributeBindings</a></li><li><a href="conbo.BindingUtils.html">BindingUtils</a></li><li><a href="conbo.Class.html">Class</a></li><li><a href="conbo.Command.html">Command</a></li><li><a href="conbo.ConboClass.html">ConboClass</a></li><li><a href="conbo.ConboEvent.html">ConboEvent</a></li><li><a href="conbo.Context.html">Context</a></li><li><a href="conbo.ElementProxy.html">ElementProxy</a></li><li><a href="conbo.Event.html">Event</a></li><li><a href="conbo.EventDispatcher.html">EventDispatcher</a></li><li><a href="conbo.EventProxy.html">EventProxy</a></li><li><a href="conbo.Glimpse.html">Glimpse</a></li><li><a href="conbo.Hash.html">Hash</a></li><li><a href="conbo.HttpService.html">HttpService</a></li><li><a href="conbo.ItemRenderer.html">ItemRenderer</a></li><li><a href="conbo.List.html">List</a></li><li><a href="conbo.LocalHash.html">LocalHash</a></li><li><a href="conbo.LocalList.html">LocalList</a></li><li><a href="conbo.MutationObserver.html">MutationObserver</a></li><li><a href="conbo.Namespace.html">Namespace</a></li><li><a href="conbo.Promise.html">Promise</a></li><li><a href="conbo.RemoteHash.html">RemoteHash</a></li><li><a href="conbo.RemoteList.html">RemoteList</a></li><li><a href="conbo.Router.html">Router</a></li><li><a href="conbo.ServerApplication.html">ServerApplication</a></li><li><a href="conbo.View.html">View</a></li></ul><h3>Events</h3><ul><li><a href="conbo.ConboEvent.html#event:ADD">ADD</a></li><li><a href="conbo.ConboEvent.html#event:ALL">ALL</a></li><li><a href="conbo.ConboEvent.html#event:BIND">BIND</a></li><li><a href="conbo.ConboEvent.html#event:CHANGE">CHANGE</a></li><li><a href="conbo.ConboEvent.html#event:CREATION_COMPLETE">CREATION_COMPLETE</a></li><li><a href="conbo.ConboEvent.html#event:DETACH">DETACH</a></li><li><a href="conbo.ConboEvent.html#event:FAULT">FAULT</a></li><li><a href="conbo.ConboEvent.html#event:REMOVE">REMOVE</a></li><li><a href="conbo.ConboEvent.html#event:RESULT">RESULT</a></li><li><a href="conbo.ConboEvent.html#event:ROUTE">ROUTE</a></li><li><a href="conbo.ConboEvent.html#event:START">START</a></li><li><a href="conbo.ConboEvent.html#event:STOP">STOP</a></li><li><a href="conbo.ConboEvent.html#event:TEMPLATE_COMPLETE">TEMPLATE_COMPLETE</a></li><li><a href="conbo.ConboEvent.html#event:TEMPLATE_ERROR">TEMPLATE_ERROR</a></li><li><a href="conbo.ConboEvent.html#event:UNBIND">UNBIND</a></li></ul><h3>Namespaces</h3><ul><li><a href="conbo.html">conbo</a></li></ul><h3>Global</h3><ul><li><a href="global.html#delete">delete</a></li><li><a href="global.html#get">get</a></li><li><a href="global.html#patch">patch</a></li><li><a href="global.html#post">post</a></li><li><a href="global.html#put">put</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Mon Aug 07 2017 10:58:57 GMT+0100 (GMT Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sun Aug 27 2017 19:42:39 GMT+0100 (GMT Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

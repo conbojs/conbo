@@ -71,7 +71,7 @@ conbo.Namespace = conbo.ConboClass.extend(
 	 * @param 	{object}			obj - An object containing items to add to the namespace 
 	 * @returns	{conbo.Namespace}	This Namespace instance
 	 */
-	add: function(obj)
+	import: function(obj)
 	{
 		conbo.setDefaults.apply(conbo, [this].concat(conbo.toArray(arguments)));
 		return this;
