@@ -56,31 +56,31 @@ conbo('com.example.app', window, document, navigator, function(window, document,
 
 **Working with ES2015, TypeScript, AMD and CommonJS modules**
 
-If you're already using the ES2015 `import` syntax, AMD or CommonJS modules, it's easy to add classes from your code library to your application namespace:
+If you're using ES2015, TypeScript, AMD or CommonJS modules, it's easy to import all of your Application and View classes into your namespace to take advantage of ConboJS features like auto instantiation and data binding:
 
 ```javascript
-// ES2015
-import FooView from "./view/FooView";
-import BarView from "./view/BarView";
-conbo('com.example.app').import({ FooView, BarView });
+// ES2015 or TypeScript
+import conbo from "./conbo";
+import FooApp from "./FooApp";
+import BarView from "./BarView";
+conbo('com.example.app').import({ FooApp, BarView });
+```
+
+```javascript
+// AMD
+define(['conbo', 'FooApp', 'BarView'], function(conbo, FooApp, BarView) 
+{
+	conbo('com.example.app').import({ FooApp, BarView });
+};
 ```
 
 ```javascript
 // CommonJS
-var FooView = require("./view/FooView");
-var BarView = require("./view/BarView");
-conbo('com.example.app').import({ FooView, BarView });
+var conbo = require("./conbo");
+var FooApp = require("./FooApp");
+var BarView = require("./BarView");
+conbo('com.example.app').import({ FooApp, BarView });
 ```
-
-```javascript
-define(['conbo', 'FooView', 'BarView'], function(conbo, FooView, BarView) 
-{
-	conbo('com.example.app').import({ FooView, BarView });
-}
-```
-
-
-You should add all of your Application and View classes to your namespace to take advantage of ConboJS features like auto instantiation and data binding.
 
 Extendible classes
 ------------------
