@@ -56,12 +56,14 @@ conbo('com.example.app', window, document, navigator, function(window, document,
 
 **ES2015 / TypeScript**
 
-If you're already using the ES2015 `import` syntax, or would like to import code from AMD or CommonJS modules, it's easy to add classes from your code library to your application namespace, to take advantage of ConboJS features like auto instantiation and data binding:
+If you're already using the ES2015 `import` syntax, or like use AMD or CommonJS modules, it's easy to add classes from your code library to your application namespace:
 
 ```javascript
-import { MyView, FooView, BarView } from "my-module";
-conbo('com.example.app').add({ MyView, FooView, BarView });
+import { MyView, FooView, BarView } from "./modules/my-module";
+conbo('com.example.app').import({ MyView, FooView, BarView });
 ```
+
+You should add all of your Application and View classes to your namespace to take advantage of ConboJS features like auto instantiation and data binding.
 
 Extendible classes
 ------------------
