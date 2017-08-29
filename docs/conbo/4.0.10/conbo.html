@@ -1197,7 +1197,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2818">line 2818</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2831">line 2831</a>
     </li></ul></dd>
     
 
@@ -2535,7 +2535,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2671">line 2671</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2684">line 2684</a>
     </li></ul></dd>
     
 
@@ -3950,7 +3950,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2841">line 2841</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2854">line 2854</a>
     </li></ul></dd>
     
 
@@ -6494,7 +6494,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2732">line 2732</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2745">line 2745</a>
     </li></ul></dd>
     
 
@@ -7149,7 +7149,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7854">line 7854</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7867">line 7867</a>
     </li></ul></dd>
     
 
@@ -7586,7 +7586,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2834">line 2834</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2847">line 2847</a>
     </li></ul></dd>
     
 
@@ -7758,7 +7758,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2878">line 2878</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2891">line 2891</a>
     </li></ul></dd>
     
 
@@ -7789,14 +7789,14 @@
 
     
 
-    <h4 class="name" id=".instanceOf"><span class="type-signature">(static) </span>instanceOf<span class="signature">(obj, classOrInterface, strict)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id=".instanceOf"><span class="type-signature">(static) </span>instanceOf<span class="signature">(obj, clazz)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
 
 
 <div class="description">
-    Performs a comparison of an object against a class or interface, returning true is the object is an an instance of the specified class or has the same properties as a specified interface (default) or is a strict implementation of the interface (strict is true).Unlike native instanceof, this method works with both native and user defined classes.
+    Performs a comparison of an object against a class, returning true if the object is an an instance of the specified class.Unlike the native instanceof, however, this method works with both native and user defined classes.
 </div>
 
 
@@ -7855,7 +7855,7 @@
 
         <tr>
             
-                <td class="name"><code>classOrInterface</code></td>
+                <td class="name"><code>clazz</code></td>
             
 
             <td class="type">
@@ -7864,7 +7864,7 @@
 <span class="param-type"><a href="conbo.Class.html">conbo.Class</a></span>
 |
 
-<span class="param-type">object</span>
+<span class="param-type">function</span>
 
 
             
@@ -7874,30 +7874,7 @@
 
             
 
-            <td class="description last">The class or pseudo-interface to compare against</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>strict</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Perform a strict interface comparison (default: false)</td>
+            <td class="description last">The class to compare against</td>
         </tr>
 
     
@@ -7938,7 +7915,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2407">line 2407</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2404">line 2404</a>
     </li></ul></dd>
     
 
@@ -7983,9 +7960,9 @@
 
     <h5>Examples</h5>
     
-    <pre class="prettyprint"><code>var b = conbo.instanceOf(user, UserClass);</code></pre>
+    <pre class="prettyprint"><code>var b = conbo.instanceOf(69, String);</code></pre>
 
-    <pre class="prettyprint"><code>var b = conbo.instanceOf(user, IUser);</code></pre>
+    <pre class="prettyprint"><code>var b = conbo.instanceOf(user, UserClass);</code></pre>
 
 
 
@@ -8327,14 +8304,14 @@
 
     
 
-    <h4 class="name" id=".is"><span class="type-signature">(static) </span>is<span class="signature">(obj, classOrInterface)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id=".is"><span class="type-signature">(static) </span>is<span class="signature">(obj, classOrInterface, strict)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
 
 
 <div class="description">
-    Performs a comparison of an object against a class or interface, returning true is the object is an an instance of the specified class or is a strictimplementation of the interface
+    Performs a comparison of an object against a class or interface, returning true if the object is an an instance of the specified class or an implementation of the specified interface
 </div>
 
 
@@ -8386,7 +8363,7 @@
 
             
 
-            <td class="description last">The class instance</td>
+            <td class="description last">The object to compare</td>
         </tr>
 
     
@@ -8413,6 +8390,29 @@
             
 
             <td class="description last">The class or pseudo-interface to compare against</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>strict</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Perform a strict interface comparison (default: true)</td>
         </tr>
 
     
@@ -8453,7 +8453,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2458">line 2458</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2440">line 2440</a>
     </li></ul></dd>
     
 
@@ -8498,9 +8498,11 @@
 
     <h5>Examples</h5>
     
-    <pre class="prettyprint"><code>var b = conbo.instanceOf(user, UserClass);</code></pre>
+    <pre class="prettyprint"><code>var b = conbo.is(user, UserClass);</code></pre>
 
-    <pre class="prettyprint"><code>var b = conbo.instanceOf(user, IUser);</code></pre>
+    <pre class="prettyprint"><code>var b = conbo.is(user, IUser);</code></pre>
+
+    <pre class="prettyprint"><code>var b = conbo.is(user, partial, false);</code></pre>
 
 
 
@@ -8632,7 +8634,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2580">line 2580</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2593">line 2593</a>
     </li></ul></dd>
     
 
@@ -8885,7 +8887,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2599">line 2599</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2612">line 2612</a>
     </li></ul></dd>
     
 
@@ -10462,7 +10464,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2616">line 2616</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2629">line 2629</a>
     </li></ul></dd>
     
 
@@ -11085,7 +11087,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2769">line 2769</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2782">line 2782</a>
     </li></ul></dd>
     
 
@@ -11807,7 +11809,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2471">line 2471</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2484">line 2484</a>
     </li></ul></dd>
     
 
@@ -11979,7 +11981,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2515">line 2515</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2528">line 2528</a>
     </li></ul></dd>
     
 
@@ -12079,7 +12081,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2820">line 2820</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2833">line 2833</a>
     </li></ul></dd>
     
 
@@ -12251,7 +12253,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2564">line 2564</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2577">line 2577</a>
     </li></ul></dd>
     
 
@@ -12430,7 +12432,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2540">line 2540</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2553">line 2553</a>
     </li></ul></dd>
     
 
@@ -13729,7 +13731,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2948">line 2948</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2961">line 2961</a>
     </li></ul></dd>
     
 
@@ -14376,7 +14378,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2637">line 2637</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2650">line 2650</a>
     </li></ul></dd>
     
 
@@ -17950,7 +17952,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2713">line 2713</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2726">line 2726</a>
     </li></ul></dd>
     
 
@@ -18826,7 +18828,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2991">line 2991</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3004">line 3004</a>
     </li></ul></dd>
     
 
@@ -19259,7 +19261,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2827">line 2827</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line2840">line 2840</a>
     </li></ul></dd>
     
 
@@ -19683,13 +19685,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="conbo.Application.html">Application</a></li><li><a href="conbo.AttributeBindings.html">AttributeBindings</a></li><li><a href="conbo.BindingUtils.html">BindingUtils</a></li><li><a href="conbo.Class.html">Class</a></li><li><a href="conbo.Command.html">Command</a></li><li><a href="conbo.ConboClass.html">ConboClass</a></li><li><a href="conbo.ConboEvent.html">ConboEvent</a></li><li><a href="conbo.Context.html">Context</a></li><li><a href="conbo.ElementProxy.html">ElementProxy</a></li><li><a href="conbo.Event.html">Event</a></li><li><a href="conbo.EventDispatcher.html">EventDispatcher</a></li><li><a href="conbo.EventProxy.html">EventProxy</a></li><li><a href="conbo.Glimpse.html">Glimpse</a></li><li><a href="conbo.Hash.html">Hash</a></li><li><a href="conbo.HttpService.html">HttpService</a></li><li><a href="conbo.ItemRenderer.html">ItemRenderer</a></li><li><a href="conbo.List.html">List</a></li><li><a href="conbo.LocalHash.html">LocalHash</a></li><li><a href="conbo.LocalList.html">LocalList</a></li><li><a href="conbo.MutationObserver.html">MutationObserver</a></li><li><a href="conbo.Namespace.html">Namespace</a></li><li><a href="conbo.Promise.html">Promise</a></li><li><a href="conbo.RemoteHash.html">RemoteHash</a></li><li><a href="conbo.RemoteList.html">RemoteList</a></li><li><a href="conbo.Router.html">Router</a></li><li><a href="conbo.ServerApplication.html">ServerApplication</a></li><li><a href="conbo.View.html">View</a></li></ul><h3>Events</h3><ul><li><a href="conbo.ConboEvent.html#event:ADD">ADD</a></li><li><a href="conbo.ConboEvent.html#event:ALL">ALL</a></li><li><a href="conbo.ConboEvent.html#event:BIND">BIND</a></li><li><a href="conbo.ConboEvent.html#event:CHANGE">CHANGE</a></li><li><a href="conbo.ConboEvent.html#event:CREATION_COMPLETE">CREATION_COMPLETE</a></li><li><a href="conbo.ConboEvent.html#event:DETACH">DETACH</a></li><li><a href="conbo.ConboEvent.html#event:FAULT">FAULT</a></li><li><a href="conbo.ConboEvent.html#event:REMOVE">REMOVE</a></li><li><a href="conbo.ConboEvent.html#event:RESULT">RESULT</a></li><li><a href="conbo.ConboEvent.html#event:ROUTE">ROUTE</a></li><li><a href="conbo.ConboEvent.html#event:START">START</a></li><li><a href="conbo.ConboEvent.html#event:STOP">STOP</a></li><li><a href="conbo.ConboEvent.html#event:TEMPLATE_COMPLETE">TEMPLATE_COMPLETE</a></li><li><a href="conbo.ConboEvent.html#event:TEMPLATE_ERROR">TEMPLATE_ERROR</a></li><li><a href="conbo.ConboEvent.html#event:UNBIND">UNBIND</a></li></ul><h3>Namespaces</h3><ul><li><a href="conbo.html">conbo</a></li></ul><h3>Global</h3><ul><li><a href="global.html#delete">delete</a></li><li><a href="global.html#get">get</a></li><li><a href="global.html#patch">patch</a></li><li><a href="global.html#post">post</a></li><li><a href="global.html#put">put</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="conbo.Application.html">Application</a></li><li><a href="conbo.AttributeBindings.html">AttributeBindings</a></li><li><a href="conbo.BindingUtils.html">BindingUtils</a></li><li><a href="conbo.Class.html">Class</a></li><li><a href="conbo.Command.html">Command</a></li><li><a href="conbo.ConboClass.html">ConboClass</a></li><li><a href="conbo.ConboEvent.html">ConboEvent</a></li><li><a href="conbo.Context.html">Context</a></li><li><a href="conbo.ElementProxy.html">ElementProxy</a></li><li><a href="conbo.Event.html">Event</a></li><li><a href="conbo.EventDispatcher.html">EventDispatcher</a></li><li><a href="conbo.EventProxy.html">EventProxy</a></li><li><a href="conbo.Glimpse.html">Glimpse</a></li><li><a href="conbo.Hash.html">Hash</a></li><li><a href="conbo.HttpService.html">HttpService</a></li><li><a href="conbo.ItemRenderer.html">ItemRenderer</a></li><li><a href="conbo.List.html">List</a></li><li><a href="conbo.LocalHash.html">LocalHash</a></li><li><a href="conbo.LocalList.html">LocalList</a></li><li><a href="conbo.MutationObserver.html">MutationObserver</a></li><li><a href="conbo.Namespace.html">Namespace</a></li><li><a href="conbo.Promise.html">Promise</a></li><li><a href="conbo.RemoteHash.html">RemoteHash</a></li><li><a href="conbo.RemoteList.html">RemoteList</a></li><li><a href="conbo.Router.html">Router</a></li><li><a href="conbo.ServerApplication.html">ServerApplication</a></li><li><a href="conbo.View.html">View</a></li></ul><h3>Events</h3><ul><li><a href="conbo.ConboEvent.html#event:ADD">ADD</a></li><li><a href="conbo.ConboEvent.html#event:ALL">ALL</a></li><li><a href="conbo.ConboEvent.html#event:BIND">BIND</a></li><li><a href="conbo.ConboEvent.html#event:CHANGE">CHANGE</a></li><li><a href="conbo.ConboEvent.html#event:CREATION_COMPLETE">CREATION_COMPLETE</a></li><li><a href="conbo.ConboEvent.html#event:DETACH">DETACH</a></li><li><a href="conbo.ConboEvent.html#event:FAULT">FAULT</a></li><li><a href="conbo.ConboEvent.html#event:REMOVE">REMOVE</a></li><li><a href="conbo.ConboEvent.html#event:RESULT">RESULT</a></li><li><a href="conbo.ConboEvent.html#event:ROUTE">ROUTE</a></li><li><a href="conbo.ConboEvent.html#event:START">START</a></li><li><a href="conbo.ConboEvent.html#event:STOP">STOP</a></li><li><a href="conbo.ConboEvent.html#event:TEMPLATE_COMPLETE">TEMPLATE_COMPLETE</a></li><li><a href="conbo.ConboEvent.html#event:TEMPLATE_ERROR">TEMPLATE_ERROR</a></li><li><a href="conbo.ConboEvent.html#event:UNBIND">UNBIND</a></li></ul><h3>Namespaces</h3><ul><li><a href="conbo.html">conbo</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sun Aug 27 2017 19:42:39 GMT+0100 (GMT Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Aug 29 2017 09:57:19 GMT+0100 (GMT Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

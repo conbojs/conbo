@@ -17,30 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
-
-    
-
-
-
-    
-
-
-    <h3>conbo 4.0.9</h3>
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
+    <h1 class="page-title">ConboJS 4</h1>
 
     <section>
         <article><p><img src="https://raw.githubusercontent.com/mesmotronic/conbo/master/img/conbo.png" alt="ConboJS"></p>
@@ -81,10 +58,26 @@ conbo('com.example.app', window, document, navigator, function(window, document,
     // Your app code goes here
 
     utils.doSomething(app.BEST_FRAMEWORK+' makes me '+app.SMILE);
-});</code></pre><p><strong>ES2015 / TypeScript</strong></p>
-<p>If you're already using the ES2015 <code>import</code> syntax, or would like to import code from AMD or CommonJS modules, it's easy to add classes from your code library to your application namespace, to take advantage of ConboJS features like auto instantiation and data binding:</p>
-<pre class="prettyprint source lang-javascript"><code>import { MyView, FooView, BarView } from &quot;my-module&quot;;
-conbo('com.example.app').add({ MyView, FooView, BarView });</code></pre><h2>Extendible classes</h2><p>There's no messing about with prototypes in ConboJS, all of your classes simply extend from another, for example:</p>
+});</code></pre><p><strong>Working with ES2015, TypeScript, AMD and CommonJS modules</strong></p>
+<p>If you're using ES2015, TypeScript, AMD or CommonJS modules, it's easy to import all of your Application and View classes into your namespace to take advantage of ConboJS features like auto instantiation and data binding:</p>
+<pre class="prettyprint source lang-javascript"><code>// ES2015 & TypeScript
+
+import conbo from &quot;./conbo&quot;;
+import FooApp from &quot;./FooApp&quot;;
+import BarView from &quot;./BarView&quot;;
+
+conbo('com.example.app').import({ FooApp, BarView });</code></pre><pre class="prettyprint source lang-javascript"><code>// AMD
+
+define(['conbo', 'FooApp', 'BarView'], function(conbo, FooApp, BarView) 
+{
+    conbo('com.example.app').import({ FooApp, BarView });
+};</code></pre><pre class="prettyprint source lang-javascript"><code>// CommonJS
+
+var conbo = require(&quot;./conbo&quot;);
+var FooApp = require(&quot;./FooApp&quot;);
+var BarView = require(&quot;./BarView&quot;);
+
+conbo('com.example.app').import({ FooApp, BarView });</code></pre><h2>Extendible classes</h2><p>There's no messing about with prototypes in ConboJS, all of your classes simply extend from another, for example:</p>
 <p><strong>ES5</strong></p>
 <pre class="prettyprint source lang-javascript"><code>var MyClass = conbo.Class.extend
 ({
@@ -109,7 +102,7 @@ conbo.is(person, IPerson); // true</code></pre><p>Alternatively, to enable devel
 var Logger = conbo.Class.extend().implement(ILogger);
 var logger = new Logger();
 
-conbo.instanceOf(logger, ILogger); // true
+conbo.is(logger, ILogger, false); // true
 
 logger.logSomething(); // Outputs: &quot;Something!&quot;</code></pre><p>In this example, a shallow comparison is used, verifying that the expected properties are present, but ignoring their values. Pre-populating a method with <code>conbo.notImplemented</code> will ensure that it throws an error when called but not implemented in a class instance.</p>
 <h2>Decoupling &amp; data binding</h2><p>One of ConboJS's core aims is to enable developers to create highly decoupled, testable code.</p>
@@ -160,13 +153,13 @@ foo.dispatchEvent(new conbo.Event(&quot;myEvent&quot;));</code></pre><h2>Naming 
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="conbo.Application.html">Application</a></li><li><a href="conbo.AttributeBindings.html">AttributeBindings</a></li><li><a href="conbo.BindingUtils.html">BindingUtils</a></li><li><a href="conbo.Class.html">Class</a></li><li><a href="conbo.Command.html">Command</a></li><li><a href="conbo.ConboClass.html">ConboClass</a></li><li><a href="conbo.ConboEvent.html">ConboEvent</a></li><li><a href="conbo.Context.html">Context</a></li><li><a href="conbo.ElementProxy.html">ElementProxy</a></li><li><a href="conbo.Event.html">Event</a></li><li><a href="conbo.EventDispatcher.html">EventDispatcher</a></li><li><a href="conbo.EventProxy.html">EventProxy</a></li><li><a href="conbo.Glimpse.html">Glimpse</a></li><li><a href="conbo.Hash.html">Hash</a></li><li><a href="conbo.HttpService.html">HttpService</a></li><li><a href="conbo.ItemRenderer.html">ItemRenderer</a></li><li><a href="conbo.List.html">List</a></li><li><a href="conbo.LocalHash.html">LocalHash</a></li><li><a href="conbo.LocalList.html">LocalList</a></li><li><a href="conbo.MutationObserver.html">MutationObserver</a></li><li><a href="conbo.Namespace.html">Namespace</a></li><li><a href="conbo.Promise.html">Promise</a></li><li><a href="conbo.RemoteHash.html">RemoteHash</a></li><li><a href="conbo.RemoteList.html">RemoteList</a></li><li><a href="conbo.Router.html">Router</a></li><li><a href="conbo.ServerApplication.html">ServerApplication</a></li><li><a href="conbo.View.html">View</a></li></ul><h3>Events</h3><ul><li><a href="conbo.ConboEvent.html#event:ADD">ADD</a></li><li><a href="conbo.ConboEvent.html#event:ALL">ALL</a></li><li><a href="conbo.ConboEvent.html#event:BIND">BIND</a></li><li><a href="conbo.ConboEvent.html#event:CHANGE">CHANGE</a></li><li><a href="conbo.ConboEvent.html#event:CREATION_COMPLETE">CREATION_COMPLETE</a></li><li><a href="conbo.ConboEvent.html#event:DETACH">DETACH</a></li><li><a href="conbo.ConboEvent.html#event:FAULT">FAULT</a></li><li><a href="conbo.ConboEvent.html#event:REMOVE">REMOVE</a></li><li><a href="conbo.ConboEvent.html#event:RESULT">RESULT</a></li><li><a href="conbo.ConboEvent.html#event:ROUTE">ROUTE</a></li><li><a href="conbo.ConboEvent.html#event:START">START</a></li><li><a href="conbo.ConboEvent.html#event:STOP">STOP</a></li><li><a href="conbo.ConboEvent.html#event:TEMPLATE_COMPLETE">TEMPLATE_COMPLETE</a></li><li><a href="conbo.ConboEvent.html#event:TEMPLATE_ERROR">TEMPLATE_ERROR</a></li><li><a href="conbo.ConboEvent.html#event:UNBIND">UNBIND</a></li></ul><h3>Namespaces</h3><ul><li><a href="conbo.html">conbo</a></li></ul><h3>Global</h3><ul><li><a href="global.html#delete">delete</a></li><li><a href="global.html#get">get</a></li><li><a href="global.html#patch">patch</a></li><li><a href="global.html#post">post</a></li><li><a href="global.html#put">put</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="conbo.Application.html">Application</a></li><li><a href="conbo.AttributeBindings.html">AttributeBindings</a></li><li><a href="conbo.BindingUtils.html">BindingUtils</a></li><li><a href="conbo.Class.html">Class</a></li><li><a href="conbo.Command.html">Command</a></li><li><a href="conbo.ConboClass.html">ConboClass</a></li><li><a href="conbo.ConboEvent.html">ConboEvent</a></li><li><a href="conbo.Context.html">Context</a></li><li><a href="conbo.ElementProxy.html">ElementProxy</a></li><li><a href="conbo.Event.html">Event</a></li><li><a href="conbo.EventDispatcher.html">EventDispatcher</a></li><li><a href="conbo.EventProxy.html">EventProxy</a></li><li><a href="conbo.Glimpse.html">Glimpse</a></li><li><a href="conbo.Hash.html">Hash</a></li><li><a href="conbo.HttpService.html">HttpService</a></li><li><a href="conbo.ItemRenderer.html">ItemRenderer</a></li><li><a href="conbo.List.html">List</a></li><li><a href="conbo.LocalHash.html">LocalHash</a></li><li><a href="conbo.LocalList.html">LocalList</a></li><li><a href="conbo.MutationObserver.html">MutationObserver</a></li><li><a href="conbo.Namespace.html">Namespace</a></li><li><a href="conbo.Promise.html">Promise</a></li><li><a href="conbo.RemoteHash.html">RemoteHash</a></li><li><a href="conbo.RemoteList.html">RemoteList</a></li><li><a href="conbo.Router.html">Router</a></li><li><a href="conbo.ServerApplication.html">ServerApplication</a></li><li><a href="conbo.View.html">View</a></li></ul><h3>Events</h3><ul><li><a href="conbo.ConboEvent.html#event:ADD">ADD</a></li><li><a href="conbo.ConboEvent.html#event:ALL">ALL</a></li><li><a href="conbo.ConboEvent.html#event:BIND">BIND</a></li><li><a href="conbo.ConboEvent.html#event:CHANGE">CHANGE</a></li><li><a href="conbo.ConboEvent.html#event:CREATION_COMPLETE">CREATION_COMPLETE</a></li><li><a href="conbo.ConboEvent.html#event:DETACH">DETACH</a></li><li><a href="conbo.ConboEvent.html#event:FAULT">FAULT</a></li><li><a href="conbo.ConboEvent.html#event:REMOVE">REMOVE</a></li><li><a href="conbo.ConboEvent.html#event:RESULT">RESULT</a></li><li><a href="conbo.ConboEvent.html#event:ROUTE">ROUTE</a></li><li><a href="conbo.ConboEvent.html#event:START">START</a></li><li><a href="conbo.ConboEvent.html#event:STOP">STOP</a></li><li><a href="conbo.ConboEvent.html#event:TEMPLATE_COMPLETE">TEMPLATE_COMPLETE</a></li><li><a href="conbo.ConboEvent.html#event:TEMPLATE_ERROR">TEMPLATE_ERROR</a></li><li><a href="conbo.ConboEvent.html#event:UNBIND">UNBIND</a></li></ul><h3>Namespaces</h3><ul><li><a href="conbo.html">conbo</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sun Aug 27 2017 19:42:39 GMT+0100 (GMT Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Aug 29 2017 09:57:19 GMT+0100 (GMT Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

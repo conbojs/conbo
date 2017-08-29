@@ -106,43 +106,58 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	},
 	
 	/**
-	 * @member	{function}	post - Call a method of the web service using the POST verb
-	 * @param	{String}	command - The name of the command
-	 * @param	{Object}	data - Object containing the data to send to the web service
-	 * @param	{Class}		resultClass - Optional
-	 * @returns	{conbo.Promise}
+	 * Call a method of the web service using the POST verb
+	 * 
+	 * @memberof	conbo.HttpService.prototype
+	 * @method		post
+	 * @param		{String}	command - The name of the command
+	 * @param		{Object}	data - Object containing the data to send to the web service
+	 * @param		{Class}		resultClass - Optional
+	 * @returns		{conbo.Promise}
 	 */
 	
 	/**
-	 * @member	{function}	get - Call a method of the web service using the GET verb
-	 * @param	{String}	command - The name of the command
-	 * @param	{Object}	data - Object containing the data to send to the web service
-	 * @param	{Class}		resultClass - Optional
-	 * @returns	{conbo.Promise}
+	 * Call a method of the web service using the GET verb
+	 * 
+	 * @memberof	conbo.HttpService.prototype
+	 * @method		get 
+	 * @param		{String}	command - The name of the command
+	 * @param		{Object}	data - Object containing the data to send to the web service
+	 * @param		{Class}		resultClass - Optional
+	 * @returns		{conbo.Promise}
 	 */
 	
 	/**
-	 * @member	{function}	put - Call a method of the web service using the PUT verb
-	 * @param	{String}	command - The name of the command
-	 * @param	{Object}	data - Object containing the data to send to the web service
-	 * @param	{Class}		resultClass - Optional
-	 * @returns	{conbo.Promise}
+	 * Call a method of the web service using the PUT verb
+	 * 
+	 * @memberof	conbo.HttpService.prototype
+	 * @method		put
+	 * @param		{String}	command - The name of the command
+	 * @param		{Object}	data - Object containing the data to send to the web service
+	 * @param		{Class}		resultClass - Optional
+	 * @returns		{conbo.Promise}
 	 */
 	
 	/**
-	 * @member	{function}	patch - Call a method of the web service using the PATCH verb
-	 * @param	{String}	command - The name of the command
-	 * @param	{Object}	data - Object containing the data to send to the web service
-	 * @param	{Class}		resultClass - Optional
-	 * @returns	{conbo.Promise}
+	 * Call a method of the web service using the PATCH verb
+	 * 
+	 * @memberof	conbo.HttpService.prototype
+	 * @method		patch
+	 * @param		{String}	command - The name of the command
+	 * @param		{Object}	data - Object containing the data to send to the web service
+	 * @param		{Class}		resultClass - Optional
+	 * @returns		{conbo.Promise}
 	 */
 	
 	/**
-	 * @member	{function}	delete - Call a method of the web service using the DELETE verb
-	 * @param	{String}	command - The name of the command
-	 * @param	{Object}	data - Object containing the data to send to the web service
-	 * @param	{Class}		resultClass - Optional
-	 * @returns	{conbo.Promise}
+	 * Call a method of the web service using the DELETE verb
+	 * 
+	 * @memberof	conbo.HttpService.prototype
+	 * @method		delete
+	 * @param		{String}	command - The name of the command
+	 * @param		{Object}	data - Object containing the data to send to the web service
+	 * @param		{Class}		resultClass - Optional
+	 * @returns		{conbo.Promise}
 	 */
 	
 	/**

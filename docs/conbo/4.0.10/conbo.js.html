@@ -137,7 +137,7 @@ conbo.conbo = conbo;
  * @augments	conbo
  * @returns 	{String}
  */
-conbo.VERSION = '4.0.9';
+conbo.VERSION = '4.0.10';
 	
 /**
  * @augments	conbo
@@ -2416,25 +2416,22 @@ var __ep = function(el)
 	};
 	
 	/**
-	 * Performs a comparison of an object against a class or interface, returning 
-	 * true is the object is an an instance of the specified class or has the same 
-	 * properties as a specified interface (default) or is a strict implementation 
-	 * of the interface (strict is true).
+	 * Performs a comparison of an object against a class, returning true if 
+	 * the object is an an instance of the specified class.
 	 * 
-	 * Unlike native instanceof, this method works with both native and user 
-	 * defined classes.
+	 * Unlike the native instanceof, however, this method works with both 
+	 * native and user defined classes.
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}				obj - The class instance
-	 * @param		{conbo.Class|object}	classOrInterface - The class or pseudo-interface to compare against
-	 * @param		{boolean}				strict - Perform a strict interface comparison (default: false)
+	 * @param		{conbo.Class|function}	clazz - The class to compare against
+	 * @example								var b = conbo.instanceOf(69, String);
 	 * @example								var b = conbo.instanceOf(user, UserClass);
-	 * @example								var b = conbo.instanceOf(user, IUser);
 	 * @returns		{boolean}
 	 */
-	conbo.instanceOf = function(obj, classOrInterface, strict)
+	conbo.instanceOf = function(obj, clazz)
 	{
-		if (!obj || conbo.isClass(obj) || !classOrInterface) 
+		if (!obj || conbo.isClass(obj) || !clazz) 
 		{
 			return false;
 		}
@@ -2443,21 +2440,54 @@ var __ep = function(el)
 		
 		try
 		{
-			if (obj instanceof classOrInterface // User defined class 
-				|| obj.constructor === classOrInterface) // Primitive class
+			if (obj instanceof clazz // User defined class 
+				|| obj.constructor === clazz) // Primitive class
 			{
 				return true; 
 			}
 		}
 		catch(e) {}
 		
+		return false;
+	};
+	
+	/**
+	 * Performs a comparison of an object against a class or interface, returning 
+	 * true if the object is an an instance of the specified class or an 
+	 * implementation of the specified interface
+	 * 
+	 * @memberof	conbo
+	 * @param		{object}				obj - The object to compare
+	 * @param		{conbo.Class|object}	classOrInterface - The class or pseudo-interface to compare against
+	 * @param		{boolean}				strict - Perform a strict interface comparison (default: true)
+	 * @example								var b = conbo.is(user, UserClass);
+	 * @example								var b = conbo.is(user, IUser);
+	 * @example								var b = conbo.is(user, partial, false);
+	 * @returns		{boolean}
+	 */
+	conbo.is = function(obj, classOrInterface, strict)
+	{
+		if (!obj || conbo.isClass(obj) || !classOrInterface) 
+		{
+			return false;
+		}
+		
+		// Class instance
+		
+		if (conbo.instanceOf(obj, classOrInterface))
+		{
+			return true;
+		}
+		
 		// Pseudo-interface
+		
+		strict = (strict !== false);
 		
 		if (conbo.isObject(classOrInterface) &amp;&amp; conbo.keys(classOrInterface).length)
 		{
 			for (var a in classOrInterface)
 			{
-				if (!(a in obj) || (strict &amp;&amp; !conbo.isUndefined(classOrInterface[a]) &amp;&amp; !conbo.instanceOf(obj[a], classOrInterface[a])))
+				if (!(a in obj) || (strict &amp;&amp; !conbo.isUndefined(classOrInterface[a]) &amp;&amp; !conbo.is(obj[a], classOrInterface[a], strict)))
 				{
 					return false;
 				}
@@ -2469,23 +2499,6 @@ var __ep = function(el)
 		}
 		
 		return true;
-	};
-	
-	/**
-	 * Performs a comparison of an object against a class or interface, returning 
-	 * true is the object is an an instance of the specified class or is a strict
-	 * implementation of the interface
-	 * 
-	 * @memberof	conbo
-	 * @param		{object}				obj - The class instance
-	 * @param		{conbo.Class|object}	classOrInterface - The class or pseudo-interface to compare against
-	 * @example								var b = conbo.instanceOf(user, UserClass);
-	 * @example								var b = conbo.instanceOf(user, IUser);
-	 * @returns		{boolean}
-	 */
-	conbo.is = function(obj, classOrInterface)
-	{
-		return conbo.instanceOf(obj, classOrInterface, true);
 	};
 	
 	/**
@@ -3099,8 +3112,8 @@ conbo.Class.prototype =
 	/**
 	 * Scope a function to this class instance
 	 * 
-	 * @deprecated
-	 * @param 	{function} 	func - The function to bind to this class instance
+	 * @deprecated	Use native Function.bind()
+	 * @param 		{function} 	func - The function to bind to this class instance
 	 * @returns	this
 	 */
 	bind: function(func)
@@ -8225,43 +8238,58 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	},
 	
 	/**
-	 * @member	{function}	post - Call a method of the web service using the POST verb
-	 * @param	{String}	command - The name of the command
-	 * @param	{Object}	data - Object containing the data to send to the web service
-	 * @param	{Class}		resultClass - Optional
-	 * @returns	{conbo.Promise}
+	 * Call a method of the web service using the POST verb
+	 * 
+	 * @memberof	conbo.HttpService.prototype
+	 * @method		post
+	 * @param		{String}	command - The name of the command
+	 * @param		{Object}	data - Object containing the data to send to the web service
+	 * @param		{Class}		resultClass - Optional
+	 * @returns		{conbo.Promise}
 	 */
 	
 	/**
-	 * @member	{function}	get - Call a method of the web service using the GET verb
-	 * @param	{String}	command - The name of the command
-	 * @param	{Object}	data - Object containing the data to send to the web service
-	 * @param	{Class}		resultClass - Optional
-	 * @returns	{conbo.Promise}
+	 * Call a method of the web service using the GET verb
+	 * 
+	 * @memberof	conbo.HttpService.prototype
+	 * @method		get 
+	 * @param		{String}	command - The name of the command
+	 * @param		{Object}	data - Object containing the data to send to the web service
+	 * @param		{Class}		resultClass - Optional
+	 * @returns		{conbo.Promise}
 	 */
 	
 	/**
-	 * @member	{function}	put - Call a method of the web service using the PUT verb
-	 * @param	{String}	command - The name of the command
-	 * @param	{Object}	data - Object containing the data to send to the web service
-	 * @param	{Class}		resultClass - Optional
-	 * @returns	{conbo.Promise}
+	 * Call a method of the web service using the PUT verb
+	 * 
+	 * @memberof	conbo.HttpService.prototype
+	 * @method		put
+	 * @param		{String}	command - The name of the command
+	 * @param		{Object}	data - Object containing the data to send to the web service
+	 * @param		{Class}		resultClass - Optional
+	 * @returns		{conbo.Promise}
 	 */
 	
 	/**
-	 * @member	{function}	patch - Call a method of the web service using the PATCH verb
-	 * @param	{String}	command - The name of the command
-	 * @param	{Object}	data - Object containing the data to send to the web service
-	 * @param	{Class}		resultClass - Optional
-	 * @returns	{conbo.Promise}
+	 * Call a method of the web service using the PATCH verb
+	 * 
+	 * @memberof	conbo.HttpService.prototype
+	 * @method		patch
+	 * @param		{String}	command - The name of the command
+	 * @param		{Object}	data - Object containing the data to send to the web service
+	 * @param		{Class}		resultClass - Optional
+	 * @returns		{conbo.Promise}
 	 */
 	
 	/**
-	 * @member	{function}	delete - Call a method of the web service using the DELETE verb
-	 * @param	{String}	command - The name of the command
-	 * @param	{Object}	data - Object containing the data to send to the web service
-	 * @param	{Class}		resultClass - Optional
-	 * @returns	{conbo.Promise}
+	 * Call a method of the web service using the DELETE verb
+	 * 
+	 * @memberof	conbo.HttpService.prototype
+	 * @method		delete
+	 * @param		{String}	command - The name of the command
+	 * @param		{Object}	data - Object containing the data to send to the web service
+	 * @param		{Class}		resultClass - Optional
+	 * @returns		{conbo.Promise}
 	 */
 	
 	/**
@@ -8933,13 +8961,13 @@ __denumerate(conbo.Router.prototype);
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="conbo.Application.html">Application</a></li><li><a href="conbo.AttributeBindings.html">AttributeBindings</a></li><li><a href="conbo.BindingUtils.html">BindingUtils</a></li><li><a href="conbo.Class.html">Class</a></li><li><a href="conbo.Command.html">Command</a></li><li><a href="conbo.ConboClass.html">ConboClass</a></li><li><a href="conbo.ConboEvent.html">ConboEvent</a></li><li><a href="conbo.Context.html">Context</a></li><li><a href="conbo.ElementProxy.html">ElementProxy</a></li><li><a href="conbo.Event.html">Event</a></li><li><a href="conbo.EventDispatcher.html">EventDispatcher</a></li><li><a href="conbo.EventProxy.html">EventProxy</a></li><li><a href="conbo.Glimpse.html">Glimpse</a></li><li><a href="conbo.Hash.html">Hash</a></li><li><a href="conbo.HttpService.html">HttpService</a></li><li><a href="conbo.ItemRenderer.html">ItemRenderer</a></li><li><a href="conbo.List.html">List</a></li><li><a href="conbo.LocalHash.html">LocalHash</a></li><li><a href="conbo.LocalList.html">LocalList</a></li><li><a href="conbo.MutationObserver.html">MutationObserver</a></li><li><a href="conbo.Namespace.html">Namespace</a></li><li><a href="conbo.Promise.html">Promise</a></li><li><a href="conbo.RemoteHash.html">RemoteHash</a></li><li><a href="conbo.RemoteList.html">RemoteList</a></li><li><a href="conbo.Router.html">Router</a></li><li><a href="conbo.ServerApplication.html">ServerApplication</a></li><li><a href="conbo.View.html">View</a></li></ul><h3>Events</h3><ul><li><a href="conbo.ConboEvent.html#event:ADD">ADD</a></li><li><a href="conbo.ConboEvent.html#event:ALL">ALL</a></li><li><a href="conbo.ConboEvent.html#event:BIND">BIND</a></li><li><a href="conbo.ConboEvent.html#event:CHANGE">CHANGE</a></li><li><a href="conbo.ConboEvent.html#event:CREATION_COMPLETE">CREATION_COMPLETE</a></li><li><a href="conbo.ConboEvent.html#event:DETACH">DETACH</a></li><li><a href="conbo.ConboEvent.html#event:FAULT">FAULT</a></li><li><a href="conbo.ConboEvent.html#event:REMOVE">REMOVE</a></li><li><a href="conbo.ConboEvent.html#event:RESULT">RESULT</a></li><li><a href="conbo.ConboEvent.html#event:ROUTE">ROUTE</a></li><li><a href="conbo.ConboEvent.html#event:START">START</a></li><li><a href="conbo.ConboEvent.html#event:STOP">STOP</a></li><li><a href="conbo.ConboEvent.html#event:TEMPLATE_COMPLETE">TEMPLATE_COMPLETE</a></li><li><a href="conbo.ConboEvent.html#event:TEMPLATE_ERROR">TEMPLATE_ERROR</a></li><li><a href="conbo.ConboEvent.html#event:UNBIND">UNBIND</a></li></ul><h3>Namespaces</h3><ul><li><a href="conbo.html">conbo</a></li></ul><h3>Global</h3><ul><li><a href="global.html#delete">delete</a></li><li><a href="global.html#get">get</a></li><li><a href="global.html#patch">patch</a></li><li><a href="global.html#post">post</a></li><li><a href="global.html#put">put</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="conbo.Application.html">Application</a></li><li><a href="conbo.AttributeBindings.html">AttributeBindings</a></li><li><a href="conbo.BindingUtils.html">BindingUtils</a></li><li><a href="conbo.Class.html">Class</a></li><li><a href="conbo.Command.html">Command</a></li><li><a href="conbo.ConboClass.html">ConboClass</a></li><li><a href="conbo.ConboEvent.html">ConboEvent</a></li><li><a href="conbo.Context.html">Context</a></li><li><a href="conbo.ElementProxy.html">ElementProxy</a></li><li><a href="conbo.Event.html">Event</a></li><li><a href="conbo.EventDispatcher.html">EventDispatcher</a></li><li><a href="conbo.EventProxy.html">EventProxy</a></li><li><a href="conbo.Glimpse.html">Glimpse</a></li><li><a href="conbo.Hash.html">Hash</a></li><li><a href="conbo.HttpService.html">HttpService</a></li><li><a href="conbo.ItemRenderer.html">ItemRenderer</a></li><li><a href="conbo.List.html">List</a></li><li><a href="conbo.LocalHash.html">LocalHash</a></li><li><a href="conbo.LocalList.html">LocalList</a></li><li><a href="conbo.MutationObserver.html">MutationObserver</a></li><li><a href="conbo.Namespace.html">Namespace</a></li><li><a href="conbo.Promise.html">Promise</a></li><li><a href="conbo.RemoteHash.html">RemoteHash</a></li><li><a href="conbo.RemoteList.html">RemoteList</a></li><li><a href="conbo.Router.html">Router</a></li><li><a href="conbo.ServerApplication.html">ServerApplication</a></li><li><a href="conbo.View.html">View</a></li></ul><h3>Events</h3><ul><li><a href="conbo.ConboEvent.html#event:ADD">ADD</a></li><li><a href="conbo.ConboEvent.html#event:ALL">ALL</a></li><li><a href="conbo.ConboEvent.html#event:BIND">BIND</a></li><li><a href="conbo.ConboEvent.html#event:CHANGE">CHANGE</a></li><li><a href="conbo.ConboEvent.html#event:CREATION_COMPLETE">CREATION_COMPLETE</a></li><li><a href="conbo.ConboEvent.html#event:DETACH">DETACH</a></li><li><a href="conbo.ConboEvent.html#event:FAULT">FAULT</a></li><li><a href="conbo.ConboEvent.html#event:REMOVE">REMOVE</a></li><li><a href="conbo.ConboEvent.html#event:RESULT">RESULT</a></li><li><a href="conbo.ConboEvent.html#event:ROUTE">ROUTE</a></li><li><a href="conbo.ConboEvent.html#event:START">START</a></li><li><a href="conbo.ConboEvent.html#event:STOP">STOP</a></li><li><a href="conbo.ConboEvent.html#event:TEMPLATE_COMPLETE">TEMPLATE_COMPLETE</a></li><li><a href="conbo.ConboEvent.html#event:TEMPLATE_ERROR">TEMPLATE_ERROR</a></li><li><a href="conbo.ConboEvent.html#event:UNBIND">UNBIND</a></li></ul><h3>Namespaces</h3><ul><li><a href="conbo.html">conbo</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sun Aug 27 2017 19:42:39 GMT+0100 (GMT Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Aug 29 2017 09:57:19 GMT+0100 (GMT Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>
