@@ -59,15 +59,18 @@ conbo('com.example.app', window, document, navigator, function(window, document,
 If you're using ES2015, TypeScript, AMD or CommonJS modules, it's easy to import all of your Application and View classes into your namespace to take advantage of ConboJS features like auto instantiation and data binding:
 
 ```javascript
-// ES2015 or TypeScript
+// ES2015 & TypeScript
+
 import conbo from "./conbo";
 import FooApp from "./FooApp";
 import BarView from "./BarView";
+
 conbo('com.example.app').import({ FooApp, BarView });
 ```
 
 ```javascript
 // AMD
+
 define(['conbo', 'FooApp', 'BarView'], function(conbo, FooApp, BarView) 
 {
 	conbo('com.example.app').import({ FooApp, BarView });
@@ -76,9 +79,11 @@ define(['conbo', 'FooApp', 'BarView'], function(conbo, FooApp, BarView)
 
 ```javascript
 // CommonJS
+
 var conbo = require("./conbo");
 var FooApp = require("./FooApp");
 var BarView = require("./BarView");
+
 conbo('com.example.app').import({ FooApp, BarView });
 ```
 
@@ -132,7 +137,7 @@ var ILogger = { logSomething: function() { conbo.log('Something!'); } };
 var Logger = conbo.Class.extend().implement(ILogger);
 var logger = new Logger();
 
-conbo.instanceOf(logger, ILogger); // true
+conbo.is(logger, ILogger, false); // true
 
 logger.logSomething(); // Outputs: "Something!"
 ```

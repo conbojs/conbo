@@ -2063,25 +2063,22 @@
 	};
 	
 	/**
-	 * Performs a comparison of an object against a class or interface, returning 
-	 * true is the object is an an instance of the specified class or has the same 
-	 * properties as a specified interface (default) or is a strict implementation 
-	 * of the interface (strict is true).
+	 * Performs a comparison of an object against a class, returning true if 
+	 * the object is an an instance of the specified class.
 	 * 
-	 * Unlike native instanceof, this method works with both native and user 
-	 * defined classes.
+	 * Unlike the native instanceof, however, this method works with both 
+	 * native and user defined classes.
 	 * 
 	 * @memberof	conbo
 	 * @param		{object}				obj - The class instance
-	 * @param		{conbo.Class|object}	classOrInterface - The class or pseudo-interface to compare against
-	 * @param		{boolean}				strict - Perform a strict interface comparison (default: false)
+	 * @param		{conbo.Class|function}	clazz - The class to compare against
+	 * @example								var b = conbo.instanceOf(69, String);
 	 * @example								var b = conbo.instanceOf(user, UserClass);
-	 * @example								var b = conbo.instanceOf(user, IUser);
 	 * @returns		{boolean}
 	 */
-	conbo.instanceOf = function(obj, classOrInterface, strict)
+	conbo.instanceOf = function(obj, clazz)
 	{
-		if (!obj || conbo.isClass(obj) || !classOrInterface) 
+		if (!obj || conbo.isClass(obj) || !clazz) 
 		{
 			return false;
 		}
@@ -2090,21 +2087,54 @@
 		
 		try
 		{
-			if (obj instanceof classOrInterface // User defined class 
-				|| obj.constructor === classOrInterface) // Primitive class
+			if (obj instanceof clazz // User defined class 
+				|| obj.constructor === clazz) // Primitive class
 			{
 				return true; 
 			}
 		}
 		catch(e) {}
 		
+		return false;
+	};
+	
+	/**
+	 * Performs a comparison of an object against a class or interface, returning 
+	 * true if the object is an an instance of the specified class or an 
+	 * implementation of the specified interface
+	 * 
+	 * @memberof	conbo
+	 * @param		{object}				obj - The object to compare
+	 * @param		{conbo.Class|object}	classOrInterface - The class or pseudo-interface to compare against
+	 * @param		{boolean}				strict - Perform a strict interface comparison (default: true)
+	 * @example								var b = conbo.is(user, UserClass);
+	 * @example								var b = conbo.is(user, IUser);
+	 * @example								var b = conbo.is(user, partial, false);
+	 * @returns		{boolean}
+	 */
+	conbo.is = function(obj, classOrInterface, strict)
+	{
+		if (!obj || conbo.isClass(obj) || !classOrInterface) 
+		{
+			return false;
+		}
+		
+		// Class instance
+		
+		if (conbo.instanceOf(obj, classOrInterface))
+		{
+			return true;
+		}
+		
 		// Pseudo-interface
+		
+		strict = (strict !== false);
 		
 		if (conbo.isObject(classOrInterface) && conbo.keys(classOrInterface).length)
 		{
 			for (var a in classOrInterface)
 			{
-				if (!(a in obj) || (strict && !conbo.isUndefined(classOrInterface[a]) && !conbo.instanceOf(obj[a], classOrInterface[a])))
+				if (!(a in obj) || (strict && !conbo.isUndefined(classOrInterface[a]) && !conbo.is(obj[a], classOrInterface[a], strict)))
 				{
 					return false;
 				}
@@ -2116,23 +2146,6 @@
 		}
 		
 		return true;
-	};
-	
-	/**
-	 * Performs a comparison of an object against a class or interface, returning 
-	 * true is the object is an an instance of the specified class or is a strict
-	 * implementation of the interface
-	 * 
-	 * @memberof	conbo
-	 * @param		{object}				obj - The class instance
-	 * @param		{conbo.Class|object}	classOrInterface - The class or pseudo-interface to compare against
-	 * @example								var b = conbo.instanceOf(user, UserClass);
-	 * @example								var b = conbo.instanceOf(user, IUser);
-	 * @returns		{boolean}
-	 */
-	conbo.is = function(obj, classOrInterface)
-	{
-		return conbo.instanceOf(obj, classOrInterface, true);
 	};
 	
 	/**
