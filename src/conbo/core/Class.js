@@ -44,8 +44,8 @@ conbo.Class.prototype =
 	/**
 	 * Scope a function to this class instance
 	 * 
-	 * @deprecated
-	 * @param 	{function} 	func - The function to bind to this class instance
+	 * @deprecated	Use native Function.bind()
+	 * @param 		{function} 	func - The function to bind to this class instance
 	 * @returns	this
 	 */
 	bind: function(func)

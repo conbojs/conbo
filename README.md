@@ -15,8 +15,8 @@ Browser support
 
 ConboJS targets the two most recent major releases of Firefox, Chrome (desktop and Android), Safari (desktop and iOS) and Edge / Internet Explorer.
 
-Modular namespace declaration
------------------------------
+Modular namespace declarations
+------------------------------
 
 ConboJS brings the familiar concepts of packages and imports to JavaScript in the form of modular namespaces, optimised to work as an alternative to the commonly used minification pattern, for example:
 
@@ -52,6 +52,39 @@ conbo('com.example.app', window, document, navigator, function(window, document,
 
 	utils.doSomething(app.BEST_FRAMEWORK+' makes me '+app.SMILE);
 });
+```
+
+**Working with ES2015, TypeScript, AMD and CommonJS modules**
+
+If you're using ES2015, TypeScript, AMD or CommonJS modules, it's easy to import all of your Application and View classes into your namespace to take advantage of ConboJS features like auto instantiation and data binding:
+
+```javascript
+// ES2015 & TypeScript
+
+import conbo from "./conbo";
+import FooApp from "./FooApp";
+import BarView from "./BarView";
+
+conbo('com.example.app').import({ FooApp, BarView });
+```
+
+```javascript
+// AMD
+
+define(['conbo', 'FooApp', 'BarView'], function(conbo, FooApp, BarView) 
+{
+	conbo('com.example.app').import({ FooApp, BarView });
+};
+```
+
+```javascript
+// CommonJS
+
+var conbo = require("./conbo");
+var FooApp = require("./FooApp");
+var BarView = require("./BarView");
+
+conbo('com.example.app').import({ FooApp, BarView });
 ```
 
 Extendible classes
@@ -104,7 +137,7 @@ var ILogger = { logSomething: function() { conbo.log('Something!'); } };
 var Logger = conbo.Class.extend().implement(ILogger);
 var logger = new Logger();
 
-conbo.instanceOf(logger, ILogger); // true
+conbo.is(logger, ILogger, false); // true
 
 logger.logSomething(); // Outputs: "Something!"
 ```
@@ -182,7 +215,7 @@ Builds
 
 **conbo-lite.js** (8KB minified+gzipped): A super-lightweight subset featuring extendible classes and consistent event model. The aim of this subset is to offer the benefits of Conbo's class structure and event model to users who want to create otherwise framework independent modules and code libraries.
 
-Builds are created using Grunt, which requires Node.js; all required modules can be installed by running "npm install" from the command line in the project folder.
+Builds are created using Grunt, which requires Node.js; all required modules can be installed by running `npm install` from the command line in the project folder.
 
 The builds listed above can be created using the command `grunt`. Use `grunt watch`, or run `watch.cmd` (Windows) or `./watch.sh` (Mac, Linux) to auto-build as you edit.
 
