@@ -95,8 +95,13 @@
 	/** @lends conbo.BindingUtils */
 	{
 		/**
+		 * Should binding attributes, like "cb-bind", be removed after they've been processed?
+		 */
+		removeAttributeAfterBinding: true,
+		
+		/**
 		 * Bind a property of a EventDispatcher class instance (e.g. Hash or View) 
-		 * to a DOM element's value/content, using Conbo's best judgement to
+		 * to a DOM element's value/content, using ConboJS's best judgement to
 		 * work out how the value should be bound to the element.
 		 * 
 		 * This method of binding also allows for the use of a parse function,
@@ -319,7 +324,14 @@
 			
 			if (attributeName == "cb-bind")
 			{
-				return this.bindElement(source, propertyName, element, parseFunction);
+				bindings = this.bindElement(source, propertyName, element, parseFunction);
+				
+				if (this.removeAttributeAfterBinding)
+				{
+					element.removeAttribute(attributeName);
+				}
+				
+				return bindings;
 			}
 			
 			BindingUtils__makeBindable(source, propertyName);
@@ -456,6 +468,11 @@
 					conbo.warn(attributeName+' is not recognised or does not exist on specified element');
 					break;
 				}
+			}
+			
+			if (attributeName !== 'cb-repeat' && this.removeAttributeAfterBinding)
+			{
+				element.removeAttribute(attributeName);
 			}
 			
 			return bindings;
