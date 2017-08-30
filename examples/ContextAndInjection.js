@@ -21,9 +21,9 @@ conbo('ns', function()
 	 */
 	ns.MyModel = conbo.Hash.extend
 	({
-		defaults: 
+		declarations: function() 
 		{
-			name: 'Conbo'
+			this.name = 'Conbo';
 		}
 	});
 	

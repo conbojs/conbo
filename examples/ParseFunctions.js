@@ -11,9 +11,9 @@ conbo('ns', function()
 	 */
 	ns.MyModel = conbo.Hash.extend
 	({
-		defaults: 
+		declarations: function()
 		{
-			price: 123.456
+			this.price = 123.456;
 		}
 	});
 	
