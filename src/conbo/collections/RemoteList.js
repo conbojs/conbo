@@ -5,7 +5,7 @@
  * @class		conbo.RemoteList
  * @augments	conbo.List
  * @author 		Neil Rackett
- * @param 		{object} options - Object containing initialisation options, including HttpService options
+ * @param 		{Object} options - Object containing initialisation options, including HttpService options
  * @fires		conbo.ConboEvent#CHANGE
  * @fires		conbo.ConboEvent#ADD
  * @fires		conbo.ConboEvent#REMOVE
@@ -19,7 +19,7 @@ conbo.RemoteList = conbo.List.extend(
 	
 	/**
 	 * Constructor
-	 * @param {Object}	options		Object containing 'source' (Array, optional), 'rootUrl', 'command' and (optionally) 'itemClass' parameters
+	 * @param {Object}	[options] - Object containing 'source' (Array, optional), 'rootUrl', 'command' and (optionally) 'itemClass' parameters
 	 */
 	__construct: function(options)
 	{

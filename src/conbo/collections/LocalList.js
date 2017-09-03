@@ -5,7 +5,7 @@
  * @class		conbo.LocalList
  * @augments	conbo.List
  * @author 		Neil Rackett
- * @param 		{object} options - Object containing initialisation options, including 'name' (String), 'session' (Boolean) and 'source' (Array) of default options
+ * @param 		{Object} options - Object containing initialisation options, including 'name' (String), 'session' (Boolean) and 'source' (Array) of default options
  * @fires		conbo.ConboEvent#CHANGE
  * @fires		conbo.ConboEvent#ADD
  * @fires		conbo.ConboEvent#REMOVE

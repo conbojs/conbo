@@ -26,7 +26,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 	
 	/**
 	 * Can the given attribute be bound to multiple properties at the same time?
-	 * @param 	{String}	attribute
+	 * @param 	{string}	attribute
 	 * @returns {Boolean}
 	 */
 	canHandleMultiple: function(attribute)

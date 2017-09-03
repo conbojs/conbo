@@ -7,7 +7,7 @@
  * @class		conbo.MutationObserver
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
- * @param 		{object} options - Object containing initialisation options
+ * @param 		{Object} options - Object containing initialisation options
  * @fires		conbo.ConboEvent#ADD
  * @fires		conbo.ConboEvent#REMOVE
  */

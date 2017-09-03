@@ -13,7 +13,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{conbo.Namespace} namespace
-	 * @param		{Element} rootEl - Top most element to scan (optional)
+	 * @param		{Element} [rootEl] - Top most element to scan
 	 */
 	conbo.initDom = function(namespace, rootEl)
 	{
@@ -83,7 +83,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{conbo.Namespace} namespace
-	 * @param		{Element} rootEl - Top most element to observe (optional)
+	 * @param		{Element} [rootEl] - Top most element to observe
 	 */
 	conbo.observeDom = function(namespace, rootEl)
 	{
@@ -126,7 +126,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{conbo.Namespace} namespace
-	 * @param		{Element} rootEl - Top most element to observe (optional)
+	 * @param		{Element} [rootEl] - Top most element to observe
 	 */
 	conbo.unobserveDom = function(namespace, rootEl)
 	{

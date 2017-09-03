@@ -6,10 +6,9 @@
  * Dispatch a property change event from the specified object
  * @private
  */
-
 var __dispatchChange = function(obj, propName)
 {
-	if (!(obj instanceof conbo.EventDispatcher)) return;
+	if (!(obj instanceof conbo.EventDispatcher)) return this;
 	
 	var options = {property:propName, value:obj[propName]};
 	
@@ -22,12 +21,12 @@ var __dispatchChange = function(obj, propName)
 /**
  * Creates a property which can be bound to DOM elements and others
  * 
- * @param	(Object)	obj			The EventDispatcher object on which the property will be defined
- * @param	(String)	propName	The name of the property to be defined
- * @param	(*)			value		The default value of the property (optional)
- * @param	(Function)	getter		The getter function (optional)
- * @param	(Function)	setter		The setter function (optional)
- * @param	(Boolean)	enumerable	Whether of not the property should be enumerable (optional, default: true)
+ * @param	{Object}	obj	- The EventDispatcher object on which the property will be defined
+ * @param	{string}	propName - The name of the property to be defined
+ * @param	{*}			value - The default value of the property (optional)
+ * @param	{Function}	getter - The getter function (optional)
+ * @param	{Function}	setter - The setter function (optional)
+ * @param	{boolean}	[enumerable=true] - Whether of not the property should be enumerable
  * @private
  */
 var __defineProperty = function(obj, propName, value, getter, setter, enumerable)

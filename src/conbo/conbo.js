@@ -7,6 +7,9 @@
  * http://www.mesmotronic.com/legal/mit
  */
 
+/**
+ * @private
+ */
 var __namespaces = {};
 
 /**
@@ -15,16 +18,28 @@ var __namespaces = {};
  * pattern and an event model which enables callback scoping and consistent 
  * event handling
  * 
- * Dependencies
- *
- * Lite: None
- * Complete: jQuery 1.7+
- * 
- * @namespace 	conbo
- * @param		namespace	{String}	The selected namespace
+ * @variation	1
+ * @module		conbo
  * @author		Neil Rackett
- * @see			http://www.mesmotronic.com/
+ * @see			http://conbo.mesmotronic.com/
+ */
+
+/**
+ * All ConboJS classes, methods and properties live within the conbo namespace
  * 
+ * @variation	2
+ * @namespace 	conbo
+ */
+
+/**
+ * Create or access a reference to a ConboJS namespace
+ * 
+ * @variation	3
+ * @function	conbo
+ * @param		{string}	namespace - The selected namespace
+ * @param		{...*}		[globals] - Globals to minify followed by function to execute, with each of the globals as parameters
+ * @returns		{conbo.Namespace}
+ * 			
  * @example
  * // Conbo can replace the standard minification pattern with modular namespace definitions
  * // If an Object is returned, its contents will be added to the namespace
@@ -80,13 +95,13 @@ conbo.conbo = conbo;
 
 /**
  * @augments	conbo
- * @returns 	{String}
+ * @returns 	{string}
  */
 conbo.VERSION = '{{VERSION}}';
 	
 /**
  * @augments	conbo
- * @returns 	{String}
+ * @returns 	{string}
  */
 conbo.toString = function() 
 { 

@@ -18,7 +18,7 @@
 	 * @class		conbo.Promise
 	 * @augments	conbo.EventDispatcher
 	 * @author 		Neil Rackett
-	 * @param 		{function} executor - A function that is passed with the arguments resolve and reject, which is executed immediately by the Promise (optional)
+	 * @param 		[{Function}] executor - A function that is passed with the arguments resolve and reject, which is executed immediately by the Promise
 	 * @fires		conbo.ConboEvent#RESULT
 	 * @fires		conbo.ConboEvent#FAULT
 	 */
@@ -65,9 +65,9 @@
 		/**
 		 * Shorthand method for adding a result and/or fault event handlers
 		 *  
-		 * @param	{function}	resultHandler
-		 * @param	{function}	faultHandler
-		 * @param	{object}	scope
+		 * @param	{Function}	resultHandler
+		 * @param	{Function}	faultHandler
+		 * @param	{Object}	scope
 		 * @returns	{conbo.Promise}
 		 */
 		then: function(resultHandler, faultHandler, scope)
@@ -81,8 +81,8 @@
 		/**
 		 * Shorthand method for adding a fault event handler
 		 *  
-		 * @param	{function}	faultHandler
-		 * @param	{object}	scope
+		 * @param	{Function}	faultHandler
+		 * @param	{Object}	scope
 		 * @returns	{conbo.Promise}
 		 */
 		catch: function(faultHandler, scope)
@@ -94,7 +94,7 @@
 		
 		/**
 		 * The class name as a string
-		 * @returns {String}
+		 * @returns {string}
 		 */
 		toString: function()
 		{

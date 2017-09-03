@@ -7,7 +7,7 @@
  * @class		conbo.EventProxy
  * @augments	conbo.Class
  * @author 		Neil Rackett
- * @param 		{object} eventDispatcher - Element, EventDispatcher or jQuery object to be proxied
+ * @param 		{Object} eventDispatcher - Element, EventDispatcher or jQuery object to be proxied
  */
 conbo.EventProxy = conbo.Class.extend(
 /** @lends conbo.EventProxy.prototype */
@@ -21,7 +21,7 @@ conbo.EventProxy = conbo.Class.extend(
 	 * Add a listener for a particular event type
 	 * 
 	 * @param 	{string}			type - Type of event ('change') or events ('change blur')
-	 * @param 	{function}			handler - Function that should be called
+	 * @param 	{Function}			handler - Function that should be called
 	 * @returns	{conbo.EventProxy}	A reference to this class instance 
 	 */
 	addEventListener: function(type, handler)
@@ -65,7 +65,7 @@ conbo.EventProxy = conbo.Class.extend(
 	 * Remove a listener for a particular event type
 	 * 
 	 * @param 	{string}			type - Type of event ('change') or events ('change blur')
-	 * @param 	{function}			handler - Function that should be called
+	 * @param 	{Function}			handler - Function that should be called
 	 * @returns	{conbo.EventProxy}	A reference to this class instance 
 	 */
 	removeEventListener: function(type, handler)

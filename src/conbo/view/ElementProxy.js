@@ -15,7 +15,7 @@ conbo.ElementProxy = conbo.EventProxy.extend(
 	/**
 	 * Returns object containing the value of all attributes on a DOM element
 	 * 
-	 * @returns		{object}
+	 * @returns		{Object}
 	 * 
 	 * @example
 	 * ep.attributes; // results in something like {src:"foo/bar.jpg"}
@@ -79,7 +79,7 @@ conbo.ElementProxy = conbo.EventProxy.extend(
 	/**
 	 * Returns object containing the value of all cb-* attributes on a DOM element
 	 * 
-	 * @returns		{array}
+	 * @returns		{Array}
 	 * 
 	 * @example
 	 * ep.cbAttributes.view;

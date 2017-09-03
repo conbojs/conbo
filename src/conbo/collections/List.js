@@ -9,7 +9,7 @@
  * @class		conbo.List
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
- * @param 		{object} options - Object containing optional initialisation options, including `source` (array), `context` (Context) and `itemClass` (Class)
+ * @param 		{Object} options - Object containing optional initialisation options, including `source` (array), `context` (Context) and `itemClass` (Class)
  * @fires		conbo.ConboEvent#CHANGE
  * @fires		conbo.ConboEvent#ADD
  * @fires		conbo.ConboEvent#REMOVE
@@ -209,7 +209,7 @@ conbo.List = conbo.EventDispatcher.extend(
 	
 	/**
 	 * Force the collection to re-sort itself.
-	 * @param	{function}	compareFunction - Compare function to determine sort order
+	 * @param	{Function}	compareFunction - Compare function to determine sort order
 	 */
 	sort: function(compareFunction) 
 	{

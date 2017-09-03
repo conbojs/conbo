@@ -6,10 +6,11 @@ var View__templateCache = {};
  * Creating a conbo.View creates its initial element outside of the DOM,
  * if an existing element is not provided...
  * 
- * @class		conbo.View
+ * @class		View
+ * @memberof	conbo
  * @augments	conbo.Glimpse
  * @author 		Neil Rackett
- * @param 		{object}	options - Object containing optional initialisation options, including 'attributes', 'className', 'data', 'el', 'id', 'tagName', 'template', 'templateUrl'
+ * @param 		{Object}	[options] - Object containing optional initialisation options, including 'attributes', 'className', 'data', 'el', 'id', 'tagName', 'template', 'templateUrl'
  * @fires		conbo.ConboEvent#ADD
  * @fires		conbo.ConboEvent#DETACH
  * @fires		conbo.ConboEvent#REMOVE
@@ -23,7 +24,7 @@ conbo.View = conbo.Glimpse.extend(
 /** @lends 		conbo.View.prototype */
 {
 	/**
-	 * @member		{object}	attributes - Attributes to apply to the View's element
+	 * @member		{Object}	attributes - Attributes to apply to the View's element
 	 * @memberOf	conbo.View.prototype
 	 */
 	
@@ -33,7 +34,7 @@ conbo.View = conbo.Glimpse.extend(
 	 */
 	
 	/**
-	 * @member		{object}	data - Arbitrary data Object
+	 * @member		{Object}	data - Arbitrary data Object
 	 * @memberOf	conbo.View.prototype
 	 */
 	
@@ -111,6 +112,9 @@ conbo.View = conbo.Glimpse.extend(
 		this.__setEl(options.el || document.createElement(this.tagName));
 	},
 
+	/**
+	 * @private
+	 */
 	__postInitialize: function(options)
 	{
 		__definePrivateProperty(this, '__initialized', true);
@@ -125,6 +129,7 @@ conbo.View = conbo.Glimpse.extend(
 	
 	/**
 	 * This View's element
+	 * @returns		{HTMLElement}
 	 */
 	get el()
 	{
@@ -133,6 +138,7 @@ conbo.View = conbo.Glimpse.extend(
 	
 	/**
 	 * Has this view completed its life cycle phases?
+	 * @returns		{boolean}
 	 */
 	get initialized()
 	{
@@ -142,6 +148,7 @@ conbo.View = conbo.Glimpse.extend(
 	/**
 	 * Returns a reference to the parent View of this View, based on this 
 	 * View element's position in the DOM
+	 * @returns		{conbo.View}
 	 */
 	get parent()
 	{
@@ -154,6 +161,7 @@ conbo.View = conbo.Glimpse.extend(
 	/**
 	 * Returns a reference to the parent Application of this View, based on
 	 * this View element's position in the DOM
+	 * @returns		{conbo.Application}
 	 */
 	get parentApp()
 	{
@@ -230,7 +238,7 @@ conbo.View = conbo.Glimpse.extend(
 	 * 
 	 * @param	{string}	selector - The selector to use
 	 * @param	{boolean}	deep - Include elements in child Views?
-	 * @returns	{array}		All elements matching the selector
+	 * @returns	{Array}		All elements matching the selector
 	 */
 	querySelectorAll: function(selector, deep)
 	{
@@ -429,7 +437,7 @@ conbo.View = conbo.Glimpse.extend(
 	/**
 	 * Load HTML template and use it to populate this View's element
 	 * 
-	 * @param 	{String}	url			A string containing the URL to which the request is sent
+	 * @param 	{string}	url			A string containing the URL to which the request is sent
 	 */
 	loadTemplate: function(url)
 	{

@@ -5,7 +5,7 @@
  * @class		conbo.Hash
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
- * @param 		{object} options - Object containing optional initialisation options, including 'source' (object) containing initial values
+ * @param 		{Object} options - Object containing optional initialisation options, including 'source' (object) containing initial values
  * @fires		conbo.ConboEvent#CHANGE
  */
 conbo.Hash = conbo.EventDispatcher.extend(
@@ -13,7 +13,7 @@ conbo.Hash = conbo.EventDispatcher.extend(
 {
 	/**
 	 * @deprecated 
-	 * @member		{object}	_defaults - The default values to use if not all properties are set. 
+	 * @member		{Object}	_defaults - The default values to use if not all properties are set. 
 	 * 										This property is now deprected, defaults should be set in declarations() 
 	 * @memberOf	conbo.Hash.prototype
 	 */

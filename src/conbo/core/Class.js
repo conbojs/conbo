@@ -2,7 +2,7 @@
  * Class
  * Extendable base class from which all others extend
  * @class		conbo.Class
- * @param 		{object} options - Object containing initialisation options
+ * @param 		{Object} options - Object containing initialisation options
  */
 conbo.Class = function() 
 {
@@ -45,7 +45,7 @@ conbo.Class.prototype =
 	 * Scope a function to this class instance
 	 * 
 	 * @deprecated	Use native Function.bind()
-	 * @param 		{function} 	func - The function to bind to this class instance
+	 * @param 		{Function} 	func - The function to bind to this class instance
 	 * @returns	this
 	 */
 	bind: function(func)
@@ -75,8 +75,8 @@ __denumerate(conbo.Class.prototype);
  * Extend this class to create a new class
  * 
  * @memberof 	conbo.Class
- * @param		{object}	protoProps - Object containing the new class's prototype
- * @param		{object}	staticProps - Object containing the new class's static methods and properties
+ * @param		{Object}	protoProps - Object containing the new class's prototype
+ * @param		{Object}	staticProps - Object containing the new class's static methods and properties
  * 
  * @example		
  * var MyClass = conbo.Class.extend
@@ -89,14 +89,15 @@ __denumerate(conbo.Class.prototype);
  */
 conbo.Class.extend = function(protoProps, staticProps)
 {
-	var child, parent=this;
+	var parent = this;
 	
 	/**
 	 * The constructor function for the new subclass is either defined by you
 	 * (the 'constructor' property in your `extend` definition), or defaulted
 	 * by us to simply call the parent's constructor.
+	 * @ignore
 	 */
-	child = protoProps && conbo.has(protoProps, 'constructor')
+	var child = protoProps && conbo.has(protoProps, 'constructor')
 		? protoProps.constructor
 		: function() { return parent.apply(this, arguments); };
 	
@@ -105,6 +106,7 @@ conbo.Class.extend = function(protoProps, staticProps)
 	/**
 	 * Set the prototype chain to inherit from parent, without calling
 	 * parent's constructor
+	 * @ignore
 	 */
 	var Surrogate = function(){ this.constructor = child; };
 	Surrogate.prototype = parent.prototype;

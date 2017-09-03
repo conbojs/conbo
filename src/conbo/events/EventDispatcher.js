@@ -72,7 +72,7 @@
 	 * @class		conbo.EventDispatcher
 	 * @augments	conbo.Class
 	 * @author		Neil Rackett
-	 * @param 		{object} options - Object containing optional initialisation options, including 'context'
+	 * @param 		{Object} options - Object containing optional initialisation options, including 'context'
 	 */
 	conbo.EventDispatcher = conbo.ConboClass.extend(
 	/** @lends conbo.EventDispatcher.prototype */
@@ -93,10 +93,10 @@
 		 * Add a listener for a particular event type
 		 * 
 		 * @param 	{string}		type - Type of event ('change') or events ('change blur')
-		 * @param 	{function}		handler - Function that should be called
-		 * @param 	{object}		scope - The scope in which to run the event handler (optional)
-		 * @param 	{number}		priority - The event handler's priority when the event is dispatached (default: 0)
-		 * @param 	{boolean}		once - Should the event listener automatically be removed after it has been called once? (default: false)
+		 * @param 	{Function}		handler - Function that should be called
+		 * @param 	{Object}		[scope] - The scope in which to run the event handler
+		 * @param 	{number}		[priority=0] - The event handler's priority when the event is dispatached
+		 * @param 	{boolean}		[once=false] - Should the event listener automatically be removed after it has been called once?
 		 * @returns	{conbo.EventDispatcher}	A reference to this class instance 
 		 */
 		addEventListener: function(type, handler, scope, priority, once)
@@ -113,9 +113,9 @@
 		/**
 		 * Remove a listener for a particular event type
 		 * 
-		 * @param {string}		type - Type of event ('change') or events ('change blur') (optional: if not specified, all listeners will be removed) 
-		 * @param {function}	handler - Function that should be called (optional: if not specified, all listeners of the specified type will be removed)
-		 * @param {object} 		scope - The scope in which the handler is set to run (optional)
+		 * @param {string}		[type] - Type of event ('change') or events ('change blur'), if not specified, all listeners will be removed 
+		 * @param {Function}	[handler] - Function that should be called, if not specified, all listeners of the specified type will be removed
+		 * @param {Object} 		[scope] - The scope in which the handler is set to run
 		 * @returns	{conbo.EventDispatcher}	A reference to this class instance 
 		 */
 		removeEventListener: function(type, handler, scope)
@@ -142,8 +142,8 @@
 		 * Does this object have an event listener of the specified type?
 		 * 
 		 * @param 	{string}	type - Type of event (e.g. 'change') 
-		 * @param 	{function}	handler - Function that should be called (optional)
-		 * @param 	{object} 	scope - The scope in which the handler is set to run (optional)
+		 * @param 	{Function}	[handler] - Function that should be called
+		 * @param 	{Object} 	[scope] - The scope in which the handler is set to run
 		 * @returns	{boolean}	True if this object has the specified event listener, false if it does not
 		 */
 		hasEventListener: function(type, handler, scope)

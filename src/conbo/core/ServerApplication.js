@@ -6,7 +6,7 @@
  * @class		conbo.ServerApplication
  * @augments	conbo.EventDispatcher
  * @author		Neil Rackett
- * @param 		{object} options - Object containing initialisation options
+ * @param 		{Object} options - Object containing initialisation options
  */
 conbo.ServerApplication = conbo.EventDispatcher.extend(
 /** @lends conbo.ServerApplication.prototype */

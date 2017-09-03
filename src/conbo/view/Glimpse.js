@@ -8,10 +8,11 @@
  * can bind data to it using the `cb-data` attribute to set the data 
  * property of your Glimpse
  * 
- * @class		conbo.Glimpse
+ * @class		Glimpse
+ * @memberof	conbo
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
- * @param 		{object} options - Object containing initialisation options
+ * @param 		{Object} options - Object containing initialisation options
  */
 conbo.Glimpse = conbo.EventDispatcher.extend(
 /** @lends conbo.Glimpse.prototype */

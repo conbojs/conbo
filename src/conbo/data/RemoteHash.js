@@ -5,7 +5,7 @@
  * @class		conbo.RemoteHash
  * @augments	conbo.Hash
  * @author 		Neil Rackett
- * @param 		{object} options - Object containing initialisation options, see Hash
+ * @param 		{Object} options - Object containing initialisation options, see Hash
  * @fires		conbo.ConboEvent#CHANGE
  * @fires		conbo.ConboEvent#RESULT
  * @fires		conbo.ConboEvent#FAULT

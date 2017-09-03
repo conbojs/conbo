@@ -8,7 +8,7 @@
  * @class		conbo.Namespace
  * @augments	conbo.Class
  * @author 		Neil Rackett
- * @param 		{object} options - Object containing initialisation options
+ * @param 		{Object} options - Object containing initialisation options
  */
 conbo.Namespace = conbo.ConboClass.extend(
 /** @lends conbo.Namespace.prototype */
@@ -29,7 +29,7 @@ conbo.Namespace = conbo.ConboClass.extend(
 	/**
 	 * Search the DOM and initialize Applications contained in this namespace
 	 * 
-	 * @param 	{Element} 	rootEl - The root element to initialize (optional)
+	 * @param 	{Element} 	[rootEl] - The root element to initialize
 	 * @returns {this}
 	 */
 	initDom: function(rootEl)
@@ -43,7 +43,7 @@ conbo.Namespace = conbo.ConboClass.extend(
 	 * this namespace when an element with the appropriate cb-app attribute
 	 * is added.
 	 * 
-	 * @param 	{Element} 	rootEl - The root element to initialize (optional)
+	 * @param 	{Element} 	[rootEl] - The root element to initialize
 	 * @returns {this}
 	 */
 	observeDom: function(rootEl)
@@ -55,7 +55,7 @@ conbo.Namespace = conbo.ConboClass.extend(
 	/**
 	 * Stop watching the DOM for Applications
 	 * 
-	 * @param 	{Element} 	rootEl - The root element to initialize (optional)
+	 * @param 	{Element} 	[rootEl] - The root element to initialize
 	 * @returns {this}
 	 */
 	unobserveDom: function(rootEl)
@@ -68,7 +68,7 @@ conbo.Namespace = conbo.ConboClass.extend(
 	 * Add classes, properties or methods to the namespace. Using this method
 	 * will not overwrite existing items of the same name.
 	 * 
-	 * @param 	{object}			obj - An object containing items to add to the namespace 
+	 * @param 	{Object}			obj - An object containing items to add to the namespace 
 	 * @returns	{conbo.Namespace}	This Namespace instance
 	 */
 	import: function(obj)

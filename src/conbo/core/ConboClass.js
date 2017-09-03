@@ -9,14 +9,14 @@
  * @class		conbo.ConboClass
  * @augments	conbo.Class
  * @author		Neil Rackett
- * @param 		{object}	options - Class configuration object
+ * @param 		{Object}	options - Class configuration object
  */
 conbo.ConboClass = conbo.Class.extend(
 /** @lends conbo.ConboClass.prototype */
 {
 	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
-	 * @param 	{object}	options - Class configuration object
+	 * @param 	{Object}	options - Class configuration object
 	 */
 	constructor: function(options)
 	{

@@ -10,7 +10,7 @@
  * @augments	conbo.Event
  * @author		Neil Rackett
  * @param 		{string}	type - The type of event this object represents
- * @param 		{object}	options - Properties to be added to this event object
+ * @param 		{Object}	options - Properties to be added to this event object
  */
 conbo.ConboEvent = conbo.Event.extend(
 /** @lends conbo.ConboEvent.prototype */
@@ -69,7 +69,7 @@ conbo.ConboEvent = conbo.Event.extend(
      * @property		{conbo.Router}	router - The router that handled the route change
      * @property		{RegExp} 		route - The route that was followed
      * @property		{string} 		name - The name assigned to the route
-     * @property		{array} 		parameters - The parameters extracted from the route
+     * @property		{Array} 		parameters - The parameters extracted from the route
      * @property		{string} 		path - The new path 
 	 */
 	ROUTE:				'route', 			

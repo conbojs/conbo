@@ -38,7 +38,7 @@
 	 * Is the specified attribute reserved for another purpose?
 	 * 
 	 * @private
-	 * @param 		{String}	value
+	 * @param 		{string}	value
 	 * @returns		{Boolean}
 	 */
 	var BindingUtils__isReservedAttr = function(value)
@@ -50,7 +50,7 @@
 	 * Attempt to make a property bindable if it isn't already
 	 * 
 	 * @private
-	 * @param 		{String}	value
+	 * @param 		{string}	value
 	 * @returns		{Boolean}
 	 */
 	var BindingUtils__makeBindable = function(source, propertyName)
@@ -73,8 +73,8 @@
 	 * characters from Strings
 	 * 
 	 * @private
-	 * @param 		{String}	value - String value to clean
-	 * @returns		{String}
+	 * @param 		{string}	value - String value to clean
+	 * @returns		{string}
 	 */
 	var BindingUtils__cleanPropertyName = function(value)
 	{
@@ -82,7 +82,7 @@
 	};
 	
 	/**
-	 * Binding utility class
+	 * Binding utilities class
 	 * 
 	 * Used to bind properties of EventDispatcher class instances to DOM elements, 
 	 * other EventDispatcher class instances or setter functions
@@ -108,8 +108,8 @@
 		 * which can be used to manipulate bound data in real time
 		 * 
 		 * @param 		{conbo.EventDispatcher}	source			Class instance which extends from conbo.EventDispatcher
-		 * @param 		{String} 				propertyName	Property name to bind
-		 * @param 		{DOMElement} 			el				DOM element to bind value to (two-way bind on input/form elements)
+		 * @param 		{string} 				propertyName	Property name to bind
+		 * @param 		{HTMLElement} 			el				DOM element to bind value to (two-way bind on input/form elements)
 		 * @param 		{Function}				parseFunction	Optional method used to parse values before outputting as HTML
 		 * 
 		 * @returns		{Array}									Array of bindings
@@ -291,11 +291,11 @@
 		 * will automatically be updated when the property changes.
 		 * 
 		 * @param 	{conbo.EventDispatcher}	source			Class instance which extends from conbo.EventDispatcher (e.g. Hash or Model)
-		 * @param 	{String}				propertyName	Property name to bind
-		 * @param 	{DOMElement}			element			DOM element to bind value to (two-way bind on input/form elements)
-		 * @param 	{String}				attributeName	The attribute to bind as it appears in HTML, e.g. "cb-prop-name"
-		 * @param 	{Function} 				parseFunction	Method used to parse values before outputting as HTML (optional)
-		 * @param	{Object}				options			Options related to this attribute binding (optional)
+		 * @param 	{string}				propertyName	Property name to bind
+		 * @param 	{HTMLElement}			element			DOM element to bind value to (two-way bind on input/form elements)
+		 * @param 	{string}				attributeName	The attribute to bind as it appears in HTML, e.g. "cb-prop-name"
+		 * @param 	{Function} 				[parseFunction]	Method used to parse values before outputting as HTML
+		 * @param	{Object}				[options]		Options related to this attribute binding
 		 * 
 		 * @returns	{Array}					Array of bindings
 		 */
@@ -481,8 +481,8 @@
 		/**
 		 * Applies the specified read-only Conbo or custom attribute to the specified element
 		 * 
-		 * @param 	{DOMElement}			element			DOM element to bind value to (two-way bind on input/form elements)
-		 * @param 	{String}				attributeName	The attribute to bind as it appears in HTML, e.g. "cb-prop-name"
+		 * @param 	{HTMLElement}			element			DOM element to bind value to (two-way bind on input/form elements)
+		 * @param 	{string}				attributeName	The attribute to bind as it appears in HTML, e.g. "cb-prop-name"
 		 * @returns	{conbo.BindingUtils}	A reference to this object 
 		 * 
 		 * @example
@@ -517,7 +517,7 @@
 		
 		/**
 		 * Does the specified Conbo or custom attribute exist?
-		 * @param 	{String}				attributeName - The attribute name as it appears in HTML, e.g. "cb-prop-name"
+		 * @param 	{string}				attributeName - The attribute name as it appears in HTML, e.g. "cb-prop-name"
 		 * @returns	{Boolean}
 		 */
 		attributeExists: function(attributeName)
@@ -761,9 +761,9 @@
 		 * Bind the property of one EventDispatcher class instance (e.g. Hash or View) to another
 		 * 
 		 * @param 	{conbo.EventDispatcher}	source						Class instance which extends conbo.EventDispatcher
-		 * @param 	{String}			sourcePropertyName			Source property name
+		 * @param 	{string}			sourcePropertyName			Source property name
 		 * @param 	{any}				destination					Object or class instance which extends conbo.EventDispatcher
-		 * @param 	{String}			destinationPropertyName		Optional (default: sourcePropertyName)
+		 * @param 	{string}			destinationPropertyName		Optional (default: sourcePropertyName)
 		 * @param 	{Boolean}			twoWay						Optional (default: false)
 		 * @returns	{conbo.BindingUtils}	A reference to this object 
 		 */
@@ -804,7 +804,7 @@
 		 * class instance (e.g. Hash or Model) is changed
 		 * 
 		 * @param 	{conbo.EventDispatcher}	source				Class instance which extends conbo.EventDispatcher
-		 * @param 	{String}			propertyName
+		 * @param 	{string}			propertyName
 		 * @param 	{Function}			setterFunction
 		 * @returns	{conbo.BindingUtils}	A reference to this object 
 		 */
@@ -839,7 +839,7 @@
 		 * Default parse function
 		 * 
 		 * @param	{*} 		value - The value to be parsed
-		 * @returns	{function}
+		 * @returns	{Function}
 		 */
 		defaultParseFunction: function(value)
 		{
@@ -873,7 +873,7 @@
 		 * Register a custom attribute handler
 		 * 
 		 * @param		{string}	name - camelCase version of the attribute name (must include a namespace prefix)
-		 * @param		{function}	handler - function that will handle the data bound to the element
+		 * @param		{Function}	handler - function that will handle the data bound to the element
 		 * @param 		{boolean}	readOnly - Whether or not the attribute is read-only (default: false)
 		 * @param 		{boolean}	raw - Whether or not parameters should be passed to the handler as a raw String instead of a bound value (default: false)
 		 * @returns		{conbo.BindingUtils}	A reference to this object 
@@ -926,7 +926,7 @@
 		 * Register one or more custom attribute handlers 
 		 * 
 		 * @see			#registerAttribute
-		 * @param 		{object}				handlers - Object containing one or more custom attribute handlers
+		 * @param 		{Object}				handlers - Object containing one or more custom attribute handlers
 		 * @param 		{boolean}				readOnly - Whether or not the attributes are read-only (default: false)
 		 * @returns		{conbo.BindingUtils}	A reference to this object 
 		 * 

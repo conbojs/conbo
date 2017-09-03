@@ -6,7 +6,7 @@
  * @class		conbo.Application
  * @augments	conbo.View
  * @author		Neil Rackett
- * @param 		{object} options - Object containing optional initialisation options, see View
+ * @param 		{Object} options - Object containing optional initialisation options, see View
  * @fires		conbo.ConboEvent#ADD
  * @fires		conbo.ConboEvent#DETACH
  * @fires		conbo.ConboEvent#REMOVE
