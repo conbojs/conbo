@@ -4,7 +4,8 @@
  * Functions that can be used to bind DOM elements to properties of Bindable 
  * class instances to DOM elements via their attributes.
  * 
- * @class		conbo.AttributeBindings
+ * @class		AttributeBindings
+ * @memberof	conbo
  * @augments	conbo.Class
  * @author 		Neil Rackett
  */

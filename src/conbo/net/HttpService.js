@@ -8,7 +8,8 @@
  * response data, change the contentType and implement encodeFunction if 
  * you're using RPC.  
  * 
- * @class		conbo.HttpService
+ * @class		HttpService
+ * @memberof	conbo
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
  * @param 		{Object} options - Object containing optional initialisation options, including 'rootUrl', 'contentType', 'dataType', 'headers', 'encodeFunction', 'decodeFunction', 'resultClass','makeObjectsBindable'

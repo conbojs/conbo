@@ -3,7 +3,8 @@
  * 
  * A conbo.View class that implements the conbo.IDataRenderer interface
  * 
- * @class		conbo.ItemRenderer
+ * @class		ItemRenderer
+ * @memberof	conbo
  * @augments	conbo.View
  * @author 		Neil Rackett
  * @param 		{Object} options - Object containing initialisation options (see View)

@@ -3,7 +3,8 @@
  * 
  * Base class for applications that don't require DOM, e.g. Node.js
  * 
- * @class		conbo.ServerApplication
+ * @class		ServerApplication
+ * @memberof	conbo
  * @augments	conbo.EventDispatcher
  * @author		Neil Rackett
  * @param 		{Object} options - Object containing initialisation options

@@ -87,7 +87,8 @@
 	 * Used to bind properties of EventDispatcher class instances to DOM elements, 
 	 * other EventDispatcher class instances or setter functions
 	 * 
-	 * @class		conbo.BindingUtils
+	 * @class		BindingUtils
+	 * @memberof	conbo
 	 * @augments	conbo.Class
 	 * @author 		Neil Rackett
 	 */

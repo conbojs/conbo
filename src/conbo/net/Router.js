@@ -6,7 +6,8 @@
  * 
  * Derived from the Backbone.js class of the same name
  * 
- * @class		conbo.Router
+ * @class		Router
+ * @memberof	conbo
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
  * @param 		{Object} options - Object containing initialisation options

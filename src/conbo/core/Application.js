@@ -3,7 +3,8 @@
  * 
  * Base application class for client-side applications
  * 
- * @class		conbo.Application
+ * @class		Application
+ * @memberof	conbo
  * @augments	conbo.View
  * @author		Neil Rackett
  * @param 		{Object} options - Object containing optional initialisation options, see View

@@ -2,7 +2,8 @@
  * Remote List
  * Used for syncing remote array data with a local List
  * 
- * @class		conbo.RemoteList
+ * @class		RemoteList
+ * @memberof	conbo
  * @augments	conbo.List
  * @author 		Neil Rackett
  * @param 		{Object} options - Object containing initialisation options, including HttpService options

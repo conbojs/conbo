@@ -6,7 +6,8 @@
  * the specified `itemClass` when added to a List, and the appropriate
  * events dispatched if the items it contains are changed or updated.
  * 
- * @class		conbo.List
+ * @class		List
+ * @memberof	conbo
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
  * @param 		{Object} options - Object containing optional initialisation options, including `source` (array), `context` (Context) and `itemClass` (Class)

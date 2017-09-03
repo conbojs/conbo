@@ -6,7 +6,8 @@
  * with an empty Object if no parameter is passed and automatically making all
  * properties bindable.
  * 
- * @class		conbo.ConboClass
+ * @class		ConboClass
+ * @memberof	conbo
  * @augments	conbo.Class
  * @author		Neil Rackett
  * @param 		{Object}	options - Class configuration object

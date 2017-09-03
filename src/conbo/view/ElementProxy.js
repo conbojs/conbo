@@ -4,7 +4,8 @@
  * Wraps an Element to add cross browser or simplified functionality;
  * think of it as "jQuery nano"
  * 
- * @class		conbo.ElementProxy
+ * @class		ElementProxy
+ * @memberof	conbo
  * @augments	conbo.EventProxy
  * @author 		Neil Rackett
  * @param 		{Element} el - Element to be proxied

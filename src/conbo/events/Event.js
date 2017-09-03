@@ -3,7 +3,8 @@
  * 
  * Base class for all events triggered in ConboJS
  * 
- * @class		conbo.Event
+ * @class		Event
+ * @memberof	conbo
  * @augments	conbo.Class
  * @author		Neil Rackett
  * @param 		{string}	type - The type of event this object represents

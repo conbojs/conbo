@@ -2,7 +2,8 @@
  * conbo.Hash
  * A Hash is a bindable object of associated keys and values
  * 
- * @class		conbo.Hash
+ * @class		Hash
+ * @memberof	conbo
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
  * @param 		{Object} options - Object containing optional initialisation options, including 'source' (object) containing initial values

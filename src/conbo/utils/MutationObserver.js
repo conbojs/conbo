@@ -4,7 +4,8 @@
  * Simplified mutation observer dispatches ADD and REMOVE events following 
  * changes in the DOM, compatible with IE9+ and all modern browsers
  * 
- * @class		conbo.MutationObserver
+ * @class		MutationObserver
+ * @memberof	conbo
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
  * @param 		{Object} options - Object containing initialisation options

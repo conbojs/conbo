@@ -5,7 +5,8 @@
  * usually where all your models and web service classes are registered,
  * using mapSingleton(...), and Command classes are mapped to events 
  * 
- * @class		conbo.Context
+ * @class		Context
+ * @memberof	conbo
  * @augments	conbo.EventDispatcher
  * @author		Neil Rackett
  * @param 		{Object} options - Object containing initialisation options, including 'app' (Application) and 'namespace' (Namespace) 

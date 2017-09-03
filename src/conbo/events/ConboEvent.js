@@ -6,7 +6,8 @@
  * For consistency, callback parameters of Backbone.js derived classes 
  * are event object properties in ConboJS
  * 
- * @class		conbo.ConboEvent
+ * @class		ConboEvent
+ * @memberof	conbo
  * @augments	conbo.Event
  * @author		Neil Rackett
  * @param 		{string}	type - The type of event this object represents

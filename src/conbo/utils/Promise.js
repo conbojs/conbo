@@ -15,7 +15,8 @@
 	 * The Conbo implementation varies slightly from ES6 in that the values passed to the
 	 * resolve and reject methods are ResultEvent and FaultEvent objects, respectively.
 	 * 
-	 * @class		conbo.Promise
+	 * @class		Promise
+	 * @memberof	conbo
 	 * @augments	conbo.EventDispatcher
 	 * @author 		Neil Rackett
 	 * @param 		[{Function}] executor - A function that is passed with the arguments resolve and reject, which is executed immediately by the Promise

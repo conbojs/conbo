@@ -5,7 +5,8 @@
  * By default, namespaces will automatically call initDom() when the HTML page
  * has finished loading.
  * 
- * @class		conbo.Namespace
+ * @class		Namespace
+ * @memberof	conbo
  * @augments	conbo.Class
  * @author 		Neil Rackett
  * @param 		{Object} options - Object containing initialisation options

@@ -2,7 +2,8 @@
  * LocalList is a persistent List class that is saved into LocalStorage
  * or SessionStorage
  * 
- * @class		conbo.LocalList
+ * @class		LocalList
+ * @memberof	conbo
  * @augments	conbo.List
  * @author 		Neil Rackett
  * @param 		{Object} options - Object containing initialisation options, including 'name' (String), 'session' (Boolean) and 'source' (Array) of default options

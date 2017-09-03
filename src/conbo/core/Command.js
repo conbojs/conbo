@@ -4,7 +4,8 @@
  * Base class for commands to be registered in your Context 
  * using mapCommand(...)
  * 
- * @class		conbo.Command
+ * @class		Command
+ * @memberof	conbo
  * @augments	conbo.EventDispatcher
  * @author		Neil Rackett
  * @param 		{Object} options - Object containing optional initialisation options, including 'context' (Context)

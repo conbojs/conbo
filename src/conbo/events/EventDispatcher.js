@@ -69,7 +69,8 @@
 	 * Should be used as the base class for any class that won't be used for 
 	 * data binding
 	 * 
-	 * @class		conbo.EventDispatcher
+	 * @class		EventDispatcher
+	 * @memberof	conbo
 	 * @augments	conbo.Class
 	 * @author		Neil Rackett
 	 * @param 		{Object} options - Object containing optional initialisation options, including 'context'

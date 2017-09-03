@@ -4,7 +4,8 @@
  * Standardises the adding and removing of event listeners across DOM elements,
  * Conbo EventDispatchers and jQuery instances 
  * 
- * @class		conbo.EventProxy
+ * @class		EventProxy
+ * @memberof	conbo
  * @augments	conbo.Class
  * @author 		Neil Rackett
  * @param 		{Object} eventDispatcher - Element, EventDispatcher or jQuery object to be proxied

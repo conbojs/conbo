@@ -2,7 +2,8 @@
  * Remote Hash
  * Used for syncing remote data with a local Hash
  * 
- * @class		conbo.RemoteHash
+ * @class		RemoteHash
+ * @memberof	conbo
  * @augments	conbo.Hash
  * @author 		Neil Rackett
  * @param 		{Object} options - Object containing initialisation options, see Hash
