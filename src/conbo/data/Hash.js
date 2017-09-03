@@ -16,7 +16,7 @@ conbo.Hash = conbo.EventDispatcher.extend(
 	 * @deprecated 
 	 * @member		{Object}	_defaults - The default values to use if not all properties are set. 
 	 * 										This property is now deprected, defaults should be set in declarations() 
-	 * @memberOf	conbo.Hash.prototype
+	 * @memberof	conbo.Hash.prototype
 	 */
 	
 	/**

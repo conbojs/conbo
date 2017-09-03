@@ -25,47 +25,47 @@ conbo.View = conbo.Glimpse.extend(
 {
 	/**
 	 * @member		{Object}	attributes - Attributes to apply to the View's element
-	 * @memberOf	conbo.View.prototype
+	 * @memberof	conbo.View.prototype
 	 */
 	
 	/**
 	 * @member		{string}	className - CSS class name(s) to apply to the View's element
-	 * @memberOf	conbo.View.prototype
+	 * @memberof	conbo.View.prototype
 	 */
 	
 	/**
 	 * @member		{Object}	data - Arbitrary data Object
-	 * @memberOf	conbo.View.prototype
+	 * @memberof	conbo.View.prototype
 	 */
 	
 	/**
 	 * @member		{string}	id - ID to apply to the View's element
-	 * @memberOf	conbo.View.prototype
+	 * @memberof	conbo.View.prototype
 	 */
 	
 	/**
 	 * @member		{string}	tagName - The tag name to use for the View's element (if no element specified)
-	 * @memberOf	conbo.View.prototype
+	 * @memberof	conbo.View.prototype
 	 */
 	
 	/**
 	 * @member		{string}	template - Template to apply to the View's element
-	 * @memberOf	conbo.View.prototype
+	 * @memberof	conbo.View.prototype
 	 */
 	
 	/**
 	 * @member		{string}	templateUrl - Template to load and apply to the View's element
-	 * @memberOf	conbo.View.prototype
+	 * @memberof	conbo.View.prototype
 	 */
 	
 	/**
 	 * @member		{boolean}	templateCacheEnabled - Whether or not the contents of templateUrl should be cached on first load for use with future instances of this View class (default: true)
-	 * @memberOf	conbo.View.prototype
+	 * @memberof	conbo.View.prototype
 	 */
 	
 	/**
 	 * @member		{boolean}	autoInitTemplate - Whether or not the template should automatically be loaded and applied, rather than waiting for the user to call initTemplate (default: true)
-	 * @memberOf	conbo.View.prototype
+	 * @memberof	conbo.View.prototype
 	 */
 	
 	/**

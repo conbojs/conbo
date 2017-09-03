@@ -18,23 +18,15 @@ var __namespaces = {};
  * pattern and an event model which enables callback scoping and consistent 
  * event handling
  * 
- * @variation	1
- * @module		conbo
- * @author		Neil Rackett
- * @see			http://conbo.mesmotronic.com/
- */
-
-/**
  * All ConboJS classes, methods and properties live within the conbo namespace
  * 
- * @variation	2
  * @namespace 	conbo
  */
 
 /**
- * Create or access a reference to a ConboJS namespace
+ * Create or access a ConboJS namespace
  * 
- * @variation	3
+ * @variation	2
  * @function	conbo
  * @param		{string}	namespace - The selected namespace
  * @param		{...*}		[globals] - Globals to minify followed by function to execute, with each of the globals as parameters

@@ -725,20 +725,6 @@
 	var ctor = function(){};
 
 	/**
-	 * Create a function bound to a given object (assigning `this`)
-	 * 
-	 * @deprecated	Use Function.prototype.bind
-	 * @memberof	conbo
-	 * @param		{Function}	func - Method to bind
-	 * @param		{Object}	scope - The scope to bind the method to
-	 * @returns		{Function}
-	 */
-	conbo.bind = function(func, scope) 
-	{
-		return func.bind.apply(func, conbo.rest(arguments));
-	};
-	
-	/**
 	 * Bind one or more of an object's methods to that object. Remaining arguments
 	 * are the method names to be bound. If no additional arguments are passed,
 	 * all of the objects methods that are not native or accessors are bound to it.
@@ -1449,43 +1435,49 @@
 	};
 
 	/**
-	 * @memberOf	conbo
-	 * @member		{Function}	isArguments - Is the specified object Arguments?
+	 * Is the specified object Arguments?
+	 * @method		isArguments 
+	 * @memberof	conbo
 	 * @param		{Object}	obj - The object to test
 	 * @returns		{boolean}
 	 */
 	
 	/**
-	 * @memberOf	conbo
-	 * @member		{Function}	isFunction - Is the specified object a Function? 
+	 * Is the specified object a Function?
+	 * @method		isFunction  
+	 * @memberof	conbo
 	 * @param		{Object}	obj - The object to test
 	 * @returns		{boolean}
 	 */
 	
 	/**
-	 * @memberOf	conbo
-	 * @member		{Function}	isString - Is the specified object a String? 
+	 * Is the specified object a String?
+	 * @method		isString
+	 * @memberof	conbo
 	 * @param		{Object}	obj - The object to test
 	 * @returns		{boolean}
 	 */
 	
 	/**
-	 * @memberOf	conbo
-	 * @member		{Function}	isNumber - Is the specified object a Number? 
+	 * Is the specified object a Number?
+	 * @method		isNumber  
+	 * @memberof	conbo
 	 * @param		{Object}	obj - The object to test
 	 * @returns		{boolean}
 	 */
 	
 	/**
-	 * @memberOf	conbo
-	 * @member		{Function}	isDate - Is the specified object a Date? 
+	 * Is the specified object a Date?
+	 * @method		isDate  
+	 * @memberof	conbo
 	 * @param		{Object}	obj - The object to test
 	 * @returns		{boolean}
 	 */
 	
 	/**
-	 * @memberOf	conbo
-	 * @member		{Function}	isRegExp - Is the specified object a RegExp (regular expression)? 
+	 * Is the specified object a RegExp (regular expression)?
+	 * @method		isRegExp  
+	 * @memberof	conbo
 	 * @param		{Object}	obj - The object to test
 	 * @returns		{boolean}
 	 */
@@ -2512,7 +2504,7 @@
 	conbo.logEnabled = true;
 	
 	/**
-	 * @memberOf	conbo
+	 * @memberof	conbo
 	 * @member		{Function}	log - Add a log message to the console
 	 * @param		{...*}		values - Values to display in the console	
 	 * @returns		{void}
@@ -2520,7 +2512,7 @@
 	 */
 	
 	/**
-	 * @memberOf	conbo
+	 * @memberof	conbo
 	 * @member		{Function}	warn - Add a warning message to the console
 	 * @param		{...*}		values - Values to display in the console	
 	 * @returns		{void}
@@ -2528,7 +2520,7 @@
 	 */
 	
 	/**
-	 * @memberOf	conbo
+	 * @memberof	conbo
 	 * @member		{Function}	info - Add information to the console
 	 * @param		{...*}		values - Values to display in the console	
 	 * @returns		{void}
@@ -2536,7 +2528,7 @@
 	 */
 	
 	/**
-	 * @memberOf	conbo
+	 * @memberof	conbo
 	 * @member		{Function}	error - Add an error log message to the console
 	 * @param		{...*}		values - Values to display in the console	
 	 * @returns		{void}

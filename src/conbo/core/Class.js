@@ -43,18 +43,6 @@ conbo.Class.prototype =
 	},
 	
 	/**
-	 * Scope a function to this class instance
-	 * 
-	 * @deprecated	Use native Function.bind()
-	 * @param 		{Function} 	func - The function to bind to this class instance
-	 * @returns	this
-	 */
-	bind: function(func)
-	{
-		return conbo.bind.apply(conbo, [func, this].concat(conbo.rest(arguments)));
-	},
-	
-	/**
 	 * Scope all methods of this class instance to this class instance
 	 * @returns this
 	 */
