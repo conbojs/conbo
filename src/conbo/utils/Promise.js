@@ -19,7 +19,7 @@
 	 * @memberof	conbo
 	 * @augments	conbo.EventDispatcher
 	 * @author 		Neil Rackett
-	 * @param 		[{Function}] executor - A function that is passed with the arguments resolve and reject, which is executed immediately by the Promise
+	 * @param 		{Function} [executor] - A function that is passed with the arguments resolve and reject, which is executed immediately by the Promise
 	 * @fires		conbo.ConboEvent#RESULT
 	 * @fires		conbo.ConboEvent#FAULT
 	 */
@@ -43,8 +43,8 @@
 		
 		/**
 		 * Dispatch a result event using the specified result
-		 * @param 	result
-		 * @returns {conbo.Promise}
+		 * @param 		{*} result - The result to dispatch
+		 * @returns 	{conbo.Promise}
 		 */
 		dispatchResult: function(result)
 		{
@@ -53,9 +53,18 @@
 		},
 		
 		/**
+		 * Psedonym for dispatchResult
+		 * @method		resolve	
+		 * @memberof	conbo.Promise.prototype
+		 * @param 		{*} result - The result to dispatch
+		 * @returns 	{conbo.Promise}
+		 * @see			#dispatchResult
+		 */
+		
+		/**
 		 * Dispatch a fault event using the specified fault
-		 * @param 	result
-		 * @returns {conbo.Promise}
+		 * @param 		{*} result - The fault to dispatch
+		 * @returns 	{conbo.Promise}
 		 */
 		dispatchFault: function(fault)
 		{
@@ -64,12 +73,21 @@
 		},
 		
 		/**
+		 * Psedonym for dispatchFault
+		 * @method		reject
+		 * @memberof	conbo.Promise.prototype
+		 * @param 		{*} result - The fault to dispatch
+		 * @returns 	{conbo.Promise}
+		 * @see			#dispatchFault
+		 */
+		
+		/**
 		 * Shorthand method for adding a result and/or fault event handlers
 		 *  
-		 * @param	{Function}	resultHandler
-		 * @param	{Function}	faultHandler
-		 * @param	{Object}	scope
-		 * @returns	{conbo.Promise}
+		 * @param		{Function}	resultHandler
+		 * @param		{Function}	faultHandler
+		 * @param		{Object}	scope
+		 * @returns		{conbo.Promise}
 		 */
 		then: function(resultHandler, faultHandler, scope)
 		{
@@ -82,9 +100,9 @@
 		/**
 		 * Shorthand method for adding a fault event handler
 		 *  
-		 * @param	{Function}	faultHandler
-		 * @param	{Object}	scope
-		 * @returns	{conbo.Promise}
+		 * @param		{Function}	faultHandler
+		 * @param		{Object}	scope
+		 * @returns		{conbo.Promise}
 		 */
 		catch: function(faultHandler, scope)
 		{
@@ -95,7 +113,7 @@
 		
 		/**
 		 * The class name as a string
-		 * @returns {string}
+		 * @returns 	{string}
 		 */
 		toString: function()
 		{

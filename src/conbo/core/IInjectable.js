@@ -4,12 +4,17 @@
  * (properties of undefined value which match registered singletons); should
  * be used via the Class.implement method
  * 
- * @augments	conbo
+ * @memberof	conbo
  * @example		var C = conbo.Class.extend().implement(conbo.IInjectable);
+ * @example		conbo.defineValues(classInstance, conbo.IInjectable);
  * @author		Neil Rackett
  */
 conbo.IInjectable =
 {
+	/**
+	 * The current class instance's context
+	 * @type	{conbo.Context}
+	 */
 	get context()
 	{
 		return this.__context;

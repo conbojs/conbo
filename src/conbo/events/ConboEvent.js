@@ -16,6 +16,11 @@
 conbo.ConboEvent = conbo.Event.extend(
 /** @lends conbo.ConboEvent.prototype */
 {
+	/**
+	 * Initialize the ConboEvent class instance
+	 * @param	{string}	type - The type of event this class instance represents
+	 * @param	{Object}	[options] - Object containing additional properties to add to this class instance	
+	 */
 	initialize: function(type, options)
 	{
 		conbo.defineDefaults(this, options);

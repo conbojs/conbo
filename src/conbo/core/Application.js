@@ -44,6 +44,7 @@ conbo.Application = conbo.View.extend(
 	/**
 	 * Default context class to use
 	 * You'll normally want to override this with your own
+	 * @type	{conbo.Context}
 	 */
 	get contextClass() 
 	{
@@ -58,6 +59,7 @@ conbo.Application = conbo.View.extend(
 	/**
 	 * If true, the application will automatically apply Glimpse and View 
 	 * classes to elements when they're added to the DOM 
+	 * @type	{boolean}
 	 */
 	get observeEnabled()
 	{
@@ -77,7 +79,7 @@ conbo.Application = conbo.View.extend(
 			
 			mo.addEventListener(conbo.ConboEvent.ADD, function(event)
 			{
-				conbo.BindingUtils
+				conbo.bindingUtils
 					.applyViews(this, this.namespace)
 					.applyViews(this, this.namespace, 'glimpse')
 					;
@@ -105,6 +107,9 @@ conbo.Application = conbo.View.extend(
 		return 'conbo.Application';
 	},
 	
+	/**
+	 * @private
+	 */
 	__setEl: function(element)
 	{
 		conbo.View.prototype.__setEl.call(this, element);

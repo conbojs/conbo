@@ -19,7 +19,7 @@ conbo.Glimpse = conbo.EventDispatcher.extend(
 {
 	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
-	 * @param options
+	 * @param {Object} [options]
 	 * @private
 	 */
 	__construct: function(options)
@@ -38,7 +38,9 @@ conbo.Glimpse = conbo.EventDispatcher.extend(
 	},
 	
 	/**
-	 * The default `tagName` is `div`
+	 * When a new instance of this class is created without specifying an element,
+	 * it will use this tag name (the default is `div`)
+	 * @type	{string}
 	 */
 	get tagName()
 	{
@@ -51,7 +53,8 @@ conbo.Glimpse = conbo.EventDispatcher.extend(
 	},
 	
 	/**
-	 * The class's element
+	 * A reference to this class instance's element
+	 * @type	{HTMLElement}
 	 */
 	get el()
 	{

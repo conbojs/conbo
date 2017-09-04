@@ -6,7 +6,9 @@
  * @class		ItemRenderer
  * @memberof	conbo
  * @augments	conbo.View
+ * @augments	conbo.IDataRenderer
+ * @param 		{Object} [options] - Object containing initialisation options
+ * @see			conbo.View
  * @author 		Neil Rackett
- * @param 		{Object} options - Object containing initialisation options (see View)
  */
 conbo.ItemRenderer = conbo.View.extend().implement(conbo.IDataRenderer);

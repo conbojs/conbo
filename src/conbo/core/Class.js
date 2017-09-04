@@ -18,17 +18,23 @@ conbo.Class = function()
 conbo.Class.prototype =
 {
 	/**
-	 * Declarations is used to declare instance properties used by this class 
+	 * Declarations is used to declare instance properties used by this class
+	 * @param		{...*}
+	 * @returns		{void}
 	 */
 	declarations: function() {},
 	
 	/**
 	 * Preinitialize is called before any code in the constructor has been run
+	 * @param		{...*}
+	 * @returns		{void}
 	 */
 	preinitialize: function() {},
 	
 	/**
 	 * Initialize (entry point) is called immediately after the constructor has completed
+	 * @param		{...*}
+	 * @returns		{void}
 	 */
 	initialize: function() {},
 	
@@ -36,6 +42,8 @@ conbo.Class.prototype =
 	 * Similar to `super` in ActionScript or Java, this property enables 
 	 * you to access properties and methods of the super class prototype, 
 	 * which is the case of JavaScript is the next prototype up the chain
+	 * 
+	 * @returns	{*}
 	 */
 	get supro()
 	{
@@ -44,7 +52,7 @@ conbo.Class.prototype =
 	
 	/**
 	 * Scope all methods of this class instance to this class instance
-	 * @returns this
+	 * @returns 	{this}
 	 */
 	bindAll: function()
 	{
@@ -52,6 +60,10 @@ conbo.Class.prototype =
 		return this;
 	},
 	
+	/**
+	 * String representation of the current class
+	 * @returns		{string}
+	 */
 	toString: function()
 	{
 		return 'conbo.Class';

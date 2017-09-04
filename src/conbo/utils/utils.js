@@ -763,7 +763,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{Function}	func - Method to partially pre-fill
-	 * @param		{...*}		arg - Arguments to pass to specified method
+	 * @param		{...*}		args - Arguments to pass to specified method
 	 * @returns		{Function}
 	 */
 	conbo.partial = function(func) 
@@ -2331,14 +2331,14 @@
 			var args = propName.split("|");
 			var value, parseFunction;
 			
-			args[0] = conbo.BindingUtils.cleanPropertyName(args[0]);
+			args[0] = conbo.bindingUtils.cleanPropertyName(args[0]);
 			
 			try { value = eval("data."+args[0]);			} catch(e) {}
 			try { parseFunction = eval("data."+args[1]);	} catch(e) {}
 			
 			if (!conbo.isFunction(parseFunction)) 
 			{
-				parseFunction = conbo.BindingUtils.defaultParseFunction;
+				parseFunction = conbo.bindingUtils.defaultParseFunction;
 			}
 			
 			return parseFunction(value);

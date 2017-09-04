@@ -72,6 +72,7 @@
 	 * @class		EventDispatcher
 	 * @memberof	conbo
 	 * @augments	conbo.Class
+	 * @augments	conbo.IInjectable
 	 * @author		Neil Rackett
 	 * @param 		{Object} options - Object containing optional initialisation options, including 'context'
 	 */
