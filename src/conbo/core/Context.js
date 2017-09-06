@@ -5,10 +5,11 @@
  * usually where all your models and web service classes are registered,
  * using mapSingleton(...), and Command classes are mapped to events 
  * 
- * @class		conbo.Context
+ * @class		Context
+ * @memberof	conbo
  * @augments	conbo.EventDispatcher
  * @author		Neil Rackett
- * @param 		{object} options - Object containing initialisation options, including 'app' (Application) and 'namespace' (Namespace) 
+ * @param 		{Object} options - Object containing initialisation options, including 'app' (Application) and 'namespace' (Namespace) 
  */
 conbo.Context = conbo.EventDispatcher.extend(
 /** @lends conbo.Context.prototype */
@@ -85,7 +86,7 @@ conbo.Context = conbo.EventDispatcher.extend(
 		
 		if (this.__commands[eventType] && this.__commands[eventType].indexOf(commandClass) != -1)
 		{
-			return;
+			return this;
 		}
 		
 		this.__commands[eventType] = this.__commands[eventType] || [];
@@ -105,7 +106,7 @@ conbo.Context = conbo.EventDispatcher.extend(
 		if (commandClass === undefined)
 		{
 			delete this.__commands[eventType];
-			return;
+			return this;
 		}
 		
 		if (!this.__commands[eventType]) return;
@@ -194,7 +195,7 @@ conbo.Context = conbo.EventDispatcher.extend(
 	/**
 	 * Inject singleton instances into specified object
 	 * 
-	 * @param	obj		{object} 	The object to inject singletons into
+	 * @param	obj		{Object} 	The object to inject singletons into
 	 */
 	injectSingletons: function(obj)
 	{
@@ -214,7 +215,7 @@ conbo.Context = conbo.EventDispatcher.extend(
 	/**
 	 * Set all singleton instances on the specified object to undefined
 	 * 
-	 * @param	obj		{object} 	The object to remove singletons from
+	 * @param	obj		{Object} 	The object to remove singletons from
 	 */
 	uninjectSingletons: function(obj)
 	{

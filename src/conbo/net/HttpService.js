@@ -8,10 +8,11 @@
  * response data, change the contentType and implement encodeFunction if 
  * you're using RPC.  
  * 
- * @class		conbo.HttpService
+ * @class		HttpService
+ * @memberof	conbo
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
- * @param 		{object} options - Object containing optional initialisation options, including 'rootUrl', 'contentType', 'dataType', 'headers', 'encodeFunction', 'decodeFunction', 'resultClass','makeObjectsBindable'
+ * @param 		{Object} options - Object containing optional initialisation options, including 'rootUrl', 'contentType', 'dataType', 'headers', 'encodeFunction', 'decodeFunction', 'resultClass','makeObjectsBindable'
  * @fires		conbo.ConboEvent#RESULT
  * @fires		conbo.ConboEvent#FAULT
  */
@@ -75,10 +76,10 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	/**
 	 * Call a method of the web service using the specified verb
 	 * 
-	 * @param	{String}	command - The name of the command
-	 * @param	{Object}	data - Object containing the data to send to the web service
-	 * @param	{String}	method - GET, POST, etc (default: GET)
-	 * @param	{Class}		resultClass - Optional
+	 * @param	{string}	command - The name of the command
+	 * @param	{Object}	[data] - Object containing the data to send to the web service
+	 * @param	{string}	[method=GET] - GET, POST, etc (default: GET)
+	 * @param	{Class}		[resultClass] - Optional
 	 * @returns	{conbo.Promise}
 	 */
 	call: function(command, data, method, resultClass)
@@ -110,9 +111,9 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	 * 
 	 * @memberof	conbo.HttpService.prototype
 	 * @method		post
-	 * @param		{String}	command - The name of the command
-	 * @param		{Object}	data - Object containing the data to send to the web service
-	 * @param		{Class}		resultClass - Optional
+	 * @param		{string}	command - The name of the command
+	 * @param		{Object}	[data] - Object containing the data to send to the web service
+	 * @param		{Class}		[resultClass] - Optional
 	 * @returns		{conbo.Promise}
 	 */
 	
@@ -121,9 +122,9 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	 * 
 	 * @memberof	conbo.HttpService.prototype
 	 * @method		get 
-	 * @param		{String}	command - The name of the command
-	 * @param		{Object}	data - Object containing the data to send to the web service
-	 * @param		{Class}		resultClass - Optional
+	 * @param		{string}	command - The name of the command
+	 * @param		{Object}	[data] - Object containing the data to send to the web service
+	 * @param		{Class}		[resultClass] - Optional
 	 * @returns		{conbo.Promise}
 	 */
 	
@@ -132,9 +133,9 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	 * 
 	 * @memberof	conbo.HttpService.prototype
 	 * @method		put
-	 * @param		{String}	command - The name of the command
-	 * @param		{Object}	data - Object containing the data to send to the web service
-	 * @param		{Class}		resultClass - Optional
+	 * @param		{string}	command - The name of the command
+	 * @param		{Object}	[data] - Object containing the data to send to the web service
+	 * @param		{Class}		[resultClass] - Optional
 	 * @returns		{conbo.Promise}
 	 */
 	
@@ -143,9 +144,9 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	 * 
 	 * @memberof	conbo.HttpService.prototype
 	 * @method		patch
-	 * @param		{String}	command - The name of the command
-	 * @param		{Object}	data - Object containing the data to send to the web service
-	 * @param		{Class}		resultClass - Optional
+	 * @param		{string}	command - The name of the command
+	 * @param		{Object}	[data] - Object containing the data to send to the web service
+	 * @param		{Class}		[resultClass] - Optional
 	 * @returns		{conbo.Promise}
 	 */
 	
@@ -154,17 +155,17 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	 * 
 	 * @memberof	conbo.HttpService.prototype
 	 * @method		delete
-	 * @param		{String}	command - The name of the command
-	 * @param		{Object}	data - Object containing the data to send to the web service
-	 * @param		{Class}		resultClass - Optional
+	 * @param		{string}	command - The name of the command
+	 * @param		{Object}	[data] - Object containing the data to send to the web service
+	 * @param		{Class}		[resultClass] - Optional
 	 * @returns		{conbo.Promise}
 	 */
 	
 	/**
 	 * Add one or more remote commands as methods of this class instance
-	 * @param	{String}	command - The name of the command
-	 * @param	{String}	method - GET, POST, etc (default: GET)
-	 * @param	{Class}		resultClass - Optional
+	 * @param	{string}	command - The name of the command
+	 * @param	{string}	[method=GET] - GET, POST, etc (default: GET)
+	 * @param	{Class}		[resultClass] - Optional
 	 */
 	addCommand: function(command, method, resultClass)
 	{
@@ -185,7 +186,7 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	
 	/**
 	 * Add multiple commands as methods of this class instance
-	 * @param	{Array}		commands
+	 * @param	{string[]}		commands
 	 */
 	addCommands: function(commands)
 	{
@@ -206,8 +207,8 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	/**
 	 * Method that encodes data to be sent to the API
 	 * 
-	 * @param	{object}	data - Object containing the data to be sent to the API
-	 * @param	{String}	method - GET, POST, etc (default: GET)
+	 * @param	{Object}	data - Object containing the data to be sent to the API
+	 * @param	{string}	[method=GET] - GET, POST, etc (default: GET)
 	 */
 	encodeFunction: function(data, method)
 	{

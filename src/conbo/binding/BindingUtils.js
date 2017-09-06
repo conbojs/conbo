@@ -38,7 +38,7 @@
 	 * Is the specified attribute reserved for another purpose?
 	 * 
 	 * @private
-	 * @param 		{String}	value
+	 * @param 		{string}	value
 	 * @returns		{Boolean}
 	 */
 	var BindingUtils__isReservedAttr = function(value)
@@ -50,7 +50,7 @@
 	 * Attempt to make a property bindable if it isn't already
 	 * 
 	 * @private
-	 * @param 		{String}	value
+	 * @param 		{string}	value
 	 * @returns		{Boolean}
 	 */
 	var BindingUtils__makeBindable = function(source, propertyName)
@@ -73,8 +73,8 @@
 	 * characters from Strings
 	 * 
 	 * @private
-	 * @param 		{String}	value - String value to clean
-	 * @returns		{String}
+	 * @param 		{string}	value - String value to clean
+	 * @returns		{string}
 	 */
 	var BindingUtils__cleanPropertyName = function(value)
 	{
@@ -82,32 +82,39 @@
 	};
 	
 	/**
-	 * Binding utility class
+	 * Binding utilities class
 	 * 
 	 * Used to bind properties of EventDispatcher class instances to DOM elements, 
 	 * other EventDispatcher class instances or setter functions
 	 * 
-	 * @class		conbo.BindingUtils
+	 * @class		BindingUtils
+	 * @memberof	conbo
 	 * @augments	conbo.Class
 	 * @author 		Neil Rackett
 	 */
-	conbo.BindingUtils = conbo.Class.extend({},
-	/** @lends conbo.BindingUtils */
+	conbo.BindingUtils = conbo.Class.extend(
+	/** @lends conbo.BindingUtils.prototype */
 	{
 		/**
+		 * Should binding attributes, like "cb-bind", be removed after they've been processed?
+		 * @type	{boolean}
+		 */
+		removeAttributeAfterBinding: true,
+		
+		/**
 		 * Bind a property of a EventDispatcher class instance (e.g. Hash or View) 
-		 * to a DOM element's value/content, using Conbo's best judgement to
+		 * to a DOM element's value/content, using ConboJS's best judgement to
 		 * work out how the value should be bound to the element.
 		 * 
 		 * This method of binding also allows for the use of a parse function,
 		 * which can be used to manipulate bound data in real time
 		 * 
-		 * @param 		{conbo.EventDispatcher}	source			Class instance which extends from conbo.EventDispatcher
-		 * @param 		{String} 				propertyName	Property name to bind
-		 * @param 		{DOMElement} 			el				DOM element to bind value to (two-way bind on input/form elements)
-		 * @param 		{Function}				parseFunction	Optional method used to parse values before outputting as HTML
+		 * @param 		{conbo.EventDispatcher}	source - Class instance which extends from conbo.EventDispatcher
+		 * @param 		{string} 				propertyName - Property name to bind
+		 * @param 		{HTMLElement} 			el - DOM element to bind value to (two-way bind on input/form elements)
+		 * @param 		{Function}				[parseFunction] - Optional method used to parse values before outputting as HTML
 		 * 
-		 * @returns		{Array}									Array of bindings
+		 * @returns		{Array}					Array of bindings
 		 */
 		bindElement: function(source, propertyName, el, parseFunction)
 		{
@@ -268,12 +275,15 @@
 		/**
 		 * Unbinds the specified property of a bindable class from the specified DOM element
 		 * 
-		 *  @param	el		DOM element
-		 *  @param	view	View class
+		 * @param 		{conbo.EventDispatcher}	source - Class instance which extends from conbo.EventDispatcher
+		 * @param 		{string} 				propertyName - Property name to bind
+		 * @param 		{HTMLElement} 			el - DOM element to unbind value from
+		 * @returns		{conbo.BindingUtils}	A reference to this object 
 		 */
 		unbindElement: function(source, propertyName, element)
 		{
 			// TODO Implement unbindElement
+			return this;
 		},
 		
 		/**
@@ -285,12 +295,12 @@
 		 * matches a property on the target element, meaning your EventDispatcher object 
 		 * will automatically be updated when the property changes.
 		 * 
-		 * @param 	{conbo.EventDispatcher}	source			Class instance which extends from conbo.EventDispatcher (e.g. Hash or Model)
-		 * @param 	{String}				propertyName	Property name to bind
-		 * @param 	{DOMElement}			element			DOM element to bind value to (two-way bind on input/form elements)
-		 * @param 	{String}				attributeName	The attribute to bind as it appears in HTML, e.g. "cb-prop-name"
-		 * @param 	{Function} 				parseFunction	Method used to parse values before outputting as HTML (optional)
-		 * @param	{Object}				options			Options related to this attribute binding (optional)
+		 * @param 	{conbo.EventDispatcher}	source - Class instance which extends from conbo.EventDispatcher (e.g. Hash or Model)
+		 * @param 	{string}				propertyName - Property name to bind
+		 * @param 	{HTMLElement}			element - DOM element to bind value to (two-way bind on input/form elements)
+		 * @param 	{string}				attributeName - The attribute to bind as it appears in HTML, e.g. "cb-prop-name"
+		 * @param 	{Function} 				[parseFunction] - Method used to parse values before outputting as HTML
+		 * @param	{Object}				[options] - Options related to this attribute binding
 		 * 
 		 * @returns	{Array}					Array of bindings
 		 */
@@ -319,7 +329,14 @@
 			
 			if (attributeName == "cb-bind")
 			{
-				return this.bindElement(source, propertyName, element, parseFunction);
+				bindings = this.bindElement(source, propertyName, element, parseFunction);
+				
+				if (this.removeAttributeAfterBinding)
+				{
+					element.removeAttribute(attributeName);
+				}
+				
+				return bindings;
 			}
 			
 			BindingUtils__makeBindable(source, propertyName);
@@ -458,18 +475,23 @@
 				}
 			}
 			
+			if (attributeName !== 'cb-repeat' && this.removeAttributeAfterBinding)
+			{
+				element.removeAttribute(attributeName);
+			}
+			
 			return bindings;
 		},
 		
 		/**
 		 * Applies the specified read-only Conbo or custom attribute to the specified element
 		 * 
-		 * @param 	{DOMElement}			element			DOM element to bind value to (two-way bind on input/form elements)
-		 * @param 	{String}				attributeName	The attribute to bind as it appears in HTML, e.g. "cb-prop-name"
+		 * @param 	{HTMLElement}			element - DOM element to bind value to (two-way bind on input/form elements)
+		 * @param 	{string}				attributeName - The attribute to bind as it appears in HTML, e.g. "cb-prop-name"
 		 * @returns	{conbo.BindingUtils}	A reference to this object 
 		 * 
 		 * @example
-		 * conbo.BindingUtils.applyAttribute(el, "my-custom-attr");
+		 * conbo.bindingUtils.applyAttribute(el, "my-custom-attr");
 		 */
 		applyAttribute: function(element, attributeName)
 		{
@@ -500,7 +522,7 @@
 		
 		/**
 		 * Does the specified Conbo or custom attribute exist?
-		 * @param 	{String}				attributeName - The attribute name as it appears in HTML, e.g. "cb-prop-name"
+		 * @param 	{string}				attributeName - The attribute name as it appears in HTML, e.g. "cb-prop-name"
 		 * @returns	{Boolean}
 		 */
 		attributeExists: function(attributeName)
@@ -510,10 +532,9 @@
 		},
 		
 		/**
-		 * Bind everything within the DOM scope of a View to the specified 
-		 * properties of EventDispatcher class instances (e.g. Hash or Model)
+		 * Bind everything within the DOM scope of a View to properties of the View instance
 		 * 
-		 * @param 	{conbo.View}		view		The View class controlling the element
+		 * @param 	{conbo.View}			view - The View class controlling the element
 		 * @returns	{conbo.BindingUtils}	A reference to this object 
 		 */
 		bindView: function(view)
@@ -658,7 +679,7 @@
 		
 		/**
 		 * Removes all data binding from the specified View instance
-		 * @param 	{conbo.View}	view
+		 * @param 	{conbo.View}			view
 		 * @returns	{conbo.BindingUtils}	A reference to this object 
 		 */
 		unbindView: function(view)
@@ -695,9 +716,9 @@
 		 * Applies View and Glimpse classes DOM elements based on their cb-view 
 		 * attribute or tag name
 		 * 
-		 * @param	rootView	DOM element, View or Application class instance
-		 * @param	namespace	The current namespace
-		 * @param	type		View type, 'view' or 'glimpse' (default: 'view')
+		 * @param	{HTMLElement} 			rootView - DOM element, View or Application class instance
+		 * @param	{conbo.Namespace} 		namespace - The current namespace
+		 * @param	{string} 				[type=view] - View type, 'view' or 'glimpse'
 		 * @returns	{conbo.BindingUtils}	A reference to this object 
 		 */
 		applyViews: function(rootView, namespace, type)
@@ -743,11 +764,11 @@
 		/**
 		 * Bind the property of one EventDispatcher class instance (e.g. Hash or View) to another
 		 * 
-		 * @param 	{conbo.EventDispatcher}	source						Class instance which extends conbo.EventDispatcher
-		 * @param 	{String}			sourcePropertyName			Source property name
-		 * @param 	{any}				destination					Object or class instance which extends conbo.EventDispatcher
-		 * @param 	{String}			destinationPropertyName		Optional (default: sourcePropertyName)
-		 * @param 	{Boolean}			twoWay						Optional (default: false)
+		 * @param 	{conbo.EventDispatcher}	source - Class instance which extends conbo.EventDispatcher
+		 * @param 	{string}				sourcePropertyName - Source property name
+		 * @param 	{*}						destination - Object or class instance which extends conbo.EventDispatcher
+		 * @param 	{string}				[destinationPropertyName] Defaults to same value as sourcePropertyName
+		 * @param 	{Boolean}				[twoWay=false] - Apply 2-way binding
 		 * @returns	{conbo.BindingUtils}	A reference to this object 
 		 */
 		bindProperty: function(source, sourcePropertyName, destination, destinationPropertyName, twoWay)
@@ -787,7 +808,7 @@
 		 * class instance (e.g. Hash or Model) is changed
 		 * 
 		 * @param 	{conbo.EventDispatcher}	source				Class instance which extends conbo.EventDispatcher
-		 * @param 	{String}			propertyName
+		 * @param 	{string}			propertyName
 		 * @param 	{Function}			setterFunction
 		 * @returns	{conbo.BindingUtils}	A reference to this object 
 		 */
@@ -822,7 +843,7 @@
 		 * Default parse function
 		 * 
 		 * @param	{*} 		value - The value to be parsed
-		 * @returns	{function}
+		 * @returns	{*}			The parsed value
 		 */
 		defaultParseFunction: function(value)
 		{
@@ -832,9 +853,9 @@
 		/**
 		 * Attempt to convert string into a conbo.Class in the specified namespace
 		 * 
-		 * @param 		{string} className - The name of the class
-		 * @param 		{conbo.Namespace} namespace - The namespace containing the class
-		 * @returns		{conbo.Class}
+		 * @param 		{string} 			className - The name of the class
+		 * @param 		{conbo.Namespace}	namespace - The namespace containing the class
+		 * @returns		{*}
 		 */
 		getClass: function(className, namespace)
 		{
@@ -856,14 +877,14 @@
 		 * Register a custom attribute handler
 		 * 
 		 * @param		{string}	name - camelCase version of the attribute name (must include a namespace prefix)
-		 * @param		{function}	handler - function that will handle the data bound to the element
+		 * @param		{Function}	handler - function that will handle the data bound to the element
 		 * @param 		{boolean}	readOnly - Whether or not the attribute is read-only (default: false)
-		 * @param 		{boolean}	raw - Whether or not parameters should be passed to the handler as a raw String instead of a bound value (default: false)
+		 * @param 		{boolean}	[raw=false] - Whether or not parameters should be passed to the handler as a raw String instead of a bound value
 		 * @returns		{conbo.BindingUtils}	A reference to this object 
 		 * 
 		 * @example 
 		 * // HTML: <div my-font-name="myProperty"></div>
-		 * conbo.BindingUtils.registerAttribute('myFontName', function(el, value, options, param)
+		 * conbo.bindingUtils.registerAttribute('myFontName', function(el, value, options, param)
 		 * {
 		 *		el.style.fontName = value;
 		 * });
@@ -909,12 +930,12 @@
 		 * Register one or more custom attribute handlers 
 		 * 
 		 * @see			#registerAttribute
-		 * @param 		{object}				handlers - Object containing one or more custom attribute handlers
-		 * @param 		{boolean}				readOnly - Whether or not the attributes are read-only (default: false)
+		 * @param 		{Object}				handlers - Object containing one or more custom attribute handlers
+		 * @param 		{boolean}				[readOnly=false] - Whether or not the attributes are read-only
 		 * @returns		{conbo.BindingUtils}	A reference to this object 
 		 * 
 		 * @example
-		 * conbo.BindingUtils.registerAttributes({myFoo:myFooFunction, myBar:myBarFunction});
+		 * conbo.bindingUtils.registerAttributes({myFoo:myFooFunction, myBar:myBarFunction});
 		 */
 		registerAttributes: function(handlers, readOnly)
 		{
@@ -931,5 +952,12 @@
 			return 'conbo.BindingUtils';
 		},
 	});
+	
+	/**
+	 * Default instance of the BindingUtils data-binding utility class
+	 * @memberof	conbo
+	 * @type		{conbo.BindingUtils}
+	 */
+	conbo.bindingUtils = new conbo.BindingUtils();
 	
 })();

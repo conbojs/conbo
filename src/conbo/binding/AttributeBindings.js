@@ -4,7 +4,8 @@
  * Functions that can be used to bind DOM elements to properties of Bindable 
  * class instances to DOM elements via their attributes.
  * 
- * @class		conbo.AttributeBindings
+ * @class		AttributeBindings
+ * @memberof	conbo
  * @augments	conbo.Class
  * @author 		Neil Rackett
  */
@@ -26,7 +27,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 	
 	/**
 	 * Can the given attribute be bound to multiple properties at the same time?
-	 * @param 	{String}	attribute
+	 * @param 	{string}	attribute
 	 * @returns {Boolean}
 	 */
 	canHandleMultiple: function(attribute)
@@ -41,8 +42,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	/**
 	 * Makes an element visible
 	 * 
-	 * @param 		el
-	 * @param 		value
+	 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+	 * @param 		{*} 			value - The value referenced by the attribute
+	 * @returns		{void}
 	 * 
 	 * @example
 	 * <div cb-show="propertyName"></div>
@@ -56,8 +58,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * Hides an element by making it invisible, but does not remove
 	 * if from the layout of the page, meaning a blank space will remain
 	 * 
-	 * @param 		el
-	 * @param 		value
+	 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+	 * @param 		{*} 			value - The value referenced by the attribute
+	 * @returns		{void}
 	 * 
 	 * @example
 	 * <div cb-hide="propertyName"></div>
@@ -74,8 +77,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	/**
 	 * Include an element on the screen and in the layout of the page
 	 * 
-	 * @param 		el
-	 * @param 		value
+	 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+	 * @param 		{*} 			value - The value referenced by the attribute
+	 * @returns		{void}
 	 * 
 	 * @example
 	 * <div cb-include="propertyName"></div>
@@ -89,8 +93,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * Remove an element from the screen and prevent it having an effect
 	 * on the layout of the page
 	 * 
-	 * @param 		el
-	 * @param 		value
+	 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+	 * @param 		{*} 			value - The value referenced by the attribute
+	 * @returns		{void}
 	 * 
 	 * @example
 	 * <div cb-exclude="propertyName"></div>
@@ -107,8 +112,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	/**
 	 * The exact opposite of HTML's built-in `disabled` property
 	 * 
-	 * @param 		el
-	 * @param 		value
+	 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+	 * @param 		{*} 			value - The value referenced by the attribute
+	 * @returns		{void}
 	 * 
 	 * @example
 	 * <div cb-enabled="propertyName"></div>
@@ -121,8 +127,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	/**
 	 * Inserts raw HTML into the element, which is rendered as HTML
 	 * 
-	 * @param 		el
-	 * @param 		value
+	 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+	 * @param 		{*} 			value - The value referenced by the attribute
+	 * @returns		{void}
 	 * 
 	 * @example
 	 * <div cb-html="propertyName"></div>
@@ -138,8 +145,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * entities before rendering them, e.g. "8 < 10" becomes "8 &lt; 10", and
 	 * line breaks into <br/>
 	 * 
-	 * @param 		el
-	 * @param 		value
+	 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+	 * @param 		{*} 			value - The value referenced by the attribute
+	 * @returns		{void}
 	 * 
 	 * @example
 	 * <div cb-text="propertyName"></div>
@@ -154,8 +162,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * Applies or removes a CSS class to or from the element based on the value
 	 * of the bound property, e.g. cb-class="myProperty:class-name"
 	 * 
-	 * @param 		el
-	 * @param 		value
+	 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+	 * @param 		{*} 			value - The value referenced by the attribute
+	 * @returns		{void}
 	 * 
 	 * @example
 	 * <div cb-class="propertyName:my-class-name"></div>
@@ -177,8 +186,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * Applies class(es) to the element based on the value contained in a variable. 
 	 * Experimental.
 	 * 
-	 * @param 		el
-	 * @param 		value
+	 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+	 * @param 		{*} 			value - The value referenced by the attribute
+	 * @returns		{void}
 	 * 
 	 * @example
 	 * <div cb-classes="propertyName"></div>
@@ -201,8 +211,11 @@ conbo.AttributeBindings = conbo.Class.extend(
 	/**
 	 * Apply styles from a variable
 	 * 
-	 * @param 		el
-	 * @param 		value
+	 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+	 * @param 		{*} 			value - The value referenced by the attribute
+	 * @param 		{Object} 		options - Options relating to this binding
+	 * @param 		{string} 		styleName - The name of the style to bind
+	 * @returns		{void}
 	 * 
 	 * @example
 	 * <div cb-="propertyName:font-weight"></div>
@@ -226,8 +239,11 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * The optional item renderer class can be specified by following the 
 	 * property name with a colon and the class name or by using the tag name.
 	 * 
-	 * @param 		el
-	 * @param 		value
+	 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+	 * @param 		{*} 			value - The value referenced by the attribute
+	 * @param 		{Object} 		options - Options relating to this binding
+	 * @param 		{string} 		itemRendererClassName - The name of the class to apply to each item rendered
+	 * @returns		{void}
 	 * 
 	 * @example
 	 * <li cb-repeat="people" cb-hml="data.firstName"></li>
@@ -246,7 +262,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 		if (options.context && options.context.namespace)
 		{
 			itemRendererClassName || (itemRendererClassName = conbo.toCamelCase(el.tagName, true));
-			viewClass = conbo.BindingUtils.getClass(itemRendererClassName, options.context.namespace);
+			viewClass = conbo.bindingUtils.getClass(itemRendererClassName, options.context.namespace);
 		}
 		
 		viewClass || (viewClass = conbo.ItemRenderer);
@@ -356,8 +372,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * using the properties of the object being bound to it. Non-Object values 
 	 * will be disregarded. You'll need to use a polyfill for IE <= 10.
 	 * 
-	 * @param 		el
-	 * @param 		value
+	 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+	 * @param 		{*} 			value - The value referenced by the attribute
+	 * @returns		{void}
 	 * 
 	 * @example
 	 * <div cb-dataset="propertyName"></div>
@@ -378,8 +395,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * When used with a Glimpse, the Glimpse's `data` property is set to
 	 * the value of the bound property. 
 	 * 
-	 * @param 		el
-	 * @param 		value
+	 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+	 * @param 		{*} 			value - The value referenced by the attribute
+	 * @returns		{void}
 	 * 
 	 * @example
 	 * <div cb-data="propertyName"></div>
@@ -401,9 +419,10 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * matches one of the states listed in the attribute's value; multiple states should
 	 * be separated by spaces
 	 * 
-	 * @param 		el
-	 * @param 		value
-	 * @param 		options
+	 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+	 * @param 		{*} 			value - The value referenced by the attribute
+	 * @param 		{Object} 		options - Options relating to this binding
+	 * @returns		{void}
 	 * 
 	 * @example
 	 * <div cb-include-in="happy sad elated"></div>
@@ -427,9 +446,10 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * matches one of the states listed in the attribute's value; multiple states should
 	 * be separated by spaces
 	 * 
-	 * @param 		el
-	 * @param 		value
-	 * @param 		options
+	 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+	 * @param 		{*} 			value - The value referenced by the attribute
+	 * @param 		{Object} 		options - Options relating to this binding
+	 * @returns		{void}
 	 * 
 	 * @example
 	 * <div cb-exclude-from="confused frightened"></div>
@@ -455,8 +475,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * 
 	 * @example		cb-remove="isMobile"
 	 * 
-	 * @param 		el
-	 * @param 		value
+	 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+	 * @param 		{*} 			value - The value referenced by the attribute
+	 * @returns		{void}
 	 * 
 	 * @example
 	 * <div cb-remove="propertyName"></div>
@@ -473,8 +494,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	/**
 	 * The opposite of `cbRemove`
 	 * 
-	 * @param 		el
-	 * @param 		value
+	 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+	 * @param 		{*} 			value - The value referenced by the attribute
+	 * @returns		{void}
 	 * 
 	 * @example
 	 * <div cb-keep="propertyName"></div>
@@ -488,8 +510,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * Enables the use of cb-onbind attribute to handle the 'bind' event 
 	 * dispatched by the element after it has been bound by Conbo
 	 * 
-	 * @param 		el
-	 * @param 		value
+	 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+	 * @param 		{*} 			value - The value referenced by the attribute
+	 * @returns		{void}
 	 * 
 	 * @example
 	 * <div cb-onbind="functionName"></div>
@@ -503,7 +526,8 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * Uses JavaScript to open an anchor's HREF so that the link will open in
 	 * an iOS WebView instead of Safari
 	 * 
-	 * @param el
+	 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+	 * @returns		{void}
 	 * 
 	 * @example
 	 * <div cb-jshref="propertyName"></div>
@@ -530,8 +554,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * cb-changed or cb-unchanged, depending on whether the contents have
 	 * changed from their original value.
 	 * 
-	 * @param 		el
-	 * @param 		value
+	 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+	 * @param 		{*} 			value - The value referenced by the attribute
+	 * @returns		{void}
 	 * 
 	 * @example
 	 * <div cb-detect-change></div>
@@ -571,8 +596,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * Use a method or regex to validate a form element and apply a
 	 * cb-valid or cb-invalid CSS class based on the outcome
 	 * 
-	 * @param 		el
-	 * @param 		value
+	 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+	 * @param 		{Function} 		validator - The function referenced by the attribute
+	 * @returns		{void}
 	 * 
 	 * @example
 	 * <div cb-validate="functionName"></div>
@@ -686,8 +712,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	/**
 	 * Restricts text input to the specified characters
 	 * 
-	 * @param 		el
-	 * @param 		value
+	 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+	 * @param 		{string} 		value - The value referenced by the attribute
+	 * @returns		{void}
 	 * 
 	 * @example
 	 * <div cb-restrict="propertyName"></div>
@@ -730,8 +757,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * Limits the number of characters that can be entered into
 	 * input and other form fields
 	 * 
-	 * @param 		el
-	 * @param 		value
+	 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+	 * @param 		{string} 		value - The value referenced by the attribute
+	 * @returns		{void}
 	 * 
 	 * @example
 	 * <div cb-max-chars="propertyName"></div>

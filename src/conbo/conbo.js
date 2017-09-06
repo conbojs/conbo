@@ -1,12 +1,15 @@
 /*! 
  * ConboJS: Lightweight MVC application framework for JavaScript
- * http://conbojs.mesmotronic.com/
+ * http://conbo.mesmotronic.com/
  * 
  * Copyright (c) 2017 Mesmotronic Limited
  * Released under the MIT license
  * http://www.mesmotronic.com/legal/mit
  */
 
+/**
+ * @private
+ */
 var __namespaces = {};
 
 /**
@@ -15,25 +18,38 @@ var __namespaces = {};
  * pattern and an event model which enables callback scoping and consistent 
  * event handling
  * 
- * Dependencies
- *
- * Lite: None
- * Complete: jQuery 1.7+
+ * All ConboJS classes, methods and properties live within the conbo namespace
  * 
  * @namespace 	conbo
- * @param		namespace	{String}	The selected namespace
- * @author		Neil Rackett
- * @see			http://www.mesmotronic.com/
+ */
+
+/**
+ * Create or access a ConboJS namespace
  * 
+ * @variation	2
+ * @function	conbo
+ * @param		{string}	namespace - The selected namespace
+ * @param		{...*}		[globals] - Globals to minify followed by function to execute, with each of the globals as parameters
+ * @returns		{conbo.Namespace}
+ * 			
  * @example
  * // Conbo can replace the standard minification pattern with modular namespace definitions
  * // If an Object is returned, its contents will be added to the namespace
- * conbo('com.namespace.example', window, document, conbo, function(window, document, conbo, undefined)
+ * conbo('com.example.namespace', window, document, conbo, function(window, document, conbo, undefined)
  * {
- * 	var example = this;
+ *  // The executed function is scoped to the namespace
+ * 	var ns = this;
  * 	
- * 	// Your code here
+ * 	// ... Your code here ...
+ * 
+ * 	// Optionally, return an Object containing values to be added to the namespace
+ *  return { MyApp, MyView };
  * });  
+ * 
+ * @example
+ * // Retrieve a namespace and import classes defined elsewhere
+ * var ns = conbo('com.example.namespace');
+ * ns.import({ MyApp, MyView });
  */
 var conbo = function(namespace)
 {
@@ -67,26 +83,27 @@ var conbo = function(namespace)
 };
 
 /**
- * Internal reference to self, enables full functionality to be used via 
- * ES2015+ import statements
+ * Internal reference to self for use with ES2015 and TypeScript import statements
  * 
- * @augments	conbo
- * @returns		{conbo}
+ * @memberof	conbo
+ * @type		{conbo}
  * 
  * @example 
- * import {conbo} from 'conbo';
+ * import { conbo } from 'conbo';
  */
 conbo.conbo = conbo;
 
 /**
- * @augments	conbo
- * @returns 	{String}
+ * The current ConboJS version number in the format major.minor.build
+ * @memberof	conbo
+ * @type	 	{string}
  */
 conbo.VERSION = '{{VERSION}}';
 	
 /**
- * @augments	conbo
- * @returns 	{String}
+ * A string containing the framework name and version number, e.g. "ConboJS v1.2.3"
+ * @memberof	conbo
+ * @returns 	{string}
  */
 conbo.toString = function() 
 { 

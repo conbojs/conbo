@@ -4,10 +4,11 @@
  * Base class for commands to be registered in your Context 
  * using mapCommand(...)
  * 
- * @class		conbo.Command
+ * @class		Command
+ * @memberof	conbo
  * @augments	conbo.EventDispatcher
  * @author		Neil Rackett
- * @param 		{object} options - Object containing optional initialisation options, including 'context' (Context)
+ * @param 		{Object} options - Object containing optional initialisation options, including 'context' (Context)
  */
 conbo.Command = conbo.EventDispatcher.extend(
 /** @lends conbo.Command.prototype */
@@ -15,17 +16,13 @@ conbo.Command = conbo.EventDispatcher.extend(
 	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options
+	 * @private
 	 */
 	__construct: function(options)
 	{
 		this.context = options.context;
 		this.event = options.event || {};
 	},
-	
-	/**
-	 * Initialiser included for consistency, but should probably never be used
-	 */
-	initialize: function() {},
 	
 	/**
 	 * Execute: should be overridden
@@ -42,4 +39,5 @@ conbo.Command = conbo.EventDispatcher.extend(
 	}
 	
 }).implement(conbo.IInjectable);
+
 __denumerate(conbo.Command.prototype);

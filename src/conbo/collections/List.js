@@ -6,10 +6,11 @@
  * the specified `itemClass` when added to a List, and the appropriate
  * events dispatched if the items it contains are changed or updated.
  * 
- * @class		conbo.List
+ * @class		List
+ * @memberof	conbo
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
- * @param 		{object} options - Object containing optional initialisation options, including `source` (array), `context` (Context) and `itemClass` (Class)
+ * @param 		{Object} options - Object containing optional initialisation options, including `source` (array), `context` (Context) and `itemClass` (Class)
  * @fires		conbo.ConboEvent#CHANGE
  * @fires		conbo.ConboEvent#ADD
  * @fires		conbo.ConboEvent#REMOVE
@@ -209,7 +210,7 @@ conbo.List = conbo.EventDispatcher.extend(
 	
 	/**
 	 * Force the collection to re-sort itself.
-	 * @param	{function}	compareFunction - Compare function to determine sort order
+	 * @param	{Function}	[compareFunction] - Compare function to determine sort order
 	 */
 	sort: function(compareFunction) 
 	{
@@ -220,7 +221,7 @@ conbo.List = conbo.EventDispatcher.extend(
 	},
 	
 	/**
-	 * Create a new collection with an identical list of models as this one.
+   	 * Create a new List identical to this one.
 	 */
 	clone: function() 
 	{

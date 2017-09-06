@@ -3,10 +3,11 @@
  * 
  * Base class for applications that don't require DOM, e.g. Node.js
  * 
- * @class		conbo.ServerApplication
+ * @class		ServerApplication
+ * @memberof	conbo
  * @augments	conbo.EventDispatcher
  * @author		Neil Rackett
- * @param 		{object} options - Object containing initialisation options
+ * @param 		{Object} options - Object containing initialisation options
  */
 conbo.ServerApplication = conbo.EventDispatcher.extend(
 /** @lends conbo.ServerApplication.prototype */

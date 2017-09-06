@@ -6,10 +6,11 @@ var View__templateCache = {};
  * Creating a conbo.View creates its initial element outside of the DOM,
  * if an existing element is not provided...
  * 
- * @class		conbo.View
+ * @class		View
+ * @memberof	conbo
  * @augments	conbo.Glimpse
  * @author 		Neil Rackett
- * @param 		{object}	options - Object containing optional initialisation options, including 'attributes', 'className', 'data', 'el', 'id', 'tagName', 'template', 'templateUrl'
+ * @param 		{Object}	[options] - Object containing optional initialisation options, including 'attributes', 'className', 'data', 'el', 'id', 'tagName', 'template', 'templateUrl'
  * @fires		conbo.ConboEvent#ADD
  * @fires		conbo.ConboEvent#DETACH
  * @fires		conbo.ConboEvent#REMOVE
@@ -23,48 +24,48 @@ conbo.View = conbo.Glimpse.extend(
 /** @lends 		conbo.View.prototype */
 {
 	/**
-	 * @member		{object}	attributes - Attributes to apply to the View's element
-	 * @memberOf	conbo.View.prototype
+	 * @member		{Object}	attributes - Attributes to apply to the View's element
+	 * @memberof	conbo.View.prototype
 	 */
 	
 	/**
 	 * @member		{string}	className - CSS class name(s) to apply to the View's element
-	 * @memberOf	conbo.View.prototype
+	 * @memberof	conbo.View.prototype
 	 */
 	
 	/**
-	 * @member		{object}	data - Arbitrary data Object
-	 * @memberOf	conbo.View.prototype
+	 * @member		{Object}	data - Arbitrary data Object
+	 * @memberof	conbo.View.prototype
 	 */
 	
 	/**
 	 * @member		{string}	id - ID to apply to the View's element
-	 * @memberOf	conbo.View.prototype
+	 * @memberof	conbo.View.prototype
 	 */
 	
 	/**
 	 * @member		{string}	tagName - The tag name to use for the View's element (if no element specified)
-	 * @memberOf	conbo.View.prototype
+	 * @memberof	conbo.View.prototype
 	 */
 	
 	/**
 	 * @member		{string}	template - Template to apply to the View's element
-	 * @memberOf	conbo.View.prototype
+	 * @memberof	conbo.View.prototype
 	 */
 	
 	/**
 	 * @member		{string}	templateUrl - Template to load and apply to the View's element
-	 * @memberOf	conbo.View.prototype
+	 * @memberof	conbo.View.prototype
 	 */
 	
 	/**
 	 * @member		{boolean}	templateCacheEnabled - Whether or not the contents of templateUrl should be cached on first load for use with future instances of this View class (default: true)
-	 * @memberOf	conbo.View.prototype
+	 * @memberof	conbo.View.prototype
 	 */
 	
 	/**
 	 * @member		{boolean}	autoInitTemplate - Whether or not the template should automatically be loaded and applied, rather than waiting for the user to call initTemplate (default: true)
-	 * @memberOf	conbo.View.prototype
+	 * @memberof	conbo.View.prototype
 	 */
 	
 	/**
@@ -111,6 +112,9 @@ conbo.View = conbo.Glimpse.extend(
 		this.__setEl(options.el || document.createElement(this.tagName));
 	},
 
+	/**
+	 * @private
+	 */
 	__postInitialize: function(options)
 	{
 		__definePrivateProperty(this, '__initialized', true);
@@ -125,6 +129,7 @@ conbo.View = conbo.Glimpse.extend(
 	
 	/**
 	 * This View's element
+	 * @type		{HTMLElement}
 	 */
 	get el()
 	{
@@ -133,6 +138,7 @@ conbo.View = conbo.Glimpse.extend(
 	
 	/**
 	 * Has this view completed its life cycle phases?
+	 * @type	{boolean}
 	 */
 	get initialized()
 	{
@@ -142,6 +148,7 @@ conbo.View = conbo.Glimpse.extend(
 	/**
 	 * Returns a reference to the parent View of this View, based on this 
 	 * View element's position in the DOM
+	 * @type	{conbo.View}
 	 */
 	get parent()
 	{
@@ -154,6 +161,7 @@ conbo.View = conbo.Glimpse.extend(
 	/**
 	 * Returns a reference to the parent Application of this View, based on
 	 * this View element's position in the DOM
+	 * @type	{conbo.Application}
 	 */
 	get parentApp()
 	{
@@ -165,6 +173,7 @@ conbo.View = conbo.Glimpse.extend(
 	
 	/**
 	 * Does this view have a template?
+	 * @type	{boolean}
 	 */
 	get hasTemplate()
 	{
@@ -174,6 +183,7 @@ conbo.View = conbo.Glimpse.extend(
 	/**
 	 * The element into which HTML content should be placed; this is either the 
 	 * first DOM element with a `cb-content` or the root element of this view
+	 * @type	{HTMLElement}
 	 */
 	get content()
 	{
@@ -182,6 +192,7 @@ conbo.View = conbo.Glimpse.extend(
 	
 	/**
 	 * Does this View support HTML content?
+	 * @type	{boolean}
 	 */
 	get hasContent()
 	{
@@ -191,6 +202,7 @@ conbo.View = conbo.Glimpse.extend(
 	/**
 	 * A View's body is the element to which content should be added:
 	 * the View's content, if it exists, or the View's main element, if it doesn't
+	 * @type	{HTMLElement}
 	 */
 	get body()
 	{
@@ -200,6 +212,7 @@ conbo.View = conbo.Glimpse.extend(
 	/**
 	 * The context that will automatically be applied to children
 	 * when binding or appending Views inside of this View
+	 * @type	{conbo.Context}
 	 */
 	get subcontext()
 	{
@@ -215,9 +228,9 @@ conbo.View = conbo.Glimpse.extend(
 	 * Uses querySelector to find the first matching element contained within the
 	 * current View's element, but not within the elements of child Views
 	 * 
-	 * @param	{string}	selector - The selector to use
-	 * @param	{boolean}	deep - Include elements in child Views?
-	 * @returns	{Element}	The first matching element
+	 * @param	{string}		selector - The selector to use
+	 * @param	{boolean}		deep - Include elements in child Views?
+	 * @returns	{HTMLElement}	The first matching element
 	 */
 	querySelector: function(selector, deep)
 	{
@@ -228,9 +241,9 @@ conbo.View = conbo.Glimpse.extend(
 	 * Uses querySelectorAll to find all matching elements contained within the
 	 * current View's element, but not within the elements of child Views
 	 * 
-	 * @param	{string}	selector - The selector to use
-	 * @param	{boolean}	deep - Include elements in child Views?
-	 * @returns	{array}		All elements matching the selector
+	 * @param	{string}		selector - The selector to use
+	 * @param	{boolean}		deep - Include elements in child Views?
+	 * @returns	{Array}			All elements matching the selector
 	 */
 	querySelectorAll: function(selector, deep)
 	{
@@ -258,6 +271,7 @@ conbo.View = conbo.Glimpse.extend(
 	
 	/**
 	 * Take the View's element element out of the DOM
+	 * @returns	{this}
 	 */
 	detach: function() 
 	{
@@ -279,6 +293,8 @@ conbo.View = conbo.Glimpse.extend(
 	 * 
 	 * You should use a REMOVE event handler to destroy any event listeners,
 	 * timers or other code you may have added.
+	 * 
+	 * @returns	{this}
 	 */
 	remove: function()
 	{
@@ -312,8 +328,8 @@ conbo.View = conbo.Glimpse.extend(
 	 * Append this DOM element from one View class instance this class 
 	 * instances DOM element
 	 * 
-	 * @param 		view
-	 * @returns 	this
+	 * @param 		{conbo.View} view - The View instance to append
+	 * @returns		{this}
 	 */
 	appendView: function(view)
 	{
@@ -342,8 +358,8 @@ conbo.View = conbo.Glimpse.extend(
 	 * Prepend this DOM element from one View class instance this class 
 	 * instances DOM element
 	 * 
-	 * @param 		view
-	 * @returns 	this
+	 * @param 		{conbo.View} view - The View instance to preppend
+	 * @returns		{this}
 	 */
 	prependView: function(view)
 	{
@@ -376,22 +392,22 @@ conbo.View = conbo.Glimpse.extend(
 	 * Automatically bind elements to properties of this View
 	 * 
 	 * @example	<div cb-bind="property|parseMethod" cb-hide="property">Hello!</div> 
-	 * @returns	this
+	 * @returns	{this}
 	 */
 	bindView: function()
 	{
-		conbo.BindingUtils.bindView(this);
+		conbo.bindingUtils.bindView(this);
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.BIND));
 		return this;
 	},
 	
 	/**
 	 * Unbind elements from class properties
-	 * @returns	this
+	 * @returns	{this}
 	 */
 	unbindView: function() 
 	{
-		conbo.BindingUtils.unbindView(this);
+		conbo.bindingUtils.unbindView(this);
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.UNBIND));
 		return this;
 	},
@@ -399,6 +415,7 @@ conbo.View = conbo.Glimpse.extend(
 	/**
 	 * Initialize the View's template, either by loading the templateUrl
 	 * or using the contents of the template property, if either exist
+	 * @returns	{this}
 	 */
 	initTemplate: function()
 	{
@@ -429,7 +446,8 @@ conbo.View = conbo.Glimpse.extend(
 	/**
 	 * Load HTML template and use it to populate this View's element
 	 * 
-	 * @param 	{String}	url			A string containing the URL to which the request is sent
+	 * @param 	{string}	url	- The URL to which the request is sent
+	 * @returns	{this}
 	 */
 	loadTemplate: function(url)
 	{
@@ -547,6 +565,9 @@ conbo.View = conbo.Glimpse.extend(
 		return this;
 	},
 	
+	/**
+	 * @private
+	 */
 	__getParent: function(selector) 
 	{
 		var el = __ep(this.el).closest(selector);

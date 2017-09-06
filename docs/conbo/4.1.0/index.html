@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Home</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Home</h1>
+
+    
+
+
+
+    
+
+
+    <h3>conbo 4.1.0</h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><p><img src="https://raw.githubusercontent.com/mesmotronic/conbo/master/img/conbo.png" alt="ConboJS"></p>
+<p>ConboJS is the best JavaScript MVC framework you've never heard of.</p>
+<p>It is a lightweight MVC application framework for JavaScript for use with modern browsers which enables developers a take a structured, decoupled, class based approach to application development, in a way that should be be familiar to anyone with experience of languages like ActionScript/Flex, C#/XAML or Java.</p>
+<p>Features include extendible classes, event bus, dependency injection, data binding, command pattern, pseudo-interfaces and an easy to use event model with scoped event handling, plus simple view state management and support for ES2015 syntax.</p>
+<p>ConboJS requires no special IDEs, compilers or transpilers, it just makes regular JavaScript nicer.</p>
+<p>Development of ConboJS is focussed on single page applications (SPA) and self-contained modules, like widgets and media players. It can be loaded as a global, an AMD module or using CommonJS, meaning it can also offer a great base for server-side Node.js applications.</p>
+<h2>Browser support</h2><p>ConboJS targets the two most recent major releases of Firefox, Chrome (desktop and Android), Safari (desktop and iOS) and Edge / Internet Explorer.</p>
+<h2>Modular namespace declarations</h2><p>ConboJS brings the familiar concepts of packages and imports to JavaScript in the form of modular namespaces, optimised to work as an alternative to the commonly used minification pattern, for example:</p>
+<pre class="prettyprint source lang-javascript"><code>// Utils.js
+conbo('com.example.utils', console, function(console)
+{
+    var utils = this;
+
+    utils.doSomething = function(value)
+    {
+        console.log(value);
+    };
+});
+
+// Constants.js
+conbo('com.example.app', function()
+{
+    var app = this;
+
+    app.BEST_FRAMEWORK = 'ConboJS';
+    app.SMILE = ':-)';
+});
+
+// Main.js
+conbo('com.example.app', window, document, navigator, function(window, document, navigator, undefined)
+{
+    // Import data from other namespaces
+    var app = this;
+    var utils = conbo('com.example.utils');
+
+    // Your app code goes here
+
+    utils.doSomething(app.BEST_FRAMEWORK+' makes me '+app.SMILE);
+});</code></pre><p><strong>Working with ES2015, TypeScript, AMD and CommonJS modules</strong></p>
+<p>If you're using ES2015, TypeScript, AMD or CommonJS modules, it's easy to import all of your Application and View classes into your namespace to take advantage of ConboJS features like auto instantiation and data binding:</p>
+<pre class="prettyprint source lang-javascript"><code>// ES2015 & TypeScript
+
+import * as conbo from &quot;conbo&quot;;
+import FooApp from &quot;./FooApp&quot;;
+import BarView from &quot;./BarView&quot;;
+
+conbo('com.example.app').import({ FooApp, BarView });</code></pre><pre class="prettyprint source lang-javascript"><code>// AMD
+
+define(['conbo', 'FooApp', 'BarView'], function(conbo, FooApp, BarView) 
+{
+    conbo('com.example.app').import({ FooApp, BarView });
+};</code></pre><pre class="prettyprint source lang-javascript"><code>// CommonJS
+
+var conbo = require(&quot;./conbo&quot;);
+var FooApp = require(&quot;./FooApp&quot;);
+var BarView = require(&quot;./BarView&quot;);
+
+conbo('com.example.app').import({ FooApp, BarView });</code></pre><h2>Extendible classes</h2><p>There's no messing about with prototypes in ConboJS, all of your classes simply extend from another, for example:</p>
+<p><strong>ES5</strong></p>
+<pre class="prettyprint source lang-javascript"><code>var MyClass = conbo.Class.extend
+({
+    initialize: function()
+    {
+        console.log('Welcome to my class!');
+    }
+});</code></pre><p><strong>ES2015 / TypeScript</strong></p>
+<pre class="prettyprint source lang-javascript"><code>class MyClass extends conbo.Class
+{
+    initialize()
+    {
+        console.log('Welcome to my class!');
+    }
+}</code></pre><h2>Interfaces</h2><p>In ConboJS, an interface is a code snippet, in the form of a JavaScript Object, that you can implement and and test against. They come in 2 forms, strict and partial.</p>
+<p>A strict interface is intened for use in a similar way to languages such as Java or ActionScript, enabling you to specify the class of each property (or use <code>undefined</code> for any) and then perform a strict comparison against an object or class instance:</p>
+<pre class="prettyprint source lang-javascript"><code>var IPerson = { name: String, age: Number };
+var person = { name: &quot;Foo&quot;, age: 69 };
+
+conbo.is(person, IPerson); // true</code></pre><p>Alternatively, to enable developers to add and test for functionality that is not included in the prototype chain, interfaces in ConboJS can contain default functionality, which will be used if the class has not implemented the interface in full, for example:</p>
+<pre class="prettyprint source lang-javascript"><code>var ILogger = { logSomething: function() { conbo.log('Something!'); } };
+var Logger = conbo.Class.extend().implement(ILogger);
+var logger = new Logger();
+
+conbo.is(logger, ILogger, false); // true
+
+logger.logSomething(); // Outputs: &quot;Something!&quot;</code></pre><p>In this example, a shallow comparison is used, verifying that the expected properties are present, but ignoring their values. Pre-populating a method with <code>conbo.notImplemented</code> will ensure that it throws an error when called but not implemented in a class instance.</p>
+<h2>Decoupling &amp; data binding</h2><p>One of ConboJS's core aims is to enable developers to create highly decoupled, testable code.</p>
+<p>To this end, the framework's ever expanding data binding features enable you to separate your HTML from your JavaScript, removing the need for direct references between the them using <code>cb-*</code> and custom, developer defined, attributes to automatically bind properties and events in the DOM to your View classes, for example:</p>
+<p><strong>In your View class</strong></p>
+<pre class="prettyprint source lang-javascript"><code>class MyView extends conbo.View
+{
+    declarations()
+    {
+        this.myButtonLabel = 'Click me!';
+    }
+
+    myClickHandler(event)
+    {
+        alert('You clicked a button!');
+    }
+}</code></pre><p><strong>In your HTML</strong></p>
+<pre class="prettyprint source lang-html"><code>&lt;div cb-view=&quot;MyView&quot;>
+    &lt;button cb-onclick=&quot;myClickHandler&quot; cb-html=&quot;myButtonLabel&quot;>&lt;/button>
+&lt;/div></code></pre><p>Or, if you prefer to use custom tag names, simply use a hyphenated, lower case version of your <code>Application</code>, <code>View</code> or <code>Glimpse</code> class name:</p>
+<pre class="prettyprint source lang-html"><code>&lt;my-view>
+    &lt;button cb-onclick=&quot;myClickHandler&quot; cb-html=&quot;myButtonLabel&quot;>&lt;/button>
+&lt;/my-view></code></pre><h2>Consistent, scoped events</h2><p>With ConboJS you don't have to remember how many arguments each event handler should have or the order they're supposed to be in, because there's a single, consistent DOM-like event model that offers predictable results, even enabling you to set the value to use as <code>this</code> when the callback is executed.</p>
+<p>All events fired by the framework are <code>conbo.ConboEvent</code> event objects, and you can easily create events of your own by using or extending the <code>conbo.Event</code> class, for example:</p>
+<pre class="prettyprint source lang-javascript"><code>foo.addEventListener(&quot;myEvent&quot;, this.myFunction, this);
+foo.dispatchEvent(new conbo.Event(&quot;myEvent&quot;));</code></pre><h2>Naming conventions</h2><p>The naming conventions used by ConboJS should be familiar to anyone who uses JavaScript or ActionScript on a regular basis:</p>
+<ul>
+<li><code>ClassNames</code> are camel case with an initial capital letter</li>
+<li><code>IInterfaceNames</code> are camel case with an initial capital letter, prefixed with a capital I</li>
+<li><code>publicPropertyAndMethodNames</code> are camel case, starting with a lower case letter</li>
+<li><code>_privatePropertyAndMethodNames</code> are user defined properties and methods used within the current class only, prefixed with an underscore</li>
+<li><code>__internalPropertyAndMethodNames</code> are prefixed with a double underscore to indicate that they are for internal use by the framework only</li>
+</ul>
+<h2>Builds</h2><p><strong>conbo.js</strong> (17KB minified+gzipped): Includes everything you need to build dynamic web application, including HttpService, RemoteHash and RemoteList classes for working with web services, and History and Router classes for browser integration.</p>
+<p><strong>conbo-lite.js</strong> (8KB minified+gzipped): A super-lightweight subset featuring extendible classes and consistent event model. The aim of this subset is to offer the benefits of Conbo's class structure and event model to users who want to create otherwise framework independent modules and code libraries.</p>
+<p>Builds are created using Grunt, which requires Node.js; all required modules can be installed by running <code>npm install</code> from the command line in the project folder.</p>
+<p>The builds listed above can be created using the command <code>grunt</code>. Use <code>grunt watch</code>, or run <code>watch.cmd</code> (Windows) or <code>./watch.sh</code> (Mac, Linux) to auto-build as you edit.</p>
+<h2>License</h2><p>ConboJS is released under MIT license.</p>
+<p><strong>GitHub</strong> https://github.com/mesmotronic/conbo</p>
+<p><strong>Docs</strong> https://conbo.mesmotronic.com/</p></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="conbo.Application.html">Application</a></li><li><a href="conbo.AttributeBindings.html">AttributeBindings</a></li><li><a href="conbo.BindingUtils.html">BindingUtils</a></li><li><a href="conbo.Class.html">Class</a></li><li><a href="conbo.Command.html">Command</a></li><li><a href="conbo.ConboClass.html">ConboClass</a></li><li><a href="conbo.ConboEvent.html">ConboEvent</a></li><li><a href="conbo.Context.html">Context</a></li><li><a href="conbo.ElementProxy.html">ElementProxy</a></li><li><a href="conbo.Event.html">Event</a></li><li><a href="conbo.EventDispatcher.html">EventDispatcher</a></li><li><a href="conbo.EventProxy.html">EventProxy</a></li><li><a href="conbo.Glimpse.html">Glimpse</a></li><li><a href="conbo.Hash.html">Hash</a></li><li><a href="conbo.HttpService.html">HttpService</a></li><li><a href="conbo.ItemRenderer.html">ItemRenderer</a></li><li><a href="conbo.List.html">List</a></li><li><a href="conbo.LocalHash.html">LocalHash</a></li><li><a href="conbo.LocalList.html">LocalList</a></li><li><a href="conbo.MutationObserver.html">MutationObserver</a></li><li><a href="conbo.Namespace.html">Namespace</a></li><li><a href="conbo.Promise.html">Promise</a></li><li><a href="conbo.RemoteHash.html">RemoteHash</a></li><li><a href="conbo.RemoteList.html">RemoteList</a></li><li><a href="conbo.Router.html">Router</a></li><li><a href="conbo.ServerApplication.html">ServerApplication</a></li><li><a href="conbo.View.html">View</a></li></ul><h3>Events</h3><ul><li><a href="conbo.ConboEvent.html#event:ADD">ADD</a></li><li><a href="conbo.ConboEvent.html#event:ALL">ALL</a></li><li><a href="conbo.ConboEvent.html#event:BIND">BIND</a></li><li><a href="conbo.ConboEvent.html#event:CHANGE">CHANGE</a></li><li><a href="conbo.ConboEvent.html#event:CREATION_COMPLETE">CREATION_COMPLETE</a></li><li><a href="conbo.ConboEvent.html#event:DETACH">DETACH</a></li><li><a href="conbo.ConboEvent.html#event:FAULT">FAULT</a></li><li><a href="conbo.ConboEvent.html#event:REMOVE">REMOVE</a></li><li><a href="conbo.ConboEvent.html#event:RESULT">RESULT</a></li><li><a href="conbo.ConboEvent.html#event:ROUTE">ROUTE</a></li><li><a href="conbo.ConboEvent.html#event:START">START</a></li><li><a href="conbo.ConboEvent.html#event:STOP">STOP</a></li><li><a href="conbo.ConboEvent.html#event:TEMPLATE_COMPLETE">TEMPLATE_COMPLETE</a></li><li><a href="conbo.ConboEvent.html#event:TEMPLATE_ERROR">TEMPLATE_ERROR</a></li><li><a href="conbo.ConboEvent.html#event:UNBIND">UNBIND</a></li></ul><h3>Namespaces</h3><ul><li><a href="conbo.html">conbo</a></li></ul><h3>Global</h3><ul><li><a href="global.html#conbo2">conbo</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Wed Sep 06 2017 16:41:52 GMT+0100 (GMT Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

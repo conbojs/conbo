@@ -1,10 +1,11 @@
 /**
  * A persistent Hash that stores data in LocalStorage or Session
  * 
- * @class		conbo.LocalHash
+ * @class		LocalHash
+ * @memberof	conbo
  * @augments	conbo.Hash
  * @author 		Neil Rackett
- * @param 		{object} options - Object containing initialisation options, including 'name' (string), 'session' (Boolean) and 'source' (object) containing default values; see Hash for other options
+ * @param 		{Object} options - Object containing initialisation options, including 'name' (string), 'session' (Boolean) and 'source' (object) containing default values; see Hash for other options
  * @fires		conbo.ConboEvent#CHANGE
  */
 conbo.LocalHash = conbo.Hash.extend(

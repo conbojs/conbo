@@ -2,25 +2,20 @@
  * conbo.Hash
  * A Hash is a bindable object of associated keys and values
  * 
- * @class		conbo.Hash
+ * @class		Hash
+ * @memberof	conbo
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
- * @param 		{object} options - Object containing optional initialisation options, including 'source' (object) containing initial values
+ * @param 		{Object} options - Object containing optional initialisation options, including 'source' (object) containing initial values
  * @fires		conbo.ConboEvent#CHANGE
  */
 conbo.Hash = conbo.EventDispatcher.extend(
 /** @lends conbo.Hash.prototype */
 {
 	/**
-	 * @deprecated 
-	 * @member		{object}	_defaults - The default values to use if not all properties are set. 
-	 * 										This property is now deprected, defaults should be set in declarations() 
-	 * @memberOf	conbo.Hash.prototype
-	 */
-	
-	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options
+	 * @private
 	 */
 	__construct: function(options)
 	{
@@ -36,6 +31,7 @@ conbo.Hash = conbo.EventDispatcher.extend(
 	/**
 	 * Returns a version of this object that can easily be converted into JSON
 	 * @function
+	 * @returns	{Object}
 	 */
 	toJSON: conbo.jsonify,
 	

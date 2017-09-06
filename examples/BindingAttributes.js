@@ -11,9 +11,9 @@ conbo('ns', conbo, function(conbo, undefined)
 	 */
 	ns.MyModel = conbo.Hash.extend
 	({
-		defaults: 
+		declarations: function() 
 		{
-			selected: true
+			this.selected = true;
 		}
 	});
 	

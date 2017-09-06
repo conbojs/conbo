@@ -6,10 +6,11 @@
  * 
  * Derived from the Backbone.js class of the same name
  * 
- * @class		conbo.Router
+ * @class		Router
+ * @memberof	conbo
  * @augments	conbo.EventDispatcher
  * @author 		Neil Rackett
- * @param 		{object} options - Object containing initialisation options
+ * @param 		{Object} options - Object containing initialisation options
  * @fires		conbo.ConboEvent#CHANGE
  * @fires		conbo.ConboEvent#FAULT
  * @fires		conbo.ConboEvent#ROUTE
@@ -137,7 +138,7 @@ conbo.Router = conbo.EventDispatcher.extend(
 	 * without triggering a route event
 	 * 
 	 * @param	{string}	path - The path to navigate to
-	 * @param	{object}	options - Object containing options: trigger (default: true) and replace (default: false)
+	 * @param	{Object}	[options] - Object containing options: trigger (default: true) and replace (default: false)
 	 */
 	setPath: function(path, options) 
 	{

@@ -3,7 +3,8 @@
  * 
  * Base class for all events triggered in ConboJS
  * 
- * @class		conbo.Event
+ * @class		Event
+ * @memberof	conbo
  * @augments	conbo.Class
  * @author		Neil Rackett
  * @param 		{string}	type - The type of event this object represents
@@ -13,7 +14,7 @@ conbo.Event = conbo.Class.extend(
 {
 	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
-	 * @param options
+	 * @param 	{string} type - The type of event this class instance represents
 	 */
 	constructor: function(type)
 	{
@@ -38,7 +39,8 @@ conbo.Event = conbo.Class.extend(
 	
 	/**
 	 * Initialize: Override this!
-	 * @param type
+	 * @param 	{string} type - The type of event this class instance represents
+	 * @param 	{*} data - Data to store in the event's data property
 	 */
 	initialize: function(type, data)
 	{
@@ -56,7 +58,7 @@ conbo.Event = conbo.Class.extend(
 	
 	/**
 	 * Prevent whatever the default framework action for this event is
-	 * @returns	{conbo.Event}	A reference to this event 
+	 * @returns	{conbo.Event}	A reference to this event instance 
 	 */
 	preventDefault: function() 
 	{
@@ -66,7 +68,7 @@ conbo.Event = conbo.Class.extend(
 	
 	/**
 	 * Not currently used
-	 * @returns	{conbo.Event}	A reference to this event 
+	 * @returns	{conbo.Event}	A reference to this event instance
 	 */
 	stopPropagation: function() 
 	{
