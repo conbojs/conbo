@@ -1,7 +1,5 @@
-declare module 'conbo' 
-{
-	export = conbo;
-}
+export as namespace conbo;
+export = conbo;
 
 /**
  * Create or access a ConboJS namespace
