@@ -203,7 +203,7 @@ declare namespace conbo {
          * @param 	{string} type - The type of event this class instance represents
          * @param 	{any} [data] - Data to store in the event's data property
          */
-        initialize(type: string, data?: any);
+        initialize(type: string, data?: any):void;
 
         /**
          * Create an identical clone of this event
@@ -572,12 +572,12 @@ declare namespace conbo {
          * @example		context.mapConstant('MY_VALUE', 123);
          * @example		MY_VALUE: undefined
          */
-        mapConstant(propertyName, value): Context;
+        mapConstant(propertyName:string, value:any): Context;
 
         /**
          * Unmap constant value from a property name
          */
-        unmapConstant(propertyName): Context;
+        unmapConstant(propertyName:string): Context;
 
         /**
          * Add this Context to the specified Object, or create an object with a
@@ -1368,7 +1368,7 @@ declare namespace conbo {
     	 * @param 		{string}	className - One or more CSS class names, separated by spaces
     	 * @returns		{conbo.ElementProxy}
     	 */
-    	addClass(className:string);
+    	addClass(className:string):ElementProxy;
     	
     	/**
     	 * Remove the specified CSS class(es) from the element
@@ -1572,18 +1572,18 @@ declare namespace conbo {
         /**
          * Append this DOM element from one View class instance this class
          * instances DOM element
-         * @param 		{conbo.View} view - The View instance to append
+         * @param 		{...conbo.View} views - The View instance(s) to append
          * @returns		{this}
          */
-        appendView(view: View): View;
+        appendView(...views: View[]): View;
 
         /**
          * Prepend this DOM element from one View class instance this class
          * instances DOM element
-         * @param 		{conbo.View} view - The View instance to preppend
+         * @param 		{...conbo.View} views - The View instance(s) to preppend
          * @returns		{this}
          */
-        prependView(view: View): View;
+        prependView(...views: View[]): View;
 
         /**
          * Automatically bind elements to properties of this View
@@ -1863,7 +1863,7 @@ declare namespace conbo {
 		 * @param	{string}	fragment
 		 * @param	{any}		options
 		 */
-		setPath(fragment, options):History;
+		setPath(fragment:string, options:any):History;
 		
 	}
     
@@ -2114,7 +2114,7 @@ declare namespace conbo {
 	 * @param		{Object}	[scope] - The scope the predicate function should run in
 	 * @returns		{any[]}
 	 */
-	function reject(obj:any, predicate:Function, scope?:any) 
+	function reject(obj:any, predicate:Function, scope?:any):any[]; 
 	
 	/**
 	 * Determine whether all of the elements match a truth test.
@@ -2455,10 +2455,10 @@ declare namespace conbo {
 	 * @see			#keys
 	 * @param		{Object}	obj - Object to get keys from
 	 * @param		{boolean}	[deep] - Retrieve keys from further up the prototype chain?
-	 * @param		{boolean}	includeAccessors - Whether or not to include accessors that contain functions (default: false)
+	 * @param		{boolean}	[includeAccessors] - Whether or not to include accessors that contain functions (default: false)
 	 * @returns		{any[]}
 	 */
-	function functions(obj:any, deep, includeAccessors):any[];
+	function functions(obj:any, deep?:boolean, includeAccessors?:boolean):any[];
 	
 	/**
 	 * Extends Object.keys to retrieve the names of an object's enumerable 
@@ -3043,7 +3043,7 @@ declare namespace conbo {
 	 * @param 		{Object}	[scope] - The scope in which to run the loaded script
 	 * @returns		{conbo.Promise}
 	 */
-	function loadScript(url, scope?:any):Promise;
+	function loadScript(url:string, scope?:any):Promise;
 	
 	/**
 	 * Makes the specified properties of an object bindable; if no property 
@@ -3136,7 +3136,7 @@ declare namespace conbo {
 	 * @param		{boolean}	[caseSensitive=true] - Whether to search for a case-insensitive match (default: true)
 	 * @returns		{any}		The value of the specified property
 	 */
-	function getValue(obj:any, propName:string, caseSensitive):any;
+	function getValue(obj:any, propName:string, caseSensitive?:boolean):any;
 	
 	/**
 	 * Prepare data for submission to web services.
