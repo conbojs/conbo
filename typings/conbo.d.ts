@@ -3,7 +3,6 @@ export = conbo;
 
 /**
  * Create or access a ConboJS namespace
- * @variation	2
  * @param		{string}	namespace - The selected namespace
  * @param		{...any}	[globals] - Globals to minify followed by function to execute, with each of the globals as parameters
  * @returns		{conbo.Namespace}
