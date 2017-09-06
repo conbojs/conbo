@@ -17,7 +17,7 @@ conbo.ConboClass = conbo.Class.extend(
 {
 	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
-	 * @param 	{Object}	options - Class configuration object
+	 * @param 	{Object}	[options] - Options object
 	 */
 	constructor: function(options)
 	{

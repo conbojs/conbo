@@ -1,4 +1,7 @@
-declare module 'conbo';
+declare module 'conbo' 
+{
+	export = conbo;
+}
 
 /**
  * Create or access a ConboJS namespace
@@ -137,7 +140,10 @@ declare namespace conbo {
      */
     class Namespace extends Class {
 
-        /**
+    	[key:number]:any;
+    	[key:string]:any;
+    	
+    	/**
          * Search the DOM and initialize Applications contained in this namespace
          * @param 	{Element} 	[rootEl] - The root element to initialize
          * @returns {this}
@@ -607,6 +613,9 @@ declare namespace conbo {
      */
     class Hash extends EventDispatcher {
 
+    	[key:number]:any;
+    	[key:string]:any;
+    	
         /**
          * @param {any} [options] - Object containing initialization options, including 'source' object
          */

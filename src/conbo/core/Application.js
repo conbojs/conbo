@@ -21,6 +21,11 @@ conbo.Application = conbo.View.extend(
 /** @lends conbo.Application.prototype */
 {
 	/**
+	 * @member		{conbo.Namespace} namespace - The application's namespace (required)
+	 * @memberof	conbo.Application.prototype
+	 */
+	
+	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options
 	 * @private

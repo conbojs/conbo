@@ -13,15 +13,9 @@ conbo.Hash = conbo.EventDispatcher.extend(
 /** @lends conbo.Hash.prototype */
 {
 	/**
-	 * @deprecated 
-	 * @member		{Object}	_defaults - The default values to use if not all properties are set. 
-	 * 										This property is now deprected, defaults should be set in declarations() 
-	 * @memberof	conbo.Hash.prototype
-	 */
-	
-	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options
+	 * @private
 	 */
 	__construct: function(options)
 	{
@@ -37,6 +31,7 @@ conbo.Hash = conbo.EventDispatcher.extend(
 	/**
 	 * Returns a version of this object that can easily be converted into JSON
 	 * @function
+	 * @returns	{Object}
 	 */
 	toJSON: conbo.jsonify,
 	

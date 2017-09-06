@@ -86,7 +86,7 @@ conbo.Context = conbo.EventDispatcher.extend(
 		
 		if (this.__commands[eventType] && this.__commands[eventType].indexOf(commandClass) != -1)
 		{
-			return;
+			return this;
 		}
 		
 		this.__commands[eventType] = this.__commands[eventType] || [];
@@ -106,7 +106,7 @@ conbo.Context = conbo.EventDispatcher.extend(
 		if (commandClass === undefined)
 		{
 			delete this.__commands[eventType];
-			return;
+			return this;
 		}
 		
 		if (!this.__commands[eventType]) return;

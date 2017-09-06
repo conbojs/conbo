@@ -16,17 +16,13 @@ conbo.Command = conbo.EventDispatcher.extend(
 	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options
+	 * @private
 	 */
 	__construct: function(options)
 	{
 		this.context = options.context;
 		this.event = options.event || {};
 	},
-	
-	/**
-	 * Initialiser included for consistency, but should probably never be used
-	 */
-	initialize: function() {},
 	
 	/**
 	 * Execute: should be overridden
@@ -43,4 +39,5 @@ conbo.Command = conbo.EventDispatcher.extend(
 	}
 	
 }).implement(conbo.IInjectable);
+
 __denumerate(conbo.Command.prototype);

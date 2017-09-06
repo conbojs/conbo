@@ -69,6 +69,6 @@ conbo.RemoteHash = conbo.Hash.extend(
 		return 'conbo.RemoteHash';
 	}
 	
-}).implement(conbo.ISyncable, conbo.IPreinitialize);
+}).implement(conbo.ISyncable);
 
 __denumerate(conbo.HttpService.prototype);

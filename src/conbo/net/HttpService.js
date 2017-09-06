@@ -77,9 +77,9 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	 * Call a method of the web service using the specified verb
 	 * 
 	 * @param	{string}	command - The name of the command
-	 * @param	{Object}	data - Object containing the data to send to the web service
-	 * @param	{string}	method - GET, POST, etc (default: GET)
-	 * @param	{Class}		resultClass - Optional
+	 * @param	{Object}	[data] - Object containing the data to send to the web service
+	 * @param	{string}	[method=GET] - GET, POST, etc (default: GET)
+	 * @param	{Class}		[resultClass] - Optional
 	 * @returns	{conbo.Promise}
 	 */
 	call: function(command, data, method, resultClass)
@@ -112,8 +112,8 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	 * @memberof	conbo.HttpService.prototype
 	 * @method		post
 	 * @param		{string}	command - The name of the command
-	 * @param		{Object}	data - Object containing the data to send to the web service
-	 * @param		{Class}		resultClass - Optional
+	 * @param		{Object}	[data] - Object containing the data to send to the web service
+	 * @param		{Class}		[resultClass] - Optional
 	 * @returns		{conbo.Promise}
 	 */
 	
@@ -123,8 +123,8 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	 * @memberof	conbo.HttpService.prototype
 	 * @method		get 
 	 * @param		{string}	command - The name of the command
-	 * @param		{Object}	data - Object containing the data to send to the web service
-	 * @param		{Class}		resultClass - Optional
+	 * @param		{Object}	[data] - Object containing the data to send to the web service
+	 * @param		{Class}		[resultClass] - Optional
 	 * @returns		{conbo.Promise}
 	 */
 	
@@ -134,8 +134,8 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	 * @memberof	conbo.HttpService.prototype
 	 * @method		put
 	 * @param		{string}	command - The name of the command
-	 * @param		{Object}	data - Object containing the data to send to the web service
-	 * @param		{Class}		resultClass - Optional
+	 * @param		{Object}	[data] - Object containing the data to send to the web service
+	 * @param		{Class}		[resultClass] - Optional
 	 * @returns		{conbo.Promise}
 	 */
 	
@@ -145,8 +145,8 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	 * @memberof	conbo.HttpService.prototype
 	 * @method		patch
 	 * @param		{string}	command - The name of the command
-	 * @param		{Object}	data - Object containing the data to send to the web service
-	 * @param		{Class}		resultClass - Optional
+	 * @param		{Object}	[data] - Object containing the data to send to the web service
+	 * @param		{Class}		[resultClass] - Optional
 	 * @returns		{conbo.Promise}
 	 */
 	
@@ -156,16 +156,16 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	 * @memberof	conbo.HttpService.prototype
 	 * @method		delete
 	 * @param		{string}	command - The name of the command
-	 * @param		{Object}	data - Object containing the data to send to the web service
-	 * @param		{Class}		resultClass - Optional
+	 * @param		{Object}	[data] - Object containing the data to send to the web service
+	 * @param		{Class}		[resultClass] - Optional
 	 * @returns		{conbo.Promise}
 	 */
 	
 	/**
 	 * Add one or more remote commands as methods of this class instance
 	 * @param	{string}	command - The name of the command
-	 * @param	{string}	method - GET, POST, etc (default: GET)
-	 * @param	{Class}		resultClass - Optional
+	 * @param	{string}	[method=GET] - GET, POST, etc (default: GET)
+	 * @param	{Class}		[resultClass] - Optional
 	 */
 	addCommand: function(command, method, resultClass)
 	{
@@ -186,7 +186,7 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	
 	/**
 	 * Add multiple commands as methods of this class instance
-	 * @param	{Array}		commands
+	 * @param	{string[]}		commands
 	 */
 	addCommands: function(commands)
 	{
@@ -208,7 +208,7 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	 * Method that encodes data to be sent to the API
 	 * 
 	 * @param	{Object}	data - Object containing the data to be sent to the API
-	 * @param	{string}	method - GET, POST, etc (default: GET)
+	 * @param	{string}	[method=GET] - GET, POST, etc (default: GET)
 	 */
 	encodeFunction: function(data, method)
 	{

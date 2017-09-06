@@ -210,7 +210,7 @@ conbo.List = conbo.EventDispatcher.extend(
 	
 	/**
 	 * Force the collection to re-sort itself.
-	 * @param	{Function}	compareFunction - Compare function to determine sort order
+	 * @param	{Function}	[compareFunction] - Compare function to determine sort order
 	 */
 	sort: function(compareFunction) 
 	{
@@ -221,7 +221,7 @@ conbo.List = conbo.EventDispatcher.extend(
 	},
 	
 	/**
-	 * Create a new collection with an identical list of models as this one.
+   	 * Create a new List identical to this one.
 	 */
 	clone: function() 
 	{

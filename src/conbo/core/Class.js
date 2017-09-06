@@ -52,6 +52,7 @@ conbo.Class.prototype =
 	
 	/**
 	 * Scope all methods of this class instance to this class instance
+	 * @param		{...string}	[methodName]	Specific method names to bind (all will be bound if none specified)
 	 * @returns 	{this}
 	 */
 	bindAll: function()
@@ -76,8 +77,8 @@ __denumerate(conbo.Class.prototype);
  * Extend this class to create a new class
  * 
  * @memberof 	conbo.Class
- * @param		{Object}	protoProps - Object containing the new class's prototype
- * @param		{Object}	staticProps - Object containing the new class's static methods and properties
+ * @param		{Object}	[protoProps] - Object containing the new class's prototype
+ * @param		{Object}	[staticProps] - Object containing the new class's static methods and properties
  * 
  * @example		
  * var MyClass = conbo.Class.extend
@@ -127,7 +128,7 @@ conbo.Class.extend = function(protoProps, staticProps)
  * not already been implemented.
  * 
  * @memberof	conbo.Class
- * @param		{Object} interface - Object containing one or more properties or methods to be implemented (an unlimited number of parameters can be passed)
+ * @param		{...Object} interface - Object containing one or more properties or methods to be implemented (an unlimited number of parameters can be passed)
  * 
  * @example
  * var MyClass = conbo.Class.extend().implement(conbo.IInjectable);

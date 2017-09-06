@@ -61,7 +61,7 @@ If you're using ES2015, TypeScript, AMD or CommonJS modules, it's easy to import
 ```javascript
 // ES2015 & TypeScript
 
-import conbo from "./conbo";
+import * as conbo from "./conbo";
 import FooApp from "./FooApp";
 import BarView from "./BarView";
 

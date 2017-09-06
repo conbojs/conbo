@@ -10,30 +10,6 @@ module.exports = function (grunt)
 			{
 				files:
 				{
-					// conbo-lite.js
-					
-					'lib/conbo-lite.js':
-					[
-					 	'src/conbo/header.txt',
-					 	'src/conbo/conbo.js',
-					 	'src/conbo/utils/internal.js',
-					 	'src/conbo/utils/utils.js',
-					 	'src/conbo/core/Class.js',
-					 	'src/conbo/core/ConboClass.js',
-					 	'src/conbo/core/Namespace.js',
-						'src/conbo/core/ServerApplication.js',
-						'src/conbo/events/Event.js',
-						'src/conbo/events/ConboEvent.js',
-						'src/conbo/events/EventDispatcher.js',
-						'src/conbo/data/Hash.js',
-						'src/conbo/data/LocalHash.js',
-					 	'src/conbo/utils/Promise.js',
-						'src/conbo/view/Glimpse.js',
-						'src/conbo/footer.txt'
-					],
-					
-					// conbo.js
-					
 					'lib/conbo.js':
 					[
 						'src/conbo/header.txt',
@@ -99,13 +75,7 @@ module.exports = function (grunt)
 				}
 			},
 			
-			lite: 
-			{
-				src: 'lib/conbo-lite.js',
-				dest: 'lib/conbo-lite.min.js'
-			},
-			
-			complete:
+			conbo:
 			{
 				src: 'lib/conbo.js',
 				dest: 'lib/conbo.min.js',

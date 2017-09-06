@@ -459,7 +459,7 @@
 	 * @memberof	conbo
 	 * @param		{Array}		array - The array to slice
 	 * @param		{Function}	n - The number of elements to return (default: 1)
-	 * @param		{Object}	guard - Optional
+	 * @param		{Object}	[guard] - Optional
 	 * @returns		{Object}
 	 */
 	conbo.last = function(array, n, guard) 
@@ -478,7 +478,7 @@
 	 * @memberof	conbo
 	 * @param		{Array}		array - The array to slice
 	 * @param		{Function}	n - The number of elements to return (default: 1)
-	 * @param		{Object}	guard - Optional
+	 * @param		{Object}	[guard] - Optional
 	 * @returns		{Array}
 	 */
 	conbo.rest = function(array, n, guard) 
@@ -731,7 +731,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{Object}	obj - Object to bind methods to
-	 * @returns		{void}
+	 * @returns		{Object}
 	 */
 	conbo.bindAll = function(obj)
 	{
@@ -793,7 +793,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{Function}	func - The function to call
-	 * @param		{Object}	scope - The scope in which to run the specified function
+	 * @param		{Object}	[scope] - The scope in which to run the specified function
 	 * @returns		{conbo}
 	 */
 	conbo.ready = function(func, scope)
@@ -824,7 +824,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{Function}	func - Function to call
-	 * @param		{Object}	scope - The scope in which to call the function
+	 * @param		{Object}	[scope] - The scope in which to call the function
 	 * @returns		{number}	ID that can be used with clearInterval
 	 */
 	conbo.defer = function(func, scope) 
@@ -855,7 +855,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{Function}	func - Function to call
-	 * @param		{Object}	scope - The scope in which to call the function
+	 * @param		{Object}	[scope] - The scope in which to call the function
 	 * @returns		{conbo}
 	 */
 	conbo.callLater = function(func, scope)
@@ -921,7 +921,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{Object}	obj - Object to get keys from
-	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain?
+	 * @param		{boolean}	[deep] - Retrieve keys from further up the prototype chain?
 	 * @returns		{Array}
 	 */
 	conbo.keys = function(obj, deep)
@@ -945,7 +945,7 @@
 	 * @memberof	conbo
 	 * @see			#keys
 	 * @param		{Object}	obj - Object to get keys from
-	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain?
+	 * @param		{boolean}	[deep] - Retrieve keys from further up the prototype chain?
 	 * @param		{boolean}	includeAccessors - Whether or not to include accessors that contain functions (default: false)
 	 * @returns		{Array}
 	 */
@@ -964,7 +964,7 @@
 	 * @memberof	conbo
 	 * @see			#keys
 	 * @param		{Object}	obj - Object to get keys from
-	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain?
+	 * @param		{boolean}	[deep] - Retrieve keys from further up the prototype chain?
 	 * @returns		{Array}
 	 */
 	conbo.variables = function(obj, deep)
@@ -980,7 +980,7 @@
 	 * @memberof	conbo
 	 * @see			#keys
 	 * @param		{Object}	obj - Object to get keys from
-	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain?
+	 * @param		{boolean}	[deep] - Retrieve keys from further up the prototype chain?
 	 * @returns		{Array}
 	 */
 	conbo.properties = function(obj, deep)
@@ -996,7 +996,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{Object}	obj - Object to get keys from
-	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain?
+	 * @param		{boolean}	[deep] - Retrieve keys from further up the prototype chain?
 	 * @returns		{Array}
 	 */
 	conbo.getPropertyNames = function(obj, deep)
@@ -1022,7 +1022,7 @@
 	 * @memberof	conbo
 	 * @see			#getPropertyNames
 	 * @param		{Object}	obj - Object to get keys from
-	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain?
+	 * @param		{boolean}	[deep] - Retrieve keys from further up the prototype chain?
 	 * @param		{boolean}	includeAccessors - Whether or not to include accessors that contain functions (default: false)
 	 * @returns		{Array}
 	 */
@@ -1042,7 +1042,7 @@
 	 * @memberof	conbo
 	 * @see			#getPropertyNames
 	 * @param		{Object}	obj - Object to get keys from
-	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain?
+	 * @param		{boolean}	[deep] - Retrieve keys from further up the prototype chain?
 	 * @returns		{Array}
 	 */
 	conbo.getVariableNames = function(obj, deep)
@@ -1078,7 +1078,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{Object}	obj - Object to get values from
-	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain?
+	 * @param		{boolean}	[deep] - Retrieve keys from further up the prototype chain?
 	 * @returns		{Array}
 	 */
 	conbo.values = function(obj, deep) 
@@ -1201,7 +1201,7 @@
 	 * property descriptors
 	 * 
 	 * @memberof	conbo
-	 * @param		{Object}	obj - Object to populate
+	 * @param		{Object}	target - Object to populate
 	 * @param		{...Object}	obj - Objects containing default values
 	 * @returns		{Object}
 	 * @see			conbo.setDefaults
@@ -1229,7 +1229,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{Object}	obj - Object to populate
-	 * @param		{...Object}	obj - Objects containging default values
+	 * @param		{...Object}	source - Objects containging default values
 	 * @returns		{Object}
 	 */
 	conbo.setDefaults = function(obj) 
@@ -1683,7 +1683,7 @@
 	 * Useful for temporary DOM ids.
 	 * 
 	 * @memberof	conbo
-	 * @param		{string}	prefix - String to prefix unique ID with
+	 * @param		{string}	[prefix] - String to prefix unique ID with
 	 * @returns		{string}
 	 */
 	conbo.uniqueId = function(prefix) 
@@ -1759,7 +1759,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{string}	string - underscore_case_string to convertToCamelCase
-	 * @param		{boolean}	initCap - Should the first letter be a CapitalLetter? (default: false)
+	 * @param		{boolean}	[initCap=false] - Should the first letter be a CapitalLetter? (default: false)
 	 * @returns		{string}
 	 */
 	conbo.toCamelCase = function(string, initCap)
@@ -1774,7 +1774,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{string}	string - camelCase string to convert to underscore_case
-	 * @param		{string}	separator - Default: "_"
+	 * @param		{string}	[separator=_] - Default: "_"
 	 * @returns		{string}
 	 */
 	conbo.toUnderscoreCase = function(string, separator)
@@ -1801,7 +1801,7 @@
 	 * @memberof	conbo
 	 * @param		{string}	value - String to pad
 	 * @param		{number}	minLength - Minimum length of the padded string
-	 * @param		{string}	padChar - The character to use to pad the string
+	 * @param		{string}	[padChar] - The character to use to pad the string
 	 * @returns		{string}
 	 */
 	conbo.padLeft = function(value, minLength, padChar)
@@ -1826,7 +1826,7 @@
 	 * Add a leading zero to the specified number and return it as a string
 	 * @memberof 	conbo
 	 * @param		{number}	number - The number to add a leading zero to
-	 * @param		{number}	minLength - the minumum length of the returned string (default: 2)
+	 * @param		{number}	[minLength=2] - the minumum length of the returned string (default: 2)
 	 * @returns		{string}
 	 */
 	conbo.addLeadingZero = function(number, minLength)
@@ -1840,11 +1840,11 @@
 	 * 
 	 * @memberof	conbo
 	 * @see 		http://phpjs.org/functions/number_format/
-	 * @param 		number
-	 * @param 		decimals				default: 0
-	 * @param 		decimalPoint			default: '.'
-	 * @param 		thousandsSeparator		default: ','
-	 * @returns		{string}				Formatted number
+	 * @param 		{number} 	number
+	 * @param 		{number} 	[decimals=0]				default: 0
+	 * @param 		{string}	[decimalPoint=.]			default: '.'
+	 * @param 		{string}	[thousandsSeparator=,]		default: ','
+	 * @returns		{string}	Formatted number
 	 */
 	conbo.formatNumber = function(number, decimals, decimalPoint, thousandsSeparator) 
 	{
@@ -1876,11 +1876,11 @@
 	 * 
 	 * @memberof	conbo
 	 * @param 		{number}	number
-	 * @param 		{string}	symbol
-	 * @param 		{boolean}	suffixed
-	 * @param 		{number}	decimals
-	 * @param 		{string}	decimalPoint
-	 * @param 		{string}	thousandsSeparator
+	 * @param 		{string}	[symbol]
+	 * @param 		{boolean}	[suffixed]
+	 * @param 		{number}	[decimals]
+	 * @param 		{string}	[decimalPoint]
+	 * @param 		{string}	[thousandsSeparator]
 	 * @returns		{string}
 	 */
 	conbo.formatCurrency = function(number, symbol, suffixed, decimals, decimalPoint, thousandsSeparator)
@@ -1989,7 +1989,7 @@
 	 * @param		{Object}	source - Source object
 	 * @param		{string}	sourceName - Name of the property on the source
 	 * @param		{Object}	target - Target object
-	 * @param		{string} 	targetName - Name of the property on the target (default: sourceName)
+	 * @param		{string} 	[targetName] - Name of the property on the target (default: sourceName)
 	 * @returns		{conbo}
 	 */
 	conbo.cloneProperty = function(source, sourceName, target, targetName)
@@ -2023,7 +2023,7 @@
 	 * @memberof	conbo
 	 * @param		{Array}		array - The Array to sort
 	 * @param		{string}	fieldName - The field/property name to sort on
-	 * @param		{Object}	options - Optional sort criteria: `descending` (Boolean), `caseInsensitive` (Boolean)
+	 * @param		{Object}	[options] - Optional sort criteria: `descending` (Boolean), `caseInsensitive` (Boolean)
 	 * @returns		{Array}
 	 */
 	conbo.sortOn = function(array, fieldName, options)
@@ -2104,7 +2104,7 @@
 	 * @memberof	conbo
 	 * @param		{Object}				obj - The object to compare
 	 * @param		{conbo.Class|object}	classOrInterface - The class or pseudo-interface to compare against
-	 * @param		{boolean}				strict - Perform a strict interface comparison (default: true)
+	 * @param		{boolean}				[strict=true] - Perform a strict interface comparison (default: true)
 	 * @example								var b = conbo.is(user, UserClass);
 	 * @example								var b = conbo.is(user, IUser);
 	 * @example								var b = conbo.is(user, partial, false);
@@ -2150,8 +2150,8 @@
 	 * Loads a CSS file and applies it to the DOM
 	 * 
 	 * @memberof	conbo
-	 * @param 		{string}	url		The CSS file's URL
-	 * @param 		{string}	media	The media attribute (defaults to 'all')
+	 * @param 		{string}	url			The CSS file's URL
+	 * @param 		{string}	[media=all]	The media attribute (defaults to 'all')
 	 * @returns		{conbo.Promise}
 	 */
 	conbo.loadCss = function(url, media)
@@ -2195,7 +2195,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param 		{string}	url - The JavaScript file's URL
-	 * @param 		{Object}	scope - The scope in which to run the loaded script
+	 * @param 		{Object}	[scope] - The scope in which to run the loaded script
 	 * @returns		{conbo.Promise}
 	 */
 	conbo.loadScript = function(url, scope)
@@ -2412,7 +2412,7 @@
 	 * @memberof	conbo
 	 * @param		{Object}	obj - The object containing the property
 	 * @param		{string}	propName - The property name
-	 * @param		{boolean}	caseSensitive - Whether to search for a case-insensitive match (default: true)
+	 * @param		{boolean}	[caseSensitive=true] - Whether to search for a case-insensitive match (default: true)
 	 * @returns		{*}			The value of the specified property
 	 */
 	conbo.getValue = function(obj, propName, caseSensitive)
@@ -2444,7 +2444,7 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{*}			obj - Object to convert
-	 * @param		{boolean}	deep - Retrieve keys from further up the prototype chain?
+	 * @param		{boolean}	[deep=false] - Retrieve keys from further up the prototype chain?
 	 * @returns		{*}			JSON ready version of the object
 	 * 
 	 * @example
