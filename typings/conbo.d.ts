@@ -1,3 +1,5 @@
+declare module 'conbo';
+
 /**
  * Create or access a ConboJS namespace
  * @variation	2
@@ -186,16 +188,16 @@ declare namespace conbo {
         /**
          * Constructor: DO NOT override! (Use initialize instead)
          * @param 	{string} type - The type of event this class instance represents
-         * @param 	{any} data - Data to store in the event's data property
+         * @param 	{any} [data] - Data to store in the event's data property
          */
-        constructor(type: string, data: any);
+        constructor(type: string, data?: any);
 
         /**
          * Initialize (entry point)
          * @param 	{string} type - The type of event this class instance represents
-         * @param 	{any} data - Data to store in the event's data property
+         * @param 	{any} [data] - Data to store in the event's data property
          */
-        initialize(type: string, data: any);
+        initialize(type: string, data?: any);
 
         /**
          * Create an identical clone of this event
