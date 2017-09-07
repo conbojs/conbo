@@ -753,6 +753,28 @@ declare namespace conbo {
     	 * The JSON-friendly representation of the List
     	 */
     	toJSON(): Object; 
+    	
+    	forEach(...args:any[]):any;
+    	map(...args:any[]):any;
+    	find(...args:any[]):any;
+    	findIndex(...args:any[]):any;
+    	filter(...args:any[]):any;
+    	reject(...args:any[]):any;
+    	every(...args:any[]):any;
+    	contains(...args:any[]):any;
+    	invoke(...args:any[]):any;
+    	indexOf(...args:any[]):any;
+    	lastIndexOf(...args:any[]):any;
+    	max(...args:any[]):any;
+    	min(...args:any[]):any;
+    	toArray(...args:any[]):any;
+    	size(...args:any[]):any;
+    	rest(...args:any[]):any;
+    	last(...args:any[]):any;
+    	without(...args:any[]):any;
+    	shuffle(...args:any[]):any;
+    	isEmpty(...args:any[]):any;
+    	sortOn(...args:any[]):any;    	
     }
 
     /**
@@ -3193,5 +3215,4 @@ declare namespace conbo {
 	 * @returns		{void}
 	 */
 	function error(...values:any[]):void;
-    
 }

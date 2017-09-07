@@ -325,10 +325,9 @@ conbo.List = conbo.EventDispatcher.extend(
 // Utility methods that we want to implement on the List.
 var listMethods = 
 [
-	'forEach', 'map', 'reduce', 'reduceRight', 'find', 'findIndex', 'filter',
-	'reject', 'every', 'any', 'contains', 'invoke', 'indexOf', 'lastIndexOf',
-	'max', 'min', 'toArray', 'size', 'first', 'head', 'take', 'initial', 'rest',
-	'tail', 'drop', 'last', 'without', 'shuffle', 'isEmpty', 'chain', 'sortOn'
+	'forEach', 'map', 'find', 'findIndex', 'filter', 'reject', 'every', 
+	'contains', 'invoke', 'indexOf', 'lastIndexOf', 'max', 'min', 'toArray', 
+	'size', 'rest', 'last', 'without', 'shuffle', 'isEmpty', 'sortOn'
 ];
 
 // Mix in each available Conbo utility method as a proxy

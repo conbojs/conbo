@@ -83,7 +83,7 @@ var conbo = function(namespace)
 };
 
 /**
- * Internal reference to self for use with ES2015 and TypeScript import statements
+ * Internal reference to self for use with ES2015 import statements
  * 
  * @memberof	conbo
  * @type		{conbo}
