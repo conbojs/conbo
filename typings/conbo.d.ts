@@ -178,8 +178,8 @@ declare namespace conbo {
      * @author		Neil Rackett
      * @param 		{string}	type - The type of event this object represents
      */
-    class Event extends Class {
-
+    class Event extends Class 
+    {
     	/** 
     	 * Special event used to listed for all event types 
     	 * 
@@ -187,6 +187,11 @@ declare namespace conbo {
          * @type 			{conbo.ConboEvent}
     	 */
     	static readonly ALL:string;
+
+    	/**
+    	 * Event related data
+    	 */
+    	data:any;
     	
         /**
          * Constructor: DO NOT override! (Use initialize instead)
@@ -238,6 +243,9 @@ declare namespace conbo {
      */
     class ConboEvent extends Event 
     {
+    	[key:number]:any;
+    	[key:string]:any;
+    	
     	/** 
     	 * Special event used to listed for all event types 
     	 * 

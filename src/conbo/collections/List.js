@@ -272,7 +272,7 @@ conbo.List = conbo.EventDispatcher.extend(
 	{
 		var i;
 		
-		var define = this.bind(function(n)
+		var define = (function(n)
 		{
 			Object.defineProperty(this, n, 
 			{
@@ -281,7 +281,7 @@ conbo.List = conbo.EventDispatcher.extend(
 				configurable: true,
 				enumerable: true
 			});
-		});
+		}).bind(this);
 		
 		for (i=0; i<this.length; i++)
 		{

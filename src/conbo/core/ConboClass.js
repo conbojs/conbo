@@ -17,12 +17,21 @@ conbo.ConboClass = conbo.Class.extend(
 {
 	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
-	 * @param 	{Object}	[options] - Options object
+	 * @param 	{Object|conbo.Context}	[options] - Options object
 	 */
 	constructor: function(options)
 	{
 		var args = conbo.toArray(arguments);
-		if (args[0] === undefined) args[0] = {};
+		
+		if (args[0] === undefined) 
+		{
+			args[0] = {};
+		}
+		else if (args[0] instanceof conbo.Context 
+				&& conbo.is(this, conboIInjectable, false)) 
+		{
+			args[0] = args[0].addTo();
+		}
 		
 		this.declarations.apply(this, args);
 		this.preinitialize.apply(this, args);

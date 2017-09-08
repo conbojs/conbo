@@ -279,10 +279,10 @@ conbo.AttributeBindings = conbo.Class.extend(
 				el.cbRepeat.list.removeEventListener('change', el.cbRepeat.changeHandler);
 			}
 			
-			el.cbRepeat.changeHandler = this.bind(function(event)
+			el.cbRepeat.changeHandler = (function(event)
 			{
 				this.cbRepeat.apply(this, args);
-			});
+			}).bind(this);
 			
 			values.addEventListener('change', el.cbRepeat.changeHandler);
 			el.cbRepeat.list = values;
@@ -432,10 +432,10 @@ conbo.AttributeBindings = conbo.Class.extend(
 		var view = options.view;
 		var states = value.split(' ');
 		
-		var stateChangeHandler = this.bind(function()
+		var stateChangeHandler = (function()
 		{
 			this.cbInclude(el, states.indexOf(view.currentState) != -1);
-		});
+		}).bind(this);
 		
 		view.addEventListener('change:currentState', stateChangeHandler, this);
 		stateChangeHandler.call(this);

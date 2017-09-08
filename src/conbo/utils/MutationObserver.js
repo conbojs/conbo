@@ -31,7 +31,7 @@ conbo.MutationObserver = conbo.EventDispatcher.extend(
 		// Modern browsers
 		if (MutationObserver)
 		{
-			var mo = new MutationObserver(this.bind(function(mutations, observer)
+			var mo = new MutationObserver((function(mutations, observer)
 			{
 				var added = mutations[0].addedNodes;
 				var removed = mutations[0].removedNodes;
@@ -45,7 +45,7 @@ conbo.MutationObserver = conbo.EventDispatcher.extend(
 				{
 					this.__removeHandler(conbo.toArray(removed));
 				}
-			}));
+			}).bind(this));
 			
 			mo.observe(el, {childList:true, subtree:true});
 			
