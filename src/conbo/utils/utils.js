@@ -1941,6 +1941,7 @@
 	 * Unlike conbo.defineValues, setValues only sets the values on the target 
 	 * object and does not destroy and redifine them.
 	 * 
+	 * @deprecated	Use Object.assign();
 	 * @memberof	conbo
 	 * @param		{Object}	target - Object to copy properties to
 	 * @param		{...Object}	source - Object to copy properties from
