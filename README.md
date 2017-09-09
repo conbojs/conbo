@@ -6,9 +6,9 @@ It is a lightweight MVC application framework for JavaScript for use with modern
 
 Features include extendible classes, event bus, dependency injection, data binding, command pattern, pseudo-interfaces and an easy to use event model with scoped event handling, plus simple view state management and support for ES2015 syntax.
 
-ConboJS requires no special IDEs, compilers or transpilers, it just makes regular JavaScript nicer.
+ConboJS requires no special IDEs, compilers or transpilers, it just makes regular JavaScript nicer. Extensive TypeScript definitions are also included to enable code completion from the moment it's installed.
 
-Development of ConboJS is focussed on single page applications (SPA) and self-contained modules, like widgets and media players. It can be loaded as a global, an AMD module or using CommonJS, meaning it can also offer a great base for server-side Node.js applications.
+Development of ConboJS is primarily focussed on single page applications (SPA) and self-contained modules, like widgets and media players, but can also offer a great base for server-side Node.js applications. It can be added to your project as a global, an AMD or CommonJS module, or using ES2015/TypeScript `import` syntax.
 
 Browser support
 ---------------
