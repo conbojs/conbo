@@ -375,6 +375,91 @@ declare namespace conbo {
     	 */
     	static readonly FAULT:string;			
 
+    	/**
+    	 * The name of the property that changed
+    	 */
+    	property:string;
+    	
+    	/**
+    	 * The new value of the property
+    	 */
+        value:any; 
+    	
+    	/**
+    	 * The router that handled the route change
+    	 */
+        router:Router;
+    	
+    	/**
+    	 * The route that was followed
+    	 */
+        route:RegExp; 
+    	
+    	/**
+    	 * The name assigned to the route
+    	 */
+        name:string; 
+    	
+    	/**
+    	 * The parameters extracted from the route as an array
+    	 */
+        parameters:any[];
+    	
+    	/**
+    	 * The parameters extracted from the route as an object
+    	 */
+        params:any;
+    	
+    	/**
+    	 * The new path
+    	 */
+        path:string; 
+    	
+    	/**
+    	 * The data or result received
+    	 */
+        result:any; 
+    	
+    	/**
+    	 * The fault received
+    	 */
+        fault:any; 
+    	
+    	/**
+    	 * Array of nodes added or removed from the DOM
+    	 */
+    	nodes:Node[];
+    	
+		/**
+		 * Object containing all response headers received from the call
+		 */
+		responseHeaders:any;
+		
+		/**
+		 * HTTP status code
+		 */
+		status:number;
+		
+		/**
+		 * The HTTP verb used when making the call
+		 */
+		method:string;
+		
+		/**
+		 * The URL called
+		 */
+		url:string;
+		
+		/**
+		 * XMLHttpRequest instance used to make the call
+		 */
+		xhr:XMLHttpRequest;
+    	
+		/**
+		 * The item affected by the operation
+		 */
+    	item:any;
+    	
         /**
          * Constructor
          * @param	{string}	type - The type of event this class instance represents
