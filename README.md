@@ -213,11 +213,9 @@ Builds
 
 **conbo.js** (17KB minified+gzipped): Includes everything you need to build dynamic web application, including HttpService, RemoteHash and RemoteList classes for working with web services, and History and Router classes for browser integration.
 
-**conbo-lite.js** (8KB minified+gzipped): A super-lightweight subset featuring extendible classes and consistent event model. The aim of this subset is to offer the benefits of Conbo's class structure and event model to users who want to create otherwise framework independent modules and code libraries.
-
 Builds are created using Grunt, which requires Node.js; all required modules can be installed by running `npm install` from the command line in the project folder.
 
-The builds listed above can be created using the command `grunt`. Use `grunt watch`, or run `watch.cmd` (Windows) or `./watch.sh` (Mac, Linux) to auto-build as you edit.
+You can create a new build from the CLI using `grunt`. Use `grunt watch`, or run `watch.cmd` (Windows) or `./watch.sh` (Mac, Linux) to auto-build as you edit.
 
 License
 -------
