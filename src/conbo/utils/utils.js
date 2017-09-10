@@ -1934,14 +1934,13 @@
 	
 	/**
 	 * Copies all of the enumerable values from one or more objects and sets
-	 * them to another, without affecting the target object's property
+	 * them on another, without affecting the target object's property
 	 * descriptors. Unlike Object.assign(), the properties copied are not
 	 * limited to own properties.
 	 * 
 	 * Unlike conbo.defineValues, setValues only sets the values on the target 
 	 * object and does not destroy and redifine them.
 	 * 
-	 * @deprecated	Use Object.assign();
 	 * @memberof	conbo
 	 * @param		{Object}	target - Object to copy properties to
 	 * @param		{...Object}	source - Object to copy properties from
