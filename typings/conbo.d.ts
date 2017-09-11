@@ -2306,7 +2306,7 @@ declare namespace conbo {
 	 * @param		{Object}	[scope] - The scope the iterator function should run in
 	 * @returns		{Object}
 	 */
-	function max(obj:any, iterator:Function, scope?:any):any;
+	function max(obj:any, iterator?:Function, scope?:any):any;
 
 	/**
 	 * Return the minimum element (or element-based computation).
@@ -2317,7 +2317,7 @@ declare namespace conbo {
 	 * @param		{Object}	[scope] - The scope the iterator function should run in
 	 * @returns		{Object}
 	 */
-	function min(obj:any, iterator:Function, scope?:any):any; 
+	function min(obj:any, iterator?:Function, scope?:any):any; 
 
 	/**
 	 * Shuffle an array, using the modern version of the Fisher-Yates shuffle
