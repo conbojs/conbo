@@ -1997,6 +1997,16 @@ declare namespace conbo {
      */
     class Router extends EventDispatcher {
 
+    	/**
+    	 * Object containing route:lab pairs describing the routes handled by this router
+    	 */
+    	routes:any;
+    	
+    	/**
+    	 * The History class to use with this router (defaults to conbo.History)
+    	 */  
+    	historyClass:any;
+    
         /**
          * Start the router
          */
