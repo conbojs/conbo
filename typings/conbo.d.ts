@@ -645,7 +645,7 @@ declare namespace conbo {
          * @example		context.mapSingleton('myProperty', MyModel);
          * @example		myProperty: undefined
          */
-        mapSingleton(propertyName:String, singletonClass:any):Context;
+        mapSingleton(propertyName:String, singletonClass:any, ...args):Context;
 
         /**
          * Unmap class instance from a property name
