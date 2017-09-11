@@ -1381,8 +1381,8 @@ declare namespace conbo {
      * @fires		conbo.ConboEvent#RESULT
      * @fires		conbo.ConboEvent#FAULT
      */
-    class Promise extends EventDispatcher {
-    	
+    class Promise extends EventDispatcher 
+    {
     	/**
     	 * @param 		{Function} [executor] - A function that is passed with the arguments resolve and reject, which is executed immediately by the Promise
      	 */
@@ -1425,19 +1425,19 @@ declare namespace conbo {
         /**
          * Shorthand method for adding a result and/or fault event handlers
          * @param		{Function}	resultHandler
-         * @param		{Function}	faultHandler
-         * @param		{Object}	scope
+         * @param		{Function}	[faultHandler]
+         * @param		{Object}	[scope]
          * @returns		{conbo.Promise}
          */
-        then(resultHandler: Function, faultHandler: Function, scope: any): Promise;
+        then(resultHandler: Function, faultHandler?: Function, scope?: any): Promise;
 
         /**
          * Shorthand method for adding a fault event handler
          * @param		{Function}	faultHandler
-         * @param		{Object}	scope
+         * @param		{Object}	[scope]
          * @returns		{conbo.Promise}
          */
-        catch(faultHandler: Function, scope: any): Promise;
+        catch(faultHandler: Function, scope?: any): Promise;
 
     }
 
@@ -1447,7 +1447,8 @@ declare namespace conbo {
      * think of it as "jQuery nano"
      * @param 		{Element} el - Element to be proxied
      */
-    class ElementProxy extends EventProxy {
+    class ElementProxy extends EventProxy 
+    {
         constructor(el: HTMLElement);
 
         /**
