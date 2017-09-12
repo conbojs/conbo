@@ -19,6 +19,7 @@ module.exports = function (grunt)
 					 	'src/conbo/utils/utils.js',
 					 	'src/conbo/utils/dom.js',
 					 	'src/conbo/utils/css.js',
+						'src/conbo/utils/decorators.js',
 					 	'src/conbo/core/Class.js',
 					 	'src/conbo/core/ConboClass.js',
 					 	'src/conbo/core/Namespace.js',

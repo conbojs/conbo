@@ -3319,4 +3319,12 @@ declare namespace conbo {
 	 * @returns		{void}
 	 */
 	function error(...values:any[]):void;
+	
+	/**
+	 * TypeScript decorator for adding pretty much anything to a ConboJS namespace
+	 * @param	{string}	namespace - The name of the target namespace
+	 * @returns	{Function}	TypeScript decorator
+	 */
+	function conbons(namespace:string):Function; 
+	
 }
