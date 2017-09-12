@@ -28,7 +28,7 @@ conbo.ConboClass = conbo.Class.extend(
 			args[0] = {};
 		}
 		else if (args[0] instanceof conbo.Context 
-				&& conbo.is(this, conboIInjectable, false)) 
+				&& conbo.is(this, conbo.IInjectable, false)) 
 		{
 			args[0] = args[0].addTo();
 		}
