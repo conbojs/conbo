@@ -61,11 +61,20 @@ If you're using ES2015, TypeScript, AMD or CommonJS modules, it's easy to import
 ```javascript
 // ES2015 & TypeScript
 
-import * as conbo from "conbo";
-import FooApp from "./FooApp";
-import BarView from "./BarView";
+import * as conbo from 'conbo';
+import FooApp from './FooApp';
+import BarView from './BarView';
 
 conbo('com.example.app').import({ FooApp, BarView });
+```
+
+```javascript
+// TypeScript Decorator
+
+import {conbons, Application} from 'conbo';
+
+@conbons('com.example.app')
+export class FooApp extends Application { ... }
 ```
 
 ```javascript
@@ -80,9 +89,9 @@ define(['conbo', 'FooApp', 'BarView'], function(conbo, FooApp, BarView)
 ```javascript
 // CommonJS
 
-var conbo = require("./conbo");
-var FooApp = require("./FooApp");
-var BarView = require("./BarView");
+var conbo = require('./conbo');
+var FooApp = require('./FooApp');
+var BarView = require('./BarView');
 
 conbo('com.example.app').import({ FooApp, BarView });
 ```
