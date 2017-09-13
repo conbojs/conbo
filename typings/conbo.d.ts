@@ -3323,8 +3323,9 @@ declare namespace conbo {
 	/**
 	 * TypeScript decorator for adding pretty much anything to a ConboJS namespace
 	 * @param	{string}	namespace - The name of the target namespace
+	 * @param	{string}	[name] - The name to use for this object in the target namespace (useful if you target ES5 and minify your code)
 	 * @returns	{Function}	TypeScript decorator
 	 */
-	function conbons(namespace:string):Function; 
+	function conbons(namespace:string, name?:string):Function; 
 	
 }

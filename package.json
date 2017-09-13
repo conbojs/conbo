@@ -1,6 +1,6 @@
 {
 	"name": "conbo",
-	"version": "4.1.4",
+	"version": "4.1.5",
 	"description": "Lightweight MVC application framework for JavaScript",
 	"keywords": [
 		"attributes",
