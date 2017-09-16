@@ -511,11 +511,11 @@
 				{
 					conbo.warn(attr+' attribute cannot be used without a value');
 				}
-				
-				return this;
 			}
-			
-			conbo.warn(attr+' attribute does not exist');
+			else
+			{
+				conbo.warn(attr+' attribute does not exist');
+			}
 			
 			return this;
 		},
@@ -617,9 +617,9 @@
 					for (var i=0; i<splitsLength; i++)
 					{
 						var parseFunction,
-							d = splits[i];
+							d = (splits[i] || '').replace(/\s/g, '');
 						
-						if (!d && !conbo.isString(d))
+						if (!d)
 						{
 							scope.applyAttribute(el, type);
 							break;
