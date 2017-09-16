@@ -1,5 +1,4 @@
 var View__templateCache = {};
-var View__templateRegExp = /{{(.+?)}}|\${(.+?)}/g;
 
 /**
  * View
@@ -439,7 +438,7 @@ conbo.View = conbo.Glimpse.extend(
 			{
 				el.innerHTML = this.__parseTemplate(template);
 			}
-			else if (View__templateRegExp.test(el.innerHTML))
+			else if (/{(.+?)}/.test(el.textContent))
 			{
 				el.innerHTML = this.__parseTemplate(el.innerHTML);
 			}
@@ -546,22 +545,7 @@ conbo.View = conbo.Glimpse.extend(
 		
 		return this;
 	},
-	
-	/**
-	 * Parses the View's template, replacing {{moustache}} and ${ES2015} values with bindable elements
-	 * 
-	 * @param	{string}	[template]
-	 * @returns	{string}	The parsed template
-	 */
-	__parseTemplate: function(template)
-	{
-		return template.replace(View__templateRegExp, function() 
-		{
-			var propName = (arguments[1] || arguments[2]).trim();
-			return '<span cb-text="'+propName+'"></span>';
-		});
-	},
-	
+		
 	/**
 	 * Populate and render the View's HTML content
 	 * @private
@@ -595,6 +579,14 @@ conbo.View = conbo.Glimpse.extend(
 		var el = __ep(this.el).closest(selector);
 	    if (el) return el.cbView;
 	},
+	
+	/**
+	 * @private
+	 */
+	__parseTemplate: function(template)
+	{
+		return conbo.bindingUtils.parseTemplate(template);
+	}
 	
 });
 

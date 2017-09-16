@@ -12,6 +12,8 @@ conbo('ns', function()
 	
 	ns.MyLoadedView = conbo.View.extend
 	({
+		tagName: 'p',
+		
 		/**
 		 * HTML templates can be loaded by adding a templateUrl property to your
 		 * class, passing options.templateUrl or loading a URL using this.loadTemplate('url/of/my.html');
@@ -25,6 +27,8 @@ conbo('ns', function()
 	
 	ns.MyOtherView = conbo.View.extend
 	({
+		tagName: 'p',
+		
 		/**
 		 * HTML templates can be added directly to your class using the template
 		 * property or passing in options.template to your constructor

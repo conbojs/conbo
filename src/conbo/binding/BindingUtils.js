@@ -947,6 +947,25 @@
 			return this;
 		},
 		
+		/**
+		 * Parses a template, replacing values in {single} and {{double}} curly brackets 
+		 * with bindable text and HTML elements, respectively
+		 * 
+		 * @param	{string}	template - String containing a View template
+		 * @returns	{string}	The parsed template
+		 */
+		parseTemplate: function(template)
+		{
+			return (template || '').replace(/{{(.+?)}}|{(.+?)}/g, function(ignored, double, single) 
+			{
+				var propName = (double || single).trim();
+				return double
+					? '<span cb-html="'+propName+'"></span>'
+					: '<span cb-text="'+propName+'"></span>'
+					;
+			});
+		},
+		
 		toString: function()
 		{
 			return 'conbo.BindingUtils';
