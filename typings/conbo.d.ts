@@ -1581,7 +1581,7 @@ declare namespace conbo {
         /**
          * Template to apply to the View's element
          */
-        template: string;
+        template: string|Function;
 
         /**
          * Template to load and apply to the View's element
@@ -1720,10 +1720,10 @@ declare namespace conbo {
 
         /**
          * Load HTML template and use it to populate this View's element
-         * @param 	{string}	url	- The URL to which the request is sent
+         * @param 	{string}	[url]	- The URL to which the request is sent
          * @returns	{this}
          */
-        loadTemplate(url: string): View;
+        loadTemplate(url?: string): View;
 
     }
 

@@ -2326,8 +2326,9 @@
 		
 		data || (data = {});
 		
-		return template.replace(/(({{(.+?)}})|(\${(.+?)}))/g, function(propNameInBrackets, propName) 
+		return template.replace(/{{(.+?)}}|\${(.+?)}/g, function() 
 		{
+			var propName = (arguments[1] || arguments[2]).trim();
 			var args = propName.split("|");
 			var value, parseFunction;
 			
