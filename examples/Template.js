@@ -35,7 +35,7 @@ conbo('ns', function()
 		 */
 		initialize: function()
 		{
-			this.template || (this.template = 'This is an internal template using the <b>template property of the View class</b> whose favourite colour is <span cb-style="favoriteColor:color" cb-bind="favoriteColor"></span>');
+			this.template || (this.template = 'This is an internal template using the <b>template property of the View class</b> whose favourite colour is <span cb-style="favoriteColor:color">{{favoriteColor}}</span>');
 			this.favoriteColor = 'pink';
 		}
 	});
@@ -52,7 +52,7 @@ conbo('ns', function()
 			this.appendView
 			(
 				new ns.MyLoadedView(this.context.addTo({templateUrl:'template-2.html'})),
-				new ns.MyOtherView(this.context.addTo({template:'This is an internal template using <b>options.template</b> that hates <span cb-style="favoriteColor:color" cb-bind="favoriteColor"></span>'}))
+				new ns.MyOtherView(this.context.addTo({template:'This is an internal template using <b>options.template</b> that hates <span cb-style="favoriteColor:color">{{favoriteColor}}</span>'}))
 			);
 		}
 	});
