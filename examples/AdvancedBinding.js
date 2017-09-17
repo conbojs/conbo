@@ -55,7 +55,16 @@ conbo('ns', function()
 		 * cb-bind is Conbo's simplest form of data binding, automatically
 		 * detecting the best way to bind your data to the element
 		 */
-		template: 'Hello <span cb-bind="myModel.name" />!',
+		template: 'Hello {{myModel.name|parseName}}!',
+		
+		/**
+		 * Parse the name before it's displayed, in this case replacing 
+		 * empty strings with "Anonymous"
+		 */
+		parseName: function(name)
+		{
+			return name || 'Anonymous';
+		},
 		
 		/**
 		 * Properties with a value of undefined that have been mapped to 

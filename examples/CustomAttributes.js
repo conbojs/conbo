@@ -11,7 +11,7 @@ conbo('ns', conbo, function(conbo)
 	/**
 	 * Bindable custom attribute
 	 */
-	conbo.BindingUtils.registerAttribute('customItalic', function(el, value, options, param)
+	conbo.bindingUtils.registerAttribute('customItalic', function(el, value, options, param)
 	{
 		el.style.fontStyle = value ? 'italic' : 'normal';
 	});
@@ -19,7 +19,7 @@ conbo('ns', conbo, function(conbo)
 	/**
 	 * Read-only custom attribute
 	 */
-	conbo.BindingUtils.registerAttribute('customBlue', function(el)
+	conbo.bindingUtils.registerAttribute('customBlue', function(el)
 	{
 		el.style.color = 'blue';
 	}, 

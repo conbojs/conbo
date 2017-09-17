@@ -13,7 +13,7 @@
 			<li cb-repeat="myList">
 				<strong cb-html="data.label"></strong>:
 				<ol>
-					<li cb-repeat="data.names" cb-html="data"></li>
+					<li cb-repeat="data.names">{{data}}</li>
 				</ol>
 			</li>
 		</ul>

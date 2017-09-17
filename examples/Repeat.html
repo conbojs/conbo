@@ -59,11 +59,11 @@
 		</p>
 			
 		<ul>
-			<li cb-repeat="myList:MyItemRenderer" cb-onclick="removeMe">My name is <span cb-html="data.name"></span></li>
+			<li cb-repeat="myList:MyItemRenderer" cb-onclick="removeMe">My name is {{data.name}}</li>
 		</ul>
 		
 		<another-item-renderer cb-repeat="myList" cb-onclick="removeMe">
-			Click here to remove<br /><span cb-html="data.name"></span>
+			Click here to remove<br />{{data.name}}
 		</another-item-renderer>
 		
 		<script src="../lib/conbo.js"></script>

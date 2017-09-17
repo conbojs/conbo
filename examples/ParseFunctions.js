@@ -43,7 +43,7 @@ conbo('ns', function()
 		 * 
 		 * @returns {this}
 		 */
-		template: 'It cost <span cb-html="myModel.price|parseCurrency" />? That\'s <span cb-html="myModel.price|parseDescription" />!',
+		template: 'It cost {{myModel.price|parseCurrency}}? That\'s {{myModel.price|parseDescription}}!',
 		
 		/**
 		 * Properties with a value of undefined that have been mapped to 
@@ -52,21 +52,13 @@ conbo('ns', function()
 		myModel: undefined,
 		
 		/**
-		 * Parses the input value into a formatted currency value, e.g. 1234.56 --> �1,234.56
+		 * Parses the input value into a formatted currency value, e.g. 1234.56 --> £1,234.56
 		 * @param 	value
 		 * @returns	{String}
 		 */
 		parseCurrency: function(value)
 		{
-			var n = parseFloat(value), 
-				c = 2, 
-				d = '.', 
-				t = ',', 
-				s = n < 0 ? '-' : '', 
-				i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + '', 
-				j = (j = i.length) > 3 ? j % 3 : 0;
-			
-			return '&pound;' + s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+			return conbo.formatCurrency(value, '£');
 		},
 		
 		/**

@@ -983,7 +983,7 @@
 		{
 			return (template || '').replace(/{{(.+?)}}/g, function(ignored, propName) 
 			{
-				return '<cb-text cb-bind="'+propName.trim()+'"></span>';
+				return '<cb-text cb-bind="'+propName.trim()+'"></cb-text>';
 			});
 		},
 		

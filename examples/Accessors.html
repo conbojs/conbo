@@ -9,8 +9,8 @@
 		
 		<div cb-app="MyApp">
 			<h1>Accessors</h1>
-			<p>Hello, my name is <strong cb-html="name"></strong> and this is an example of how to use accessors.</p>
-			<p>You can use <code>this.dispatchChange('propName');</code> when creating accessors using the <code>{get propName(){}, set propName(){}}</code> syntax to make the property bindable.</p>
+			<p>Hello, my name is <strong>{{name}}</strong> and this is an example of how to use accessors.</p>
+			<p>You can use <code>this.dispatchChange('propName');</code> when creating accessors using the <code>{ get propName() {...}, set propName() {...} }</code> syntax to make the property bindable.</p>
 			<p>Press F12 to open the JavaScript console and type <code>app.name="Name"</code> to see accessor binding in action!</p>
 		</div>
 		
