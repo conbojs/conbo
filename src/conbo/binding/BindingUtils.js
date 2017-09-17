@@ -247,6 +247,31 @@
 					break;
 				}
 				
+				case 'CB-TEXT':
+				{
+					var textNode = document.createTextNode(parseFunction(source[propertyName]))
+					
+					console.log(textNode);
+					
+					el.parentNode.insertBefore(textNode, el);
+					el.parentNode.removeChild(el);
+					
+					if (isEventDispatcher)
+					{
+						eventType = 'change:'+propertyName;
+						
+						eventHandler = function(event) 
+						{
+							textNode.data = parseFunction(event.value);
+						};
+						
+						source.addEventListener(eventType, eventHandler);
+						bindings.push([source, eventType, eventHandler]);
+					}
+					
+					break;
+				}
+				
 				default:
 				{
 					el.innerHTML = parseFunction(source[propertyName]);
@@ -948,21 +973,17 @@
 		},
 		
 		/**
-		 * Parses a template, replacing values in {single} and {{double}} curly brackets 
-		 * with bindable text and HTML elements, respectively
+		 * Parses a template, preparing values in {{double}} curly brackets to
+		 * be replaced with bindable text nodes 
 		 * 
 		 * @param	{string}	template - String containing a View template
 		 * @returns	{string}	The parsed template
 		 */
 		parseTemplate: function(template)
 		{
-			return (template || '').replace(/{{(.+?)}}|{(.+?)}/g, function(ignored, double, single) 
+			return (template || '').replace(/{{(.+?)}}/g, function(ignored, propName) 
 			{
-				var propName = (double || single).trim();
-				return double
-					? '<span cb-html="'+propName+'"></span>'
-					: '<span cb-text="'+propName+'"></span>'
-					;
+				return '<cb-text cb-bind="'+propName.trim()+'"></span>';
 			});
 		},
 		

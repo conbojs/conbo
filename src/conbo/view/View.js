@@ -438,7 +438,7 @@ conbo.View = conbo.Glimpse.extend(
 			{
 				el.innerHTML = this.__parseTemplate(template);
 			}
-			else if (/{(.+?)}/.test(el.textContent))
+			else if (/{{(.+?)}}/.test(el.textContent))
 			{
 				el.innerHTML = this.__parseTemplate(el.innerHTML);
 			}
