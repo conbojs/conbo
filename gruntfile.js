@@ -141,12 +141,14 @@ module.exports = function (grunt)
 		
 	});
 	
-//	grunt.loadNpmTasks('grunt-contrib-clean');
+	// grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-jsdoc');
+	// grunt.loadNpmTasks('grunt-jsdoc');
 	grunt.loadNpmTasks('grunt-string-replace');
 	
 	grunt.registerTask('default', ['concat','string-replace','uglify']);//,'jsdoc']);
+	grunt.registerTask('build-watch', ['default','watch']);
+
 };
