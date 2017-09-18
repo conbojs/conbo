@@ -85,7 +85,7 @@ __denumerate(conbo.Class.prototype);
  * ({
  * 	doSomething:function()
  * 	{ 
- * 		console.log(':-)'); 
+ * 		conbo.log(':-)');
  * 	}
  * });
  */

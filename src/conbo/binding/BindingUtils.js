@@ -251,8 +251,6 @@
 				{
 					var textNode = document.createTextNode(parseFunction(source[propertyName]))
 					
-					console.log(textNode);
-					
 					el.parentNode.insertBefore(textNode, el);
 					el.parentNode.removeChild(el);
 					
