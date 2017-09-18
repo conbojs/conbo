@@ -117,7 +117,9 @@ module.exports = function (grunt)
 				{
 					'lib/conbo.js': 'lib/conbo.js',
 					'lib/conbo-lite.js': 'lib/conbo-lite.js',
-					'bower.json': 'bower.json'
+					'bower.json': 'bower.json',
+					'index.html': 'index.html',
+					'docs/': 'docs/conbo/**/index.html'
 				},
 				
 				options: 
@@ -133,6 +135,24 @@ module.exports = function (grunt)
 						{
 							pattern: /\"version\": \"\d+.\d+.\d+\"/,
 							replacement: '"version": "<%= pkg.version %>"'
+						},
+						// HTML
+						{
+							pattern: /docs\/conbo\/\d+.\d+.\d+\//,
+							replacement: 'docs/conbo/<%= pkg.version %>/'
+						},
+						// Docs
+						{
+							pattern: /<title>JSDoc: Home<\/title>/,
+							replacement: '<title>ConboJS 4 Documentation | Lightweight MVC application framework for JavaScript | Made by Mesmotronic</title>'
+						},							
+						{
+							pattern: /<h1 class=\"page-title\">Home<\/h1>/,
+							replacement: '<h1 class="page-title">ConboJS 4</h1>'
+						},							
+						{
+							pattern: /<h3>conbo \d+.\d+.\d+<\/h3>/,
+							replacement: ''
 						}
 					]
 				}
