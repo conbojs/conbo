@@ -1814,11 +1814,14 @@ declare namespace conbo {
      * using mapCommand(...)
      * @class		Command
      * 
-     * @augments	conbo.EventDispatcher
+     * @augments	conbo.ConboClass
      * @author		Neil Rackett
      * @param 		{Object} options - Object containing optional initialisation options, including 'context' (Context)
      */
-    class Command extends EventDispatcher {
+    class Command extends ConboClass implements IInjectable {
+
+		context: Context;
+		event: Event;
 
         /**
          * Execute: should be overridden

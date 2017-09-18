@@ -6,11 +6,11 @@
  * 
  * @class		Command
  * @memberof	conbo
- * @augments	conbo.EventDispatcher
+ * @augments	conbo.ConboClass
  * @author		Neil Rackett
  * @param 		{Object} options - Object containing optional initialisation options, including 'context' (Context)
  */
-conbo.Command = conbo.EventDispatcher.extend(
+conbo.Command = conbo.ConboClass.extend(
 /** @lends conbo.Command.prototype */
 {
 	/**
