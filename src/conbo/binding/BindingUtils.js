@@ -532,12 +532,12 @@
 				}
 				else
 				{
-					conbo.warn(attr+' attribute cannot be used without a value');
+					conbo.warn(attributeName+' attribute cannot be used without a value');
 				}
 			}
 			else
 			{
-				conbo.warn(attr+' attribute does not exist');
+				conbo.warn(attributeName+' attribute does not exist');
 			}
 			
 			return this;

@@ -23,6 +23,10 @@ conbo.AttributeBindings = conbo.Class.extend(
 		
 		this.cbIncludeIn.raw = true;
 		this.cbExcludeFrom.raw = true;
+
+		// Methods that don't require any parameters
+
+		this.cbDetectChange.readOnly = true;
 	},
 	
 	/**
@@ -551,17 +555,16 @@ conbo.AttributeBindings = conbo.Class.extend(
 	
 	/**
 	 * Detects changes to the specified element and applies the CSS class
-	 * cb-changed or cb-unchanged, depending on whether the contents have
-	 * changed from their original value.
+	 * cb-changed or cb-unchanged to the parent form, depending on whether
+	 * the contents have changed from their original value.
 	 * 
 	 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
-	 * @param 		{*} 			value - The value referenced by the attribute
 	 * @returns		{void}
 	 * 
 	 * @example
 	 * <div cb-detect-change></div>
 	 */
-	cbDetectChange: function(el, value)
+	cbDetectChange: function(el)
 	{
 		var ep = __ep(el); 
 		var form = ep.closest('form');
@@ -640,11 +643,11 @@ conbo.AttributeBindings = conbo.Class.extend(
 		var ep = __ep(el);
 		var form = ep.closest('form');
 		
-		var removeClass = function(regEx) 
+		var getClasses = function(regEx) 
 		{
 			return function (classes) 
 			{
-				return classes.split(/\s+/).filter(function (el)
+				return classes.split(/\s+/).filter(function(el)
 				{
 					return regEx.test(el); 
 				})
@@ -670,7 +673,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 			}
 			
 			ep.removeClass('cb-valid cb-invalid')
-				.removeClass(removeClass(/^cb-invalid-/))
+				.removeClass(getClasses(/^cb-invalid-/))
 				.addClass(classes.join(' '))
 				;
 			
@@ -681,7 +684,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 				var fp = __ep(form);
 				
 				fp.removeClass('cb-valid cb-invalid')
-					.removeClass(removeClass(/^cb-invalid-/))
+					.removeClass(getClasses(/^cb-invalid-/))
 					;
 				
 				if (valid) 
