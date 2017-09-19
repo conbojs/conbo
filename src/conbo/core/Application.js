@@ -41,7 +41,6 @@ conbo.Application = conbo.View.extend(
 		
 		options.app = this;
 		options.context = new this.contextClass(options);
-		options.el || (options.el = this.__findAppElement());
 		
 		conbo.View.prototype.__construct.call(this, options);
 	},
@@ -120,46 +119,6 @@ conbo.Application = conbo.View.extend(
 		conbo.View.prototype.__setEl.call(this, element);
 		__ep(this.el).addClass('cb-app');
 		return this;
-	},
-	
-	/**
-	 * Find element with matching cb-app attribute, if it exists
-	 * @private
-	 */
-	__findAppElement: function()
-	{
-		var $apps = $('[cb-app]');
-		
-		if (!$apps.length) return undefined;
-		
-		if (!this.namespace)
-		{
-			if ($apps.length)
-			{
-				conbo.warn('Application namespace not specified: unable to bind to cb-app element');
-			}
-			
-			return undefined;
-		}
-		
-		var appName;
-		
-		for (var a in this.namespace)
-		{
-			if (conbo.isClass(this.namespace[a])
-				&& this instanceof this.namespace[a])
-			{
-				appName = a;
-				break;
-			}
-		}
-		
-		if (!appName) return undefined;
-		
-		var selector = '[cb-app="'+appName+'"]';
-		var el = $(selector)[0];
-		
-		return el || undefined;
 	},
 	
 });

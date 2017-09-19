@@ -14,6 +14,16 @@ conbo.Command = conbo.ConboClass.extend(
 /** @lends conbo.Command.prototype */
 {
 	/**
+	 * @member		{conbo.Context}	context - Application context
+	 * @memberof	conbo.Command.prototype
+	 */
+
+	/**
+	 * @member		{conbo.Event}	event - The event that caused this command to execute
+	 * @memberof	conbo.Command.prototype
+	 */
+
+	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options
 	 * @private
