@@ -640,7 +640,7 @@
 					for (var i=0; i<splitsLength; i++)
 					{
 						var parseFunction,
-							d = (splits[i] || '').replace(/\s/g, '');
+							d = (splits[i] || '');
 						
 						if (!d)
 						{
