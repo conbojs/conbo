@@ -14,6 +14,7 @@
 	else if (typeof module != 'undefined' && module.exports)
 	{
    		module.exports = factory(window, document);
+		exports.default = module.exports;
     }
 	// Global
 	else

@@ -89,7 +89,7 @@ define(['conbo', 'FooApp', 'BarView'], function(conbo, FooApp, BarView)
 ```javascript
 // CommonJS
 
-var conbo = require('./conbo');
+var conbo = require('conbo');
 var FooApp = require('./FooApp');
 var BarView = require('./BarView');
 

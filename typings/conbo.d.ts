@@ -3330,5 +3330,12 @@ declare namespace conbo {
 	 * @returns	{Function}	TypeScript decorator
 	 */
 	function conbons(namespace:string, name?:string):Function; 
-	
+
+	/**
+	 * TypeScript decorator for making properties bindable
+	 * @param	{*}			value - The current value of the property
+	 * @returns	{Function}	Property decorator function
+	 */
+	function bindable(value:any):Function;
+
 }
