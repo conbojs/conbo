@@ -260,7 +260,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 		var args = conbo.toArray(arguments);
 		var viewClass;
 		var ep = __ep(el);
-		
+
 		options || (options = {});
 		
 		if (options.context && options.context.namespace)
@@ -273,8 +273,18 @@ conbo.AttributeBindings = conbo.Class.extend(
 		el.cbRepeat || (el.cbRepeat = {});
 		
 		var elements = el.cbRepeat.elements || [];
-		
-		ep.removeClass('cb-exclude');
+		var placeholder;
+
+		if (el.cbRepeat.placeholder)
+		{
+			placeholder = el.cbRepeat.placeholder;
+		}
+		else
+		{
+			placeholder = document.createComment(conbo.bindingUtils.removeAttributeAfterBinding ? '' : 'cb-repeat');
+			el.parentNode.insertBefore(placeholder, el);
+			el.parentNode.removeChild(el);
+		}
 		
 		if (el.cbRepeat.list != values && values instanceof conbo.List)
 		{
@@ -309,12 +319,6 @@ conbo.AttributeBindings = conbo.Class.extend(
 					: [];
 				break;
 			}
-		}
-		
-		// Ensure the original element is re-inserted into the DOM before proceeding
-		if (elements.length && elements[0].parentNode)
-		{
-			elements[0].parentNode.insertBefore(el, elements[0]);
 		}
 		
 		while (elements.length)
@@ -362,13 +366,10 @@ conbo.AttributeBindings = conbo.Class.extend(
 			fragment.appendChild(el);
 		});
 		
-		el.parentNode.insertBefore(fragment, el);
-		el.cbRepeat.elements = elements;
+		placeholder.parentNode.insertBefore(fragment, placeholder);
 		
-		elements.length
-			? el.parentNode.removeChild(el)
-			: el.className += ' cb-exclude'
-			;
+		el.cbRepeat.elements = elements;
+		el.cbRepeat.placeholder = placeholder;
 	},
 	
 	/**
