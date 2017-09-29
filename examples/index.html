@@ -25,9 +25,9 @@
 			{
 				var ns = this;
 				
-				class ConboExamples extends conbo.Application
-				{
-					declarations()
+				ns.ConboExamples = conbo.Application.extend
+				({
+					declarations: function()
 					{
 						this.namespace = ns;
 						
@@ -83,23 +83,18 @@
 						
 					}
 					
-				}
+				});
 				
-				class ListItemRenderer extends conbo.ItemRenderer
-				{
-					formatName(name)
+				ns.ListItemRenderer = conbo.ItemRenderer.extend
+				({
+					formatName: function(name)
 					{
 						var r = /(.+)\((.+)\)/;
 						var m = r.exec(name); 
 						
 						return m[1]+'<i> &ndash; '+m[2]+'</i>';
 					}
-				}
-				
-				return {
-					ConboExamples: ConboExamples,
-					ListItemRenderer: ListItemRenderer
-				};
+				});
 				
 			});
 		</script>
