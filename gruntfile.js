@@ -15,6 +15,7 @@ module.exports = function (grunt)
 						'src/conbo/header.txt',
 					 	'src/conbo/conbo.js',
 					 	'src/conbo/utils/constants.js',
+					 	'src/conbo/utils/polyfills.js',
 					 	'src/conbo/utils/internal.js',
 					 	'src/conbo/utils/utils.js',
 					 	'src/conbo/utils/dom.js',

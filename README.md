@@ -13,7 +13,7 @@ Development of ConboJS is primarily focussed on single page applications (SPA) a
 Browser support
 ---------------
 
-ConboJS targets the two most recent major releases of Firefox, Chrome (desktop and Android), Safari (desktop and iOS) and Edge.
+ConboJS targets the two most recent major releases of Firefox, Chrome (desktop and Android), Safari (desktop and iOS) and Edge (but should still work with Internet Explorer 11, if you really have to).
 
 Modular namespace declarations
 ------------------------------
@@ -216,6 +216,8 @@ The naming conventions used by ConboJS should be familiar to anyone who uses Jav
 * `publicPropertyAndMethodNames` are camel case, starting with a lower case letter
 * `_privatePropertyAndMethodNames` are user defined properties and methods used within the current class only, prefixed with an underscore
 * `__internalPropertyAndMethodNames` are prefixed with a double underscore to indicate that they are for internal use by the framework only
+
+Wherever possible, file names should match their contents, for example `ClassName.js`, `methodName,js` or `IInterfaceName.ts`.
 
 Builds
 ------

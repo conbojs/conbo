@@ -2,6 +2,7 @@
  * Interface class for data renderers, for example an item renderer for
  * use with the cb-repeat attribute
  * 
+ * @member		{object}	IDataRenderer
  * @memberof	conbo
  * @author 		Neil Rackett
  */

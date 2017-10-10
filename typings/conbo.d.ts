@@ -2599,19 +2599,6 @@ declare namespace conbo {
 	function variables(obj:any, deep?:boolean):any[];
 	
 	/**
-	 * Extends Object.keys to retrieve the names of an object's 
-	 * enumerable variables
-	 * 
-	 * @deprecated	Use conbo.keys
-	 * 
-	 * @see			#keys
-	 * @param		{Object}	obj - Object to get keys from
-	 * @param		{boolean}	[deep] - Retrieve keys from further up the prototype chain?
-	 * @returns		{any[]}
-	 */
-	function properties(obj:any, deep?:boolean):any[];
-	
-	/**
 	 * Extends Object.getOwnPropertyNames to retrieve the names of every 
 	 * property of an object, regardless of whether it's enumerable or 
 	 * unenumerable
