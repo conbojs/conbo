@@ -807,7 +807,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 	{
 		if (!ariaName)
 		{
-			conbo.warn('cb-aria attributes must specify one or more aria name in the format cb-class="myProperty:aria-name"');
+			conbo.warn('cb-aria attributes must specify one or more name in the format cb-class="myProperty:aria-name"');
 		}
 		
 		el.setAttribute('aria-'+ariaName, value);

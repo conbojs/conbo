@@ -1186,8 +1186,24 @@ declare namespace conbo {
          * @example
          * <div cb-max-chars="propertyName"></div>
          */
-        cbMaxChars(el: HTMLElement, value: string): void;
-
+		cbMaxChars(el: HTMLElement, value: string): void;
+		
+		/**
+		 * Sets the aria accessibility attributes on an element based on the value
+		 * of the bound property, e.g. cb-aria="myProperty:label" to set aria-label 
+		 * to the value of myProperty
+		 * 
+		 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+		 * @param 		{string}		value - The value referenced by the attribute
+		 * @param 		{any} 			options
+		 * @param 		{string} 		ariaName - The name of the aria value to set (without the aria- prefix)
+		 * @returns		{void}
+		 * 
+		 * @example
+		 * <div cb-class="ariaLabel:label"></div>
+		 */
+		cbAria(el: HTMLElement, value: string, options: any, ariaName: string): void;
+	
     }
 
     /**
