@@ -311,7 +311,7 @@
 	 * Convenience version of a common use case of `map`: fetching a property.
 	 * 
 	 * @memberof	conbo
-	 * @param		{Object}	obj - Array obj Objects
+	 * @param		{Object}	obj - Array of Objects
 	 * @param		{string}	key - Property name
 	 * @returns		{Array}
 	 */
@@ -970,23 +970,6 @@
 	conbo.variables = function(obj, deep)
 	{
 		return conbo.difference(conbo.keys(obj, deep), conbo.functions(obj, deep));
-	};
-	
-	/**
-	 * Extends Object.keys to retrieve the names of an object's 
-	 * enumerable variables
-	 * 
-	 * @deprecated	Use conbo.keys
-	 * @memberof	conbo
-	 * @see			#keys
-	 * @param		{Object}	obj - Object to get keys from
-	 * @param		{boolean}	[deep] - Retrieve keys from further up the prototype chain?
-	 * @returns		{Array}
-	 */
-	conbo.properties = function(obj, deep)
-	{
-		__deprecated('conbo.properties is deprecated, use conbo.variables');
-		return conbo.variables(obj, deep);
 	};
 	
 	/**
@@ -2362,33 +2345,7 @@
 			return conbo.parseTemplate(template, conbo.setDefaults(data || {}, defaults));
 		}
 	};
-	
-	/*
-	 * Polyfill methods for useful ECMAScript 5 methods that aren't quite universal
-	 */
-	
-	if (!String.prototype.trim) 
-	{
-		String.prototype.trim = function () 
-		{
-			return this.replace(/^\s+|\s+$/g,''); 
-		};
-	}
-	
-	if (!window.requestAnimationFrame)
-	{
-		window.requestAnimationFrame = (function()
-		{
-			return window.webkitRequestAnimationFrame
-				|| window.mozRequestAnimationFrame
-				|| window.msRequestAnimationFrame
-				|| function(callback)
-				{
-					window.setTimeout(callback, 1000 / 60);
-				};
-		})();
-	}
-	
+		
 	/**
 	 * Serialise an Object as a query string  suitable for appending to a URL 
 	 * as GET parameters, e.g. foo=1&bar=2
