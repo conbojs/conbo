@@ -16,6 +16,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 	{
 		// Methods that can accept multiple parameters
 		
+		this.cbAria.multiple = true;
 		this.cbClass.multiple = true;
 		this.cbStyle.multiple = true;
 		
@@ -788,4 +789,28 @@ conbo.AttributeBindings = conbo.Class.extend(
 		el.addEventListener('keypress', el.cbMaxChars);
 	},
 	
+	/**
+	 * Sets the aria accessibility attributes on an element based on the value
+	 * of the bound property, e.g. cb-aria="myProperty:label" to set aria-label 
+	 * to the value of myProperty
+	 * 
+	 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+	 * @param 		{*} 			value - The value referenced by the attribute
+	 * @param 		{*} 			options
+	 * @param 		{string} 		ariaName - The name of the aria value to set (without the aria- prefix)
+	 * @returns		{void}
+	 * 
+	 * @example
+	 * <div cb-class="ariaLabel:label"></div>
+	 */
+	cbAria: function(el, value, options, ariaName)
+	{
+		if (!ariaName)
+		{
+			conbo.warn('cb-aria attributes must specify one or more aria name in the format cb-class="myProperty:aria-name"');
+		}
+		
+		el.setAttribute('aria-'+ariaName, value);
+	},
+
 });
