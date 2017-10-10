@@ -1665,6 +1665,11 @@ declare namespace conbo {
         subcontext: Context;
 
         /**
+		 * The current view state
+         */
+        currentState: string;
+
+        /**
          * Uses querySelector to find the first matching element contained within the
          * current View's element, but not within the elements of child Views
          * @param	{string}		selector - The selector to use

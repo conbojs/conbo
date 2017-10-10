@@ -69,6 +69,11 @@ conbo.View = conbo.Glimpse.extend(
 	 */
 	
 	/**
+	 * @member		{string}	currentState - The current view state
+	 * @memberof	conbo.View.prototype
+	 */
+	
+	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options
 	 * @private
