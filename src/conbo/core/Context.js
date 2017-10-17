@@ -199,14 +199,10 @@ conbo.Context = conbo.EventDispatcher.extend(
 	 */
 	injectSingletons: function(obj)
 	{
-		for (var a in obj)
+		for (var a in this.__singletons)
 		{
-			if (obj[a] !== undefined) continue;
-			
-			if (a in this.__singletons)
-			{
-				obj[a] = this.__singletons[a];
-			}
+			if (!(a in obj) || obj[a] !== undefined) continue;
+			obj[a] = this.__singletons[a];
 		}
 		
 		return this;
@@ -219,14 +215,11 @@ conbo.Context = conbo.EventDispatcher.extend(
 	 */
 	uninjectSingletons: function(obj)
 	{
-		for (var a in obj)
+		for (var a in this.__singletons)
 		{
-			if (a in this.__singletons)
-			{
-				obj[a] = undefined;
-			}
+			if (a in obj) obj[a] = undefined;
 		}
-		
+
 		return this;
 	},
 	

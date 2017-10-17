@@ -42,7 +42,9 @@ conbo.injectable = function(target, key)
 	{
 		Object.defineProperty(target, key, 
 		{
-			value: undefined
+			configurable: true,
+			enumerable: true,
+			writable: true
 		});
 	}
 }
