@@ -1,28 +1,30 @@
-(function(window, document, factory, undefined)
+(function(global, factory, undefined)
 {
-	/* Universal Module Definition (UMD) */
+	var doc;
+	try { global = window; doc = document; } catch(e) {}
 
     // AMD (recommended)
     if (typeof define == 'function' && define.amd) 
 	{
 		define('conbo', function()
 		{
-			return factory(window, document);
+			return factory(global, doc);
 		});
 	}
 	// Common.js & Node.js
 	else if (typeof module != 'undefined' && module.exports)
 	{
-   		module.exports = factory(window, document);
+   		module.exports = factory(global, doc);
 		exports.default = module.exports;
+		Object.defineProperty(exports, '__esModule', {value:true});
     }
 	// Global
 	else
 	{
-		window.conbo = factory(window, document);
+		global.conbo = factory(global, doc);
 	}
 	
-})(this, this.document, function(window, document, undefined)
+})(this, function(window, document, undefined)
 {
 	'use strict';
 	
