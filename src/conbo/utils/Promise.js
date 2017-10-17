@@ -28,16 +28,16 @@
 	{
 		initialize: function(executor)
 		{
-			this.bindAll('dispatchResult', 'dispatchFault')
+			this.bindAll('resolve', 'reject')
 				.addEventListener('result fault', Promise__removeEventListeners, this, Number.NEGATIVE_INFINITY)
 				;
 			
-			this.resolve = this.dispatchResult;
-			this.reject = this.dispatchFault;
+			this.dispatchResult = this.resolve;
+			this.dispatchFault = this.reject;
 			
 			if (conbo.isFunction(executor))
 			{
-				executor(dispatchResult, dispatchFault);
+				executor(this.resolve, this.reject);
 			}
 		},
 		
@@ -46,19 +46,20 @@
 		 * @param 		{*} result - The result to dispatch
 		 * @returns 	{conbo.Promise}
 		 */
-		dispatchResult: function(result)
+		resolve: function(result)
 		{
 			this.dispatchEvent(new conbo.ConboEvent('result', {result:result}));
 			return this;
 		},
 		
 		/**
-		 * Psedonym for dispatchResult
-		 * @method		resolve	
+		 * Psedonym for resolve
+		 * @deprecated	Use resolve
+		 * @method		dispatchResult	
 		 * @memberof	conbo.Promise.prototype
 		 * @param 		{*} result - The result to dispatch
 		 * @returns 	{conbo.Promise}
-		 * @see			#dispatchResult
+		 * @see			#resolve
 		 */
 		
 		/**
@@ -66,19 +67,20 @@
 		 * @param 		{*} result - The fault to dispatch
 		 * @returns 	{conbo.Promise}
 		 */
-		dispatchFault: function(fault)
+		reject: function(fault)
 		{
 			this.dispatchEvent(new conbo.ConboEvent('fault', {fault:fault}));
 			return this;
 		},
 		
 		/**
-		 * Psedonym for dispatchFault
-		 * @method		reject
+		 * Psedonym for reject
+		 * @deprecated	Use reject
+		 * @method		dispatchFault
 		 * @memberof	conbo.Promise.prototype
 		 * @param 		{*} result - The fault to dispatch
 		 * @returns 	{conbo.Promise}
-		 * @see			#dispatchFault
+		 * @see			#reject
 		 */
 		
 		/**
@@ -98,7 +100,7 @@
 		},
 		
 		/**
-		 * Shorthand method for adding a fault event handler
+		 * Add a fault event handler
 		 *  
 		 * @param		{Function}	faultHandler
 		 * @param		{Object}	scope

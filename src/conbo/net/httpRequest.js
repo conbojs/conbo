@@ -30,7 +30,7 @@ conbo.httpRequest = function(options)
 	}
 	
 	var promise = new conbo.Promise();
-	var xhr = new window.XMLHttpRequest();
+	var xhr = new XMLHttpRequest();
 	var aborted;
 	var url = options.url;
 	var method = (options.method || options.type || "GET").toUpperCase();

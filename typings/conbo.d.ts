@@ -1403,41 +1403,13 @@ declare namespace conbo {
     	 * @param 		{Function} [executor] - A function that is passed with the arguments resolve and reject, which is executed immediately by the Promise
      	 */
         constructor(executor?: Function);
-
+		
         /**
          * Dispatch a result event using the specified result
          * @param 		{any} result - The result to dispatch
          * @returns 	{conbo.Promise}
          */
-        dispatchResult(result: any): Promise;
-
-        /**
-         * Psedonym for dispatchResult
-         * @method		resolve
-         * .Promise.prototype
-         * @param 		{any} result - The result to dispatch
-         * @returns 	{conbo.Promise}
-         * @see			#dispatchResult
-         */
         resolve(result: any): Promise;
-
-        /**
-         * Dispatch a fault event using the specified fault
-         * @param 		{any} result - The fault to dispatch
-         * @returns 	{conbo.Promise}
-         */
-        dispatchFault(result: any): Promise;
-
-        /**
-         * Psedonym for dispatchFault
-         * @method		reject
-         * .Promise.prototype
-         * @param 		{any} result - The fault to dispatch
-         * @returns 	{conbo.Promise}
-         * @see			#dispatchFault
-         */
-        reject(result: any): Promise;
-
         /**
          * Shorthand method for adding a result and/or fault event handlers
          * @param		{Function}	resultHandler
@@ -1453,8 +1425,23 @@ declare namespace conbo {
          * @param		{Object}	[scope]
          * @returns		{conbo.Promise}
          */
-        catch(faultHandler: Function, scope?: any): Promise;
-
+		catch(faultHandler: Function, scope?: any): Promise;
+		
+        /**
+         * Psedonym for resolve
+		 * @deprecated	Use resolve
+         * @param 		{any} result - The result to dispatch
+         * @returns 	{conbo.Promise}
+         */
+        dispatchResult(result: any): Promise;
+		
+		/**
+		 * Psedonym for reject
+		 * @deprecated	Use reject
+		 * @param 		{any} result - The fault to dispatch
+		 * @returns 	{conbo.Promise}
+		 */
+		dispatchFault(result: any): Promise;
     }
 
     /**
@@ -3340,10 +3327,17 @@ declare namespace conbo {
 	function conbons(namespace:string, name?:string):Function; 
 
 	/**
-	 * TypeScript decorator for making properties bindable
-	 * @param	{*}			value - The current value of the property
-	 * @returns	{Function}	Property decorator function
+	 * TypeScript / ES2015 decorator to make a property bindable
+	 * @param	{any}		target - The target object
+	 * @param	{string}	key - The name of the property
 	 */
-	function bindable(value:any):Function;
+	function bindable(target:any, key:string):void;
+
+	/**
+	 * TypeScript / ES2015 decorator to prepare a property for injection
+	 * @param	{any}		target - The target object
+	 * @param	{string}	key - The name of the property
+	 */
+	function injectable(target:any, key:string):void;
 
 }

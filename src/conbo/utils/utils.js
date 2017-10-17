@@ -2155,12 +2155,12 @@
 		
 		link.addEventListener('load', function(event)
 		{
-			promise.dispatchResult();
+			promise.resolve();
 		});
 		
 		link.addEventListener('error', function(event)
 		{
-			promise.dispatchFault();
+			promise.reject();
 		});
 		
 		link.href = url;
@@ -2357,7 +2357,9 @@
 	conbo.toQueryString = function(obj)
 	{
 		return conbo.keys(obj).map(function(key) {
-		    return key + '=' + encodeURIComponent(obj[key]);
+			var value = obj[key];
+			if (value == undefined) value = '';
+		    return key + '=' + encodeURIComponent(value);
 		}).join('&');
 	};
 	

@@ -1,6 +1,6 @@
 {
 	"name": "conbo",
-	"version": "4.1.11",
+	"version": "4.1.12",
 	"description": "ConboJS is the best JavaScript MVC application framework you've never heard of",
 	"keywords": [
 		"attributes",
@@ -24,7 +24,7 @@
 	"license": "MIT",
 	"author": "Mesmotronic",
 	"files": [
-		"lib",
+		"lib/conbo.js",
 		"typings"
 	],
 	"main": "./lib/conbo.js",
