@@ -22,14 +22,27 @@ conbo.conbons = function(namespace, name)
 };
 
 /**
- * TypeScript / ES2015 decorator for making properties bindable
- * @param	{*}			value - The current value of the property
- * @returns	{Function}	Property decorator function
+ * TypeScript / ES2015 decorator to make a property bindable
+ * @param	{any}		target - The target object
+ * @param	{string}	key - The name of the property
  */
-conbo.bindable = function(value)
+conbo.bindable = function(target, key)
 {
-	return function (target, key, descriptor) 
+	conbo.makeBindable(target, [key]);
+}
+
+/**
+ * TypeScript / ES2015 decorator to prepare a property for injection
+ * @param	{any}		target - The target object
+ * @param	{string}	key - The name of the property
+ */
+conbo.injectable = function(target, key)
+{
+	if (delete target[key])
 	{
-        conbo.makeBindable(target, [key]);
-    };
-};
+		Object.defineProperty(target, key, 
+		{
+			value: undefined
+		});
+	}
+}
