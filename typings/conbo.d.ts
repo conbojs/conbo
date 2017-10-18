@@ -26,410 +26,410 @@ declare function conbo(namespace: string, ...globals: any[]): conbo.Namespace;
 
 declare namespace conbo {
 	
-    /**
-     * Base class from which all others extend
-     * @param 		{Object} options - Object containing initialisation options
-     */
-    class Class {
+	/**
+	 * Base class from which all others extend
+	 * @param 		{Object} options - Object containing initialisation options
+	 */
+	class Class {
 
-    	/**
-    	 * Extend this class to create a new class
-    	 * 
-    	 * @memberof 	conbo.Class
-    	 * @param		{Object}	[protoProps] - Object containing the new class's prototype
-    	 * @param		{Object}	[staticProps] - Object containing the new class's static methods and properties
-    	 * 
-    	 * @example		
-    	 * var MyClass = conbo.Class.extend
-    	 * ({
-    	 * 	doSomething:function()
-    	 * 	{ 
-    	 * 		console.log(':-)'); 
-    	 * 	}
-    	 * });
-    	 */
-    	static extend(protoProps?:any, staticProps?:any):any;
+		/**
+		 * Extend this class to create a new class
+		 * 
+		 * @memberof 	conbo.Class
+		 * @param		{Object}	[protoProps] - Object containing the new class's prototype
+		 * @param		{Object}	[staticProps] - Object containing the new class's static methods and properties
+		 * 
+		 * @example		
+		 * var MyClass = conbo.Class.extend
+		 * ({
+		 * 	doSomething:function()
+		 * 	{ 
+		 * 		console.log(':-)'); 
+		 * 	}
+		 * });
+		 */
+		static extend(protoProps?:any, staticProps?:any):any;
 
-    	/**
-    	 * Implements the specified pseudo-interface(s) on the class, copying 
-    	 * the default methods or properties from the partial(s) if they have 
-    	 * not already been implemented.
-    	 * 
-    	 * .Class
-    	 * @param		{...Object} interface - Object containing one or more properties or methods to be implemented (an unlimited number of parameters can be passed)
-    	 * 
-    	 * @example
-    	 * var MyClass = conbo.Class.extend().implement(conbo.IInjectable);
-    	 */
-    	static implement(...interfaces:any[]):any;
-    	
-        /**
-         * Declarations is used to declare instance properties used by this class
-         * @returns		{void}
-         */
-        declarations(...args:any[]): void;
+		/**
+		 * Implements the specified pseudo-interface(s) on the class, copying 
+		 * the default methods or properties from the partial(s) if they have 
+		 * not already been implemented.
+		 * 
+		 * .Class
+		 * @param		{...Object} interface - Object containing one or more properties or methods to be implemented (an unlimited number of parameters can be passed)
+		 * 
+		 * @example
+		 * var MyClass = conbo.Class.extend().implement(conbo.IInjectable);
+		 */
+		static implement(...interfaces:any[]):any;
+		
+		/**
+		 * Declarations is used to declare instance properties used by this class
+		 * @returns		{void}
+		 */
+		protected declarations(...args:any[]): void;
 
-        /**
-         * Preinitialize is called before any code in the constructor has been run
-         * @returns		{void}
-         */
-        preinitialize(...args:any[]): void;
+		/**
+		 * Preinitialize is called before any code in the constructor has been run
+		 * @returns		{void}
+		 */
+		protected preinitialize(...args:any[]): void;
 
-        /**
-         * Initialize (entry point) is called immediately after the constructor has completed
-         */
-        initialize(...args:any[]): void;
+		/**
+		 * Initialize (entry point) is called immediately after the constructor has completed
+		 */
+		protected initialize(...args:any[]): void;
 
-        /**
-         * Scope all methods of this class instance to this class instance
-         */
-        bindAll(...methodNames:string[]):any;
+		/**
+		 * Scope all methods of this class instance to this class instance
+		 */
+		bindAll(...methodNames:string[]):any;
 
-        /**
-         * String representation of the current class
-         */
-        toString():string;
-    }
+		/**
+		 * String representation of the current class
+		 */
+		toString():string;
+	}
 
-    /**
-     * Conbo class
-     * Base class for most Conbo framework classes that calls preinitialize before
-     * the constructor and initialize afterwards, populating the options parameter
-     * with an empty Object if no parameter is passed and automatically making all
-     * properties bindable.
-     * @class		ConboClass
-     * 
-     * @augments	conbo.Class
-     * @author		Neil Rackett
-     * @param 		{Object}	options - Class configuration object
-     */
-    class ConboClass extends Class {
+	/**
+	 * Conbo class
+	 * Base class for most Conbo framework classes that calls preinitialize before
+	 * the constructor and initialize afterwards, populating the options parameter
+	 * with an empty Object if no parameter is passed and automatically making all
+	 * properties bindable.
+	 * @class		ConboClass
+	 * 
+	 * @augments	conbo.Class
+	 * @author		Neil Rackett
+	 * @param 		{Object}	options - Class configuration object
+	 */
+	class ConboClass extends Class {
 
-        constructor(options?: any);
+		constructor(options?: any);
 
-        /**
-         * Declarations is used to declare instance properties used by this class
-         * @override
-         * @returns		{void}
-         */
-        declarations(options?: any): void;
+		/**
+		 * Declarations is used to declare instance properties used by this class
+		 * @override
+		 * @returns		{void}
+		 */
+		protected declarations(options?: any): void;
 
-        /**
-         * Preinitialize is called before any code in the constructor has been run
-         * @override
-         * @returns		{void}
-         */
-        preinitialize(options?: any): void;
+		/**
+		 * Preinitialize is called before any code in the constructor has been run
+		 * @override
+		 * @returns		{void}
+		 */
+		protected preinitialize(options?: any): void;
 
-        /**
-         * Initialize (entry point) is called immediately after the constructor has completed
-         * @override
-         * @returns		{void}
-         */
-        initialize(options?: any): void;
-    }
+		/**
+		 * Initialize (entry point) is called immediately after the constructor has completed
+		 * @override
+		 * @returns		{void}
+		 */
+		protected initialize(options?: any): void;
+	}
 
-    /**
-     * Conbo namespaces enable you to create modular, encapsulated code, similar to
-     * how you might use packages in languages like Java or ActionScript.
-     * By default, namespaces will automatically call initDom() when the HTML page
-     * has finished loading.
-     */
-    class Namespace extends Class {
+	/**
+	 * Conbo namespaces enable you to create modular, encapsulated code, similar to
+	 * how you might use packages in languages like Java or ActionScript.
+	 * By default, namespaces will automatically call initDom() when the HTML page
+	 * has finished loading.
+	 */
+	class Namespace extends Class {
 
-    	[key:number]:any;
-    	[key:string]:any;
-    	
-    	/**
-         * Search the DOM and initialize Applications contained in this namespace
-         * @param 	{Element} 	[rootEl] - The root element to initialize
-         * @returns {this}
-         */
-        initDom(rootEl?: any):any;
+		[key:number]:any;
+		[key:string]:any;
+		
+		/**
+		 * Search the DOM and initialize Applications contained in this namespace
+		 * @param 	{Element} 	[rootEl] - The root element to initialize
+		 * @returns {this}
+		 */
+		initDom(rootEl?: any):any;
 
-        /**
-         * Watch the DOM and automatically initialize Applications contained in
-         * this namespace when an element with the appropriate cb-app attribute
-         * is added.
-         * @param 	{Element} 	[rootEl] - The root element to initialize
-         * @returns {this}
-         */
-        observeDom(rootEl?: any):any;
+		/**
+		 * Watch the DOM and automatically initialize Applications contained in
+		 * this namespace when an element with the appropriate cb-app attribute
+		 * is added.
+		 * @param 	{Element} 	[rootEl] - The root element to initialize
+		 * @returns {this}
+		 */
+		observeDom(rootEl?: any):any;
 
-        /**
-         * Stop watching the DOM for Applications
-         * @param 	{Element} 	[rootEl] - The root element to initialize
-         * @returns {this}
-         */
-        unobserveDom(rootEl?: any):any;
+		/**
+		 * Stop watching the DOM for Applications
+		 * @param 	{Element} 	[rootEl] - The root element to initialize
+		 * @returns {this}
+		 */
+		unobserveDom(rootEl?: any):any;
 
-        /**
-         * Add classes, properties or methods to the namespace. Using this method
-         * will not overwrite existing items of the same name.
-         * @param 	{Object}			obj - An object containing items to add to the namespace
-         * @returns	{conbo.Namespace}	This Namespace instance
-         */
-        import(obj: any): Namespace;
+		/**
+		 * Add classes, properties or methods to the namespace. Using this method
+		 * will not overwrite existing items of the same name.
+		 * @param 	{Object}			obj - An object containing items to add to the namespace
+		 * @returns	{conbo.Namespace}	This Namespace instance
+		 */
+		import(obj: any): Namespace;
 
-    }
+	}
 
-    /**
-     * Base class for all events triggered in ConboJS
-     * @author		Neil Rackett
-     * @param 		{string}	type - The type of event this object represents
-     */
-    class Event extends Class 
-    {
-    	/** 
-    	 * Special event used to listed for all event types 
-    	 * 
-    	 * @event			conbo.ConboEvent#ALL
-         * @type 			{conbo.ConboEvent}
-    	 */
-    	static readonly ALL:string;
+	/**
+	 * Base class for all events triggered in ConboJS
+	 * @author		Neil Rackett
+	 * @param 		{string}	type - The type of event this object represents
+	 */
+	class Event extends Class 
+	{
+		/** 
+		 * Special event used to listed for all event types 
+		 * 
+		 * @event			conbo.ConboEvent#ALL
+		 * @type 			{conbo.ConboEvent}
+		 */
+		static readonly ALL:string;
 
-    	/**
-    	 * Event related data
-    	 */
-    	data:any;
-    	
-        /**
-         * Constructor: DO NOT override! (Use initialize instead)
-         * @param 	{string} type - The type of event this class instance represents
-         * @param 	{any} [data] - Data to store in the event's data property
-         */
-        constructor(type: string, data?: any);
+		/**
+		 * Event related data
+		 */
+		data:any;
+		
+		/**
+		 * Constructor: DO NOT override! (Use initialize instead)
+		 * @param 	{string} type - The type of event this class instance represents
+		 * @param 	{any} [data] - Data to store in the event's data property
+		 */
+		constructor(type: string, data?: any);
 
-        /**
-         * Initialize (entry point)
-         * @param 	{string} type - The type of event this class instance represents
-         * @param 	{any} [data] - Data to store in the event's data property
-         */
-        initialize(type: string, data?: any):void;
+		/**
+		 * Initialize (entry point)
+		 * @param 	{string} type - The type of event this class instance represents
+		 * @param 	{any} [data] - Data to store in the event's data property
+		 */
+		protected initialize(type: string, data?: any):void;
 
-        /**
-         * Create an identical clone of this event
-         * @returns 	{conbo.Event}	A clone of this event
-         */
-        clone(): Event;
+		/**
+		 * Create an identical clone of this event
+		 * @returns 	{conbo.Event}	A clone of this event
+		 */
+		clone(): Event;
 
-        /**
-         * Prevent whatever the default framework action for this event is
-         * @returns	{conbo.Event}	A reference to this event instance
-         */
-        preventDefault(): Event;
+		/**
+		 * Prevent whatever the default framework action for this event is
+		 * @returns	{conbo.Event}	A reference to this event instance
+		 */
+		preventDefault(): Event;
 
-        /**
-         * Not currently used
-         * @returns	{conbo.Event}	A reference to this event instance
-         */
-        stopPropagation(): Event;
+		/**
+		 * Not currently used
+		 * @returns	{conbo.Event}	A reference to this event instance
+		 */
+		stopPropagation(): Event;
 
-        /**
-         * Keep the rest of the handlers from being executed
-         * @returns	{conbo.Event}	A reference to this event
-         */
-        stopImmediatePropagation(): Event;
+		/**
+		 * Keep the rest of the handlers from being executed
+		 * @returns	{conbo.Event}	A reference to this event
+		 */
+		stopImmediatePropagation(): Event;
 
-    }
+	}
 
-    /**
-     * Default event class for events fired by ConboJS
-     * For consistency, callback parameters of Backbone.js derived classes
-     * are event object properties in ConboJS
-     * @author		Neil Rackett
-     * @param 		{string}	type - The type of event this object represents
-     * @param 		{Object}	options - Properties to be added to this event object
-     */
-    class ConboEvent extends Event 
-    {
-    	[key:number]:any;
-    	[key:string]:any;
-    	
-    	/** 
-    	 * Special event used to listed for all event types 
-    	 * 
-    	 * @event			conbo.ConboEvent#ALL
-         * @type 			{conbo.ConboEvent}
-    	 */
-    	static readonly ALL:string;
+	/**
+	 * Default event class for events fired by ConboJS
+	 * For consistency, callback parameters of Backbone.js derived classes
+	 * are event object properties in ConboJS
+	 * @author		Neil Rackett
+	 * @param 		{string}	type - The type of event this object represents
+	 * @param 		{Object}	options - Properties to be added to this event object
+	 */
+	class ConboEvent extends Event 
+	{
+		[key:number]:any;
+		[key:string]:any;
+		
+		/** 
+		 * Special event used to listed for all event types 
+		 * 
+		 * @event			conbo.ConboEvent#ALL
+		 * @type 			{conbo.ConboEvent}
+		 */
+		static readonly ALL:string;
 
-    	/**
-    	 * Something has changed (also 'change:[name]')
-    	 * 
-    	 * @event			conbo.ConboEvent#CHANGE
-         * @type 			{conbo.ConboEvent}
-         * @property		{string} property - The name of the property that changed
-         * @property		{any} value - The new value of the property
-    	 */
-    	static readonly CHANGE:string;
-    	
-    	/** 
-    	 * Something was added
-    	 * 
-    	 * @event			conbo.ConboEvent#ADD
-         * @type 			{conbo.ConboEvent}
-    	 */
-    	static readonly ADD:string; 				
+		/**
+		 * Something has changed (also 'change:[name]')
+		 * 
+		 * @event			conbo.ConboEvent#CHANGE
+		 * @type 			{conbo.ConboEvent}
+		 * @property		{string} property - The name of the property that changed
+		 * @property		{any} value - The new value of the property
+		 */
+		static readonly CHANGE:string;
+		
+		/** 
+		 * Something was added
+		 * 
+		 * @event			conbo.ConboEvent#ADD
+		 * @type 			{conbo.ConboEvent}
+		 */
+		static readonly ADD:string; 				
 
-    	/**
-    	 * Something was removed
-    	 * 
-    	 * @event			conbo.ConboEvent#REMOVE
-         * @type 			{conbo.ConboEvent}
-    	 */
-    	static readonly REMOVE:string;
+		/**
+		 * Something was removed
+		 * 
+		 * @event			conbo.ConboEvent#REMOVE
+		 * @type 			{conbo.ConboEvent}
+		 */
+		static readonly REMOVE:string;
 
-    	/**
-    	 * The route has changed (also 'route:[name]')
-    	 * 
-    	 * @event			conbo.ConboEvent#ROUTE
-         * @type 			{conbo.ConboEvent}
-         * @property		{conbo.Router}	router - The router that handled the route change
-         * @property		{RegExp} 		route - The route that was followed
-         * @property		{string} 		name - The name assigned to the route
-         * @property		{any[]} 		parameters - The parameters extracted from the route
-         * @property		{string} 		path - The new path 
-    	 */
-    	static readonly ROUTE:string; 			
+		/**
+		 * The route has changed (also 'route:[name]')
+		 * 
+		 * @event			conbo.ConboEvent#ROUTE
+		 * @type 			{conbo.ConboEvent}
+		 * @property		{conbo.Router}	router - The router that handled the route change
+		 * @property		{RegExp} 		route - The route that was followed
+		 * @property		{string} 		name - The name assigned to the route
+		 * @property		{any[]} 		parameters - The parameters extracted from the route
+		 * @property		{string} 		path - The new path 
+		 */
+		static readonly ROUTE:string; 			
 
-    	/** 
-    	 * Something has started
-    	 * 
-    	 * @event			conbo.ConboEvent#START
-         * @type 			{conbo.ConboEvent}
-    	 */
-    	static readonly START:string;
+		/** 
+		 * Something has started
+		 * 
+		 * @event			conbo.ConboEvent#START
+		 * @type 			{conbo.ConboEvent}
+		 */
+		static readonly START:string;
 
-    	/**
-    	 * Something has stopped
-    	 * 
-    	 * @event			conbo.ConboEvent#STOP
-         * @type 			{conbo.ConboEvent}
-    	 */
-    	static readonly STOP:string;
-    	
-    	/**
-    	 * A template is ready to use
-    	 * 
-    	 * @event			conbo.ConboEvent#TEMPLATE_COMPLETE
-         * @type 			{conbo.ConboEvent}
-    	 */
-    	static readonly TEMPLATE_COMPLETE:string;
+		/**
+		 * Something has stopped
+		 * 
+		 * @event			conbo.ConboEvent#STOP
+		 * @type 			{conbo.ConboEvent}
+		 */
+		static readonly STOP:string;
+		
+		/**
+		 * A template is ready to use
+		 * 
+		 * @event			conbo.ConboEvent#TEMPLATE_COMPLETE
+		 * @type 			{conbo.ConboEvent}
+		 */
+		static readonly TEMPLATE_COMPLETE:string;
 
-    	/** 
-    	 * A template error has occurred
-    	 *  
-    	 * @event			conbo.ConboEvent#TEMPLATE_ERROR
-         * @type 			{conbo.ConboEvent}
-    	 */
-    	static readonly TEMPLATE_ERROR:string;
+		/** 
+		 * A template error has occurred
+		 *  
+		 * @event			conbo.ConboEvent#TEMPLATE_ERROR
+		 * @type 			{conbo.ConboEvent}
+		 */
+		static readonly TEMPLATE_ERROR:string;
 
-    	/** 
-    	 * Something has been bound
-    	 *  
-    	 * @event			conbo.ConboEvent#BIND
-         * @type 			{conbo.ConboEvent}
-    	 */
-    	static readonly BIND:string;
+		/** 
+		 * Something has been bound
+		 *  
+		 * @event			conbo.ConboEvent#BIND
+		 * @type 			{conbo.ConboEvent}
+		 */
+		static readonly BIND:string;
 
-    	/** 
-    	 * Something has been unbound
-    	 *  
-    	 * @event			conbo.ConboEvent#UNBIND
-         * @type 			{conbo.ConboEvent}
-    	 */
-    	static readonly UNBIND:string;			
+		/** 
+		 * Something has been unbound
+		 *  
+		 * @event			conbo.ConboEvent#UNBIND
+		 * @type 			{conbo.ConboEvent}
+		 */
+		static readonly UNBIND:string;			
 
-    	/** 
-    	 * Something has been created and it's ready to use
-    	 * 
-    	 * @event			conbo.ConboEvent#CREATION_COMPLETE
-         * @type 			{conbo.ConboEvent}
-    	 */
-    	static readonly CREATION_COMPLETE:string;
-    	
-    	/** 
-    	 * Something has been detached
-    	 * 
-    	 * @event			conbo.ConboEvent#DETACH
-         * @type 			{conbo.ConboEvent}
-    	 */
-    	static readonly DETACH:string;
-    	
-    	/** 
-    	 * A result has been received
-    	 *  
-    	 * @event			conbo.ConboEvent#RESULT
-         * @type 			{conbo.ConboEvent}
-         * @property		{any} result - The data received 
-    	 */
-    	static readonly RESULT:string;
-    	
-    	/** 
-    	 * A fault has occurred
-    	 *  
-    	 * @event			conbo.ConboEvent#FAULT
-         * @type 			{conbo.ConboEvent}
-         * @property		{any} fault - The fault received 
-    	 */
-    	static readonly FAULT:string;			
+		/** 
+		 * Something has been created and it's ready to use
+		 * 
+		 * @event			conbo.ConboEvent#CREATION_COMPLETE
+		 * @type 			{conbo.ConboEvent}
+		 */
+		static readonly CREATION_COMPLETE:string;
+		
+		/** 
+		 * Something has been detached
+		 * 
+		 * @event			conbo.ConboEvent#DETACH
+		 * @type 			{conbo.ConboEvent}
+		 */
+		static readonly DETACH:string;
+		
+		/** 
+		 * A result has been received
+		 *  
+		 * @event			conbo.ConboEvent#RESULT
+		 * @type 			{conbo.ConboEvent}
+		 * @property		{any} result - The data received 
+		 */
+		static readonly RESULT:string;
+		
+		/** 
+		 * A fault has occurred
+		 *  
+		 * @event			conbo.ConboEvent#FAULT
+		 * @type 			{conbo.ConboEvent}
+		 * @property		{any} fault - The fault received 
+		 */
+		static readonly FAULT:string;			
 
-    	/**
-    	 * The name of the property that changed
-    	 */
-    	property:string;
-    	
-    	/**
-    	 * The new value of the property
-    	 */
-        value:any; 
-    	
-    	/**
-    	 * The router that handled the route change
-    	 */
-        router:Router;
-    	
-    	/**
-    	 * The route that was followed
-    	 */
-        route:RegExp; 
-    	
-    	/**
-    	 * The name assigned to the route
-    	 */
-        name:string; 
-    	
-    	/**
-    	 * The parameters extracted from the route as an array
-    	 */
-        parameters:any[];
-    	
-    	/**
-    	 * The parameters extracted from the route as an object
-    	 */
-        params:any;
-    	
-    	/**
-    	 * The new path
-    	 */
-        path:string; 
-    	
-    	/**
-    	 * The data or result received
-    	 */
-        result:any; 
-    	
-    	/**
-    	 * The fault received
-    	 */
-        fault:any; 
-    	
-    	/**
-    	 * Array of nodes added or removed from the DOM
-    	 */
-    	nodes:Node[];
-    	
+		/**
+		 * The name of the property that changed
+		 */
+		property:string;
+		
+		/**
+		 * The new value of the property
+		 */
+		value:any; 
+		
+		/**
+		 * The router that handled the route change
+		 */
+		router:Router;
+		
+		/**
+		 * The route that was followed
+		 */
+		route:RegExp; 
+		
+		/**
+		 * The name assigned to the route
+		 */
+		name:string; 
+		
+		/**
+		 * The parameters extracted from the route as an array
+		 */
+		parameters:any[];
+		
+		/**
+		 * The parameters extracted from the route as an object
+		 */
+		params:any;
+		
+		/**
+		 * The new path
+		 */
+		path:string; 
+		
+		/**
+		 * The data or result received
+		 */
+		result:any; 
+		
+		/**
+		 * The fault received
+		 */
+		fault:any; 
+		
+		/**
+		 * Array of nodes added or removed from the DOM
+		 */
+		nodes:Node[];
+		
 		/**
 		 * Object containing all response headers received from the call
 		 */
@@ -454,738 +454,738 @@ declare namespace conbo {
 		 * XMLHttpRequest instance used to make the call
 		 */
 		xhr:XMLHttpRequest;
-    	
+		
 		/**
 		 * The item affected by the operation
 		 */
-    	item:any;
-    	
-        /**
-         * Constructor
-         * @param	{string}	type - The type of event this class instance represents
-         * @param	{Object}	[options] - Object containing additional properties to add to this class instance
-         */
-        constructor(type: string, options?: any);
-
-    }
-
-    interface IInjectable 
-    {
-        context: Context;
-    }
-
-    /**
-     * Event Dispatcher
-     * Event model designed to bring events into line with DOM events and those
-     * found in HTML DOM, jQuery and ActionScript 2 & 3, offering a more
-     * predictable, object based approach to event dispatching and handling
-     * Should be used as the base class for any class that won't be used for
-     * data binding
-     */
-    class EventDispatcher extends Class implements IInjectable {
-
-        /**
-         * This is your application's event bus and dependency injector
-         */
-        context: Context;
-
-        /**
-         * Constructor
-         * @param 		{Object} options - Object containing optional initialisation options, including 'context'
-         */
-        constructor(options?: any);
-
-        /**
-         * Add a listener for a particular event type
-         * @param 	{string}		type - Type of event ('change') or events ('change blur')
-         * @param 	{Function}		handler - Function that should be called
-         * @param 	{Object}		[scope] - The scope in which to run the event handler
-         * @param 	{number}		[priority=0] - The event handler's priority when the event is dispatached
-         * @param 	{boolean}		[once=false] - Should the event listener automatically be removed after it has been called once?
-         * @returns	{conbo.EventDispatcher}	A reference to this class instance
-         */
-        addEventListener(type: string, handler: any, scope?: any, priority?: number, once?: boolean): EventDispatcher;
-
-        /**
-         * Remove a listener for a particular event type
-         * @param {string}		[type] - Type of event ('change') or events ('change blur'), if not specified, all listeners will be removed
-         * @param {Function}	[handler] - Function that should be called, if not specified, all listeners of the specified type will be removed
-         * @param {Object} 		[scope] - The scope in which the handler is set to run
-         * @returns	{conbo.EventDispatcher}	A reference to this class instance
-         */
-        removeEventListener(type?: string, handler?: any, scope?: any): EventDispatcher;
-
-        /**
-         * Does this object have an event listener of the specified type?
-         * @param 	{string}	type - Type of event (e.g. 'change')
-         * @param 	{Function}	[handler] - Function that should be called
-         * @param 	{Object} 	[scope] - The scope in which the handler is set to run
-         * @returns	{boolean}	True if this object has the specified event listener, false if it does not
-         */
-        hasEventListener(type: string, handler?: any, scope?: any): boolean;
-
-        /**
-         * Dispatch the event to listeners
-         * @param {conbo.Event} 	event - The event to dispatch
-         * @returns	{conbo.EventDispatcher}	A reference to this class instance
-         */
-        dispatchEvent(event: Event): EventDispatcher;
-
-        /**
-         * Dispatch a change event for one or more changed properties
-         * @param {string}	propName - The name of the property that has changed
-         * @returns	{conbo.EventDispatcher}	A reference to this class instance
-         */
-        dispatchChange(propName: string): EventDispatcher;
-
-    }
-
-    /**
-     * Event Proxy
-     * Standardises the adding and removing of event listeners across DOM elements,
-     * Conbo EventDispatchers and jQuery instances
-     */
-    class EventProxy extends Class {
-
-        /**
-         * @param 		{Object} eventDispatcher - Element, EventDispatcher or jQuery object to be proxied
-         */
-        constructor(eventDispatcher: any);
-
-        /**
-         * Add a listener for a particular event type
-         * @param 	{string}			type - Type of event ('change') or events ('change blur')
-         * @param 	{Function}			handler - Function that should be called
-         * @returns	{conbo.EventProxy}	A reference to this class instance
-         */
-        addEventListener(type: string, handler: any): EventProxy;
-
-        /**
-         * Remove a listener for a particular event type
-         * @param 	{string}			type - Type of event ('change') or events ('change blur')
-         * @param 	{Function}			handler - Function that should be called
-         * @returns	{conbo.EventProxy}	A reference to this class instance
-         */
-        removeEventListener(type: string, handler: any): EventProxy;
-
-    }
-
-    /**
-     * Server Application
-     * Base class for applications that don't require DOM, e.g. Node.js
-     */
-    class ServerApplication extends EventDispatcher {
-
-        /**
-         * Default context class to use
-         * You'll normally want to override this with your own
-         */
-        contextClass:any;
-    }
-
-    /**
-     * conbo.Context
-     * This is your application's event bus and dependency injector, and is
-     * usually where all your models and web service classes are registered,
-     * using mapSingleton(...), and Command classes are mapped to events
-     */
-    class Context extends EventDispatcher {
-
-        /**
-         * @param 	{Object} options - Object containing initialisation options, including 'app' (Application) and 'namespace' (Namespace)
-         */
-        constructor(options?: any);
-
-        /**
-         * The Application instance associated with this context
-         * @returns {conbo.Application}
-         */
-        app: Application;
-
-        /**
-         * The Namespace this context exists in
-         * @returns {conbo.Namespace}
-         */
-        namespace: Namespace;
-
-        /**
-         * If this is a subcontext, this is a reference to the Context that created it
-         * @returns {conbo.Context}
-         */
-        parentContext: Context;
-
-        /**
-         * Create a new subcontext that shares the same application
-         * and namespace as this one
-         *
-         * @param	{class} contextClass - The context class to use (default: conbo.Context)
-         * @returns {conbo.Context}
-         */
-        createSubcontext(contextClass:any): Context;
-
-        /**
-         * Map specified Command class the given event
-         * @param	{string}	eventType - The name of the event
-         * @param	{class}		commandClass - The command class to instantiate when the event is dispatched
-         */
-        mapCommand(eventType:string, commandClass:any): Context;
-
-        /**
-         * Unmap specified Command class from given event
-         */
-        unmapCommand(eventType:string, commandClass:any): Context;
-
-        /**
-         * Map class instance to a property name
-         *
-         * To inject a property into a class, register the property name
-         * with the Context and declare the value as undefined in your class
-         * to enable it to be injected at run time
-         *
-         * @example		context.mapSingleton('myProperty', MyModel);
-         * @example		myProperty: undefined
-         */
-        mapSingleton(propertyName:String, singletonClass:any, ...args:any[]):Context;
-
-        /**
-         * Unmap class instance from a property name
-         */
-        unmapSingleton(propertyName:string):Context;
-
-        /**
-         * Map constant value to a property name
-         *
-         * To inject a constant into a class, register the property name
-         * with the Context and declare the property as undefined in your
-         * class to enable it to be injected at run time
-         *
-         * @example		context.mapConstant('MY_VALUE', 123);
-         * @example		MY_VALUE: undefined
-         */
-        mapConstant(propertyName:string, value:any): Context;
-
-        /**
-         * Unmap constant value from a property name
-         */
-        unmapConstant(propertyName:string): Context;
-
-        /**
-         * Add this Context to the specified Object, or create an object with a
-         * reference to this Context
-         */
-        addTo(obj?:any):any;
-
-        /**
-         * Inject singleton instances into specified object
-         *
-         * @param	obj		{Object} 	The object to inject singletons into
-         */
-        injectSingletons(obj:any): Context;
-
-        /**
-         * Set all singleton instances on the specified object to undefined
-         *
-         * @param	obj		{Object} 	The object to remove singletons from
-         */
-        uninjectSingletons(obj:any): Context;
-
-    }
-
-    /**
-     * conbo.Hash
-     * A Hash is a bindable object of associated keys and values
-     * @class		Hash
-     * 
-     * @augments	conbo.EventDispatcher
-     * @author 		Neil Rackett
-     * @param 		{Object} options - Object containing optional initialisation options, including 'source' (object) containing initial values
-     * @fires		conbo.ConboEvent#CHANGE
-     */
-    class Hash extends EventDispatcher {
-
-    	[key:number]:any;
-    	[key:string]:any;
-    	
-        /**
-         * @param {any} [options] - Object containing initialization options, including 'source' object
-         */
-        constructor(options?: any);
-
-        /**
-         * Returns a version of this object that can easily be converted into JSON
-         */
-        toJSON():any;
-    }
-
-    /**
-     * A persistent Hash that stores data in LocalStorage or Session
-     * @class		LocalHash
-     * 
-     * @augments	conbo.Hash
-     * @author 		Neil Rackett
-     * @param 		{Object} options - Object containing initialisation options, including 'name' (string), 'session' (Boolean) and 'source' (object) containing default values; see Hash for other options
-     * @fires		conbo.ConboEvent#CHANGE
-     */
-    class LocalHash extends Hash {
-
-        /**
-         * Immediately writes all data to local storage. If you don't use this method,
-         * Conbo writes the data the next time it detects a change to a bindable property.
-         */
-        flush(): void;
-
-    }
-
-    interface ISyncable
-    {
-    	load(data?:any):any;
-    	save():any;
-    	destroy():any;
-    }
-    
-    /**
-     * Remote Hash is used for syncing remote data with a local Hash
-     * @fires		conbo.ConboEvent#CHANGE
-     * @fires		conbo.ConboEvent#RESULT
-     * @fires		conbo.ConboEvent#FAULT
-     */
-    class RemoteHash extends Hash implements ISyncable
-    {
-    	load(data?:any):any;
-    	save():any;
-    	destroy():any;
-    }
-
-    /**
-     * A bindable Array wrapper that can be used when you don't require
-     * web service connectivity.
-     * Plain objects will automatically be converted into an instance of
-     * the specified `itemClass` when added to a List, and the appropriate
-     * events dispatched if the items it contains are changed or updated.
-     * @fires		conbo.ConboEvent#CHANGE
-     * @fires		conbo.ConboEvent#ADD
-     * @fires		conbo.ConboEvent#REMOVE
-     */
-    class List extends EventDispatcher {
-
-    	/**
-    	 * @param 		{Object} options - Object containing optional initialisation options, including `source` (array), `context` (Context) and `itemClass` (Class)
-    	 */
-    	constructor(options?:any);
-    	
-    	/**
-    	 * The Array used as the source for this List
-    	 */
-    	source: any[];
-    	
-        /**
-         * The class to use for items in this list (plain JS objects will
-         * automatically be wrapped using this class), defaults to conbo.Hash
-         */
-        itemClass:any;
-    	
-    	/**
-    	 * The number of items in the List
-    	 */
-    	readonly length:number;
-    	
-    	/**
-    	 * Add an item to the end of the collection.
-    	 */
-    	push(...items:any[]): number;
-    	
-    	/**
-    	 * Remove an item from the end of the collection.
-    	 */
-    	pop():any;
-    	
-    	/**
-    	 * Add an item to the beginning of the collection.
-    	 */
-    	unshift(...items:any[]): number;
-    	
-    	/**
-    	 * Remove an item from the beginning of the collection.
-    	 */
-    	shift():any;
-    	
-    	/**
-    	 * Slice out a sub-array of items from the collection.
-    	 */
-    	slice(begin?:number, length?:number):List;
-    	
-    	
-    	/**
-    	 * Splice out a sub-array of items from the collection.
-    	 */
-    	splice(begin?:number, length?:number):List;
-    	
-    	/**
-    	 * Get the item at the given index; similar to array[index]
-    	 */
-    	getItemAt(index:number):any; 
-    	
-    	/**
-    	 * Add (or replace) item at given index with the one specified,
-    	 * similar to array[index] = value;
-    	 */
-    	setItemAt(index:number, item:any):any;
-    	
-    	/**
-    	 * Force the collection to re-sort itself.
-    	 * @param	{Function}	[compareFunction] - Compare function to determine sort order
-    	 */
-    	sort(compareFunction?:Function):List; 
-    	
-    	/**
-    	 * Create a new List identical to this one.
-    	 */
-    	clone():List; 
-    	
-    	/**
-    	 * The JSON-friendly representation of the List
-    	 */
-    	toJSON(): Object; 
-    	
-    	forEach(...args:any[]):any;
-    	map(...args:any[]):any;
-    	find(...args:any[]):any;
-    	findIndex(...args:any[]):any;
-    	filter(...args:any[]):any;
-    	reject(...args:any[]):any;
-    	every(...args:any[]):any;
-    	contains(...args:any[]):any;
-    	invoke(...args:any[]):any;
-    	indexOf(...args:any[]):any;
-    	lastIndexOf(...args:any[]):any;
-    	max(...args:any[]):any;
-    	min(...args:any[]):any;
-    	toArray(...args:any[]):any;
-    	size(...args:any[]):any;
-    	rest(...args:any[]):any;
-    	last(...args:any[]):any;
-    	without(...args:any[]):any;
-    	shuffle(...args:any[]):any;
-    	isEmpty(...args:any[]):any;
-    	sortOn(...args:any[]):any;    	
-    }
-
-    /**
-     * LocalList is a persistent List class that is saved into LocalStorage
-     * or SessionStorage
-     * @fires		conbo.ConboEvent#CHANGE
-     * @fires		conbo.ConboEvent#ADD
-     * @fires		conbo.ConboEvent#REMOVE
-     */
-    class LocalList extends List
-    {
-        /**
-         * @param 		{Object} options - Object containing initialisation options, including 'name' (String), 'session' (Boolean) and 'source' (Array) of default options
-         */
-        constructor(options?: any);
-
-        /**
-         * Immediately writes all data to local storage. If you don't use this method,
-         * Conbo writes the data the next time it detects a change to a bindable property.
-         */
-        flush(): void;
-    }
-
-    /**
-     * Remote List is used for syncing remote array data with a local List
-     * @fires		conbo.ConboEvent#CHANGE
-     * @fires		conbo.ConboEvent#ADD
-     * @fires		conbo.ConboEvent#REMOVE
-     * @fires		conbo.ConboEvent#RESULT
-     * @fires		conbo.ConboEvent#FAULT
-     */
-    class RemoteList extends List 
-    {
-        /**
-         * @param 		{Object} options - Object containing initialisation options, including HttpService options
-         */
-        constructor(options?: any);
-    	
-    }
-
-    /**
-     * Attribute Bindings
-     * Functions that can be used to bind DOM elements to properties of Bindable
-     * class instances to DOM elements via their attributes.
-     */
-    class AttributeBindings extends Class {
-        /**
-         * Can the given attribute be bound to multiple properties at the same time?
-         * @param 	{string}	attribute
-         * @returns {Boolean}
-         */
-        canHandleMultiple(attribute: string):any;
-
-        /**
-         * Makes an element visible
-         * @param 		{HTMLElement}	el - DOM element to which the attribute applies
-         * @param 		{any} 			value - The value referenced by the attribute
-         * @returns		{void}
-         * @example
-         * <div cb-show="propertyName"></div>
-         */
-        cbShow(el: HTMLElement, value: any): void;
-
-        /**
-         * Hides an element by making it invisible, but does not remove
-         * if from the layout of the page, meaning a blank space will remain
-         * @param 		{HTMLElement}	el - DOM element to which the attribute applies
-         * @param 		{any} 			value - The value referenced by the attribute
-         * @returns		{void}
-         * @example
-         * <div cb-hide="propertyName"></div>
-         */
-        cbHide(el: HTMLElement, value: any): void;
-
-        /**
-         * Include an element on the screen and in the layout of the page
-         * @param 		{HTMLElement}	el - DOM element to which the attribute applies
-         * @param 		{any} 			value - The value referenced by the attribute
-         * @returns		{void}
-         * @example
-         * <div cb-include="propertyName"></div>
-         */
-        cbInclude(el: HTMLElement, value: any): void;
-
-        /**
-         * Remove an element from the screen and prevent it having an effect
-         * on the layout of the page
-         * @param 		{HTMLElement}	el - DOM element to which the attribute applies
-         * @param 		{any} 			value - The value referenced by the attribute
-         * @returns		{void}
-         * @example
-         * <div cb-exclude="propertyName"></div>
-         */
-        cbExclude(el: HTMLElement, value: any): void;
-
-        /**
-         * The exact opposite of HTML's built-in `disabled` property
-         * @param 		{HTMLElement}	el - DOM element to which the attribute applies
-         * @param 		{any} 			value - The value referenced by the attribute
-         * @returns		{void}
-         * @example
-         * <div cb-enabled="propertyName"></div>
-         */
-        cbEnabled(el: HTMLElement, value: any): void;
-
-        /**
-         * Inserts raw HTML into the element, which is rendered as HTML
-         * @param 		{HTMLElement}	el - DOM element to which the attribute applies
-         * @param 		{any} 			value - The value referenced by the attribute
-         * @returns		{void}
-         * @example
-         * <div cb-html="propertyName"></div>
-         */
-        cbHtml(el: HTMLElement, value: any): void;
-
-        /**
-         * Inserts text into the element so that it appears on screen exactly as
-         * it's written by converting special characters (<, >, &, etc) into HTML
-         * entities before rendering them, e.g. "8 < 10" becomes "8 &lt; 10", and
-         * line breaks into <br/>
-         * @param 		{HTMLElement}	el - DOM element to which the attribute applies
-         * @param 		{any} 			value - The value referenced by the attribute
-         * @returns		{void}
-         * @example
-         * <div cb-text="propertyName"></div>
-         */
-        cbText(el: HTMLElement, value: any): void;
-
-        /**
-         * Applies or removes a CSS class to or from the element based on the value
-         * of the bound property, e.g. cb-class="myProperty:class-name"
-         * @param 		{HTMLElement}	el - DOM element to which the attribute applies
-         * @param 		{any} 			value - The value referenced by the attribute
-         * @returns		{void}
-         * @example
-         * <div cb-class="propertyName:my-class-name"></div>
-         */
-        cbClass(el: HTMLElement, value: any): void;
-
-        /**
-         * Applies class(es) to the element based on the value contained in a variable.
-         * Experimental.
-         * @param 		{HTMLElement}	el - DOM element to which the attribute applies
-         * @param 		{any} 			value - The value referenced by the attribute
-         * @returns		{void}
-         * @example
-         * <div cb-classes="propertyName"></div>
-         */
-        cbClasses(el: HTMLElement, value: any): void;
-
-        /**
-         * Apply styles from a variable
-         * @param 		{HTMLElement}	el - DOM element to which the attribute applies
-         * @param 		{any} 			value - The value referenced by the attribute
-         * @param 		{Object} 		options - Options relating to this binding
-         * @param 		{string} 		styleName - The name of the style to bind
-         * @returns		{void}
-         * @example
-         * <div cb-="propertyName:font-weight"></div>
-         */
-        cbStyle(el: HTMLElement, value: any, options: any, styleName: string): void;
-
-        /**
-         * Repeats the element once for each item of the specified list or Array,
-         * applying the specified Glimpse or View class to the element and passing
-         * each value to the item renderer as a "data" property.
-         * The optional item renderer class can be specified by following the
-         * property name with a colon and the class name or by using the tag name.
-         * @param 		{HTMLElement}	el - DOM element to which the attribute applies
-         * @param 		{any} 			value - The value referenced by the attribute
-         * @param 		{Object} 		options - Options relating to this binding
-         * @param 		{string} 		itemRendererClassName - The name of the class to apply to each item rendered
-         * @returns		{void}
-         * @example
-         * <li cb-repeat="people" cb-hml="data.firstName"></li>
-         * <li cb-repeat="people:PersonItemRenderer" cb-hml="data.firstName"></li>
-         * <person-item-renderer cb-repeat="people"></person-item-renderer>
-         */
-        cbRepeat(el: HTMLElement, value: any, options: any, itemRendererClassName: string): void;
-
-        /**
-         * Sets the properties of the element's dataset (it's `data-*` attributes)
-         * using the properties of the object being bound to it. Non-Object values
-         * will be disregarded. You'll need to use a polyfill for IE <= 10.
-         * @param 		{HTMLElement}	el - DOM element to which the attribute applies
-         * @param 		{any} 			value - The value referenced by the attribute
-         * @returns		{void}
-         * @example
-         * <div cb-dataset="propertyName"></div>
-         */
-        cbDataset(el: HTMLElement, value: any): void;
-
-        /**
-         * When used with a standard DOM element, the properties of the element's
-         * `dataset` (it's `data-*` attributes) are set using the properties of the
-         * object being bound to it; you'll need to use a polyfill for IE <= 10
-         * When used with a Glimpse, the Glimpse's `data` property is set to
-         * the value of the bound property.
-         * @param 		{HTMLElement}	el - DOM element to which the attribute applies
-         * @param 		{any} 			value - The value referenced by the attribute
-         * @returns		{void}
-         * @example
-         * <div cb-data="propertyName"></div>
-         */
-        cbData(el: HTMLElement, value: any): void;
-
-        /**
-         * Only includes the specified element in the layout when the View's `currentState`
-         * matches one of the states listed in the attribute's value; multiple states should
-         * be separated by spaces
-         * @param 		{HTMLElement}	el - DOM element to which the attribute applies
-         * @param 		{any} 			value - The value referenced by the attribute
-         * @param 		{Object} 		options - Options relating to this binding
-         * @returns		{void}
-         * @example
-         * <div cb-include-in="happy sad elated"></div>
-         */
-        cbIncludeIn(el: HTMLElement, value: any, options: any): void;
-
-        /**
-         * Removes the specified element from the layout when the View's `currentState`
-         * matches one of the states listed in the attribute's value; multiple states should
-         * be separated by spaces
-         * @param 		{HTMLElement}	el - DOM element to which the attribute applies
-         * @param 		{any} 			value - The value referenced by the attribute
-         * @param 		{Object} 		options - Options relating to this binding
-         * @returns		{void}
-         * @example
-         * <div cb-exclude-from="confused frightened"></div>
-         */
-        cbExcludeFrom(el: HTMLElement, value: any, options: any): void;
-
-        /**
-         * Completely removes an element from the DOM based on a bound property value,
-         * primarily intended to facilitate graceful degredation and removal of desktop
-         * features in mobile environments.
-         * @example		cb-remove="isMobile"
-         * @param 		{HTMLElement}	el - DOM element to which the attribute applies
-         * @param 		{any} 			value - The value referenced by the attribute
-         * @returns		{void}
-         * @example
-         * <div cb-remove="propertyName"></div>
-         */
-        cbRemove(el: HTMLElement, value: any): void;
-
-        /**
-         * The opposite of `cbRemove`
-         * @param 		{HTMLElement}	el - DOM element to which the attribute applies
-         * @param 		{any} 			value - The value referenced by the attribute
-         * @returns		{void}
-         * @example
-         * <div cb-keep="propertyName"></div>
-         */
-        cbKeep(el: HTMLElement, value: any): void;
-
-        /**
-         * Enables the use of cb-onbind attribute to handle the 'bind' event
-         * dispatched by the element after it has been bound by Conbo
-         * @param 		{HTMLElement}	el - DOM element to which the attribute applies
-         * @param 		{any} 			value - The value referenced by the attribute
-         * @returns		{void}
-         * @example
-         * <div cb-onbind="functionName"></div>
-         */
-        cbOnbind(el: HTMLElement, value: any): void;
-
-        /**
-         * Uses JavaScript to open an anchor's HREF so that the link will open in
-         * an iOS WebView instead of Safari
-         * @param 		{HTMLElement}	el - DOM element to which the attribute applies
-         * @returns		{void}
-         * @example
-         * <div cb-jshref="propertyName"></div>
-         */
-        cbJshref(el: HTMLElement): void;
-
-        /**
-         * Detects changes to the specified element and applies the CSS class
-         * cb-changed or cb-unchanged, depending on whether the contents have
-         * changed from their original value.
-         * @param 		{HTMLElement}	el - DOM element to which the attribute applies
-         * @param 		{any} 			value - The value referenced by the attribute
-         * @returns		{void}
-         * @example
-         * <div cb-detect-change></div>
-         */
-        cbDetectChange(el: HTMLElement, value: any): void;
-
-        /**
-         * Use a method or regex to validate a form element and apply a
-         * cb-valid or cb-invalid CSS class based on the outcome
-         * @param 		{HTMLElement}	el - DOM element to which the attribute applies
-         * @param 		{Function} 		validator - The function referenced by the attribute
-         * @returns		{void}
-         * @example
-         * <div cb-validate="functionName"></div>
-         */
-        cbValidate(el: HTMLElement, validator: Function): void;
-
-        /**
-         * Restricts text input to the specified characters
-         * @param 		{HTMLElement}	el - DOM element to which the attribute applies
-         * @param 		{string} 		value - The value referenced by the attribute
-         * @returns		{void}
-         * @example
-         * <div cb-restrict="propertyName"></div>
-         */
-        cbRestrict(el: HTMLElement, value: string): void;
-
-        /**
-         * Limits the number of characters that can be entered into
-         * input and other form fields
-         * @param 		{HTMLElement}	el - DOM element to which the attribute applies
-         * @param 		{string} 		value - The value referenced by the attribute
-         * @returns		{void}
-         * @example
-         * <div cb-max-chars="propertyName"></div>
-         */
+		item:any;
+		
+		/**
+		 * Constructor
+		 * @param	{string}	type - The type of event this class instance represents
+		 * @param	{Object}	[options] - Object containing additional properties to add to this class instance
+		 */
+		constructor(type: string, options?: any);
+
+	}
+
+	interface IInjectable 
+	{
+		context: Context;
+	}
+
+	/**
+	 * Event Dispatcher
+	 * Event model designed to bring events into line with DOM events and those
+	 * found in HTML DOM, jQuery and ActionScript 2 & 3, offering a more
+	 * predictable, object based approach to event dispatching and handling
+	 * Should be used as the base class for any class that won't be used for
+	 * data binding
+	 */
+	class EventDispatcher extends Class implements IInjectable {
+
+		/**
+		 * This is your application's event bus and dependency injector
+		 */
+		context: Context;
+
+		/**
+		 * Constructor
+		 * @param 		{Object} options - Object containing optional initialisation options, including 'context'
+		 */
+		constructor(options?: any);
+
+		/**
+		 * Add a listener for a particular event type
+		 * @param 	{string}		type - Type of event ('change') or events ('change blur')
+		 * @param 	{Function}		handler - Function that should be called
+		 * @param 	{Object}		[scope] - The scope in which to run the event handler
+		 * @param 	{number}		[priority=0] - The event handler's priority when the event is dispatached
+		 * @param 	{boolean}		[once=false] - Should the event listener automatically be removed after it has been called once?
+		 * @returns	{conbo.EventDispatcher}	A reference to this class instance
+		 */
+		addEventListener(type: string, handler: any, scope?: any, priority?: number, once?: boolean): EventDispatcher;
+
+		/**
+		 * Remove a listener for a particular event type
+		 * @param {string}		[type] - Type of event ('change') or events ('change blur'), if not specified, all listeners will be removed
+		 * @param {Function}	[handler] - Function that should be called, if not specified, all listeners of the specified type will be removed
+		 * @param {Object} 		[scope] - The scope in which the handler is set to run
+		 * @returns	{conbo.EventDispatcher}	A reference to this class instance
+		 */
+		removeEventListener(type?: string, handler?: any, scope?: any): EventDispatcher;
+
+		/**
+		 * Does this object have an event listener of the specified type?
+		 * @param 	{string}	type - Type of event (e.g. 'change')
+		 * @param 	{Function}	[handler] - Function that should be called
+		 * @param 	{Object} 	[scope] - The scope in which the handler is set to run
+		 * @returns	{boolean}	True if this object has the specified event listener, false if it does not
+		 */
+		hasEventListener(type: string, handler?: any, scope?: any): boolean;
+
+		/**
+		 * Dispatch the event to listeners
+		 * @param {conbo.Event} 	event - The event to dispatch
+		 * @returns	{conbo.EventDispatcher}	A reference to this class instance
+		 */
+		dispatchEvent(event: Event): EventDispatcher;
+
+		/**
+		 * Dispatch a change event for one or more changed properties
+		 * @param {string}	propName - The name of the property that has changed
+		 * @returns	{conbo.EventDispatcher}	A reference to this class instance
+		 */
+		dispatchChange(propName: string): EventDispatcher;
+
+	}
+
+	/**
+	 * Event Proxy
+	 * Standardises the adding and removing of event listeners across DOM elements,
+	 * Conbo EventDispatchers and jQuery instances
+	 */
+	class EventProxy extends Class {
+
+		/**
+		 * @param 		{Object} eventDispatcher - Element, EventDispatcher or jQuery object to be proxied
+		 */
+		constructor(eventDispatcher: any);
+
+		/**
+		 * Add a listener for a particular event type
+		 * @param 	{string}			type - Type of event ('change') or events ('change blur')
+		 * @param 	{Function}			handler - Function that should be called
+		 * @returns	{conbo.EventProxy}	A reference to this class instance
+		 */
+		addEventListener(type: string, handler: any): EventProxy;
+
+		/**
+		 * Remove a listener for a particular event type
+		 * @param 	{string}			type - Type of event ('change') or events ('change blur')
+		 * @param 	{Function}			handler - Function that should be called
+		 * @returns	{conbo.EventProxy}	A reference to this class instance
+		 */
+		removeEventListener(type: string, handler: any): EventProxy;
+
+	}
+
+	/**
+	 * Server Application
+	 * Base class for applications that don't require DOM, e.g. Node.js
+	 */
+	class ServerApplication extends EventDispatcher {
+
+		/**
+		 * Default context class to use
+		 * You'll normally want to override this with your own
+		 */
+		contextClass:any;
+	}
+
+	/**
+	 * conbo.Context
+	 * This is your application's event bus and dependency injector, and is
+	 * usually where all your models and web service classes are registered,
+	 * using mapSingleton(...), and Command classes are mapped to events
+	 */
+	class Context extends EventDispatcher {
+
+		/**
+		 * @param 	{Object} options - Object containing initialisation options, including 'app' (Application) and 'namespace' (Namespace)
+		 */
+		constructor(options?: any);
+
+		/**
+		 * The Application instance associated with this context
+		 * @returns {conbo.Application}
+		 */
+		app: Application;
+
+		/**
+		 * The Namespace this context exists in
+		 * @returns {conbo.Namespace}
+		 */
+		namespace: Namespace;
+
+		/**
+		 * If this is a subcontext, this is a reference to the Context that created it
+		 * @returns {conbo.Context}
+		 */
+		parentContext: Context;
+
+		/**
+		 * Create a new subcontext that shares the same application
+		 * and namespace as this one
+		 *
+		 * @param	{class} contextClass - The context class to use (default: conbo.Context)
+		 * @returns {conbo.Context}
+		 */
+		createSubcontext(contextClass:any): Context;
+
+		/**
+		 * Map specified Command class the given event
+		 * @param	{string}	eventType - The name of the event
+		 * @param	{class}		commandClass - The command class to instantiate when the event is dispatched
+		 */
+		mapCommand(eventType:string, commandClass:any): Context;
+
+		/**
+		 * Unmap specified Command class from given event
+		 */
+		unmapCommand(eventType:string, commandClass:any): Context;
+
+		/**
+		 * Map class instance to a property name
+		 *
+		 * To inject a property into a class, register the property name
+		 * with the Context and declare the value as undefined in your class
+		 * to enable it to be injected at run time
+		 *
+		 * @example		context.mapSingleton('myProperty', MyModel);
+		 * @example		myProperty: undefined
+		 */
+		mapSingleton(propertyName:String, singletonClass:any, ...args:any[]):Context;
+
+		/**
+		 * Unmap class instance from a property name
+		 */
+		unmapSingleton(propertyName:string):Context;
+
+		/**
+		 * Map constant value to a property name
+		 *
+		 * To inject a constant into a class, register the property name
+		 * with the Context and declare the property as undefined in your
+		 * class to enable it to be injected at run time
+		 *
+		 * @example		context.mapConstant('MY_VALUE', 123);
+		 * @example		MY_VALUE: undefined
+		 */
+		mapConstant(propertyName:string, value:any): Context;
+
+		/**
+		 * Unmap constant value from a property name
+		 */
+		unmapConstant(propertyName:string): Context;
+
+		/**
+		 * Add this Context to the specified Object, or create an object with a
+		 * reference to this Context
+		 */
+		addTo(obj?:any):any;
+
+		/**
+		 * Inject singleton instances into specified object
+		 *
+		 * @param	obj		{Object} 	The object to inject singletons into
+		 */
+		injectSingletons(obj:any): Context;
+
+		/**
+		 * Set all singleton instances on the specified object to undefined
+		 *
+		 * @param	obj		{Object} 	The object to remove singletons from
+		 */
+		uninjectSingletons(obj:any): Context;
+
+	}
+
+	/**
+	 * conbo.Hash
+	 * A Hash is a bindable object of associated keys and values
+	 * @class		Hash
+	 * 
+	 * @augments	conbo.EventDispatcher
+	 * @author 		Neil Rackett
+	 * @param 		{Object} options - Object containing optional initialisation options, including 'source' (object) containing initial values
+	 * @fires		conbo.ConboEvent#CHANGE
+	 */
+	class Hash extends EventDispatcher {
+
+		[key:number]:any;
+		[key:string]:any;
+		
+		/**
+		 * @param {any} [options] - Object containing initialization options, including 'source' object
+		 */
+		constructor(options?: any);
+
+		/**
+		 * Returns a version of this object that can easily be converted into JSON
+		 */
+		toJSON():any;
+	}
+
+	/**
+	 * A persistent Hash that stores data in LocalStorage or Session
+	 * @class		LocalHash
+	 * 
+	 * @augments	conbo.Hash
+	 * @author 		Neil Rackett
+	 * @param 		{Object} options - Object containing initialisation options, including 'name' (string), 'session' (Boolean) and 'source' (object) containing default values; see Hash for other options
+	 * @fires		conbo.ConboEvent#CHANGE
+	 */
+	class LocalHash extends Hash {
+
+		/**
+		 * Immediately writes all data to local storage. If you don't use this method,
+		 * Conbo writes the data the next time it detects a change to a bindable property.
+		 */
+		flush(): void;
+
+	}
+
+	interface ISyncable
+	{
+		load(data?:any):any;
+		save():any;
+		destroy():any;
+	}
+	
+	/**
+	 * Remote Hash is used for syncing remote data with a local Hash
+	 * @fires		conbo.ConboEvent#CHANGE
+	 * @fires		conbo.ConboEvent#RESULT
+	 * @fires		conbo.ConboEvent#FAULT
+	 */
+	class RemoteHash extends Hash implements ISyncable
+	{
+		load(data?:any):any;
+		save():any;
+		destroy():any;
+	}
+
+	/**
+	 * A bindable Array wrapper that can be used when you don't require
+	 * web service connectivity.
+	 * Plain objects will automatically be converted into an instance of
+	 * the specified `itemClass` when added to a List, and the appropriate
+	 * events dispatched if the items it contains are changed or updated.
+	 * @fires		conbo.ConboEvent#CHANGE
+	 * @fires		conbo.ConboEvent#ADD
+	 * @fires		conbo.ConboEvent#REMOVE
+	 */
+	class List extends EventDispatcher {
+
+		/**
+		 * @param 		{Object} options - Object containing optional initialisation options, including `source` (array), `context` (Context) and `itemClass` (Class)
+		 */
+		constructor(options?:any);
+		
+		/**
+		 * The Array used as the source for this List
+		 */
+		source: any[];
+		
+		/**
+		 * The class to use for items in this list (plain JS objects will
+		 * automatically be wrapped using this class), defaults to conbo.Hash
+		 */
+		itemClass:any;
+		
+		/**
+		 * The number of items in the List
+		 */
+		readonly length:number;
+		
+		/**
+		 * Add an item to the end of the collection.
+		 */
+		push(...items:any[]): number;
+		
+		/**
+		 * Remove an item from the end of the collection.
+		 */
+		pop():any;
+		
+		/**
+		 * Add an item to the beginning of the collection.
+		 */
+		unshift(...items:any[]): number;
+		
+		/**
+		 * Remove an item from the beginning of the collection.
+		 */
+		shift():any;
+		
+		/**
+		 * Slice out a sub-array of items from the collection.
+		 */
+		slice(begin?:number, length?:number):List;
+		
+		
+		/**
+		 * Splice out a sub-array of items from the collection.
+		 */
+		splice(begin?:number, length?:number):List;
+		
+		/**
+		 * Get the item at the given index; similar to array[index]
+		 */
+		getItemAt(index:number):any; 
+		
+		/**
+		 * Add (or replace) item at given index with the one specified,
+		 * similar to array[index] = value;
+		 */
+		setItemAt(index:number, item:any):any;
+		
+		/**
+		 * Force the collection to re-sort itself.
+		 * @param	{Function}	[compareFunction] - Compare function to determine sort order
+		 */
+		sort(compareFunction?:Function):List; 
+		
+		/**
+		 * Create a new List identical to this one.
+		 */
+		clone():List; 
+		
+		/**
+		 * The JSON-friendly representation of the List
+		 */
+		toJSON(): Object; 
+		
+		forEach(...args:any[]):any;
+		map(...args:any[]):any;
+		find(...args:any[]):any;
+		findIndex(...args:any[]):any;
+		filter(...args:any[]):any;
+		reject(...args:any[]):any;
+		every(...args:any[]):any;
+		contains(...args:any[]):any;
+		invoke(...args:any[]):any;
+		indexOf(...args:any[]):any;
+		lastIndexOf(...args:any[]):any;
+		max(...args:any[]):any;
+		min(...args:any[]):any;
+		toArray(...args:any[]):any;
+		size(...args:any[]):any;
+		rest(...args:any[]):any;
+		last(...args:any[]):any;
+		without(...args:any[]):any;
+		shuffle(...args:any[]):any;
+		isEmpty(...args:any[]):any;
+		sortOn(...args:any[]):any;    	
+	}
+
+	/**
+	 * LocalList is a persistent List class that is saved into LocalStorage
+	 * or SessionStorage
+	 * @fires		conbo.ConboEvent#CHANGE
+	 * @fires		conbo.ConboEvent#ADD
+	 * @fires		conbo.ConboEvent#REMOVE
+	 */
+	class LocalList extends List
+	{
+		/**
+		 * @param 		{Object} options - Object containing initialisation options, including 'name' (String), 'session' (Boolean) and 'source' (Array) of default options
+		 */
+		constructor(options?: any);
+
+		/**
+		 * Immediately writes all data to local storage. If you don't use this method,
+		 * Conbo writes the data the next time it detects a change to a bindable property.
+		 */
+		flush(): void;
+	}
+
+	/**
+	 * Remote List is used for syncing remote array data with a local List
+	 * @fires		conbo.ConboEvent#CHANGE
+	 * @fires		conbo.ConboEvent#ADD
+	 * @fires		conbo.ConboEvent#REMOVE
+	 * @fires		conbo.ConboEvent#RESULT
+	 * @fires		conbo.ConboEvent#FAULT
+	 */
+	class RemoteList extends List 
+	{
+		/**
+		 * @param 		{Object} options - Object containing initialisation options, including HttpService options
+		 */
+		constructor(options?: any);
+		
+	}
+
+	/**
+	 * Attribute Bindings
+	 * Functions that can be used to bind DOM elements to properties of Bindable
+	 * class instances to DOM elements via their attributes.
+	 */
+	class AttributeBindings extends Class {
+		/**
+		 * Can the given attribute be bound to multiple properties at the same time?
+		 * @param 	{string}	attribute
+		 * @returns {Boolean}
+		 */
+		canHandleMultiple(attribute: string):any;
+
+		/**
+		 * Makes an element visible
+		 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+		 * @param 		{any} 			value - The value referenced by the attribute
+		 * @returns		{void}
+		 * @example
+		 * <div cb-show="propertyName"></div>
+		 */
+		cbShow(el: HTMLElement, value: any): void;
+
+		/**
+		 * Hides an element by making it invisible, but does not remove
+		 * if from the layout of the page, meaning a blank space will remain
+		 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+		 * @param 		{any} 			value - The value referenced by the attribute
+		 * @returns		{void}
+		 * @example
+		 * <div cb-hide="propertyName"></div>
+		 */
+		cbHide(el: HTMLElement, value: any): void;
+
+		/**
+		 * Include an element on the screen and in the layout of the page
+		 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+		 * @param 		{any} 			value - The value referenced by the attribute
+		 * @returns		{void}
+		 * @example
+		 * <div cb-include="propertyName"></div>
+		 */
+		cbInclude(el: HTMLElement, value: any): void;
+
+		/**
+		 * Remove an element from the screen and prevent it having an effect
+		 * on the layout of the page
+		 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+		 * @param 		{any} 			value - The value referenced by the attribute
+		 * @returns		{void}
+		 * @example
+		 * <div cb-exclude="propertyName"></div>
+		 */
+		cbExclude(el: HTMLElement, value: any): void;
+
+		/**
+		 * The exact opposite of HTML's built-in `disabled` property
+		 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+		 * @param 		{any} 			value - The value referenced by the attribute
+		 * @returns		{void}
+		 * @example
+		 * <div cb-enabled="propertyName"></div>
+		 */
+		cbEnabled(el: HTMLElement, value: any): void;
+
+		/**
+		 * Inserts raw HTML into the element, which is rendered as HTML
+		 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+		 * @param 		{any} 			value - The value referenced by the attribute
+		 * @returns		{void}
+		 * @example
+		 * <div cb-html="propertyName"></div>
+		 */
+		cbHtml(el: HTMLElement, value: any): void;
+
+		/**
+		 * Inserts text into the element so that it appears on screen exactly as
+		 * it's written by converting special characters (<, >, &, etc) into HTML
+		 * entities before rendering them, e.g. "8 < 10" becomes "8 &lt; 10", and
+		 * line breaks into <br/>
+		 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+		 * @param 		{any} 			value - The value referenced by the attribute
+		 * @returns		{void}
+		 * @example
+		 * <div cb-text="propertyName"></div>
+		 */
+		cbText(el: HTMLElement, value: any): void;
+
+		/**
+		 * Applies or removes a CSS class to or from the element based on the value
+		 * of the bound property, e.g. cb-class="myProperty:class-name"
+		 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+		 * @param 		{any} 			value - The value referenced by the attribute
+		 * @returns		{void}
+		 * @example
+		 * <div cb-class="propertyName:my-class-name"></div>
+		 */
+		cbClass(el: HTMLElement, value: any): void;
+
+		/**
+		 * Applies class(es) to the element based on the value contained in a variable.
+		 * Experimental.
+		 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+		 * @param 		{any} 			value - The value referenced by the attribute
+		 * @returns		{void}
+		 * @example
+		 * <div cb-classes="propertyName"></div>
+		 */
+		cbClasses(el: HTMLElement, value: any): void;
+
+		/**
+		 * Apply styles from a variable
+		 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+		 * @param 		{any} 			value - The value referenced by the attribute
+		 * @param 		{Object} 		options - Options relating to this binding
+		 * @param 		{string} 		styleName - The name of the style to bind
+		 * @returns		{void}
+		 * @example
+		 * <div cb-="propertyName:font-weight"></div>
+		 */
+		cbStyle(el: HTMLElement, value: any, options: any, styleName: string): void;
+
+		/**
+		 * Repeats the element once for each item of the specified list or Array,
+		 * applying the specified Glimpse or View class to the element and passing
+		 * each value to the item renderer as a "data" property.
+		 * The optional item renderer class can be specified by following the
+		 * property name with a colon and the class name or by using the tag name.
+		 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+		 * @param 		{any} 			value - The value referenced by the attribute
+		 * @param 		{Object} 		options - Options relating to this binding
+		 * @param 		{string} 		itemRendererClassName - The name of the class to apply to each item rendered
+		 * @returns		{void}
+		 * @example
+		 * <li cb-repeat="people" cb-hml="data.firstName"></li>
+		 * <li cb-repeat="people:PersonItemRenderer" cb-hml="data.firstName"></li>
+		 * <person-item-renderer cb-repeat="people"></person-item-renderer>
+		 */
+		cbRepeat(el: HTMLElement, value: any, options: any, itemRendererClassName: string): void;
+
+		/**
+		 * Sets the properties of the element's dataset (it's `data-*` attributes)
+		 * using the properties of the object being bound to it. Non-Object values
+		 * will be disregarded. You'll need to use a polyfill for IE <= 10.
+		 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+		 * @param 		{any} 			value - The value referenced by the attribute
+		 * @returns		{void}
+		 * @example
+		 * <div cb-dataset="propertyName"></div>
+		 */
+		cbDataset(el: HTMLElement, value: any): void;
+
+		/**
+		 * When used with a standard DOM element, the properties of the element's
+		 * `dataset` (it's `data-*` attributes) are set using the properties of the
+		 * object being bound to it; you'll need to use a polyfill for IE <= 10
+		 * When used with a Glimpse, the Glimpse's `data` property is set to
+		 * the value of the bound property.
+		 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+		 * @param 		{any} 			value - The value referenced by the attribute
+		 * @returns		{void}
+		 * @example
+		 * <div cb-data="propertyName"></div>
+		 */
+		cbData(el: HTMLElement, value: any): void;
+
+		/**
+		 * Only includes the specified element in the layout when the View's `currentState`
+		 * matches one of the states listed in the attribute's value; multiple states should
+		 * be separated by spaces
+		 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+		 * @param 		{any} 			value - The value referenced by the attribute
+		 * @param 		{Object} 		options - Options relating to this binding
+		 * @returns		{void}
+		 * @example
+		 * <div cb-include-in="happy sad elated"></div>
+		 */
+		cbIncludeIn(el: HTMLElement, value: any, options: any): void;
+
+		/**
+		 * Removes the specified element from the layout when the View's `currentState`
+		 * matches one of the states listed in the attribute's value; multiple states should
+		 * be separated by spaces
+		 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+		 * @param 		{any} 			value - The value referenced by the attribute
+		 * @param 		{Object} 		options - Options relating to this binding
+		 * @returns		{void}
+		 * @example
+		 * <div cb-exclude-from="confused frightened"></div>
+		 */
+		cbExcludeFrom(el: HTMLElement, value: any, options: any): void;
+
+		/**
+		 * Completely removes an element from the DOM based on a bound property value,
+		 * primarily intended to facilitate graceful degredation and removal of desktop
+		 * features in mobile environments.
+		 * @example		cb-remove="isMobile"
+		 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+		 * @param 		{any} 			value - The value referenced by the attribute
+		 * @returns		{void}
+		 * @example
+		 * <div cb-remove="propertyName"></div>
+		 */
+		cbRemove(el: HTMLElement, value: any): void;
+
+		/**
+		 * The opposite of `cbRemove`
+		 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+		 * @param 		{any} 			value - The value referenced by the attribute
+		 * @returns		{void}
+		 * @example
+		 * <div cb-keep="propertyName"></div>
+		 */
+		cbKeep(el: HTMLElement, value: any): void;
+
+		/**
+		 * Enables the use of cb-onbind attribute to handle the 'bind' event
+		 * dispatched by the element after it has been bound by Conbo
+		 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+		 * @param 		{any} 			value - The value referenced by the attribute
+		 * @returns		{void}
+		 * @example
+		 * <div cb-onbind="functionName"></div>
+		 */
+		cbOnbind(el: HTMLElement, value: any): void;
+
+		/**
+		 * Uses JavaScript to open an anchor's HREF so that the link will open in
+		 * an iOS WebView instead of Safari
+		 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+		 * @returns		{void}
+		 * @example
+		 * <div cb-jshref="propertyName"></div>
+		 */
+		cbJshref(el: HTMLElement): void;
+
+		/**
+		 * Detects changes to the specified element and applies the CSS class
+		 * cb-changed or cb-unchanged, depending on whether the contents have
+		 * changed from their original value.
+		 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+		 * @param 		{any} 			value - The value referenced by the attribute
+		 * @returns		{void}
+		 * @example
+		 * <div cb-detect-change></div>
+		 */
+		cbDetectChange(el: HTMLElement, value: any): void;
+
+		/**
+		 * Use a method or regex to validate a form element and apply a
+		 * cb-valid or cb-invalid CSS class based on the outcome
+		 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+		 * @param 		{Function} 		validator - The function referenced by the attribute
+		 * @returns		{void}
+		 * @example
+		 * <div cb-validate="functionName"></div>
+		 */
+		cbValidate(el: HTMLElement, validator: Function): void;
+
+		/**
+		 * Restricts text input to the specified characters
+		 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+		 * @param 		{string} 		value - The value referenced by the attribute
+		 * @returns		{void}
+		 * @example
+		 * <div cb-restrict="propertyName"></div>
+		 */
+		cbRestrict(el: HTMLElement, value: string): void;
+
+		/**
+		 * Limits the number of characters that can be entered into
+		 * input and other form fields
+		 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+		 * @param 		{string} 		value - The value referenced by the attribute
+		 * @returns		{void}
+		 * @example
+		 * <div cb-max-chars="propertyName"></div>
+		 */
 		cbMaxChars(el: HTMLElement, value: string): void;
 		
 		/**
@@ -1204,236 +1204,236 @@ declare namespace conbo {
 		 */
 		cbAria(el: HTMLElement, value: string, options: any, ariaName: string): void;
 	
-    }
+	}
 
-    /**
-     * Binding utilities class
-     * Used to bind properties of EventDispatcher class instances to DOM elements,
-     * other EventDispatcher class instances or setter functions
-     * @class		BindingUtils
-     * 
-     * @augments	conbo.Class
-     * @author 		Neil Rackett
-     */
-    class BindingUtils extends Class {
-        /**
-         * Should binding attributes, like "cb-bind", be removed after they've been processed?
-         * @type	{boolean}
-         */
-        removeAttributeAfterBinding: boolean;
+	/**
+	 * Binding utilities class
+	 * Used to bind properties of EventDispatcher class instances to DOM elements,
+	 * other EventDispatcher class instances or setter functions
+	 * @class		BindingUtils
+	 * 
+	 * @augments	conbo.Class
+	 * @author 		Neil Rackett
+	 */
+	class BindingUtils extends Class {
+		/**
+		 * Should binding attributes, like "cb-bind", be removed after they've been processed?
+		 * @type	{boolean}
+		 */
+		removeAttributeAfterBinding: boolean;
 
-        /**
-         * Bind a property of a EventDispatcher class instance (e.g. Hash or View)
-         * to a DOM element's value/content, using ConboJS's best judgement to
-         * work out how the value should be bound to the element.
-         * This method of binding also allows for the use of a parse function,
-         * which can be used to manipulate bound data in real time
-         * @param 		{conbo.EventDispatcher}	source - Class instance which extends from conbo.EventDispatcher
-         * @param 		{string} 				propertyName - Property name to bind
-         * @param 		{HTMLElement} 			el - DOM element to bind value to (two-way bind on input/form elements)
-         * @param 		{Function}				[parseFunction] - Optional method used to parse values before outputting as HTML
-         * @returns		{any[]}					Array of bindings
-         */
-        bindElement(source: EventDispatcher, propertyName: string, el: HTMLElement, parseFunction?: any):any;
+		/**
+		 * Bind a property of a EventDispatcher class instance (e.g. Hash or View)
+		 * to a DOM element's value/content, using ConboJS's best judgement to
+		 * work out how the value should be bound to the element.
+		 * This method of binding also allows for the use of a parse function,
+		 * which can be used to manipulate bound data in real time
+		 * @param 		{conbo.EventDispatcher}	source - Class instance which extends from conbo.EventDispatcher
+		 * @param 		{string} 				propertyName - Property name to bind
+		 * @param 		{HTMLElement} 			el - DOM element to bind value to (two-way bind on input/form elements)
+		 * @param 		{Function}				[parseFunction] - Optional method used to parse values before outputting as HTML
+		 * @returns		{any[]}					Array of bindings
+		 */
+		bindElement(source: EventDispatcher, propertyName: string, el: HTMLElement, parseFunction?: any):any;
 
-        /**
-         * Unbinds the specified property of a bindable class from the specified DOM element
-         * @param 		{conbo.EventDispatcher}	source - Class instance which extends from conbo.EventDispatcher
-         * @param 		{string} 				propertyName - Property name to bind
-         * @param 		{HTMLElement} 			el - DOM element to unbind value from
-         * @returns		{conbo.BindingUtils}	A reference to this object
-         */
-        unbindElement(source: EventDispatcher, propertyName: string, el: HTMLElement): BindingUtils;
+		/**
+		 * Unbinds the specified property of a bindable class from the specified DOM element
+		 * @param 		{conbo.EventDispatcher}	source - Class instance which extends from conbo.EventDispatcher
+		 * @param 		{string} 				propertyName - Property name to bind
+		 * @param 		{HTMLElement} 			el - DOM element to unbind value from
+		 * @returns		{conbo.BindingUtils}	A reference to this object
+		 */
+		unbindElement(source: EventDispatcher, propertyName: string, el: HTMLElement): BindingUtils;
 
-        /**
-         * Bind a DOM element to the property of a EventDispatcher class instance,
-         * e.g. Hash or Model, using cb-* attributes to specify how the binding
-         * should be made.
-         * Two way bindings will automatically be applied where the attribute name
-         * matches a property on the target element, meaning your EventDispatcher object
-         * will automatically be updated when the property changes.
-         * @param 	{conbo.EventDispatcher}	source - Class instance which extends from conbo.EventDispatcher (e.g. Hash or Model)
-         * @param 	{string}				propertyName - Property name to bind
-         * @param 	{HTMLElement}			element - DOM element to bind value to (two-way bind on input/form elements)
-         * @param 	{string}				attributeName - The attribute to bind as it appears in HTML, e.g. "cb-prop-name"
-         * @param 	{Function} 				[parseFunction] - Method used to parse values before outputting as HTML
-         * @param	{Object}				[options] - Options related to this attribute binding
-         * @returns	{any[]}					Array of bindings
-         */
-        bindAttribute(source: EventDispatcher, propertyName: string, element: any, attributeName: string, parseFunction?: any, options?: any):any;
+		/**
+		 * Bind a DOM element to the property of a EventDispatcher class instance,
+		 * e.g. Hash or Model, using cb-* attributes to specify how the binding
+		 * should be made.
+		 * Two way bindings will automatically be applied where the attribute name
+		 * matches a property on the target element, meaning your EventDispatcher object
+		 * will automatically be updated when the property changes.
+		 * @param 	{conbo.EventDispatcher}	source - Class instance which extends from conbo.EventDispatcher (e.g. Hash or Model)
+		 * @param 	{string}				propertyName - Property name to bind
+		 * @param 	{HTMLElement}			element - DOM element to bind value to (two-way bind on input/form elements)
+		 * @param 	{string}				attributeName - The attribute to bind as it appears in HTML, e.g. "cb-prop-name"
+		 * @param 	{Function} 				[parseFunction] - Method used to parse values before outputting as HTML
+		 * @param	{Object}				[options] - Options related to this attribute binding
+		 * @returns	{any[]}					Array of bindings
+		 */
+		bindAttribute(source: EventDispatcher, propertyName: string, element: any, attributeName: string, parseFunction?: any, options?: any):any;
 
-        /**
-         * Applies the specified read-only Conbo or custom attribute to the specified element
-         * @param 	{HTMLElement}			element - DOM element to bind value to (two-way bind on input/form elements)
-         * @param 	{string}				attributeName - The attribute to bind as it appears in HTML, e.g. "cb-prop-name"
-         * @returns	{conbo.BindingUtils}	A reference to this object
-         * @example
-         * conbo.bindingUtils.applyAttribute(el, "my-custom-attr");
-         */
-        applyAttribute(element: any, attributeName: string): BindingUtils;
+		/**
+		 * Applies the specified read-only Conbo or custom attribute to the specified element
+		 * @param 	{HTMLElement}			element - DOM element to bind value to (two-way bind on input/form elements)
+		 * @param 	{string}				attributeName - The attribute to bind as it appears in HTML, e.g. "cb-prop-name"
+		 * @returns	{conbo.BindingUtils}	A reference to this object
+		 * @example
+		 * conbo.bindingUtils.applyAttribute(el, "my-custom-attr");
+		 */
+		applyAttribute(element: any, attributeName: string): BindingUtils;
 
-        /**
-         * Does the specified Conbo or custom attribute exist?
-         * @param 	{string}				attributeName - The attribute name as it appears in HTML, e.g. "cb-prop-name"
-         * @returns	{Boolean}
-         */
-        attributeExists(attributeName: string):any;
+		/**
+		 * Does the specified Conbo or custom attribute exist?
+		 * @param 	{string}				attributeName - The attribute name as it appears in HTML, e.g. "cb-prop-name"
+		 * @returns	{Boolean}
+		 */
+		attributeExists(attributeName: string):any;
 
-        /**
-         * Bind everything within the DOM scope of a View to properties of the View instance
-         * @param 	{conbo.View}			view - The View class controlling the element
-         * @returns	{conbo.BindingUtils}	A reference to this object
-         */
-        bindView(view: View): BindingUtils;
+		/**
+		 * Bind everything within the DOM scope of a View to properties of the View instance
+		 * @param 	{conbo.View}			view - The View class controlling the element
+		 * @returns	{conbo.BindingUtils}	A reference to this object
+		 */
+		bindView(view: View): BindingUtils;
 
-        /**
-         * Removes all data binding from the specified View instance
-         * @param 	{conbo.View}			view
-         * @returns	{conbo.BindingUtils}	A reference to this object
-         */
-        unbindView(view: View): BindingUtils;
+		/**
+		 * Removes all data binding from the specified View instance
+		 * @param 	{conbo.View}			view
+		 * @returns	{conbo.BindingUtils}	A reference to this object
+		 */
+		unbindView(view: View): BindingUtils;
 
-        /**
-         * Applies View and Glimpse classes DOM elements based on their cb-view
-         * attribute or tag name
-         * @param	{HTMLElement} 			rootView - DOM element, View or Application class instance
-         * @param	{conbo.Namespace} 		namespace - The current namespace
-         * @param	{string} 				[type=view] - View type, 'view' or 'glimpse'
-         * @returns	{conbo.BindingUtils}	A reference to this object
-         */
-        applyViews(rootView: any, namespace: Namespace, type?: string): BindingUtils;
+		/**
+		 * Applies View and Glimpse classes DOM elements based on their cb-view
+		 * attribute or tag name
+		 * @param	{HTMLElement} 			rootView - DOM element, View or Application class instance
+		 * @param	{conbo.Namespace} 		namespace - The current namespace
+		 * @param	{string} 				[type=view] - View type, 'view' or 'glimpse'
+		 * @returns	{conbo.BindingUtils}	A reference to this object
+		 */
+		applyViews(rootView: any, namespace: Namespace, type?: string): BindingUtils;
 
-        /**
-         * Bind the property of one EventDispatcher class instance (e.g. Hash or View) to another
-         * @param 	{conbo.EventDispatcher}	source - Class instance which extends conbo.EventDispatcher
-         * @param 	{string}				sourcePropertyName - Source property name
-         * @param 	{any}						destination - Object or class instance which extends conbo.EventDispatcher
-         * @param 	{string}				[destinationPropertyName] Defaults to same value as sourcePropertyName
-         * @param 	{Boolean}				[twoWay=false] - Apply 2-way binding
-         * @returns	{conbo.BindingUtils}	A reference to this object
-         */
-        bindProperty(source: EventDispatcher, sourcePropertyName: string, destination: any, destinationPropertyName?: string, twoWay?: any): BindingUtils;
+		/**
+		 * Bind the property of one EventDispatcher class instance (e.g. Hash or View) to another
+		 * @param 	{conbo.EventDispatcher}	source - Class instance which extends conbo.EventDispatcher
+		 * @param 	{string}				sourcePropertyName - Source property name
+		 * @param 	{any}						destination - Object or class instance which extends conbo.EventDispatcher
+		 * @param 	{string}				[destinationPropertyName] Defaults to same value as sourcePropertyName
+		 * @param 	{Boolean}				[twoWay=false] - Apply 2-way binding
+		 * @returns	{conbo.BindingUtils}	A reference to this object
+		 */
+		bindProperty(source: EventDispatcher, sourcePropertyName: string, destination: any, destinationPropertyName?: string, twoWay?: any): BindingUtils;
 
-        /**
-         * Call a setter function when the specified property of a EventDispatcher
-         * class instance (e.g. Hash or Model) is changed
-         * @param 	{conbo.EventDispatcher}	source				Class instance which extends conbo.EventDispatcher
-         * @param 	{string}			propertyName
-         * @param 	{Function}			setterFunction
-         * @returns	{conbo.BindingUtils}	A reference to this object
-         */
-        bindSetter(source: EventDispatcher, propertyName: string, setterFunction: any): BindingUtils;
+		/**
+		 * Call a setter function when the specified property of a EventDispatcher
+		 * class instance (e.g. Hash or Model) is changed
+		 * @param 	{conbo.EventDispatcher}	source				Class instance which extends conbo.EventDispatcher
+		 * @param 	{string}			propertyName
+		 * @param 	{Function}			setterFunction
+		 * @returns	{conbo.BindingUtils}	A reference to this object
+		 */
+		bindSetter(source: EventDispatcher, propertyName: string, setterFunction: any): BindingUtils;
 
-        /**
-         * Default parse function
-         * @param	{any} 		value - The value to be parsed
-         * @returns	{any}			The parsed value
-         */
-        defaultParseFunction(value: any):any;
+		/**
+		 * Default parse function
+		 * @param	{any} 		value - The value to be parsed
+		 * @returns	{any}			The parsed value
+		 */
+		defaultParseFunction(value: any):any;
 
-        /**
-         * Attempt to convert string into a conbo.Class in the specified namespace
-         * @param 		{string} 			className - The name of the class
-         * @param 		{conbo.Namespace}	namespace - The namespace containing the class
-         * @returns		{any}
-         */
-        getClass(className: string, namespace: Namespace):any;
+		/**
+		 * Attempt to convert string into a conbo.Class in the specified namespace
+		 * @param 		{string} 			className - The name of the class
+		 * @param 		{conbo.Namespace}	namespace - The namespace containing the class
+		 * @returns		{any}
+		 */
+		getClass(className: string, namespace: Namespace):any;
 
-        /**
-         * Register a custom attribute handler
-         * @param		{string}	name - camelCase version of the attribute name (must include a namespace prefix)
-         * @param		{Function}	handler - function that will handle the data bound to the element
-         * @param 		{boolean}	readOnly - Whether or not the attribute is read-only (default: false)
-         * @param 		{boolean}	[raw=false] - Whether or not parameters should be passed to the handler as a raw String instead of a bound value
-         * @returns		{conbo.BindingUtils}	A reference to this object
-         * @example
-         * // HTML: <div my-font-name="myProperty"></div>
-         * conbo.bindingUtils.registerAttribute('myFontName', function(el, value, options, param)
-         * {
-         * 	el.style.fontName = value;
-         * });
-         */
-        registerAttribute(name: string, handler: any, readOnly: boolean, raw?: boolean): BindingUtils;
+		/**
+		 * Register a custom attribute handler
+		 * @param		{string}	name - camelCase version of the attribute name (must include a namespace prefix)
+		 * @param		{Function}	handler - function that will handle the data bound to the element
+		 * @param 		{boolean}	readOnly - Whether or not the attribute is read-only (default: false)
+		 * @param 		{boolean}	[raw=false] - Whether or not parameters should be passed to the handler as a raw String instead of a bound value
+		 * @returns		{conbo.BindingUtils}	A reference to this object
+		 * @example
+		 * // HTML: <div my-font-name="myProperty"></div>
+		 * conbo.bindingUtils.registerAttribute('myFontName', function(el, value, options, param)
+		 * {
+		 * 	el.style.fontName = value;
+		 * });
+		 */
+		registerAttribute(name: string, handler: any, readOnly: boolean, raw?: boolean): BindingUtils;
 
-        /**
-         * Register one or more custom attribute handlers
-         * @see			#registerAttribute
-         * @param 		{Object}				handlers - Object containing one or more custom attribute handlers
-         * @param 		{boolean}				[readOnly=false] - Whether or not the attributes are read-only
-         * @returns		{conbo.BindingUtils}	A reference to this object
-         * @example
-         * conbo.bindingUtils.registerAttributes({myFoo:myFooFunction, myBar:myBarFunction});
-         */
-        registerAttributes(handlers: any, readOnly?: boolean): BindingUtils;
+		/**
+		 * Register one or more custom attribute handlers
+		 * @see			#registerAttribute
+		 * @param 		{Object}				handlers - Object containing one or more custom attribute handlers
+		 * @param 		{boolean}				[readOnly=false] - Whether or not the attributes are read-only
+		 * @returns		{conbo.BindingUtils}	A reference to this object
+		 * @example
+		 * conbo.bindingUtils.registerAttributes({myFoo:myFooFunction, myBar:myBarFunction});
+		 */
+		registerAttributes(handlers: any, readOnly?: boolean): BindingUtils;
 
-    }
+	}
 
-    /**
-     * Mutation Observer
-     * Simplified mutation observer dispatches ADD and REMOVE events following
-     * changes in the DOM, compatible with IE9+ and all modern browsers
-     * @class		MutationObserver
-     * 
-     * @augments	conbo.EventDispatcher
-     * @author 		Neil Rackett
-     * @param 		{Object} options - Object containing initialisation options
-     * @fires		conbo.ConboEvent#ADD
-     * @fires		conbo.ConboEvent#REMOVE
-     */
-    class MutationObserver extends EventDispatcher 
-    {
-    	observe(el:HTMLElement):MutationObserver;
-    	disconnect():MutationObserver;
-    }
+	/**
+	 * Mutation Observer
+	 * Simplified mutation observer dispatches ADD and REMOVE events following
+	 * changes in the DOM, compatible with IE9+ and all modern browsers
+	 * @class		MutationObserver
+	 * 
+	 * @augments	conbo.EventDispatcher
+	 * @author 		Neil Rackett
+	 * @param 		{Object} options - Object containing initialisation options
+	 * @fires		conbo.ConboEvent#ADD
+	 * @fires		conbo.ConboEvent#REMOVE
+	 */
+	class MutationObserver extends EventDispatcher 
+	{
+		observe(el:HTMLElement):MutationObserver;
+		disconnect():MutationObserver;
+	}
 
-    /**
-     * A Promise is a proxy for a value not necessarily known when the promise is created.
-     * It allows you to associate handlers with an asynchronous action's eventual success
-     * value or failure reason. This lets asynchronous methods return values like synchronous
-     * methods: instead of immediately returning the final value, the asynchronous method
-     * returns a promise to supply the value at some point in the future.
-     * The Conbo implementation varies slightly from ES6 in that the values passed to the
-     * resolve and reject methods are ResultEvent and FaultEvent objects, respectively.
-     * @fires		conbo.ConboEvent#RESULT
-     * @fires		conbo.ConboEvent#FAULT
-     */
-    class Promise extends EventDispatcher 
-    {
-    	/**
-    	 * @param 		{Function} [executor] - A function that is passed with the arguments resolve and reject, which is executed immediately by the Promise
-     	 */
-        constructor(executor?: Function);
+	/**
+	 * A Promise is a proxy for a value not necessarily known when the promise is created.
+	 * It allows you to associate handlers with an asynchronous action's eventual success
+	 * value or failure reason. This lets asynchronous methods return values like synchronous
+	 * methods: instead of immediately returning the final value, the asynchronous method
+	 * returns a promise to supply the value at some point in the future.
+	 * The Conbo implementation varies slightly from ES6 in that the values passed to the
+	 * resolve and reject methods are ResultEvent and FaultEvent objects, respectively.
+	 * @fires		conbo.ConboEvent#RESULT
+	 * @fires		conbo.ConboEvent#FAULT
+	 */
+	class Promise extends EventDispatcher 
+	{
+		/**
+		 * @param 		{Function} [executor] - A function that is passed with the arguments resolve and reject, which is executed immediately by the Promise
+	 	 */
+		constructor(executor?: Function);
 		
-        /**
-         * Dispatch a result event using the specified result
-         * @param 		{any} result - The result to dispatch
-         * @returns 	{conbo.Promise}
-         */
-        resolve(result: any): Promise;
-        /**
-         * Shorthand method for adding a result and/or fault event handlers
-         * @param		{Function}	resultHandler
-         * @param		{Function}	[faultHandler]
-         * @param		{Object}	[scope]
-         * @returns		{conbo.Promise}
-         */
-        then(resultHandler: Function, faultHandler?: Function, scope?: any): Promise;
+		/**
+		 * Dispatch a result event using the specified result
+		 * @param 		{any} result - The result to dispatch
+		 * @returns 	{conbo.Promise}
+		 */
+		resolve(result: any): Promise;
+		/**
+		 * Shorthand method for adding a result and/or fault event handlers
+		 * @param		{Function}	resultHandler
+		 * @param		{Function}	[faultHandler]
+		 * @param		{Object}	[scope]
+		 * @returns		{conbo.Promise}
+		 */
+		then(resultHandler: Function, faultHandler?: Function, scope?: any): Promise;
 
-        /**
-         * Shorthand method for adding a fault event handler
-         * @param		{Function}	faultHandler
-         * @param		{Object}	[scope]
-         * @returns		{conbo.Promise}
-         */
+		/**
+		 * Shorthand method for adding a fault event handler
+		 * @param		{Function}	faultHandler
+		 * @param		{Object}	[scope]
+		 * @returns		{conbo.Promise}
+		 */
 		catch(faultHandler: Function, scope?: any): Promise;
 		
-        /**
-         * Psedonym for resolve
+		/**
+		 * Psedonym for resolve
 		 * @deprecated	Use resolve
-         * @param 		{any} result - The result to dispatch
-         * @returns 	{conbo.Promise}
-         */
-        dispatchResult(result: any): Promise;
+		 * @param 		{any} result - The result to dispatch
+		 * @returns 	{conbo.Promise}
+		 */
+		dispatchResult(result: any): Promise;
 		
 		/**
 		 * Psedonym for reject
@@ -1442,534 +1442,534 @@ declare namespace conbo {
 		 * @returns 	{conbo.Promise}
 		 */
 		dispatchFault(result: any): Promise;
-    }
+	}
 
-    /**
-     * Element Proxy
-     * Wraps an Element to add cross browser or simplified functionality;
-     * think of it as "jQuery nano"
-     * @param 		{Element} el - Element to be proxied
-     */
-    class ElementProxy extends EventProxy 
-    {
-        constructor(el: HTMLElement);
+	/**
+	 * Element Proxy
+	 * Wraps an Element to add cross browser or simplified functionality;
+	 * think of it as "jQuery nano"
+	 * @param 		{Element} el - Element to be proxied
+	 */
+	class ElementProxy extends EventProxy 
+	{
+		constructor(el: HTMLElement);
 
-        /**
-         * Returns object containing the value of all attributes on a DOM element
-         * @returns		{Object}
-         * @example
-         * ep.attributes; // results in something like {src:"foo/bar.jpg"}
-         */
-        getAttributes():any;
+		/**
+		 * Returns object containing the value of all attributes on a DOM element
+		 * @returns		{Object}
+		 * @example
+		 * ep.attributes; // results in something like {src:"foo/bar.jpg"}
+		 */
+		getAttributes():any;
 
-        /**
-         * Sets the attributes on a DOM element from an Object, converting camelCase to kebab-case, if needed
-         * @param 		{Element}	obj - Object containing the attributes to set
-         * @returns		{conbo.ElementProxy}
-         * @example
-         * ep.setAttributes({foo:1, bar:"red"});
-         */
-        setAttributes(obj: any): ElementProxy;
+		/**
+		 * Sets the attributes on a DOM element from an Object, converting camelCase to kebab-case, if needed
+		 * @param 		{Element}	obj - Object containing the attributes to set
+		 * @returns		{conbo.ElementProxy}
+		 * @example
+		 * ep.setAttributes({foo:1, bar:"red"});
+		 */
+		setAttributes(obj: any): ElementProxy;
 
-        /**
-         * @see #getAttributes
-         */
-        attributes:any;
-        
-        readonly cbAttributes:any;
-        
-    	/**
-    	 * Add the specified CSS class(es) to the element
-    	 *  
-    	 * @param 		{string}	className - One or more CSS class names, separated by spaces
-    	 * @returns		{conbo.ElementProxy}
-    	 */
-    	addClass(className:string):ElementProxy;
-    	
-    	/**
-    	 * Remove the specified CSS class(es) from the element
-    	 * 
-    	 * @param 		{string|function}		className - One or more CSS class names, separated by spaces, or a function extracts the classes to be removed from the existing className property
-    	 * @returns		{conbo.ElementProxy}
-    	 */
-    	removeClass(className:string|Function):ElementProxy;
-    	
-    	/**
-    	 * Is this element using the specified CSS class?
-    	 *  
-    	 * @param 		{string}	className - CSS class name
-    	 * @returns		{boolean}
-    	 */
-    	hasClass(className:string):boolean;
-    	
-    	/**
-    	 * Finds the closest parent element matching the specified selector
-    	 *  
-    	 * @param 		{string}	selector - Query selector
-    	 * @returns		{Element}
-    	 */
-    	closest(selector:string):Element;
-    }
+		/**
+		 * @see #getAttributes
+		 */
+		attributes:any;
+		
+		readonly cbAttributes:any;
+		
+		/**
+		 * Add the specified CSS class(es) to the element
+		 *  
+		 * @param 		{string}	className - One or more CSS class names, separated by spaces
+		 * @returns		{conbo.ElementProxy}
+		 */
+		addClass(className:string):ElementProxy;
+		
+		/**
+		 * Remove the specified CSS class(es) from the element
+		 * 
+		 * @param 		{string|function}		className - One or more CSS class names, separated by spaces, or a function extracts the classes to be removed from the existing className property
+		 * @returns		{conbo.ElementProxy}
+		 */
+		removeClass(className:string|Function):ElementProxy;
+		
+		/**
+		 * Is this element using the specified CSS class?
+		 *  
+		 * @param 		{string}	className - CSS class name
+		 * @returns		{boolean}
+		 */
+		hasClass(className:string):boolean;
+		
+		/**
+		 * Finds the closest parent element matching the specified selector
+		 *  
+		 * @param 		{string}	selector - Query selector
+		 * @returns		{Element}
+		 */
+		closest(selector:string):Element;
+	}
 
-    /**
-     * Glimpse
-     * A lightweight element wrapper that has no dependencies, no context and
-     * no data binding, but is able to apply a super-simple template.
-     * It's invisible to View, so it's great for creating components, and you
-     * can bind data to it using the `cb-data` attribute to set the data
-     * property of your Glimpse
-     */
-    class Glimpse extends EventDispatcher {
+	/**
+	 * Glimpse
+	 * A lightweight element wrapper that has no dependencies, no context and
+	 * no data binding, but is able to apply a super-simple template.
+	 * It's invisible to View, so it's great for creating components, and you
+	 * can bind data to it using the `cb-data` attribute to set the data
+	 * property of your Glimpse
+	 */
+	class Glimpse extends EventDispatcher {
 
-        /**
-         * When a new instance of this class is created without specifying an element,
-         * it will use this tag name (the default is `div`)
-         * @type	{string}
-         */
-        tagName: string;
+		/**
+		 * When a new instance of this class is created without specifying an element,
+		 * it will use this tag name (the default is `div`)
+		 * @type	{string}
+		 */
+		tagName: string;
 
-        /**
-         * A reference to this class instance's element
-         * @type	{HTMLElement}
-         */
-        el: HTMLElement;
+		/**
+		 * A reference to this class instance's element
+		 * @type	{HTMLElement}
+		 */
+		el: HTMLElement;
 
-    }
+	}
 
-    /**
-     * View
-     * Creating a conbo.View creates its initial element outside of the DOM,
-     * if an existing element is not provided...
-     * @fires		conbo.ConboEvent#ADD
-     * @fires		conbo.ConboEvent#DETACH
-     * @fires		conbo.ConboEvent#REMOVE
-     * @fires		conbo.ConboEvent#BIND
-     * @fires		conbo.ConboEvent#UNBIND
-     * @fires		conbo.ConboEvent#TEMPLATE_COMPLETE
-     * @fires		conbo.ConboEvent#TEMPLATE_ERROR
-     * @fires		conbo.ConboEvent#CREATION_COMPLETE
-     */
-    class View extends Glimpse 
-    {
-    	/**
-    	 * @param 		{Object}	[options] - Object containing optional initialisation options, including 'attributes', 'className', 'data', 'el', 'id', 'tagName', 'template', 'templateUrl'
-    	 */
-        constructor(options?: any);
+	/**
+	 * View
+	 * Creating a conbo.View creates its initial element outside of the DOM,
+	 * if an existing element is not provided...
+	 * @fires		conbo.ConboEvent#ADD
+	 * @fires		conbo.ConboEvent#DETACH
+	 * @fires		conbo.ConboEvent#REMOVE
+	 * @fires		conbo.ConboEvent#BIND
+	 * @fires		conbo.ConboEvent#UNBIND
+	 * @fires		conbo.ConboEvent#TEMPLATE_COMPLETE
+	 * @fires		conbo.ConboEvent#TEMPLATE_ERROR
+	 * @fires		conbo.ConboEvent#CREATION_COMPLETE
+	 */
+	class View extends Glimpse 
+	{
+		/**
+		 * @param 		{Object}	[options] - Object containing optional initialisation options, including 'attributes', 'className', 'data', 'el', 'id', 'tagName', 'template', 'templateUrl'
+		 */
+		constructor(options?: any);
 
-        /**
-         * Attributes to apply to the View's element
-         */
-        attributes:any;
+		/**
+		 * Attributes to apply to the View's element
+		 */
+		attributes:any;
 
-        /**
-         * CSS class name(s) to apply to the View's element
-         */
-        className: string;
+		/**
+		 * CSS class name(s) to apply to the View's element
+		 */
+		className: string;
 
-        /**
-         * Arbitrary data Object
-         */
-        data:any;
+		/**
+		 * Arbitrary data Object
+		 */
+		data:any;
 
-        /**
-         * ID to apply to the View's element
-         */
-        id: string;
+		/**
+		 * ID to apply to the View's element
+		 */
+		id: string;
 
-        /**
-         * The tag name to use for the View's element (if no element specified)
-         */
-        tagName: string;
+		/**
+		 * The tag name to use for the View's element (if no element specified)
+		 */
+		tagName: string;
 
-        /**
-         * Template to apply to the View's element
-         */
-        template: string|Function;
+		/**
+		 * Template to apply to the View's element
+		 */
+		template: string|Function;
 
-        /**
-         * Template to load and apply to the View's element
-         */
-        templateUrl: string;
+		/**
+		 * Template to load and apply to the View's element
+		 */
+		templateUrl: string;
 
-        /**
-         * Whether or not the contents of templateUrl should be cached on first load for use with future instances of this View class (default: true)
-         */
-        templateCacheEnabled: boolean;
+		/**
+		 * Whether or not the contents of templateUrl should be cached on first load for use with future instances of this View class (default: true)
+		 */
+		templateCacheEnabled: boolean;
 
-        /**
-         * Whether or not the template should automatically be loaded and applied, rather than waiting for the user to call initTemplate (default: true)
-         */
-        autoInitTemplate: boolean;
+		/**
+		 * Whether or not the template should automatically be loaded and applied, rather than waiting for the user to call initTemplate (default: true)
+		 */
+		autoInitTemplate: boolean;
 
-        /**
-         * This View's element
-         */
-        el: HTMLElement;
+		/**
+		 * This View's element
+		 */
+		el: HTMLElement;
 
-        /**
-         * Has this view completed its life cycle phases?
-         */
-        initialized: boolean;
+		/**
+		 * Has this view completed its life cycle phases?
+		 */
+		initialized: boolean;
 
-        /**
-         * Returns a reference to the parent View of this View, based on this
-         * View element's position in the DOM
-         */
-        parent: View;
+		/**
+		 * Returns a reference to the parent View of this View, based on this
+		 * View element's position in the DOM
+		 */
+		parent: View;
 
-        /**
-         * Returns a reference to the parent Application of this View, based on
-         * this View element's position in the DOM
-         */
-        parentApp: Application;
+		/**
+		 * Returns a reference to the parent Application of this View, based on
+		 * this View element's position in the DOM
+		 */
+		parentApp: Application;
 
-        /**
-         * Does this view have a template?
-         */
-        hasTemplate: boolean;
+		/**
+		 * Does this view have a template?
+		 */
+		hasTemplate: boolean;
 
-        /**
-         * The element into which HTML content should be placed; this is either the
-         * first DOM element with a `cb-content` or the root element of this view
-         */
-        content: HTMLElement;
+		/**
+		 * The element into which HTML content should be placed; this is either the
+		 * first DOM element with a `cb-content` or the root element of this view
+		 */
+		content: HTMLElement;
 
-        /**
-         * Does this View support HTML content?
-         */
-        hasContent: boolean;
+		/**
+		 * Does this View support HTML content?
+		 */
+		hasContent: boolean;
 
-        /**
-         * A View's body is the element to which content should be added:
-         * the View's content, if it exists, or the View's main element, if it doesn't
-         */
-        body: HTMLElement;
+		/**
+		 * A View's body is the element to which content should be added:
+		 * the View's content, if it exists, or the View's main element, if it doesn't
+		 */
+		body: HTMLElement;
 
-        /**
-         * The context that will automatically be applied to children
-         * when binding or appending Views inside of this View
-         */
-        subcontext: Context;
+		/**
+		 * The context that will automatically be applied to children
+		 * when binding or appending Views inside of this View
+		 */
+		subcontext: Context;
 
-        /**
+		/**
 		 * The current view state
-         */
-        currentState: string;
+		 */
+		currentState: string;
 
-        /**
-         * Uses querySelector to find the first matching element contained within the
-         * current View's element, but not within the elements of child Views
-         * @param	{string}		selector - The selector to use
-         * @param	{boolean}		[deep=false] - Include elements in child Views?
-         * @returns	{HTMLElement}	The first matching element
-         */
-        querySelector(selector:string, deep?:boolean): HTMLElement;
+		/**
+		 * Uses querySelector to find the first matching element contained within the
+		 * current View's element, but not within the elements of child Views
+		 * @param	{string}		selector - The selector to use
+		 * @param	{boolean}		[deep=false] - Include elements in child Views?
+		 * @returns	{HTMLElement}	The first matching element
+		 */
+		querySelector(selector:string, deep?:boolean): HTMLElement;
 
-        /**
-         * Uses querySelectorAll to find all matching elements contained within the
-         * current View's element, but not within the elements of child Views
-         * @param	{string}		selector - The selector to use
-         * @param	{boolean}		[deep=false] - Include elements in child Views?
-         * @returns	{HTMLElement[]}	All elements matching the selector
-         */
-        querySelectorAll(selector:string, deep?:boolean): HTMLElement[];
+		/**
+		 * Uses querySelectorAll to find all matching elements contained within the
+		 * current View's element, but not within the elements of child Views
+		 * @param	{string}		selector - The selector to use
+		 * @param	{boolean}		[deep=false] - Include elements in child Views?
+		 * @returns	{HTMLElement[]}	All elements matching the selector
+		 */
+		querySelectorAll(selector:string, deep?:boolean): HTMLElement[];
 
-        /**
-         * Take the View's element element out of the DOM
-         * @returns	{this}
-         */
-        detach():any;
+		/**
+		 * Take the View's element element out of the DOM
+		 * @returns	{this}
+		 */
+		detach():any;
 
-        /**
-         * Remove and destroy this View by taking the element out of the DOM,
-         * unbinding it, removing all event listeners and removing the View from
-         * its Context.
-         * You should use a REMOVE event handler to destroy any event listeners,
-         * timers or other code you may have added.
-         * @returns	{this}
-         */
-        remove(): View;
+		/**
+		 * Remove and destroy this View by taking the element out of the DOM,
+		 * unbinding it, removing all event listeners and removing the View from
+		 * its Context.
+		 * You should use a REMOVE event handler to destroy any event listeners,
+		 * timers or other code you may have added.
+		 * @returns	{this}
+		 */
+		remove(): View;
 
-        /**
-         * Append this DOM element from one View class instance this class
-         * instances DOM element
-         * @param 		{...conbo.View} views - The View instance(s) to append
-         * @returns		{this}
-         */
-        appendView(...views: View[]): View;
+		/**
+		 * Append this DOM element from one View class instance this class
+		 * instances DOM element
+		 * @param 		{...conbo.View} views - The View instance(s) to append
+		 * @returns		{this}
+		 */
+		appendView(...views: View[]): View;
 
-        /**
-         * Prepend this DOM element from one View class instance this class
-         * instances DOM element
-         * @param 		{...conbo.View} views - The View instance(s) to preppend
-         * @returns		{this}
-         */
-        prependView(...views: View[]): View;
+		/**
+		 * Prepend this DOM element from one View class instance this class
+		 * instances DOM element
+		 * @param 		{...conbo.View} views - The View instance(s) to preppend
+		 * @returns		{this}
+		 */
+		prependView(...views: View[]): View;
 
-        /**
-         * Automatically bind elements to properties of this View
-         * @example	<div cb-bind="property|parseMethod" cb-hide="property">Hello!</div>
-         * @returns	{this}
-         */
-        bindView(): View;
+		/**
+		 * Automatically bind elements to properties of this View
+		 * @example	<div cb-bind="property|parseMethod" cb-hide="property">Hello!</div>
+		 * @returns	{this}
+		 */
+		bindView(): View;
 
-        /**
-         * Unbind elements from class properties
-         * @returns	{this}
-         */
-        unbindView(): View;
+		/**
+		 * Unbind elements from class properties
+		 * @returns	{this}
+		 */
+		unbindView(): View;
 
-        /**
-         * Initialize the View's template, either by loading the templateUrl
-         * or using the contents of the template property, if either exist
-         * @returns	{this}
-         */
-        initTemplate(): View;
+		/**
+		 * Initialize the View's template, either by loading the templateUrl
+		 * or using the contents of the template property, if either exist
+		 * @returns	{this}
+		 */
+		initTemplate(): View;
 
-        /**
-         * Load HTML template and use it to populate this View's element
-         * @param 	{string}	[url]	- The URL to which the request is sent
-         * @returns	{this}
-         */
-        loadTemplate(url?: string): View;
+		/**
+		 * Load HTML template and use it to populate this View's element
+		 * @param 	{string}	[url]	- The URL to which the request is sent
+		 * @returns	{this}
+		 */
+		loadTemplate(url?: string): View;
 
-    }
+	}
 
-    interface IDataRenderer {
+	interface IDataRenderer {
 
-        /**
-         * Data to be rendered
-         */
-        data:any;
+		/**
+		 * Data to be rendered
+		 */
+		data:any;
 
-        /**
-         * Index of the current item
-         */
-        index: number;
+		/**
+		 * Index of the current item
+		 */
+		index: number;
 
-        /**
-         * Is this the last item in the list?
-         */
-        isLast: boolean;
+		/**
+		 * Is this the last item in the list?
+		 */
+		isLast: boolean;
 
-        /**
-         * The list containing the data for this item
-         */
-        list: List|any[];
-    }
+		/**
+		 * The list containing the data for this item
+		 */
+		list: List|any[];
+	}
 
-    /**
-     * A conbo.View class that implements the conbo.IDataRenderer interface
-     */
-    class ItemRenderer extends View implements IDataRenderer {
+	/**
+	 * A conbo.View class that implements the conbo.IDataRenderer interface
+	 */
+	class ItemRenderer extends View implements IDataRenderer {
 
-        /**
-         * Data to be rendered
-         */
-        data:any;
+		/**
+		 * Data to be rendered
+		 */
+		data:any;
 
-        /**
-         * Index of the current item
-         * @type	{number}
-         */
-        index: number;
+		/**
+		 * Index of the current item
+		 * @type	{number}
+		 */
+		index: number;
 
-        /**
-         * Is this the last item in the list?
-         */
-        isLast: boolean;
+		/**
+		 * Is this the last item in the list?
+		 */
+		isLast: boolean;
 
-        /**
-         * The list containing the data for this item
-         */
-        list: List|any[];
-    }
+		/**
+		 * The list containing the data for this item
+		 */
+		list: List|any[];
+	}
 
-    /**
-     * Base application class for client-side applications
-     * @fires		conbo.ConboEvent#ADD
-     * @fires		conbo.ConboEvent#DETACH
-     * @fires		conbo.ConboEvent#REMOVE
-     * @fires		conbo.ConboEvent#BIND
-     * @fires		conbo.ConboEvent#UNBIND
-     * @fires		conbo.ConboEvent#TEMPLATE_COMPLETE
-     * @fires		conbo.ConboEvent#TEMPLATE_ERROR
-     * @fires		conbo.ConboEvent#CREATION_COMPLETE
-     */
-    class Application extends View 
-    {
-    	/**
-    	 * Application namespace (required)
-    	 */
-    	namespace: Namespace;
-    	
-        /**
-         * Default context class to use
-         * You'll normally want to override this with your own
-         */
-        contextClass:any;
+	/**
+	 * Base application class for client-side applications
+	 * @fires		conbo.ConboEvent#ADD
+	 * @fires		conbo.ConboEvent#DETACH
+	 * @fires		conbo.ConboEvent#REMOVE
+	 * @fires		conbo.ConboEvent#BIND
+	 * @fires		conbo.ConboEvent#UNBIND
+	 * @fires		conbo.ConboEvent#TEMPLATE_COMPLETE
+	 * @fires		conbo.ConboEvent#TEMPLATE_ERROR
+	 * @fires		conbo.ConboEvent#CREATION_COMPLETE
+	 */
+	class Application extends View 
+	{
+		/**
+		 * Application namespace (required)
+		 */
+		namespace: Namespace;
+		
+		/**
+		 * Default context class to use
+		 * You'll normally want to override this with your own
+		 */
+		contextClass:any;
 
-        /**
-         * If true, the application will automatically apply Glimpse and View
-         * classes to elements when they're added to the DOM
-         */
-        observeEnabled: boolean;
-    }
+		/**
+		 * If true, the application will automatically apply Glimpse and View
+		 * classes to elements when they're added to the DOM
+		 */
+		observeEnabled: boolean;
+	}
 
-    /**
-     * conbo.Command
-     * Base class for commands to be registered in your Context
-     * using mapCommand(...)
-     * @class		Command
-     * 
-     * @augments	conbo.ConboClass
-     * @author		Neil Rackett
-     * @param 		{Object} options - Object containing optional initialisation options, including 'context' (Context)
-     */
-    class Command extends ConboClass implements IInjectable {
+	/**
+	 * conbo.Command
+	 * Base class for commands to be registered in your Context
+	 * using mapCommand(...)
+	 * @class		Command
+	 * 
+	 * @augments	conbo.ConboClass
+	 * @author		Neil Rackett
+	 * @param 		{Object} options - Object containing optional initialisation options, including 'context' (Context)
+	 */
+	class Command extends ConboClass implements IInjectable {
 
 		context: Context;
 		event: Event;
 
-        /**
-         * Execute: should be overridden
-         * When a Command is called in response to an event registered with the
-         * Context, the class is instantiated, this method is called then the
-         * class instance is destroyed
-         */
-        execute(): void;
+		/**
+		 * Execute: should be overridden
+		 * When a Command is called in response to an event registered with the
+		 * Context, the class is instantiated, this method is called then the
+		 * class instance is destroyed
+		 */
+		execute(): void;
 
-    }
+	}
 
-    /**
-     * HTTP Service
-     * Base class for HTTP data services, with default configuration designed
-     * for use with JSON REST APIs.
-     * For XML data sources, you will need to override decodeFunction to parse
-     * response data, change the contentType and implement encodeFunction if
-     * you're using RPC.
-     * @fires		conbo.ConboEvent#RESULT
-     * @fires		conbo.ConboEvent#FAULT
-     */
-    class HttpService extends EventDispatcher 
-    {
-    	/**
-    	 * @param 		{Object} options - Object containing optional initialisation options, including 'rootUrl', 'contentType', 'dataType', 'headers', 'encodeFunction', 'decodeFunction', 'resultClass','makeObjectsBindable'
-    	 */
-    	constructor(options?:any);
-    	
-        /**
-         * The root URL of the web service
-         */
-        rootUrl: string;
-    
-	    contentType:string; 
-	    dataType:string;
-	    headers:any;
-	    decodeFunction:Function;
-	    resultClass:any;
-	    makeObjectsBindable:boolean;
-    	
-    	/**
-    	 * Call a method of the web service using the specified verb
-    	 * 
-    	 * @param	{string}	command - The name of the command
+	/**
+	 * HTTP Service
+	 * Base class for HTTP data services, with default configuration designed
+	 * for use with JSON REST APIs.
+	 * For XML data sources, you will need to override decodeFunction to parse
+	 * response data, change the contentType and implement encodeFunction if
+	 * you're using RPC.
+	 * @fires		conbo.ConboEvent#RESULT
+	 * @fires		conbo.ConboEvent#FAULT
+	 */
+	class HttpService extends EventDispatcher 
+	{
+		/**
+		 * @param 		{Object} options - Object containing optional initialisation options, including 'rootUrl', 'contentType', 'dataType', 'headers', 'encodeFunction', 'decodeFunction', 'resultClass','makeObjectsBindable'
+		 */
+		constructor(options?:any);
+		
+		/**
+		 * The root URL of the web service
+		 */
+		rootUrl: string;
+	
+		contentType:string; 
+		dataType:string;
+		headers:any;
+		decodeFunction:Function;
+		resultClass:any;
+		makeObjectsBindable:boolean;
+		
+		/**
+		 * Call a method of the web service using the specified verb
+		 * 
+		 * @param	{string}	command - The name of the command
 		 * @param	{Object}	[data] - Object containing the data to send to the web service
 		 * @param	{string}	[method=GET] - GET, POST, etc (default: GET)
 		 * @param	{Class}		[resultClass] - Optional
-    	 * @returns	{conbo.Promise}
-    	 */
-    	call(command:string, data?:any, method?:string, resultClass?:any):Promise;
-    	
-    	/**
-    	 * Call a method of the web service using the POST verb
-    	 * 
-    	 * @param		{string}	command - The name of the command
-    	 * @param		{Object}	[data] - Object containing the data to send to the web service
-    	 * @param		{Class}		[resultClass] - Optional
-    	 * @returns		{conbo.Promise}
-    	 */
-    	post(command:string, data?:any, resultClass?:any):Promise;
-    	
-    	/**
-    	 * Call a method of the web service using the GET verb
-    	 * 
-    	 * @param		{string}	command - The name of the command
-    	 * @param		{Object}	[data] - Object containing the data to send to the web service
-    	 * @param		{Class}		[resultClass] - Optional
-    	 * @returns		{conbo.Promise}
-    	 */
-    	get(command:string, data?:any, resultClass?:any):Promise;
-    	
-    	/**
-    	 * Call a method of the web service using the PUT verb
-    	 * 
-    	 * @param		{string}	command - The name of the command
-    	 * @param		{Object}	[data] - Object containing the data to send to the web service
-    	 * @param		{Class}		[resultClass] - Optional
-    	 * @returns		{conbo.Promise}
-    	 */
-    	put(command:string, data?:any, resultClass?:any):Promise;
-    	
-    	/**
-    	 * Call a method of the web service using the PATCH verb
-    	 * 
-    	 * @param		{string}	command - The name of the command
-    	 * @param		{Object}	[data] - Object containing the data to send to the web service
-    	 * @param		{Class}		[resultClass] - Optional
-    	 * @returns		{conbo.Promise}
-    	 */
-    	patch(command:string, data?:any, resultClass?:any):Promise;
-    	
-    	/**
-    	 * Call a method of the web service using the DELETE verb
-    	 * 
-    	 * @param		{string}	command - The name of the command
-    	 * @param		{Object}	[data] - Object containing the data to send to the web service
-    	 * @param		{Class}		[resultClass] - Optional
-    	 * @returns		{conbo.Promise}
-    	 */
-    	delete(command:string, data?:any, resultClass?:any):Promise;
-    	
-    	/**
-    	 * Add one or more remote commands as methods of this class instance
-    	 * @param	{string}	command - The name of the command
-    	 * @param	{string}	[method=GET] - GET, POST, etc (default: GET)
-    	 * @param	{Class}		[resultClass] - Optional
-    	 */
-    	addCommand(command:string, method?:string, resultClass?:any):HttpService;
-    	
-    	/**
-    	 * Add multiple commands as methods of this class instance
-    	 * @param	{string[]}	commands
-    	 */
-    	addCommands(commands:string[]):HttpService;
-    	
-    	/**
-    	 * Method that encodes data to be sent to the API
-    	 * 
-    	 * @param	{Object}	data - Object containing the data to be sent to the API
-    	 * @param	{string}	[method] - GET, POST, etc (default: GET)
-    	 */
-    	encodeFunction(data:any, method?:string):any;
-    	
-    	/**
-    	 * Splice data into URL and remove spliced properties from data object
-    	 */
-    	parseUrl(url:String, data?:any):string;
-    	
-    }
+		 * @returns	{conbo.Promise}
+		 */
+		call(command:string, data?:any, method?:string, resultClass?:any):Promise;
+		
+		/**
+		 * Call a method of the web service using the POST verb
+		 * 
+		 * @param		{string}	command - The name of the command
+		 * @param		{Object}	[data] - Object containing the data to send to the web service
+		 * @param		{Class}		[resultClass] - Optional
+		 * @returns		{conbo.Promise}
+		 */
+		post(command:string, data?:any, resultClass?:any):Promise;
+		
+		/**
+		 * Call a method of the web service using the GET verb
+		 * 
+		 * @param		{string}	command - The name of the command
+		 * @param		{Object}	[data] - Object containing the data to send to the web service
+		 * @param		{Class}		[resultClass] - Optional
+		 * @returns		{conbo.Promise}
+		 */
+		get(command:string, data?:any, resultClass?:any):Promise;
+		
+		/**
+		 * Call a method of the web service using the PUT verb
+		 * 
+		 * @param		{string}	command - The name of the command
+		 * @param		{Object}	[data] - Object containing the data to send to the web service
+		 * @param		{Class}		[resultClass] - Optional
+		 * @returns		{conbo.Promise}
+		 */
+		put(command:string, data?:any, resultClass?:any):Promise;
+		
+		/**
+		 * Call a method of the web service using the PATCH verb
+		 * 
+		 * @param		{string}	command - The name of the command
+		 * @param		{Object}	[data] - Object containing the data to send to the web service
+		 * @param		{Class}		[resultClass] - Optional
+		 * @returns		{conbo.Promise}
+		 */
+		patch(command:string, data?:any, resultClass?:any):Promise;
+		
+		/**
+		 * Call a method of the web service using the DELETE verb
+		 * 
+		 * @param		{string}	command - The name of the command
+		 * @param		{Object}	[data] - Object containing the data to send to the web service
+		 * @param		{Class}		[resultClass] - Optional
+		 * @returns		{conbo.Promise}
+		 */
+		delete(command:string, data?:any, resultClass?:any):Promise;
+		
+		/**
+		 * Add one or more remote commands as methods of this class instance
+		 * @param	{string}	command - The name of the command
+		 * @param	{string}	[method=GET] - GET, POST, etc (default: GET)
+		 * @param	{Class}		[resultClass] - Optional
+		 */
+		addCommand(command:string, method?:string, resultClass?:any):HttpService;
+		
+		/**
+		 * Add multiple commands as methods of this class instance
+		 * @param	{string[]}	commands
+		 */
+		addCommands(commands:string[]):HttpService;
+		
+		/**
+		 * Method that encodes data to be sent to the API
+		 * 
+		 * @param	{Object}	data - Object containing the data to be sent to the API
+		 * @param	{string}	[method] - GET, POST, etc (default: GET)
+		 */
+		encodeFunction(data:any, method?:string):any;
+		
+		/**
+		 * Splice data into URL and remove spliced properties from data object
+		 */
+		parseUrl(url:String, data?:any):string;
+		
+	}
 
-    /**
-     * Default history manager used by Router, implemented using onhashchange 
-     * event and hash-bang URL fragments
-     * 
-     * @author 		Neil Rackett
-     * @fires		conbo.ConboEvent#CHANGE
-     * @fires		conbo.ConboEvent#FAULT
-     */
-    class History extends EventDispatcher
-    {
+	/**
+	 * Default history manager used by Router, implemented using onhashchange 
+	 * event and hash-bang URL fragments
+	 * 
+	 * @author 		Neil Rackett
+	 * @fires		conbo.ConboEvent#CHANGE
+	 * @fires		conbo.ConboEvent#FAULT
+	 */
+	class History extends EventDispatcher
+	{
 		start(options?:any):History;
 		stop():History;
 		addRoute(route:string, callback:Function):History;
@@ -1990,106 +1990,106 @@ declare namespace conbo {
 		setPath(fragment:string, options:any):History;
 		
 	}
-    
-    /**
-     * Router
-     * Routers map faux-URLs to actions, and fire events when routes are
-     * matched. Creating a new one sets its `routes` hash, if not set statically.
-     * Derived from the Backbone.js class of the same name
-     * @class		Router
-     * 
-     * @augments	conbo.EventDispatcher
-     * @author 		Neil Rackett
-     * @param 		{Object} options - Object containing initialisation options
-     * @fires		conbo.ConboEvent#CHANGE
-     * @fires		conbo.ConboEvent#FAULT
-     * @fires		conbo.ConboEvent#ROUTE
-     * @fires		conbo.ConboEvent#START
-     * @fires		conbo.ConboEvent#STOP
-     */
-    class Router extends EventDispatcher {
+	
+	/**
+	 * Router
+	 * Routers map faux-URLs to actions, and fire events when routes are
+	 * matched. Creating a new one sets its `routes` hash, if not set statically.
+	 * Derived from the Backbone.js class of the same name
+	 * @class		Router
+	 * 
+	 * @augments	conbo.EventDispatcher
+	 * @author 		Neil Rackett
+	 * @param 		{Object} options - Object containing initialisation options
+	 * @fires		conbo.ConboEvent#CHANGE
+	 * @fires		conbo.ConboEvent#FAULT
+	 * @fires		conbo.ConboEvent#ROUTE
+	 * @fires		conbo.ConboEvent#START
+	 * @fires		conbo.ConboEvent#STOP
+	 */
+	class Router extends EventDispatcher {
 
-    	/**
-    	 * Object containing route:lab pairs describing the routes handled by this router
-    	 */
-    	routes:any;
-    	
-    	/**
-    	 * The History class to use with this router (defaults to conbo.History)
-    	 */  
-    	historyClass:any;
-    
-        /**
-         * Start the router
-         */
-        start(options?:any): Router;
+		/**
+		 * Object containing route:lab pairs describing the routes handled by this router
+		 */
+		routes:any;
+		
+		/**
+		 * The History class to use with this router (defaults to conbo.History)
+		 */  
+		historyClass:any;
+	
+		/**
+		 * Start the router
+		 */
+		start(options?:any): Router;
 
-        /**
-         * Stop the router
-         */
-        stop(): Router;
+		/**
+		 * Stop the router
+		 */
+		stop(): Router;
 
-        /**
-         * Adds a named route
-         * @example
-         * 		this.addRoute('search/:query/p:num', 'search', function(query, num) {
-         * 			 ...
-         * 		});
-         */
-        addRoute(route:string, name:string, callback:Function): void;
+		/**
+		 * Adds a named route
+		 * @example
+		 * 		this.addRoute('search/:query/p:num', 'search', function(query, num) {
+		 * 			 ...
+		 * 		});
+		 */
+		addRoute(route:string, name:string, callback:Function): void;
 
-        /**
-         * Sets the current path, optionally replacing the current path or silently
-         * without triggering a route event
-         * @param	{string}	path - The path to navigate to
-         * @param	{Object}	[options] - Object containing options: trigger (default: true) and replace (default: false)
-         */
-        setPath(path: string, options?: any): Router;
+		/**
+		 * Sets the current path, optionally replacing the current path or silently
+		 * without triggering a route event
+		 * @param	{string}	path - The path to navigate to
+		 * @param	{Object}	[options] - Object containing options: trigger (default: true) and replace (default: false)
+		 */
+		setPath(path: string, options?: any): Router;
 
-        /**
-         * Get or set the current path using the default options
-         * @type	{string}
-         */
-        path: string;
+		/**
+		 * Get or set the current path using the default options
+		 * @type	{string}
+		 */
+		path: string;
 
-    }
+	}
 
-    const VERSION:string;
-    
-    /**
-     * Constant for JSON content type
-     * @type		{string}
-     */
-    const CONTENT_TYPE_JSON:string;
+	const VERSION:string;
+	
+	/**
+	 * Constant for JSON content type
+	 * @type		{string}
+	 */
+	const CONTENT_TYPE_JSON:string;
 
-    /**
-     * Constant for form URL-encoded content type
-     * @type		{string}
-     */
-    const CONTENT_TYPE_FORM:string;
+	/**
+	 * Constant for form URL-encoded content type
+	 * @type		{string}
+	 */
+	const CONTENT_TYPE_FORM:string;
 
-    /**
-     * Constant for JSON data type
-     * @type		{string}
-     */
-    const DATA_TYPE_JSON:string;
+	/**
+	 * Constant for JSON data type
+	 * @type		{string}
+	 */
+	const DATA_TYPE_JSON:string;
 
-    /**
-     * Constant for script data type type
-     * @type		{string}
-     */
-    const DATA_TYPE_SCRIPT:string;
+	/**
+	 * Constant for script data type type
+	 * @type		{string}
+	 */
+	const DATA_TYPE_SCRIPT:string;
 
-    /**
-     * Constant for text data type type
-     * @type		{string}
-     */
-    const DATA_TYPE_TEXT:string;
-    
-    const bindingUtils:BindingUtils;
-    
-    function toString():string;
-    
+	/**
+	 * Constant for text data type type
+	 * @type		{string}
+	 */
+	const DATA_TYPE_TEXT:string;
+	
+	const bindingUtils:BindingUtils;
+	
+	function toString():string;
+	
 	/**
 	 * Initialize Applications in the DOM using the specified namespace
 	 * 
@@ -2120,41 +2120,41 @@ declare namespace conbo {
 	 * @param		{Element} [rootEl] - Top most element to observe
 	 */
 	function unobserveDom(namespace:Namespace, rootEl?:HTMLElement):any;
-    
-    /**
-     * HTTP Request
-     * 
-     * Sends data to and/or loads data from a URL; advanced requests can be made 
-     * by passing a single options object, roughly analogous to the jQuery.ajax() 
-     * settings object plus `resultClass` and `makeObjectsBindable` properties;
-     * or by passing URL, data and method parameters.
-     * 
-     * @example		conbo.httpRequest({url:"http://www.foo.com/bar", data:{user:1}, method:"GET", headers:{'X-Token':'ABC123'}});
-     * 
-     * @see			http://api.jquery.com/jquery.ajax/
-     * @param 		{Object}		options - URL string or Object containing URL and other settings for the HTTP request
-     * @returns		{conbo.Promise}
-     */
-    function httpRequest(options:any):Promise;
+	
+	/**
+	 * HTTP Request
+	 * 
+	 * Sends data to and/or loads data from a URL; advanced requests can be made 
+	 * by passing a single options object, roughly analogous to the jQuery.ajax() 
+	 * settings object plus `resultClass` and `makeObjectsBindable` properties;
+	 * or by passing URL, data and method parameters.
+	 * 
+	 * @example		conbo.httpRequest({url:"http://www.foo.com/bar", data:{user:1}, method:"GET", headers:{'X-Token':'ABC123'}});
+	 * 
+	 * @see			http://api.jquery.com/jquery.ajax/
+	 * @param 		{Object}		options - URL string or Object containing URL and other settings for the HTTP request
+	 * @returns		{conbo.Promise}
+	 */
+	function httpRequest(options:any):Promise;
 
-    /**
-     * HTTP Request
-     * 
-     * Sends data to and/or loads data from a URL; advanced requests can be made 
-     * by passing a single options object, roughly analogous to the jQuery.ajax() 
-     * settings object plus `resultClass` and `makeObjectsBindable` properties;
-     * or by passing URL, data and method parameters.
-     * 
-     * @example		conbo.httpRequest("http://www.foo.com/bar", {user:1}, "GET");
-     * 
-     * 
-     * @param 		{string}	urlOrOptions - URL string or Object containing URL and other settings for the HTTP request
-     * @param 		{Object}	data - Data to be sent with request (ignored when using options object)
-     * @param 		{string}	method - HTTP method to use, e.g. "GET" or "POST" (ignored when using options object)
-     * @returns		{conbo.Promise}
-     */
-    function httpRequest(url:string, data?:any, method?:string):Promise;
-    
+	/**
+	 * HTTP Request
+	 * 
+	 * Sends data to and/or loads data from a URL; advanced requests can be made 
+	 * by passing a single options object, roughly analogous to the jQuery.ajax() 
+	 * settings object plus `resultClass` and `makeObjectsBindable` properties;
+	 * or by passing URL, data and method parameters.
+	 * 
+	 * @example		conbo.httpRequest("http://www.foo.com/bar", {user:1}, "GET");
+	 * 
+	 * 
+	 * @param 		{string}	urlOrOptions - URL string or Object containing URL and other settings for the HTTP request
+	 * @param 		{Object}	data - Data to be sent with request (ignored when using options object)
+	 * @param 		{string}	method - HTTP method to use, e.g. "GET" or "POST" (ignored when using options object)
+	 * @returns		{conbo.Promise}
+	 */
+	function httpRequest(url:string, data?:any, method?:string):Promise;
+	
 	/**
 	 * Handles objects, arrays, lists and raw objects using a for loop (because 
 	 * tests show that a for loop can be twice as fast as a native forEach).
