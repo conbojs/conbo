@@ -216,6 +216,7 @@ The naming conventions used by ConboJS should be familiar to anyone who uses Jav
 * `publicPropertyAndMethodNames` are camel case, starting with a lower case letter
 * `_privatePropertyAndMethodNames` are user defined properties and methods used within the current class only, prefixed with an underscore
 * `__internalPropertyAndMethodNames` are prefixed with a double underscore to indicate that they are for internal use by the framework only
+* `CONSTANT_VALUES` are all upper case, with words separated using an underscore
 
 Wherever possible, file names should match their contents, for example `ClassName.js`, `methodName,js` or `IInterfaceName.ts`.
 
