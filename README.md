@@ -206,6 +206,28 @@ foo.addEventListener("myEvent", this.myFunction, this);
 foo.dispatchEvent(new conbo.Event("myEvent"));
 ```
 
+Decorators
+----------
+
+ConboJS provides a number of class (ES2015 and TypeScript) and property (TypeScript only) decorators to simplify, enhance or simply provide syntactical sugar while developing applications:
+
+```javascript
+import { Application, conbons, bindable, injectable } from 'conbo';
+
+// Add a class to specified ConboJS namespace to enable auto-instantiation (second parameter only required if minifying)
+@conbons('com.example.app', 'MyApp')
+class MyApp extends Application
+{
+	// Mark a property as injectable so you don't have to set it to undefined in declarations (TypeScript only)
+	@injectable
+	public myService:MyService;
+	
+	// Mark a property as bindable so you don't have to set it in declarations (TypeScript only)
+	@bindable
+	public myValue:string = 'Hello, World!';
+}
+```
+
 Naming conventions
 ------------------
 
