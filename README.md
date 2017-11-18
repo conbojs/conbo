@@ -1,6 +1,6 @@
 ![ConboJS](https://raw.githubusercontent.com/mesmotronic/conbo/master/img/conbo.png)
 
-ConboJS is the best JavaScript MVC framework you've never heard of.
+ConboJS is the best JavaScript MVx framework you've never heard of.
 
 It is a lightweight MVC application framework for JavaScript for use with modern browsers which enables developers a take a structured, decoupled, class based approach to application development, in a way that should be be familiar to anyone with experience of languages like ActionScript/Flex, C#/XAML or Java.
 

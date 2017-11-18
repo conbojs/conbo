@@ -22,6 +22,14 @@ conbo.conbons = function(namespace, name)
 };
 
 /**
+ * @method	viewable	TypeScript decorator for adding Application, View and Glimpse classes a ConboJS namespace to enable auto instantiation (currently identical to conbons)
+ * @param	{string}	namespace - The name of the target namespace
+ * @param	{string}	[name] - The name to use for this object in the target namespace (useful if you target ES5 and minify your code)
+ * @returns	{Function}	Decorator function
+ */
+conbo.viewable = conbo.conbons;
+
+/**
  * TypeScript / ES2015 decorator to make a property bindable
  * @param	{any}		target - The target object
  * @param	{string}	key - The name of the property

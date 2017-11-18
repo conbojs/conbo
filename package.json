@@ -1,7 +1,7 @@
 {
 	"name": "conbo",
-	"version": "4.1.13",
-	"description": "ConboJS is the best JavaScript MVC application framework you've never heard of",
+	"version": "4.1.14",
+	"description": "ConboJS is the best JavaScript MVx application framework you've never heard of",
 	"keywords": [
 		"attributes",
 		"binding",

@@ -1,5 +1,5 @@
 /*! 
- * ConboJS: Lightweight MVC application framework for JavaScript
+ * ConboJS: Lightweight MVx application framework for JavaScript
  * http://conbo.mesmotronic.com/
  * 
  * Copyright (c) 2017 Mesmotronic Limited
@@ -13,7 +13,7 @@
 var __namespaces = {};
 
 /**
- * ConboJS is a lightweight MVC application framework for JavaScript featuring 
+ * ConboJS is a lightweight MVx application framework for JavaScript featuring 
  * dependency injection, context and encapsulation, data binding, command 
  * pattern and an event model which enables callback scoping and consistent 
  * event handling

@@ -1,7 +1,7 @@
 
 	conbo.ready(function()
 	{
-		!conbo.isNode && conbo.info('%c'+conbo.toString(), 'font-weight:bold');
+		!conbo.isNode && conbo.info('%c '+conbo.toString()+' ', 'font-weight:bold; background-color:#069; color:white;', 'https://conbo.mesmotronic.com');
 	});
 
 	return conbo;

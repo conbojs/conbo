@@ -1,6 +1,6 @@
 {
 	"name": "conbo",
-	"description": "Lightweight MVC application framework for JavaScript",
+	"description": "ConboJS is the best JavaScript MVx application framework you've never heard of",
 	"main": [
 		"./lib/conbo.js"
 	],
