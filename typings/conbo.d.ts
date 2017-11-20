@@ -3005,7 +3005,7 @@ declare namespace conbo {
 	 * @param		{string}	[padChar] - The character to use to pad the string
 	 * @returns		{string}
 	 */
-	function padLeft(value:string, minLength:number, padChar:string):string;
+	function padLeft(value:string, minLength?:number, padChar?:string):string;
 	
 	/**
 	 * Add a leading zero to the specified number and return it as a string
