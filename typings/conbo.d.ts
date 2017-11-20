@@ -497,20 +497,20 @@ declare namespace conbo {
 
 		/**
 		 * Add a listener for a particular event type
-		 * @param 	{string}		type - Type of event ('change') or events ('change blur')
-		 * @param 	{Function}		handler - Function that should be called
-		 * @param 	{Object}		[scope] - The scope in which to run the event handler
-		 * @param 	{number}		[priority=0] - The event handler's priority when the event is dispatached
-		 * @param 	{boolean}		[once=false] - Should the event listener automatically be removed after it has been called once?
+		 * @param 	{string}	type - Type of event ('change') or events ('change blur')
+		 * @param 	{Function}	handler - Function that should be called
+		 * @param 	{Object}	[scope] - The scope in which to run the event handler
+		 * @param 	{number}	[priority=0] - The event handler's priority when the event is dispatached
+		 * @param 	{boolean}	[once=false] - Should the event listener automatically be removed after it has been called once?
 		 * @returns	{conbo.EventDispatcher}	A reference to this class instance
 		 */
 		addEventListener(type: string, handler: any, scope?: any, priority?: number, once?: boolean): EventDispatcher;
 
 		/**
 		 * Remove a listener for a particular event type
-		 * @param {string}		[type] - Type of event ('change') or events ('change blur'), if not specified, all listeners will be removed
-		 * @param {Function}	[handler] - Function that should be called, if not specified, all listeners of the specified type will be removed
-		 * @param {Object} 		[scope] - The scope in which the handler is set to run
+		 * @param 	{string}	[type] - Type of event ('change') or events ('change blur'), if not specified, all listeners will be removed
+		 * @param 	{Function}	[handler] - Function that should be called, if not specified, all listeners of the specified type will be removed
+		 * @param 	{Object} 	[scope] - The scope in which the handler is set to run
 		 * @returns	{conbo.EventDispatcher}	A reference to this class instance
 		 */
 		removeEventListener(type?: string, handler?: any, scope?: any): EventDispatcher;
@@ -526,17 +526,17 @@ declare namespace conbo {
 
 		/**
 		 * Dispatch the event to listeners
-		 * @param {conbo.Event} 	event - The event to dispatch
+		 * @param	{conbo.Event} 	event - The event to dispatch
 		 * @returns	{conbo.EventDispatcher}	A reference to this class instance
 		 */
 		dispatchEvent(event: Event): EventDispatcher;
 
 		/**
 		 * Dispatch a change event for one or more changed properties
-		 * @param {string}	propName - The name of the property that has changed
+		 * @param	{string}	propName - The name of the property that has changed
 		 * @returns	{conbo.EventDispatcher}	A reference to this class instance
 		 */
-		dispatchChange(propName: string): EventDispatcher;
+		dispatchChange(...propName: string[]): EventDispatcher;
 
 	}
 
