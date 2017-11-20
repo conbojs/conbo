@@ -1782,9 +1782,9 @@
 	 * Pads a string with the specified character to the specified length
 	 * 
 	 * @memberof	conbo
-	 * @param		{string}	value - String to pad
-	 * @param		{number}	minLength - Minimum length of the padded string
-	 * @param		{string}	[padChar] - The character to use to pad the string
+	 * @param		{number|string}	value - String to pad
+	 * @param		{number}		[minLength=2] - Minimum length of the padded string
+	 * @param		{number|string}	[padChar= ] - The character to use to pad the string
 	 * @returns		{string}
 	 */
 	conbo.padLeft = function(value, minLength, padChar)
@@ -1795,14 +1795,14 @@
 		minLength || (minLength = 2);
 		
 		padChar = padChar.toString().charAt(0);
-		string = value.toString();
+		value = value.toString();
 		
-		while (string.length < minLength)
+		while (value.length < minLength)
 		{
-			string = padChar+string;
+			value = padChar+string;
 		}
 		
-		return string;
+		return value;
 	};
 	
 	/**

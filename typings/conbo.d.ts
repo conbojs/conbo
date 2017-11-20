@@ -3000,12 +3000,12 @@ declare namespace conbo {
 	/**
 	 * Pads a string with the specified character to the specified length
 	 * 
-	 * @param		{string}	value - String to pad
-	 * @param		{number}	minLength - Minimum length of the padded string
-	 * @param		{string}	[padChar] - The character to use to pad the string
+	 * @param		{number|string}	value - String to pad
+	 * @param		{number}		[minLength=2] - Minimum length of the padded string
+	 * @param		{number|string}	[padChar= ] - The character to use to pad the string
 	 * @returns		{string}
 	 */
-	function padLeft(value:string, minLength?:number, padChar?:string):string;
+	function padLeft(value:number|string, minLength?:number, padChar?:number|string):string;
 	
 	/**
 	 * Add a leading zero to the specified number and return it as a string
