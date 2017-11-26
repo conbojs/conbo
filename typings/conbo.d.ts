@@ -3319,32 +3319,48 @@ declare namespace conbo {
 	function error(...values:any[]):void;
 	
 	/**
-	 * TypeScript decorator for adding pretty much anything to a ConboJS namespace
+	 * Decorator for adding Application, View and Glimpse classes a ConboJS namespace to enable auto instantiation
 	 * @param	{string}	namespace - The name of the target namespace
 	 * @param	{string}	[name] - The name to use for this object in the target namespace (useful if you target ES5 and minify your code)
 	 * @returns	{Function}	TypeScript decorator
+	 */
+	function Viewable(namespace:string, name?:string):Function; 
+	
+	/**
+	 * Decorator to make a property bindable
+	 * @param	{any}		target - The target object
+	 * @param	{string}	key - The name of the property
+	 */
+	function Bindable(target:any, key:string):void;
+
+	/**
+	 * Decorator to prepare a property for injection
+	 * @param	{any}		target - The target object
+	 * @param	{string}	key - The name of the property
+	 */
+	function Injectable(target:any, key:string):void;
+
+	/**
+	 * Decorator for adding pretty much anything to a ConboJS namespace
+	 * @deprecated			Use @Viewable
 	 */
 	function conbons(namespace:string, name?:string):Function; 
 
 	/**
-	 * TypeScript decorator for adding Application, View and Glimpse classes a ConboJS namespace to enable auto instantiation (currently identical to conbons)
-	 * @param	{string}	namespace - The name of the target namespace
-	 * @param	{string}	[name] - The name to use for this object in the target namespace (useful if you target ES5 and minify your code)
-	 * @returns	{Function}	TypeScript decorator
+	 * TypeScript decorator for adding Application, View and Glimpse classes a ConboJS namespace to enable auto instantiation
+	 * @deprecated			Use @Viewable
 	 */
 	function viewable(namespace:string, name?:string):Function; 
 
 	/**
-	 * TypeScript / ES2015 decorator to make a property bindable
-	 * @param	{any}		target - The target object
-	 * @param	{string}	key - The name of the property
+	 * Decorator to make a property bindable
+	 * @deprecated			Use @Bindable
 	 */
 	function bindable(target:any, key:string):void;
 
 	/**
-	 * TypeScript / ES2015 decorator to prepare a property for injection
-	 * @param	{any}		target - The target object
-	 * @param	{string}	key - The name of the property
+	 * Decorator to prepare a property for injection
+	 * @deprecated			Use @Injectable
 	 */
 	function injectable(target:any, key:string):void;
 

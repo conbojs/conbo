@@ -107,5 +107,5 @@ conbo.VERSION = '{{VERSION}}';
  */
 conbo.toString = function() 
 { 
-	return 'ConboJS v'+this.VERSION; 
+	return 'ConboJS '+this.VERSION; 
 };
