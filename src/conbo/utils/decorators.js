@@ -61,7 +61,7 @@ conbo.Injectable = function(target, key)
 conbo.conbons = function(namespace, name)
 {
 	__deprecated('@conbons is deprecated, use @Viewable');
-	return conbo.Viewable(namespace, name);
+	return conbo.Viewable.apply(conbo, arguments);
 };
 
 /**
@@ -75,7 +75,7 @@ conbo.conbons = function(namespace, name)
 conbo.viewable = function(namespace, name)
 {
 	__deprecated('@viewable is deprecated, use @Viewable');
-	conbo.Viewable(namespace, name);
+	return conbo.Viewable.apply(conbo, arguments);
 };
 
 /**
@@ -88,7 +88,7 @@ conbo.viewable = function(namespace, name)
 conbo.bindable = function(target, key)
 {
 	__deprecated('@bindable is deprecated, use @Bindable');
-	conbo.Bindable(target, key);
+	conbo.Bindable.apply(conbo, arguments);
 };
 
 /**
@@ -100,6 +100,6 @@ conbo.bindable = function(target, key)
  */
 conbo.injectable = function(target, key)
 {
-	__deprecated('@injectable is deprecated, use @Injectable');
-	conbo.Injectable(target, key);	
+	__deprecated('@bindable is deprecated, use @Bindable');
+	conbo.Injectable.apply(conbo, arguments);
 };
