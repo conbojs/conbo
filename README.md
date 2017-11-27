@@ -209,21 +209,21 @@ foo.dispatchEvent(new conbo.Event("myEvent"));
 Decorators
 ----------
 
-ConboJS provides a number of class (ES2015 and TypeScript) and property (TypeScript only) decorators to simplify, enhance or simply provide syntactical sugar while developing applications:
+ConboJS provides a number of class (ES2015 and TypeScript) and property (TypeScript only) decorators to resolve transpilation issues, simplify, enhance or simply provide syntactical sugar while developing applications:
 
 ```javascript
-import { Application, conbons, bindable, injectable } from 'conbo';
+import { Application, Bindable, Injectable, Viewable } from 'conbo';
 
 // Add a class to specified ConboJS namespace to enable auto-instantiation (second parameter only required if minifying)
-@conbons('com.example.app', 'MyApp')
+@Viewable('com.example.app', 'MyApp')
 class MyApp extends Application
 {
 	// Mark a property as injectable so you don't have to set it to undefined in declarations (TypeScript only)
-	@injectable
+	@Injectable
 	public myService:MyService;
 	
 	// Mark a property as bindable so you don't have to set it in declarations (TypeScript only)
-	@bindable
+	@Bindable
 	public myValue:string = 'Hello, World!';
 }
 ```
@@ -239,6 +239,7 @@ The naming conventions used by ConboJS should be familiar to anyone who uses Jav
 * `_privatePropertyAndMethodNames` are user defined properties and methods used within the current class only, prefixed with an underscore
 * `__internalPropertyAndMethodNames` are prefixed with a double underscore to indicate that they are for internal use by the framework only
 * `CONSTANT_VALUES` are all upper case, with words separated using an underscore
+* `@Decorators` are camel case with an initial capital letter, following the naming convention used for similar metadata and annotations in other languages
 
 Wherever possible, file names should match their contents, for example `ClassName.js`, `methodName,js` or `IInterfaceName.ts`.
 
