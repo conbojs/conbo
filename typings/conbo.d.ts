@@ -3338,7 +3338,7 @@ declare namespace conbo {
 	 * @param	{any}		target - The target object
 	 * @param	{string}	key - The name of the property
 	 */
-	function Injectable(target:any, key:string):void;
+	function Inject(target:any, key:string):void;
 
 	/**
 	 * Decorator for adding pretty much anything to a ConboJS namespace
@@ -3360,7 +3360,7 @@ declare namespace conbo {
 
 	/**
 	 * Decorator to prepare a property for injection
-	 * @deprecated			Use @Injectable
+	 * @deprecated			Use @Inject
 	 */
 	function injectable(target:any, key:string):void;
 
