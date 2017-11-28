@@ -35,7 +35,7 @@ conbo.Bindable = function(target, key)
  * @param	{any}		target - The target object
  * @param	{string}	key - The name of the property
  */
-conbo.Injectable = function(target, key)
+conbo.Inject = function(target, key)
 {
 	if (delete target[key])
 	{
@@ -93,7 +93,7 @@ conbo.bindable = function(target, key)
 
 /**
  * TypeScript / ES2017 decorator to prepare a property for injection
- * @deprecated			Use @Injectable
+ * @deprecated			Use @Inject
  * @memberof			conbo
  * @param	{any}		target - The target object
  * @param	{string}	key - The name of the property
@@ -101,5 +101,5 @@ conbo.bindable = function(target, key)
 conbo.injectable = function(target, key)
 {
 	__deprecated('@bindable is deprecated, use @Bindable');
-	conbo.Injectable.apply(conbo, arguments);
+	conbo.Inject.apply(conbo, arguments);
 };
