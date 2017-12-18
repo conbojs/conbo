@@ -22,7 +22,7 @@ export = conbo;
  * var ns = conbo('com.example.namespace');
  * ns.import({ MyApp, MyView });
  */
-declare function conbo(namespace: string, ...globals: any[]): conbo.Namespace;
+declare function conbo(namespace: string, ...globals: any[]):conbo.Namespace;
 
 declare namespace conbo {
 	
@@ -67,23 +67,23 @@ declare namespace conbo {
 		 * Declarations is used to declare instance properties used by this class
 		 * @returns		{void}
 		 */
-		protected declarations(...args:any[]): void;
+		protected declarations(...args:any[]):void;
 
 		/**
 		 * Preinitialize is called before any code in the constructor has been run
 		 * @returns		{void}
 		 */
-		protected preinitialize(...args:any[]): void;
+		protected preinitialize(...args:any[]):void;
 
 		/**
 		 * Initialize (entry point) is called immediately after the constructor has completed
 		 */
-		protected initialize(...args:any[]): void;
+		protected initialize(...args:any[]):void;
 
 		/**
 		 * Scope all methods of this class instance to this class instance
 		 */
-		bindAll(...methodNames:string[]):any;
+		bindAll(...methodNames:string[]):this;
 
 		/**
 		 * String representation of the current class
@@ -112,21 +112,21 @@ declare namespace conbo {
 		 * @override
 		 * @returns		{void}
 		 */
-		protected declarations(options?: any): void;
+		protected declarations(options?: any):void;
 
 		/**
 		 * Preinitialize is called before any code in the constructor has been run
 		 * @override
 		 * @returns		{void}
 		 */
-		protected preinitialize(options?: any): void;
+		protected preinitialize(options?: any):void;
 
 		/**
 		 * Initialize (entry point) is called immediately after the constructor has completed
 		 * @override
 		 * @returns		{void}
 		 */
-		protected initialize(options?: any): void;
+		protected initialize(options?: any):void;
 	}
 
 	/**
@@ -145,7 +145,7 @@ declare namespace conbo {
 		 * @param 	{Element} 	[rootEl] - The root element to initialize
 		 * @returns {this}
 		 */
-		initDom(rootEl?: any):any;
+		initDom(rootEl?: any):this;
 
 		/**
 		 * Watch the DOM and automatically initialize Applications contained in
@@ -154,14 +154,14 @@ declare namespace conbo {
 		 * @param 	{Element} 	[rootEl] - The root element to initialize
 		 * @returns {this}
 		 */
-		observeDom(rootEl?: any):any;
+		observeDom(rootEl?: any):this;
 
 		/**
 		 * Stop watching the DOM for Applications
 		 * @param 	{Element} 	[rootEl] - The root element to initialize
 		 * @returns {this}
 		 */
-		unobserveDom(rootEl?: any):any;
+		unobserveDom(rootEl?: any):this;
 
 		/**
 		 * Add classes, properties or methods to the namespace. Using this method
@@ -169,7 +169,7 @@ declare namespace conbo {
 		 * @param 	{Object}			obj - An object containing items to add to the namespace
 		 * @returns	{conbo.Namespace}	This Namespace instance
 		 */
-		import(obj: any): Namespace;
+		import(obj: any):this;
 
 	}
 
@@ -211,25 +211,25 @@ declare namespace conbo {
 		 * Create an identical clone of this event
 		 * @returns 	{conbo.Event}	A clone of this event
 		 */
-		clone(): Event;
+		clone():this;
 
 		/**
 		 * Prevent whatever the default framework action for this event is
 		 * @returns	{conbo.Event}	A reference to this event instance
 		 */
-		preventDefault(): Event;
+		preventDefault():this;
 
 		/**
 		 * Not currently used
 		 * @returns	{conbo.Event}	A reference to this event instance
 		 */
-		stopPropagation(): Event;
+		stopPropagation():this;
 
 		/**
 		 * Keep the rest of the handlers from being executed
 		 * @returns	{conbo.Event}	A reference to this event
 		 */
-		stopImmediatePropagation(): Event;
+		stopImmediatePropagation():this;
 
 	}
 
@@ -504,7 +504,7 @@ declare namespace conbo {
 		 * @param 	{boolean}	[once=false] - Should the event listener automatically be removed after it has been called once?
 		 * @returns	{conbo.EventDispatcher}	A reference to this class instance
 		 */
-		addEventListener(type: string, handler: any, scope?: any, priority?: number, once?: boolean): EventDispatcher;
+		addEventListener(type: string, handler: any, scope?: any, priority?: number, once?: boolean):this;
 
 		/**
 		 * Remove a listener for a particular event type
@@ -513,7 +513,7 @@ declare namespace conbo {
 		 * @param 	{Object} 	[scope] - The scope in which the handler is set to run
 		 * @returns	{conbo.EventDispatcher}	A reference to this class instance
 		 */
-		removeEventListener(type?: string, handler?: any, scope?: any): EventDispatcher;
+		removeEventListener(type?: string, handler?: any, scope?: any):this;
 
 		/**
 		 * Does this object have an event listener of the specified type?
@@ -522,21 +522,21 @@ declare namespace conbo {
 		 * @param 	{Object} 	[scope] - The scope in which the handler is set to run
 		 * @returns	{boolean}	True if this object has the specified event listener, false if it does not
 		 */
-		hasEventListener(type: string, handler?: any, scope?: any): boolean;
+		hasEventListener(type: string, handler?: any, scope?: any):boolean;
 
 		/**
 		 * Dispatch the event to listeners
 		 * @param	{conbo.Event} 	event - The event to dispatch
 		 * @returns	{conbo.EventDispatcher}	A reference to this class instance
 		 */
-		dispatchEvent(event: Event): EventDispatcher;
+		dispatchEvent(event: Event):this;
 
 		/**
 		 * Dispatch a change event for one or more changed properties
 		 * @param	{string}	propName - The name of the property that has changed
 		 * @returns	{conbo.EventDispatcher}	A reference to this class instance
 		 */
-		dispatchChange(...propName: string[]): EventDispatcher;
+		dispatchChange(...propName: string[]):this;
 
 	}
 
@@ -558,7 +558,7 @@ declare namespace conbo {
 		 * @param 	{Function}			handler - Function that should be called
 		 * @returns	{conbo.EventProxy}	A reference to this class instance
 		 */
-		addEventListener(type: string, handler: any): EventProxy;
+		addEventListener(type: string, handler: any):this;
 
 		/**
 		 * Remove a listener for a particular event type
@@ -566,7 +566,7 @@ declare namespace conbo {
 		 * @param 	{Function}			handler - Function that should be called
 		 * @returns	{conbo.EventProxy}	A reference to this class instance
 		 */
-		removeEventListener(type: string, handler: any): EventProxy;
+		removeEventListener(type: string, handler: any):this;
 
 	}
 
@@ -618,22 +618,22 @@ declare namespace conbo {
 		 * Create a new subcontext that shares the same application
 		 * and namespace as this one
 		 *
-		 * @param	{class} contextClass - The context class to use (default: conbo.Context)
+		 * @param	{class} [contextClass] - The context class to use (default: conbo.Context)
 		 * @returns {conbo.Context}
 		 */
-		createSubcontext(contextClass:any): Context;
+		createSubcontext(contextClass?:any):Context;
 
 		/**
 		 * Map specified Command class the given event
 		 * @param	{string}	eventType - The name of the event
 		 * @param	{class}		commandClass - The command class to instantiate when the event is dispatched
 		 */
-		mapCommand(eventType:string, commandClass:any): Context;
+		mapCommand(eventType:string, commandClass:any):this;
 
 		/**
 		 * Unmap specified Command class from given event
 		 */
-		unmapCommand(eventType:string, commandClass:any): Context;
+		unmapCommand(eventType:string, commandClass:any):this;
 
 		/**
 		 * Map class instance to a property name
@@ -645,12 +645,12 @@ declare namespace conbo {
 		 * @example		context.mapSingleton('myProperty', MyModel);
 		 * @example		myProperty: undefined
 		 */
-		mapSingleton(propertyName:String, singletonClass:any, ...args:any[]):Context;
+		mapSingleton(propertyName:String, singletonClass:any, ...args:any[]):this;
 
 		/**
 		 * Unmap class instance from a property name
 		 */
-		unmapSingleton(propertyName:string):Context;
+		unmapSingleton(propertyName:string):this;
 
 		/**
 		 * Map constant value to a property name
@@ -662,12 +662,12 @@ declare namespace conbo {
 		 * @example		context.mapConstant('MY_VALUE', 123);
 		 * @example		MY_VALUE: undefined
 		 */
-		mapConstant(propertyName:string, value:any): Context;
+		mapConstant(propertyName:string, value:any):this;
 
 		/**
 		 * Unmap constant value from a property name
 		 */
-		unmapConstant(propertyName:string): Context;
+		unmapConstant(propertyName:string):this;
 
 		/**
 		 * Add this Context to the specified Object, or create an object with a
@@ -680,14 +680,14 @@ declare namespace conbo {
 		 *
 		 * @param	obj		{Object} 	The object to inject singletons into
 		 */
-		injectSingletons(obj:any): Context;
+		injectSingletons(obj:any):this;
 
 		/**
 		 * Set all singleton instances on the specified object to undefined
 		 *
 		 * @param	obj		{Object} 	The object to remove singletons from
 		 */
-		uninjectSingletons(obj:any): Context;
+		uninjectSingletons(obj:any):this;
 
 	}
 
@@ -732,15 +732,15 @@ declare namespace conbo {
 		 * Immediately writes all data to local storage. If you don't use this method,
 		 * Conbo writes the data the next time it detects a change to a bindable property.
 		 */
-		flush(): void;
+		flush():this;
 
 	}
 
 	interface ISyncable
 	{
-		load(data?:any):any;
-		save():any;
-		destroy():any;
+		load(data?:any):this;
+		save():this;
+		destroy():this;
 	}
 	
 	/**
@@ -751,9 +751,9 @@ declare namespace conbo {
 	 */
 	class RemoteHash extends Hash implements ISyncable
 	{
-		load(data?:any):any;
-		save():any;
-		destroy():any;
+		load(data?:any):this;
+		save():this;
+		destroy():this;
 	}
 
 	/**
@@ -792,7 +792,7 @@ declare namespace conbo {
 		/**
 		 * Add an item to the end of the collection.
 		 */
-		push(...items:any[]): number;
+		push(...items:any[]):number;
 		
 		/**
 		 * Remove an item from the end of the collection.
@@ -802,7 +802,7 @@ declare namespace conbo {
 		/**
 		 * Add an item to the beginning of the collection.
 		 */
-		unshift(...items:any[]): number;
+		unshift(...items:any[]):number;
 		
 		/**
 		 * Remove an item from the beginning of the collection.
@@ -845,7 +845,7 @@ declare namespace conbo {
 		/**
 		 * The JSON-friendly representation of the List
 		 */
-		toJSON(): Object; 
+		toJSON():Object; 
 		
 		forEach(...args:any[]):any;
 		map(...args:any[]):any;
@@ -888,7 +888,7 @@ declare namespace conbo {
 		 * Immediately writes all data to local storage. If you don't use this method,
 		 * Conbo writes the data the next time it detects a change to a bindable property.
 		 */
-		flush(): void;
+		flush():this;
 	}
 
 	/**
@@ -901,11 +901,14 @@ declare namespace conbo {
 	 */
 	class RemoteList extends List 
 	{
+		load(data?:any):this;
+		save():this;
+		destroy():this;
+
 		/**
 		 * @param 		{Object} options - Object containing initialisation options, including HttpService options
 		 */
 		constructor(options?: any);
-		
 	}
 
 	/**
@@ -919,7 +922,7 @@ declare namespace conbo {
 		 * @param 	{string}	attribute
 		 * @returns {Boolean}
 		 */
-		canHandleMultiple(attribute: string):any;
+		canHandleMultiple(attribute: string):boolean;
 
 		/**
 		 * Makes an element visible
@@ -929,7 +932,7 @@ declare namespace conbo {
 		 * @example
 		 * <div cb-show="propertyName"></div>
 		 */
-		cbShow(el: HTMLElement, value: any): void;
+		cbShow(el: HTMLElement, value: any):void;
 
 		/**
 		 * Hides an element by making it invisible, but does not remove
@@ -940,7 +943,7 @@ declare namespace conbo {
 		 * @example
 		 * <div cb-hide="propertyName"></div>
 		 */
-		cbHide(el: HTMLElement, value: any): void;
+		cbHide(el: HTMLElement, value: any):void;
 
 		/**
 		 * Include an element on the screen and in the layout of the page
@@ -950,7 +953,7 @@ declare namespace conbo {
 		 * @example
 		 * <div cb-include="propertyName"></div>
 		 */
-		cbInclude(el: HTMLElement, value: any): void;
+		cbInclude(el: HTMLElement, value: any):void;
 
 		/**
 		 * Remove an element from the screen and prevent it having an effect
@@ -961,7 +964,7 @@ declare namespace conbo {
 		 * @example
 		 * <div cb-exclude="propertyName"></div>
 		 */
-		cbExclude(el: HTMLElement, value: any): void;
+		cbExclude(el: HTMLElement, value: any):void;
 
 		/**
 		 * The exact opposite of HTML's built-in `disabled` property
@@ -971,7 +974,7 @@ declare namespace conbo {
 		 * @example
 		 * <div cb-enabled="propertyName"></div>
 		 */
-		cbEnabled(el: HTMLElement, value: any): void;
+		cbEnabled(el: HTMLElement, value: any):void;
 
 		/**
 		 * Inserts raw HTML into the element, which is rendered as HTML
@@ -981,7 +984,7 @@ declare namespace conbo {
 		 * @example
 		 * <div cb-html="propertyName"></div>
 		 */
-		cbHtml(el: HTMLElement, value: any): void;
+		cbHtml(el: HTMLElement, value: any):void;
 
 		/**
 		 * Inserts text into the element so that it appears on screen exactly as
@@ -994,7 +997,7 @@ declare namespace conbo {
 		 * @example
 		 * <div cb-text="propertyName"></div>
 		 */
-		cbText(el: HTMLElement, value: any): void;
+		cbText(el: HTMLElement, value: any):void;
 
 		/**
 		 * Applies or removes a CSS class to or from the element based on the value
@@ -1005,7 +1008,7 @@ declare namespace conbo {
 		 * @example
 		 * <div cb-class="propertyName:my-class-name"></div>
 		 */
-		cbClass(el: HTMLElement, value: any): void;
+		cbClass(el: HTMLElement, value: any):void;
 
 		/**
 		 * Applies class(es) to the element based on the value contained in a variable.
@@ -1016,7 +1019,7 @@ declare namespace conbo {
 		 * @example
 		 * <div cb-classes="propertyName"></div>
 		 */
-		cbClasses(el: HTMLElement, value: any): void;
+		cbClasses(el: HTMLElement, value: any):void;
 
 		/**
 		 * Apply styles from a variable
@@ -1028,7 +1031,7 @@ declare namespace conbo {
 		 * @example
 		 * <div cb-="propertyName:font-weight"></div>
 		 */
-		cbStyle(el: HTMLElement, value: any, options: any, styleName: string): void;
+		cbStyle(el: HTMLElement, value: any, options: any, styleName: string):void;
 
 		/**
 		 * Repeats the element once for each item of the specified list or Array,
@@ -1046,7 +1049,7 @@ declare namespace conbo {
 		 * <li cb-repeat="people:PersonItemRenderer" cb-hml="data.firstName"></li>
 		 * <person-item-renderer cb-repeat="people"></person-item-renderer>
 		 */
-		cbRepeat(el: HTMLElement, value: any, options: any, itemRendererClassName: string): void;
+		cbRepeat(el: HTMLElement, value: any, options: any, itemRendererClassName: string):void;
 
 		/**
 		 * Sets the properties of the element's dataset (it's `data-*` attributes)
@@ -1058,7 +1061,7 @@ declare namespace conbo {
 		 * @example
 		 * <div cb-dataset="propertyName"></div>
 		 */
-		cbDataset(el: HTMLElement, value: any): void;
+		cbDataset(el: HTMLElement, value: any):void;
 
 		/**
 		 * When used with a standard DOM element, the properties of the element's
@@ -1072,7 +1075,7 @@ declare namespace conbo {
 		 * @example
 		 * <div cb-data="propertyName"></div>
 		 */
-		cbData(el: HTMLElement, value: any): void;
+		cbData(el: HTMLElement, value: any):void;
 
 		/**
 		 * Only includes the specified element in the layout when the View's `currentState`
@@ -1085,7 +1088,7 @@ declare namespace conbo {
 		 * @example
 		 * <div cb-include-in="happy sad elated"></div>
 		 */
-		cbIncludeIn(el: HTMLElement, value: any, options: any): void;
+		cbIncludeIn(el: HTMLElement, value: any, options: any):void;
 
 		/**
 		 * Removes the specified element from the layout when the View's `currentState`
@@ -1098,7 +1101,7 @@ declare namespace conbo {
 		 * @example
 		 * <div cb-exclude-from="confused frightened"></div>
 		 */
-		cbExcludeFrom(el: HTMLElement, value: any, options: any): void;
+		cbExcludeFrom(el: HTMLElement, value: any, options: any):void;
 
 		/**
 		 * Completely removes an element from the DOM based on a bound property value,
@@ -1111,7 +1114,7 @@ declare namespace conbo {
 		 * @example
 		 * <div cb-remove="propertyName"></div>
 		 */
-		cbRemove(el: HTMLElement, value: any): void;
+		cbRemove(el: HTMLElement, value: any):void;
 
 		/**
 		 * The opposite of `cbRemove`
@@ -1121,7 +1124,7 @@ declare namespace conbo {
 		 * @example
 		 * <div cb-keep="propertyName"></div>
 		 */
-		cbKeep(el: HTMLElement, value: any): void;
+		cbKeep(el: HTMLElement, value: any):void;
 
 		/**
 		 * Enables the use of cb-onbind attribute to handle the 'bind' event
@@ -1132,7 +1135,7 @@ declare namespace conbo {
 		 * @example
 		 * <div cb-onbind="functionName"></div>
 		 */
-		cbOnbind(el: HTMLElement, value: any): void;
+		cbOnbind(el: HTMLElement, value: any):void;
 
 		/**
 		 * Uses JavaScript to open an anchor's HREF so that the link will open in
@@ -1142,7 +1145,7 @@ declare namespace conbo {
 		 * @example
 		 * <div cb-jshref="propertyName"></div>
 		 */
-		cbJshref(el: HTMLElement): void;
+		cbJshref(el: HTMLElement):void;
 
 		/**
 		 * Detects changes to the specified element and applies the CSS class
@@ -1154,7 +1157,7 @@ declare namespace conbo {
 		 * @example
 		 * <div cb-detect-change></div>
 		 */
-		cbDetectChange(el: HTMLElement, value: any): void;
+		cbDetectChange(el: HTMLElement, value: any):void;
 
 		/**
 		 * Use a method or regex to validate a form element and apply a
@@ -1165,7 +1168,7 @@ declare namespace conbo {
 		 * @example
 		 * <div cb-validate="functionName"></div>
 		 */
-		cbValidate(el: HTMLElement, validator: Function): void;
+		cbValidate(el: HTMLElement, validator: Function):void;
 
 		/**
 		 * Restricts text input to the specified characters
@@ -1175,7 +1178,7 @@ declare namespace conbo {
 		 * @example
 		 * <div cb-restrict="propertyName"></div>
 		 */
-		cbRestrict(el: HTMLElement, value: string): void;
+		cbRestrict(el: HTMLElement, value: string):void;
 
 		/**
 		 * Limits the number of characters that can be entered into
@@ -1186,7 +1189,7 @@ declare namespace conbo {
 		 * @example
 		 * <div cb-max-chars="propertyName"></div>
 		 */
-		cbMaxChars(el: HTMLElement, value: string): void;
+		cbMaxChars(el: HTMLElement, value: string):void;
 		
 		/**
 		 * Sets the aria accessibility attributes on an element based on the value
@@ -1202,7 +1205,7 @@ declare namespace conbo {
 		 * @example
 		 * <div cb-class="ariaLabel:label"></div>
 		 */
-		cbAria(el: HTMLElement, value: string, options: any, ariaName: string): void;
+		cbAria(el: HTMLElement, value: string, options: any, ariaName: string):void;
 	
 	}
 
@@ -1243,7 +1246,7 @@ declare namespace conbo {
 		 * @param 		{HTMLElement} 			el - DOM element to unbind value from
 		 * @returns		{conbo.BindingUtils}	A reference to this object
 		 */
-		unbindElement(source: EventDispatcher, propertyName: string, el: HTMLElement): BindingUtils;
+		unbindElement(source: EventDispatcher, propertyName: string, el: HTMLElement):BindingUtils;
 
 		/**
 		 * Bind a DOM element to the property of a EventDispatcher class instance,
@@ -1270,7 +1273,7 @@ declare namespace conbo {
 		 * @example
 		 * conbo.bindingUtils.applyAttribute(el, "my-custom-attr");
 		 */
-		applyAttribute(element: any, attributeName: string): BindingUtils;
+		applyAttribute(element: any, attributeName: string):BindingUtils;
 
 		/**
 		 * Does the specified Conbo or custom attribute exist?
@@ -1284,14 +1287,14 @@ declare namespace conbo {
 		 * @param 	{conbo.View}			view - The View class controlling the element
 		 * @returns	{conbo.BindingUtils}	A reference to this object
 		 */
-		bindView(view: View): BindingUtils;
+		bindView(view: View):BindingUtils;
 
 		/**
 		 * Removes all data binding from the specified View instance
 		 * @param 	{conbo.View}			view
 		 * @returns	{conbo.BindingUtils}	A reference to this object
 		 */
-		unbindView(view: View): BindingUtils;
+		unbindView(view: View):BindingUtils;
 
 		/**
 		 * Applies View and Glimpse classes DOM elements based on their cb-view
@@ -1301,7 +1304,7 @@ declare namespace conbo {
 		 * @param	{string} 				[type=view] - View type, 'view' or 'glimpse'
 		 * @returns	{conbo.BindingUtils}	A reference to this object
 		 */
-		applyViews(rootView: any, namespace: Namespace, type?: string): BindingUtils;
+		applyViews(rootView: any, namespace: Namespace, type?: string):BindingUtils;
 
 		/**
 		 * Bind the property of one EventDispatcher class instance (e.g. Hash or View) to another
@@ -1312,7 +1315,7 @@ declare namespace conbo {
 		 * @param 	{Boolean}				[twoWay=false] - Apply 2-way binding
 		 * @returns	{conbo.BindingUtils}	A reference to this object
 		 */
-		bindProperty(source: EventDispatcher, sourcePropertyName: string, destination: any, destinationPropertyName?: string, twoWay?: any): BindingUtils;
+		bindProperty(source: EventDispatcher, sourcePropertyName: string, destination: any, destinationPropertyName?: string, twoWay?: any):BindingUtils;
 
 		/**
 		 * Call a setter function when the specified property of a EventDispatcher
@@ -1322,7 +1325,7 @@ declare namespace conbo {
 		 * @param 	{Function}			setterFunction
 		 * @returns	{conbo.BindingUtils}	A reference to this object
 		 */
-		bindSetter(source: EventDispatcher, propertyName: string, setterFunction: any): BindingUtils;
+		bindSetter(source: EventDispatcher, propertyName: string, setterFunction: any):BindingUtils;
 
 		/**
 		 * Default parse function
@@ -1353,7 +1356,7 @@ declare namespace conbo {
 		 * 	el.style.fontName = value;
 		 * });
 		 */
-		registerAttribute(name: string, handler: any, readOnly: boolean, raw?: boolean): BindingUtils;
+		registerAttribute(name: string, handler: any, readOnly: boolean, raw?: boolean):BindingUtils;
 
 		/**
 		 * Register one or more custom attribute handlers
@@ -1364,7 +1367,7 @@ declare namespace conbo {
 		 * @example
 		 * conbo.bindingUtils.registerAttributes({myFoo:myFooFunction, myBar:myBarFunction});
 		 */
-		registerAttributes(handlers: any, readOnly?: boolean): BindingUtils;
+		registerAttributes(handlers: any, readOnly?: boolean):BindingUtils;
 
 	}
 
@@ -1409,7 +1412,7 @@ declare namespace conbo {
 		 * @param 		{any} result - The result to dispatch
 		 * @returns 	{conbo.Promise}
 		 */
-		resolve(result: any): Promise;
+		resolve(result: any):this;
 		/**
 		 * Shorthand method for adding a result and/or fault event handlers
 		 * @param		{Function}	resultHandler
@@ -1417,7 +1420,7 @@ declare namespace conbo {
 		 * @param		{Object}	[scope]
 		 * @returns		{conbo.Promise}
 		 */
-		then(resultHandler: Function, faultHandler?: Function, scope?: any): Promise;
+		then(resultHandler: Function, faultHandler?: Function, scope?: any):this;
 
 		/**
 		 * Shorthand method for adding a fault event handler
@@ -1425,7 +1428,7 @@ declare namespace conbo {
 		 * @param		{Object}	[scope]
 		 * @returns		{conbo.Promise}
 		 */
-		catch(faultHandler: Function, scope?: any): Promise;
+		catch(faultHandler: Function, scope?: any):this;
 		
 		/**
 		 * Psedonym for resolve
@@ -1433,7 +1436,7 @@ declare namespace conbo {
 		 * @param 		{any} result - The result to dispatch
 		 * @returns 	{conbo.Promise}
 		 */
-		dispatchResult(result: any): Promise;
+		dispatchResult(result: any):this;
 		
 		/**
 		 * Psedonym for reject
@@ -1441,7 +1444,7 @@ declare namespace conbo {
 		 * @param 		{any} result - The fault to dispatch
 		 * @returns 	{conbo.Promise}
 		 */
-		dispatchFault(result: any): Promise;
+		dispatchFault(result: any):this;
 	}
 
 	/**
@@ -1469,7 +1472,7 @@ declare namespace conbo {
 		 * @example
 		 * ep.setAttributes({foo:1, bar:"red"});
 		 */
-		setAttributes(obj: any): ElementProxy;
+		setAttributes(obj: any):this;
 
 		/**
 		 * @see #getAttributes
@@ -1484,7 +1487,7 @@ declare namespace conbo {
 		 * @param 		{string}	className - One or more CSS class names, separated by spaces
 		 * @returns		{conbo.ElementProxy}
 		 */
-		addClass(className:string):ElementProxy;
+		addClass(className:string):this;
 		
 		/**
 		 * Remove the specified CSS class(es) from the element
@@ -1492,7 +1495,7 @@ declare namespace conbo {
 		 * @param 		{string|function}		className - One or more CSS class names, separated by spaces, or a function extracts the classes to be removed from the existing className property
 		 * @returns		{conbo.ElementProxy}
 		 */
-		removeClass(className:string|Function):ElementProxy;
+		removeClass(className:string|Function):this;
 		
 		/**
 		 * Is this element using the specified CSS class?
@@ -1575,6 +1578,11 @@ declare namespace conbo {
 		 * ID to apply to the View's element
 		 */
 		id: string;
+
+		/**
+		 * Object containing CSS styles to apply to this View's element
+		 */
+		style: any;
 
 		/**
 		 * The tag name to use for the View's element (if no element specified)
@@ -1663,7 +1671,7 @@ declare namespace conbo {
 		 * @param	{boolean}		[deep=false] - Include elements in child Views?
 		 * @returns	{HTMLElement}	The first matching element
 		 */
-		querySelector(selector:string, deep?:boolean): HTMLElement;
+		querySelector(selector:string, deep?:boolean):HTMLElement;
 
 		/**
 		 * Uses querySelectorAll to find all matching elements contained within the
@@ -1672,13 +1680,13 @@ declare namespace conbo {
 		 * @param	{boolean}		[deep=false] - Include elements in child Views?
 		 * @returns	{HTMLElement[]}	All elements matching the selector
 		 */
-		querySelectorAll(selector:string, deep?:boolean): HTMLElement[];
+		querySelectorAll(selector:string, deep?:boolean):HTMLElement[];
 
 		/**
 		 * Take the View's element element out of the DOM
 		 * @returns	{this}
 		 */
-		detach():any;
+		detach():this;
 
 		/**
 		 * Remove and destroy this View by taking the element out of the DOM,
@@ -1688,7 +1696,7 @@ declare namespace conbo {
 		 * timers or other code you may have added.
 		 * @returns	{this}
 		 */
-		remove(): View;
+		remove():this;
 
 		/**
 		 * Append this DOM element from one View class instance this class
@@ -1696,7 +1704,7 @@ declare namespace conbo {
 		 * @param 		{...conbo.View} views - The View instance(s) to append
 		 * @returns		{this}
 		 */
-		appendView(...views: View[]): View;
+		appendView(...views: View[]):this;
 
 		/**
 		 * Prepend this DOM element from one View class instance this class
@@ -1704,34 +1712,34 @@ declare namespace conbo {
 		 * @param 		{...conbo.View} views - The View instance(s) to preppend
 		 * @returns		{this}
 		 */
-		prependView(...views: View[]): View;
+		prependView(...views: View[]):this;
 
 		/**
 		 * Automatically bind elements to properties of this View
 		 * @example	<div cb-bind="property|parseMethod" cb-hide="property">Hello!</div>
 		 * @returns	{this}
 		 */
-		bindView(): View;
+		bindView():this;
 
 		/**
 		 * Unbind elements from class properties
 		 * @returns	{this}
 		 */
-		unbindView(): View;
+		unbindView():this;
 
 		/**
 		 * Initialize the View's template, either by loading the templateUrl
 		 * or using the contents of the template property, if either exist
 		 * @returns	{this}
 		 */
-		initTemplate(): View;
+		initTemplate():this;
 
 		/**
 		 * Load HTML template and use it to populate this View's element
 		 * @param 	{string}	[url]	- The URL to which the request is sent
 		 * @returns	{this}
 		 */
-		loadTemplate(url?: string): View;
+		loadTemplate(url?: string):this;
 
 	}
 
@@ -1837,7 +1845,7 @@ declare namespace conbo {
 		 * Context, the class is instantiated, this method is called then the
 		 * class instance is destroyed
 		 */
-		execute(): void;
+		execute():void;
 
 	}
 
@@ -1937,13 +1945,13 @@ declare namespace conbo {
 		 * @param	{string}	[method=GET] - GET, POST, etc (default: GET)
 		 * @param	{Class}		[resultClass] - Optional
 		 */
-		addCommand(command:string, method?:string, resultClass?:any):HttpService;
+		addCommand(command:string, method?:string, resultClass?:any):this;
 		
 		/**
 		 * Add multiple commands as methods of this class instance
 		 * @param	{string[]}	commands
 		 */
-		addCommands(commands:string[]):HttpService;
+		addCommands(commands:string[]):this;
 		
 		/**
 		 * Method that encodes data to be sent to the API
@@ -1970,9 +1978,9 @@ declare namespace conbo {
 	 */
 	class History extends EventDispatcher
 	{
-		start(options?:any):History;
-		stop():History;
-		addRoute(route:string, callback:Function):History;
+		start(options?:any):this;
+		stop():this;
+		addRoute(route:string, callback:Function):this;
 		
 		/**
 		 * The current path
@@ -1987,7 +1995,7 @@ declare namespace conbo {
 		 * @param	{string}	fragment
 		 * @param	{any}		options
 		 */
-		setPath(fragment:string, options:any):History;
+		setPath(fragment:string, options:any):this;
 		
 	}
 	
@@ -2022,12 +2030,12 @@ declare namespace conbo {
 		/**
 		 * Start the router
 		 */
-		start(options?:any): Router;
+		start(options?:any):this;
 
 		/**
 		 * Stop the router
 		 */
-		stop(): Router;
+		stop():Router;
 
 		/**
 		 * Adds a named route
@@ -2036,7 +2044,7 @@ declare namespace conbo {
 		 * 			 ...
 		 * 		});
 		 */
-		addRoute(route:string, name:string, callback:Function): void;
+		addRoute(route:string, name:string, callback:Function):void;
 
 		/**
 		 * Sets the current path, optionally replacing the current path or silently
@@ -2044,7 +2052,7 @@ declare namespace conbo {
 		 * @param	{string}	path - The path to navigate to
 		 * @param	{Object}	[options] - Object containing options: trigger (default: true) and replace (default: false)
 		 */
-		setPath(path: string, options?: any): Router;
+		setPath(path: string, options?: any):this;
 
 		/**
 		 * Get or set the current path using the default options
@@ -3339,29 +3347,5 @@ declare namespace conbo {
 	 * @param	{string}	key - The name of the property
 	 */
 	function Inject(target:any, key:string):void;
-
-	/**
-	 * Decorator for adding pretty much anything to a ConboJS namespace
-	 * @deprecated			Use @Viewable
-	 */
-	function conbons(namespace:string, name?:string):Function; 
-
-	/**
-	 * TypeScript decorator for adding Application, View and Glimpse classes a ConboJS namespace to enable auto instantiation
-	 * @deprecated			Use @Viewable
-	 */
-	function viewable(namespace:string, name?:string):Function; 
-
-	/**
-	 * Decorator to make a property bindable
-	 * @deprecated			Use @Bindable
-	 */
-	function bindable(target:any, key:string):void;
-
-	/**
-	 * Decorator to prepare a property for injection
-	 * @deprecated			Use @Inject
-	 */
-	function injectable(target:any, key:string):void;
 
 }

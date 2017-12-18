@@ -54,6 +54,7 @@ conbo.LocalHash = conbo.Hash.extend(
 	flush: function()
 	{
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE));
+		return this;
 	},
 	
 	toString: function()

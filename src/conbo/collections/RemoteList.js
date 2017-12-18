@@ -62,6 +62,7 @@ conbo.RemoteList = conbo.List.extend(
 	destroy: function()
 	{
 		// TODO
+		return this;
 	},
 	
 	toString: function()

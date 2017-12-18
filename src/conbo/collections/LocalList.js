@@ -57,6 +57,7 @@ conbo.LocalList = conbo.List.extend(
 	flush: function()
 	{
 		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CHANGE));
+		return this;
 	},
 	
 	toString: function()

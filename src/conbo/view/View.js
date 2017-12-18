@@ -44,6 +44,11 @@ conbo.View = conbo.Glimpse.extend(
 	 */
 	
 	/**
+	 * @member		{any}		style - Object containing CSS styles to apply to this View's element
+	 * @memberof	conbo.View.prototype
+	 */
+	
+	/**
 	 * @member		{string}	tagName - The tag name to use for the View's element (if no element specified)
 	 * @memberof	conbo.View.prototype
 	 */
@@ -280,13 +285,17 @@ conbo.View = conbo.Glimpse.extend(
 	 */
 	detach: function() 
 	{
-		var el = this.el;
-		
-		if (el.parentNode)
+		try
 		{
-			el.parentNode.removeChild(el);		
-			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.DETACH));
+			var el = this.el;
+
+			if (el.parentNode)
+			{
+				el.parentNode.removeChild(el);		
+				this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.DETACH));
+			}
 		}
+		catch(e) {}
 		
 		return this;
 	},
