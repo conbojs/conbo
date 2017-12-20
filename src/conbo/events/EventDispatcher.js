@@ -179,18 +179,9 @@
 		 */
 		dispatchEvent: function(event)
 		{
-			if (!event) throw new Error('Event undefined');
-			
-			var isString = conbo.isString(event);
-			
-			if (isString)
+			if (!(event instanceof conbo.Event))
 			{
-				conbo.warn('Use of dispatchEvent("'+event+'") is deprecated, please use dispatchEvent(new conbo.Event("'+event+'"))');
-			}
-			
-			if (isString || !(event instanceof conbo.Event))
-			{
-				event = new conbo.Event(event);
+				throw new Error('event parameter is not an instance of conbo.Event');
 			}
 			
 			if (!this.__queue || (!(event.type in this.__queue) && !this.__queue.all)) return this;

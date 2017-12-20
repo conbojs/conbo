@@ -14,6 +14,7 @@ module.exports = function (grunt)
 					[
 						'src/conbo/header.txt',
 					 	'src/conbo/conbo.js',
+					 	'src/conbo/polyfills/Promise.js',
 					 	'src/conbo/utils/constants.js',
 					 	'src/conbo/utils/polyfills.js',
 					 	'src/conbo/utils/internal.js',
@@ -39,7 +40,6 @@ module.exports = function (grunt)
 						'src/conbo/binding/AttributeBindings.js',
 						'src/conbo/binding/BindingUtils.js',
 						'src/conbo/utils/MutationObserver.js',
-					 	'src/conbo/utils/Promise.js',
 					 	'src/conbo/view/ElementProxy.js',
 					 	'src/conbo/view/IDataRenderer.js',
 						'src/conbo/view/Glimpse.js',

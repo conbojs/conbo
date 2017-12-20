@@ -13,7 +13,7 @@ Development of ConboJS is primarily focussed on single page applications (SPA) a
 Browser support
 ---------------
 
-ConboJS targets the two most recent major releases of Firefox, Chrome (desktop and Android), Safari (desktop and iOS) and Edge (but should still work with Internet Explorer 11, if you really have to).
+ConboJS targets the two most recent major releases of Firefox, Chrome (desktop and Android), Safari (desktop and iOS) and Edge, plus Internet Explorer 11 (for now).
 
 Modular namespace declarations
 ------------------------------

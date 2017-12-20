@@ -2135,42 +2135,32 @@
 	 * @memberof	conbo
 	 * @param 		{string}	url			The CSS file's URL
 	 * @param 		{string}	[media=all]	The media attribute (defaults to 'all')
-	 * @returns		{conbo.Promise}
+	 * @returns		{Promise}
 	 */
 	conbo.loadCss = function(url, media)
 	{
-		if (!('document' in window) || !!document.querySelector('[href="'+url+'"]'))
+		return new Promise(function(resolve, reject)
 		{
-			return undefined;
-		}
-		
-		var link, head, promise;
-		
-		promise = new conbo.Promise();
+			if (!('document' in window) || !!document.querySelector('[href="'+url+'"]'))
+			{
+				reject();
+			}
 			
-		link = document.createElement('link');
-		link.rel = 'stylesheet';
-		link.type = 'text/css';
-		link.media = media || 'all';
-		
-		link.addEventListener('load', function(event)
-		{
-			promise.resolve();
+			var link, head;
+
+			link = document.createElement('link');
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.media = media || 'all';
+			link.addEventListener('load', resolve);
+			link.addEventListener('error', reject);
+			link.href = url;
+			
+			document
+				.querySelector('head')
+				.appendChild(link)
+				;
 		});
-		
-		link.addEventListener('error', function(event)
-		{
-			promise.reject();
-		});
-		
-		link.href = url;
-		
-		document
-			.querySelector('head')
-			.appendChild(link)
-			;
-		
-		return promise;
 	};
 	
 	/**
@@ -2179,14 +2169,14 @@
 	 * @memberof	conbo
 	 * @param 		{string}	url - The JavaScript file's URL
 	 * @param 		{Object}	[scope] - The scope in which to run the loaded script
-	 * @returns		{conbo.Promise}
+	 * @returns		{Promise}
 	 */
 	conbo.loadScript = function(url, scope)
 	{
 		return conbo.httpRequest
 		({
 			url: url,
-			dataType: "script",
+			dataType: 'script',
 			scope: scope
 		});
 	};
@@ -2255,24 +2245,6 @@
 		}
 		
 		return false;
-	};
-	
-	/**
-	 * Is the specified property explicitely bindable?
-	 * 
-	 * @memberof	conbo
-	 * @see			#isAccessor
-	 * @deprecated	Use conbo.isAccessor
-	 * @returns		{boolean}
-	 */
-	conbo.isBindable = function(obj, propName)
-	{
-		if (!conbo.isAccessor(obj, propName))
-		{
-			return false;
-		}
-		
-		return !!(obj.__lookupSetter__(propName) || {}).bindable;
 	};
 	
 	/**

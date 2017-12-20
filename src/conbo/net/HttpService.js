@@ -80,7 +80,7 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	 * @param	{Object}	[data] - Object containing the data to send to the web service
 	 * @param	{string}	[method=GET] - GET, POST, etc (default: GET)
 	 * @param	{Class}		[resultClass] - Optional
-	 * @returns	{conbo.Promise}
+	 * @returns	{Promise}
 	 */
 	call: function(command, data, method, resultClass)
 	{
@@ -88,7 +88,7 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 		command = this.parseUrl(command, data);
 		data = this.encodeFunction(data, method);
 		
-		var promise = conbo.httpRequest
+		return conbo.httpRequest
 		({
 			data: data,
 			type: method || 'GET',
@@ -99,11 +99,8 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 			dataFilter: this.decodeFunction,
 			resultClass: resultClass || this.resultClass, 
 			makeObjectsBindable: this.makeObjectsBindable
-		});
-		
-		promise.then(this.dispatchEvent, this.dispatchEvent, this);
-		
-		return promise;
+		})
+		.then(this.dispatchEvent.bind(this), this.dispatchEvent.bind(this));
 	},
 	
 	/**
@@ -114,7 +111,7 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	 * @param		{string}	command - The name of the command
 	 * @param		{Object}	[data] - Object containing the data to send to the web service
 	 * @param		{Class}		[resultClass] - Optional
-	 * @returns		{conbo.Promise}
+	 * @returns		{Promise}
 	 */
 	
 	/**
@@ -125,7 +122,7 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	 * @param		{string}	command - The name of the command
 	 * @param		{Object}	[data] - Object containing the data to send to the web service
 	 * @param		{Class}		[resultClass] - Optional
-	 * @returns		{conbo.Promise}
+	 * @returns		{Promise}
 	 */
 	
 	/**
@@ -136,7 +133,7 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	 * @param		{string}	command - The name of the command
 	 * @param		{Object}	[data] - Object containing the data to send to the web service
 	 * @param		{Class}		[resultClass] - Optional
-	 * @returns		{conbo.Promise}
+	 * @returns		{Promise}
 	 */
 	
 	/**
@@ -147,7 +144,7 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	 * @param		{string}	command - The name of the command
 	 * @param		{Object}	[data] - Object containing the data to send to the web service
 	 * @param		{Class}		[resultClass] - Optional
-	 * @returns		{conbo.Promise}
+	 * @returns		{Promise}
 	 */
 	
 	/**
@@ -158,7 +155,7 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	 * @param		{string}	command - The name of the command
 	 * @param		{Object}	[data] - Object containing the data to send to the web service
 	 * @param		{Class}		[resultClass] - Optional
-	 * @returns		{conbo.Promise}
+	 * @returns		{Promise}
 	 */
 	
 	/**

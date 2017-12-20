@@ -1390,64 +1390,6 @@ declare namespace conbo {
 	}
 
 	/**
-	 * A Promise is a proxy for a value not necessarily known when the promise is created.
-	 * It allows you to associate handlers with an asynchronous action's eventual success
-	 * value or failure reason. This lets asynchronous methods return values like synchronous
-	 * methods: instead of immediately returning the final value, the asynchronous method
-	 * returns a promise to supply the value at some point in the future.
-	 * The Conbo implementation varies slightly from ES6 in that the values passed to the
-	 * resolve and reject methods are ResultEvent and FaultEvent objects, respectively.
-	 * @fires		conbo.ConboEvent#RESULT
-	 * @fires		conbo.ConboEvent#FAULT
-	 */
-	class Promise extends EventDispatcher 
-	{
-		/**
-		 * @param 		{Function} [executor] - A function that is passed with the arguments resolve and reject, which is executed immediately by the Promise
-	 	 */
-		constructor(executor?: Function);
-		
-		/**
-		 * Dispatch a result event using the specified result
-		 * @param 		{any} result - The result to dispatch
-		 * @returns 	{conbo.Promise}
-		 */
-		resolve(result: any):this;
-		/**
-		 * Shorthand method for adding a result and/or fault event handlers
-		 * @param		{Function}	resultHandler
-		 * @param		{Function}	[faultHandler]
-		 * @param		{Object}	[scope]
-		 * @returns		{conbo.Promise}
-		 */
-		then(resultHandler: Function, faultHandler?: Function, scope?: any):this;
-
-		/**
-		 * Shorthand method for adding a fault event handler
-		 * @param		{Function}	faultHandler
-		 * @param		{Object}	[scope]
-		 * @returns		{conbo.Promise}
-		 */
-		catch(faultHandler: Function, scope?: any):this;
-		
-		/**
-		 * Psedonym for resolve
-		 * @deprecated	Use resolve
-		 * @param 		{any} result - The result to dispatch
-		 * @returns 	{conbo.Promise}
-		 */
-		dispatchResult(result: any):this;
-		
-		/**
-		 * Psedonym for reject
-		 * @deprecated	Use reject
-		 * @param 		{any} result - The fault to dispatch
-		 * @returns 	{conbo.Promise}
-		 */
-		dispatchFault(result: any):this;
-	}
-
-	/**
 	 * Element Proxy
 	 * Wraps an Element to add cross browser or simplified functionality;
 	 * think of it as "jQuery nano"
@@ -1885,7 +1827,7 @@ declare namespace conbo {
 		 * @param	{Object}	[data] - Object containing the data to send to the web service
 		 * @param	{string}	[method=GET] - GET, POST, etc (default: GET)
 		 * @param	{Class}		[resultClass] - Optional
-		 * @returns	{conbo.Promise}
+		 * @returns	{Promise}
 		 */
 		call(command:string, data?:any, method?:string, resultClass?:any):Promise;
 		
@@ -1895,7 +1837,7 @@ declare namespace conbo {
 		 * @param		{string}	command - The name of the command
 		 * @param		{Object}	[data] - Object containing the data to send to the web service
 		 * @param		{Class}		[resultClass] - Optional
-		 * @returns		{conbo.Promise}
+		 * @returns		{Promise}
 		 */
 		post(command:string, data?:any, resultClass?:any):Promise;
 		
@@ -1905,7 +1847,7 @@ declare namespace conbo {
 		 * @param		{string}	command - The name of the command
 		 * @param		{Object}	[data] - Object containing the data to send to the web service
 		 * @param		{Class}		[resultClass] - Optional
-		 * @returns		{conbo.Promise}
+		 * @returns		{Promise}
 		 */
 		get(command:string, data?:any, resultClass?:any):Promise;
 		
@@ -1915,7 +1857,7 @@ declare namespace conbo {
 		 * @param		{string}	command - The name of the command
 		 * @param		{Object}	[data] - Object containing the data to send to the web service
 		 * @param		{Class}		[resultClass] - Optional
-		 * @returns		{conbo.Promise}
+		 * @returns		{Promise}
 		 */
 		put(command:string, data?:any, resultClass?:any):Promise;
 		
@@ -1925,7 +1867,7 @@ declare namespace conbo {
 		 * @param		{string}	command - The name of the command
 		 * @param		{Object}	[data] - Object containing the data to send to the web service
 		 * @param		{Class}		[resultClass] - Optional
-		 * @returns		{conbo.Promise}
+		 * @returns		{Promise}
 		 */
 		patch(command:string, data?:any, resultClass?:any):Promise;
 		
@@ -1935,7 +1877,7 @@ declare namespace conbo {
 		 * @param		{string}	command - The name of the command
 		 * @param		{Object}	[data] - Object containing the data to send to the web service
 		 * @param		{Class}		[resultClass] - Optional
-		 * @returns		{conbo.Promise}
+		 * @returns		{Promise}
 		 */
 		delete(command:string, data?:any, resultClass?:any):Promise;
 		
@@ -2141,7 +2083,7 @@ declare namespace conbo {
 	 * 
 	 * @see			http://api.jquery.com/jquery.ajax/
 	 * @param 		{Object}		options - URL string or Object containing URL and other settings for the HTTP request
-	 * @returns		{conbo.Promise}
+	 * @returns		{Promise}
 	 */
 	function httpRequest(options:any):Promise;
 
@@ -2159,7 +2101,7 @@ declare namespace conbo {
 	 * @param 		{string}	urlOrOptions - URL string or Object containing URL and other settings for the HTTP request
 	 * @param 		{Object}	data - Data to be sent with request (ignored when using options object)
 	 * @param 		{string}	method - HTTP method to use, e.g. "GET" or "POST" (ignored when using options object)
-	 * @returns		{conbo.Promise}
+	 * @returns		{Promise}
 	 */
 	function httpRequest(url:string, data?:any, method?:string):Promise;
 	
@@ -2513,7 +2455,6 @@ declare namespace conbo {
 	 * Partially apply a function by creating a version that has had some of its
 	 * arguments pre-filled, without changing its dynamic `this` scope.
 	 * 
-	 * 
 	 * @param		{Function}	func - Method to partially pre-fill
 	 * @param		{...any}		args - Arguments to pass to specified method
 	 * @returns		{Function}
@@ -2523,7 +2464,6 @@ declare namespace conbo {
 	/**
 	 * Calls the specified function as soon as the DOM is ready, if it is not already,
 	 * otherwise call it at the end of the current callstack
-	 * 
 	 * 
 	 * @param		{Function}	func - The function to call
 	 * @param		{Object}	[scope] - The scope in which to run the specified function
@@ -2535,28 +2475,25 @@ declare namespace conbo {
 	 * Defers a function, scheduling it to run after the current call stack has
 	 * cleared.
 	 * 
-	 * 
 	 * @param		{Function}	func - Function to call
 	 * @param		{Object}	[scope] - The scope in which to call the function
 	 * @returns		{number}	ID that can be used with clearInterval
 	 */
-	function defer(func:Function, scope?:any):number;
+	function defer(func:Function, scope?:any, ...args:any[]):number;
 	
 	/**
 	 * Calls a function at the start of the next animation frame, useful when 
 	 * updating multiple elements in the DOM
 	 * 
-	 * 
 	 * @param		{Function}	func - Function to call
 	 * @param		{Object}	[scope] - The scope in which to call the function
 	 * @returns		{conbo}
 	 */
-	function callLater(func:Function, scope?:any):any;
+	function callLater(func:Function, scope?:any, ...args:any[]):any;
 	
 	/**
 	 * Returns a function that will be executed at most one time, no matter how
 	 * often you call it. Useful for lazy initialization.
-	 * 
 	 * 
 	 * @param		{Function}	func - Function to call
 	 * @returns		{Function}
@@ -2567,7 +2504,6 @@ declare namespace conbo {
 	 * Returns the first function passed as an argument to the second,
 	 * allowing you to adjust arguments, run code before and after, and
 	 * conditionally execute the original function.
-	 * 
 	 * 
 	 * @param		{Function}	func - Function to wrap
 	 * @param		{Function}	wrapper - Function to call
@@ -2582,7 +2518,6 @@ declare namespace conbo {
 	 * Extends Object.keys to retrieve the names of an object's 
 	 * enumerable properties
 	 * 
-	 * 
 	 * @param		{Object}	obj - Object to get keys from
 	 * @param		{boolean}	[deep] - Retrieve keys from further up the prototype chain?
 	 * @returns		{any[]}
@@ -2592,7 +2527,6 @@ declare namespace conbo {
 	/**
 	 * Extends Object.keys to retrieve the names of an object's 
 	 * enumerable functions
-	 * 
 	 * 
 	 * @see			#keys
 	 * @param		{Object}	obj - Object to get keys from
@@ -2606,7 +2540,6 @@ declare namespace conbo {
 	 * Extends Object.keys to retrieve the names of an object's enumerable 
 	 * variables
 	 * 
-	 * 
 	 * @see			#keys
 	 * @param		{Object}	obj - Object to get keys from
 	 * @param		{boolean}	[deep] - Retrieve keys from further up the prototype chain?
@@ -2619,7 +2552,6 @@ declare namespace conbo {
 	 * property of an object, regardless of whether it's enumerable or 
 	 * unenumerable
 	 * 
-	 * 
 	 * @param		{Object}	obj - Object to get keys from
 	 * @param		{boolean}	[deep] - Retrieve keys from further up the prototype chain?
 	 * @returns		{any[]}
@@ -2630,7 +2562,6 @@ declare namespace conbo {
 	 * Extends Object.getOwnPropertyNames to retrieves the names of every 
 	 * function of an object, regardless of whether it's enumerable or 
 	 * unenumerable
-	 * 
 	 * 
 	 * @see			#getPropertyNames
 	 * @param		{Object}	obj - Object to get keys from
@@ -2644,7 +2575,6 @@ declare namespace conbo {
 	 * Extends Object.getOwnPropertyNames to retrieves the names of every 
 	 * variable of an object, regardless of whether it's enumerable or 
 	 * unenumerable
-	 * 
 	 * 
 	 * @see			#getPropertyNames
 	 * @param		{Object}	obj - Object to get keys from
@@ -2678,7 +2608,6 @@ declare namespace conbo {
 	 * Define the values of the given object by cloning all of the properties 
 	 * of the passed-in object(s), destroying and overwriting the target's 
 	 * property descriptors and values in the process
-	 * 
 	 * 
 	 * @param		{Object}	obj - Object to define properties on
 	 * @param		{...any}		source - Objects containing properties to define 
@@ -3161,7 +3090,7 @@ declare namespace conbo {
 	 * 
 	 * @param 		{string}	url		The CSS file's URL
 	 * @param 		{string}	[media]	The media attribute (defaults to 'all')
-	 * @returns		{conbo.Promise}
+	 * @returns		{Promise}
 	 */
 	function loadCss(url:string, media?:string):Promise;
 	
@@ -3170,7 +3099,7 @@ declare namespace conbo {
 	 * 
 	 * @param 		{string}	url - The JavaScript file's URL
 	 * @param 		{Object}	[scope] - The scope in which to run the loaded script
-	 * @returns		{conbo.Promise}
+	 * @returns		{Promise}
 	 */
 	function loadScript(url:string, scope?:any):Promise;
 	
@@ -3208,15 +3137,6 @@ declare namespace conbo {
 	 * @returns		{boolean}
 	 */
 	function isAccessor(obj:any, propName:string):boolean;
-	
-	/**
-	 * Is the specified property explicitely bindable?
-	 * 
-	 * @see			#isAccessor
-	 * @deprecated	Use conbo.isAccessor
-	 * @returns		{boolean}
-	 */
-	function isBindable(obj:any, propName:string):boolean;
 	
 	/**
 	 * Is the specified function native?
@@ -3326,6 +3246,9 @@ declare namespace conbo {
 	 */
 	function error(...values:any[]):void;
 	
+
+	// Decorators
+
 	/**
 	 * Decorator for adding Application, View and Glimpse classes a ConboJS namespace to enable auto instantiation
 	 * @param	{string}	namespace - The name of the target namespace
@@ -3347,5 +3270,87 @@ declare namespace conbo {
 	 * @param	{string}	key - The name of the property
 	 */
 	function Inject(target:any, key:string):void;
+
+
+	// Polyfills
+
+	interface Thenable <R> 
+	{
+		then <U> (onFulfilled?: (value: R) => U | Thenable<U>, onRejected?: (error: any) => U | Thenable<U>):Thenable<U>;
+		then <U> (onFulfilled?: (value: R) => U | Thenable<U>, onRejected?: (error: any) => void):Thenable<U>;
+	}
+	
+	class Promise<R> implements Thenable<R>
+	{
+		/**
+		 * If you call resolve in the body of the callback passed to the constructor,
+		 * your promise is fulfilled with result object passed to resolve.
+		 * If you call reject your promise is rejected with the object passed to resolve.
+		 * For consistency and debugging (eg stack traces), obj should be an instanceof Error.
+		 * Any errors thrown in the constructor callback will be implicitly passed to reject().
+		 */
+		constructor(callback:(resolve : (value?: R | Thenable<R>) => void, reject:(error?: any) => void) => void);
+	
+		/**
+		 * onFulfilled is called when/if "promise" resolves. onRejected is called when/if "promise" rejects.
+		 * Both are optional, if either/both are omitted the next onFulfilled/onRejected in the chain is called.
+		 * Both callbacks have a single parameter , the fulfillment value or rejection reason.
+		 * "then" returns a new promise equivalent to the value you return from onFulfilled/onRejected after being passed through Promise.resolve.
+		 * If an error is thrown in the callback, the returned promise rejects with that error.
+		 *
+		 * @param onFulfilled called when/if "promise" resolves
+		 * @param onRejected called when/if "promise" rejects
+		 */
+		then<U>(onFulfilled?: (value: R) => U | Thenable<U>, onRejected?: (error: any) => U | Thenable<U>):Promise<U>;
+		then<U>(onFulfilled?: (value: R) => U | Thenable<U>, onRejected?: (error: any) => void):Promise<U>;
+	
+		/**
+		 * Sugar for promise.then(undefined, onRejected)
+		 *
+		 * @param onRejected called when/if "promise" rejects
+		 */
+		catch<U>(onRejected?: (error: any) => U | Thenable<U>):Promise<U>;
+	
+		/**
+		 * onSettled is invoked when/if the "promise" settles (either rejects or fulfills);
+		 *
+		 * @param onFinally called when/if "promise" settles
+		 */
+		finally<U>(onFinally?: (callback: any) => U | Thenable<U>):Promise<U>;
+	
+		/**
+		 * Make a new promise from the thenable.
+		 * A thenable is promise-like in as far as it has a "then" method.
+		 */
+		static resolve():Promise<void>;
+		static resolve<R>(value: R | Thenable<R>):Promise<R>;
+	
+		/**
+		 * Make a promise that rejects to obj. For consistency and debugging (eg stack traces), obj should be an instanceof Error
+		 */
+		static reject<R>(error: any):Promise<R>;
+	
+		/**
+		 * Make a promise that fulfills when every item in the array fulfills, and rejects if (and when) any item rejects.
+		 * the array passed to all can be a mixture of promise-like objects and other objects.
+		 * The fulfillment value is an array (in order) of fulfillment values. The rejection value is the first rejection value.
+		 */
+		static all<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(values: [T1 | Thenable<T1>, T2 | Thenable<T2>, T3 | Thenable<T3>, T4 | Thenable <T4>, T5 | Thenable<T5>, T6 | Thenable<T6>, T7 | Thenable<T7>, T8 | Thenable<T8>, T9 | Thenable<T9>, T10 | Thenable<T10>]):Promise<[T1, T2, T3, T4, T5, T6, T7, T8, T9, T10]>;
+		static all<T1, T2, T3, T4, T5, T6, T7, T8, T9>(values: [T1 | Thenable<T1>, T2 | Thenable<T2>, T3 | Thenable<T3>, T4 | Thenable <T4>, T5 | Thenable<T5>, T6 | Thenable<T6>, T7 | Thenable<T7>, T8 | Thenable<T8>, T9 | Thenable<T9>]):Promise<[T1, T2, T3, T4, T5, T6, T7, T8, T9]>;
+		static all<T1, T2, T3, T4, T5, T6, T7, T8>(values: [T1 | Thenable<T1>, T2 | Thenable<T2>, T3 | Thenable<T3>, T4 | Thenable <T4>, T5 | Thenable<T5>, T6 | Thenable<T6>, T7 | Thenable<T7>, T8 | Thenable<T8>]):Promise<[T1, T2, T3, T4, T5, T6, T7, T8]>;
+		static all<T1, T2, T3, T4, T5, T6, T7>(values: [T1 | Thenable<T1>, T2 | Thenable<T2>, T3 | Thenable<T3>, T4 | Thenable <T4>, T5 | Thenable<T5>, T6 | Thenable<T6>, T7 | Thenable<T7>]):Promise<[T1, T2, T3, T4, T5, T6, T7]>;
+		static all<T1, T2, T3, T4, T5, T6>(values: [T1 | Thenable<T1>, T2 | Thenable<T2>, T3 | Thenable<T3>, T4 | Thenable <T4>, T5 | Thenable<T5>, T6 | Thenable<T6>]):Promise<[T1, T2, T3, T4, T5, T6]>;
+		static all<T1, T2, T3, T4, T5>(values: [T1 | Thenable<T1>, T2 | Thenable<T2>, T3 | Thenable<T3>, T4 | Thenable <T4>, T5 | Thenable<T5>]):Promise<[T1, T2, T3, T4, T5]>;
+		static all<T1, T2, T3, T4>(values: [T1 | Thenable<T1>, T2 | Thenable<T2>, T3 | Thenable<T3>, T4 | Thenable <T4>]):Promise<[T1, T2, T3, T4]>;
+		static all<T1, T2, T3>(values: [T1 | Thenable<T1>, T2 | Thenable<T2>, T3 | Thenable<T3>]):Promise<[T1, T2, T3]>;
+		static all<T1, T2>(values: [T1 | Thenable<T1>, T2 | Thenable<T2>]):Promise<[T1, T2]>;
+		static all<T1>(values: [T1 | Thenable<T1>]):Promise<[T1]>;
+		static all<TAll>(values: Array<TAll | Thenable<TAll>>):Promise<TAll[]>;
+	
+		/**
+		 * Make a Promise that fulfills when any item fulfills, and rejects if any item rejects.
+		 */
+		static race<R>(promises: (R | Thenable<R>)[]):Promise<R>;
+	}
 
 }
