@@ -15,7 +15,8 @@ if (!window.Promise)
 
 				if (resolved != is) 
 				{
-					return Promise(function(resolve, reject) {
+					return Promise(function(resolve, reject)
+					{
 						queue.push({ p: this, r: resolve, j: reject, 1: resolved, 0: rejected });
 					});
 				}
@@ -81,7 +82,7 @@ if (!window.Promise)
 
 		function finalize(promise, resolve, reject, value, transform) 
 		{
-			setImmediate(function() 
+			setImmediate(function()
 			{
 				try 
 				{
@@ -116,7 +117,8 @@ if (!window.Promise)
 			{
 				values = [];
 				count = promises.length || resolve(values);
-				promises.map(function(promise, index) {
+				promises.map(function(promise, index) 
+				{
 					ResolvedPromise(promise).then(
 						function(value) 
 						{
@@ -132,7 +134,8 @@ if (!window.Promise)
 		{
 			return Promise(function(resolve, reject) 
 			{
-				promises.map(function(promise) {
+				promises.map(function(promise) 
+				{
 					ResolvedPromise(promise).then(resolve, reject);
 				});
 			});
