@@ -84,6 +84,8 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	 */
 	call: function(command, data, method, resultClass)
 	{
+		var callback = this.dispatchEvent.bind(this);
+
 		data = conbo.clone(data || {});
 		command = this.parseUrl(command, data);
 		data = this.encodeFunction(data, method);
@@ -100,7 +102,7 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 			resultClass: resultClass || this.resultClass, 
 			makeObjectsBindable: this.makeObjectsBindable
 		})
-		.then(this.dispatchEvent.bind(this), this.dispatchEvent.bind(this));
+		.then(callback, callback);
 	},
 	
 	/**
