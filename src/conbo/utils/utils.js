@@ -1799,7 +1799,7 @@
 		
 		while (value.length < minLength)
 		{
-			value = padChar+string;
+			value = padChar + value;
 		}
 		
 		return value;
