@@ -508,7 +508,7 @@ conbo.View = conbo.Glimpse.extend(
 		
 		conbo
 			.httpRequest({url:url, dataType:'text'})
-			.then(resultHandler, faultHandler, this)
+			.then(resultHandler.bind(this), faultHandler.bind(this))
 			;
 		
 		return this;
