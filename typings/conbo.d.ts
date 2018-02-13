@@ -1829,7 +1829,7 @@ declare namespace conbo {
 		 * @param	{Class}		[resultClass] - Optional
 		 * @returns	{Promise}
 		 */
-		call(command:string, data?:any, method?:string, resultClass?:any):Promise;
+		call(command:string, data?:any, method?:string, resultClass?:any):Promise<any>;
 		
 		/**
 		 * Call a method of the web service using the POST verb
@@ -1839,7 +1839,7 @@ declare namespace conbo {
 		 * @param		{Class}		[resultClass] - Optional
 		 * @returns		{Promise}
 		 */
-		post(command:string, data?:any, resultClass?:any):Promise;
+		post(command:string, data?:any, resultClass?:any):Promise<any>;
 		
 		/**
 		 * Call a method of the web service using the GET verb
@@ -1849,7 +1849,7 @@ declare namespace conbo {
 		 * @param		{Class}		[resultClass] - Optional
 		 * @returns		{Promise}
 		 */
-		get(command:string, data?:any, resultClass?:any):Promise;
+		get(command:string, data?:any, resultClass?:any):Promise<any>;
 		
 		/**
 		 * Call a method of the web service using the PUT verb
@@ -1859,7 +1859,7 @@ declare namespace conbo {
 		 * @param		{Class}		[resultClass] - Optional
 		 * @returns		{Promise}
 		 */
-		put(command:string, data?:any, resultClass?:any):Promise;
+		put(command:string, data?:any, resultClass?:any):Promise<any>;
 		
 		/**
 		 * Call a method of the web service using the PATCH verb
@@ -1869,7 +1869,7 @@ declare namespace conbo {
 		 * @param		{Class}		[resultClass] - Optional
 		 * @returns		{Promise}
 		 */
-		patch(command:string, data?:any, resultClass?:any):Promise;
+		patch(command:string, data?:any, resultClass?:any):Promise<any>;
 		
 		/**
 		 * Call a method of the web service using the DELETE verb
@@ -1879,7 +1879,7 @@ declare namespace conbo {
 		 * @param		{Class}		[resultClass] - Optional
 		 * @returns		{Promise}
 		 */
-		delete(command:string, data?:any, resultClass?:any):Promise;
+		delete(command:string, data?:any, resultClass?:any):Promise<any>;
 		
 		/**
 		 * Add one or more remote commands as methods of this class instance
@@ -2085,7 +2085,7 @@ declare namespace conbo {
 	 * @param 		{Object}		options - URL string or Object containing URL and other settings for the HTTP request
 	 * @returns		{Promise}
 	 */
-	function httpRequest(options:any):Promise;
+	function httpRequest(options:any):Promise<any>;
 
 	/**
 	 * HTTP Request
@@ -2103,7 +2103,7 @@ declare namespace conbo {
 	 * @param 		{string}	method - HTTP method to use, e.g. "GET" or "POST" (ignored when using options object)
 	 * @returns		{Promise}
 	 */
-	function httpRequest(url:string, data?:any, method?:string):Promise;
+	function httpRequest(url:string, data?:any, method?:string):Promise<any>;
 	
 	/**
 	 * Handles objects, arrays, lists and raw objects using a for loop (because 
@@ -3092,7 +3092,7 @@ declare namespace conbo {
 	 * @param 		{string}	[media]	The media attribute (defaults to 'all')
 	 * @returns		{Promise}
 	 */
-	function loadCss(url:string, media?:string):Promise;
+	function loadCss(url:string, media?:string):Promise<any>;
 	
 	/**
 	 * Load a JavaScript file and executes it
@@ -3101,7 +3101,7 @@ declare namespace conbo {
 	 * @param 		{Object}	[scope] - The scope in which to run the loaded script
 	 * @returns		{Promise}
 	 */
-	function loadScript(url:string, scope?:any):Promise;
+	function loadScript(url:string, scope?:any):Promise<any>;
 	
 	/**
 	 * Makes the specified properties of an object bindable; if no property 

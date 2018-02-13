@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: ItemRenderer</title>
+    <title>JSDoc: Class: Application</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: ItemRenderer</h1>
+    <h1 class="page-title">Class: Application</h1>
 
     
 
@@ -29,7 +29,7 @@
 <header>
     
         <h2><span class="attribs"><span class="type-signature"></span></span>
-            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>ItemRenderer<span class="signature">(options<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
+            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>Application<span class="signature">(options)</span><span class="type-signature"></span></h2>
         
     
 </header>
@@ -42,7 +42,7 @@
     
 
     
-    <h4 class="name" id="ItemRenderer"><span class="type-signature"></span>new ItemRenderer<span class="signature">(options<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Application"><span class="type-signature"></span>new Application<span class="signature">(options)</span><span class="type-signature"></span></h4>
     
 
     
@@ -50,7 +50,7 @@
 
 
 <div class="description">
-    ItemRendererA conbo.View class that implements the conbo.IDataRenderer interface
+    ApplicationBase application class for client-side applications
 </div>
 
 
@@ -73,8 +73,6 @@
 
         <th>Type</th>
 
-        
-        <th>Attributes</th>
         
 
         
@@ -101,20 +99,10 @@
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
 
             
 
-            <td class="description last">Object containing initialisation options</td>
+            <td class="description last">Object containing optional initialisation options, see View</td>
         </tr>
 
     
@@ -162,19 +150,12 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7897">line 7897</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7936">line 7936</a>
     </li></ul></dd>
     
 
     
 
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="conbo.View.html">conbo.View</a></li>
-        </ul>
-    </dd>
     
 
     
@@ -183,6 +164,25 @@
 
 
 
+
+<h5>Fires:</h5>
+<ul>
+    <li><a href="conbo.ConboEvent.html#event:ADD">conbo.ConboEvent#event:ADD</a></li>
+
+    <li><a href="conbo.ConboEvent.html#event:DETACH">conbo.ConboEvent#event:DETACH</a></li>
+
+    <li><a href="conbo.ConboEvent.html#event:REMOVE">conbo.ConboEvent#event:REMOVE</a></li>
+
+    <li><a href="conbo.ConboEvent.html#event:BIND">conbo.ConboEvent#event:BIND</a></li>
+
+    <li><a href="conbo.ConboEvent.html#event:UNBIND">conbo.ConboEvent#event:UNBIND</a></li>
+
+    <li><a href="conbo.ConboEvent.html#event:TEMPLATE_COMPLETE">conbo.ConboEvent#event:TEMPLATE_COMPLETE</a></li>
+
+    <li><a href="conbo.ConboEvent.html#event:TEMPLATE_ERROR">conbo.ConboEvent#event:TEMPLATE_ERROR</a></li>
+
+    <li><a href="conbo.ConboEvent.html#event:CREATION_COMPLETE">conbo.ConboEvent#event:CREATION_COMPLETE</a></li>
+</ul>
 
 
 
@@ -208,8 +208,6 @@
 
     <ul>
         <li><a href="conbo.View.html">conbo.View</a></li>
-    
-        <li><a href="conbo.html#.IDataRenderer">conbo.IDataRenderer</a></li>
     </ul>
 
 
@@ -615,6 +613,78 @@
 
         
             
+<h4 class="name" id="contextClass"><span class="type-signature"></span>contextClass<span class="type-signature"> :<a href="conbo.Context.html">conbo.Context</a></span></h4>
+
+
+
+
+<div class="description">
+    Default context class to useYou'll normally want to override this with your own
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><a href="conbo.Context.html">conbo.Context</a></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7988">line 7988</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
 <h4 class="name" id="currentState"><span class="type-signature"></span>currentState<span class="type-signature"> :string</span></h4>
 
 
@@ -692,13 +762,13 @@
 
         
             
-<h4 class="name" id="data"><span class="type-signature"></span>data<span class="type-signature"> :*</span></h4>
+<h4 class="name" id="data"><span class="type-signature"></span>data<span class="type-signature"> :Object</span></h4>
 
 
 
 
 <div class="description">
-    Data to be rendered
+    Arbitrary data Object
 </div>
 
 
@@ -707,7 +777,7 @@
     <ul>
         <li>
             
-<span class="param-type">*</span>
+<span class="param-type">Object</span>
 
 
         </li>
@@ -724,10 +794,8 @@
     
 
     
-
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="conbo.View.html#data">conbo.View#data</a>
     </li></ul></dd>
     
@@ -749,9 +817,11 @@
     
 
     
+
+    
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7912">line 7912</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7324">line 7324</a>
     </li></ul></dd>
     
 
@@ -1077,78 +1147,6 @@
 
         
             
-<h4 class="name" id="index"><span class="type-signature"></span>index<span class="type-signature"> :number</span></h4>
-
-
-
-
-<div class="description">
-    Index of the current item
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">number</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7918">line 7918</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
 <h4 class="name" id="initialized"><span class="type-signature"></span>initialized<span class="type-signature"> :boolean</span></h4>
 
 
@@ -1226,13 +1224,85 @@
 
         
             
-<h4 class="name" id="isLast"><span class="type-signature"></span>isLast<span class="type-signature"> :boolean</span></h4>
+<h4 class="name" id="namespace"><span class="type-signature"></span>namespace<span class="type-signature"> :<a href="conbo.Namespace.html">conbo.Namespace</a></span></h4>
 
 
 
 
 <div class="description">
-    Is this the last item in the list?
+    The application's namespace (required)
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><a href="conbo.Namespace.html">conbo.Namespace</a></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7958">line 7958</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="observeEnabled"><span class="type-signature"></span>observeEnabled<span class="type-signature"> :boolean</span></h4>
+
+
+
+
+<div class="description">
+    If true, the application will automatically apply Glimpse and View classes to elements when they're added to the DOM
 </div>
 
 
@@ -1280,82 +1350,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7924">line 7924</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="list"><span class="type-signature"></span>list<span class="type-signature"> :<a href="conbo.List.html">conbo.List</a>|Array</span></h4>
-
-
-
-
-<div class="description">
-    The list containing the data for this item
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type"><a href="conbo.List.html">conbo.List</a></span>
-|
-
-<span class="param-type">Array</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7930">line 7930</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line8003">line 8003</a>
     </li></ul></dd>
     
 
@@ -5193,12 +5188,12 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.Class.html#toString">conbo.Class#toString</a>
-    </li></ul></dd>
-    
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="conbo.View.html#toString">conbo.View#toString</a>
+    </li></ul></dd>
     
 
     
@@ -5397,7 +5392,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Jan 17 2018 10:13:28 GMT+0000 (GMT Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Feb 13 2018 16:48:07 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
