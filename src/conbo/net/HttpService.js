@@ -84,25 +84,29 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	 */
 	call: function(command, data, method, resultClass)
 	{
-		var callback = this.dispatchEvent.bind(this);
-
 		data = conbo.clone(data || {});
 		command = this.parseUrl(command, data);
 		data = this.encodeFunction(data, method);
 		
-		return conbo.httpRequest
+		var callback = this.dispatchEvent.bind(this);
+		var url = (this.rootUrl+command).replace(/\/$/, '');
+
+		var promise = conbo.httpRequest
 		({
 			data: data,
 			type: method || 'GET',
 			headers: this.headers,
-			url: this.rootUrl+command,
+			url: url,
 			contentType: this.contentType || conbo.CONTENT_TYPE_JSON,
 			dataType: this.dataType,
 			dataFilter: this.decodeFunction,
 			resultClass: resultClass || this.resultClass, 
 			makeObjectsBindable: this.makeObjectsBindable
-		})
-		.then(callback, callback);
+		});
+		
+		promise.then(callback, callback);
+
+		return promise;
 	},
 	
 	/**
