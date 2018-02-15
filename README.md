@@ -73,7 +73,7 @@ conbo('com.example.app').import({ FooApp, BarView });
 
 import {conbons, Application} from 'conbo';
 
-@conbons('com.example.app')
+@Viewable('com.example.app')
 export class FooApp extends Application { ... }
 ```
 
