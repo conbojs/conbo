@@ -115,14 +115,14 @@ conbo.ElementProxy = conbo.EventProxy.extend(
 	{
 		var el = this.__obj;
 		
-		if (el && className)
+		if (el instanceof Element && className)
 		{
-			var newClasses = className.trim().split(' ');
+			var classNames = className.trim().split(' ');
 
 			// IE11 doesn't support multiple parameters
-			while (newClasses.length)
+			while (className = classNames.pop())
 			{
-				el.classList.add(newClasses.pop())
+				el.classList.add(className);
 			}
 		}
 		
@@ -139,19 +139,19 @@ conbo.ElementProxy = conbo.EventProxy.extend(
 	{
 		var el = this.__obj;
 		
-		if (el && className)
+		if (el instanceof Element && className)
 		{
 			if (conbo.isFunction(className))
 			{
 				className = className(el.className);
 			}
 			
-			var classesToRemove = className.trim().split(' ');
+			var classNames = className.trim().split(' ');
 
 			// IE11 doesn't support multiple parameters
-			while (classesToRemove.length)
+			while (className = classNames.pop())
 			{
-				el.classList.remove(classesToRemove.pop())
+				el.classList.remove(className);
 			}
 		}
 		
@@ -168,7 +168,7 @@ conbo.ElementProxy = conbo.EventProxy.extend(
 	{
 		var el = this.__obj;
 		
-		return el && className
+		return el instanceof Element && className
 			? el.classList.contains(className)
 			: false;
 	},

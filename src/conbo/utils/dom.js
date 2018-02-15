@@ -106,9 +106,10 @@
 		{
 			event.nodes.forEach(function(node)
 			{
-				if (!node.classList.contains('cb-app'))
+				var ep = __ep(node);
+				
+				if (!ep.hasClass('cb-app'))
 				{
-					var ep = __ep(node);
 					var appName = ep.cbAttributes.app || conbo.toCamelCase(node.tagName, true);
 					
 					if (appName && namespace[appName])
