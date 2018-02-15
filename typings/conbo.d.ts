@@ -721,9 +721,8 @@ declare namespace conbo {
 	 * @param 		{Object} options - Object containing optional initialisation options, including 'source' (object) containing initial values
 	 * @fires		conbo.ConboEvent#CHANGE
 	 */
-	class Hash extends EventDispatcher {
-
-		[key:number]:any;
+	class Hash extends EventDispatcher 
+	{
 		[key:string]:any;
 		
 		/**
@@ -786,7 +785,9 @@ declare namespace conbo {
 	 * @fires		conbo.ConboEvent#ADD
 	 * @fires		conbo.ConboEvent#REMOVE
 	 */
-	class List extends EventDispatcher {
+	class List extends EventDispatcher 
+	{
+		[key:number]:any;
 
 		/**
 		 * @param 		{Object} options - Object containing optional initialisation options, including `source` (array), `context` (Context) and `itemClass` (Class)
