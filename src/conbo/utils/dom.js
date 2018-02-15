@@ -106,12 +106,15 @@
 		{
 			event.nodes.forEach(function(node)
 			{
-				var ep = __ep(node);
-				var appName = ep.cbAttributes.app || conbo.toCamelCase(node.tagName, true);
-				
-				if (appName && namespace[appName] && !ep.hasClass('cb-app'))
+				if (!node.classList.contains('cb-app'))
 				{
-					new namespace[appName]({el:node});
+					var ep = __ep(node);
+					var appName = ep.cbAttributes.app || conbo.toCamelCase(node.tagName, true);
+					
+					if (appName && namespace[appName])
+					{
+						new namespace[appName]({el:node});
+					}
 				}
 			});
 		});

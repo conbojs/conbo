@@ -189,10 +189,30 @@ declare namespace conbo {
 		static readonly ALL:string;
 
 		/**
+		 * Event type
+		 */
+		type:string;
+
+		/**
 		 * Event related data
 		 */
 		data:any;
 		
+		/**
+		 * Has the default action been prevented?
+		 */
+		defaultPrevented:boolean;
+
+		/**
+		 * Has propogation been stopped?
+		 */
+		cancelBubble:boolean;
+
+		/**
+		 * Has immediate propogation been stopped?
+		 */
+		immediatePropagationStopped:boolean;
+
 		/**
 		 * Constructor: DO NOT override! (Use initialize instead)
 		 * @param 	{string} type - The type of event this class instance represents

@@ -8,6 +8,7 @@
  * @memberof	conbo
  * @augments	conbo.EventProxy
  * @author 		Neil Rackett
+ * @deprecated	This class will be replaced by standard HTML5 functionality in future and may be removed without notice
  * @param 		{Element} el - Element to be proxied
  */
 conbo.ElementProxy = conbo.EventProxy.extend(
@@ -116,11 +117,13 @@ conbo.ElementProxy = conbo.EventProxy.extend(
 		
 		if (el && className)
 		{
-			// TODO Use classList when it's more widely supported
 			var newClasses = className.trim().split(' ');
-			var allClasses = (el.className || '').trim().split(' ').concat(newClasses);
-			
-			el.className = conbo.uniq(conbo.compact(allClasses)).join(' ');
+
+			// IE11 doesn't support multiple parameters
+			while (newClasses.length)
+			{
+				el.classList.add(newClasses.pop())
+			}
 		}
 		
 		return this;
@@ -143,14 +146,13 @@ conbo.ElementProxy = conbo.EventProxy.extend(
 				className = className(el.className);
 			}
 			
-			// TODO Use classList when it's more widely supported
-			
-			var allClasses = (el.className || '').trim().split(' ');
 			var classesToRemove = className.trim().split(' ');
-			
-			allClasses = conbo.difference(allClasses, classesToRemove);
-			
-			el.className = conbo.uniq(conbo.compact(allClasses)).join(' ');
+
+			// IE11 doesn't support multiple parameters
+			while (classesToRemove.length)
+			{
+				el.classList.remove(classesToRemove.pop())
+			}
 		}
 		
 		return this;
@@ -166,14 +168,9 @@ conbo.ElementProxy = conbo.EventProxy.extend(
 	{
 		var el = this.__obj;
 		
-		if (el && className)
-		{
-			// TODO Use classList when it's more widely supported
-			var allClasses = (el.className || '').trim().split(' ');
-			return allClasses.indexOf(className) != -1;
-		}
-		
-		return false;
+		return el && className
+			? el.classList.contains(className)
+			: false;
 	},
 	
 	/**

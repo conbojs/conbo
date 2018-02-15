@@ -72,11 +72,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 */
 	cbHide: function(el, value)
 	{
-		var ep = __ep(el);
-		
 		!!value
-			? ep.addClass('cb-hide')
-			: ep.removeClass('cb-hide');
+			? el.classList.add('cb-hide')
+			: el.classList.remove('cb-hide');
 	},
 	
 	/**
@@ -107,11 +105,9 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 */
 	cbExclude: function(el, value)
 	{
-		var ep = __ep(el);
-		
 		!!value
-			? ep.addClass('cb-exclude')
-			: ep.removeClass('cb-exclude');
+			? el.classList.add('cb-exclude')
+			: el.classList.remove('cb-exclude');
 	},
 	
 	/**
