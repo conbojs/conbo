@@ -84,39 +84,37 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 	 */
 	call: function(command, data, method, resultClass)
 	{
+		var scope = this;
+
 		data = conbo.clone(data || {});
 		command = this.parseUrl(command, data);
 		data = this.encodeFunction(data, method);
 		
-		var resultHandler = function(event)
+		return new Promise(function(resolve, reject)
 		{
-			this.dispatchEvent(event);
-			return Promise.resolve(event);
-		};
-
-		var errorHandler = function(event)
-		{
-			this.dispatchEvent(event);
-			return Promise.reject(event);
-		};
-
-		var url = (this.rootUrl+command).replace(/\/$/, '');
-
-		return conbo.httpRequest
-		({
-			data: data,
-			type: method || 'GET',
-			headers: this.headers,
-			url: url,
-			contentType: this.contentType || conbo.CONTENT_TYPE_JSON,
-			dataType: this.dataType,
-			dataFilter: this.decodeFunction,
-			resultClass: resultClass || this.resultClass, 
-			makeObjectsBindable: this.makeObjectsBindable
-		})
-		.then(resultHandler.bind(this))
-		.catch(errorHandler.bind(this))
-		;
+			conbo.httpRequest
+			({
+				data: data,
+				type: method || 'GET',
+				headers: scope.headers,
+				url: (scope.rootUrl+command).replace(/\/$/, ''),
+				contentType: scope.contentType || conbo.CONTENT_TYPE_JSON,
+				dataType: scope.dataType,
+				dataFilter: scope.decodeFunction,
+				resultClass: resultClass || scope.resultClass, 
+				makeObjectsBindable: scope.makeObjectsBindable
+			})
+			.then(function(event)
+			{
+				scope.dispatchEvent(event);
+				resolve(event);
+			})
+			.catch(function(event)
+			{
+				scope.dispatchEvent(event);
+				reject(event);
+			});
+		});
 	},
 	
 	/**
