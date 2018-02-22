@@ -26,7 +26,7 @@ conbo.Context = conbo.EventDispatcher.extend(
 			__singletons: {},
 			__app: options.app,
 			__namespace: options.namespace || options.app.namespace,
-			__parentContext: options instanceof conbo.Context ? options : undefined
+			__parentContext: options.context
 		});
 		
 		this.addEventListener(conbo.Event.ALL, this.__allHandler);
@@ -69,7 +69,7 @@ conbo.Context = conbo.EventDispatcher.extend(
 	createSubcontext: function(contextClass)
 	{
 		contextClass || (contextClass = conbo.Context);
-		return new contextClass(this);
+		return new contextClass({context:this, app:this.app, namespace:this.namespace});
 	},
 	
 	/**
