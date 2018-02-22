@@ -1406,7 +1406,7 @@ declare namespace conbo {
 	 */
 	class MutationObserver extends EventDispatcher 
 	{
-		observe(el:HTMLElement):MutationObserver;
+		observe(el:Element):MutationObserver;
 		disconnect():MutationObserver;
 	}
 
@@ -1634,7 +1634,7 @@ declare namespace conbo {
 		 * @param	{boolean}		[deep=false] - Include elements in child Views?
 		 * @returns	{HTMLElement}	The first matching element
 		 */
-		querySelector(selector:string, deep?:boolean):HTMLElement;
+		querySelector(selector:string, deep?:boolean):Element;
 
 		/**
 		 * Uses querySelectorAll to find all matching elements contained within the
@@ -1643,7 +1643,7 @@ declare namespace conbo {
 		 * @param	{boolean}		[deep=false] - Include elements in child Views?
 		 * @returns	{HTMLElement[]}	All elements matching the selector
 		 */
-		querySelectorAll(selector:string, deep?:boolean):HTMLElement[];
+		querySelectorAll(selector:string, deep?:boolean):Element[];
 
 		/**
 		 * Take the View's element element out of the DOM
@@ -2070,7 +2070,7 @@ declare namespace conbo {
 	 * @param		{conbo.Namespace} namespace
 	 * @param		{Element} [rootEl] - Top most element to scan
 	 */
-	function initDom(namespace:Namespace, rootEl?:HTMLElement):any;
+	function initDom(namespace:Namespace, rootEl?:Element):any;
 	
 	/**
 	 * Watch the DOM for new Applications using the specified namespace
@@ -2081,7 +2081,7 @@ declare namespace conbo {
 	 * @param		{conbo.Namespace} namespace
 	 * @param		{Element} [rootEl] - Top most element to observe
 	 */
-	function observeDom(namespace:Namespace, rootEl?:HTMLElement):any;
+	function observeDom(namespace:Namespace, rootEl?:Element):any;
 	
 	/**
 	 * Stop watching the DOM for new Applications
@@ -2090,7 +2090,7 @@ declare namespace conbo {
 	 * @param		{conbo.Namespace} namespace
 	 * @param		{Element} [rootEl] - Top most element to observe
 	 */
-	function unobserveDom(namespace:Namespace, rootEl?:HTMLElement):any;
+	function unobserveDom(namespace:Namespace, rootEl?:Element):any;
 	
 	/**
 	 * HTTP Request
