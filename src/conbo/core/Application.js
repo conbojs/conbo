@@ -41,10 +41,41 @@ conbo.Application = conbo.View.extend(
 		
 		options.app = this;
 		options.context = new this.contextClass(options);
+
+		this.addEventListener(conbo.ConboEvent.CREATION_COMPLETE, this.__creationComplete, this, 0, true);
 		
 		conbo.View.prototype.__construct.call(this, options);
 	},
 	
+	/**
+	 * @private
+	 */
+	__creationComplete: function(options)
+	{
+		if (this.initialView)
+		{
+			this.appendView(this.initialView);
+		}
+	},
+
+	/**
+	 * If specified, this View will be appended immediately after the Application is intialized
+	 */
+	get initialView()
+	{
+		if (typeof this.__initialView == 'function')
+		{
+			this.initialView = new this.__initialView(this.context);
+		}
+
+		return this.__initialView;
+	},
+
+	set initialView(value)
+	{
+		this.__initialView = value;
+	},
+
 	/**
 	 * Default context class to use
 	 * You'll normally want to override this with your own
