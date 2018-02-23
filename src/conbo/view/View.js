@@ -312,9 +312,7 @@ conbo.View = conbo.Glimpse.extend(
 	 */
 	remove: function()
 	{
-		this.unbindView()
-			.removeEventListener()
-			;
+		this.unbindView();
 		
 		if (this.data)
 		{
@@ -333,6 +331,7 @@ conbo.View = conbo.Glimpse.extend(
 		
 		this.detach()
 			.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE))
+			.removeEventListener()
 			;
 		
 		return this;
