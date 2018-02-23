@@ -1785,6 +1785,11 @@ declare namespace conbo {
 		 * classes to elements when they're added to the DOM
 		 */
 		observeEnabled: boolean;
+
+		/**
+		 * If specified, this View will be appended immediately after the Application is intialized
+		 */
+		initialView: View|any;
 	}
 
 	/**
