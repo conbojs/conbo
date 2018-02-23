@@ -19,11 +19,6 @@ conbo.Hash = conbo.EventDispatcher.extend(
 	 */
 	__construct: function(options)
 	{
-		if (!!options.context) 
-		{
-			this.context = options.context;
-		}
-		
 		conbo.setValues(this, conbo.setDefaults({}, options.source, this.toJSON(), this._defaults));
 		delete this._defaults;
 	},

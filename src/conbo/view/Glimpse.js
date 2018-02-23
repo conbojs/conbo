@@ -26,11 +26,6 @@ conbo.Glimpse = conbo.EventDispatcher.extend(
 	{
 		this.__setEl(options.el || document.createElement(this.tagName));
 		
-		if (options.context)
-		{
-			this.context = options.context;
-		}
-		
 		if (this.template)
 		{
 			this.el.innerHTML = this.template;

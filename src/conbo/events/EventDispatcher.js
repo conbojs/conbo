@@ -80,18 +80,6 @@
 	/** @lends conbo.EventDispatcher.prototype */
 	{
 		/**
-		 * Do not override: use initialize
-		 * @private
-		 */
-		__construct: function(options)
-		{
-			if (!!options.context)
-			{
-				this.context = options.context;
-			}
-		},
-		
-		/**
 		 * Add a listener for a particular event type
 		 * 
 		 * @param 	{string}		type - Type of event ('change') or events ('change blur')

@@ -32,11 +32,7 @@ conbo.List = conbo.EventDispatcher.extend(
 	{
 		this.addEventListener(conbo.ConboEvent.CHANGE, this.__changeHandler, this, 999);
 		
-		var listOptions = 
-		[
-			'context',
-			'itemClass'
-		];
+		var listOptions = ['itemClass'];
 		
 		conbo.setValues(this, conbo.pick(options, listOptions));
 		

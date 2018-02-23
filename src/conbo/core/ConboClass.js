@@ -27,12 +27,16 @@ conbo.ConboClass = conbo.Class.extend(
 		{
 			args[0] = {};
 		}
-		else if (args[0] instanceof conbo.Context 
-				&& conbo.is(this, conbo.IInjectable, false)) 
+		else if (args[0] instanceof conbo.Context && conbo.is(this, conbo.IInjectable, false)) 
 		{
 			args[0] = args[0].addTo();
 		}
 		
+		if (!!args[0].context)
+		{
+			this.context = args[0].context;
+		}
+	
 		this.declarations.apply(this, args);
 		this.preinitialize.apply(this, args);
 		this.__construct.apply(this, args);

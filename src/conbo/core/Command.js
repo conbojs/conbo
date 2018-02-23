@@ -30,7 +30,6 @@ conbo.Command = conbo.ConboClass.extend(
 	 */
 	__construct: function(options)
 	{
-		this.context = options.context;
 		this.event = options.event || {};
 	},
 	
