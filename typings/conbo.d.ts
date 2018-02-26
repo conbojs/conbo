@@ -1664,18 +1664,34 @@ declare namespace conbo {
 		/**
 		 * Append this DOM element from one View class instance this class
 		 * instances DOM element
-		 * @param 		{...conbo.View} views - The View class(es) or instance(s) to append
+		 * @param 		{...conbo.View} views - The View instance(s) to append
 		 * @returns		{this}
 		 */
-		appendView(...views: View[]|Function[]):this;
+		appendView(...views: View[]):this;
+
+		/**
+		 * Append this DOM element from one View class instance this class
+		 * instances DOM element
+		 * @param 		{...conbo.View} views - The View class(es) to append
+		 * @returns		{this}
+		 */
+		appendView(...views: Function[]):this;
 
 		/**
 		 * Prepend this DOM element from one View class instance this class
 		 * instances DOM element
-		 * @param 		{...conbo.View} views - The View class(es) or instance(s) to prepend
+		 * @param 		{...conbo.View} views - The View instance(s) to prepend
 		 * @returns		{this}
 		 */
-		prependView(...views: View[]|Function[]):this;
+		prependView(...views: View[]):this;
+
+		/**
+		 * Prepend this DOM element from one View class instance this class
+		 * instances DOM element
+		 * @param 		{...conbo.View} views - The View class(es) to prepend
+		 * @returns		{this}
+		 */
+		prependView(...views: Function[]):this;
 
 		/**
 		 * Automatically bind elements to properties of this View
