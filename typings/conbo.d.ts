@@ -1663,7 +1663,7 @@ declare namespace conbo {
 
 		/**
 		 * Append this DOM element from one View class instance this class
-		 * instances DOM element
+		 * instance's DOM element
 		 * @param 		{...conbo.View} views - The View instance(s) to append
 		 * @returns		{this}
 		 */
@@ -1671,7 +1671,7 @@ declare namespace conbo {
 
 		/**
 		 * Append this DOM element from one View class instance this class
-		 * instances DOM element
+		 * instance's DOM element
 		 * @param 		{...conbo.View} views - The View class(es) to append
 		 * @returns		{this}
 		 */
@@ -1679,7 +1679,7 @@ declare namespace conbo {
 
 		/**
 		 * Prepend this DOM element from one View class instance this class
-		 * instances DOM element
+		 * instance's DOM element
 		 * @param 		{...conbo.View} views - The View instance(s) to prepend
 		 * @returns		{this}
 		 */
@@ -1687,7 +1687,7 @@ declare namespace conbo {
 
 		/**
 		 * Prepend this DOM element from one View class instance this class
-		 * instances DOM element
+		 * instance's DOM element
 		 * @param 		{...conbo.View} views - The View class(es) to prepend
 		 * @returns		{this}
 		 */
