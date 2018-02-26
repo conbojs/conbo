@@ -341,7 +341,7 @@ conbo.View = conbo.Glimpse.extend(
 	 * Append this DOM element from one View class instance this class 
 	 * instances DOM element
 	 * 
-	 * @param 		{conbo.View} view - The View instance to append
+	 * @param 		{conbo.View|Function} view - The View instance to append
 	 * @returns		{this}
 	 */
 	appendView: function(view)
@@ -356,7 +356,12 @@ conbo.View = conbo.Glimpse.extend(
 			
 			return this;
 		}
-		
+	
+		if (typeof view === 'function')
+		{
+			view = new view(this.context);
+		}
+
 		if (!(view instanceof conbo.View))
 		{
 			throw new Error('Parameter must be instance of conbo.View class');
@@ -385,6 +390,11 @@ conbo.View = conbo.Glimpse.extend(
 			this);
 			
 			return this;
+		}
+	
+		if (typeof view === 'function')
+		{
+			view = new view(this.context);
 		}
 		
 		if (!(view instanceof conbo.View))

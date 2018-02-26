@@ -59,7 +59,10 @@ conbo.Application = conbo.View.extend(
 	},
 
 	/**
-	 * If specified, this View will be appended immediately after the Application is intialized
+	 * If specified, this View will be appended immediately after the Application is intialized.
+	 * If this property is set to a class, it will be instantiated automatically the first time
+	 * this property is read.
+	 * @type	{conbo.View|Function}
 	 */
 	get initialView()
 	{

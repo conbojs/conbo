@@ -1664,18 +1664,18 @@ declare namespace conbo {
 		/**
 		 * Append this DOM element from one View class instance this class
 		 * instances DOM element
-		 * @param 		{...conbo.View} views - The View instance(s) to append
+		 * @param 		{...conbo.View} views - The View class(es) or instance(s) to append
 		 * @returns		{this}
 		 */
-		appendView(...views: View[]):this;
+		appendView(...views: View[]|Function[]):this;
 
 		/**
 		 * Prepend this DOM element from one View class instance this class
 		 * instances DOM element
-		 * @param 		{...conbo.View} views - The View instance(s) to preppend
+		 * @param 		{...conbo.View} views - The View class(es) or instance(s) to prepend
 		 * @returns		{this}
 		 */
-		prependView(...views: View[]):this;
+		prependView(...views: View[]|Function[]):this;
 
 		/**
 		 * Automatically bind elements to properties of this View
@@ -1778,7 +1778,7 @@ declare namespace conbo {
 		 * Default context class to use
 		 * You'll normally want to override this with your own
 		 */
-		contextClass:any;
+		contextClass:Function;
 
 		/**
 		 * If true, the application will automatically apply Glimpse and View
@@ -1787,9 +1787,11 @@ declare namespace conbo {
 		observeEnabled: boolean;
 
 		/**
-		 * If specified, this View will be appended immediately after the Application is intialized
+		 * If specified, this View will be appended immediately after the Application is intialized.
+		 * If this property is set to a class, it will be instantiated automatically the first time
+		 * this property is read.
 		 */
-		initialView: View|any;
+		initialView:View|any;
 	}
 
 	/**
