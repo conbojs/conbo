@@ -205,14 +205,7 @@
 						
 						default:
 						{
-							var setVal = function() 
-							{
-								el.value = source[propertyName]; 
-							};
-							
-							// Resolves issue with cb-repeat inside <select>
-							if (type == 'select') conbo.defer(setVal);
-							else setVal();
+							el.value = source[propertyName];
 							
 							if (isEventDispatcher)
 							{
@@ -598,6 +591,17 @@
 			});
 			
 			var elements = conbo.difference(view.querySelectorAll('*').concat([view.el]), ignored);
+
+			// Prioritises processing of cb-repeat over other attributes
+			elements.sort(function(el1, el2)
+			{
+				var r1 = __ep(el1).attributes.hasOwnProperty('cbRepeat');
+				var r2 = __ep(el2).attributes.hasOwnProperty('cbRepeat');
+
+				if (r1 && r2) return 0;
+				if (r1 && !r2) return -1;
+				if (!r1 && r2) return 1;
+			});
 			
 			elements.forEach(function(el, index)
 			{
