@@ -19,6 +19,17 @@ conbo.Hash = conbo.EventDispatcher.extend(
 	 */
 	__construct: function(options)
 	{
+		// If this Hash has an external source, ensure it's kept up-to-date
+		if (options.source)
+		{
+			var changeHandler = function(event)
+			{
+				options.source[event.property] = event.value;
+			};
+
+			this.addEventListener('change', changeHandler, this);
+		}
+
 		conbo.setValues(this, conbo.setDefaults({}, options.source, this.toJSON(), this._defaults));
 		delete this._defaults;
 	},

@@ -2413,7 +2413,7 @@
 					return /^[a-z]*$/i.test(key);
 				});
 				
-				return conbo.pick.apply(conbo, [obj].concat(keys));
+				return conbo.setValues({}, conbo.pick.apply(conbo, [obj].concat(keys)));
 			}
 		}
 		

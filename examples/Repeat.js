@@ -105,6 +105,8 @@ conbo('example', function(undefined)
 			,'Leila','Leilani','Lela','Lena','Lenore','Leona','Leonie','Leora','Lesa','Lesley'
 		],
 		
+		test: "TEST",
+
 		initialize: function()
 		{
 			this.bindAll();
