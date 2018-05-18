@@ -96,17 +96,7 @@
 	 */
 	conbo.map = function(obj, iterator, scope) 
 	{
-		var results = [];
-		
-		if (obj == undefined) return results;
-		if (nativeMap && obj.map === nativeMap) return obj.map(iterator, scope);
-		
-		forEach(obj, function(value, index, list) 
-		{
-			results.push(iterator.call(scope, value, index, list));
-		});
-		
-		return results;
+		return nativeMap.call(obj || [], iterator, scope);
 	};
 	
 	/**
@@ -120,7 +110,7 @@
 	 */
 	conbo.indexOf = function(obj, item)
 	{
-		return nativeIndexOf.call(obj, item);
+		return nativeIndexOf.call(obj || [], item);
 	};
 	
 	/**
@@ -134,7 +124,7 @@
 	 */
 	conbo.lastIndexOf = function(obj, item)
 	{
-		return nativeLastIndexOf.call(obj, item);
+		return nativeLastIndexOf.call(obj || [], item);
 	};
 	
 	/**
@@ -174,7 +164,7 @@
 	conbo.findIndex = function(obj, predicate, scope) 
 	{
 		var value = conbo.find(obj, predicate, scope);
-		return obj.indexOf(value);
+		return nativeIndexOf.call(obj, value);
 	};
 	
 	/**
@@ -190,17 +180,7 @@
 	 */
 	conbo.filter = function(obj, predicate, scope) 
 	{
-		var results = [];
-		
-		if (obj == undefined) return results;
-		if (nativeFilter && obj.filter === nativeFilter) return obj.filter(predicate, scope);
-		
-		forEach(obj, function(value, index, list) 
-		{
-			if (predicate.call(scope, value, index, list)) results.push(value);
-		});
-		
-		return results;
+		return nativeFilter.call(obj || [], predicate, scope);
 	};
 
 	/**
@@ -234,19 +214,7 @@
 	 */
 	conbo.every = function(obj, predicate, scope) 
 	{
-		predicate || (predicate = conbo.identity);
-		
-		var result = true;
-		
-		if (obj == undefined) return result;
-		if (nativeEvery && obj.every === nativeEvery) return obj.every(predicate, scope);
-		
-		forEach(obj, function(value, index, list) 
-		{
-			if (!(result = result && predicate.call(scope, value, index, list))) return breaker;
-		});
-		
-		return !!result;
+		return nativeEvery.call(obj || [], predicate || conbo.identity, scope);
 	};
 
 	/**
@@ -262,14 +230,7 @@
 	 */
 	conbo.some = function(obj, predicate, scope) 
 	{
-		predicate || (predicate = conbo.identity);
-		var result = false;
-		if (obj == undefined) return result;
-		if (nativeSome && obj.some === nativeSome) return obj.some(predicate, scope);
-		forEach(obj, function(value, index, list) {
-			if (result || (result = predicate.call(scope, value, index, list))) return breaker;
-		});
-		return !!result;
+		return nativeSome.call(obj || [], predicate || conbo.identity, scope);
 	};
 	
 	var some = conbo.some;
@@ -284,8 +245,7 @@
 	 */
 	conbo.contains = function(obj, target) 
 	{
-		if (obj == undefined) return false;
-		return obj.indexOf(target) != -1;
+		return nativeIndexOf.call(obj || [], target) != -1;
 	};
 
 	/**
@@ -363,7 +323,8 @@
 	 */
 	conbo.min = function(obj, iterator, scope) 
 	{
-		if (!iterator && conbo.isArray(obj) && obj[0] === +obj[0] && obj.length < 65535) {
+		if (!iterator && conbo.isArray(obj) && obj[0] === +obj[0] && obj.length < 65535)
+		{
 			return Math.min.apply(Math, obj);
 		}
 		
@@ -446,7 +407,8 @@
 		
 		return conbo.isIterable(obj)
 			? obj.length 
-			: conbo.keys(obj).length;
+			: conbo.keys(obj).length
+			;
 	};
 	
 	// Array Functions
@@ -1131,7 +1093,7 @@
 	};
 	
 	/**
-	 * Return a copy of the object only containing the whitelisted properties.
+	 * Return an object containing the values of each of whitelisted properties.
 	 * 
 	 * @memberof	conbo
 	 * @param		{Object}	obj - Objects to copy properties from
@@ -1147,7 +1109,7 @@
 		{
 			if (key in obj)
 			{
-				conbo.cloneProperty(obj, key, copy);
+				copy[key] = obj[key];
 			}
 		});
 		
@@ -1155,7 +1117,7 @@
 	};
 	
 	/**
-	 * Return a copy of the object without the blacklisted properties.
+	 * Return an object containing all of the values from the source except the specified blacklisted properties.
 	 * 
 	 * @memberof	conbo
 	 * @param		{Object}	obj - Object to copy
@@ -1171,7 +1133,7 @@
 		{
 			if (!conbo.contains(keys, key))
 			{
-				conbo.cloneProperty(obj, key, copy);
+				copy[key] = obj[key];
 			}
 		}
 		
@@ -1930,10 +1892,10 @@
 	 * @returns		{Object}
 	 * 
 	 * @example	
-	 * conbo.setValues({id:1}, {get name() { return 'Arthur'; }}, {get age() { return 42; }});
+	 * conbo.assign({id:1}, {get name() { return 'Arthur'; }}, {get age() { return 42; }});
 	 * => {id:1, name:'Arthur', age:42}
 	 */
-	conbo.setValues = function(target)
+	conbo.assign = function(target)
 	{
 		conbo.rest(arguments).forEach(function(source) 
 		{
@@ -1948,6 +1910,15 @@
 		return target;
 	};
 	
+	/**
+	 * @see		conbo.setValues
+	 * @param	{*} target 
+	 */
+	conbo.setValues = function(target)
+	{
+		return conbo.assign.apply(conbo, arguments);
+	}	
+
 	/**
 	 * Is the value a Conbo class?
 	 * 
@@ -2413,7 +2384,7 @@
 					return /^[a-z]*$/i.test(key);
 				});
 				
-				return conbo.setValues({}, conbo.pick.apply(conbo, [obj].concat(keys)));
+				return conbo.pick.apply(conbo, [obj].concat(keys));
 			}
 		}
 		
