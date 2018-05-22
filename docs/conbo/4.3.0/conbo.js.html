@@ -156,7 +156,7 @@ conbo.conbo = conbo;
  * @memberof	conbo
  * @type	 	{string}
  */
-conbo.VERSION = '4.2.10';
+conbo.VERSION = '4.3.0';
 	
 /**
  * A string containing the framework name and version number, e.g. "ConboJS v1.2.3"
@@ -618,17 +618,7 @@ var __ep = function(el)
 	 */
 	conbo.map = function(obj, iterator, scope) 
 	{
-		var results = [];
-		
-		if (obj == undefined) return results;
-		if (nativeMap &amp;&amp; obj.map === nativeMap) return obj.map(iterator, scope);
-		
-		forEach(obj, function(value, index, list) 
-		{
-			results.push(iterator.call(scope, value, index, list));
-		});
-		
-		return results;
+		return nativeMap.call(obj || [], iterator, scope);
 	};
 	
 	/**
@@ -642,7 +632,7 @@ var __ep = function(el)
 	 */
 	conbo.indexOf = function(obj, item)
 	{
-		return nativeIndexOf.call(obj, item);
+		return nativeIndexOf.call(obj || [], item);
 	};
 	
 	/**
@@ -656,7 +646,7 @@ var __ep = function(el)
 	 */
 	conbo.lastIndexOf = function(obj, item)
 	{
-		return nativeLastIndexOf.call(obj, item);
+		return nativeLastIndexOf.call(obj || [], item);
 	};
 	
 	/**
@@ -696,7 +686,7 @@ var __ep = function(el)
 	conbo.findIndex = function(obj, predicate, scope) 
 	{
 		var value = conbo.find(obj, predicate, scope);
-		return obj.indexOf(value);
+		return nativeIndexOf.call(obj, value);
 	};
 	
 	/**
@@ -712,17 +702,7 @@ var __ep = function(el)
 	 */
 	conbo.filter = function(obj, predicate, scope) 
 	{
-		var results = [];
-		
-		if (obj == undefined) return results;
-		if (nativeFilter &amp;&amp; obj.filter === nativeFilter) return obj.filter(predicate, scope);
-		
-		forEach(obj, function(value, index, list) 
-		{
-			if (predicate.call(scope, value, index, list)) results.push(value);
-		});
-		
-		return results;
+		return nativeFilter.call(obj || [], predicate, scope);
 	};
 
 	/**
@@ -756,19 +736,7 @@ var __ep = function(el)
 	 */
 	conbo.every = function(obj, predicate, scope) 
 	{
-		predicate || (predicate = conbo.identity);
-		
-		var result = true;
-		
-		if (obj == undefined) return result;
-		if (nativeEvery &amp;&amp; obj.every === nativeEvery) return obj.every(predicate, scope);
-		
-		forEach(obj, function(value, index, list) 
-		{
-			if (!(result = result &amp;&amp; predicate.call(scope, value, index, list))) return breaker;
-		});
-		
-		return !!result;
+		return nativeEvery.call(obj || [], predicate || conbo.identity, scope);
 	};
 
 	/**
@@ -784,14 +752,7 @@ var __ep = function(el)
 	 */
 	conbo.some = function(obj, predicate, scope) 
 	{
-		predicate || (predicate = conbo.identity);
-		var result = false;
-		if (obj == undefined) return result;
-		if (nativeSome &amp;&amp; obj.some === nativeSome) return obj.some(predicate, scope);
-		forEach(obj, function(value, index, list) {
-			if (result || (result = predicate.call(scope, value, index, list))) return breaker;
-		});
-		return !!result;
+		return nativeSome.call(obj || [], predicate || conbo.identity, scope);
 	};
 	
 	var some = conbo.some;
@@ -806,8 +767,7 @@ var __ep = function(el)
 	 */
 	conbo.contains = function(obj, target) 
 	{
-		if (obj == undefined) return false;
-		return obj.indexOf(target) != -1;
+		return nativeIndexOf.call(obj || [], target) != -1;
 	};
 
 	/**
@@ -885,7 +845,8 @@ var __ep = function(el)
 	 */
 	conbo.min = function(obj, iterator, scope) 
 	{
-		if (!iterator &amp;&amp; conbo.isArray(obj) &amp;&amp; obj[0] === +obj[0] &amp;&amp; obj.length &lt; 65535) {
+		if (!iterator &amp;&amp; conbo.isArray(obj) &amp;&amp; obj[0] === +obj[0] &amp;&amp; obj.length &lt; 65535)
+		{
 			return Math.min.apply(Math, obj);
 		}
 		
@@ -968,7 +929,8 @@ var __ep = function(el)
 		
 		return conbo.isIterable(obj)
 			? obj.length 
-			: conbo.keys(obj).length;
+			: conbo.keys(obj).length
+			;
 	};
 	
 	// Array Functions
@@ -1653,7 +1615,7 @@ var __ep = function(el)
 	};
 	
 	/**
-	 * Return a copy of the object only containing the whitelisted properties.
+	 * Return an object containing the values of each of whitelisted properties.
 	 * 
 	 * @memberof	conbo
 	 * @param		{Object}	obj - Objects to copy properties from
@@ -1669,7 +1631,7 @@ var __ep = function(el)
 		{
 			if (key in obj)
 			{
-				conbo.cloneProperty(obj, key, copy);
+				copy[key] = obj[key];
 			}
 		});
 		
@@ -1677,7 +1639,7 @@ var __ep = function(el)
 	};
 	
 	/**
-	 * Return a copy of the object without the blacklisted properties.
+	 * Return an object containing all of the values from the source except the specified blacklisted properties.
 	 * 
 	 * @memberof	conbo
 	 * @param		{Object}	obj - Object to copy
@@ -1693,7 +1655,7 @@ var __ep = function(el)
 		{
 			if (!conbo.contains(keys, key))
 			{
-				conbo.cloneProperty(obj, key, copy);
+				copy[key] = obj[key];
 			}
 		}
 		
@@ -2452,10 +2414,10 @@ var __ep = function(el)
 	 * @returns		{Object}
 	 * 
 	 * @example	
-	 * conbo.setValues({id:1}, {get name() { return 'Arthur'; }}, {get age() { return 42; }});
+	 * conbo.assign({id:1}, {get name() { return 'Arthur'; }}, {get age() { return 42; }});
 	 * => {id:1, name:'Arthur', age:42}
 	 */
-	conbo.setValues = function(target)
+	conbo.assign = function(target)
 	{
 		conbo.rest(arguments).forEach(function(source) 
 		{
@@ -2470,6 +2432,15 @@ var __ep = function(el)
 		return target;
 	};
 	
+	/**
+	 * @see		conbo.setValues
+	 * @param	{*} target 
+	 */
+	conbo.setValues = function(target)
+	{
+		return conbo.assign.apply(conbo, arguments);
+	}	
+
 	/**
 	 * Is the value a Conbo class?
 	 * 
@@ -2729,7 +2700,7 @@ var __ep = function(el)
 		
 		return this;
 	};
-	
+
 	/**
 	 * Makes all existing properties of the specified object bindable, and 
 	 * optionally creates additional bindable properties for each of the property 
@@ -2935,7 +2906,7 @@ var __ep = function(el)
 					return /^[a-z]*$/i.test(key);
 				});
 				
-				return conbo.setValues({}, conbo.pick.apply(conbo, [obj].concat(keys)));
+				return conbo.pick.apply(conbo, [obj].concat(keys));
 			}
 		}
 		
@@ -3413,12 +3384,13 @@ conbo.ConboClass = conbo.Class.extend(
 			args[0] = args[0].addTo();
 		}
 		
+		this.declarations.apply(this, args);
+		
 		if (!!args[0].context)
 		{
 			this.context = args[0].context;
 		}
 	
-		this.declarations.apply(this, args);
 		this.preinitialize.apply(this, args);
 		this.__construct.apply(this, args);
 		
@@ -5064,10 +5036,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 	canHandleMultiple: function(attribute)
 	{
 		var f = conbo.toCamelCase(attribute);
-		
-		return (f in this)
-			? !!this[f].multiple
-			: false;
+		return (f in this) &amp;&amp; this[f].multiple;
 	},
 	
 	/**
@@ -5082,7 +5051,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 */
 	cbShow: function(el, value)
 	{
-		this.cbHide(el, !value);
+		this.cbHide(el, !conbo.isEmpty(value));
 	},
 	
 	/**
@@ -5098,7 +5067,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 */
 	cbHide: function(el, value)
 	{
-		!!value
+		conbo.isEmpty(value)
 			? el.classList.add('cb-hide')
 			: el.classList.remove('cb-hide');
 	},
@@ -5115,7 +5084,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 */
 	cbInclude: function(el, value)
 	{
-		this.cbExclude(el, !value);
+		this.cbExclude(el, !conbo.isEmpty(value));
 	},
 	
 	/**
@@ -5131,7 +5100,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 */
 	cbExclude: function(el, value)
 	{
-		!!value
+		conbo.isEmpty(value)
 			? el.classList.add('cb-exclude')
 			: el.classList.remove('cb-exclude');
 	},
@@ -5203,7 +5172,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 			conbo.warn('cb-class attributes must specify one or more CSS classes in the format cb-class="myProperty:class-name"');
 		}
 		
-		!!value
+		conbo.isEmpty(value)
 			? __ep(el).addClass(className)
 			: __ep(el).removeClass(className)
 			;
@@ -5360,7 +5329,8 @@ conbo.AttributeBindings = conbo.Class.extend(
 			var value = a[index];
 			var clone = el.cloneNode(true);
 			
-			if (conbo.isObject(value) &amp;&amp; !(value instanceof conbo.Hash))
+			// Wraps non-iterable objects to make them bindable
+			if (conbo.isObject(value) &amp;&amp; !conbo.isIterable(value) &amp;&amp; !(value instanceof conbo.Hash))
 			{
 				value = new conbo.Hash({source:value});
 			}
@@ -5512,7 +5482,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 */
 	cbRemove: function(el, value)
 	{
-		if (!!value)
+		if (conbo.isEmpty(value))
 		{
 			// TODO Remove binding, etc?
 			el.parentNode.removeChild(el);
@@ -7670,7 +7640,7 @@ conbo.View = conbo.Glimpse.extend(
 
 		if (!(view instanceof conbo.View))
 		{
-			throw new Error('Parameter must be instance of conbo.View class');
+			throw new Error('Parameter must be conbo.View class or instance of it');
 		}
 	
 		this.body.appendChild(view.el);
@@ -7705,7 +7675,7 @@ conbo.View = conbo.Glimpse.extend(
 		
 		if (!(view instanceof conbo.View))
 		{
-			throw new Error('Parameter must be instance of conbo.View class');
+			throw new Error('Parameter must be conbo.View class or instance of it');
 		}
 		
 		var firstChild = this.body.firstChild;
@@ -9285,7 +9255,7 @@ __denumerate(conbo.Router.prototype);
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu May 17 2018 15:13:20 GMT+0100 (GMT Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue May 22 2018 19:18:06 GMT+0100 (GMT Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>
