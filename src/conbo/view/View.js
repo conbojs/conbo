@@ -364,7 +364,7 @@ conbo.View = conbo.Glimpse.extend(
 
 		if (!(view instanceof conbo.View))
 		{
-			throw new Error('Parameter must be instance of conbo.View class');
+			throw new Error('Parameter must be conbo.View class or instance of it');
 		}
 	
 		this.body.appendChild(view.el);
@@ -399,7 +399,7 @@ conbo.View = conbo.Glimpse.extend(
 		
 		if (!(view instanceof conbo.View))
 		{
-			throw new Error('Parameter must be instance of conbo.View class');
+			throw new Error('Parameter must be conbo.View class or instance of it');
 		}
 		
 		var firstChild = this.body.firstChild;
