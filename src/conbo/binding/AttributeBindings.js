@@ -38,10 +38,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 	canHandleMultiple: function(attribute)
 	{
 		var f = conbo.toCamelCase(attribute);
-		
-		return (f in this)
-			? !!this[f].multiple
-			: false;
+		return (f in this) && this[f].multiple;
 	},
 	
 	/**
@@ -56,7 +53,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 */
 	cbShow: function(el, value)
 	{
-		this.cbHide(el, !value);
+		this.cbHide(el, !conbo.isEmpty(value));
 	},
 	
 	/**
@@ -72,7 +69,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 */
 	cbHide: function(el, value)
 	{
-		!!value
+		conbo.isEmpty(value)
 			? el.classList.add('cb-hide')
 			: el.classList.remove('cb-hide');
 	},
@@ -89,7 +86,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 */
 	cbInclude: function(el, value)
 	{
-		this.cbExclude(el, !value);
+		this.cbExclude(el, !conbo.isEmpty(value));
 	},
 	
 	/**
@@ -105,7 +102,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 */
 	cbExclude: function(el, value)
 	{
-		!!value
+		conbo.isEmpty(value)
 			? el.classList.add('cb-exclude')
 			: el.classList.remove('cb-exclude');
 	},
@@ -177,7 +174,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 			conbo.warn('cb-class attributes must specify one or more CSS classes in the format cb-class="myProperty:class-name"');
 		}
 		
-		!!value
+		conbo.isEmpty(value)
 			? __ep(el).addClass(className)
 			: __ep(el).removeClass(className)
 			;
@@ -334,7 +331,8 @@ conbo.AttributeBindings = conbo.Class.extend(
 			var value = a[index];
 			var clone = el.cloneNode(true);
 			
-			if (conbo.isObject(value) && !(value instanceof conbo.Hash))
+			// Wraps non-iterable objects to make them bindable
+			if (conbo.isObject(value) && !conbo.isIterable(value) && !(value instanceof conbo.Hash))
 			{
 				value = new conbo.Hash({source:value});
 			}
@@ -486,7 +484,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 */
 	cbRemove: function(el, value)
 	{
-		if (!!value)
+		if (conbo.isEmpty(value))
 		{
 			// TODO Remove binding, etc?
 			el.parentNode.removeChild(el);
