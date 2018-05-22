@@ -69,9 +69,9 @@ conbo('com.example.app').import({ FooApp, BarView });
 ```
 
 ```javascript
-// TypeScript Decorator
+// ES6 & TypeScript Decorator
 
-import {conbons, Application} from 'conbo';
+import {Application, Viewable} from 'conbo';
 
 @Viewable('com.example.app')
 export class FooApp extends Application { ... }

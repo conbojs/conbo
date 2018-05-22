@@ -32,12 +32,13 @@ conbo.ConboClass = conbo.Class.extend(
 			args[0] = args[0].addTo();
 		}
 		
+		this.declarations.apply(this, args);
+		
 		if (!!args[0].context)
 		{
 			this.context = args[0].context;
 		}
 	
-		this.declarations.apply(this, args);
 		this.preinitialize.apply(this, args);
 		this.__construct.apply(this, args);
 		

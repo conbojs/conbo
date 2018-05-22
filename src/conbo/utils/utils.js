@@ -2178,7 +2178,7 @@
 		
 		return this;
 	};
-	
+
 	/**
 	 * Makes all existing properties of the specified object bindable, and 
 	 * optionally creates additional bindable properties for each of the property 
