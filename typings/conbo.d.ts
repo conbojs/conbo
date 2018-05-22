@@ -723,8 +723,6 @@ declare namespace conbo {
 	 */
 	class Hash extends EventDispatcher 
 	{
-		[key:string]:any;
-		
 		/**
 		 * @param {any} [options] - Object containing initialization options, including 'source' object
 		 */
@@ -752,7 +750,6 @@ declare namespace conbo {
 		 * Conbo writes the data the next time it detects a change to a bindable property.
 		 */
 		flush():this;
-
 	}
 
 	interface ISyncable
