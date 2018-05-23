@@ -2623,6 +2623,19 @@ declare namespace conbo {
 	 * @returns		{any[]}
 	 */
 	function getVariableNames(obj:any, deep?:boolean):any[];
+
+	/**
+	 * Extends Object.getOwnPropertyNames to retrieves the names of every 
+	 * public variable of an object, regardless of whether it's enumerable or 
+	 * unenumerable
+	 * 
+	 * @memberof	conbo
+	 * @see			#getPropertyNames
+	 * @param		{Object}	obj - Object to get keys from
+	 * @param		{boolean}	[deep] - Retrieve keys from further up the prototype chain?
+	 * @returns		{Array}
+	 */
+	function getPublicVariableNames(obj:any, deep?:boolean):any[];
 	
 	/**
 	 * Extends Object.getOwnPropertyDescriptor to return a property descriptor 

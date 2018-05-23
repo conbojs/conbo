@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: HeadlessApplication</title>
+    <title>JSDoc: Class: Context</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: HeadlessApplication</h1>
+    <h1 class="page-title">Class: Context</h1>
 
     
 
@@ -29,7 +29,7 @@
 <header>
     
         <h2><span class="attribs"><span class="type-signature"></span></span>
-            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>HeadlessApplication<span class="signature">(options)</span><span class="type-signature"></span></h2>
+            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>Context<span class="signature">(options)</span><span class="type-signature"></span></h2>
         
     
 </header>
@@ -42,7 +42,7 @@
     
 
     
-    <h4 class="name" id="HeadlessApplication"><span class="type-signature"></span>new HeadlessApplication<span class="signature">(options)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Context"><span class="type-signature"></span>new Context<span class="signature">(options)</span><span class="type-signature"></span></h4>
     
 
     
@@ -50,7 +50,7 @@
 
 
 <div class="description">
-    Headless Application Base class for applications that don't require DOM, e.g. Node.js
+    conbo.ContextThis is your application's event bus and dependency injector, and isusually where all your models and web service classes are registered,using mapSingleton(...), and Command classes are mapped to events
 </div>
 
 
@@ -102,7 +102,7 @@
 
             
 
-            <td class="description last">Object containing initialisation options</td>
+            <td class="description last">Object containing initialisation options, including 'app' (Application) and 'namespace' (Namespace)</td>
         </tr>
 
     
@@ -150,7 +150,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4107">line 4107</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4169">line 4169</a>
     </li></ul></dd>
     
 
@@ -209,13 +209,13 @@
 
         
             
-<h4 class="name" id="contextClass"><span class="type-signature"></span>contextClass<span class="type-signature"></span></h4>
+<h4 class="name" id="app"><span class="type-signature"></span>app<span class="type-signature"></span></h4>
 
 
 
 
 <div class="description">
-    Default context class to useYou'll normally want to override this with your own
+    The Application instance associated with this context
 </div>
 
 
@@ -253,7 +253,131 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4125">line 4125</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4207">line 4207</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="namespace"><span class="type-signature"></span>namespace<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    The Namespace this context exists in
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4216">line 4216</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="parentContext"><span class="type-signature"></span>parentContext<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    If this is a subcontext, this is a reference to the Context that created it
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4225">line 4225</a>
     </li></ul></dd>
     
 
@@ -320,7 +444,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3215">line 3215</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3236">line 3236</a>
     </li></ul></dd>
     
 
@@ -444,7 +568,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4131">line 4131</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4189">line 4189</a>
     </li></ul></dd>
     
 
@@ -750,7 +874,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3872">line 3872</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3893">line 3893</a>
     </li></ul></dd>
     
 
@@ -795,6 +919,92 @@
 </dl>
 
     
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="addTo"><span class="type-signature"></span>addTo<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Add this Context to the specified Object, or create an object with a reference to this Context
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4358">line 4358</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -926,7 +1136,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3225">line 3225</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3246">line 3246</a>
     </li></ul></dd>
     
 
@@ -961,6 +1171,159 @@
     <dd>
         
 <span class="param-type">this</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="createSubcontext"><span class="type-signature"></span>createSubcontext<span class="signature">(contextClass)</span><span class="type-signature"> &rarr; {<a href="conbo.Context.html">conbo.Context</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Create a new subcontext that shares the same applicationand namespace as this one
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>contextClass</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">class</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The context class to use (default: conbo.Context)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4237">line 4237</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="conbo.Context.html">conbo.Context</a></span>
 
 
     </dd>
@@ -1092,7 +1455,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3192">line 3192</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3213">line 3213</a>
     </li></ul></dd>
     
 
@@ -1250,7 +1613,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3974">line 3974</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3995">line 3995</a>
     </li></ul></dd>
     
 
@@ -1412,7 +1775,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3943">line 3943</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3964">line 3964</a>
     </li></ul></dd>
     
 
@@ -1650,7 +2013,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3923">line 3923</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3944">line 3944</a>
     </li></ul></dd>
     
 
@@ -1820,7 +2183,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3206">line 3206</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3227">line 3227</a>
     </li></ul></dd>
     
 
@@ -1863,6 +2226,485 @@
     
 
 
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="injectSingletons"><span class="type-signature"></span>injectSingletons<span class="signature">(obj)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Inject singleton instances into specified object
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The object to inject singletons into</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4368">line 4368</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="mapCommand"><span class="type-signature"></span>mapCommand<span class="signature">(eventType, commandClass)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Map specified Command class the given event
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>eventType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The name of the event</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>commandClass</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">class</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The command class to instantiate when the event is dispatched</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4248">line 4248</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="mapConstant"><span class="type-signature"></span>mapConstant<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Map constant value to a property nameTo inject a constant into a class, register the property namewith the Context and declare the property as undefined in your class to enable it to be injected at run time
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4341">line 4341</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>context.mapConstant('MY_VALUE', 123);</code></pre>
+
+    <pre class="prettyprint"><code>MY_VALUE: undefined</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="mapSingleton"><span class="type-signature"></span>mapSingleton<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Map class instance to a property nameTo inject a property into a class, register the property namewith the Context and declare the value as undefined in your classto enable it to be injected at run time
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4298">line 4298</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>context.mapSingleton('myProperty', MyModel);</code></pre>
+
+    <pre class="prettyprint"><code>myProperty: undefined</code></pre>
 
 
 
@@ -1986,7 +2828,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3199">line 3199</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3220">line 3220</a>
     </li></ul></dd>
     
 
@@ -2222,7 +3064,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3895">line 3895</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3916">line 3916</a>
     </li></ul></dd>
     
 
@@ -2335,7 +3177,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3235">line 3235</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3256">line 3256</a>
     </li></ul></dd>
     
 
@@ -2382,6 +3224,399 @@
 
 
         
+            
+
+    
+
+    
+    <h4 class="name" id="uninjectSingletons"><span class="type-signature"></span>uninjectSingletons<span class="signature">(obj)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Set all singleton instances on the specified object to undefined
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The object to remove singletons from</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4384">line 4384</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="unmapCommand"><span class="type-signature"></span>unmapCommand<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Unmap specified Command class from given event
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4269">line 4269</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="unmapConstant"><span class="type-signature"></span>unmapConstant<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Unmap constant value from a property name
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4349">line 4349</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="unmapSingleton"><span class="type-signature"></span>unmapSingleton<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Unmap class instance from a property name
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4320">line 4320</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
     
 
     
@@ -2403,7 +3638,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed May 23 2018 18:51:18 GMT+0100 (GMT Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed May 23 2018 21:27:42 GMT+0100 (GMT Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

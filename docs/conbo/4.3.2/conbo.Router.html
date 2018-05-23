@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: List</title>
+    <title>JSDoc: Class: Router</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: List</h1>
+    <h1 class="page-title">Class: Router</h1>
 
     
 
@@ -29,7 +29,7 @@
 <header>
     
         <h2><span class="attribs"><span class="type-signature"></span></span>
-            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>List<span class="signature">(options)</span><span class="type-signature"></span></h2>
+            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>Router<span class="signature">(options)</span><span class="type-signature"></span></h2>
         
     
 </header>
@@ -42,7 +42,7 @@
     
 
     
-    <h4 class="name" id="List"><span class="type-signature"></span>new List<span class="signature">(options)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Router"><span class="type-signature"></span>new Router<span class="signature">(options)</span><span class="type-signature"></span></h4>
     
 
     
@@ -50,7 +50,7 @@
 
 
 <div class="description">
-    A bindable Array wrapper that can be used when you don't require web service connectivity.Plain objects will automatically be converted into an instance of the specified `itemClass` when added to a List, and the appropriateevents dispatched if the items it contains are changed or updated.
+    RouterRouters map faux-URLs to actions, and fire events when routes arematched. Creating a new one sets its `routes` hash, if not set statically.Derived from the Backbone.js class of the same name
 </div>
 
 
@@ -102,7 +102,7 @@
 
             
 
-            <td class="description last">Object containing optional initialisation options, including `source` (array), `context` (Context) and `itemClass` (Class)</td>
+            <td class="description last">Object containing initialisation options</td>
         </tr>
 
     
@@ -150,7 +150,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4544">line 4544</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line8978">line 8978</a>
     </li></ul></dd>
     
 
@@ -169,9 +169,13 @@
 <ul>
     <li><a href="conbo.ConboEvent.html#event:CHANGE">conbo.ConboEvent#event:CHANGE</a></li>
 
-    <li><a href="conbo.ConboEvent.html#event:ADD">conbo.ConboEvent#event:ADD</a></li>
+    <li><a href="conbo.ConboEvent.html#event:FAULT">conbo.ConboEvent#event:FAULT</a></li>
 
-    <li><a href="conbo.ConboEvent.html#event:REMOVE">conbo.ConboEvent#event:REMOVE</a></li>
+    <li><a href="conbo.ConboEvent.html#event:ROUTE">conbo.ConboEvent#event:ROUTE</a></li>
+
+    <li><a href="conbo.ConboEvent.html#event:START">conbo.ConboEvent#event:START</a></li>
+
+    <li><a href="conbo.ConboEvent.html#event:STOP">conbo.ConboEvent#event:STOP</a></li>
 </ul>
 
 
@@ -218,78 +222,26 @@
 
         
             
-<h4 class="name" id="itemClass"><span class="type-signature"></span>itemClass<span class="type-signature"></span></h4>
+<h4 class="name" id="path"><span class="type-signature"></span>path<span class="type-signature"> :string</span></h4>
 
 
 
 
 <div class="description">
-    The class to use for items in this list (plain JS objects will automatically be wrapped using this class), defaults to conbo.Hash
+    Get or set the current path using the default options
 </div>
 
 
 
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4568">line 4568</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
+    <h5>Type:</h5>
+    <ul>
+        <li>
             
-<h4 class="name" id="length"><span class="type-signature"></span>length<span class="type-signature"></span></h4>
+<span class="param-type">string</span>
 
 
-
-
-<div class="description">
-    The number of items in the List
-</div>
-
-
+        </li>
+    </ul>
 
 
 
@@ -324,69 +276,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4608">line 4608</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="source"><span class="type-signature"></span>source<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    The Array used as the source for this List
-</div>
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4588">line 4588</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line9132">line 9132</a>
     </li></ul></dd>
     
 
@@ -453,7 +343,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3215">line 3215</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3236">line 3236</a>
     </li></ul></dd>
     
 
@@ -474,136 +364,6 @@
 
     
         <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="__construct"><span class="type-signature"></span>__construct<span class="signature">(options)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Constructor: DO NOT override! (Use initialize instead)
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>options</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4574">line 4574</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         
             
@@ -883,7 +643,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3872">line 3872</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3893">line 3893</a>
     </li></ul></dd>
     
 
@@ -930,6 +690,97 @@
     
 
 
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="addRoute"><span class="type-signature"></span>addRoute<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Adds a named route
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line9064">line 9064</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>this.addRoute('search/:query/p:num', 'search', function(query, num) {			 ...		});</code></pre>
 
 
 
@@ -1059,7 +910,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3225">line 3225</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3246">line 3246</a>
     </li></ul></dd>
     
 
@@ -1100,92 +951,6 @@
 </dl>
 
     
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="clone"><span class="type-signature"></span>clone<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Create a new List identical to this one.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4765">line 4765</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1311,7 +1076,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3192">line 3192</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3213">line 3213</a>
     </li></ul></dd>
     
 
@@ -1469,7 +1234,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3974">line 3974</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3995">line 3995</a>
     </li></ul></dd>
     
 
@@ -1631,7 +1396,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3943">line 3943</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3964">line 3964</a>
     </li></ul></dd>
     
 
@@ -1676,92 +1441,6 @@
 </dl>
 
     
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="getItemAt"><span class="type-signature"></span>getItemAt<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Get the item at the given index; similar to array[index]
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4720">line 4720</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1955,7 +1634,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3923">line 3923</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3944">line 3944</a>
     </li></ul></dd>
     
 
@@ -2125,7 +1804,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3206">line 3206</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3227">line 3227</a>
     </li></ul></dd>
     
 
@@ -2166,92 +1845,6 @@
 </dl>
 
     
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="pop"><span class="type-signature"></span>pop<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Remove an item from the end of the collection.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4639">line 4639</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -2377,7 +1970,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3199">line 3199</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3220">line 3220</a>
     </li></ul></dd>
     
 
@@ -2418,92 +2011,6 @@
 </dl>
 
     
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="push"><span class="type-signature"></span>push<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Add an item to the end of the collection.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4621">line 4621</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -2699,7 +2206,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3895">line 3895</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3916">line 3916</a>
     </li></ul></dd>
     
 
@@ -2755,7 +2262,7 @@
     
 
     
-    <h4 class="name" id="setItemAt"><span class="type-signature"></span>setItemAt<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="setPath"><span class="type-signature"></span>setPath<span class="signature">(path, options<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
     
 
     
@@ -2763,265 +2270,7 @@
 
 
 <div class="description">
-    Add (or replace) item at given index with the one specified,similar to array[index] = value;
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4729">line 4729</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="shift"><span class="type-signature"></span>shift<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Remove an item from the beginning of the collection.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4671">line 4671</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="slice"><span class="type-signature"></span>slice<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Slice out a sub-array of items from the collection.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4687">line 4687</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="sort"><span class="type-signature"></span>sort<span class="signature">(compareFunction<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Force the collection to re-sort itself.
+    Sets the current path, optionally replacing the current path or silently without triggering a route event
 </div>
 
 
@@ -3059,13 +2308,44 @@
 
         <tr>
             
-                <td class="name"><code>compareFunction</code></td>
+                <td class="name"><code>path</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">function</span>
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The path to navigate to</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
 
 
             
@@ -3085,7 +2365,7 @@
 
             
 
-            <td class="description last">Compare function to determine sort order</td>
+            <td class="description last">Object containing options: trigger (default: true) and replace (default: false)</td>
         </tr>
 
     
@@ -3126,7 +2406,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4754">line 4754</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line9120">line 9120</a>
     </li></ul></dd>
     
 
@@ -3160,7 +2440,7 @@
     
 
     
-    <h4 class="name" id="splice"><span class="type-signature"></span>splice<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="start"><span class="type-signature"></span>start<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -3168,7 +2448,7 @@
 
 
 <div class="description">
-    Splice out a sub-array of items from the collection.
+    Start the router
 </div>
 
 
@@ -3212,7 +2492,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4698">line 4698</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line9017">line 9017</a>
     </li></ul></dd>
     
 
@@ -3246,7 +2526,7 @@
     
 
     
-    <h4 class="name" id="toJSON"><span class="type-signature"></span>toJSON<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="stop"><span class="type-signature"></span>stop<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -3254,7 +2534,7 @@
 
 
 <div class="description">
-    The JSON-friendly representation of the List
+    Stop the router
 </div>
 
 
@@ -3298,7 +2578,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4773">line 4773</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line9039">line 9039</a>
     </li></ul></dd>
     
 
@@ -3389,7 +2669,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3235">line 3235</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3256">line 3256</a>
     </li></ul></dd>
     
 
@@ -3436,92 +2716,6 @@
 
 
         
-            
-
-    
-
-    
-    <h4 class="name" id="unshift"><span class="type-signature"></span>unshift<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Add an item to the beginning of the collection.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4655">line 4655</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
     
 
     
@@ -3543,7 +2737,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed May 23 2018 18:51:18 GMT+0100 (GMT Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed May 23 2018 21:27:43 GMT+0100 (GMT Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

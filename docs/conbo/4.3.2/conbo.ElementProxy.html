@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Hash</title>
+    <title>JSDoc: Class: ElementProxy</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Hash</h1>
+    <h1 class="page-title">Class: ElementProxy</h1>
 
     
 
@@ -29,7 +29,7 @@
 <header>
     
         <h2><span class="attribs"><span class="type-signature"></span></span>
-            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>Hash<span class="signature">(options)</span><span class="type-signature"></span></h2>
+            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>ElementProxy<span class="signature">(el)</span><span class="type-signature"></span></h2>
         
     
 </header>
@@ -42,7 +42,7 @@
     
 
     
-    <h4 class="name" id="Hash"><span class="type-signature"></span>new Hash<span class="signature">(options)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="ElementProxy"><span class="type-signature"></span>new ElementProxy<span class="signature">(el)</span><span class="type-signature"></span></h4>
     
 
     
@@ -50,7 +50,7 @@
 
 
 <div class="description">
-    conbo.HashA Hash is a bindable object of associated keys and values
+    Element ProxyWraps an Element to add cross browser or simplified functionality;think of it as "jQuery nano"
 </div>
 
 
@@ -86,13 +86,13 @@
 
         <tr>
             
-                <td class="name"><code>options</code></td>
+                <td class="name"><code>el</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">Element</span>
 
 
             
@@ -102,7 +102,7 @@
 
             
 
-            <td class="description last">Object containing optional initialisation options, including 'source' (object) containing initial values</td>
+            <td class="description last">Element to be proxied</td>
         </tr>
 
     
@@ -131,6 +131,8 @@
     
 
     
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>This class will be replaced by standard HTML5 functionality in future and may be removed without notice</li></ul></dd>
+    
 
     
     <dt class="tag-author">Author:</dt>
@@ -150,7 +152,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4424">line 4424</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6913">line 6913</a>
     </li></ul></dd>
     
 
@@ -164,11 +166,6 @@
 
 
 
-
-<h5>Fires:</h5>
-<ul>
-    <li><a href="conbo.ConboEvent.html#event:CHANGE">conbo.ConboEvent#event:CHANGE</a></li>
-</ul>
 
 
 
@@ -193,7 +190,7 @@
 
 
     <ul>
-        <li><a href="conbo.EventDispatcher.html">conbo.EventDispatcher</a></li>
+        <li><a href="conbo.EventProxy.html">conbo.EventProxy</a></li>
     </ul>
 
 
@@ -211,6 +208,203 @@
 
     
         <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="attributes"><span class="type-signature"></span>attributes<span class="type-signature"></span></h4>
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6988">line 6988</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="conbo.ElementProxy.html#setAttributes">#setAttributes</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="attributes"><span class="type-signature"></span>attributes<span class="type-signature"></span></h4>
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6980">line 6980</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="conbo.ElementProxy.html#getAttributes">#getAttributes</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="cbAttributes"><span class="type-signature"></span>cbAttributes<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Returns object containing the value of all cb-* attributes on a DOM element
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7001">line 7001</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>ep.cbAttributes.view;</code></pre>
+
+
 
         
             
@@ -263,7 +457,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3215">line 3215</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3236">line 3236</a>
     </li></ul></dd>
     
 
@@ -291,7 +485,160 @@
     
 
     
-    <h4 class="name" id="addEventListener"><span class="type-signature"></span>addEventListener<span class="signature">(type, handler, scope<span class="signature-attributes">opt</span>, priority<span class="signature-attributes">opt</span>, once<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="conbo.EventDispatcher.html">conbo.EventDispatcher</a>}</span></h4>
+    <h4 class="name" id="addClass"><span class="type-signature"></span>addClass<span class="signature">(className)</span><span class="type-signature"> &rarr; {<a href="conbo.ElementProxy.html">conbo.ElementProxy</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Add the specified CSS class(es) to the element
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>className</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">One or more CSS class names, separated by spaces</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7026">line 7026</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="conbo.ElementProxy.html">conbo.ElementProxy</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="addEventListener"><span class="type-signature"></span>addEventListener<span class="signature">(type, handler)</span><span class="type-signature"> &rarr; {<a href="conbo.EventProxy.html">conbo.EventProxy</a>}</span></h4>
     
 
     
@@ -323,11 +670,7 @@
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
-        
-        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -352,19 +695,7 @@
             </td>
 
             
-                <td class="attributes">
-                
 
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
             
 
             <td class="description last">Type of event ('change') or events ('change blur')</td>
@@ -387,137 +718,10 @@
             </td>
 
             
-                <td class="attributes">
-                
 
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
             
 
             <td class="description last">Function that should be called</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>scope</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">The scope in which to run the event handler</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>priority</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    0
-                
-                </td>
-            
-
-            <td class="description last">The event handler's priority when the event is dispatached</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>once</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    false
-                
-                </td>
-            
-
-            <td class="description last">Should the event listener automatically be removed after it has been called once?</td>
         </tr>
 
     
@@ -538,7 +742,7 @@
     
     <dt class="inherited-from">Inherited From:</dt>
     <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.EventDispatcher.html#addEventListener">conbo.EventDispatcher#addEventListener</a>
+        <a href="conbo.EventProxy.html#addEventListener">conbo.EventProxy#addEventListener</a>
     </li></ul></dd>
     
 
@@ -563,7 +767,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3872">line 3872</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4045">line 4045</a>
     </li></ul></dd>
     
 
@@ -601,7 +805,7 @@
     </dt>
     <dd>
         
-<span class="param-type"><a href="conbo.EventDispatcher.html">conbo.EventDispatcher</a></span>
+<span class="param-type"><a href="conbo.EventProxy.html">conbo.EventProxy</a></span>
 
 
     </dd>
@@ -739,7 +943,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3225">line 3225</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3246">line 3246</a>
     </li></ul></dd>
     
 
@@ -774,6 +978,159 @@
     <dd>
         
 <span class="param-type">this</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="closest"><span class="type-signature"></span>closest<span class="signature">(selector)</span><span class="type-signature"> &rarr; {Element}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Finds the closest parent element matching the specified selector
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>selector</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Query selector</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7094">line 7094</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Element</span>
 
 
     </dd>
@@ -905,7 +1262,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3192">line 3192</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3213">line 3213</a>
     </li></ul></dd>
     
 
@@ -957,7 +1314,7 @@
     
 
     
-    <h4 class="name" id="dispatchChange"><span class="type-signature"></span>dispatchChange<span class="signature">(propName)</span><span class="type-signature"> &rarr; {<a href="conbo.EventDispatcher.html">conbo.EventDispatcher</a>}</span></h4>
+    <h4 class="name" id="getAttributes"><span class="type-signature"></span>getAttributes<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
     
 
     
@@ -965,7 +1322,7 @@
 
 
 <div class="description">
-    Dispatch a change event for one or more changed properties
+    Returns object containing the value of all attributes on a DOM element
 </div>
 
 
@@ -974,55 +1331,6 @@
 
 
 
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>propName</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The name of the property that has changed</td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -1035,11 +1343,6 @@
 
     
 
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.EventDispatcher.html#dispatchChange">conbo.EventDispatcher#dispatchChange</a>
-    </li></ul></dd>
     
 
     
@@ -1063,7 +1366,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3974">line 3974</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6937">line 6937</a>
     </li></ul></dd>
     
 
@@ -1089,10 +1392,6 @@
 <h5>Returns:</h5>
 
         
-<div class="param-desc">
-    A reference to this class instance
-</div>
-
 
 
 <dl>
@@ -1101,323 +1400,90 @@
     </dt>
     <dd>
         
-<span class="param-type"><a href="conbo.EventDispatcher.html">conbo.EventDispatcher</a></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="dispatchEvent"><span class="type-signature"></span>dispatchEvent<span class="signature">(event)</span><span class="type-signature"> &rarr; {<a href="conbo.EventDispatcher.html">conbo.EventDispatcher</a>}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Dispatch the event to listeners
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>event</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="conbo.Event.html">conbo.Event</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The event to dispatch</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.EventDispatcher.html#dispatchEvent">conbo.EventDispatcher#dispatchEvent</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3943">line 3943</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    A reference to this class instance
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="conbo.EventDispatcher.html">conbo.EventDispatcher</a></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="hasEventListener"><span class="type-signature"></span>hasEventListener<span class="signature">(type, handler<span class="signature-attributes">opt</span>, scope<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Does this object have an event listener of the specified type?
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>type</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Type of event (e.g. 'change')</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>handler</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Function that should be called</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>scope</code></td>
-            
-
-            <td class="type">
-            
-                
 <span class="param-type">Object</span>
 
 
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>ep.attributes; // results in something like {src:"foo/bar.jpg"}</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="hasClass"><span class="type-signature"></span>hasClass<span class="signature">(className)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Is this element using the specified CSS class?
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>className</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
             
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
 
             
 
-            <td class="description last">The scope in which the handler is set to run</td>
+            <td class="description last">CSS class name</td>
         </tr>
 
     
@@ -1435,11 +1501,6 @@
 
     
 
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.EventDispatcher.html#hasEventListener">conbo.EventDispatcher#hasEventListener</a>
-    </li></ul></dd>
     
 
     
@@ -1463,7 +1524,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3923">line 3923</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7079">line 7079</a>
     </li></ul></dd>
     
 
@@ -1489,10 +1550,6 @@
 <h5>Returns:</h5>
 
         
-<div class="param-desc">
-    True if this object has the specified event listener, false if it does not
-</div>
-
 
 
 <dl>
@@ -1633,7 +1690,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3206">line 3206</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3227">line 3227</a>
     </li></ul></dd>
     
 
@@ -1799,7 +1856,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3199">line 3199</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3220">line 3220</a>
     </li></ul></dd>
     
 
@@ -1851,7 +1908,163 @@
     
 
     
-    <h4 class="name" id="removeEventListener"><span class="type-signature"></span>removeEventListener<span class="signature">(type<span class="signature-attributes">opt</span>, handler<span class="signature-attributes">opt</span>, scope<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="conbo.EventDispatcher.html">conbo.EventDispatcher</a>}</span></h4>
+    <h4 class="name" id="removeClass"><span class="type-signature"></span>removeClass<span class="signature">(className)</span><span class="type-signature"> &rarr; {<a href="conbo.ElementProxy.html">conbo.ElementProxy</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Remove the specified CSS class(es) from the element
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>className</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">One or more CSS class names, separated by spaces, or a function extracts the classes to be removed from the existing className property</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7050">line 7050</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="conbo.ElementProxy.html">conbo.ElementProxy</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="removeEventListener"><span class="type-signature"></span>removeEventListener<span class="signature">(type, handler)</span><span class="type-signature"> &rarr; {<a href="conbo.EventProxy.html">conbo.EventProxy</a>}</span></h4>
     
 
     
@@ -1883,8 +2096,6 @@
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
         
 
@@ -1910,20 +2121,10 @@
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
 
             
 
-            <td class="description last">Type of event ('change') or events ('change blur'), if not specified, all listeners will be removed</td>
+            <td class="description last">Type of event ('change') or events ('change blur')</td>
         </tr>
 
     
@@ -1943,53 +2144,10 @@
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
 
             
 
-            <td class="description last">Function that should be called, if not specified, all listeners of the specified type will be removed</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>scope</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">The scope in which the handler is set to run</td>
+            <td class="description last">Function that should be called</td>
         </tr>
 
     
@@ -2010,7 +2168,7 @@
     
     <dt class="inherited-from">Inherited From:</dt>
     <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.EventDispatcher.html#removeEventListener">conbo.EventDispatcher#removeEventListener</a>
+        <a href="conbo.EventProxy.html#removeEventListener">conbo.EventProxy#removeEventListener</a>
     </li></ul></dd>
     
 
@@ -2035,7 +2193,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3895">line 3895</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4089">line 4089</a>
     </li></ul></dd>
     
 
@@ -2073,7 +2231,7 @@
     </dt>
     <dd>
         
-<span class="param-type"><a href="conbo.EventDispatcher.html">conbo.EventDispatcher</a></span>
+<span class="param-type"><a href="conbo.EventProxy.html">conbo.EventProxy</a></span>
 
 
     </dd>
@@ -2091,7 +2249,7 @@
     
 
     
-    <h4 class="name" id="toJSON"><span class="type-signature"></span>toJSON<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id="setAttributes"><span class="type-signature"></span>setAttributes<span class="signature">(obj)</span><span class="type-signature"> &rarr; {<a href="conbo.ElementProxy.html">conbo.ElementProxy</a>}</span></h4>
     
 
     
@@ -2099,7 +2257,7 @@
 
 
 <div class="description">
-    Returns a version of this object that can easily be converted into JSON
+    Sets the attributes on a DOM element from an Object, converting camelCase to kebab-case, if needed
 </div>
 
 
@@ -2108,6 +2266,55 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Element</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object containing the attributes to set</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -2143,7 +2350,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4465">line 4465</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line6962">line 6962</a>
     </li></ul></dd>
     
 
@@ -2177,7 +2384,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Object</span>
+<span class="param-type"><a href="conbo.ElementProxy.html">conbo.ElementProxy</a></span>
 
 
     </dd>
@@ -2186,6 +2393,11 @@
     
 
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>ep.setAttributes({foo:1, bar:"red"});</code></pre>
 
 
 
@@ -2225,12 +2437,12 @@
     
 
     
-
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="conbo.EventDispatcher.html#toString">conbo.EventDispatcher#toString</a>
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="conbo.Class.html#toString">conbo.Class#toString</a>
     </li></ul></dd>
+    
+
     
 
     
@@ -2252,7 +2464,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3235">line 3235</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3256">line 3256</a>
     </li></ul></dd>
     
 
@@ -2320,7 +2532,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed May 23 2018 18:51:18 GMT+0100 (GMT Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed May 23 2018 21:27:42 GMT+0100 (GMT Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>
