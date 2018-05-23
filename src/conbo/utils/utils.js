@@ -1321,10 +1321,9 @@
 	conbo.isEmpty = function(value)
 	{
 		return !value // 0, false, undefined, null, ""
-			|| (conbo.isArray(value) && value.length === 0) // []
-			|| (!isNaN(value) && !parseFloat(value)) // "0", "0.0", etc
+			|| (conbo.isIterable(value) && value.length === 0) // [], Arguments, List, etc
+			|| (/^0\.?0+?$/.test(value) && !parseFloat(value)) // "0", "0.0", etc
 			|| (conbo.isObject(value) && !conbo.keys(value).length) // {}
-			|| (conbo.isObject(value) && 'length' in value && value.length === 0) // Arguments, List, etc
 			;
 	};
 	

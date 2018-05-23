@@ -53,7 +53,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 */
 	cbShow: function(el, value)
 	{
-		this.cbHide(el, !conbo.isEmpty(value));
+		this.cbHide(el, conbo.isEmpty(value));
 	},
 	
 	/**
@@ -69,7 +69,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 */
 	cbHide: function(el, value)
 	{
-		conbo.isEmpty(value)
+		!conbo.isEmpty(value)
 			? el.classList.add('cb-hide')
 			: el.classList.remove('cb-hide');
 	},
@@ -86,7 +86,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 */
 	cbInclude: function(el, value)
 	{
-		this.cbExclude(el, !conbo.isEmpty(value));
+		this.cbExclude(el, conbo.isEmpty(value));
 	},
 	
 	/**
@@ -102,9 +102,10 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 */
 	cbExclude: function(el, value)
 	{
-		conbo.isEmpty(value)
+		!conbo.isEmpty(value)
 			? el.classList.add('cb-exclude')
-			: el.classList.remove('cb-exclude');
+			: el.classList.remove('cb-exclude')
+			;
 	},
 	
 	/**
@@ -174,7 +175,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 			conbo.warn('cb-class attributes must specify one or more CSS classes in the format cb-class="myProperty:class-name"');
 		}
 		
-		conbo.isEmpty(value)
+		!conbo.isEmpty(value)
 			? __ep(el).addClass(className)
 			: __ep(el).removeClass(className)
 			;
@@ -484,7 +485,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 */
 	cbRemove: function(el, value)
 	{
-		if (conbo.isEmpty(value))
+		if (!conbo.isEmpty(value))
 		{
 			// TODO Remove binding, etc?
 			el.parentNode.removeChild(el);
