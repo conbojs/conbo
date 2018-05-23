@@ -31,7 +31,7 @@ module.exports = function (grunt)
 						'src/conbo/events/ConboEvent.js',
 						'src/conbo/events/EventDispatcher.js',
 						'src/conbo/events/EventProxy.js',
-						'src/conbo/core/ServerApplication.js',
+						'src/conbo/core/HeadlessApplication.js',
 						'src/conbo/core/Context.js',
 						'src/conbo/data/Hash.js',
 						'src/conbo/data/LocalHash.js',

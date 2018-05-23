@@ -591,10 +591,10 @@ declare namespace conbo {
 	}
 
 	/**
-	 * Server Application
+	 * Headless Application
 	 * Base class for applications that don't require DOM, e.g. Node.js
 	 */
-	class ServerApplication extends EventDispatcher {
+	class HeadlessApplication extends EventDispatcher {
 
 		/**
 		 * Default context class to use

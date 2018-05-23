@@ -69,7 +69,7 @@ conbo('com.example.app').import({ FooApp, BarView });
 ```
 
 ```javascript
-// ES6 & TypeScript Decorator
+// ES2015 & TypeScript Decorator
 
 import {Application, Viewable} from 'conbo';
 

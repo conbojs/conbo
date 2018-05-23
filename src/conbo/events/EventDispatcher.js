@@ -95,7 +95,11 @@
 			if (!handler || !conbo.isFunction(handler)) throw new Error('Event handler is undefined or not a function');
 	
 			if (conbo.isString(type)) type = type.split(' ');
-			if (conbo.isArray(type)) conbo.forEach(type, function(value, index, list) { EventDispatcher__addEventListener.call(this, value, handler, scope, priority, !!once); }, this);
+			if (conbo.isArray(type)) conbo.forEach(type, function(value, index, list)
+			{
+				EventDispatcher__addEventListener.call(this, value, handler, scope, priority, !!once); 
+			},
+			this);
 			
 			return this;
 		},
@@ -138,26 +142,17 @@
 		 */
 		hasEventListener: function(type, handler, scope)
 		{
-			if (!this.__queue 
-				|| !(type in this.__queue)
-				|| !this.__queue[type].length)
+			if (!this.__queue || !(type in this.__queue) || !this.__queue[type].length)
 			{
 				return false;
 			}
 			
-			var queue = this.__queue[type];
-			var length = queue.length;
-			
-			for (var i=0; i<length; i++)
+			var filtered = this.__queue[type].filter(function(queued)
 			{
-				if ((!handler || queue[i].handler == handler) 
-					&& (!scope || queue[i].scope == scope))
-				{
-					return true;
-				}
-			}
-			
-			return false;
+				return (!handler || queued.handler == handler) && (!scope || queued.scope == scope);
+			});
+
+			return !!filtered.length;
 		},
 		
 		/**
