@@ -996,6 +996,25 @@
 	};
 	
 	/**
+	 * Extends Object.getOwnPropertyNames to retrieves the names of every 
+	 * public variable of an object, regardless of whether it's enumerable or 
+	 * unenumerable
+	 * 
+	 * @memberof	conbo
+	 * @see			#getPropertyNames
+	 * @param		{Object}	obj - Object to get keys from
+	 * @param		{boolean}	[deep] - Retrieve keys from further up the prototype chain?
+	 * @returns		{Array}
+	 */
+	conbo.getPublicVariableNames = function(obj, deep)
+	{
+		return conbo
+			.getVariableNames(obj, deep)
+			.filter(function(name) { return name.indexOf('_') != 0; })
+			;
+	};
+	
+	/**
 	 * Extends Object.getOwnPropertyDescriptor to return a property descriptor 
 	 * for a property of a given object, regardless of where it is in the 
 	 * prototype chain
@@ -2168,7 +2187,7 @@
 	 */
 	conbo.makeBindable = function(obj, propNames)
 	{
-		propNames = conbo.uniq(propNames || conbo.getVariableNames(obj, true));
+		propNames = conbo.uniq(propNames || conbo.getPublicVariableNames(obj, true));
 		
 		propNames.forEach(function(propName)
 		{
@@ -2192,7 +2211,7 @@
 	 */
 	conbo.makeAllBindable = function(obj, propNames)
 	{
-		propNames = (propNames || []).concat(conbo.getVariableNames(obj, true));
+		propNames = (propNames || []).concat(conbo.getPublicVariableNames(obj, true));
 		conbo.makeBindable(obj, propNames);
 		
 		return this;

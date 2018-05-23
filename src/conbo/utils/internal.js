@@ -50,16 +50,18 @@ var __defineProperty = function(obj, propName, value, getter, setter, enumerable
 	
 	if (nogs)
 	{
+		__definePrivateProperty(obj, '__'+propName, value);
+
 		getter = function()
 		{
-			return value;
+			return this['__'+propName];
 		};
 	
 		setter = function(newValue)
 		{
-			if (!conbo.isEqual(newValue, value)) 
+			if (!conbo.isEqual(newValue, this['__'+propName])) 
 			{
-				value = newValue;
+				this['__'+propName] = newValue;
 				__dispatchChange(this, propName);
 			}
 		};
