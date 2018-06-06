@@ -129,6 +129,30 @@ conbo.ConboEvent = conbo.Event.extend(
 	UNBIND:				'unbind',			
 
 	/** 
+	 * Something is about to initialize
+	 * 
+	 * @event			conbo.ConboEvent#PREINITIALIZE
+     * @type 			{conbo.ConboEvent}
+	 */
+	PREINITIALIZE:	'preinitialize',
+
+	/** 
+	 * Something is initializing
+	 * 
+	 * @event			conbo.ConboEvent#INITIALIZE
+     * @type 			{conbo.ConboEvent}
+	 */
+	INITIALIZE:		'initialize',
+
+	/** 
+	 * Something has finished initializing
+	 * 
+	 * @event			conbo.ConboEvent#INIT_COMPLETE
+     * @type 			{conbo.ConboEvent}
+	 */
+	INIT_COMPLETE:	'initComplete',
+
+	/** 
 	 * Something has been created and it's ready to use
 	 * 
 	 * @event			conbo.ConboEvent#CREATION_COMPLETE

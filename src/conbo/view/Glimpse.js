@@ -67,7 +67,7 @@ conbo.Glimpse = conbo.EventDispatcher.extend(
 	 */
 	__setEl: function(el)
 	{
-		var attrs = conbo.setValues({}, this.attributes);
+		var attrs = conbo.assign({}, this.attributes);
 		
 		if (this.id && !el.id) 
 		{
@@ -84,7 +84,7 @@ conbo.Glimpse = conbo.EventDispatcher.extend(
 		
 		if (this.style)
 		{
-			el.style = conbo.setValues(el.style, this.style);
+			el.style = conbo.assign(el.style, this.style);
 		}
 		
 		__definePrivateProperty(this, '__el', el);

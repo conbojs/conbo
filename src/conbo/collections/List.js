@@ -34,7 +34,7 @@ conbo.List = conbo.EventDispatcher.extend(
 		
 		var listOptions = ['itemClass'];
 		
-		conbo.setValues(this, conbo.pick(options, listOptions));
+		conbo.assign(this, conbo.pick(options, listOptions));
 		
 		this.source = options.source || [];
 	},

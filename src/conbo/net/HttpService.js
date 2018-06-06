@@ -26,7 +26,7 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 			contentType: conbo.CONTENT_TYPE_JSON
 		});
 		
-		conbo.setValues(this, conbo.setDefaults(conbo.pick(options, 
+		conbo.assign(this, conbo.setDefaults(conbo.pick(options, 
 		    'rootUrl', 
 		    'contentType', 
 		    'dataType', 

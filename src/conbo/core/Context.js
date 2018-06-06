@@ -82,8 +82,6 @@ conbo.Context = conbo.EventDispatcher.extend(
 		if (!eventType) throw new Error('eventType cannot be undefined');
 		if (!commandClass) throw new Error('commandClass for '+eventType+' cannot be undefined');
 		
-		if (this.__mapMulti(eventType, commandClass, this.mapCommand)) return;
-		
 		if (this.__commands[eventType] && this.__commands[eventType].indexOf(commandClass) != -1)
 		{
 			return this;
@@ -101,7 +99,6 @@ conbo.Context = conbo.EventDispatcher.extend(
 	unmapCommand: function(eventType, commandClass)
 	{
 		if (!eventType) throw new Error('eventType cannot be undefined');
-		if (this.__mapMulti(eventType, commandClass, this.unmapCommand)) return;
 		
 		if (commandClass === undefined)
 		{
@@ -135,13 +132,22 @@ conbo.Context = conbo.EventDispatcher.extend(
 		{
 			conbo.warn('singletonClass for '+propertyName+' is undefined');
 		}
-		
-		if (this.__mapMulti(propertyName, singletonClass, this.mapSingleton)) return;
-		
-		this.__singletons[propertyName] = conbo.isClass(singletonClass)
-			// TODO Improved dynamic class instantiation
-			? new singletonClass(arguments[2], arguments[3], arguments[4])
-			: singletonClass;
+
+		if (conbo.isClass(singletonClass))
+		{
+			var args = conbo.rest(arguments);
+
+			if (args.length == 1 && singletonClass.prototype instanceof conbo.ConboClass)
+			{
+				args.push(this);
+			}
+
+			this.__singletons[propertyName] = new (Function.prototype.bind.apply(singletonClass, args))
+		}
+		else
+		{
+			this.__singletons[propertyName] = singletonClass;
+		}
 			
 		return this;
 	},
@@ -152,7 +158,6 @@ conbo.Context = conbo.EventDispatcher.extend(
 	unmapSingleton: function(propertyName)
 	{
 		if (!propertyName) throw new Error('propertyName cannot be undefined');
-		if (this.__mapMulti(propertyName, null, this.unmapSingleton)) return;
 		
 		if (!this.__singletons[propertyName]) return;
 		delete this.__singletons[propertyName];
@@ -199,10 +204,17 @@ conbo.Context = conbo.EventDispatcher.extend(
 	 */
 	injectSingletons: function(obj)
 	{
-		for (var a in this.__singletons)
+		var scope = this;
+
+		for (var a in scope.__singletons)
 		{
-			if (!(a in obj) || obj[a] !== undefined) continue;
-			obj[a] = this.__singletons[a];
+			if (!(a in obj)) continue;
+
+			Object.defineProperty(obj, a,
+			{
+				configurable: true,
+				get: function() { return scope.__singletons[a]; }
+			})
 		}
 		
 		return this;
@@ -217,7 +229,14 @@ conbo.Context = conbo.EventDispatcher.extend(
 	{
 		for (var a in this.__singletons)
 		{
-			if (a in obj) obj[a] = undefined;
+			if (a in obj)
+			{
+				Object.defineProperty(obj, a,
+				{
+					configurable: true,
+					value: undefined
+				});
+			}
 		}
 
 		return this;
@@ -258,17 +277,6 @@ conbo.Context = conbo.EventDispatcher.extend(
 		
 		return this;
 	},
-	
-	/**
-	 * @private
-	 */
-	__mapMulti: function(n, c, f)
-	{
-		if (conbo.isArray(n) || n.indexOf(' ') == -1) return false;
-		var names = conbo.isArray(n) ? n : n.split(' ');
-		conbo.forEach(names, function(e) { f(e,c); }, this);
-		return true;
-	}
 	
 });
 

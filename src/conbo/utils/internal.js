@@ -8,14 +8,13 @@
  */
 var __dispatchChange = function(obj, propName)
 {
-	if (!(obj instanceof conbo.EventDispatcher)) return this;
-	
-	var options = {property:propName, value:obj[propName]};
-	
-	obj.dispatchEvent(new conbo.ConboEvent('change:'+propName, options));
-	obj.dispatchEvent(new conbo.ConboEvent('change', options));
-	
-	return this;
+	if (obj instanceof conbo.EventDispatcher)
+	{
+		var options = {property:propName, value:obj[propName]};
+		
+		obj.dispatchEvent(new conbo.ConboEvent('change:'+propName, options));
+		obj.dispatchEvent(new conbo.ConboEvent('change', options));
+	}
 };
 
 /**
@@ -23,65 +22,34 @@ var __dispatchChange = function(obj, propName)
  * 
  * @param	{Object}	obj	- The EventDispatcher object on which the property will be defined
  * @param	{string}	propName - The name of the property to be defined
- * @param	{*}			value - The default value of the property (optional)
- * @param	{Function}	getter - The getter function (optional)
- * @param	{Function}	setter - The setter function (optional)
- * @param	{boolean}	[enumerable=true] - Whether of not the property should be enumerable
+ * @param	{*}			[value] - The initial value of the property (optional)
  * @private
  */
-var __defineProperty = function(obj, propName, value, getter, setter, enumerable)
+var __defineBindableProperty = function(obj, propName, value)
 {
-	if (conbo.isAccessor(obj, propName))
-	{
-		return this;
-	}
+	if (conbo.isAccessor(obj, propName)) return;
+	if (arguments.length < 3) value = obj[propName];
 	
-	if (conbo.isUndefined(value))
-	{
-		value = obj[propName];
-	}
+	var enumerable = propName.indexOf('_') != 0;
+	var internalName = '__'+propName;
 	
-	var nogs = !getter && !setter;
-	
-	if (arguments.length < 6)
-	{
-		enumerable = propName.indexOf('_') !== 0;
-	}
-	
-	if (nogs)
-	{
-		__definePrivateProperty(obj, '__'+propName, value);
+	__definePrivateProperty(obj, internalName, value);
 
-		getter = function()
-		{
-			return this['__'+propName];
-		};
-	
-		setter = function(newValue)
-		{
-			if (!conbo.isEqual(newValue, this['__'+propName])) 
-			{
-				this['__'+propName] = newValue;
-				__dispatchChange(this, propName);
-			}
-		};
-		
-		setter.bindable = true;
-	}
-	else if (!!setter)
+	var getter = function()
 	{
-		setter = conbo.wrap(setter, function(fn, newValue)
+		return this[internalName];
+	};
+
+	var setter = function(newValue)
+	{
+		if (!conbo.isEqual(newValue, this[internalName])) 
 		{
-			fn.call(this, newValue);
+			this[internalName] = newValue;
 			__dispatchChange(this, propName);
-		});
-		
-		setter.bindable = true;
-	}
+		}
+	};
 	
 	Object.defineProperty(obj, propName, {enumerable:enumerable, configurable:true, get:getter, set:setter});
-	
-	return this;
 };
 
 /**

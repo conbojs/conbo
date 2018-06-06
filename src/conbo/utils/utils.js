@@ -1104,7 +1104,7 @@
 			for (var propName in source) 
 			{
 				delete target[propName];
-				__defineProperty(target, propName, source[propName]);
+				__defineBindableProperty(target, propName, source[propName]);
 			}
 		});
 		
@@ -1551,6 +1551,18 @@
 	};
 
 	/**
+	 * Is the given value numeric? i.e. a number of a string that can be coerced into a number
+	 * 
+	 * @memberof	conbo
+	 * @param		{*} value - Value that might be numeric
+	 * @returns		{boolean}
+	 */
+	conbo.isNumeric = function(value)
+	{
+		return !isNaN(parseFloat(value));
+	};
+
+	/**
 	 * Shortcut function for checking if an object has a given property directly
 	 * on itself (in other words, not on a prototype).
 	 * 
@@ -1901,7 +1913,7 @@
 	 * descriptors. Unlike Object.assign(), the properties copied are not
 	 * limited to own properties.
 	 * 
-	 * Unlike conbo.defineValues, setValues only sets the values on the target 
+	 * Unlike conbo.defineValues, assign only sets the values on the target 
 	 * object and does not destroy and redifine them.
 	 * 
 	 * @memberof	conbo
@@ -1934,6 +1946,7 @@
 	 */
 	conbo.setValues = function(target)
 	{
+		__deprecated('conbo.setValues is deprecated, use conbo.assign');
 		return conbo.assign.apply(conbo, arguments);
 	}	
 
@@ -2191,7 +2204,7 @@
 		
 		propNames.forEach(function(propName)
 		{
-			__defineProperty(obj, propName);
+			__defineBindableProperty(obj, propName);
 		});
 		
 		return this;
@@ -2463,7 +2476,7 @@
 		conbo[method] = function()
 		{
 			if (!console || !conbo.logEnabled) return;
-			console[method].apply(console, arguments);		
+			console[method].apply(console, arguments);
 		};
 	});
 	

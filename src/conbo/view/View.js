@@ -18,6 +18,9 @@ var View__templateCache = {};
  * @fires		conbo.ConboEvent#UNBIND
  * @fires		conbo.ConboEvent#TEMPLATE_COMPLETE
  * @fires		conbo.ConboEvent#TEMPLATE_ERROR
+ * @fires		conbo.ConboEvent#PREINITIALIZE
+ * @fires		conbo.ConboEvent#INITIALIZE
+ * @fires		conbo.ConboEvent#INIT_COMPLETE
  * @fires		conbo.ConboEvent#CREATION_COMPLETE
  */
 conbo.View = conbo.Glimpse.extend(
@@ -115,7 +118,7 @@ conbo.View = conbo.Glimpse.extend(
 			)
 		);
 		
-		conbo.setValues(this, conbo.pick(options, viewOptions));
+		conbo.assign(this, conbo.pick(options, viewOptions));
 		conbo.makeBindable(this, ['currentState']);
 		
 		this.context = options.context;
@@ -312,7 +315,7 @@ conbo.View = conbo.Glimpse.extend(
 	 */
 	remove: function()
 	{
-		this.unbindView();
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
 		
 		if (this.data)
 		{
@@ -329,8 +332,8 @@ conbo.View = conbo.Glimpse.extend(
 			this.context = undefined;
 		}
 		
-		this.detach()
-			.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE))
+		this.unbindView()
+			.detach()
 			.removeEventListener()
 			;
 		
@@ -543,7 +546,7 @@ conbo.View = conbo.Glimpse.extend(
 			return;
 		}
 		
-		var attrs = conbo.setValues({}, this.attributes);
+		var attrs = conbo.assign({}, this.attributes);
 		
 		if (this.id && !el.id) 
 		{
@@ -552,7 +555,7 @@ conbo.View = conbo.Glimpse.extend(
 		
 		if (this.style) 
 		{
-			conbo.setValues(el.style, this.style);
+			conbo.assign(el.style, this.style);
 		}
 		
 		var ep = __ep(el);

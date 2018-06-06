@@ -156,7 +156,7 @@ conbo.conbo = conbo;
  * @memberof	conbo
  * @type	 	{string}
  */
-conbo.VERSION = '4.3.2';
+conbo.VERSION = '4.3.3';
 	
 /**
  * A string containing the framework name and version number, e.g. "ConboJS v1.2.3"
@@ -373,14 +373,13 @@ conbo.DATA_TYPE_TEXT = 'text';
  */
 var __dispatchChange = function(obj, propName)
 {
-	if (!(obj instanceof conbo.EventDispatcher)) return this;
-	
-	var options = {property:propName, value:obj[propName]};
-	
-	obj.dispatchEvent(new conbo.ConboEvent('change:'+propName, options));
-	obj.dispatchEvent(new conbo.ConboEvent('change', options));
-	
-	return this;
+	if (obj instanceof conbo.EventDispatcher)
+	{
+		var options = {property:propName, value:obj[propName]};
+		
+		obj.dispatchEvent(new conbo.ConboEvent('change:'+propName, options));
+		obj.dispatchEvent(new conbo.ConboEvent('change', options));
+	}
 };
 
 /**
@@ -388,65 +387,34 @@ var __dispatchChange = function(obj, propName)
  * 
  * @param	{Object}	obj	- The EventDispatcher object on which the property will be defined
  * @param	{string}	propName - The name of the property to be defined
- * @param	{*}			value - The default value of the property (optional)
- * @param	{Function}	getter - The getter function (optional)
- * @param	{Function}	setter - The setter function (optional)
- * @param	{boolean}	[enumerable=true] - Whether of not the property should be enumerable
+ * @param	{*}			[value] - The initial value of the property (optional)
  * @private
  */
-var __defineProperty = function(obj, propName, value, getter, setter, enumerable)
+var __defineBindableProperty = function(obj, propName, value)
 {
-	if (conbo.isAccessor(obj, propName))
-	{
-		return this;
-	}
+	if (conbo.isAccessor(obj, propName)) return;
+	if (arguments.length &lt; 3) value = obj[propName];
 	
-	if (conbo.isUndefined(value))
-	{
-		value = obj[propName];
-	}
+	var enumerable = propName.indexOf('_') != 0;
+	var internalName = '__'+propName;
 	
-	var nogs = !getter &amp;&amp; !setter;
-	
-	if (arguments.length &lt; 6)
-	{
-		enumerable = propName.indexOf('_') !== 0;
-	}
-	
-	if (nogs)
-	{
-		__definePrivateProperty(obj, '__'+propName, value);
+	__definePrivateProperty(obj, internalName, value);
 
-		getter = function()
-		{
-			return this['__'+propName];
-		};
-	
-		setter = function(newValue)
-		{
-			if (!conbo.isEqual(newValue, this['__'+propName])) 
-			{
-				this['__'+propName] = newValue;
-				__dispatchChange(this, propName);
-			}
-		};
-		
-		setter.bindable = true;
-	}
-	else if (!!setter)
+	var getter = function()
 	{
-		setter = conbo.wrap(setter, function(fn, newValue)
+		return this[internalName];
+	};
+
+	var setter = function(newValue)
+	{
+		if (!conbo.isEqual(newValue, this[internalName])) 
 		{
-			fn.call(this, newValue);
+			this[internalName] = newValue;
 			__dispatchChange(this, propName);
-		});
-		
-		setter.bindable = true;
-	}
+		}
+	};
 	
 	Object.defineProperty(obj, propName, {enumerable:enumerable, configurable:true, get:getter, set:setter});
-	
-	return this;
 };
 
 /**
@@ -1628,7 +1596,7 @@ var __ep = function(el)
 			for (var propName in source) 
 			{
 				delete target[propName];
-				__defineProperty(target, propName, source[propName]);
+				__defineBindableProperty(target, propName, source[propName]);
 			}
 		});
 		
@@ -2075,6 +2043,18 @@ var __ep = function(el)
 	};
 
 	/**
+	 * Is the given value numeric? i.e. a number of a string that can be coerced into a number
+	 * 
+	 * @memberof	conbo
+	 * @param		{*} value - Value that might be numeric
+	 * @returns		{boolean}
+	 */
+	conbo.isNumeric = function(value)
+	{
+		return !isNaN(parseFloat(value));
+	};
+
+	/**
 	 * Shortcut function for checking if an object has a given property directly
 	 * on itself (in other words, not on a prototype).
 	 * 
@@ -2425,7 +2405,7 @@ var __ep = function(el)
 	 * descriptors. Unlike Object.assign(), the properties copied are not
 	 * limited to own properties.
 	 * 
-	 * Unlike conbo.defineValues, setValues only sets the values on the target 
+	 * Unlike conbo.defineValues, assign only sets the values on the target 
 	 * object and does not destroy and redifine them.
 	 * 
 	 * @memberof	conbo
@@ -2458,6 +2438,7 @@ var __ep = function(el)
 	 */
 	conbo.setValues = function(target)
 	{
+		__deprecated('conbo.setValues is deprecated, use conbo.assign');
 		return conbo.assign.apply(conbo, arguments);
 	}	
 
@@ -2715,7 +2696,7 @@ var __ep = function(el)
 		
 		propNames.forEach(function(propName)
 		{
-			__defineProperty(obj, propName);
+			__defineBindableProperty(obj, propName);
 		});
 		
 		return this;
@@ -2987,7 +2968,7 @@ var __ep = function(el)
 		conbo[method] = function()
 		{
 			if (!console || !conbo.logEnabled) return;
-			console[method].apply(console, arguments);		
+			console[method].apply(console, arguments);
 		};
 	});
 	
@@ -3411,12 +3392,27 @@ conbo.ConboClass = conbo.Class.extend(
 			this.context = args[0].context;
 		}
 	
+		if (this instanceof conbo.EventDispatcher)
+		{
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.PREINITIALIZE));
+		}
+
 		this.preinitialize.apply(this, args);
 		this.__construct.apply(this, args);
 		
+		if (this instanceof conbo.EventDispatcher)
+		{
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.INITIALIZE));
+		}
+
 		this.initialize.apply(this, args);
 		conbo.makeAllBindable(this, this.bindable);
 		this.__postInitialize.apply(this, args);
+		
+		if (this instanceof conbo.EventDispatcher)
+		{
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.INIT_COMPLETE));
+		}		
 	},
 	
 	toString: function()
@@ -3792,6 +3788,30 @@ conbo.ConboEvent = conbo.Event.extend(
 	UNBIND:				'unbind',			
 
 	/** 
+	 * Something is about to initialize
+	 * 
+	 * @event			conbo.ConboEvent#PREINITIALIZE
+     * @type 			{conbo.ConboEvent}
+	 */
+	PREINITIALIZE:	'preinitialize',
+
+	/** 
+	 * Something is initializing
+	 * 
+	 * @event			conbo.ConboEvent#INITIALIZE
+     * @type 			{conbo.ConboEvent}
+	 */
+	INITIALIZE:		'initialize',
+
+	/** 
+	 * Something has finished initializing
+	 * 
+	 * @event			conbo.ConboEvent#INIT_COMPLETE
+     * @type 			{conbo.ConboEvent}
+	 */
+	INIT_COMPLETE:	'initComplete',
+
+	/** 
 	 * Something has been created and it's ready to use
 	 * 
 	 * @event			conbo.ConboEvent#CREATION_COMPLETE
@@ -3840,7 +3860,7 @@ conbo.ConboEvent = conbo.Event.extend(
 		if (!this.hasEventListener(type, handler, scope))
 		{
 			if (!(type in this.__queue)) this.__queue[type] = [];
-			this.__queue[type].push({handler:handler, scope:scope, once:once, priority:priority||0});
+			this.__queue[type].push({handler:handler, scope:scope, once:once, priority:~~priority});
 			this.__queue[type].sort(function(a,b){return b.priority-a.priority;});
 		}
 	};
@@ -3853,38 +3873,34 @@ conbo.ConboEvent = conbo.Event.extend(
 		if (type == '*') type = 'all';
 		if (!this.__queue) return;
 		
-		var queue, 
-			i, 
-			self = this;
+		var queue;
+		var i;
+		var self = this;
 		
 		var removeFromQueue = function(queue, key)
 		{
 			for (i=0; i&lt;queue.length; i++)
 			{
-				if ((!queue[i].handler || queue[i].handler == handler)
-					&amp;&amp; (!queue[i].scope || queue[i].scope == scope))
+				if ((!handler || handler == queue[i].handler) &amp;&amp; (!scope || scope == queue[i].scope))
 				{
 					queue.splice(i--, 1);
 				}
 			}
-			
+
 			if (!queue.length)
 			{
 				delete self.__queue[key];
 			}
 		};
 		
-		if (type in this.__queue)
+		if (type in self.__queue)
 		{
-			queue = this.__queue[type];
+			queue = self.__queue[type];
 			removeFromQueue(queue, type);
 		}
-		else if (type == undefined)
+		else if (!type)
 		{
-			conbo.forEach(this.__queue, function(queue, key)
-			{
-				removeFromQueue(queue, key);
-			});
+			conbo.forEach(self.__queue, removeFromQueue, self);
 		}
 	};
 	
@@ -4009,7 +4025,7 @@ conbo.ConboEvent = conbo.Event.extend(
 				var value = queue[i];
 				var returnValue = value.handler.call(value.scope || this, event);
 				if (value.once) EventDispatcher__removeEventListener.call(this, event.type, value.handler, value.scope);
-				if (returnValue === false || event.immediatePropagationStopped) break;
+				if (event.immediatePropagationStopped) break;
 			}
 			
 			return this;
@@ -4037,8 +4053,7 @@ conbo.ConboEvent = conbo.Event.extend(
 		},
 		
 	}).implement(conbo.IInjectable);
-	
-	//__definePrivateProperty(conbo.EventDispatcher.prototype, 'bindable');
+
 	__denumerate(conbo.EventDispatcher.prototype);
 	
 })();
@@ -4278,8 +4293,6 @@ conbo.Context = conbo.EventDispatcher.extend(
 		if (!eventType) throw new Error('eventType cannot be undefined');
 		if (!commandClass) throw new Error('commandClass for '+eventType+' cannot be undefined');
 		
-		if (this.__mapMulti(eventType, commandClass, this.mapCommand)) return;
-		
 		if (this.__commands[eventType] &amp;&amp; this.__commands[eventType].indexOf(commandClass) != -1)
 		{
 			return this;
@@ -4297,7 +4310,6 @@ conbo.Context = conbo.EventDispatcher.extend(
 	unmapCommand: function(eventType, commandClass)
 	{
 		if (!eventType) throw new Error('eventType cannot be undefined');
-		if (this.__mapMulti(eventType, commandClass, this.unmapCommand)) return;
 		
 		if (commandClass === undefined)
 		{
@@ -4331,13 +4343,22 @@ conbo.Context = conbo.EventDispatcher.extend(
 		{
 			conbo.warn('singletonClass for '+propertyName+' is undefined');
 		}
-		
-		if (this.__mapMulti(propertyName, singletonClass, this.mapSingleton)) return;
-		
-		this.__singletons[propertyName] = conbo.isClass(singletonClass)
-			// TODO Improved dynamic class instantiation
-			? new singletonClass(arguments[2], arguments[3], arguments[4])
-			: singletonClass;
+
+		if (conbo.isClass(singletonClass))
+		{
+			var args = conbo.rest(arguments);
+
+			if (args.length == 1 &amp;&amp; singletonClass.prototype instanceof conbo.ConboClass)
+			{
+				args.push(this);
+			}
+
+			this.__singletons[propertyName] = new (Function.prototype.bind.apply(singletonClass, args))
+		}
+		else
+		{
+			this.__singletons[propertyName] = singletonClass;
+		}
 			
 		return this;
 	},
@@ -4348,7 +4369,6 @@ conbo.Context = conbo.EventDispatcher.extend(
 	unmapSingleton: function(propertyName)
 	{
 		if (!propertyName) throw new Error('propertyName cannot be undefined');
-		if (this.__mapMulti(propertyName, null, this.unmapSingleton)) return;
 		
 		if (!this.__singletons[propertyName]) return;
 		delete this.__singletons[propertyName];
@@ -4395,10 +4415,17 @@ conbo.Context = conbo.EventDispatcher.extend(
 	 */
 	injectSingletons: function(obj)
 	{
-		for (var a in this.__singletons)
+		var scope = this;
+
+		for (var a in scope.__singletons)
 		{
-			if (!(a in obj) || obj[a] !== undefined) continue;
-			obj[a] = this.__singletons[a];
+			if (!(a in obj)) continue;
+
+			Object.defineProperty(obj, a,
+			{
+				configurable: true,
+				get: function() { return scope.__singletons[a]; }
+			})
 		}
 		
 		return this;
@@ -4413,7 +4440,14 @@ conbo.Context = conbo.EventDispatcher.extend(
 	{
 		for (var a in this.__singletons)
 		{
-			if (a in obj) obj[a] = undefined;
+			if (a in obj)
+			{
+				Object.defineProperty(obj, a,
+				{
+					configurable: true,
+					value: undefined
+				});
+			}
 		}
 
 		return this;
@@ -4455,17 +4489,6 @@ conbo.Context = conbo.EventDispatcher.extend(
 		return this;
 	},
 	
-	/**
-	 * @private
-	 */
-	__mapMulti: function(n, c, f)
-	{
-		if (conbo.isArray(n) || n.indexOf(' ') == -1) return false;
-		var names = conbo.isArray(n) ? n : n.split(' ');
-		conbo.forEach(names, function(e) { f(e,c); }, this);
-		return true;
-	}
-	
 });
 
 __denumerate(conbo.Context.prototype);
@@ -4502,7 +4525,7 @@ conbo.Hash = conbo.EventDispatcher.extend(
 			this.addEventListener('change', changeHandler, this);
 		}
 
-		conbo.setValues(this, conbo.setDefaults({}, options.source, this.toJSON(), this._defaults));
+		conbo.assign(this, conbo.setDefaults({}, options.source, this.toJSON(), this._defaults));
 		delete this._defaults;
 	},
 	
@@ -4626,7 +4649,7 @@ conbo.List = conbo.EventDispatcher.extend(
 		
 		var listOptions = ['itemClass'];
 		
-		conbo.setValues(this, conbo.pick(options, listOptions));
+		conbo.assign(this, conbo.pick(options, listOptions));
 		
 		this.source = options.source || [];
 	},
@@ -5363,7 +5386,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 				className: 'cb-repeat'
 			};
 			
-			var view = new viewClass(conbo.setValues(viewOptions, options));
+			var view = new viewClass(conbo.assign(viewOptions, options));
 			
 			elements.push(view.el);
 		};
@@ -5397,7 +5420,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 	{
 		if (conbo.isObject(value))
 		{
-			conbo.setValues(el.dataset, value);
+			conbo.assign(el.dataset, value);
 		}
 	},
 	
@@ -6767,7 +6790,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 			
 			BindingUtils__registeredNamespaces = conbo.union(BindingUtils__registeredNamespaces, [ns]);
 			
-			conbo.setValues(handler, 
+			conbo.assign(handler, 
 			{
 				readOnly: !!readOnly,
 				raw: !!raw
@@ -7261,7 +7284,7 @@ conbo.Glimpse = conbo.EventDispatcher.extend(
 	 */
 	__setEl: function(el)
 	{
-		var attrs = conbo.setValues({}, this.attributes);
+		var attrs = conbo.assign({}, this.attributes);
 		
 		if (this.id &amp;&amp; !el.id) 
 		{
@@ -7278,7 +7301,7 @@ conbo.Glimpse = conbo.EventDispatcher.extend(
 		
 		if (this.style)
 		{
-			el.style = conbo.setValues(el.style, this.style);
+			el.style = conbo.assign(el.style, this.style);
 		}
 		
 		__definePrivateProperty(this, '__el', el);
@@ -7310,6 +7333,9 @@ var View__templateCache = {};
  * @fires		conbo.ConboEvent#UNBIND
  * @fires		conbo.ConboEvent#TEMPLATE_COMPLETE
  * @fires		conbo.ConboEvent#TEMPLATE_ERROR
+ * @fires		conbo.ConboEvent#PREINITIALIZE
+ * @fires		conbo.ConboEvent#INITIALIZE
+ * @fires		conbo.ConboEvent#INIT_COMPLETE
  * @fires		conbo.ConboEvent#CREATION_COMPLETE
  */
 conbo.View = conbo.Glimpse.extend(
@@ -7407,7 +7433,7 @@ conbo.View = conbo.Glimpse.extend(
 			)
 		);
 		
-		conbo.setValues(this, conbo.pick(options, viewOptions));
+		conbo.assign(this, conbo.pick(options, viewOptions));
 		conbo.makeBindable(this, ['currentState']);
 		
 		this.context = options.context;
@@ -7604,7 +7630,7 @@ conbo.View = conbo.Glimpse.extend(
 	 */
 	remove: function()
 	{
-		this.unbindView();
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE));
 		
 		if (this.data)
 		{
@@ -7621,8 +7647,8 @@ conbo.View = conbo.Glimpse.extend(
 			this.context = undefined;
 		}
 		
-		this.detach()
-			.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.REMOVE))
+		this.unbindView()
+			.detach()
 			.removeEventListener()
 			;
 		
@@ -7835,7 +7861,7 @@ conbo.View = conbo.Glimpse.extend(
 			return;
 		}
 		
-		var attrs = conbo.setValues({}, this.attributes);
+		var attrs = conbo.assign({}, this.attributes);
 		
 		if (this.id &amp;&amp; !el.id) 
 		{
@@ -7844,7 +7870,7 @@ conbo.View = conbo.Glimpse.extend(
 		
 		if (this.style) 
 		{
-			conbo.setValues(el.style, this.style);
+			conbo.assign(el.style, this.style);
 		}
 		
 		var ep = __ep(el);
@@ -8446,7 +8472,7 @@ conbo.HttpService = conbo.EventDispatcher.extend(
 			contentType: conbo.CONTENT_TYPE_JSON
 		});
 		
-		conbo.setValues(this, conbo.setDefaults(conbo.pick(options, 
+		conbo.assign(this, conbo.setDefaults(conbo.pick(options, 
 		    'rootUrl', 
 		    'contentType', 
 		    'dataType', 
@@ -8735,7 +8761,7 @@ conbo.RemoteHash = conbo.Hash.extend(
 		var resultHandler = function(event)
 		{
 			conbo.makeBindable(this, conbo.variables(event.result));
-			conbo.setValues(this, event.result);
+			conbo.assign(this, event.result);
 			
 			this.dispatchEvent(event);
 		};
@@ -9265,13 +9291,13 @@ __denumerate(conbo.Router.prototype);
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="conbo.Application.html">Application</a></li><li><a href="conbo.AttributeBindings.html">AttributeBindings</a></li><li><a href="conbo.BindingUtils.html">BindingUtils</a></li><li><a href="conbo.Class.html">Class</a></li><li><a href="conbo.Command.html">Command</a></li><li><a href="conbo.ConboClass.html">ConboClass</a></li><li><a href="conbo.ConboEvent.html">ConboEvent</a></li><li><a href="conbo.Context.html">Context</a></li><li><a href="conbo.ElementProxy.html">ElementProxy</a></li><li><a href="conbo.Event.html">Event</a></li><li><a href="conbo.EventDispatcher.html">EventDispatcher</a></li><li><a href="conbo.EventProxy.html">EventProxy</a></li><li><a href="conbo.Glimpse.html">Glimpse</a></li><li><a href="conbo.Hash.html">Hash</a></li><li><a href="conbo.HeadlessApplication.html">HeadlessApplication</a></li><li><a href="conbo.HttpService.html">HttpService</a></li><li><a href="conbo.ItemRenderer.html">ItemRenderer</a></li><li><a href="conbo.List.html">List</a></li><li><a href="conbo.LocalHash.html">LocalHash</a></li><li><a href="conbo.LocalList.html">LocalList</a></li><li><a href="conbo.MutationObserver.html">MutationObserver</a></li><li><a href="conbo.Namespace.html">Namespace</a></li><li><a href="conbo.RemoteHash.html">RemoteHash</a></li><li><a href="conbo.RemoteList.html">RemoteList</a></li><li><a href="conbo.Router.html">Router</a></li><li><a href="conbo.View.html">View</a></li></ul><h3>Events</h3><ul><li><a href="conbo.ConboEvent.html#event:ADD">ADD</a></li><li><a href="conbo.ConboEvent.html#event:ALL">ALL</a></li><li><a href="conbo.ConboEvent.html#event:BIND">BIND</a></li><li><a href="conbo.ConboEvent.html#event:CHANGE">CHANGE</a></li><li><a href="conbo.ConboEvent.html#event:CREATION_COMPLETE">CREATION_COMPLETE</a></li><li><a href="conbo.ConboEvent.html#event:DETACH">DETACH</a></li><li><a href="conbo.ConboEvent.html#event:FAULT">FAULT</a></li><li><a href="conbo.ConboEvent.html#event:REMOVE">REMOVE</a></li><li><a href="conbo.ConboEvent.html#event:RESULT">RESULT</a></li><li><a href="conbo.ConboEvent.html#event:ROUTE">ROUTE</a></li><li><a href="conbo.ConboEvent.html#event:START">START</a></li><li><a href="conbo.ConboEvent.html#event:STOP">STOP</a></li><li><a href="conbo.ConboEvent.html#event:TEMPLATE_COMPLETE">TEMPLATE_COMPLETE</a></li><li><a href="conbo.ConboEvent.html#event:TEMPLATE_ERROR">TEMPLATE_ERROR</a></li><li><a href="conbo.ConboEvent.html#event:UNBIND">UNBIND</a></li></ul><h3>Namespaces</h3><ul><li><a href="conbo.html">conbo</a></li></ul><h3>Global</h3><ul><li><a href="global.html#conbo2">conbo</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="conbo.Application.html">Application</a></li><li><a href="conbo.AttributeBindings.html">AttributeBindings</a></li><li><a href="conbo.BindingUtils.html">BindingUtils</a></li><li><a href="conbo.Class.html">Class</a></li><li><a href="conbo.Command.html">Command</a></li><li><a href="conbo.ConboClass.html">ConboClass</a></li><li><a href="conbo.ConboEvent.html">ConboEvent</a></li><li><a href="conbo.Context.html">Context</a></li><li><a href="conbo.ElementProxy.html">ElementProxy</a></li><li><a href="conbo.Event.html">Event</a></li><li><a href="conbo.EventDispatcher.html">EventDispatcher</a></li><li><a href="conbo.EventProxy.html">EventProxy</a></li><li><a href="conbo.Glimpse.html">Glimpse</a></li><li><a href="conbo.Hash.html">Hash</a></li><li><a href="conbo.HeadlessApplication.html">HeadlessApplication</a></li><li><a href="conbo.HttpService.html">HttpService</a></li><li><a href="conbo.ItemRenderer.html">ItemRenderer</a></li><li><a href="conbo.List.html">List</a></li><li><a href="conbo.LocalHash.html">LocalHash</a></li><li><a href="conbo.LocalList.html">LocalList</a></li><li><a href="conbo.MutationObserver.html">MutationObserver</a></li><li><a href="conbo.Namespace.html">Namespace</a></li><li><a href="conbo.RemoteHash.html">RemoteHash</a></li><li><a href="conbo.RemoteList.html">RemoteList</a></li><li><a href="conbo.Router.html">Router</a></li><li><a href="conbo.View.html">View</a></li></ul><h3>Events</h3><ul><li><a href="conbo.ConboEvent.html#event:ADD">ADD</a></li><li><a href="conbo.ConboEvent.html#event:ALL">ALL</a></li><li><a href="conbo.ConboEvent.html#event:BIND">BIND</a></li><li><a href="conbo.ConboEvent.html#event:CHANGE">CHANGE</a></li><li><a href="conbo.ConboEvent.html#event:CREATION_COMPLETE">CREATION_COMPLETE</a></li><li><a href="conbo.ConboEvent.html#event:DETACH">DETACH</a></li><li><a href="conbo.ConboEvent.html#event:FAULT">FAULT</a></li><li><a href="conbo.ConboEvent.html#event:INIT_COMPLETE">INIT_COMPLETE</a></li><li><a href="conbo.ConboEvent.html#event:INITIALIZE">INITIALIZE</a></li><li><a href="conbo.ConboEvent.html#event:PREINITIALIZE">PREINITIALIZE</a></li><li><a href="conbo.ConboEvent.html#event:REMOVE">REMOVE</a></li><li><a href="conbo.ConboEvent.html#event:RESULT">RESULT</a></li><li><a href="conbo.ConboEvent.html#event:ROUTE">ROUTE</a></li><li><a href="conbo.ConboEvent.html#event:START">START</a></li><li><a href="conbo.ConboEvent.html#event:STOP">STOP</a></li><li><a href="conbo.ConboEvent.html#event:TEMPLATE_COMPLETE">TEMPLATE_COMPLETE</a></li><li><a href="conbo.ConboEvent.html#event:TEMPLATE_ERROR">TEMPLATE_ERROR</a></li><li><a href="conbo.ConboEvent.html#event:UNBIND">UNBIND</a></li></ul><h3>Namespaces</h3><ul><li><a href="conbo.html">conbo</a></li></ul><h3>Global</h3><ul><li><a href="global.html#conbo2">conbo</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed May 23 2018 21:27:42 GMT+0100 (GMT Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Jun 06 2018 17:35:21 GMT+0100 (GMT Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

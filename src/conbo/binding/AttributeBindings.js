@@ -350,7 +350,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 				className: 'cb-repeat'
 			};
 			
-			var view = new viewClass(conbo.setValues(viewOptions, options));
+			var view = new viewClass(conbo.assign(viewOptions, options));
 			
 			elements.push(view.el);
 		};
@@ -384,7 +384,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 	{
 		if (conbo.isObject(value))
 		{
-			conbo.setValues(el.dataset, value);
+			conbo.assign(el.dataset, value);
 		}
 	},
 	

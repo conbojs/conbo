@@ -30,7 +30,7 @@ conbo.Hash = conbo.EventDispatcher.extend(
 			this.addEventListener('change', changeHandler, this);
 		}
 
-		conbo.setValues(this, conbo.setDefaults({}, options.source, this.toJSON(), this._defaults));
+		conbo.assign(this, conbo.setDefaults({}, options.source, this.toJSON(), this._defaults));
 		delete this._defaults;
 	},
 	

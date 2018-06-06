@@ -1510,6 +1510,9 @@ declare namespace conbo {
 	 * @fires		conbo.ConboEvent#UNBIND
 	 * @fires		conbo.ConboEvent#TEMPLATE_COMPLETE
 	 * @fires		conbo.ConboEvent#TEMPLATE_ERROR
+	 * @fires		conbo.ConboEvent#PREINITIALIZE
+	 * @fires		conbo.ConboEvent#INITIALIZE
+	 * @fires		conbo.ConboEvent#INIT_COMPLETE
 	 * @fires		conbo.ConboEvent#CREATION_COMPLETE
 	 */
 	class View extends Glimpse 
@@ -2355,11 +2358,11 @@ declare namespace conbo {
 	 * 
 	 * 
 	 * @param		{any[]}		array - The array to slice
-	 * @param		{Function}	n - The number of elements to return (default: 1)
+	 * @param		{Function}	[n] - The number of elements to return (default: 1)
 	 * @param		{Object}	[guard] - Optional
 	 * @returns		{Object}
 	 */
-	function last(array:any[], n:number, guard?:any):any; 
+	function last(array:any[], n?:number, guard?:any):any; 
 
 	/**
 	 * Returns everything but the first entry of the array. Aliased as `tail` and `drop`.
@@ -2369,11 +2372,11 @@ declare namespace conbo {
 	 * 
 	 * 
 	 * @param		{any[]}		array - The array to slice
-	 * @param		{Function}	n - The number of elements to return (default: 1)
+	 * @param		{Function}	[n] - The number of elements to return (default: 1)
 	 * @param		{Object}	[guard] - Optional
 	 * @returns		{any[]}
 	 */
-	function rest(array:any[], n:number, guard?:any):any[]; 
+	function rest(array:any[], n?:number, guard?:any):any[]; 
 
 	/**
 	 * Trim out all falsy values from an array.
@@ -2399,7 +2402,7 @@ declare namespace conbo {
 	 * 
 	 * 
 	 * @param		{any[]}		array - The array to remove the specified values from
-	 * @param		{...any}		Items to remove from the array
+	 * @param		{...any}	Items to remove from the array
 	 * @returns		{any[]}
 	 */
 	function without(array:any[], ...items:any[]):any[];
@@ -2881,6 +2884,14 @@ declare namespace conbo {
 	function isUndefined(obj:any):boolean;
 
 	/**
+	 * Is the given value numeric? i.e. a number of a string that can be coerced into a number
+	 * 
+	 * @param		{any}		value - Value that might be numeric
+	 * @returns		{boolean}
+	 */
+	function isNumeric(value:any);
+
+	/**
 	 * Shortcut function for checking if an object has a given property directly
 	 * on itself (in other words, not on a prototype).
 	 * 
@@ -3057,12 +3068,32 @@ declare namespace conbo {
 	 * descriptors. Unlike Object.assign(), the properties copied are not
 	 * limited to own properties.
 	 * 
+	 * Unlike conbo.defineValues, assign only sets the values on the target 
+	 * object and does not destroy and redifine them.
+	 * 
+	 * @param		{Object}	target - Object to copy properties to
+	 * @param		{...Object}	source - Object to copy properties from
+	 * @returns		{Object}
+	 * 
+	 * @example	
+	 * conbo.assign({id:1}, {get name() { return 'Arthur'; }}, {get age() { return 42; }});
+	 * => {id:1, name:'Arthur', age:42}
+	 */
+	function assign(target:any, ...sources:any[]):any;
+	
+	/**
+	 * Copies all of the enumerable values from one or more objects and sets
+	 * them to another, without affecting the target object's property
+	 * descriptors. Unlike Object.assign(), the properties copied are not
+	 * limited to own properties.
+	 * 
 	 * Unlike conbo.defineValues, setValues only sets the values on the target 
 	 * object and does not destroy and redifine them.
 	 * 
 	 * @param		{Object}	target - Object to copy properties to
 	 * @param		{...Object}	source - Object to copy properties from
 	 * @returns		{Object}
+	 * @deprecated	Use conbo.assign
 	 * 
 	 * @example	
 	 * conbo.setValues({id:1}, {get name() { return 'Arthur'; }}, {get age() { return 42; }});

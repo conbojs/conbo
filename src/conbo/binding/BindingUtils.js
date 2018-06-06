@@ -942,7 +942,7 @@
 			
 			BindingUtils__registeredNamespaces = conbo.union(BindingUtils__registeredNamespaces, [ns]);
 			
-			conbo.setValues(handler, 
+			conbo.assign(handler, 
 			{
 				readOnly: !!readOnly,
 				raw: !!raw

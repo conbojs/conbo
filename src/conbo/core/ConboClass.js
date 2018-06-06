@@ -39,12 +39,27 @@ conbo.ConboClass = conbo.Class.extend(
 			this.context = args[0].context;
 		}
 	
+		if (this instanceof conbo.EventDispatcher)
+		{
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.PREINITIALIZE));
+		}
+
 		this.preinitialize.apply(this, args);
 		this.__construct.apply(this, args);
 		
+		if (this instanceof conbo.EventDispatcher)
+		{
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.INITIALIZE));
+		}
+
 		this.initialize.apply(this, args);
 		conbo.makeAllBindable(this, this.bindable);
 		this.__postInitialize.apply(this, args);
+		
+		if (this instanceof conbo.EventDispatcher)
+		{
+			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.INIT_COMPLETE));
+		}		
 	},
 	
 	toString: function()

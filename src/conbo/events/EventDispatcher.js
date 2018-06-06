@@ -11,7 +11,7 @@
 		if (!this.hasEventListener(type, handler, scope))
 		{
 			if (!(type in this.__queue)) this.__queue[type] = [];
-			this.__queue[type].push({handler:handler, scope:scope, once:once, priority:priority||0});
+			this.__queue[type].push({handler:handler, scope:scope, once:once, priority:~~priority});
 			this.__queue[type].sort(function(a,b){return b.priority-a.priority;});
 		}
 	};
@@ -24,38 +24,34 @@
 		if (type == '*') type = 'all';
 		if (!this.__queue) return;
 		
-		var queue, 
-			i, 
-			self = this;
+		var queue;
+		var i;
+		var self = this;
 		
 		var removeFromQueue = function(queue, key)
 		{
 			for (i=0; i<queue.length; i++)
 			{
-				if ((!queue[i].handler || queue[i].handler == handler)
-					&& (!queue[i].scope || queue[i].scope == scope))
+				if ((!handler || handler == queue[i].handler) && (!scope || scope == queue[i].scope))
 				{
 					queue.splice(i--, 1);
 				}
 			}
-			
+
 			if (!queue.length)
 			{
 				delete self.__queue[key];
 			}
 		};
 		
-		if (type in this.__queue)
+		if (type in self.__queue)
 		{
-			queue = this.__queue[type];
+			queue = self.__queue[type];
 			removeFromQueue(queue, type);
 		}
-		else if (type == undefined)
+		else if (!type)
 		{
-			conbo.forEach(this.__queue, function(queue, key)
-			{
-				removeFromQueue(queue, key);
-			});
+			conbo.forEach(self.__queue, removeFromQueue, self);
 		}
 	};
 	
@@ -180,7 +176,7 @@
 				var value = queue[i];
 				var returnValue = value.handler.call(value.scope || this, event);
 				if (value.once) EventDispatcher__removeEventListener.call(this, event.type, value.handler, value.scope);
-				if (returnValue === false || event.immediatePropagationStopped) break;
+				if (event.immediatePropagationStopped) break;
 			}
 			
 			return this;
@@ -208,8 +204,7 @@
 		},
 		
 	}).implement(conbo.IInjectable);
-	
-	//__definePrivateProperty(conbo.EventDispatcher.prototype, 'bindable');
+
 	__denumerate(conbo.EventDispatcher.prototype);
 	
 })();
