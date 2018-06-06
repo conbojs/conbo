@@ -638,10 +638,12 @@ declare namespace conbo {
 		 * Create a new subcontext that shares the same application
 		 * and namespace as this one
 		 *
-		 * @param	{class} [contextClass] - The context class to use (default: conbo.Context)
+		 * @param	{any} 		[contextClass] - The context class to use (default: conbo.Context)
+		 * @param	{boolean}	[cloneSingletons] - Should this Context's singletons be duplicated on the new subcontext? (default: false)
+		 * @param	{boolean}	[cloneCommands] - Should this Context's commands be duplicated on the new subcontext? (default: false)
 		 * @returns {conbo.Context}
 		 */
-		createSubcontext(contextClass?:any):Context;
+		createSubcontext(contextClass?:any, cloneSingletons:boolean=false, cloneCommands:boolean=false):Context;
 
 		/**
 		 * Map specified Command class the given event

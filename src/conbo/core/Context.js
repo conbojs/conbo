@@ -22,8 +22,8 @@ conbo.Context = conbo.EventDispatcher.extend(
 	{
 		__definePrivateProperties(this, 
 		{
-			__commands: {},
-			__singletons: {},
+			__commands: options.commands || {},
+			__singletons: options.singletons || {},
 			__app: options.app,
 			__namespace: options.namespace || options.app.namespace,
 			__parentContext: options.context
@@ -63,13 +63,22 @@ conbo.Context = conbo.EventDispatcher.extend(
 	 * Create a new subcontext that shares the same application
 	 * and namespace as this one
 	 * 
-	 * @param	{class} contextClass - The context class to use (default: conbo.Context)
+	 * @param	{class} [contextClass] - The context class to use (default: conbo.Context)
+	 * @param	{boolean} [cloneSingletons] - Should this Context's singletons be duplicated on the new subcontext? (default: false)
+	 * @param	{boolean} [cloneCommands] - Should this Context's commands be duplicated on the new subcontext? (default: false)
 	 * @returns {conbo.Context}
 	 */
-	createSubcontext: function(contextClass)
+	createSubcontext: function(contextClass, cloneSingletons, cloneCommands)
 	{
 		contextClass || (contextClass = conbo.Context);
-		return new contextClass({context:this, app:this.app, namespace:this.namespace});
+		return new contextClass
+		({
+			context: this,
+			app: this.app,
+			namespace: this.namespace,
+			commands: cloneCommands ? conbo.clone(this.__commands) : undefined,
+			singletons: cloneSingletons ? conbo.clone(this.__singletons) : undefined
+		});
 	},
 	
 	/**
