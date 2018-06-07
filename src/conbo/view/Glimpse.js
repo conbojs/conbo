@@ -18,6 +18,16 @@ conbo.Glimpse = conbo.EventDispatcher.extend(
 /** @lends conbo.Glimpse.prototype */
 {
 	/**
+	 * @member		{*}			data - Arbitrary data
+	 * @memberof	conbo.Glimpse.prototype
+	 */
+
+	/**
+	 * @member		{string}	template - Template to apply to the Glimpse's element
+	 * @memberof	conbo.Glimpse.prototype
+	 */
+
+	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param {Object} [options]
 	 * @private

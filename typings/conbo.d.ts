@@ -1494,7 +1494,19 @@ declare namespace conbo
 	 * can bind data to it using the `cb-data` attribute to set the data
 	 * property of your Glimpse
 	 */
-	class Glimpse extends EventDispatcher {
+	class Glimpse extends EventDispatcher 
+	{
+		/**
+		 * Arbitrary data
+		 * @type	{any}
+		 */
+		data: any;
+
+		/**
+		 * Template to apply to this Glimpse's element
+		 * @type	{string}
+		 */
+		template: string;
 
 		/**
 		 * When a new instance of this class is created without specifying an element,
