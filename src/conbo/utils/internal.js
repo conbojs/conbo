@@ -29,26 +29,26 @@ var __defineBindableProperty = function(obj, propName, value)
 {
 	if (conbo.isAccessor(obj, propName)) return;
 	if (arguments.length < 3) value = obj[propName];
-	if (!obj.__bindable) __definePrivateProperty(obj, '__bindable', {});
-
+	
 	var enumerable = propName.indexOf('_') != 0;
-
-	obj.__bindable[propName] = value;
+	var internalName = '__'+propName;
+	
+	__definePrivateProperty(obj, internalName, value);
 
 	var getter = function()
 	{
-		return this.__bindable[propName];
+		return this[internalName];
 	};
 
 	var setter = function(newValue)
 	{
-		if (!conbo.isEqual(newValue, this.__bindable[propName])) 
+		if (!conbo.isEqual(newValue, this[internalName])) 
 		{
-			this.__bindable[propName] = newValue;
+			this[internalName] = newValue;
 			__dispatchChange(this, propName);
 		}
 	};
-
+	
 	Object.defineProperty(obj, propName, {enumerable:enumerable, configurable:true, get:getter, set:setter});
 };
 
@@ -66,7 +66,6 @@ var __definePrivateProperty = function(obj, propName, value)
 	}
 	
 	Object.defineProperty(obj, propName, {enumerable:false, configurable:true, writable:true, value:value});
-	return this;
 };
 
 /**
@@ -79,8 +78,6 @@ var __definePrivateProperties = function(obj, values)
 	{
 		__definePrivateProperty(obj, key, values[key]);
 	}
-	
-	return this;
 }
 
 /**
@@ -103,8 +100,6 @@ var __denumerate = function(obj)
 		descriptor.enumerable = false;
 		Object.defineProperty(obj, key, descriptor);
 	});
-	
-	return this;
 };
 
 /**
