@@ -250,6 +250,25 @@ conbo.Context = conbo.EventDispatcher.extend(
 
 		return this;
 	},
+
+	/**
+	 * Clears all commands and singletons, and removes all listeners
+	 */
+	destroy: function()
+	{
+		conbo.assign(this,
+		{
+			__commands: undefined,
+			__singletons: undefined,
+			__app: undefined,
+			__namespace: undefined,
+			__parentContext: undefined
+		});
+
+		this.removeEventListener();
+
+		return this;
+	},
 	
 	toString: function()
 	{

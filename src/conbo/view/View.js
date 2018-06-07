@@ -309,7 +309,7 @@ conbo.View = conbo.Glimpse.extend(
 	 * its Context.
 	 * 
 	 * You should use a REMOVE event handler to destroy any event listeners,
-	 * timers or other code you may have added.
+	 * timers or other persistent code you may have added.
 	 * 
 	 * @returns	{this}
 	 */
@@ -320,6 +320,12 @@ conbo.View = conbo.Glimpse.extend(
 		if (this.data)
 		{
 			this.data = undefined;
+		}
+		
+		if (this.subcontext && this.subcontext != this.context)
+		{
+			this.subcontext.destroy();
+			this.subcontext = undefined;
 		}
 		
 		if (this.context)
@@ -335,11 +341,12 @@ conbo.View = conbo.Glimpse.extend(
 		this.unbindView()
 			.detach()
 			.removeEventListener()
+			.destroy()
 			;
 		
 		return this;
 	},
-	
+
 	/**
 	 * Append this DOM element from one View class instance this class 
 	 * instances DOM element

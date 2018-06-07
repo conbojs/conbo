@@ -39,6 +39,12 @@ conbo.Class.prototype =
 	initialize: function() {},
 	
 	/**
+	 * Clean everything up ready for garbage collection (you should override in your own classes)
+	 * @returns		{void}
+	 */
+	destroy: function() {},
+
+	/**
 	 * Similar to `super` in ActionScript or Java, this property enables 
 	 * you to access properties and methods of the super class prototype, 
 	 * which is the case of JavaScript is the next prototype up the chain

@@ -24,14 +24,14 @@ export = conbo;
  */
 declare function conbo(namespace: string, ...globals: any[]):conbo.Namespace;
 
-declare namespace conbo {
-	
+declare namespace conbo 
+{	
 	/**
 	 * Base class from which all others extend
 	 * @param 		{Object} options - Object containing initialisation options
 	 */
-	class Class {
-
+	class Class
+	{
 		/**
 		 * Extend this class to create a new class
 		 * 
@@ -81,14 +81,20 @@ declare namespace conbo {
 		protected initialize(...args:any[]):void;
 
 		/**
+		 * Clean everything up ready for garbage collection (you should override in your own classes)
+		 * @returns		{void}
+		 */
+		public destroy():void;
+
+		/**
 		 * Scope all methods of this class instance to this class instance
 		 */
-		bindAll(...methodNames:string[]):this;
+		public bindAll(...methodNames:string[]):this;
 
 		/**
 		 * String representation of the current class
 		 */
-		toString():string;
+		public toString():string;
 	}
 
 	/**
@@ -643,7 +649,7 @@ declare namespace conbo {
 		 * @param	{boolean}	[cloneCommands] - Should this Context's commands be duplicated on the new subcontext? (default: false)
 		 * @returns {conbo.Context}
 		 */
-		createSubcontext(contextClass?:any, cloneSingletons:boolean=false, cloneCommands:boolean=false):Context;
+		createSubcontext(contextClass?:any, cloneSingletons?:boolean, cloneCommands?:boolean):Context;
 
 		/**
 		 * Map specified Command class the given event
@@ -711,6 +717,10 @@ declare namespace conbo {
 		 */
 		uninjectSingletons(obj:any):this;
 
+		/**
+		 * Clears all commands and singletons, and removes all listeners
+		 */
+		destroy():this;
 	}
 
 	/**
@@ -1658,7 +1668,7 @@ declare namespace conbo {
 		 * unbinding it, removing all event listeners and removing the View from
 		 * its Context.
 		 * You should use a REMOVE event handler to destroy any event listeners,
-		 * timers or other code you may have added.
+		 * timers or other persistent code you may have added.
 		 * @returns	{this}
 		 */
 		remove():this;
@@ -2364,7 +2374,7 @@ declare namespace conbo {
 	 * @param		{Object}	[guard] - Optional
 	 * @returns		{Object}
 	 */
-	function last(array:any[], n?:number, guard?:any):any; 
+	function last(array:any[], n?:number, guard?:any):any|any[];
 
 	/**
 	 * Returns everything but the first entry of the array. Aliased as `tail` and `drop`.
@@ -2891,7 +2901,7 @@ declare namespace conbo {
 	 * @param		{any}		value - Value that might be numeric
 	 * @returns		{boolean}
 	 */
-	function isNumeric(value:any);
+	function isNumeric(value:any):boolean;
 
 	/**
 	 * Shortcut function for checking if an object has a given property directly
