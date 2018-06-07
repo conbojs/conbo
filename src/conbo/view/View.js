@@ -338,6 +338,16 @@ conbo.View = conbo.Glimpse.extend(
 			this.context = undefined;
 		}
 		
+		var children = this.querySelectorAll('.cb-view', true);
+
+		while (children.length)
+		{
+			var child = children.pop();
+
+			try { child.cbView.remove(); }
+			catch (e) {}
+		}
+
 		this.unbindView()
 			.detach()
 			.removeEventListener()
