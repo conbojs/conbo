@@ -30,26 +30,26 @@ var __defineBindableProperty = function(obj, propName, value)
 	if (conbo.isAccessor(obj, propName)) return;
 	if (arguments.length < 3) value = obj[propName];
 	
-	var enumerable = propName.indexOf('_') != 0;
-	var internalName = '__'+propName;
-	
-	__definePrivateProperty(obj, internalName, value);
-
-	var getter = function()
+	(function(propertyValue)
 	{
-		return this[internalName];
-	};
+		var enumerable = propName.indexOf('_') != 0;
 
-	var setter = function(newValue)
-	{
-		if (!conbo.isEqual(newValue, this[internalName])) 
+		var getter = function()
 		{
-			this[internalName] = newValue;
-			__dispatchChange(this, propName);
-		}
-	};
-	
-	Object.defineProperty(obj, propName, {enumerable:enumerable, configurable:true, get:getter, set:setter});
+			return propertyValue;
+		};
+
+		var setter = function(newValue)
+		{
+			if (!conbo.isEqual(newValue, propertyValue)) 
+			{
+				__dispatchChange(this, propName);
+			}
+		};
+		
+		Object.defineProperty(obj, propName, {enumerable:enumerable, configurable:true, get:getter, set:setter});
+		
+	})(value);
 };
 
 /**

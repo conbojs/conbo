@@ -217,13 +217,17 @@ conbo.Context = conbo.EventDispatcher.extend(
 
 		for (var a in scope.__singletons)
 		{
-			if (!(a in obj)) continue;
-
-			Object.defineProperty(obj, a,
+			if (a in obj)
 			{
-				configurable: true,
-				get: function() { return scope.__singletons[a]; }
-			})
+				(function(value)
+				{
+					Object.defineProperty(obj, a,
+					{
+						configurable: true,
+						get: function() { return value; }
+					});
+				})(scope.__singletons[a]);
+			}
 		}
 		
 		return this;
