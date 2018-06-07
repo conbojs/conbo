@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: LocalHash</title>
+    <title>JSDoc: Class: RemoteHash</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: LocalHash</h1>
+    <h1 class="page-title">Class: RemoteHash</h1>
 
     
 
@@ -29,7 +29,7 @@
 <header>
     
         <h2><span class="attribs"><span class="type-signature"></span></span>
-            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>LocalHash<span class="signature">(options)</span><span class="type-signature"></span></h2>
+            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>RemoteHash<span class="signature">(options)</span><span class="type-signature"></span></h2>
         
     
 </header>
@@ -42,7 +42,7 @@
     
 
     
-    <h4 class="name" id="LocalHash"><span class="type-signature"></span>new LocalHash<span class="signature">(options)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="RemoteHash"><span class="type-signature"></span>new RemoteHash<span class="signature">(options)</span><span class="type-signature"></span></h4>
     
 
     
@@ -50,7 +50,7 @@
 
 
 <div class="description">
-    A persistent Hash that stores data in LocalStorage or Session
+    Remote HashUsed for syncing remote data with a local Hash
 </div>
 
 
@@ -102,7 +102,7 @@
 
             
 
-            <td class="description last">Object containing initialisation options, including 'name' (string), 'session' (Boolean) and 'source' (object) containing default values; see Hash for other options</td>
+            <td class="description last">Object containing initialisation options, see Hash</td>
         </tr>
 
     
@@ -150,7 +150,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4559">line 4559</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line8768">line 8768</a>
     </li></ul></dd>
     
 
@@ -168,6 +168,10 @@
 <h5>Fires:</h5>
 <ul>
     <li><a href="conbo.ConboEvent.html#event:CHANGE">conbo.ConboEvent#event:CHANGE</a></li>
+
+    <li><a href="conbo.ConboEvent.html#event:RESULT">conbo.ConboEvent#event:RESULT</a></li>
+
+    <li><a href="conbo.ConboEvent.html#event:FAULT">conbo.ConboEvent#event:FAULT</a></li>
 </ul>
 
 
@@ -263,7 +267,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3224">line 3224</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3223">line 3223</a>
     </li></ul></dd>
     
 
@@ -284,6 +288,146 @@
 
     
         <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="__construct"><span class="type-signature"></span>__construct<span class="signature">(options)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Constructor
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object containing `source` (initial properties), `rootUrl` and `command` parameters</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        conbo.Hash#__construct
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line8788">line 8788</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         
             
@@ -563,7 +707,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3916">line 3916</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3915">line 3915</a>
     </li></ul></dd>
     
 
@@ -739,7 +883,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3234">line 3234</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3233">line 3233</a>
     </li></ul></dd>
     
 
@@ -905,7 +1049,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3195">line 3195</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3194">line 3194</a>
     </li></ul></dd>
     
 
@@ -987,12 +1131,12 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.Class.html#destroy">conbo.Class#destroy</a>
-    </li></ul></dd>
-    
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="conbo.Hash.html#destroy">conbo.Hash#destroy</a>
+    </li></ul></dd>
     
 
     
@@ -1014,7 +1158,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3215">line 3215</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3214">line 3214</a>
     </li></ul></dd>
     
 
@@ -1172,7 +1316,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4018">line 4018</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4017">line 4017</a>
     </li></ul></dd>
     
 
@@ -1334,7 +1478,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3987">line 3987</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3986">line 3986</a>
     </li></ul></dd>
     
 
@@ -1379,92 +1523,6 @@
 </dl>
 
     
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="flush"><span class="type-signature"></span>flush<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Immediately writes all data to local storage. If you don't use this method, Conbo writes the data the next time it detects a change to a bindable property.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4612">line 4612</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1658,7 +1716,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3967">line 3967</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3966">line 3966</a>
     </li></ul></dd>
     
 
@@ -1828,7 +1886,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3209">line 3209</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3208">line 3208</a>
     </li></ul></dd>
     
 
@@ -1994,7 +2052,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3202">line 3202</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3201">line 3201</a>
     </li></ul></dd>
     
 
@@ -2230,7 +2288,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3939">line 3939</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3938">line 3938</a>
     </li></ul></dd>
     
 
@@ -2343,7 +2401,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4548">line 4548</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4547">line 4547</a>
     </li></ul></dd>
     
 
@@ -2452,7 +2510,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3244">line 3244</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3243">line 3243</a>
     </li></ul></dd>
     
 
@@ -2520,7 +2578,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Jun 07 2018 16:47:12 GMT+0100 (GMT Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Jun 07 2018 23:08:13 GMT+0100 (GMT Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

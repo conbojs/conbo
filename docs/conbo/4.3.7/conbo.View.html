@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Application</title>
+    <title>JSDoc: Class: View</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Application</h1>
+    <h1 class="page-title">Class: View</h1>
 
     
 
@@ -29,7 +29,7 @@
 <header>
     
         <h2><span class="attribs"><span class="type-signature"></span></span>
-            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>Application<span class="signature">(options)</span><span class="type-signature"></span></h2>
+            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>View<span class="signature">(options<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
         
     
 </header>
@@ -42,7 +42,7 @@
     
 
     
-    <h4 class="name" id="Application"><span class="type-signature"></span>new Application<span class="signature">(options)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="View"><span class="type-signature"></span>new View<span class="signature">(options<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
     
 
     
@@ -50,7 +50,7 @@
 
 
 <div class="description">
-    ApplicationBase application class for client-side applications
+    ViewCreating a conbo.View creates its initial element outside of the DOM,if an existing element is not provided...
 </div>
 
 
@@ -73,6 +73,8 @@
 
         <th>Type</th>
 
+        
+        <th>Attributes</th>
         
 
         
@@ -99,10 +101,20 @@
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last">Object containing optional initialisation options, see View</td>
+            <td class="description last">Object containing optional initialisation options, including 'attributes', 'className', 'data', 'el', 'id', 'tagName', 'template', 'templateUrl'</td>
         </tr>
 
     
@@ -150,7 +162,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line8003">line 8003</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7338">line 7338</a>
     </li></ul></dd>
     
 
@@ -181,6 +193,12 @@
 
     <li><a href="conbo.ConboEvent.html#event:TEMPLATE_ERROR">conbo.ConboEvent#event:TEMPLATE_ERROR</a></li>
 
+    <li><a href="conbo.ConboEvent.html#event:PREINITIALIZE">conbo.ConboEvent#event:PREINITIALIZE</a></li>
+
+    <li><a href="conbo.ConboEvent.html#event:INITIALIZE">conbo.ConboEvent#event:INITIALIZE</a></li>
+
+    <li><a href="conbo.ConboEvent.html#event:INIT_COMPLETE">conbo.ConboEvent#event:INIT_COMPLETE</a></li>
+
     <li><a href="conbo.ConboEvent.html#event:CREATION_COMPLETE">conbo.ConboEvent#event:CREATION_COMPLETE</a></li>
 </ul>
 
@@ -207,7 +225,7 @@
 
 
     <ul>
-        <li><a href="conbo.View.html">conbo.View</a></li>
+        <li><a href="conbo.Glimpse.html">conbo.Glimpse</a></li>
     </ul>
 
 
@@ -260,11 +278,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.View.html#attributes">conbo.View#attributes</a>
-    </li></ul></dd>
-    
 
     
 
@@ -287,7 +300,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7355">line 7355</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7364">line 7364</a>
     </li></ul></dd>
     
 
@@ -337,11 +350,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.View.html#autoInitTemplate">conbo.View#autoInitTemplate</a>
-    </li></ul></dd>
-    
 
     
 
@@ -364,7 +372,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7400">line 7400</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7409">line 7409</a>
     </li></ul></dd>
     
 
@@ -414,11 +422,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.View.html#body">conbo.View#body</a>
-    </li></ul></dd>
-    
 
     
 
@@ -441,7 +444,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7546">line 7546</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7555">line 7555</a>
     </li></ul></dd>
     
 
@@ -491,11 +494,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.View.html#className">conbo.View#className</a>
-    </li></ul></dd>
-    
 
     
 
@@ -518,7 +516,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7360">line 7360</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7369">line 7369</a>
     </li></ul></dd>
     
 
@@ -568,11 +566,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.View.html#content">conbo.View#content</a>
-    </li></ul></dd>
-    
 
     
 
@@ -595,79 +588,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7527">line 7527</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="contextClass"><span class="type-signature"></span>contextClass<span class="type-signature"> :<a href="conbo.Context.html">conbo.Context</a></span></h4>
-
-
-
-
-<div class="description">
-    Default context class to useYou'll normally want to override this with your own
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type"><a href="conbo.Context.html">conbo.Context</a></span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line8089">line 8089</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7536">line 7536</a>
     </li></ul></dd>
     
 
@@ -717,11 +638,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.View.html#currentState">conbo.View#currentState</a>
-    </li></ul></dd>
-    
 
     
 
@@ -744,7 +660,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7405">line 7405</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7414">line 7414</a>
     </li></ul></dd>
     
 
@@ -794,12 +710,12 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.View.html#data">conbo.View#data</a>
-    </li></ul></dd>
-    
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="conbo.Glimpse.html#data">conbo.Glimpse#data</a>
+    </li></ul></dd>
     
 
     
@@ -821,7 +737,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7365">line 7365</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7374">line 7374</a>
     </li></ul></dd>
     
 
@@ -871,12 +787,12 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.View.html#el">conbo.View#el</a>
-    </li></ul></dd>
-    
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="conbo.Glimpse.html#el">conbo.Glimpse#el</a>
+    </li></ul></dd>
     
 
     
@@ -898,7 +814,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7473">line 7473</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7482">line 7482</a>
     </li></ul></dd>
     
 
@@ -948,11 +864,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.View.html#hasContent">conbo.View#hasContent</a>
-    </li></ul></dd>
-    
 
     
 
@@ -975,7 +886,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7536">line 7536</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7545">line 7545</a>
     </li></ul></dd>
     
 
@@ -1025,11 +936,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.View.html#hasTemplate">conbo.View#hasTemplate</a>
-    </li></ul></dd>
-    
 
     
 
@@ -1052,7 +958,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7517">line 7517</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7526">line 7526</a>
     </li></ul></dd>
     
 
@@ -1102,11 +1008,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.View.html#id">conbo.View#id</a>
-    </li></ul></dd>
-    
 
     
 
@@ -1129,7 +1030,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7370">line 7370</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7379">line 7379</a>
     </li></ul></dd>
     
 
@@ -1179,11 +1080,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.View.html#initialized">conbo.View#initialized</a>
-    </li></ul></dd>
-    
 
     
 
@@ -1206,226 +1102,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7482">line 7482</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="initialView"><span class="type-signature"></span>initialView<span class="type-signature"> :<a href="conbo.View.html">conbo.View</a>|function</span></h4>
-
-
-
-
-<div class="description">
-    If specified, this View will be appended immediately after the Application is intialized.If this property is set to a class, it will be instantiated automatically the first timethis property is read.
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type"><a href="conbo.View.html">conbo.View</a></span>
-|
-
-<span class="param-type">function</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line8069">line 8069</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="namespace"><span class="type-signature"></span>namespace<span class="type-signature"> :<a href="conbo.Namespace.html">conbo.Namespace</a></span></h4>
-
-
-
-
-<div class="description">
-    The application's namespace (required)
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type"><a href="conbo.Namespace.html">conbo.Namespace</a></span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line8025">line 8025</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="observeEnabled"><span class="type-signature"></span>observeEnabled<span class="type-signature"> :boolean</span></h4>
-
-
-
-
-<div class="description">
-    If true, the application will automatically apply Glimpse and View classes to elements when they're added to the DOM
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">boolean</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line8104">line 8104</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7491">line 7491</a>
     </li></ul></dd>
     
 
@@ -1475,11 +1152,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.View.html#parent">conbo.View#parent</a>
-    </li></ul></dd>
-    
 
     
 
@@ -1502,7 +1174,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7492">line 7492</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7501">line 7501</a>
     </li></ul></dd>
     
 
@@ -1552,11 +1224,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.View.html#parentApp">conbo.View#parentApp</a>
-    </li></ul></dd>
-    
 
     
 
@@ -1579,7 +1246,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7505">line 7505</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7514">line 7514</a>
     </li></ul></dd>
     
 
@@ -1629,11 +1296,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.View.html#style">conbo.View#style</a>
-    </li></ul></dd>
-    
 
     
 
@@ -1656,7 +1318,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7375">line 7375</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7384">line 7384</a>
     </li></ul></dd>
     
 
@@ -1706,11 +1368,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.View.html#subcontext">conbo.View#subcontext</a>
-    </li></ul></dd>
-    
 
     
 
@@ -1733,7 +1390,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7556">line 7556</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7565">line 7565</a>
     </li></ul></dd>
     
 
@@ -1800,7 +1457,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3224">line 3224</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3223">line 3223</a>
     </li></ul></dd>
     
 
@@ -1850,12 +1507,12 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.View.html#tagName">conbo.View#tagName</a>
-    </li></ul></dd>
-    
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="conbo.Glimpse.html#tagName">conbo.Glimpse#tagName</a>
+    </li></ul></dd>
     
 
     
@@ -1877,7 +1534,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7380">line 7380</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7389">line 7389</a>
     </li></ul></dd>
     
 
@@ -1927,12 +1584,12 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.View.html#template">conbo.View#template</a>
-    </li></ul></dd>
-    
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="conbo.Glimpse.html#template">conbo.Glimpse#template</a>
+    </li></ul></dd>
     
 
     
@@ -1954,7 +1611,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7385">line 7385</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7394">line 7394</a>
     </li></ul></dd>
     
 
@@ -2004,11 +1661,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.View.html#templateCacheEnabled">conbo.View#templateCacheEnabled</a>
-    </li></ul></dd>
-    
 
     
 
@@ -2031,7 +1683,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7395">line 7395</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7404">line 7404</a>
     </li></ul></dd>
     
 
@@ -2081,11 +1733,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.View.html#templateUrl">conbo.View#templateUrl</a>
-    </li></ul></dd>
-    
 
     
 
@@ -2108,7 +1755,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7390">line 7390</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7399">line 7399</a>
     </li></ul></dd>
     
 
@@ -2408,7 +2055,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3916">line 3916</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3915">line 3915</a>
     </li></ul></dd>
     
 
@@ -2546,11 +2193,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.View.html#appendView">conbo.View#appendView</a>
-    </li></ul></dd>
-    
 
     
 
@@ -2573,7 +2215,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7693">line 7693</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7702">line 7702</a>
     </li></ul></dd>
     
 
@@ -2745,7 +2387,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3234">line 3234</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3233">line 3233</a>
     </li></ul></dd>
     
 
@@ -2827,11 +2469,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.View.html#bindView">conbo.View#bindView</a>
-    </li></ul></dd>
-    
 
     
 
@@ -2854,7 +2491,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7766">line 7766</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7775">line 7775</a>
     </li></ul></dd>
     
 
@@ -3025,7 +2662,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3195">line 3195</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3194">line 3194</a>
     </li></ul></dd>
     
 
@@ -3134,7 +2771,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3215">line 3215</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3214">line 3214</a>
     </li></ul></dd>
     
 
@@ -3216,11 +2853,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.View.html#detach">conbo.View#detach</a>
-    </li></ul></dd>
-    
 
     
 
@@ -3243,7 +2875,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7615">line 7615</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7624">line 7624</a>
     </li></ul></dd>
     
 
@@ -3401,7 +3033,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4018">line 4018</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4017">line 4017</a>
     </li></ul></dd>
     
 
@@ -3563,7 +3195,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3987">line 3987</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3986">line 3986</a>
     </li></ul></dd>
     
 
@@ -3801,7 +3433,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3967">line 3967</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3966">line 3966</a>
     </li></ul></dd>
     
 
@@ -3971,7 +3603,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3209">line 3209</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3208">line 3208</a>
     </li></ul></dd>
     
 
@@ -4053,11 +3685,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.View.html#initTemplate">conbo.View#initTemplate</a>
-    </li></ul></dd>
-    
 
     
 
@@ -4080,7 +3707,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7789">line 7789</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7798">line 7798</a>
     </li></ul></dd>
     
 
@@ -4223,11 +3850,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.View.html#loadTemplate">conbo.View#loadTemplate</a>
-    </li></ul></dd>
-    
 
     
 
@@ -4250,7 +3872,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7827">line 7827</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7836">line 7836</a>
     </li></ul></dd>
     
 
@@ -4416,7 +4038,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3202">line 3202</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3201">line 3201</a>
     </li></ul></dd>
     
 
@@ -4547,11 +4169,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.View.html#prependView">conbo.View#prependView</a>
-    </li></ul></dd>
-    
 
     
 
@@ -4574,7 +4191,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7728">line 7728</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7737">line 7737</a>
     </li></ul></dd>
     
 
@@ -4728,11 +4345,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.View.html#querySelector">conbo.View#querySelector</a>
-    </li></ul></dd>
-    
 
     
 
@@ -4755,7 +4367,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7574">line 7574</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7583">line 7583</a>
     </li></ul></dd>
     
 
@@ -4913,11 +4525,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.View.html#querySelectorAll">conbo.View#querySelectorAll</a>
-    </li></ul></dd>
-    
 
     
 
@@ -4940,7 +4547,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7587">line 7587</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7596">line 7596</a>
     </li></ul></dd>
     
 
@@ -5026,11 +4633,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.View.html#remove">conbo.View#remove</a>
-    </li></ul></dd>
-    
 
     
 
@@ -5053,7 +4655,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7642">line 7642</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7651">line 7651</a>
     </li></ul></dd>
     
 
@@ -5289,7 +4891,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3939">line 3939</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3938">line 3938</a>
     </li></ul></dd>
     
 
@@ -5379,7 +4981,7 @@
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="conbo.View.html#toString">conbo.View#toString</a>
+        <a href="conbo.Glimpse.html#toString">conbo.Glimpse#toString</a>
     </li></ul></dd>
     
 
@@ -5402,7 +5004,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3244">line 3244</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3243">line 3243</a>
     </li></ul></dd>
     
 
@@ -5484,11 +5086,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.View.html#unbindView">conbo.View#unbindView</a>
-    </li></ul></dd>
-    
 
     
 
@@ -5511,7 +5108,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7777">line 7777</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line7786">line 7786</a>
     </li></ul></dd>
     
 
@@ -5579,7 +5176,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Jun 07 2018 16:47:12 GMT+0100 (GMT Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Jun 07 2018 23:08:13 GMT+0100 (GMT Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>
