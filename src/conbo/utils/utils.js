@@ -2201,7 +2201,7 @@
 	conbo.makeBindable = function(obj, propNames)
 	{
 		propNames = conbo.uniq(propNames || conbo.getPublicVariableNames(obj, true));
-		
+
 		propNames.forEach(function(propName)
 		{
 			__defineBindableProperty(obj, propName);

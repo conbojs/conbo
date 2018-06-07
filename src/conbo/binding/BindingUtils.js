@@ -55,7 +55,7 @@
 	 */
 	var BindingUtils__makeBindable = function(source, propertyName)
 	{
-		if (!conbo.isAccessor(source, propertyName))
+		if (!conbo.isAccessor(source, propertyName) && !conbo.isFunc(source, propertyName))
 		{
 			if (source instanceof conbo.EventDispatcher)
 			{
