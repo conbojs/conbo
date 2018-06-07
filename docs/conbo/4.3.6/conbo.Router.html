@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: EventDispatcher</title>
+    <title>JSDoc: Class: Router</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: EventDispatcher</h1>
+    <h1 class="page-title">Class: Router</h1>
 
     
 
@@ -29,7 +29,7 @@
 <header>
     
         <h2><span class="attribs"><span class="type-signature"></span></span>
-            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>EventDispatcher<span class="signature">(options)</span><span class="type-signature"></span></h2>
+            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>Router<span class="signature">(options)</span><span class="type-signature"></span></h2>
         
     
 </header>
@@ -42,7 +42,7 @@
     
 
     
-    <h4 class="name" id="EventDispatcher"><span class="type-signature"></span>new EventDispatcher<span class="signature">(options)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Router"><span class="type-signature"></span>new Router<span class="signature">(options)</span><span class="type-signature"></span></h4>
     
 
     
@@ -50,7 +50,7 @@
 
 
 <div class="description">
-    Event DispatcherEvent model designed to bring events into line with DOM events and those found in HTML DOM, jQuery and ActionScript 2 & 3, offering a more predictable, object based approach to event dispatching and handlingShould be used as the base class for any class that won't be used for data binding
+    RouterRouters map faux-URLs to actions, and fire events when routes arematched. Creating a new one sets its `routes` hash, if not set statically.Derived from the Backbone.js class of the same name
 </div>
 
 
@@ -102,7 +102,7 @@
 
             
 
-            <td class="description last">Object containing optional initialisation options, including 'context'</td>
+            <td class="description last">Object containing initialisation options</td>
         </tr>
 
     
@@ -150,7 +150,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3885">line 3885</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line9060">line 9060</a>
     </li></ul></dd>
     
 
@@ -164,6 +164,19 @@
 
 
 
+
+<h5>Fires:</h5>
+<ul>
+    <li><a href="conbo.ConboEvent.html#event:CHANGE">conbo.ConboEvent#event:CHANGE</a></li>
+
+    <li><a href="conbo.ConboEvent.html#event:FAULT">conbo.ConboEvent#event:FAULT</a></li>
+
+    <li><a href="conbo.ConboEvent.html#event:ROUTE">conbo.ConboEvent#event:ROUTE</a></li>
+
+    <li><a href="conbo.ConboEvent.html#event:START">conbo.ConboEvent#event:START</a></li>
+
+    <li><a href="conbo.ConboEvent.html#event:STOP">conbo.ConboEvent#event:STOP</a></li>
+</ul>
 
 
 
@@ -188,9 +201,7 @@
 
 
     <ul>
-        <li><a href="conbo.Class.html">conbo.Class</a></li>
-    
-        <li><a href="conbo.html#.IInjectable">conbo.IInjectable</a></li>
+        <li><a href="conbo.EventDispatcher.html">conbo.EventDispatcher</a></li>
     </ul>
 
 
@@ -208,6 +219,78 @@
 
     
         <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="path"><span class="type-signature"></span>path<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    Get or set the current path using the default options
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line9214">line 9214</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
 
         
             
@@ -260,7 +343,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3223">line 3223</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3224">line 3224</a>
     </li></ul></dd>
     
 
@@ -533,6 +616,11 @@
     
 
     
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="conbo.EventDispatcher.html#addEventListener">conbo.EventDispatcher#addEventListener</a>
+    </li></ul></dd>
+    
 
     
 
@@ -555,7 +643,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3915">line 3915</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3916">line 3916</a>
     </li></ul></dd>
     
 
@@ -602,6 +690,97 @@
     
 
 
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="addRoute"><span class="type-signature"></span>addRoute<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Adds a named route
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line9146">line 9146</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>this.addRoute('search/:query/p:num', 'search', function(query, num) {			 ...		});</code></pre>
 
 
 
@@ -731,7 +910,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3233">line 3233</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3234">line 3234</a>
     </li></ul></dd>
     
 
@@ -897,7 +1076,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3194">line 3194</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3195">line 3195</a>
     </li></ul></dd>
     
 
@@ -1006,7 +1185,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3214">line 3214</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3215">line 3215</a>
     </li></ul></dd>
     
 
@@ -1137,6 +1316,11 @@
     
 
     
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="conbo.EventDispatcher.html#dispatchChange">conbo.EventDispatcher#dispatchChange</a>
+    </li></ul></dd>
+    
 
     
 
@@ -1159,7 +1343,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4017">line 4017</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line4018">line 4018</a>
     </li></ul></dd>
     
 
@@ -1294,6 +1478,11 @@
     
 
     
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="conbo.EventDispatcher.html#dispatchEvent">conbo.EventDispatcher#dispatchEvent</a>
+    </li></ul></dd>
+    
 
     
 
@@ -1316,7 +1505,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3986">line 3986</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3987">line 3987</a>
     </li></ul></dd>
     
 
@@ -1527,6 +1716,11 @@
     
 
     
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="conbo.EventDispatcher.html#hasEventListener">conbo.EventDispatcher#hasEventListener</a>
+    </li></ul></dd>
+    
 
     
 
@@ -1549,7 +1743,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3966">line 3966</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3967">line 3967</a>
     </li></ul></dd>
     
 
@@ -1719,7 +1913,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3208">line 3208</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3209">line 3209</a>
     </li></ul></dd>
     
 
@@ -1885,7 +2079,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3201">line 3201</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3202">line 3202</a>
     </li></ul></dd>
     
 
@@ -2094,6 +2288,11 @@
     
 
     
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="conbo.EventDispatcher.html#removeEventListener">conbo.EventDispatcher#removeEventListener</a>
+    </li></ul></dd>
+    
 
     
 
@@ -2116,7 +2315,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3938">line 3938</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3939">line 3939</a>
     </li></ul></dd>
     
 
@@ -2172,6 +2371,356 @@
     
 
     
+    <h4 class="name" id="setPath"><span class="type-signature"></span>setPath<span class="signature">(path, options<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Sets the current path, optionally replacing the current path or silently without triggering a route event
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>path</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The path to navigate to</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Object containing options: trigger (default: true) and replace (default: false)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line9202">line 9202</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="start"><span class="type-signature"></span>start<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Start the router
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line9099">line 9099</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="stop"><span class="type-signature"></span>stop<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Stop the router
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line9121">line 9121</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="toString"><span class="type-signature"></span>toString<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
     
 
@@ -2206,7 +2755,7 @@
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="conbo.Class.html#toString">conbo.Class#toString</a>
+        <a href="conbo.EventDispatcher.html#toString">conbo.EventDispatcher#toString</a>
     </li></ul></dd>
     
 
@@ -2229,7 +2778,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3243">line 3243</a>
+        <a href="conbo.js.html">conbo.js</a>, <a href="conbo.js.html#line3244">line 3244</a>
     </li></ul></dd>
     
 
@@ -2297,7 +2846,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Jun 07 2018 15:08:26 GMT+0100 (GMT Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Jun 07 2018 16:47:12 GMT+0100 (GMT Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

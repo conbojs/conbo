@@ -43,6 +43,7 @@ var __defineBindableProperty = function(obj, propName, value)
 		{
 			if (!conbo.isEqual(newValue, propertyValue)) 
 			{
+				propertyValue = newValue;
 				__dispatchChange(this, propName);
 			}
 		};
