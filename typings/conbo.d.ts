@@ -1579,7 +1579,7 @@ declare namespace conbo
 		/**
 		 * Template to apply to the View's element
 		 */
-		template: string|Function;
+		template: string;
 
 		/**
 		 * Template to load and apply to the View's element
