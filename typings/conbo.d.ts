@@ -1829,9 +1829,15 @@ declare namespace conbo
 		/**
 		 * If specified, this View will be appended immediately after the Application is intialized.
 		 * If this property is set to a class, it will be instantiated automatically the first time
-		 * this property is read.
+		 * this property is read, with initialViewOptions passed to the constructor.
 		 */
 		initialView:View|any;
+
+		/**
+		 * If initialView is a View class, the initialViewOptions will be passed to the
+		 * constructor when it is instantiated and added to the application
+		 */
+		initialViewOptions:any;
 	}
 
 	/**
