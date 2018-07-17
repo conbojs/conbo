@@ -232,6 +232,11 @@ conbo.List = conbo.EventDispatcher.extend(
 		return conbo.jsonify(this.source);
 	},
 	
+	toArray: function()
+	{
+		return this.source.slice();
+	},
+
 	toString: function()
 	{
 		return 'conbo.List';
@@ -322,7 +327,7 @@ conbo.List = conbo.EventDispatcher.extend(
 var listMethods = 
 [
 	'forEach', 'map', 'find', 'findIndex', 'filter', 'reject', 'every', 
-	'contains', 'invoke', 'indexOf', 'lastIndexOf', 'max', 'min', 'toArray', 
+	'contains', 'invoke', 'indexOf', 'lastIndexOf', 'max', 'min',
 	'size', 'rest', 'last', 'without', 'shuffle', 'isEmpty', 'sortOn'
 ];
 

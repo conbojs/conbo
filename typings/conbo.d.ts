@@ -2993,9 +2993,9 @@ declare namespace conbo
 	const isNodeJS:boolean;
 	
 	/**
-	 * A function that does nothing
+	 * A function that does nothing and returns nothing
 	 */
-	const noop:Function; 
+	function noop(...ignored:any[]):void;
 	
 	/**
 	 * Default function to assign to the methods of pseudo-interfaces
