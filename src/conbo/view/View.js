@@ -238,6 +238,11 @@ conbo.View = conbo.Glimpse.extend(
 	},
 	
 	/**
+	 * Convenience method for conbo.ConboEvent.CREATION_COMPLETE event handler Stub
+	 */
+	creationComplete: function() {},
+
+	/**
 	 * Uses querySelector to find the first matching element contained within the
 	 * current View's element, but not within the elements of child Views
 	 * 
@@ -609,6 +614,7 @@ conbo.View = conbo.Glimpse.extend(
 		conbo.defer(function()
 		{
 			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.CREATION_COMPLETE));
+			this.creationComplete();
 		}, this);
 		
 		return this;
