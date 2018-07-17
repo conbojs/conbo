@@ -61,14 +61,15 @@ conbo.Application = conbo.View.extend(
 	/**
 	 * If specified, this View will be appended immediately after the Application is intialized.
 	 * If this property is set to a class, it will be instantiated automatically the first time
-	 * this property is read.
+	 * this property is read, with initialViewOptions passed to the constructor.
 	 * @type	{conbo.View|Function}
 	 */
 	get initialView()
 	{
 		if (typeof this.__initialView == 'function')
 		{
-			this.initialView = new this.__initialView(this.context);
+			var options = conbo.assign({}, this.initialViewOptions, {context:this.context});
+			this.initialView = new this.__initialView(options);
 		}
 
 		return this.__initialView;
@@ -77,6 +78,21 @@ conbo.Application = conbo.View.extend(
 	set initialView(value)
 	{
 		this.__initialView = value;
+	},
+
+	/**
+	 * If initialView is a View class, the initialViewOptions will be passed to the
+	 * constructor when it is instantiated and added to the application
+	 * @type	{*}
+	 */
+	get initialViewOptions()
+	{
+		return this.__initialViewOptions || {};
+	},
+
+	set initialViewOptions(value)
+	{
+		this.__initialViewOptions = value;
 	},
 
 	/**
