@@ -1654,7 +1654,7 @@ declare namespace conbo
 		/**
 		 * Convenience method for conbo.ConboEvent.CREATION_COMPLETE event handler Stub
 		 */
-		creationComplete(): void;
+		protected creationComplete(): void;
 	
 		/**
 		 * Uses querySelector to find the first matching element contained within the
