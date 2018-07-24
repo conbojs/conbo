@@ -245,7 +245,10 @@
 	 */
 	conbo.contains = function(obj, target) 
 	{
-		return nativeIndexOf.call(obj || [], target) != -1;
+		return obj && 'indexOf' in obj
+			? obj.indexOf(target) != -1
+			: nativeIndexOf.call(obj || [], target) != -1
+			;
 	};
 
 	/**
