@@ -1236,7 +1236,18 @@ declare namespace conbo
 		 * <div cb-class="ariaLabel:label"></div>
 		 */
 		cbAria(el: HTMLElement, value: string, options: any, ariaName: string):void;
-	
+
+		/**
+		 * Enables you to detect and handle a long press (500ms) on an element
+		 * 
+		 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+		 * @param 		{Function} 		handler - The method that will handle long presses
+		 * 
+		 * @example
+		 * <button cb-onlongpress="myLongPressHandler">Hold me!</button>
+		 */
+		cbOnlongpress(el: HTMLElement, handler:Function):void;
+
 	}
 
 	/**
@@ -1386,7 +1397,7 @@ declare namespace conbo
 		 * 	el.style.fontName = value;
 		 * });
 		 */
-		registerAttribute(name: string, handler: any, readOnly: boolean, raw?: boolean):BindingUtils;
+		registerAttribute(name: string, handler: any, readOnly?: boolean, raw?: boolean):BindingUtils;
 
 		/**
 		 * Register one or more custom attribute handlers

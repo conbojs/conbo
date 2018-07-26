@@ -808,4 +808,65 @@ conbo.AttributeBindings = conbo.Class.extend(
 		el.setAttribute('aria-'+ariaName, value);
 	},
 
+	/**
+	 * Enables you to detect and handle a long press (500ms) on an element
+	 * 
+	 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+	 * @param 		{Function} 		handler - The method that will handle long presses
+	 * 
+	 * @example
+	 * <button cb-onlongpress="myLongPressHandler">Hold me!</button>
+	 */
+	cbOnlongpress: function(el, handler)
+	{
+		var isLongPress = false;
+		var pressTimer;
+		
+		var cancel = function(event)
+		{
+			if (pressTimer) 
+			{
+				clearTimeout(pressTimer);
+				pressTimer = 0;
+			}
+		};
+		
+		var click = function(event)
+		{
+			if (pressTimer) 
+			{
+				clearTimeout(pressTimer);
+				pressTimer = 0;
+			}
+			
+			if (isLongPress) return false;
+		};
+		
+		var start = function(event)
+		{
+			if (event.type === 'click' && event.button !== 0)
+			{
+				return;
+			}
+			
+			isLongPress = false;
+			
+			pressTimer = setTimeout(function() 
+			{
+				isLongPress = true;
+				handler(new MouseEvent('longpress', event));
+			}, 500);
+			
+			return false;
+		};
+		
+		el.addEventListener('mousedown', start);
+		el.addEventListener('touchstart', start);
+		el.addEventListener('click', click);
+		el.addEventListener('mouseout', cancel);
+		el.addEventListener('touchend', cancel);
+		el.addEventListener('touchleave', cancel);
+		el.addEventListener('touchcancel', cancel);
+	},
+	
 });
