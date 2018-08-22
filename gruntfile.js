@@ -28,6 +28,7 @@ module.exports = function (grunt)
 					 	'src/conbo/core/IInjectable.js',
 					 	'src/conbo/core/IPreinitialize.js',
 						'src/conbo/events/Event.js',
+						'src/conbo/events/DataEvent.js',
 						'src/conbo/events/ConboEvent.js',
 						'src/conbo/events/EventDispatcher.js',
 						'src/conbo/events/EventProxy.js',
