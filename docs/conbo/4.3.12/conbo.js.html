@@ -156,7 +156,7 @@ conbo.conbo = conbo;
  * @memberof	conbo
  * @type	 	{string}
  */
-conbo.VERSION = '4.3.11';
+conbo.VERSION = '4.3.12';
 	
 /**
  * A string containing the framework name and version number, e.g. "ConboJS v1.2.3"
@@ -732,7 +732,10 @@ var __ep = function(el)
 	 */
 	conbo.contains = function(obj, target) 
 	{
-		return nativeIndexOf.call(obj || [], target) != -1;
+		return obj &amp;&amp; 'indexOf' in obj
+			? obj.indexOf(target) != -1
+			: nativeIndexOf.call(obj || [], target) != -1
+			;
 	};
 
 	/**
@@ -2772,21 +2775,23 @@ var __ep = function(el)
 		
 		return template.replace(/{{(.+?)}}|\${(.+?)}/g, function() 
 		{
-			var propName = (arguments[1] || arguments[2]).trim();
-			var args = propName.split("|");
-			var value, parseFunction;
-			
-			args[0] = conbo.bindingUtils.cleanPropertyName(args[0]);
-			
-			try { value = eval("data."+args[0]);			} catch(e) {}
-			try { parseFunction = eval("data."+args[1]);	} catch(e) {}
-			
-			if (!conbo.isFunction(parseFunction)) 
+			try
 			{
-				parseFunction = conbo.bindingUtils.defaultParseFunction;
+				var propName = (arguments[1] || arguments[2]).trim();
+				var args = propName.split("|");
+				var value, parseFunction;
+				
+				value = data[(args[0] || '').trim()];
+				parseFunction = data[(args[1] || '').trim()];
+				
+				if (!conbo.isFunction(parseFunction)) 
+				{
+					parseFunction = conbo.value;
+				}
+				
+				return parseFunction(value);
 			}
-			
-			return parseFunction(value);
+			catch (e) {}
 		});
 	};
 	
@@ -3657,6 +3662,18 @@ conbo.Event = conbo.Class.extend(
 });
 
 __denumerate(conbo.Event.prototype);
+
+/**
+ * DataEvent class
+ * 
+ * Event with data property to enable arbitrary data to be passed when an event is dispatched
+ * 
+ * @class		DataEvent
+ * @memberof	conbo
+ * @augments	conbo.Event
+ * @author		Neil Rackett
+ */
+conbo.DataEvent = conbo.Event.extend();
 
 /**
  * conbo.Event
@@ -5882,6 +5899,67 @@ conbo.AttributeBindings = conbo.Class.extend(
 		el.setAttribute('aria-'+ariaName, value);
 	},
 
+	/**
+	 * Enables you to detect and handle a long press (500ms) on an element
+	 * 
+	 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
+	 * @param 		{Function} 		handler - The method that will handle long presses
+	 * 
+	 * @example
+	 * &lt;button cb-onlongpress="myLongPressHandler">Hold me!&lt;/button>
+	 */
+	cbOnlongpress: function(el, handler)
+	{
+		var isLongPress = false;
+		var pressTimer;
+		
+		var cancel = function(event)
+		{
+			if (pressTimer) 
+			{
+				clearTimeout(pressTimer);
+				pressTimer = 0;
+			}
+		};
+		
+		var click = function(event)
+		{
+			if (pressTimer) 
+			{
+				clearTimeout(pressTimer);
+				pressTimer = 0;
+			}
+			
+			if (isLongPress) return false;
+		};
+		
+		var start = function(event)
+		{
+			if (event.type === 'click' &amp;&amp; event.button !== 0)
+			{
+				return;
+			}
+			
+			isLongPress = false;
+			
+			pressTimer = setTimeout(function() 
+			{
+				isLongPress = true;
+				handler(new MouseEvent('longpress', event));
+			}, 500);
+			
+			return false;
+		};
+		
+		el.addEventListener('mousedown', start);
+		el.addEventListener('touchstart', start);
+		el.addEventListener('click', click);
+		el.addEventListener('mouseout', cancel);
+		el.addEventListener('touchend', cancel);
+		el.addEventListener('touchleave', cancel);
+		el.addEventListener('touchcancel', cancel);
+	},
+	
 });
 
 (function()
@@ -6874,7 +6952,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 				return '&lt;cb-text cb-bind="'+propName.trim()+'">&lt;/cb-text>';
 			});
 		},
-		
+
 		toString: function()
 		{
 			return 'conbo.BindingUtils';
@@ -9378,13 +9456,13 @@ __denumerate(conbo.Router.prototype);
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="conbo.Application.html">Application</a></li><li><a href="conbo.AttributeBindings.html">AttributeBindings</a></li><li><a href="conbo.BindingUtils.html">BindingUtils</a></li><li><a href="conbo.Class.html">Class</a></li><li><a href="conbo.Command.html">Command</a></li><li><a href="conbo.ConboClass.html">ConboClass</a></li><li><a href="conbo.ConboEvent.html">ConboEvent</a></li><li><a href="conbo.Context.html">Context</a></li><li><a href="conbo.ElementProxy.html">ElementProxy</a></li><li><a href="conbo.Event.html">Event</a></li><li><a href="conbo.EventDispatcher.html">EventDispatcher</a></li><li><a href="conbo.EventProxy.html">EventProxy</a></li><li><a href="conbo.Glimpse.html">Glimpse</a></li><li><a href="conbo.Hash.html">Hash</a></li><li><a href="conbo.HeadlessApplication.html">HeadlessApplication</a></li><li><a href="conbo.HttpService.html">HttpService</a></li><li><a href="conbo.ItemRenderer.html">ItemRenderer</a></li><li><a href="conbo.List.html">List</a></li><li><a href="conbo.LocalHash.html">LocalHash</a></li><li><a href="conbo.LocalList.html">LocalList</a></li><li><a href="conbo.MutationObserver.html">MutationObserver</a></li><li><a href="conbo.Namespace.html">Namespace</a></li><li><a href="conbo.RemoteHash.html">RemoteHash</a></li><li><a href="conbo.RemoteList.html">RemoteList</a></li><li><a href="conbo.Router.html">Router</a></li><li><a href="conbo.View.html">View</a></li></ul><h3>Events</h3><ul><li><a href="conbo.ConboEvent.html#event:ADD">ADD</a></li><li><a href="conbo.ConboEvent.html#event:ALL">ALL</a></li><li><a href="conbo.ConboEvent.html#event:BIND">BIND</a></li><li><a href="conbo.ConboEvent.html#event:CHANGE">CHANGE</a></li><li><a href="conbo.ConboEvent.html#event:CREATION_COMPLETE">CREATION_COMPLETE</a></li><li><a href="conbo.ConboEvent.html#event:DETACH">DETACH</a></li><li><a href="conbo.ConboEvent.html#event:FAULT">FAULT</a></li><li><a href="conbo.ConboEvent.html#event:INIT_COMPLETE">INIT_COMPLETE</a></li><li><a href="conbo.ConboEvent.html#event:INITIALIZE">INITIALIZE</a></li><li><a href="conbo.ConboEvent.html#event:PREINITIALIZE">PREINITIALIZE</a></li><li><a href="conbo.ConboEvent.html#event:REMOVE">REMOVE</a></li><li><a href="conbo.ConboEvent.html#event:RESULT">RESULT</a></li><li><a href="conbo.ConboEvent.html#event:ROUTE">ROUTE</a></li><li><a href="conbo.ConboEvent.html#event:START">START</a></li><li><a href="conbo.ConboEvent.html#event:STOP">STOP</a></li><li><a href="conbo.ConboEvent.html#event:TEMPLATE_COMPLETE">TEMPLATE_COMPLETE</a></li><li><a href="conbo.ConboEvent.html#event:TEMPLATE_ERROR">TEMPLATE_ERROR</a></li><li><a href="conbo.ConboEvent.html#event:UNBIND">UNBIND</a></li></ul><h3>Namespaces</h3><ul><li><a href="conbo.html">conbo</a></li></ul><h3>Global</h3><ul><li><a href="global.html#conbo2">conbo</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="conbo.Application.html">Application</a></li><li><a href="conbo.AttributeBindings.html">AttributeBindings</a></li><li><a href="conbo.BindingUtils.html">BindingUtils</a></li><li><a href="conbo.Class.html">Class</a></li><li><a href="conbo.Command.html">Command</a></li><li><a href="conbo.ConboClass.html">ConboClass</a></li><li><a href="conbo.ConboEvent.html">ConboEvent</a></li><li><a href="conbo.Context.html">Context</a></li><li><a href="conbo.DataEvent.html">DataEvent</a></li><li><a href="conbo.ElementProxy.html">ElementProxy</a></li><li><a href="conbo.Event.html">Event</a></li><li><a href="conbo.EventDispatcher.html">EventDispatcher</a></li><li><a href="conbo.EventProxy.html">EventProxy</a></li><li><a href="conbo.Glimpse.html">Glimpse</a></li><li><a href="conbo.Hash.html">Hash</a></li><li><a href="conbo.HeadlessApplication.html">HeadlessApplication</a></li><li><a href="conbo.HttpService.html">HttpService</a></li><li><a href="conbo.ItemRenderer.html">ItemRenderer</a></li><li><a href="conbo.List.html">List</a></li><li><a href="conbo.LocalHash.html">LocalHash</a></li><li><a href="conbo.LocalList.html">LocalList</a></li><li><a href="conbo.MutationObserver.html">MutationObserver</a></li><li><a href="conbo.Namespace.html">Namespace</a></li><li><a href="conbo.RemoteHash.html">RemoteHash</a></li><li><a href="conbo.RemoteList.html">RemoteList</a></li><li><a href="conbo.Router.html">Router</a></li><li><a href="conbo.View.html">View</a></li></ul><h3>Events</h3><ul><li><a href="conbo.ConboEvent.html#event:ADD">ADD</a></li><li><a href="conbo.ConboEvent.html#event:ALL">ALL</a></li><li><a href="conbo.ConboEvent.html#event:BIND">BIND</a></li><li><a href="conbo.ConboEvent.html#event:CHANGE">CHANGE</a></li><li><a href="conbo.ConboEvent.html#event:CREATION_COMPLETE">CREATION_COMPLETE</a></li><li><a href="conbo.ConboEvent.html#event:DETACH">DETACH</a></li><li><a href="conbo.ConboEvent.html#event:FAULT">FAULT</a></li><li><a href="conbo.ConboEvent.html#event:INIT_COMPLETE">INIT_COMPLETE</a></li><li><a href="conbo.ConboEvent.html#event:INITIALIZE">INITIALIZE</a></li><li><a href="conbo.ConboEvent.html#event:PREINITIALIZE">PREINITIALIZE</a></li><li><a href="conbo.ConboEvent.html#event:REMOVE">REMOVE</a></li><li><a href="conbo.ConboEvent.html#event:RESULT">RESULT</a></li><li><a href="conbo.ConboEvent.html#event:ROUTE">ROUTE</a></li><li><a href="conbo.ConboEvent.html#event:START">START</a></li><li><a href="conbo.ConboEvent.html#event:STOP">STOP</a></li><li><a href="conbo.ConboEvent.html#event:TEMPLATE_COMPLETE">TEMPLATE_COMPLETE</a></li><li><a href="conbo.ConboEvent.html#event:TEMPLATE_ERROR">TEMPLATE_ERROR</a></li><li><a href="conbo.ConboEvent.html#event:UNBIND">UNBIND</a></li></ul><h3>Namespaces</h3><ul><li><a href="conbo.html">conbo</a></li></ul><h3>Global</h3><ul><li><a href="global.html#conbo2">conbo</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Jul 18 2018 18:41:49 GMT+0100 (GMT Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Aug 22 2018 17:50:05 GMT+0100 (GMT Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

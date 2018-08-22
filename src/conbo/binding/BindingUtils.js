@@ -988,7 +988,7 @@
 				return '<cb-text cb-bind="'+propName.trim()+'"></cb-text>';
 			});
 		},
-		
+
 		toString: function()
 		{
 			return 'conbo.BindingUtils';

@@ -2288,21 +2288,23 @@
 		
 		return template.replace(/{{(.+?)}}|\${(.+?)}/g, function() 
 		{
-			var propName = (arguments[1] || arguments[2]).trim();
-			var args = propName.split("|");
-			var value, parseFunction;
-			
-			args[0] = conbo.bindingUtils.cleanPropertyName(args[0]);
-			
-			try { value = eval("data."+args[0]);			} catch(e) {}
-			try { parseFunction = eval("data."+args[1]);	} catch(e) {}
-			
-			if (!conbo.isFunction(parseFunction)) 
+			try
 			{
-				parseFunction = conbo.bindingUtils.defaultParseFunction;
+				var propName = (arguments[1] || arguments[2]).trim();
+				var args = propName.split("|");
+				var value, parseFunction;
+				
+				value = data[(args[0] || '').trim()];
+				parseFunction = data[(args[1] || '').trim()];
+				
+				if (!conbo.isFunction(parseFunction)) 
+				{
+					parseFunction = conbo.value;
+				}
+				
+				return parseFunction(value);
 			}
-			
-			return parseFunction(value);
+			catch (e) {}
 		});
 	};
 	

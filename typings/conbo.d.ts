@@ -28,7 +28,7 @@ declare namespace conbo
 {	
 	/**
 	 * Base class from which all others extend
-	 * @param 		{Object} options - Object containing initialisation options
+	 * @param 		{any} options - Object containing initialisation options
 	 */
 	class Class
 	{
@@ -36,8 +36,8 @@ declare namespace conbo
 		 * Extend this class to create a new class
 		 * 
 		 * @memberof 	conbo.Class
-		 * @param		{Object}	[protoProps] - Object containing the new class's prototype
-		 * @param		{Object}	[staticProps] - Object containing the new class's static methods and properties
+		 * @param		{any}	[protoProps] - Object containing the new class's prototype
+		 * @param		{any}	[staticProps] - Object containing the new class's static methods and properties
 		 * 
 		 * @example		
 		 * var MyClass = conbo.Class.extend
@@ -107,7 +107,7 @@ declare namespace conbo
 	 * 
 	 * @augments	conbo.Class
 	 * @author		Neil Rackett
-	 * @param 		{Object}	options - Class configuration object
+	 * @param 		{any}	options - Class configuration object
 	 */
 	class ConboClass extends Class {
 
@@ -172,7 +172,7 @@ declare namespace conbo
 		/**
 		 * Add classes, properties or methods to the namespace. Using this method
 		 * will not overwrite existing items of the same name.
-		 * @param 	{Object}			obj - An object containing items to add to the namespace
+		 * @param 	{any}			obj - An object containing items to add to the namespace
 		 * @returns	{conbo.Namespace}	This Namespace instance
 		 */
 		import(obj: any):this;
@@ -182,7 +182,6 @@ declare namespace conbo
 	/**
 	 * Base class for all events triggered in ConboJS
 	 * @author		Neil Rackett
-	 * @param 		{string}	type - The type of event this object represents
 	 */
 	class Event extends Class 
 	{
@@ -260,12 +259,18 @@ declare namespace conbo
 	}
 
 	/**
+	 * Event with data property to enable arbitrary data to be passed when an event is dispatched
+	 * @author		Neil Rackett
+	 */
+	class DataEvent extends Event {};
+
+	/**
 	 * Default event class for events fired by ConboJS
 	 * For consistency, callback parameters of Backbone.js derived classes
 	 * are event object properties in ConboJS
 	 * @author		Neil Rackett
 	 * @param 		{string}	type - The type of event this object represents
-	 * @param 		{Object}	options - Properties to be added to this event object
+	 * @param 		{any}		options - Properties to be added to this event object
 	 */
 	class ConboEvent extends Event 
 	{
@@ -285,8 +290,8 @@ declare namespace conbo
 		 * 
 		 * @event			conbo.ConboEvent#CHANGE
 		 * @type 			{conbo.ConboEvent}
-		 * @property		{string} property - The name of the property that changed
-		 * @property		{any} value - The new value of the property
+		 * @property		{string} 	property - The name of the property that changed
+		 * @property		{any} 		value - The new value of the property
 		 */
 		static readonly CHANGE:string;
 		
@@ -489,7 +494,7 @@ declare namespace conbo
 		/**
 		 * Constructor
 		 * @param	{string}	type - The type of event this class instance represents
-		 * @param	{Object}	[options] - Object containing additional properties to add to this class instance
+		 * @param	{any}	[options] - Object containing additional properties to add to this class instance
 		 */
 		constructor(type: string, options?: any);
 
@@ -517,7 +522,7 @@ declare namespace conbo
 
 		/**
 		 * Constructor
-		 * @param 		{Object} options - Object containing optional initialisation options, including 'context'
+		 * @param 		{any} options - Object containing optional initialisation options, including 'context'
 		 */
 		constructor(options?: any);
 
@@ -525,7 +530,7 @@ declare namespace conbo
 		 * Add a listener for a particular event type
 		 * @param 	{string}	type - Type of event ('change') or events ('change blur')
 		 * @param 	{Function}	handler - Function that should be called
-		 * @param 	{Object}	[scope] - The scope in which to run the event handler
+		 * @param 	{any}	[scope] - The scope in which to run the event handler
 		 * @param 	{number}	[priority=0] - The event handler's priority when the event is dispatached
 		 * @param 	{boolean}	[once=false] - Should the event listener automatically be removed after it has been called once?
 		 * @returns	{conbo.EventDispatcher}	A reference to this class instance
@@ -536,7 +541,7 @@ declare namespace conbo
 		 * Remove a listener for a particular event type
 		 * @param 	{string}	[type] - Type of event ('change') or events ('change blur'), if not specified, all listeners will be removed
 		 * @param 	{Function}	[handler] - Function that should be called, if not specified, all listeners of the specified type will be removed
-		 * @param 	{Object} 	[scope] - The scope in which the handler is set to run
+		 * @param 	{any} 	[scope] - The scope in which the handler is set to run
 		 * @returns	{conbo.EventDispatcher}	A reference to this class instance
 		 */
 		removeEventListener(type?: string, handler?: any, scope?: any):this;
@@ -545,7 +550,7 @@ declare namespace conbo
 		 * Does this object have an event listener of the specified type?
 		 * @param 	{string}	type - Type of event (e.g. 'change')
 		 * @param 	{Function}	[handler] - Function that should be called
-		 * @param 	{Object} 	[scope] - The scope in which the handler is set to run
+		 * @param 	{any} 	[scope] - The scope in which the handler is set to run
 		 * @returns	{boolean}	True if this object has the specified event listener, false if it does not
 		 */
 		hasEventListener(type: string, handler?: any, scope?: any):boolean;
@@ -574,7 +579,7 @@ declare namespace conbo
 	class EventProxy extends Class {
 
 		/**
-		 * @param 		{Object} eventDispatcher - Element, EventDispatcher or jQuery object to be proxied
+		 * @param 		{any} eventDispatcher - Element, EventDispatcher or jQuery object to be proxied
 		 */
 		constructor(eventDispatcher: any);
 
@@ -618,7 +623,7 @@ declare namespace conbo
 	class Context extends EventDispatcher {
 
 		/**
-		 * @param 	{Object} options - Object containing initialisation options, including 'app' (Application) and 'namespace' (Namespace)
+		 * @param 	{any} options - Object containing initialisation options, including 'app' (Application) and 'namespace' (Namespace)
 		 */
 		constructor(options?: any);
 
@@ -706,14 +711,14 @@ declare namespace conbo
 		/**
 		 * Inject singleton instances into specified object
 		 *
-		 * @param	obj		{Object} 	The object to inject singletons into
+		 * @param	obj		{any} 	The object to inject singletons into
 		 */
 		injectSingletons(obj:any):this;
 
 		/**
 		 * Set all singleton instances on the specified object to undefined
 		 *
-		 * @param	obj		{Object} 	The object to remove singletons from
+		 * @param	obj		{any} 	The object to remove singletons from
 		 */
 		uninjectSingletons(obj:any):this;
 
@@ -730,7 +735,7 @@ declare namespace conbo
 	 * 
 	 * @augments	conbo.EventDispatcher
 	 * @author 		Neil Rackett
-	 * @param 		{Object} options - Object containing optional initialisation options, including 'source' (object) containing initial values
+	 * @param 		{any} options - Object containing optional initialisation options, including 'source' (object) containing initial values
 	 * @fires		conbo.ConboEvent#CHANGE
 	 */
 	class Hash extends EventDispatcher 
@@ -752,7 +757,7 @@ declare namespace conbo
 	 * 
 	 * @augments	conbo.Hash
 	 * @author 		Neil Rackett
-	 * @param 		{Object} options - Object containing initialisation options, including 'name' (string), 'session' (Boolean) and 'source' (object) containing default values; see Hash for other options
+	 * @param 		{any} options - Object containing initialisation options, including 'name' (string), 'session' (Boolean) and 'source' (object) containing default values; see Hash for other options
 	 * @fires		conbo.ConboEvent#CHANGE
 	 */
 	class LocalHash extends Hash {
@@ -799,7 +804,7 @@ declare namespace conbo
 		[key:number]:any;
 
 		/**
-		 * @param 		{Object} options - Object containing optional initialisation options, including `source` (array), `context` (Context) and `itemClass` (Class)
+		 * @param 		{any} options - Object containing optional initialisation options, including `source` (array), `context` (Context) and `itemClass` (Class)
 		 */
 		constructor(options?:any);
 		
@@ -910,7 +915,7 @@ declare namespace conbo
 	class LocalList extends List
 	{
 		/**
-		 * @param 		{Object} options - Object containing initialisation options, including 'name' (String), 'session' (Boolean) and 'source' (Array) of default options
+		 * @param 		{any} options - Object containing initialisation options, including 'name' (String), 'session' (Boolean) and 'source' (Array) of default options
 		 */
 		constructor(options?: any);
 
@@ -936,7 +941,7 @@ declare namespace conbo
 		destroy():this;
 
 		/**
-		 * @param 		{Object} options - Object containing initialisation options, including HttpService options
+		 * @param 		{any} options - Object containing initialisation options, including HttpService options
 		 */
 		constructor(options?: any);
 	}
@@ -1055,7 +1060,7 @@ declare namespace conbo
 		 * Apply styles from a variable
 		 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
 		 * @param 		{any} 			value - The value referenced by the attribute
-		 * @param 		{Object} 		options - Options relating to this binding
+		 * @param 		{any} 		options - Options relating to this binding
 		 * @param 		{string} 		styleName - The name of the style to bind
 		 * @returns		{void}
 		 * @example
@@ -1071,7 +1076,7 @@ declare namespace conbo
 		 * property name with a colon and the class name or by using the tag name.
 		 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
 		 * @param 		{any} 			value - The value referenced by the attribute
-		 * @param 		{Object} 		options - Options relating to this binding
+		 * @param 		{any} 		options - Options relating to this binding
 		 * @param 		{string} 		itemRendererClassName - The name of the class to apply to each item rendered
 		 * @returns		{void}
 		 * @example
@@ -1113,7 +1118,7 @@ declare namespace conbo
 		 * be separated by spaces
 		 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
 		 * @param 		{any} 			value - The value referenced by the attribute
-		 * @param 		{Object} 		options - Options relating to this binding
+		 * @param 		{any} 		options - Options relating to this binding
 		 * @returns		{void}
 		 * @example
 		 * <div cb-include-in="happy sad elated"></div>
@@ -1126,7 +1131,7 @@ declare namespace conbo
 		 * be separated by spaces
 		 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
 		 * @param 		{any} 			value - The value referenced by the attribute
-		 * @param 		{Object} 		options - Options relating to this binding
+		 * @param 		{any} 		options - Options relating to this binding
 		 * @returns		{void}
 		 * @example
 		 * <div cb-exclude-from="confused frightened"></div>
@@ -1301,7 +1306,7 @@ declare namespace conbo
 		 * @param 	{HTMLElement}			element - DOM element to bind value to (two-way bind on input/form elements)
 		 * @param 	{string}				attributeName - The attribute to bind as it appears in HTML, e.g. "cb-prop-name"
 		 * @param 	{Function} 				[parseFunction] - Method used to parse values before outputting as HTML
-		 * @param	{Object}				[options] - Options related to this attribute binding
+		 * @param	{any}				[options] - Options related to this attribute binding
 		 * @returns	{any[]}					Array of bindings
 		 */
 		bindAttribute(source: EventDispatcher, propertyName: string, element: any, attributeName: string, parseFunction?: any, options?: any):any;
@@ -1402,7 +1407,7 @@ declare namespace conbo
 		/**
 		 * Register one or more custom attribute handlers
 		 * @see			#registerAttribute
-		 * @param 		{Object}				handlers - Object containing one or more custom attribute handlers
+		 * @param 		{any}				handlers - Object containing one or more custom attribute handlers
 		 * @param 		{boolean}				[readOnly=false] - Whether or not the attributes are read-only
 		 * @returns		{conbo.BindingUtils}	A reference to this object
 		 * @example
@@ -1420,7 +1425,7 @@ declare namespace conbo
 	 * 
 	 * @augments	conbo.EventDispatcher
 	 * @author 		Neil Rackett
-	 * @param 		{Object} options - Object containing initialisation options
+	 * @param 		{any} options - Object containing initialisation options
 	 * @fires		conbo.ConboEvent#ADD
 	 * @fires		conbo.ConboEvent#REMOVE
 	 */
@@ -1442,7 +1447,7 @@ declare namespace conbo
 
 		/**
 		 * Returns object containing the value of all attributes on a DOM element
-		 * @returns		{Object}
+		 * @returns		{any}
 		 * @example
 		 * ep.attributes; // results in something like {src:"foo/bar.jpg"}
 		 */
@@ -1553,7 +1558,7 @@ declare namespace conbo
 	class View extends Glimpse 
 	{
 		/**
-		 * @param 		{Object}	[options] - Object containing optional initialisation options, including 'attributes', 'className', 'data', 'el', 'id', 'tagName', 'template', 'templateUrl'
+		 * @param 		{any}	[options] - Object containing optional initialisation options, including 'attributes', 'className', 'data', 'el', 'id', 'tagName', 'template', 'templateUrl'
 		 */
 		constructor(options?: any);
 
@@ -1864,7 +1869,7 @@ declare namespace conbo
 	 * 
 	 * @augments	conbo.ConboClass
 	 * @author		Neil Rackett
-	 * @param 		{Object} options - Object containing optional initialisation options, including 'context' (Context)
+	 * @param 		{any} options - Object containing optional initialisation options, including 'context' (Context)
 	 */
 	class Command extends ConboClass implements IInjectable {
 
@@ -1894,7 +1899,7 @@ declare namespace conbo
 	class HttpService extends EventDispatcher 
 	{
 		/**
-		 * @param 		{Object} options - Object containing optional initialisation options, including 'rootUrl', 'contentType', 'dataType', 'headers', 'encodeFunction', 'decodeFunction', 'resultClass','makeObjectsBindable'
+		 * @param 		{any} options - Object containing optional initialisation options, including 'rootUrl', 'contentType', 'dataType', 'headers', 'encodeFunction', 'decodeFunction', 'resultClass','makeObjectsBindable'
 		 */
 		constructor(options?:any);
 		
@@ -1914,7 +1919,7 @@ declare namespace conbo
 		 * Call a method of the web service using the specified verb
 		 * 
 		 * @param	{string}	command - The name of the command
-		 * @param	{Object}	[data] - Object containing the data to send to the web service
+		 * @param	{any}	[data] - Object containing the data to send to the web service
 		 * @param	{string}	[method=GET] - GET, POST, etc (default: GET)
 		 * @param	{Class}		[resultClass] - Optional
 		 * @returns	{Promise}
@@ -1925,7 +1930,7 @@ declare namespace conbo
 		 * Call a method of the web service using the POST verb
 		 * 
 		 * @param		{string}	command - The name of the command
-		 * @param		{Object}	[data] - Object containing the data to send to the web service
+		 * @param		{any}	[data] - Object containing the data to send to the web service
 		 * @param		{Class}		[resultClass] - Optional
 		 * @returns		{Promise}
 		 */
@@ -1935,7 +1940,7 @@ declare namespace conbo
 		 * Call a method of the web service using the GET verb
 		 * 
 		 * @param		{string}	command - The name of the command
-		 * @param		{Object}	[data] - Object containing the data to send to the web service
+		 * @param		{any}	[data] - Object containing the data to send to the web service
 		 * @param		{Class}		[resultClass] - Optional
 		 * @returns		{Promise}
 		 */
@@ -1945,7 +1950,7 @@ declare namespace conbo
 		 * Call a method of the web service using the PUT verb
 		 * 
 		 * @param		{string}	command - The name of the command
-		 * @param		{Object}	[data] - Object containing the data to send to the web service
+		 * @param		{any}	[data] - Object containing the data to send to the web service
 		 * @param		{Class}		[resultClass] - Optional
 		 * @returns		{Promise}
 		 */
@@ -1955,7 +1960,7 @@ declare namespace conbo
 		 * Call a method of the web service using the PATCH verb
 		 * 
 		 * @param		{string}	command - The name of the command
-		 * @param		{Object}	[data] - Object containing the data to send to the web service
+		 * @param		{any}	[data] - Object containing the data to send to the web service
 		 * @param		{Class}		[resultClass] - Optional
 		 * @returns		{Promise}
 		 */
@@ -1965,7 +1970,7 @@ declare namespace conbo
 		 * Call a method of the web service using the DELETE verb
 		 * 
 		 * @param		{string}	command - The name of the command
-		 * @param		{Object}	[data] - Object containing the data to send to the web service
+		 * @param		{any}	[data] - Object containing the data to send to the web service
 		 * @param		{Class}		[resultClass] - Optional
 		 * @returns		{Promise}
 		 */
@@ -1988,7 +1993,7 @@ declare namespace conbo
 		/**
 		 * Method that encodes data to be sent to the API
 		 * 
-		 * @param	{Object}	data - Object containing the data to be sent to the API
+		 * @param	{any}	data - Object containing the data to be sent to the API
 		 * @param	{string}	[method] - GET, POST, etc (default: GET)
 		 */
 		encodeFunction(data:any, method?:string):any;
@@ -2040,7 +2045,7 @@ declare namespace conbo
 	 * 
 	 * @augments	conbo.EventDispatcher
 	 * @author 		Neil Rackett
-	 * @param 		{Object} options - Object containing initialisation options
+	 * @param 		{any} options - Object containing initialisation options
 	 * @fires		conbo.ConboEvent#CHANGE
 	 * @fires		conbo.ConboEvent#FAULT
 	 * @fires		conbo.ConboEvent#ROUTE
@@ -2082,7 +2087,7 @@ declare namespace conbo
 		 * Sets the current path, optionally replacing the current path or silently
 		 * without triggering a route event
 		 * @param	{string}	path - The path to navigate to
-		 * @param	{Object}	[options] - Object containing options: trigger (default: true) and replace (default: false)
+		 * @param	{any}	[options] - Object containing options: trigger (default: true) and replace (default: false)
 		 */
 		setPath(path: string, options?: any):this;
 
@@ -2172,7 +2177,7 @@ declare namespace conbo
 	 * @example		conbo.httpRequest({url:"http://www.foo.com/bar", data:{user:1}, method:"GET", headers:{'X-Token':'ABC123'}});
 	 * 
 	 * @see			http://api.jquery.com/jquery.ajax/
-	 * @param 		{Object}		options - URL string or Object containing URL and other settings for the HTTP request
+	 * @param 		{any}		options - URL string or Object containing URL and other settings for the HTTP request
 	 * @returns		{Promise}
 	 */
 	function httpRequest(options:any):Promise<any>;
@@ -2189,7 +2194,7 @@ declare namespace conbo
 	 * 
 	 * 
 	 * @param 		{string}	urlOrOptions - URL string or Object containing URL and other settings for the HTTP request
-	 * @param 		{Object}	data - Data to be sent with request (ignored when using options object)
+	 * @param 		{any}	data - Data to be sent with request (ignored when using options object)
 	 * @param 		{string}	method - HTTP method to use, e.g. "GET" or "POST" (ignored when using options object)
 	 * @returns		{Promise}
 	 */
@@ -2202,9 +2207,9 @@ declare namespace conbo
 	 * Return `false` to break the loop.
 	 * 
 	 * 
-	 * @param		{Object}	obj - The list to iterate
+	 * @param		{any}	obj - The list to iterate
 	 * @param		{Function}	iterator - Iterator function with parameters: item, index, list
-	 * @param		{Object}	[scope] - The scope the iterator function should run in
+	 * @param		{any}	[scope] - The scope the iterator function should run in
 	 * @returns		{void}
 	 */
 	 function forEach(obj:any, iterator:Function, scope?:any):void;
@@ -2215,9 +2220,9 @@ declare namespace conbo
 	 * 
 	 * 
 	 * @deprecated	Use Array.prototype.map
-	 * @param		{Object}	obj - The list to iterate
+	 * @param		{any}	obj - The list to iterate
 	 * @param		{Function}	iterator - Iterator function with parameters: item, index, list
-	 * @param		{Object}	[scope] - The scope the iterator function should run in
+	 * @param		{any}	[scope] - The scope the iterator function should run in
 	 * @returns		{any[]}
 	 */
 	function map(obj:any, iterator:Function, scope?:any):any[];
@@ -2227,8 +2232,8 @@ declare namespace conbo
 	 * 
 	 * 
 	 * @deprecated	Use Array.prototype.indexOf
-	 * @param		{Object}	obj - The list to search
-	 * @param		{Object}	item - The value to find the index of
+	 * @param		{any}	obj - The list to search
+	 * @param		{any}	item - The value to find the index of
 	 * @returns		{number}
 	 */
 	function indexOf(obj:any, item:any):number;
@@ -2238,8 +2243,8 @@ declare namespace conbo
 	 * 
 	 * 
 	 * @deprecated	Use Array.prototype.lastIndexOf
-	 * @param		{Object}	obj - The list to search
-	 * @param		{Object}	item - The value to find the index of
+	 * @param		{any}	obj - The list to search
+	 * @param		{any}	item - The value to find the index of
 	 * @returns		{number}
 	 */
 	function lastIndexOf(obj:any, item:any):number;
@@ -2248,9 +2253,9 @@ declare namespace conbo
 	 * Return the first value which passes a truth test
 	 * 
 	 * 
-	 * @param		{Object}	obj - The list to iterate
+	 * @param		{any}	obj - The list to iterate
 	 * @param		{Function}	predicate - Function that tests each value, returning true or false
-	 * @param		{Object}	[scope] - The scope the predicate function should run in
+	 * @param		{any}	[scope] - The scope the predicate function should run in
 	 * @returns		{any}
 	 */
 	function find(obj:any, predicate:Function, scope?:any):any;
@@ -2259,9 +2264,9 @@ declare namespace conbo
 	 * Return the index of the first value which passes a truth test
 	 * 
 	 * 
-	 * @param		{Object}	obj - The list to iterate
+	 * @param		{any}	obj - The list to iterate
 	 * @param		{Function}	predicate - Function that tests each value, returning true or false
-	 * @param		{Object}	[scope] - The scope the predicate function should run in
+	 * @param		{any}	[scope] - The scope the predicate function should run in
 	 * @returns		{number}
 	 */
 	function findIndex(obj:any, predicate:Function, scope?:any):number;
@@ -2272,9 +2277,9 @@ declare namespace conbo
 	 * 
 	 * 
 	 * @deprecated	Use Array.prototype.filter
-	 * @param		{Object}	obj - The list to iterate
+	 * @param		{any}	obj - The list to iterate
 	 * @param		{Function}	predicate - Function that tests each value, returning true or false
-	 * @param		{Object}	[scope] - The scope the predicate function should run in
+	 * @param		{any}	[scope] - The scope the predicate function should run in
 	 * @returns		{any[]}
 	 */
 	function filter(obj:any, predicate:Function, scope?:any):any[];
@@ -2283,9 +2288,9 @@ declare namespace conbo
 	 * Return all the elements for which a truth test fails.
 	 * 
 	 * 
-	 * @param		{Object}	obj - The list to iterate
+	 * @param		{any}	obj - The list to iterate
 	 * @param		{Function}	predicate - Function that tests each value, returning true or false
-	 * @param		{Object}	[scope] - The scope the predicate function should run in
+	 * @param		{any}	[scope] - The scope the predicate function should run in
 	 * @returns		{any[]}
 	 */
 	function reject(obj:any, predicate:Function, scope?:any):any[]; 
@@ -2296,9 +2301,9 @@ declare namespace conbo
 	 * 
 	 * 
 	 * @deprecated	Use Array.prototype.every
-	 * @param		{Object}	obj - The list to iterate
+	 * @param		{any}	obj - The list to iterate
 	 * @param		{Function}	predicate - Function that tests each value, returning true or false
-	 * @param		{Object}	[scope] - The scope the predicate function should run in
+	 * @param		{any}	[scope] - The scope the predicate function should run in
 	 * @returns		{boolean}
 	 */
 	function every(obj:any, predicate:Function, scope?:any):boolean; 
@@ -2309,9 +2314,9 @@ declare namespace conbo
 	 * 
 	 * 
 	 * @deprecated	Use Array.prototype.some
-	 * @param		{Object}	obj - The list to iterate
+	 * @param		{any}	obj - The list to iterate
 	 * @param		{Function}	predicate - Function that tests each value, returning true or false
-	 * @param		{Object}	[scope] - The scope the predicate function should run in
+	 * @param		{any}	[scope] - The scope the predicate function should run in
 	 * @returns		{any[]}
 	 */
 	function some(obj:any, predicate:Function, scope?:any):any[]; 
@@ -2320,7 +2325,7 @@ declare namespace conbo
 	 * Determine if the array or object contains a given value (using `===`).
 	 * 
 	 * 
-	 * @param		{Object}	obj - The list to iterate
+	 * @param		{any}	obj - The list to iterate
 	 * @param		{Function}	target - The value to match
 	 * @returns		{boolean}
 	 */
@@ -2330,7 +2335,7 @@ declare namespace conbo
 	 * Invoke a method (with arguments) on every item in a collection.
 	 * 
 	 * 
-	 * @param		{Object}	obj - The list to iterate
+	 * @param		{any}	obj - The list to iterate
 	 * @param		{Function}	method - Function to invoke on every item
 	 * @returns		{any[]}
 	 */
@@ -2340,7 +2345,7 @@ declare namespace conbo
 	 * Convenience version of a common use case of `map`: fetching a property.
 	 * 
 	 * 
-	 * @param		{Object}	obj - Array obj Objects
+	 * @param		{any}	obj - Array obj Objects
 	 * @param		{...string}	key - Property name
 	 * @returns		{any[]}
 	 */
@@ -2352,10 +2357,10 @@ declare namespace conbo
 	 * 
 	 * @see https://bugs.webkit.org/show_bug.cgi?id=80797
 	 * 
-	 * @param		{Object}	obj - The list to iterate
+	 * @param		{any}	obj - The list to iterate
 	 * @param		{Function}	[iterator] - Function that tests each value
-	 * @param		{Object}	[scope] - The scope the iterator function should run in
-	 * @returns		{Object}
+	 * @param		{any}	[scope] - The scope the iterator function should run in
+	 * @returns		{any}
 	 */
 	function max(obj:any, iterator?:Function, scope?:any):any;
 
@@ -2363,10 +2368,10 @@ declare namespace conbo
 	 * Return the minimum element (or element-based computation).
 	 * 
 	 * 
-	 * @param		{Object}	obj - The list to iterate
+	 * @param		{any}	obj - The list to iterate
 	 * @param		{Function}	[iterator] - Function that tests each value
-	 * @param		{Object}	[scope] - The scope the iterator function should run in
-	 * @returns		{Object}
+	 * @param		{any}	[scope] - The scope the iterator function should run in
+	 * @returns		{any}
 	 */
 	function min(obj:any, iterator?:Function, scope?:any):any; 
 
@@ -2375,7 +2380,7 @@ declare namespace conbo
 	 * @see http://en.wikipedia.org/wiki/Fisher–Yates_shuffle
 	 * 
 	 * 
-	 * @param		{Object}	obj - The list to shuffle
+	 * @param		{any}	obj - The list to shuffle
 	 * @returns		{any[]}
 	 */
 	function shuffle(obj:any):any[];
@@ -2384,7 +2389,7 @@ declare namespace conbo
 	 * Convert anything iterable into an Array
 	 * 
 	 * 
-	 * @param		{Object}	obj - The object to convert into an Array 
+	 * @param		{any}	obj - The object to convert into an Array 
 	 * @returns		{any[]}
 	 */
 	function toArray(obj:any):any[];
@@ -2393,7 +2398,7 @@ declare namespace conbo
 	 * Return the number of elements in an object.
 	 * 
 	 * 
-	 * @param		{Object}	obj - The object to count the keys of
+	 * @param		{any}	obj - The object to count the keys of
 	 * @returns		{number}
 	 */
 	function size(obj:any):number;
@@ -2405,8 +2410,8 @@ declare namespace conbo
 	 * 
 	 * @param		{any[]}		array - The array to slice
 	 * @param		{Function}	[n] - The number of elements to return (default: 1)
-	 * @param		{Object}	[guard] - Optional
-	 * @returns		{Object}
+	 * @param		{any}	[guard] - Optional
+	 * @returns		{any}
 	 */
 	function last(array:any[], n?:number, guard?:any):any|any[];
 
@@ -2419,7 +2424,7 @@ declare namespace conbo
 	 * 
 	 * @param		{any[]}		array - The array to slice
 	 * @param		{Function}	[n] - The number of elements to return (default: 1)
-	 * @param		{Object}	[guard] - Optional
+	 * @param		{any}	[guard] - Optional
 	 * @returns		{any[]}
 	 */
 	function rest(array:any[], n?:number, guard?:any):any[]; 
@@ -2471,8 +2476,8 @@ declare namespace conbo
 	 * 
 	 * @param		{any[]}		array - The array to filter
 	 * @param		{boolean}	[isSorted] - Should the returned array be sorted?
-	 * @param		{Object}	[iterator] - Iterator function
-	 * @param		{Object}	[scope] - The scope the iterator function should run in
+	 * @param		{any}	[iterator] - Iterator function
+	 * @param		{any}	[scope] - The scope the iterator function should run in
 	 * @returns		{any[]}
 	 */
 	function uniq(array:any[], isSorted?:boolean, iterator?:Function, scope?:any):any[]; 
@@ -2511,8 +2516,8 @@ declare namespace conbo
 	 * pairs, or two parallel arrays of the same length -- one of keys, and one of
 	 * the corresponding values.
 	 * 
-	 * @param		{Object}	list - List of keys
-	 * @param		{Object}	values - List of values
+	 * @param		{any}	list - List of keys
+	 * @param		{any}	values - List of values
 	 * @returns		{any[]}
 	 */
 	function object(list:any, values:any):any[]; 
@@ -2536,7 +2541,7 @@ declare namespace conbo
 	 * all of the objects methods that are not native or accessors are bound to it.
 	 * 
 	 * 
-	 * @param		{Object}	obj - Object to bind methods to
+	 * @param		{any}	obj - Object to bind methods to
 	 * @returns		{any}
 	 */
 	function bindAll(obj:any):any;
@@ -2556,7 +2561,7 @@ declare namespace conbo
 	 * otherwise call it at the end of the current callstack
 	 * 
 	 * @param		{Function}	func - The function to call
-	 * @param		{Object}	[scope] - The scope in which to run the specified function
+	 * @param		{any}	[scope] - The scope in which to run the specified function
 	 * @returns		{conbo}
 	 */
 	function ready(func:Function, scope?:any):any;
@@ -2566,7 +2571,7 @@ declare namespace conbo
 	 * cleared.
 	 * 
 	 * @param		{Function}	func - Function to call
-	 * @param		{Object}	[scope] - The scope in which to call the function
+	 * @param		{any}	[scope] - The scope in which to call the function
 	 * @returns		{number}	ID that can be used with clearInterval
 	 */
 	function defer(func:Function, scope?:any, ...args:any[]):number;
@@ -2576,7 +2581,7 @@ declare namespace conbo
 	 * updating multiple elements in the DOM
 	 * 
 	 * @param		{Function}	func - Function to call
-	 * @param		{Object}	[scope] - The scope in which to call the function
+	 * @param		{any}	[scope] - The scope in which to call the function
 	 * @returns		{conbo}
 	 */
 	function callLater(func:Function, scope?:any, ...args:any[]):any;
@@ -2608,7 +2613,7 @@ declare namespace conbo
 	 * Extends Object.keys to retrieve the names of an object's 
 	 * enumerable properties
 	 * 
-	 * @param		{Object}	obj - Object to get keys from
+	 * @param		{any}	obj - Object to get keys from
 	 * @param		{boolean}	[deep] - Retrieve keys from further up the prototype chain?
 	 * @returns		{any[]}
 	 */
@@ -2619,7 +2624,7 @@ declare namespace conbo
 	 * enumerable functions
 	 * 
 	 * @see			#keys
-	 * @param		{Object}	obj - Object to get keys from
+	 * @param		{any}	obj - Object to get keys from
 	 * @param		{boolean}	[deep] - Retrieve keys from further up the prototype chain?
 	 * @param		{boolean}	[includeAccessors] - Whether or not to include accessors that contain functions (default: false)
 	 * @returns		{any[]}
@@ -2631,7 +2636,7 @@ declare namespace conbo
 	 * variables
 	 * 
 	 * @see			#keys
-	 * @param		{Object}	obj - Object to get keys from
+	 * @param		{any}	obj - Object to get keys from
 	 * @param		{boolean}	[deep] - Retrieve keys from further up the prototype chain?
 	 * @returns		{any[]}
 	 */
@@ -2642,7 +2647,7 @@ declare namespace conbo
 	 * property of an object, regardless of whether it's enumerable or 
 	 * unenumerable
 	 * 
-	 * @param		{Object}	obj - Object to get keys from
+	 * @param		{any}	obj - Object to get keys from
 	 * @param		{boolean}	[deep] - Retrieve keys from further up the prototype chain?
 	 * @returns		{any[]}
 	 */
@@ -2654,7 +2659,7 @@ declare namespace conbo
 	 * unenumerable
 	 * 
 	 * @see			#getPropertyNames
-	 * @param		{Object}	obj - Object to get keys from
+	 * @param		{any}	obj - Object to get keys from
 	 * @param		{boolean}	[deep] - Retrieve keys from further up the prototype chain?
 	 * @param		{boolean}	[includeAccessors] - Whether or not to include accessors that contain functions (default: false)
 	 * @returns		{any[]}
@@ -2667,7 +2672,7 @@ declare namespace conbo
 	 * unenumerable
 	 * 
 	 * @see			#getPropertyNames
-	 * @param		{Object}	obj - Object to get keys from
+	 * @param		{any}	obj - Object to get keys from
 	 * @param		{boolean}	[deep] - Retrieve keys from further up the prototype chain?
 	 * @returns		{any[]}
 	 */
@@ -2680,7 +2685,7 @@ declare namespace conbo
 	 * 
 	 * @memberof	conbo
 	 * @see			#getPropertyNames
-	 * @param		{Object}	obj - Object to get keys from
+	 * @param		{any}	obj - Object to get keys from
 	 * @param		{boolean}	[deep] - Retrieve keys from further up the prototype chain?
 	 * @returns		{Array}
 	 */
@@ -2691,9 +2696,9 @@ declare namespace conbo
 	 * for a property of a given object, regardless of where it is in the 
 	 * prototype chain
 	 * 
-	 * @param		{Object}	obj - Object containing the property
+	 * @param		{any}	obj - Object containing the property
 	 * @param		{string}	propName - Name of the property
-	 * @returns		{Object}
+	 * @returns		{any}
 	 */
 	function getPropertyDescriptor(obj:any, propName:string):any;
 	
@@ -2701,7 +2706,7 @@ declare namespace conbo
 	 * Retrieve the values of an object's enumerable properties, optionally 
 	 * including values further up the prototype chain
 	 * 
-	 * @param		{Object}	obj - Object to get values from
+	 * @param		{any}	obj - Object to get values from
 	 * @param		{boolean}	[deep] - Retrieve keys from further up the prototype chain?
 	 * @returns		{any[]}
 	 */
@@ -2712,9 +2717,9 @@ declare namespace conbo
 	 * of the passed-in object(s), destroying and overwriting the target's 
 	 * property descriptors and values in the process
 	 * 
-	 * @param		{Object}	obj - Object to define properties on
+	 * @param		{any}	obj - Object to define properties on
 	 * @param		{...any}		source - Objects containing properties to define 
-	 * @returns		{Object}
+	 * @returns		{any}
 	 * @see			conbo.setValues
 	 */
 	function defineValues(target:any, ...source:any[]):any;
@@ -2724,27 +2729,27 @@ declare namespace conbo
 	 * of the passed-in object(s), destroying and overwriting the target's 
 	 * property descriptors and values in the process
 	 * 
-	 * @param		{Object}	obj - Object to define properties on
+	 * @param		{any}	obj - Object to define properties on
 	 * @param		{...any}	source - Objects containing properties to defined
-	 * @returns		{Object}
+	 * @returns		{any}
 	 */
 	function defineBindableValues(target:any, ...source:any[]):any; 
 	
 	/**
 	 * Return a copy of the object only containing the whitelisted properties.
 	 * 
-	 * @param		{Object}	obj - Objects to copy properties from
+	 * @param		{any}	obj - Objects to copy properties from
 	 * @param		{...string}	propName - Property names to copy 
-	 * @returns		{Object}
+	 * @returns		{any}
 	 */
 	function pick(obj:any, ...propNames:string[]):any; 
 	
 	/**
 	 * Return a copy of the object without the blacklisted properties.
 	 * 
-	 * @param		{Object}	obj - Object to copy
+	 * @param		{any}	obj - Object to copy
 	 * @param		{...string}	propNames - Names of properties to omit
-	 * @returns		{Object}
+	 * @returns		{any}
 	 */
 	function omit(obj:any, ...propNames:string[]):any;
 
@@ -2753,9 +2758,9 @@ declare namespace conbo
 	 * source object(s) onto the target object, overwriting the target's
 	 * property descriptors
 	 * 
-	 * @param		{Object}	obj - Object to populate
+	 * @param		{any}	obj - Object to populate
 	 * @param		{...Object}	obj - Objects containing default values
-	 * @returns		{Object}
+	 * @returns		{any}
 	 * @see			conbo.setDefaults
 	 */
 	function defineDefaults(target:any, ...sources:any[]):any;
@@ -2764,25 +2769,25 @@ declare namespace conbo
 	 * Fill in missing values on an object by setting the property values on 
 	 * the target object, without affecting the target's property descriptors
 	 * 
-	 * @param		{Object}	target - Object to populate
+	 * @param		{any}	target - Object to populate
 	 * @param		{...Object}	sources - Objects containging default values
-	 * @returns		{Object}
+	 * @returns		{any}
 	 */
 	function setDefaults(target:any, ...sources:any[]):any; 
 	
 	/**
 	 * Create a (shallow-cloned) duplicate of an object.
 	 * 
-	 * @param		{Object}	obj - Object to clone
-	 * @returns		{Object}
+	 * @param		{any}	obj - Object to clone
+	 * @returns		{any}
 	 */
 	function clone(obj:any):any; 
 
 	/**
 	 * Perform a deep comparison to check if two objects are equal.
 	 * 
-	 * @param		{Object}	a - Object to compare
-	 * @param		{Object}	b - Object to compare
+	 * @param		{any}	a - Object to compare
+	 * @param		{any}	b - Object to compare
 	 * @returns		{boolean}
 	 */
 	function isEqual(a:any, b:any):boolean; 
@@ -2807,7 +2812,7 @@ declare namespace conbo
 	/**
 	 * Is a given value a DOM element?
 	 * 
-	 * @param		{Object}	obj - Value that might be a DOM element
+	 * @param		{any}	obj - Value that might be a DOM element
 	 * @returns		{boolean}
 	 */
 	function isElement(obj:any):boolean;
@@ -2817,7 +2822,7 @@ declare namespace conbo
 	 * Delegates to ECMA5's native Array.isArray
 	 * 
 	 * @deprecated	Use Array.isArray
-	 * @param		{Object}	obj - Value that might be an Array
+	 * @param		{any}	obj - Value that might be an Array
 	 * @returns		{boolean}
 	 */
 	function isArray(obj:any):boolean;
@@ -2825,7 +2830,7 @@ declare namespace conbo
 	/**
 	 * Is a given variable an object?
 	 * 
-	 * @param		{Object}	obj - Value that might be an Object
+	 * @param		{any}	obj - Value that might be an Object
 	 * @returns		{boolean}
 	 */
 	function isObject(obj:any):boolean;
@@ -2833,7 +2838,7 @@ declare namespace conbo
 	/**
 	 * Is the specified object Arguments?
 	 * 
-	 * @param		{Object}	obj - The object to test
+	 * @param		{any}	obj - The object to test
 	 * @returns		{boolean}
 	 */
 	function isArguments(obj:any):boolean;
@@ -2841,7 +2846,7 @@ declare namespace conbo
 	/**
 	 * Is the specified object a Function?
 	 * 
-	 * @param		{Object}	obj - The object to test
+	 * @param		{any}	obj - The object to test
 	 * @returns		{boolean}
 	 */
 	function isFunction(obj:any):boolean;
@@ -2849,7 +2854,7 @@ declare namespace conbo
 	/**
 	 * Is the specified object a String?
 	 * 
-	 * @param		{Object}	obj - The object to test
+	 * @param		{any}	obj - The object to test
 	 * @returns		{boolean}
 	 */
 	function isString(obj:any):boolean;
@@ -2857,7 +2862,7 @@ declare namespace conbo
 	/**
 	 * Is the specified object a Number?
 	 * 
-	 * @param		{Object}	obj - The object to test
+	 * @param		{any}	obj - The object to test
 	 * @returns		{boolean}
 	 */
 	function isNumber(obj:any):boolean;
@@ -2865,7 +2870,7 @@ declare namespace conbo
 	/**
 	 * Is the specified object a Date?
 	 * 
-	 * @param		{Object}	obj - The object to test
+	 * @param		{any}	obj - The object to test
 	 * @returns		{boolean}
 	 */
 	function isDate(obj:any):boolean;
@@ -2873,7 +2878,7 @@ declare namespace conbo
 	/**
 	 * Is the specified object a RegExp (regular expression)?
 	 * 
-	 * @param		{Object}	obj - The object to test
+	 * @param		{any}	obj - The object to test
 	 * @returns		{boolean}
 	 */
 	function isRegExp(obj:any):boolean;
@@ -2883,7 +2888,7 @@ declare namespace conbo
 	 * accessors containing functions are excluded
 	 * 
 	 * @see			#isFunction
-	 * @param		{Object}	obj - Object containing the property
+	 * @param		{any}	obj - Object containing the property
 	 * @param		{string}	propName - The name of the property
 	 * @returns		{boolean}	true if it's a function
 	 */
@@ -2892,7 +2897,7 @@ declare namespace conbo
 	/**
 	 * Is a given object a finite number?
 	 * 
-	 * @param		{Object}	obj - Value that might be finite
+	 * @param		{any}	obj - Value that might be finite
 	 * @returns		{boolean}
 	 */
 	function isFinite(obj:any):boolean;
@@ -2900,7 +2905,7 @@ declare namespace conbo
 	/**
 	 * Is the given value `NaN`? (NaN is the only number which does not equal itself).
 	 * 
-	 * @param		{Object}	obj - Value that might be NaN
+	 * @param		{any}	obj - Value that might be NaN
 	 * @returns		{boolean}
 	 */
 	function isNaN(obj:any):boolean;
@@ -2908,7 +2913,7 @@ declare namespace conbo
 	/**
 	 * Is a given value a boolean?
 	 * 
-	 * @param		{Object}	obj - Value that might be a Boolean
+	 * @param		{any}	obj - Value that might be a Boolean
 	 * @returns		{boolean}
 	 */
 	function isBoolean(obj:any):boolean;
@@ -2916,7 +2921,7 @@ declare namespace conbo
 	/**
 	 * Is a given value equal to null?
 	 * 
-	 * @param		{Object}	obj - Value that might be null
+	 * @param		{any}	obj - Value that might be null
 	 * @returns		{boolean}
 	 */
 	function isNull(obj:any):boolean;
@@ -2924,7 +2929,7 @@ declare namespace conbo
 	/**
 	 * Is a given variable undefined?
 	 * 
-	 * @param		{Object}	obj - Value that might be undefined
+	 * @param		{any}	obj - Value that might be undefined
 	 * @returns		{boolean}
 	 */
 	function isUndefined(obj:any):boolean;
@@ -2942,7 +2947,7 @@ declare namespace conbo
 	 * on itself (in other words, not on a prototype).
 	 * 
 	 * @deprecated	Use Object.prototype.hasOwnProperty
-	 * @param		{Object}	obj - Object
+	 * @param		{any}	obj - Object
 	 * @param		{string}	key - Property name
 	 * @returns		{boolean}
 	 */
@@ -2967,7 +2972,7 @@ declare namespace conbo
 	/**
 	 * Returns a predicate for checking whether an object has a given set of `key:value` pairs.
 	 * 
-	 * @param		{Object}	attrs - Object containing key:value pairs to compare
+	 * @param		{any}	attrs - Object containing key:value pairs to compare
 	 * @returns		{Function}
 	 */
 	function matches(attrs:any):Function
@@ -3117,9 +3122,9 @@ declare namespace conbo
 	 * Unlike conbo.defineValues, assign only sets the values on the target 
 	 * object and does not destroy and redifine them.
 	 * 
-	 * @param		{Object}	target - Object to copy properties to
+	 * @param		{any}	target - Object to copy properties to
 	 * @param		{...Object}	source - Object to copy properties from
-	 * @returns		{Object}
+	 * @returns		{any}
 	 * 
 	 * @example	
 	 * conbo.assign({id:1}, {get name() { return 'Arthur'; }}, {get age() { return 42; }});
@@ -3136,9 +3141,9 @@ declare namespace conbo
 	 * Unlike conbo.defineValues, setValues only sets the values on the target 
 	 * object and does not destroy and redifine them.
 	 * 
-	 * @param		{Object}	target - Object to copy properties to
+	 * @param		{any}	target - Object to copy properties to
 	 * @param		{...Object}	source - Object to copy properties from
-	 * @returns		{Object}
+	 * @returns		{any}
 	 * @deprecated	Use conbo.assign
 	 * 
 	 * @example	
@@ -3160,9 +3165,9 @@ declare namespace conbo
 	 * Copies a property, including defined properties and accessors, 
 	 * from one object to another
 	 * 
-	 * @param		{Object}	source - Source object
+	 * @param		{any}	source - Source object
 	 * @param		{string}	sourceName - Name of the property on the source
-	 * @param		{Object}	target - Target object
+	 * @param		{any}	target - Target object
 	 * @param		{string} 	[targetName] - Name of the property on the target (default: sourceName)
 	 * @returns		{conbo}
 	 */
@@ -3180,7 +3185,7 @@ declare namespace conbo
 	 * 
 	 * @param		{any[]}		array - The Array to sort
 	 * @param		{string}	fieldName - The field/property name to sort on
-	 * @param		{Object}	[options] - Optional sort criteria: `descending` (Boolean), `caseInsensitive` (Boolean)
+	 * @param		{any}	[options] - Optional sort criteria: `descending` (Boolean), `caseInsensitive` (Boolean)
 	 * @returns		{any[]}
 	 */
 	function sortOn(array:any[], fieldName:string, options?:any):any[];
@@ -3192,7 +3197,7 @@ declare namespace conbo
 	 * Unlike the native instanceof, however, this method works with both 
 	 * native and user defined classes.
 	 * 
-	 * @param		{Object}				obj - The class instance
+	 * @param		{any}				obj - The class instance
 	 * @param		{conbo.Class|function}	clazz - The class to compare against
 	 * @example								var b = conbo.instanceOf(69, String);
 	 * @example								var b = conbo.instanceOf(user, UserClass);
@@ -3205,7 +3210,7 @@ declare namespace conbo
 	 * true if the object is an an instance of the specified class or an 
 	 * implementation of the specified interface
 	 * 
-	 * @param		{Object}				obj - The object to compare
+	 * @param		{any}				obj - The object to compare
 	 * @param		{conbo.Class|object}	classOrInterface - The class or pseudo-interface to compare against
 	 * @param		{boolean}				strict - Perform a strict interface comparison (default: true)
 	 * @example								var b = conbo.is(user, UserClass);
@@ -3229,7 +3234,7 @@ declare namespace conbo
 	 * Load a JavaScript file and executes it
 	 * 
 	 * @param 		{string}	url - The JavaScript file's URL
-	 * @param 		{Object}	[scope] - The scope in which to run the loaded script
+	 * @param 		{any}	[scope] - The scope in which to run the loaded script
 	 * @returns		{Promise}
 	 */
 	function loadScript(url:string, scope?:any):Promise<any>;
@@ -3241,7 +3246,7 @@ declare namespace conbo
 	 * 
 	 * @see 		#makeAllBindable
 	 * 
-	 * @param		{Object}		obj
+	 * @param		{any}		obj
 	 * @param		{string[]}		[propNames]
 	 * @returns		{conbo}
 	 */
@@ -3263,7 +3268,7 @@ declare namespace conbo
 	 * Is the specified property an accessor (defined using a getter and/or setter)?
 	 * 
 	 * 
-	 * @param		{Object}	Object containing the property
+	 * @param		{any}	Object containing the property
 	 * @param		{string}	The name of the property
 	 * @returns		{boolean}
 	 */
@@ -3281,7 +3286,7 @@ declare namespace conbo
 	 * Parse a template
 	 * 
 	 * @param		{string}	template - A string containing property names in {{moustache}} or ${ES2015} format to be replaced with property values
-	 * @param		{Object}	[data] - An object containing the data to be used to populate the template 
+	 * @param		{any}	[data] - An object containing the data to be used to populate the template 
 	 * @returns		{string}	The populated template
 	 */
 	function parseTemplate(template:string, data?:any):string;
@@ -3291,7 +3296,7 @@ declare namespace conbo
 	 * be evaluated for rendering.
 	 * 
 	 * @param		{string}	template - A string containing property names in {{moustache}} or ${ES2015} format to be replaced with property values
-	 * @param		{Object}	[defaults] - An object containing default values to use when populating the template
+	 * @param		{any}	[defaults] - An object containing default values to use when populating the template
 	 * @returns		{Function}	A function that can be called with a data object, returning the populated template
 	 */
 	function compileTemplate(template:string, defaults?:any):Function;
@@ -3300,7 +3305,7 @@ declare namespace conbo
 	 * Serialise an Object as a query string  suitable for appending to a URL 
 	 * as GET parameters, e.g. foo=1&bar=2
 	 * 
-	 * @param		{Object}	obj	- The Object to encode
+	 * @param		{any}	obj	- The Object to encode
 	 * @returns		{string}	The URL encoded string 
 	 */
 	function toQueryString(obj:any):string;
@@ -3311,7 +3316,7 @@ declare namespace conbo
 	 * response headers, where the case of properties such as "Content-Type" 
 	 * cannot always be predicted
 	 * 
-	 * @param		{Object}	obj - The object containing the property
+	 * @param		{any}	obj - The object containing the property
 	 * @param		{string}	propName - The property name
 	 * @param		{boolean}	[caseSensitive=true] - Whether to search for a case-insensitive match (default: true)
 	 * @returns		{any}		The value of the specified property
