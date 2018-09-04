@@ -59,6 +59,15 @@ conbo('com.example.app', window, document, navigator, function(window, document,
 If you're using ES2015, TypeScript, AMD or CommonJS modules, it's easy to import all of your Application and View classes into your namespace to take advantage of ConboJS features like auto instantiation and data binding:
 
 ```javascript
+// ES2015 & TypeScript Decorator
+
+import {Application, Viewable} from 'conbo';
+
+@Viewable('com.example.app')
+export class FooApp extends Application { ... }
+```
+
+```javascript
 // ES2015 & TypeScript
 
 import * as conbo from 'conbo';
@@ -66,15 +75,6 @@ import FooApp from './FooApp';
 import BarView from './BarView';
 
 conbo('com.example.app').import({ FooApp, BarView });
-```
-
-```javascript
-// ES2015 & TypeScript Decorator
-
-import {Application, Viewable} from 'conbo';
-
-@Viewable('com.example.app')
-export class FooApp extends Application { ... }
 ```
 
 ```javascript
@@ -159,7 +159,11 @@ Decoupling & data binding
 
 One of ConboJS's core aims is to enable developers to create highly decoupled, testable code.
 
-To this end, the framework's ever expanding data binding features enable you to separate your HTML from your JavaScript, removing the need for direct references between the them using `cb-*` and custom, developer defined, attributes to automatically bind properties and events in the DOM to your View classes, for example:
+To this end, the framework's ever expanding data binding features enable you to separate your HTML from your JavaScript, removing the need for direct references between the them using `cb-*` and custom, developer defined, attributes to automatically bind properties and events in the DOM to your View classes.
+
+In addition, any existing HTML attribute can be bound to a property or function simply by prefixing it with `cb-`, for example `cb-title="myTitle"` or `cb-onclick="myClickHandler"`.
+
+For example:
 
 **In your View class**
 
@@ -180,17 +184,19 @@ class MyView extends conbo.View
 
 **In your HTML**
 
+Almost all bindings can be made using `cb-*` attributes:
+
 ```html
 <div cb-view="MyView">
 	<button cb-onclick="myClickHandler" cb-html="myButtonLabel"></button>
 </div>
 ```
 
-Or, if you prefer to use custom tag names, simply use a hyphenated, lower case version of your `Application`, `View` or `Glimpse` class name:
+But if you prefer to use custom tag names and/or curly brackets, simply use a hyphenated, lower case version of your `Application`, `View` or `Glimpse` class name as the tag and put your text inside `{{` and `}}`:
 
 ```html
 <my-view>
-	<button cb-onclick="myClickHandler" cb-html="myButtonLabel"></button>
+	<button cb-onclick="myClickHandler">{{myButtonLabel}}</button>
 </my-view>
 ```
 
@@ -241,7 +247,7 @@ The naming conventions used by ConboJS should be familiar to anyone who uses Jav
 * `CONSTANT_VALUES` are all upper case, with words separated using an underscore
 * `@Decorators` are camel case with an initial capital letter, following the naming convention used for similar metadata and annotations in other languages
 
-Wherever possible, file names should match their contents, for example `ClassName.js`, `methodName,js` or `IInterfaceName.ts`.
+Wherever possible, file names should match their contents, for example `ClassName.js`, `methodName.js` or `IInterfaceName.ts`.
 
 Builds
 ------

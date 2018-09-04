@@ -777,10 +777,15 @@
 					nodes.forEach(function(el)
 					{
 						var ep = __ep(el);
-						var closestView = ep.closest('.cb-view');
-						var context = closestView ? closestView.cbView.subcontext : rootView.subcontext;
-						
-						new classReference({el:el, context:context});
+
+						// Ignore anything that's inside a cb-repeat
+						if (!ep.closest('[cb-repeat]'))
+						{
+							var closestView = ep.closest('.cb-view');
+							var context = closestView ? closestView.cbView.subcontext : rootView.subcontext;
+							
+							new classReference({el:el, context:context});
+						}
 					});
 				}
 			}
