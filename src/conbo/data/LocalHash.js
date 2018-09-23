@@ -25,7 +25,7 @@ conbo.LocalHash = conbo.Hash.extend(
 		
 		if (name == defaultName)
 		{
-			conbo.warn('No name specified for '+this.toString+', using "'+defaultName+'"');
+			conbo.warn('No name specified for '+this.toString()+', using "'+defaultName+'"');
 		}
 		
 		var getLocal = function()

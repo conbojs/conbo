@@ -2386,6 +2386,13 @@ declare namespace conbo
 	function shuffle(obj:any):any[];
 
 	/**
+	 * Returns the sum of all of the values in an array
+	 * @param 		{ant} 		obj - The list to add together
+	 * @returns		{number}
+	 */
+	function sum(obj):number;
+
+	/**
 	 * Convert anything iterable into an Array
 	 * 
 	 * 
@@ -2541,10 +2548,11 @@ declare namespace conbo
 	 * all of the objects methods that are not native or accessors are bound to it.
 	 * 
 	 * 
-	 * @param		{any}	obj - Object to bind methods to
+	 * @param		{any}		obj - Object to bind methods to
+	 * @param		{...string}	[methodNames] - Names of methods to bind
 	 * @returns		{any}
 	 */
-	function bindAll(obj:any):any;
+	function bindAll(obj:any, ...methodNames?:string):any;
 
 	/**
 	 * Partially apply a function by creating a version that has had some of its
@@ -3059,7 +3067,7 @@ declare namespace conbo
 	 * @returns		{string}
 	 */
 	function padLeft(value:number|string, minLength?:number, padChar?:number|string):string;
-	
+
 	/**
 	 * Add a leading zero to the specified number and return it as a string
 	 * 

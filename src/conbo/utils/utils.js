@@ -372,6 +372,17 @@
 	};
 
 	/**
+	 * Returns the sum of all of the values in an array
+	 * @memberof	conbo
+	 * @param 		{*} 		obj 
+	 * @returns		{Number}
+	 */
+	conbo.sum = function(obj)
+	{
+		return conbo.reduce(function(a,c) { return a+c; });
+	}
+
+	/**
 	 * An internal function to generate lookup iterators.
 	 * @private
 	 */
@@ -1799,7 +1810,7 @@
 		
 		return value;
 	};
-	
+
 	/**
 	 * Add a leading zero to the specified number and return it as a string
 	 * @memberof 	conbo
@@ -2291,7 +2302,7 @@
 			try
 			{
 				var propName = (arguments[1] || arguments[2]).trim();
-				var args = propName.split("|");
+				var args = propName.split('|');
 				var value, parseFunction;
 				
 				value = data[(args[0] || '').trim()];
