@@ -3336,14 +3336,13 @@ declare namespace conbo
 	 * 
 	 * If no toJSON method is present on the specified Object, this method 
 	 * returns a version of the object that can easily be converted into JSON, 
-	 * made up of its own properties with all functions, unenumerable and 
+	 * made up of its public properties, with all functions, unenumerable and 
 	 * private properties removed.
 	 * 
 	 * This method can be assigned to an Object or Array as the toJSON method 
 	 * for use with JSON.stringify().
 	 * 
 	 * @param		{any}			obj - Object to convert
-	 * @param		{boolean}		[deep=false] - Retrieve keys from further up the prototype chain?
 	 * @returns		{any}			JSON ready version of the object
 	 * 
 	 * @example
@@ -3351,7 +3350,7 @@ declare namespace conbo
 	 * conbo.jsonify.call(myObj); // Ignores myObj.toJSON(), even if it exists
 	 * myObj.toJSON = conbo.jsonify; // Assign this method to your Object
 	 */
-	function jsonify(obj:any, deep?:boolean):any;
+	function jsonify(obj:any):any;
 	
 	/**
 	 * Should Conbo output data to the console when calls are made to loggin methods?

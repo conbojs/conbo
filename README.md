@@ -2,13 +2,15 @@
 
 ConboJS is the best JavaScript MVx framework you've never heard of.
 
-It is a lightweight MVC application framework for JavaScript for use with modern browsers which enables developers a take a structured, decoupled, class based approach to application development, in a way that should be familiar to anyone with experience of languages like ActionScript/Flex, C#/XAML or Java.
+It is a lightweight MVx application framework for JavaScript for use with modern browsers which enables developers a take a structured, decoupled, class based approach to application development, in a way that should be familiar to anyone with experience of languages like ActionScript/Flex, C#/XAML or Java.
 
 Features include extendible classes, event bus, dependency injection, data binding, command pattern, pseudo-interfaces and an easy to use event model with scoped event handling, plus simple view state management and support for ES2015 syntax.
 
 ConboJS requires no special IDEs, compilers or transpilers, it just makes regular JavaScript nicer. Extensive TypeScript definitions are also included to enable code completion from the moment it's installed.
 
-Development of ConboJS is primarily focussed on single page applications (SPA) and self-contained modules, like widgets and media players, but can also offer a great base for server-side Node.js applications. It can be added to your project as a global, an AMD or CommonJS module, or using ES2015/TypeScript `import` syntax.
+While ConboJS provides everything you need to create single page applications (SPA) and self-contained modules, like widgets and media players, it can also offer a great base for server-side Node.js applications or a fantastic way to add models, controller and services to third party view frameworks.
+
+ConboJS can be added to your project as a global, an AMD or CommonJS module, or using ES2015/TypeScript `import` syntax.
 
 Browser support
 ---------------

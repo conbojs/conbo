@@ -2386,7 +2386,7 @@
 	 * 
 	 * If no toJSON method is present on the specified Object, this method 
 	 * returns a version of the object that can easily be converted into JSON, 
-	 * made up of its own properties with all functions, unenumerable and 
+	 * made up of its public properties, with all functions, unenumerable and 
 	 * private properties removed.
 	 * 
 	 * This method can be assigned to an Object or Array as the toJSON method 
@@ -2394,7 +2394,6 @@
 	 * 
 	 * @memberof	conbo
 	 * @param		{*}			obj - Object to convert
-	 * @param		{boolean}	[deep=false] - Retrieve keys from further up the prototype chain?
 	 * @returns		{*}			JSON ready version of the object
 	 * 
 	 * @example
@@ -2402,13 +2401,9 @@
 	 * conbo.jsonify.call(myObj); // Ignores myObj.toJSON(), even if it exists
 	 * myObj.toJSON = conbo.jsonify; // Assign this method to your Object
 	 */
-	conbo.jsonify = function(obj, deep)
+	conbo.jsonify = function(obj)
 	{
-		if (this != conbo)
-		{
-			deep = obj;
-			obj = this;
-		}
+		if (this != conbo) obj = this;
 		
 		if (conbo.isObject(obj))
 		{
@@ -2422,11 +2417,11 @@
 				{
 					return conbo.map(obj, function(item)
 					{
-						return conbo.jsonify(item, deep);
+						return conbo.jsonify(item);
 					});
 				}
 				
-				var keys = conbo.filter(conbo.variables(obj, deep), function(key)
+				var keys = conbo.filter(conbo.variables(obj, true), function(key)
 				{
 					return /^[a-z]*$/i.test(key);
 				});
