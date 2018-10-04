@@ -205,7 +205,7 @@
 						
 						default:
 						{
-							el.value = source[propertyName];
+							el.value = conbo.toValueString(source[propertyName]);
 							
 							if (isEventDispatcher)
 							{
@@ -216,7 +216,7 @@
 									if (event.value == null) event.value = '';
 									if (el.value == event.value) return;
 									
-									el.value = event.value;
+									el.value = conbo.toValueString(event.value);
 								};
 								
 								source.addEventListener(eventType, eventHandler);

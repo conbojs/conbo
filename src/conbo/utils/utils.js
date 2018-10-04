@@ -1783,6 +1783,17 @@
 	{
 		return conbo.toUnderscoreCase(string, '-');
 	};
+
+	/**
+	 * Converts a value into a string that can be used as the value of an HTML element
+	 * @memberof	conbo
+	 * @param		{*}			value - The value to convert to a string
+	 * @returns		{string}
+	 */
+	conbo.toValueString = function(value)
+	{
+		return value == null ? '' : String(value);
+	};
 	
 	/**
 	 * Pads a string with the specified character to the specified length

@@ -3057,6 +3057,13 @@ declare namespace conbo
 	 * @returns		{string}
 	 */
 	function toKebabCase(string:string):string;
+
+	/**
+	 * Converts a value into a string that can be used as the value of an HTML element
+	 * @param		{any}		value - The value to convert to a string
+	 * @returns		{string}
+	 */
+	function toValueString(value:any):string
 	
 	/**
 	 * Pads a string with the specified character to the specified length
