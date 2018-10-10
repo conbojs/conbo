@@ -262,7 +262,7 @@ declare namespace conbo
 	 * Event with data property to enable arbitrary data to be passed when an event is dispatched
 	 * @author		Neil Rackett
 	 */
-	class DataEvent extends Event {};
+	class DataEvent extends Event {}
 
 	/**
 	 * Default event class for events fired by ConboJS
@@ -2552,7 +2552,7 @@ declare namespace conbo
 	 * @param		{...string}	[methodNames] - Names of methods to bind
 	 * @returns		{any}
 	 */
-	function bindAll(obj:any, ...methodNames?:string):any;
+	function bindAll(obj:any, ...methodNames:string[]):any;
 
 	/**
 	 * Partially apply a function by creating a version that has had some of its
