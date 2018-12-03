@@ -379,7 +379,7 @@
 	 */
 	conbo.sum = function(obj)
 	{
-		return conbo.reduce(function(a,c) { return a+c; });
+		return obj.reduce(function(a,c) { return a+c; });
 	}
 
 	/**
