@@ -12,8 +12,7 @@
 	// Save bytes in the minified (but not gzipped) version:
 	var
 		ArrayProto = Array.prototype, 
-		ObjProto = Object.prototype, 
-		FuncProto = Function.prototype
+		ObjProto = Object.prototype
 		;
 
 	// Create quick reference variables for speed access to core prototypes.
