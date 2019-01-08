@@ -190,8 +190,8 @@ conbo.List = conbo.EventDispatcher.extend(
 		var replaced = this.source[index];
 		this.__updateBindings(replaced, false);
 		
-		this.source[index] = model;
-		this.__updateBindings(model);
+		this.source[index] = item;
+		this.__updateBindings(item);
 		
 		if (this.length > length)
 		{

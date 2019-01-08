@@ -378,7 +378,7 @@
 	 */
 	conbo.sum = function(obj)
 	{
-		return obj.reduce(function(a,c) { return a+c; });
+		return ArrayProto.reduce.call(obj || [], function(a,c) { return a+c; }, 0);
 	}
 
 	/**
