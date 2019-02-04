@@ -8,14 +8,14 @@ Features include extendible classes, event bus, dependency injection, data bindi
 
 ConboJS requires no special IDEs, compilers or transpilers, it just makes regular JavaScript nicer.
 
-While ConboJS provides everything you need to start building your next single page applications (SPA), widget or media player, it's also a great base for server-side Node.js applications and, at under 20KB minified and gzipped, a fantastic way to add models, controller and services to projects using third party view frameworks like [Phaser](https://github.com/mesmotronic/conbo-example-phaser), [D3](https://www.d3js.org/) or [three.js](https://www.threejs.org).
+While ConboJS provides everything you need to start building your next single page application (SPA), widget or media player, it's also a great base for server-side Node.js applications and, at under 20KB minified and gzipped, a fantastic way to add models, controller and services to projects using third party view frameworks like [Phaser](https://github.com/mesmotronic/conbo-example-phaser), [D3](https://www.d3js.org/), [three.js](https://www.threejs.org) or [React](https://github.com/mesmotronic/conbo-example-react).
 
 ConboJS can be added to your project as a global, an AMD or CommonJS module, or using ES2015/TypeScript `import` syntax.
 
 Browser support
 ---------------
 
-ConboJS targets the two most recent major releases of Firefox, Chrome (desktop and Android), Safari (desktop and iOS) and Edge, plus Internet Explorer 11 (for now).
+ConboJS primarily targets the two most recent major releases of Firefox, Chrome (desktop and Android), Safari (desktop and iOS) and Edge, but also supports Internet Explorer 11 (for now).
 
 Modular namespace declarations
 ------------------------------
@@ -35,24 +35,22 @@ conbo('com.example.utils', console, function(console)
 });
 
 // Constants.js
-conbo('com.example.app', function()
+conbo('com.example.constants', function()
 {
-	var app = this;
+	var constants = this;
 
-	app.BEST_FRAMEWORK = 'ConboJS';
-	app.SMILE = ':-)';
+	constants.BEST_FRAMEWORK = 'ConboJS';
+	constants.SMILE = ':-)';
 });
 
 // Main.js
 conbo('com.example.app', window, document, navigator, function(window, document, navigator, undefined)
 {
 	// Import data from other namespaces
-	var app = this;
+	var constants = conbo('com.example.constants');
 	var utils = conbo('com.example.utils');
 	
-	// Your app code goes here
-
-	utils.doSomething(app.BEST_FRAMEWORK+' makes me '+app.SMILE);
+	utils.doSomething(constants.BEST_FRAMEWORK+' makes me '+constants.SMILE);
 });
 ```
 
