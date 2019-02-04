@@ -2,13 +2,13 @@
 
 ConboJS is the best JavaScript MVx framework you've never heard of.
 
-It is a lightweight MVx application framework for JavaScript for use with modern browsers which enables developers a take a structured, decoupled, class based approach to application development, in a way that should be familiar to anyone with experience of languages like ActionScript/Flex, C#/XAML or Java.
+It is a lightweight MVx application framework that enables developers a take a structured, decoupled, class based approach to application development, in a way that should be familiar to anyone with experience of languages like ActionScript/Flex, C#/XAML or Java.
 
-Features include extendible classes, event bus, dependency injection, data binding, command pattern, pseudo-interfaces and an easy to use event model with scoped event handling, plus simple view state management and support for ES2015 syntax.
+Features include extendible classes, event bus, dependency injection, data binding, command pattern, pseudo-interfaces and an easy to use event model, plus simple view state management and support for ES2015/TypeScript features like classes and decorators.
 
-ConboJS requires no special IDEs, compilers or transpilers, it just makes regular JavaScript nicer. Extensive TypeScript definitions are also included to enable code completion from the moment it's installed.
+ConboJS requires no special IDEs, compilers or transpilers, it just makes regular JavaScript nicer.
 
-While ConboJS provides everything you need to create single page applications (SPA) and self-contained modules, like widgets and media players, it can also offer a great base for server-side Node.js applications or a fantastic way to add models, controller and services to third party view frameworks.
+While ConboJS provides everything you need to start building your next single page applications (SPA), widget or media player, it's also a great base for server-side Node.js applications and, at under 20KB minified and gzipped, a fantastic way to add models, controller and services to projects using third party view frameworks like [Phaser](https://github.com/mesmotronic/conbo-example-phaser), [D3](https://www.d3js.org/) or [three.js](https://www.threejs.org).
 
 ConboJS can be added to your project as a global, an AMD or CommonJS module, or using ES2015/TypeScript `import` syntax.
 
@@ -194,7 +194,7 @@ Almost all bindings can be made using `cb-*` attributes:
 </div>
 ```
 
-But if you prefer to use custom tag names and/or curly brackets, simply use a hyphenated, lower case version of your `Application`, `View` or `Glimpse` class name as the tag and put your text inside `{{` and `}}`:
+Or if you prefer to use custom tag names and/or curly brackets, simply use a hyphenated, lower case version of your `Application`, `View` or `Glimpse` class name as the tag and put your text inside `{{` and `}}`:
 
 ```html
 <my-view>
@@ -254,7 +254,7 @@ Wherever possible, file names should match their contents, for example `ClassNam
 Builds
 ------
 
-**conbo.js** (17KB minified+gzipped): Includes everything you need to build dynamic web application, including HttpService, RemoteHash and RemoteList classes for working with web services, and History and Router classes for browser integration.
+**conbo.js** (<20KB minified+gzipped): Includes everything you need to start building your next JavaScript application, including HttpService, RemoteHash and RemoteList classes for working with web services, and History and Router classes for browser integration.
 
 Builds are created using Grunt, which requires Node.js; all required modules can be installed by running `npm install` from the command line in the project folder.
 
