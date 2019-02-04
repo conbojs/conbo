@@ -128,7 +128,7 @@ class MyClass extends conbo.Class
 Interfaces
 ----------
 
-In ConboJS, an interface is a code snippet, in the form of a JavaScript Object, that you can implement and and test against. They come in 2 forms, strict and partial.
+In ConboJS, an interface is a code snippet, in the form of a JavaScript Object, that you can implement and test against. They come in 2 forms, strict and partial.
 
 A strict interface is intened for use in a similar way to languages such as Java or ActionScript, enabling you to specify the class of each property (or use `undefined` for any) and then perform a strict comparison against an object or class instance:
 
@@ -184,15 +184,13 @@ class MyView extends conbo.View
 
 **In your HTML**
 
-Almost all bindings can be made using `cb-*` attributes:
-
 ```html
 <div cb-view="MyView">
-	<button cb-onclick="myClickHandler" cb-html="myButtonLabel"></button>
+	<button cb-onclick="myClickHandler" cb-text="myButtonLabel"></button>
 </div>
 ```
 
-Or if you prefer to use custom tag names and/or curly brackets, simply use a hyphenated, lower case version of your `Application`, `View` or `Glimpse` class name as the tag and put your text inside `{{` and `}}`:
+If you prefer, this could also be written using a custom tag (your `Application`, `View` or `Glimpse` class name in kebab-case) and curly brackets:
 
 ```html
 <my-view>
