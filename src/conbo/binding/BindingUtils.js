@@ -343,7 +343,7 @@
 				return bindings;
 			}
 			
-			if (attributeName == "cb-bind")
+			if (attributeName == 'cb-bind')
 			{
 				bindings = this.bindElement(source, propertyName, element, parseFunction);
 				
