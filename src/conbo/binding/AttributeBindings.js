@@ -158,22 +158,23 @@ conbo.AttributeBindings = conbo.Class.extend(
 	},
 	
 	/**
-	 * Applies or removes a CSS class to or from the element based on the value
-	 * of the bound property, e.g. cb-class="myProperty:class-name"
+	 * Applies or removes a CSS class on an element based on the value
+	 * of the bound property, where cb-class="myProperty:class-name" will apply
+	 * the class "class-name" when "myProperty" is a truthy value, or 
+	 * cb-class="myProperty" will apply the class "myProperty" when "myProperty"
+	 * is a truthy value
 	 * 
 	 * @param 		{HTMLElement}	el - DOM element to which the attribute applies
 	 * @param 		{*} 			value - The value referenced by the attribute
 	 * @returns		{void}
 	 * 
 	 * @example
+	 * <div cb-class="propertyName"></div>
 	 * <div cb-class="propertyName:my-class-name"></div>
 	 */
 	cbClass: function(el, value, options, className)
 	{
-		if (!className)
-		{
-			conbo.warn('cb-class attributes must specify one or more CSS classes in the format cb-class="myProperty:class-name"');
-		}
+		className || (className = options.propertyName);
 		
 		!conbo.isEmpty(value)
 			? __ep(el).addClass(className)
@@ -245,8 +246,8 @@ conbo.AttributeBindings = conbo.Class.extend(
 	 * @returns		{void}
 	 * 
 	 * @example
-	 * <li cb-repeat="people" cb-hml="data.firstName"></li>
-	 * <li cb-repeat="people:PersonItemRenderer" cb-hml="data.firstName"></li>
+	 * <li cb-repeat="people" cb-html="data.firstName"></li>
+	 * <li cb-repeat="people:PersonItemRenderer">{{data.firstName}}</li>
 	 * <person-item-renderer cb-repeat="people"></person-item-renderer>
 	 */
 	cbRepeat: function(el, values, options, itemRendererClassName)
@@ -285,15 +286,20 @@ conbo.AttributeBindings = conbo.Class.extend(
 		{
 			if (el.cbRepeat.list)
 			{
-				el.cbRepeat.list.removeEventListener('change', el.cbRepeat.changeHandler);
+				el.cbRepeat.list.removeEventListener('change', el.cbRepeat.changeHandler, this);
 			}
 			
-			el.cbRepeat.changeHandler = (function(event)
+			// TODO Optimise this
+			el.cbRepeat.changeHandler = function(event)
 			{
-				this.cbRepeat.apply(this, args);
-			}).bind(this);
+				event.property === 'length'
+					? options.view.dispatchChange(options.propertyName)
+					: this.cbRepeat.apply(this, args)
+					;
+			};
 			
-			values.addEventListener('change', el.cbRepeat.changeHandler);
+			values.addEventListener('change', el.cbRepeat.changeHandler, this, true);
+
 			el.cbRepeat.list = values;
 		}
 		
