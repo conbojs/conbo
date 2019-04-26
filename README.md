@@ -264,3 +264,10 @@ ConboJS is released under MIT license.
 **GitHub** https://github.com/mesmotronic/conbo
 
 **Docs** https://conbo.mesmotronic.com/
+
+Make a donation
+---------------
+
+If you find this project useful, why not buy us a coffee (or as many as you think it's worth)?
+
+[![Make a donation](https://www.paypalobjects.com/en_US/GB/i/btn/btn_donateCC_LG.gif)](http://bit.ly/2GHiK2T)
