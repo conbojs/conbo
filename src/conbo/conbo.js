@@ -56,7 +56,6 @@ var conbo = function(namespace)
 	if (!namespace || !conbo.isString(namespace))
 	{
 		namespace = 'default';
-		return;
 	}
 
 	if (!__namespaces[namespace])
@@ -69,6 +68,11 @@ var conbo = function(namespace)
 		func = params.pop()
 		;
 	
+	if (arguments.length == 1 && conbo.isFunction(arguments[0]))
+	{
+		func = arguments[0];
+	}
+
 	if (conbo.isFunction(func))
 	{
 		var obj = func.apply(ns, params);

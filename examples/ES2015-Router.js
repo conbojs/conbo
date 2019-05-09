@@ -6,9 +6,9 @@
  */
 
 /**
- * Namespaces enable ConboJS binding
+ * Namespaces enable ConboJS binding, this example uses the default namespace, but you can speficy your own using conbo('my.namespace.here')
  */
-let ns = conbo('example');
+let ns = conbo();
 
 class MyRouter extends conbo.Router
 {
@@ -91,5 +91,5 @@ class RouterExample extends conbo.Application
 	}
 }
 	
-// Import specified classes to your namespace
+// Import view classes to your namespace to enable auto instantiation
 ns.import({ RouterExample, BoldView, ItalicView });

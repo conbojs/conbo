@@ -3,7 +3,7 @@
  * @author	Neil Rackett
  */
 
-let ns = conbo('example');
+let ns = conbo();
 
 /**
  * Switch conbo.Hash (available in Core build) for conbo.RemoveHash (requires 
