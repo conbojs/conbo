@@ -55,7 +55,7 @@ var conbo = function(namespace)
 {
 	if (!namespace || !conbo.isString(namespace))
 	{
-		conbo.warn('First parameter must be the namespace string, received', namespace);
+		namespace = 'default';
 		return;
 	}
 

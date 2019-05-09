@@ -17,89 +17,22 @@ Browser support
 
 ConboJS primarily targets the two most recent major releases of Firefox, Chrome (desktop and Android), Safari (desktop and iOS) and Edge, but also supports Internet Explorer 11 (for now).
 
-Modular namespace declarations
-------------------------------
-
-ConboJS brings the familiar concepts of packages and imports to JavaScript in the form of modular namespaces, optimised to work as an alternative to the commonly used minification pattern, for example:
-
-```javascript
-// Utils.js
-conbo('com.example.utils', console, function(console)
-{
-	var utils = this;
-	
-	utils.doSomething = function(value)
-	{
-		console.log(value);
-	};
-});
-
-// Constants.js
-conbo('com.example.constants', function()
-{
-	var constants = this;
-
-	constants.BEST_FRAMEWORK = 'ConboJS';
-	constants.SMILE = ':-)';
-});
-
-// Main.js
-conbo('com.example.app', window, document, navigator, function(window, document, navigator, undefined)
-{
-	// Import data from other namespaces
-	var constants = conbo('com.example.constants');
-	var utils = conbo('com.example.utils');
-	
-	utils.doSomething(constants.BEST_FRAMEWORK+' makes me '+constants.SMILE);
-});
-```
-
-**Working with ES2015, TypeScript, AMD and CommonJS modules**
-
-If you're using ES2015, TypeScript, AMD or CommonJS modules, it's easy to import all of your Application and View classes into your namespace to take advantage of ConboJS features like auto instantiation and data binding:
-
-```javascript
-// ES2015 & TypeScript Decorator
-
-import {Application, Viewable} from 'conbo';
-
-@Viewable('com.example.app')
-export class FooApp extends Application { ... }
-```
-
-```javascript
-// ES2015 & TypeScript
-
-import * as conbo from 'conbo';
-import FooApp from './FooApp';
-import BarView from './BarView';
-
-conbo('com.example.app').import({ FooApp, BarView });
-```
-
-```javascript
-// AMD
-
-define(['conbo', 'FooApp', 'BarView'], function(conbo, FooApp, BarView) 
-{
-	conbo('com.example.app').import({ FooApp, BarView });
-};
-```
-
-```javascript
-// CommonJS
-
-var conbo = require('conbo');
-var FooApp = require('./FooApp');
-var BarView = require('./BarView');
-
-conbo('com.example.app').import({ FooApp, BarView });
-```
-
-Extendible classes
-------------------
+Class based
+-----------
 
 There's no messing about with prototypes in ConboJS, all of your classes simply extend from another, for example:
+
+**ES2015 / TypeScript**
+
+```javascript
+class MyClass extends conbo.Class
+{
+	initialize()
+	{
+		console.log('Welcome to my class!');
+	}
+}
+```
 
 **ES5**
 
@@ -113,16 +46,47 @@ var MyClass = conbo.Class.extend
 });
 ```
 
-**ES2015 / TypeScript**
+Working with ES2015, TypeScript, AMD and CommonJS modules
+---------------------------------------------------------
+
+If you're using ES2015, TypeScript, AMD or CommonJS modules, it's easy to enable all of your Application and View classes to take advantage of ConboJS features like auto instantiation and data binding:
 
 ```javascript
-class MyClass extends conbo.Class
+// ES2015 & TypeScript Decorator
+
+import {Application, Viewable} from 'conbo';
+
+@Viewable()
+export class FooApp extends Application { ... }
+```
+
+```javascript
+// ES2015 & TypeScript
+
+import * as conbo from 'conbo';
+import FooApp from './FooApp';
+import BarView from './BarView';
+
+conbo().import({ FooApp, BarView });
+```
+
+```javascript
+// AMD
+
+define(['conbo', 'FooApp', 'BarView'], function(conbo, FooApp, BarView) 
 {
-	initialize()
-	{
-		console.log('Welcome to my class!');
-	}
-}
+	conbo().import({ FooApp, BarView });
+};
+```
+
+```javascript
+// CommonJS
+
+var conbo = require('conbo');
+var FooApp = require('./FooApp');
+var BarView = require('./BarView');
+
+conbo().import({ FooApp, BarView });
 ```
 
 Interfaces
@@ -218,8 +182,8 @@ ConboJS provides a number of class (ES2015 and TypeScript) and property (TypeScr
 ```javascript
 import { Application, Bindable, Inject, Viewable } from 'conbo';
 
-// Add a class to specified ConboJS namespace to enable auto-instantiation (second parameter only required if minifying)
-@Viewable('com.example.app', 'MyApp')
+// The Viewable decorator enables ConboJS to automatically instantiate views
+@Viewable('MyApp')
 class MyApp extends Application
 {
 	// Mark a property as injectable so you don't have to set it to undefined in declarations (TypeScript only)
@@ -231,6 +195,45 @@ class MyApp extends Application
 	public myValue:string = 'Hello, World!';
 }
 ```
+
+Modular namespace declarations
+------------------------------
+
+For developers still using ES5 syntax, ConboJS brings the familiar concepts of packages and imports to JavaScript in the form of modular namespaces, optimised to work as an alternative to the commonly used minification pattern, for example:
+
+```javascript
+// Utils.js
+conbo('com.example.utils', console, function(console)
+{
+	var utils = this;
+	
+	utils.doSomething = function(value)
+	{
+		console.log(value);
+	};
+});
+
+// Constants.js
+conbo('com.example.constants', function()
+{
+	var constants = this;
+
+	constants.BEST_FRAMEWORK = 'ConboJS';
+	constants.SMILE = ':-)';
+});
+
+// Main.js
+conbo('com.example.app', window, document, navigator, function(window, document, navigator, undefined)
+{
+	// Import data from other namespaces
+	var constants = conbo('com.example.constants');
+	var utils = conbo('com.example.utils');
+	
+	utils.doSomething(constants.BEST_FRAMEWORK+' makes me '+constants.SMILE);
+});
+```
+
+Please note, if `conbo()` is called without any parameters, the "default" namespace is used.
 
 Naming conventions
 ------------------

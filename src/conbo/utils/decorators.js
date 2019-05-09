@@ -31,12 +31,27 @@ conbo.Inject = function(target, key)
 /**
  * TypeScript / ES2017 decorator for adding Application, View and Glimpse classes a ConboJS namespace to enable auto instantiation
  * @memberof			conbo
- * @param	{string}	namespace - The name of the target namespace
- * @param	{string}	[name] - The name to use for this object in the target namespace (useful if you target ES5 and minify your code)
+ * @param	{string}	[namespace] - The name of the target namespace
+ * @param	{string}	[name] - The name to use for this object in the target namespace (required if you use or compile to ES5 and minify your code)
  * @returns	{Function}	Decorator function
  */
 conbo.Viewable = function(namespace, name)
 {
+	switch (arguments.length)
+	{
+		case 1:
+			name = namespace;
+
+			if (name.indexOf('.') !== -1)
+			{
+				conbo.warn('@Viewable("my.custom.namespace") syntax is no longer valid, please use @Viewable("my.custom.namespace", "MyClassName")');
+			}
+
+		case 0:
+			namespace = 'default';
+			break;
+	}
+
 	return function(target)
 	{
 		var imports = {};
