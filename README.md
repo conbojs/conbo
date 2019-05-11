@@ -4,23 +4,23 @@ ConboJS is the best JavaScript MVx framework you've never heard of.
 
 It is a lightweight MVx application framework that enables developers a take a structured, decoupled, class based approach to application development, in a way that should be familiar to anyone with experience of languages like ActionScript/Flex, C#/XAML or Java.
 
-Features include extendible classes, event bus, dependency injection, data binding, command pattern, pseudo-interfaces and an easy to use event model, plus simple view state management and support for ES2015/TypeScript features like classes and decorators.
+Features include extendible classes, event bus, dependency injection, data binding, command pattern, pseudo-interfaces and an easy to use event model, plus simple view state management and support for ES2015/TypeScript features like decorators.
 
-ConboJS requires no special IDEs, compilers or transpilers, it just makes regular JavaScript nicer.
+ConboJS requires no special IDEs, compilers or transpilers, it just makes regular JavaScript nicer. So at less than 20KB minified and gzipped, what's not to like?
 
-While ConboJS provides everything you need to start building your next single page application (SPA), widget or media player, it's also a great base for server-side Node.js applications and, at under 20KB minified and gzipped, a fantastic way to add models, controller and services to projects using third party view frameworks like [Phaser](https://github.com/mesmotronic/conbo-example-phaser), [D3](https://www.d3js.org/), [three.js](https://www.threejs.org) or [React](https://github.com/mesmotronic/conbo-example-react).
+While ConboJS provides everything you need to start building your next single page application (SPA), widget or media player, it's also a great base for server-side Node.js applications and a fantastic way to add models, controller and services to projects using third party view frameworks like [Phaser](https://github.com/mesmotronic/conbo-example-phaser), [D3](https://www.d3js.org/), [three.js](https://www.threejs.org) or [React](https://github.com/mesmotronic/conbo-example-react).
 
 ConboJS can be added to your project as a global, an AMD or CommonJS module, or using ES2015/TypeScript `import` syntax.
 
 Browser support
 ---------------
 
-ConboJS primarily targets the two most recent major releases of Firefox, Chrome (desktop and Android), Safari (desktop and iOS) and Edge, but also supports Internet Explorer 11 (for now).
+ConboJS officially targets the two most recent major releases of Firefox, Chrome (desktop and Android), Safari (desktop and iOS) and Edge, but also supports Internet Explorer 11 (for now).
 
 Class based
 -----------
 
-There's no messing about with prototypes in ConboJS, all of your classes simply extend from another, for example:
+There's no messing around with prototypes in ConboJS, all of your classes simply extend from another, for example:
 
 **ES2015 / TypeScript**
 
@@ -233,7 +233,7 @@ conbo('com.example.app', window, document, navigator, function(window, document,
 });
 ```
 
-Please note, if `conbo()` is called without any parameters, the "default" namespace is used.
+For developers using a module bundler (e.g. Webpack), it is recommended practice to use the `"default"` namespace in most circumstances, which is automatically used by `Application`, `conbo()` and `@Viewable()` if a custom namespace isn't specified.
 
 Naming conventions
 ------------------

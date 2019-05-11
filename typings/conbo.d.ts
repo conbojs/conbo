@@ -22,7 +22,7 @@ export = conbo;
  * var ns = conbo('com.example.namespace');
  * ns.import({ MyApp, MyView });
  */
-declare function conbo(namespace?: string, ...globals: any[]):conbo.Namespace;
+declare function conbo(namespace?:string, ...globals:any[]):conbo.Namespace;
 
 declare namespace conbo 
 {	

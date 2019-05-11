@@ -1,6 +1,5 @@
 /**
- * Hello World example for ConboJS
- * Demonstrates how to create a new ConboJS Application
+ * View lifecycle example for ConboJS
  * 
  * @author	Neil Rackett
  */
