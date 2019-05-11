@@ -21,7 +21,7 @@ conbo.Application = conbo.View.extend(
 /** @lends conbo.Application.prototype */
 {
 	/**
-	 * @member		{conbo.Namespace} namespace - The application's namespace (required)
+	 * @member		{conbo.Namespace} namespace - The application's namespace (uses 'default' namespace if not overridden)
 	 * @memberof	conbo.Application.prototype
 	 */
 	
@@ -36,7 +36,7 @@ conbo.Application = conbo.View.extend(
 		
 		if (!(this.namespace instanceof conbo.Namespace))
 		{
-			throw new Error('Application namespace must be an instance of conbo.Namespace');
+			this.namespace = conbo();
 		}
 		
 		options.app = this;

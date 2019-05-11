@@ -3,17 +3,12 @@
  * 
  * @author	Neil Rackett
  */
-conbo('ns', function()
+conbo(function()
 {
-	var ns = this;
+	const ns = this;
 	
 	class MyApp extends conbo.Application
 	{
-		get namespace()
-		{
-			return ns;
-		}
-		
 		get template()
 		{
 			return	'<h1>Hello <span cb-bind="name" />!</h1>'+
@@ -31,9 +26,9 @@ conbo('ns', function()
 	}
 	
 	/*
-	 * All properties of the return Object are added to the current namespace,
-	 * but you can declare classes in the format `ns.MyClass = class extends SuperClass { ... }`
-	 * if you prefer
+	 * All properties of the return Object are added to the current namespace to enable them
+	 * to be automatically instantiated, but you can declare classes in the format
+	 * `ns.MyClass = class extends SuperClass { ... }` if you prefer
 	 */
 	return { MyApp };
 	

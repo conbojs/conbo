@@ -30,7 +30,9 @@ conbo.List = conbo.EventDispatcher.extend(
 	 */
 	__construct: function(options) 
 	{
-		this.addEventListener(conbo.ConboEvent.CHANGE, this.__changeHandler, this, 999);
+		this.addEventListener(conbo.ConboEvent.ADD, this.__updateArrayAccess, this, 9999)
+			.addEventListener(conbo.ConboEvent.REMOVE, this.__updateArrayAccess, this, 9999)
+			;
 		
 		var listOptions = ['itemClass'];
 		
@@ -269,7 +271,7 @@ conbo.List = conbo.EventDispatcher.extend(
 	 * Enables array access operator, e.g. myList[0]
 	 * @private
 	 */
-	__changeHandler: function(event)
+	__updateArrayAccess: function(event)
 	{
 		var i;
 		
@@ -286,7 +288,7 @@ conbo.List = conbo.EventDispatcher.extend(
 		
 		for (i=0; i<this.length; i++)
 		{
-			define(i);
+			if (!(i in this)) define(i);
 		}
 		
 		while (i in this)

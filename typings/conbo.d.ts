@@ -3,7 +3,7 @@ export = conbo;
 
 /**
  * Create or access a ConboJS namespace
- * @param		{string}	namespace - The selected namespace
+ * @param		{string}	[namespace] - The selected namespace (uses 'default' if not specified)
  * @param		{...any}	[globals] - Globals to minify followed by function to execute, with each of the globals as parameters
  * @returns		{conbo.Namespace}
  * @example
@@ -22,7 +22,7 @@ export = conbo;
  * var ns = conbo('com.example.namespace');
  * ns.import({ MyApp, MyView });
  */
-declare function conbo(namespace: string, ...globals: any[]):conbo.Namespace;
+declare function conbo(namespace?:string, ...globals:any[]):conbo.Namespace;
 
 declare namespace conbo 
 {	
@@ -3401,11 +3401,24 @@ declare namespace conbo
 
 	/**
 	 * Decorator for adding Application, View and Glimpse classes a ConboJS namespace to enable auto instantiation
-	 * @param	{string}	namespace - The name of the target namespace
-	 * @param	{string}	[name] - The name to use for this object in the target namespace (useful if you target ES5 and minify your code)
 	 * @returns	{Function}	TypeScript decorator
 	 */
-	function Viewable(namespace:string, name?:string):Function; 
+	function Viewable():Function; 
+
+	/**
+	 * Decorator for adding Application, View and Glimpse classes a ConboJS namespace to enable auto instantiation
+	 * @param	{string}	name - The name to use for this object in the target namespace (required if you target ES5 and minify your code)
+	 * @returns	{Function}	TypeScript decorator
+	 */
+	function Viewable(name:string):Function; 
+
+	/**
+	 * Decorator for adding Application, View and Glimpse classes a ConboJS namespace to enable auto instantiation
+	 * @param	{string}	namespace - The name of the target namespace
+	 * @param	{string}	name - The name to use for this object in the target namespace (required if you target ES5 and minify your code)
+	 * @returns	{Function}	TypeScript decorator
+	 */
+	function Viewable(namespace:string, name:string):Function; 
 	
 	/**
 	 * Decorator to make a property bindable
