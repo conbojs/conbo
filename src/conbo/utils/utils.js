@@ -1227,6 +1227,20 @@
 	};
 	
 	/**
+	 * Fill in missing values on an object by setting the property values on 
+	 * the target object, without affecting the target's property descriptors
+	 * 
+	 * @memberof	conbo
+	 * @param		{Object}	obj - Object to populate
+	 * @param		{...Object}	source - Objects containging default values
+	 * @returns		{Object}
+	 */
+	conbo.implement = function(obj)
+	{
+		return conbo.setDefaults.apply(conbo, arguments);
+	};
+
+	/**
 	 * Create a (shallow-cloned) duplicate of an object.
 	 * 
 	 * @memberof	conbo

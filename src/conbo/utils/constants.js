@@ -42,3 +42,12 @@ conbo.DATA_TYPE_SCRIPT = 'script';
  * @type		{string}
  */
 conbo.DATA_TYPE_TEXT = 'text';
+
+/**
+ * Default application namespace
+ * 
+ * @memberof	conbo
+ * @constant
+ * @type		{string}
+ */
+conbo.NAMESPACE_DEFAULT = 'default';

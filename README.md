@@ -2,15 +2,13 @@
 
 ConboJS is the best JavaScript MVx framework you've never heard of.
 
-It is a lightweight MVx application framework that enables developers a take a structured, decoupled, class based approach to application development, in a way that should be familiar to anyone with experience of languages like ActionScript/Flex, C#/XAML or Java.
+It is a lightweight application framework that enables developers a take a structured, decoupled, class based approach to application development, in a way that should be familiar to anyone with experience of languages like ActionScript/Flex, C#/XAML or Java.
 
-Features include extendible classes, event bus, dependency injection, data binding, command pattern, pseudo-interfaces and an easy to use event model, plus simple view state management and support for ES2015/TypeScript features like decorators.
+Features include extendible classes, event bus, dependency injection, data binding, command pattern, pseudo-interfaces and an easy to use event model, plus simple view state management and ES2015/TypeScript decorators.
+
+ConboJS provides everything you need to start building modern, responsive single page applications (SPA), widgets and media players, and is a fantastic way to add models, controller and services to projects using third party view frameworks like [Phaser](https://github.com/mesmotronic/conbo-example-phaser), [D3](https://www.d3js.org/), [three.js](https://www.threejs.org) and [React](https://github.com/mesmotronic/conbo-example-react), or server-side applications using Node.js.
 
 ConboJS requires no special IDEs, compilers or transpilers, it just makes regular JavaScript nicer. So at less than 20KB minified and gzipped, what's not to like?
-
-While ConboJS provides everything you need to start building your next single page application (SPA), widget or media player, it's also a great base for server-side Node.js applications and a fantastic way to add models, controller and services to projects using third party view frameworks like [Phaser](https://github.com/mesmotronic/conbo-example-phaser), [D3](https://www.d3js.org/), [three.js](https://www.threejs.org) or [React](https://github.com/mesmotronic/conbo-example-react).
-
-ConboJS can be added to your project as a global, an AMD or CommonJS module, or using ES2015/TypeScript `import` syntax.
 
 Browser support
 ---------------
@@ -46,8 +44,8 @@ var MyClass = conbo.Class.extend
 });
 ```
 
-Working with ES2015, TypeScript, AMD and CommonJS modules
----------------------------------------------------------
+Supports ES2015, TypeScript, AMD and CommonJS modules
+-----------------------------------------------------
 
 If you're using ES2015, TypeScript, AMD or CommonJS modules, it's easy to enable all of your Application and View classes to take advantage of ConboJS features like auto instantiation and data binding:
 
@@ -92,9 +90,9 @@ conbo().import({ FooApp, BarView });
 Interfaces
 ----------
 
-In ConboJS, an interface is a code snippet, in the form of a JavaScript Object, that you can implement and test against. They come in 2 forms, strict and partial.
+With ConboJS, it's easy to test whether an object conforms to an interface.
 
-A strict interface is intened for use in a similar way to languages such as Java or ActionScript, enabling you to specify the class of each property (or use `undefined` for any) and then perform a strict comparison against an object or class instance:
+Developers can perform a strict comparison against an interface by creating an object that specifies the class of each property, or `undefined` for any:
 
 ```javascript
 var IPerson = { name: String, age: Number };
@@ -103,7 +101,7 @@ var person = { name: "Foo", age: 69 };
 conbo.is(person, IPerson); // true
 ```
 
-Alternatively, to enable developers to add and test for functionality that is not included in the prototype chain, interfaces in ConboJS can contain default functionality, which will be used if the class has not implemented the interface in full, for example:
+Alternatively, to enable developers to add and test for functionality that is not included in the prototype chain, interfaces in ConboJS can contain default functionality, which will be used if the class has not implemented the interface in full, and then perform a shallow comparison (property names only), for example:
 
 ```javascript
 var ILogger = { logSomething: function() { conbo.log('Something!'); } };

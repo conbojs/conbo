@@ -2784,6 +2784,16 @@ declare namespace conbo
 	function setDefaults(target:any, ...sources:any[]):any; 
 	
 	/**
+	 * Fill in missing values on an object by setting the property values on 
+	 * the target object, without affecting the target's property descriptors
+	 * 
+	 * @param		{any}	target - Object to populate
+	 * @param		{...Object}	sources - Objects containging default values
+	 * @returns		{any}
+	 */
+	function implement(target:any, ...sources:any[]):any; 
+	
+	/**
 	 * Create a (shallow-cloned) duplicate of an object.
 	 * 
 	 * @param		{any}	obj - Object to clone
