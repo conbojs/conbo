@@ -24,6 +24,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 		
 		this.cbIncludeIn.raw = true;
 		this.cbExcludeFrom.raw = true;
+		this.cbRef.raw = true;
 
 		// Methods that don't require any parameters
 
@@ -875,4 +876,17 @@ conbo.AttributeBindings = conbo.Class.extend(
 		el.addEventListener('touchcancel', cancel);
 	},
 	
+	/**
+	 * Sets the value of the specified property of the View instance to a reference
+	 * to the element with this attribute set
+	 * 
+	 * @param {HTMLElement} el 			HTML Element
+	 * @param {String} 		value 		Name of the property to set as a reference to the element
+	 * @param {*} 			options 
+	 */
+	cbRef: function(el, value, options)
+	{
+		options.view[value] = el;
+	},
+
 });

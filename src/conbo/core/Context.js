@@ -25,7 +25,7 @@ conbo.Context = conbo.EventDispatcher.extend(
 			__commands: options.commands || {},
 			__singletons: options.singletons || {},
 			__app: options.app,
-			__namespace: options.namespace || options.app.namespace,
+			__namespace: options.namespace || (options.app && options.app.namespace),
 			__parentContext: options.context
 		});
 		
