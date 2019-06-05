@@ -336,7 +336,7 @@ conbo.View = conbo.Glimpse.extend(
 		if (this.context)
 		{
 			this.context
-				.uninjectSingletons(this)
+				.uninject(this)
 				.removeEventListener(undefined, undefined, this)
 				;
 			

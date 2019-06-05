@@ -209,9 +209,21 @@ conbo.Context = conbo.EventDispatcher.extend(
 	/**
 	 * Inject singleton instances into specified object
 	 * 
+	 * @deprecated					Use inject()
 	 * @param	obj		{Object} 	The object to inject singletons into
 	 */
 	injectSingletons: function(obj)
+	{
+		__deprecated('injectSingletons', 'inject');
+		return this.inject(obj);
+	},
+	
+	/**
+	 * Inject singleton instances into specified object
+	 * 
+	 * @param	obj		{Object} 	The object to inject singletons into
+	 */
+	inject: function(obj)
 	{
 		var scope = this;
 
@@ -232,13 +244,25 @@ conbo.Context = conbo.EventDispatcher.extend(
 		
 		return this;
 	},
-	
+
 	/**
-	 * Set all singleton instances on the specified object to undefined
+	 * Set all constants and singleton instances on the specified object to undefined
 	 * 
+	 * @deprecated					Use uninject()
 	 * @param	obj		{Object} 	The object to remove singletons from
 	 */
 	uninjectSingletons: function(obj)
+	{
+		__deprecated('uninjectSingletons', 'uninject');
+		return this.uninject();
+	},
+	
+	/**
+	 * Set all constants and singleton instances on the specified object to undefined
+	 * 
+	 * @param	obj		{Object} 	The object to remove singletons from
+	 */
+	uninject: function(obj)
 	{
 		for (var a in this.__singletons)
 		{

@@ -106,9 +106,9 @@ var __denumerate = function(obj)
  * Warn developers that the method they are using is deprecated
  * @private
  */
-var __deprecated = function(message)
+var __deprecated = function(deprecatedMethod, newMethod)
 {
-	conbo.warn('Deprecation warning: '+message);
+	conbo.warn('Deprecation warning: '+deprecatedMethod+' is deprecated, please use '+newMethod);
 };
 
 /**

@@ -1984,7 +1984,7 @@
 	 */
 	conbo.setValues = function(target)
 	{
-		__deprecated('conbo.setValues is deprecated, use conbo.assign');
+		__deprecated('conbo.setValues', 'conbo.assign');
 		return conbo.assign.apply(conbo, arguments);
 	}	
 

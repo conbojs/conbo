@@ -26,7 +26,7 @@ conbo.IInjectable =
 		
 		if (value instanceof conbo.Context) 
 		{
-			value.injectSingletons(this);
+			value.inject(this);
 		}
 		
 		this.__context = value;
