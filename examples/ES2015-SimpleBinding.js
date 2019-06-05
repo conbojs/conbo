@@ -11,8 +11,10 @@ conbo(function()
 	{
 		get template()
 		{
-			return	'<h1>Hello <span cb-bind="name" />!</h1>'+
-					'<p>My name is <input type="text" cb-bind="name" /></p>';
+			return /* html */ `
+				<h1>Hello <span cb-bind="name" />!</h1>
+				<p>My name is <input type="text" cb-bind="name" /></p>
+			`;
 		}
 		
 		/**
