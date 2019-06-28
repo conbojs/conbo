@@ -85,6 +85,7 @@ conbo.Glimpse = conbo.EventDispatcher.extend(
 		}
 		
 		el.classList.add('cb-glimpse');
+		el.classList.add(this.__className);
 		el.cbGlimpse = this;
 		
 		for (var attr in attrs)

@@ -335,11 +335,8 @@ conbo.View = conbo.Glimpse.extend(
 		
 		if (this.context)
 		{
-			this.context
-				.uninject(this)
-				.removeEventListener(undefined, undefined, this)
-				;
-			
+			this.context.uninject(this);
+			this.context.removeEventListener(undefined, undefined, this);
 			this.context = undefined;
 		}
 		
@@ -586,14 +583,15 @@ conbo.View = conbo.Glimpse.extend(
 		
 		ep.addClass('cb-view')
 			.addClass(this.className)
+			.addClass(this.__className)
 			.setAttributes(attrs)
 			;
-		
+
 		__definePrivateProperty(this, '__el', el);
 		
 		return this;
 	},
-		
+
 	/**
 	 * Populate and render the View's HTML content
 	 * @private

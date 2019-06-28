@@ -52,13 +52,24 @@ conbo.Viewable = function(namespace, name)
 			break;
 	}
 
-	return function(target)
+	return function(constructor)
 	{
 		var imports = {};
-		imports[name || target.name] = target;
+		
+		name || (name = constructor.name);
+
+		Object.defineProperty(constructor.prototype, '__className', 
+		{
+			configurable: true,
+			enumerable: false,
+			writable: true,
+			value: conbo.toKebabCase(name)
+		});
+	
+		imports[name] = constructor;
 		
 		conbo(namespace).import(imports);
 		
-		return target;
+		return constructor;
 	}
 };

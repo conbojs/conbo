@@ -6,7 +6,7 @@ It is a lightweight application framework that enables developers a take a struc
 
 Features include extendible classes, event bus, dependency injection, data binding, command pattern, pseudo-interfaces and an easy to use event model, plus simple view state management and ES2015/TypeScript decorators.
 
-ConboJS provides everything you need to start building modern, responsive single page applications (SPA), widgets and media players, and is a fantastic way to add models, controller and services to projects using third party view frameworks like [Phaser](https://github.com/mesmotronic/conbo-example-phaser), [D3](https://www.d3js.org/), [three.js](https://www.threejs.org) and [React](https://github.com/mesmotronic/conbo-example-react), or server-side applications using Node.js.
+ConboJS provides everything you need to start building modern, responsive single page applications (SPA), widgets and media players, and is a fantastic way to add models, controllers and services to projects using third party view frameworks like [Phaser](https://github.com/mesmotronic/conbo-example-phaser), [D3](https://www.d3js.org/), [three.js](https://www.threejs.org) and [React](https://github.com/mesmotronic/conbo-example-react), or server-side applications using Node.js.
 
 ConboJS requires no special IDEs, compilers or transpilers, it just makes regular JavaScript nicer. So at less than 20KB minified and gzipped, what's not to like?
 
@@ -52,7 +52,7 @@ If you're using ES2015, TypeScript, AMD or CommonJS modules, it's easy to enable
 ```javascript
 // ES2015 & TypeScript Decorator
 
-import {Application, Viewable} from 'conbo';
+import { Application, Viewable } from 'conbo';
 
 @Viewable()
 export class FooApp extends Application { ... }
@@ -87,8 +87,52 @@ var BarView = require('./BarView');
 conbo().import({ FooApp, BarView });
 ```
 
-Interfaces
-----------
+Dependency injection
+--------------------
+
+In the majority of circumstances dependency injection occurs automatically, all you need to do is declare the properties and ConboJS takes care of the rest:
+
+```javascript
+// ES2015
+class MyView extends View
+{
+	declarations()
+	{
+		this.myModel = undefined;
+		this.myService = undefined;
+	}
+}
+
+// TypeScript
+class MyView extends View
+{
+	@Inject public myModel:MyModel;
+	@Inject public myService:MyService;
+}
+```
+
+However, there may be occassions when you want to inject properties into a non-ConboJS class (for example if you're not using ConboJS views) or access singletons outside of the normal flow of your application:
+
+```javascript
+// Inject a non-ConboJS class
+class MyClass
+{
+	constructor(context)
+	{
+		this.myModel = undefined;
+		this.myService = undefined;
+
+		context.inject(this);
+	}
+}
+
+// Arbitrary access
+const { myModel, myService } = context.inject({}, 'myModel', 'myService');
+```
+
+
+Pseudo-interfaces
+-----------------
 
 With ConboJS, it's easy to test whether an object conforms to an interface.
 
@@ -105,8 +149,7 @@ Alternatively, to enable developers to add and test for functionality that is no
 
 ```javascript
 var ILogger = { logSomething: function() { conbo.log('Something!'); } };
-var Logger = conbo.Class.extend().implement(ILogger);
-var logger = new Logger();
+var logger = Object.assign(new MyOtherClass(), ILogger);
 
 conbo.is(logger, ILogger, false); // true
 

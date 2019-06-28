@@ -207,29 +207,39 @@ conbo.Context = conbo.EventDispatcher.extend(
 	},
 	
 	/**
-	 * Inject singleton instances into specified object
+	 * Inject constants and singleton instances into specified object
 	 * 
 	 * @deprecated					Use inject()
-	 * @param	obj		{Object} 	The object to inject singletons into
+	 * @param	{*}			obj 	The object to inject singletons into
 	 */
 	injectSingletons: function(obj)
 	{
 		__deprecated('injectSingletons', 'inject');
-		return this.inject(obj);
+
+		this.inject(obj);
+		return this;
 	},
 	
 	/**
-	 * Inject singleton instances into specified object
+	 * Inject constants and singleton instances into specified object
 	 * 
-	 * @param	obj		{Object} 	The object to inject singletons into
+	 * @param	{*}			obj 	The object to inject singletons into
+	 * @param	{...string}	names 	Names of properties to inject (optional)
 	 */
 	inject: function(obj)
 	{
 		var scope = this;
+		var names;
+		var hasNames = arguments.length > 1;
+		
+		if (hasNames)
+		{
+			names = conbo.rest(arguments);
+		}
 
 		for (var a in scope.__singletons)
 		{
-			if (a in obj)
+			if (hasNames ? names.indexOf(a) != -1 : a in obj)
 			{
 				(function(value)
 				{
@@ -242,31 +252,42 @@ conbo.Context = conbo.EventDispatcher.extend(
 			}
 		}
 		
-		return this;
+		return obj;
 	},
 
 	/**
-	 * Set all constants and singleton instances on the specified object to undefined
+	 * Set constants and singleton instances on the specified object to undefined
 	 * 
 	 * @deprecated					Use uninject()
-	 * @param	obj		{Object} 	The object to remove singletons from
+	 * @param	{*}	obj 	The object to remove singletons from
 	 */
 	uninjectSingletons: function(obj)
 	{
 		__deprecated('uninjectSingletons', 'uninject');
-		return this.uninject();
+		
+		this.uninject(obj);
+		return this;
 	},
 	
 	/**
-	 * Set all constants and singleton instances on the specified object to undefined
+	 * Set constants and singleton instances on the specified object to undefined
 	 * 
-	 * @param	obj		{Object} 	The object to remove singletons from
+	 * @param	{*}	obj 	The object to remove singletons from
 	 */
 	uninject: function(obj)
 	{
-		for (var a in this.__singletons)
+		var scope = this;
+		var names;
+		var hasNames = arguments.length > 1;
+		
+		if (hasNames)
 		{
-			if (a in obj)
+			names = conbo.rest(arguments);
+		}
+
+		for (var a in scope.__singletons)
+		{
+			if (hasNames ? names.indexOf(a) != -1 : a in obj)
 			{
 				Object.defineProperty(obj, a,
 				{
@@ -276,7 +297,7 @@ conbo.Context = conbo.EventDispatcher.extend(
 			}
 		}
 
-		return this;
+		return obj;
 	},
 
 	/**

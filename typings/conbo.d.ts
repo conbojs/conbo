@@ -712,31 +712,34 @@ declare namespace conbo
 		 * Inject constants and singleton instances into specified object
 		 *
 		 * @deprecated				Use inject()
-		 * @param	obj		{any} 	The object to inject singletons into
+		 * @param	{any}	obj 	The object to inject singletons into
 		 */
 		injectSingletons(obj:any):this;
 
 		/**
 		 * Inject constants and singleton instances into specified object
 		 *
-		 * @param	obj		{any} 	The object to inject singletons into
+		 * @param	{any}		obj 	The object to inject singletons into
+		 * @param	{...string}	names	Names of properties to inject (optional)
+		 * @returns	{any}				A reference to the specified object with properties injected
 		 */
-		inject(obj:any):this;
+		inject(obj:any, ...names:string[]):any;
 
 		/**
-		 * Set all constants and singleton instances on the specified object to undefined
+		 * Set constants and singleton instances on the specified object to undefined
 		 *
 		 * @deprecated				Use uninject()
-		 * @param	obj		{any} 	The object to remove singletons from
+		 * @param	{any}	obj 	The object to remove singletons from
 		 */
 		uninjectSingletons(obj:any):this;
 
 		/**
-		 * Set all constants and singleton instances on the specified object to undefined
+		 * Set constants and singleton instances on the specified object to undefined
 		 *
-		 * @param	obj		{any} 	The object to remove singletons from
+		 * @param	{any}		obj 	The object to remove singletons from
+		 * @param	{...string}	names	Names of properties to uninject (optional)
 		 */
-		uninject(obj:any):this;
+		uninject(obj:any, ...names:string[]):this;
 
 		/**
 		 * Clears all commands and singletons, and removes all listeners
