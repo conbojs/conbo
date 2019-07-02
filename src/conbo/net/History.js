@@ -1,6 +1,6 @@
 /**
  * Default history manager used by Router, implemented using onhashchange 
- * event and hash-bang URL fragments
+ * event and hash or hash-bang URL fragments
  * 
  * @author 		Neil Rackett
  * @fires		conbo.ConboEvent#CHANGE
@@ -24,6 +24,7 @@ conbo.History = conbo.EventDispatcher.extend(
 		
 		window.addEventListener('hashchange', this.__checkUrl);
 		
+		this.useHashBang = !!options.useHashBang;
 		this.fragment = this.__getFragment();
 		
 		if (options.trigger !== false)
@@ -74,20 +75,21 @@ conbo.History = conbo.EventDispatcher.extend(
 		}
 		
 		var location = this.location;
-		
+		var prefix = this.useHashBang ? '#!/' : '#/';
+
 		this.fragment = fragment;
 		
 		if (options.replace)
 		{
 			var href = location.href.replace(/(javascript:|#).*$/, '');
-			location.replace(href + '#!/' + fragment);
+			location.replace(href + prefix + fragment);
 		}
 		else
 		{
-			location.hash = '#!/' + fragment;
+			location.hash = prefix + fragment;
 		}
 		
-		if (options.trigger) 
+		if (options.trigger)
 		{
 			this.__loadUrl(fragment);
 		}

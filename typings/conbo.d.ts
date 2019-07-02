@@ -2034,6 +2034,8 @@ declare namespace conbo
 	 */
 	class History extends EventDispatcher
 	{
+		useHashBang:boolean;
+
 		start(options?:any):this;
 		stop():this;
 		addRoute(route:string, callback:Function):this;

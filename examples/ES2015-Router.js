@@ -35,7 +35,7 @@ class BoldView extends conbo.View
 {
 	declarations(options)
 	{
-		this.template = '<b>Hello <span cb-text="name"></span>!</b>';
+		this.template = '<b>Hello {{name}}!</b>';
 	}
 	
 	initialize(options)
@@ -48,7 +48,7 @@ class ItalicView extends BoldView
 {
 	declarations(options)
 	{
-		this.template = '<i>See you later, <span cb-text="name"></span>!</i>';
+		this.template = '<i>See you later, {{name}}!</i>';
 	}
 }
 
@@ -61,14 +61,12 @@ class RouterExample extends conbo.Application
 		
 		// Use undefined for property injection
 		this.router = undefined;
+
+		// Forces all class methods to be scoped to "this"
+		this.bindAll();
 	}
 	
-	initialize()
-	{
-		this.addEventListener(conbo.ConboEvent.CREATION_COMPLETE, this.creationCompleteHandler, this);
-	}
-	
-	creationCompleteHandler(event)
+	creationComplete()
 	{
 		this.router
 			.addEventListener(conbo.ConboEvent.FAULT, this.faultHandler, this) // Unrecognised route
@@ -90,6 +88,6 @@ class RouterExample extends conbo.Application
 		this.content.innerHTML = "I don't recognise that route, try another one from the list below!";
 	}
 }
-	
+
 // Import view classes to your namespace to enable auto instantiation
 ns.import({ RouterExample, BoldView, ItalicView });
