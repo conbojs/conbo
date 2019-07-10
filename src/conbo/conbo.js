@@ -2,7 +2,7 @@
  * ConboJS: Lightweight MVx application framework for JavaScript
  * http://conbo.mesmotronic.com/
  * 
- * Copyright (c) 2017 Mesmotronic Limited
+ * Copyright (c) 2019 Mesmotronic Limited
  * Released under the MIT license
  * http://www.mesmotronic.com/legal/mit
  */
