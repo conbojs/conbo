@@ -1,5 +1,7 @@
 (function()
 {
+	'strict mode';
+
 	var BindingUtils__cbAttrs = new conbo.AttributeBindings();
 	var BindingUtils__customAttrs = {};
 	var BindingUtils__reservedAttrs = ['cb-app', 'cb-view', 'cb-glimpse', 'cb-content'];
@@ -81,6 +83,16 @@
 		return (value || '').trim().replace(/[^\w\._\s]/g, '');
 	};
 	
+	var BindingUtils_eval = function(obj, strOrArray)
+	{
+		var a = conbo.isString(strOrArray)
+			? BindingUtils__cleanPropertyName(strOrArray).split('.')
+			: strOrArray
+			;
+
+		return a.reduce(function(obj, i) { return obj[i]; }, obj);
+	};
+
 	/**
 	 * Binding utilities class
 	 * 
@@ -662,14 +674,14 @@
 						
 						try
 						{
-							parseFunction = !!b[1] ? eval('view.'+BindingUtils__cleanPropertyName(b[1])) : undefined;
+							parseFunction = !!b[1] ? BindingUtils_eval(view, b[1]) : undefined;
 							parseFunction = conbo.isFunction(parseFunction) ? parseFunction : undefined;
 						}
 						catch (e) {}
 						
 						try
 						{
-							model = !!split.length ? eval('view.'+split.join('.')) : view;
+							model = !!split.length ? BindingUtils_eval(view, split) : view;
 						}
 						catch (e) {}
 						

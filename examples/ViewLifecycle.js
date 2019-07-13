@@ -18,26 +18,25 @@ conbo('ns', conbo, function(conbo)
 		{
 			this.now = Date.now();
 			this.template = '<pre cb-html="status"></pre>';
-			this.status = "1. declarations() called after 0ms\n";
+			this.status = '1. declarations() called after 0ms\n';
 		},
 		
 		preinitialize: function(options)
 		{
 			var timer = Date.now() - this.now;
-			this.status += "2. preinitialize() called after "+timer+"ms\n";
+			this.status += '2. preinitialize() called after '+timer+'ms\n';
 		},
 		
 		initialize: function(options)
 		{
 			var timer = Date.now() - this.now;
-			this.status += "3. initialize() called after "+timer+"ms\n";
-			this.addEventListener(conbo.ConboEvent.CREATION_COMPLETE, this.creationComplete, this);
+			this.status += '3. initialize() called after '+timer+'ms\n';
 		},
 		
-		creationComplete: function(event)
+		creationComplete: function()
 		{
 			var timer = Date.now() - this.now;
-			this.status += "4. "+event.type+" event received after "+timer+"ms\n";
+			this.status += '4. creationComplete() called after '+timer+'ms\n';
 		}
 		
 	});
