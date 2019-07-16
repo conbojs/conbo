@@ -1,14 +1,14 @@
 /**
  * Lightweight Promise polyfill
  */
-(function () 
+(function() 
 {
-	if (!('Promise' in window))
+	!('Promise' in window) && (function()
 	{
 		function Promise(fn) 
 		{
 			if (!(this instanceof Promise)) throw new TypeError('Promises must be constructed via new');
-			if (typeof fn !== 'function') throw new TypeError('not a function');
+			if (typeof fn !== 'function') throw new TypeError('Parameter must be a function');
 
 			this._state = 0;
 			this._handled = false;
@@ -260,9 +260,10 @@
 		};
 		
 		window.Promise = Promise;
-	}	
 
-	if (!('finally' in window.Promise.prototype))
+	})();
+
+	!('finally' in window.Promise.prototype) && (function()
 	{
 		window.Promise.prototype['finally'] = function(callback) 
 		{
@@ -287,7 +288,7 @@
 				}
 			);
 		}
-	};
+	})();
 
 })();
 
