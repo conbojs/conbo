@@ -4,16 +4,16 @@ ConboJS is the best JavaScript MVx framework you've never heard of.
 
 It is a lightweight application framework that enables developers a take a structured, decoupled, class based approach to application development, in a way that should be familiar to anyone with experience of languages like ActionScript/Flex, C#/XAML or Java.
 
-Features include extendible classes, event bus, dependency injection, data binding, command pattern, pseudo-interfaces and an easy to use event model, plus simple view state management and ES2015/TypeScript decorators.
+With features include dependency injection, event bus, data binding and command pattern, supported by an easy to use event model and optional ES2015/TypeScript decorators, ConboJS provides everything you need to start building responsive single page applications (SPA), widgets and media players.
 
-ConboJS provides everything you need to start building modern, responsive single page applications (SPA), widgets and media players, and is a fantastic way to add models, controllers and services to projects using third party view frameworks like [Phaser](https://github.com/mesmotronic/conbo-example-phaser), [D3](https://www.d3js.org/), [three.js](https://www.threejs.org) and [React](https://github.com/mesmotronic/conbo-example-react), or server-side applications using Node.js.
+Alternatively, ConboJS is a fantastic way to add models, commands and services to projects using third party view frameworks like [Phaser](https://github.com/mesmotronic/conbo-example-phaser), [D3](https://www.d3js.org/), [three.js](https://www.threejs.org) and [React](https://github.com/mesmotronic/conbo-example-react), or server-side applications using Node.js.
 
 ConboJS requires no special IDEs, compilers or transpilers, it just makes regular JavaScript nicer. So at less than 20KB minified and gzipped, what's not to like?
 
 Browser support
 ---------------
 
-ConboJS officially targets the two most recent major releases of Firefox, Chrome (desktop and Android), Safari (desktop and iOS) and Edge, but also supports Internet Explorer 11 (for now).
+ConboJS supports all modern browsers, including Firefox, Chrome (desktop and Android), Safari (desktop and iOS) and Edge, and Internet Explorer 11 (for now).
 
 Class based
 -----------
