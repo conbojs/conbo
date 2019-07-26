@@ -111,5 +111,5 @@ conbo.VERSION = '{{VERSION}}';
  */
 conbo.toString = function() 
 { 
-	return 'ConboJS '+this.VERSION; 
+	return 'ConboJS Conbine '+this.VERSION; 
 };

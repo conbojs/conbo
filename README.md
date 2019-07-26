@@ -1,105 +1,55 @@
-![ConboJS](https://raw.githubusercontent.com/mesmotronic/conbo/master/img/conbo.png)
+![ConboJS Conbine](https://raw.githubusercontent.com/mesmotronic/conbo/master/img/conbo.png)
 
-ConboJS is the best JavaScript MVx framework you've never heard of.
+ConboJS Conbine ("Conbine") is a subset of ConboJS for use in combination with your preferred view framework, including [React](https://github.com/mesmotronic/conbo-example-react), or server-side applications using Node.js.
 
-It is a lightweight application framework that enables developers a take a structured, decoupled, class based approach to application development, in a way that should be familiar to anyone with experience of languages like ActionScript/Flex, C#/XAML or Java.
-
-With features include dependency injection, event bus, data binding and command pattern, supported by an easy to use event model and optional ES2015/TypeScript decorators, ConboJS provides everything you need to start building responsive single page applications (SPA), widgets and media players.
-
-Alternatively, ConboJS is a fantastic way to add models, commands and services to projects using third party view frameworks like [Phaser](https://github.com/mesmotronic/conbo-example-phaser), [D3](https://www.d3js.org/), [three.js](https://www.threejs.org) and [React](https://github.com/mesmotronic/conbo-example-react), or server-side applications using Node.js.
-
-ConboJS requires no special IDEs, compilers or transpilers, it just makes regular JavaScript nicer. So at less than 20KB minified and gzipped, what's not to like?
+The library enables developers to add features including dependency injection, event bus and command pattern, supported by an easy to use event model and optional ES2015/TypeScript decorators, while only adding around 11KB (minified and gzipped) to your project.
 
 Browser support
 ---------------
 
-ConboJS supports all modern browsers, including Firefox, Chrome (desktop and Android), Safari (desktop and iOS) and Edge, and Internet Explorer 11 (for now).
+Conbine supports all modern browsers, including Firefox, Chrome (desktop and Android), Safari (desktop and iOS) and Edge... and Internet Explorer 11.
 
-Class based
------------
+Supports ES2015 & TypeScript
+----------------------------
 
-There's no messing around with prototypes in ConboJS, all of your classes simply extend from another, for example:
-
-**ES2015 / TypeScript**
+Conbine supports ES2015 and TypeScript `import` syntax and decorators:
 
 ```javascript
-class MyClass extends conbo.Class
+import { LocalHash } from 'conbine';
+
+class MyStorage extends LocalHash
 {
-	initialize()
-	{
-		console.log('Welcome to my class!');
-	}
+	@Bindable public name:string;
 }
+
 ```
 
-**ES5**
+Installation
+------------
 
-```javascript
-var MyClass = conbo.Class.extend
-({
-	initialize: function()
-	{
-		console.log('Welcome to my class!');
-	}
-});
+You can add Conbine to your project using NPM:
+
 ```
-
-Supports ES2015, TypeScript, AMD and CommonJS modules
------------------------------------------------------
-
-If you're using ES2015, TypeScript, AMD or CommonJS modules, it's easy to enable all of your Application and View classes to take advantage of ConboJS features like auto instantiation and data binding:
-
-```javascript
-// ES2015 & TypeScript Decorator
-
-import { Application, Viewable } from 'conbo';
-
-@Viewable()
-export class FooApp extends Application { ... }
-```
-
-```javascript
-// ES2015 & TypeScript
-
-import * as conbo from 'conbo';
-import FooApp from './FooApp';
-import BarView from './BarView';
-
-conbo().import({ FooApp, BarView });
-```
-
-```javascript
-// AMD
-
-define(['conbo', 'FooApp', 'BarView'], function(conbo, FooApp, BarView) 
-{
-	conbo().import({ FooApp, BarView });
-};
-```
-
-```javascript
-// CommonJS
-
-var conbo = require('conbo');
-var FooApp = require('./FooApp');
-var BarView = require('./BarView');
-
-conbo().import({ FooApp, BarView });
+npm i --save conbine
 ```
 
 Dependency injection
 --------------------
 
-In the majority of circumstances dependency injection occurs automatically, all you need to do is declare the properties and ConboJS takes care of the rest:
+Conbine can be used to defined and inject singletons and constants into class instances:
 
 ```javascript
+import context from '../context';
+
 // ES2015
-class MyView extends View
+class MyClass
 {
-	declarations()
+	constructor()
 	{
 		this.myModel = undefined;
 		this.myService = undefined;
+
+		context.inject(this);
 	}
 }
 
@@ -108,20 +58,9 @@ class MyView extends View
 {
 	@Inject public myModel:MyModel;
 	@Inject public myService:MyService;
-}
-```
 
-However, there may be occassions when you want to inject properties into a non-ConboJS class (for example if you're not using ConboJS views) or access singletons outside of the normal flow of your application:
-
-```javascript
-// Inject a non-ConboJS class
-class MyClass
-{
-	constructor(context)
+	constructor()
 	{
-		this.myModel = undefined;
-		this.myService = undefined;
-
 		context.inject(this);
 	}
 }
@@ -134,7 +73,7 @@ const { myModel, myService } = context.inject({}, 'myModel', 'myService');
 Pseudo-interfaces
 -----------------
 
-With ConboJS, it's easy to test whether an object conforms to an interface.
+It's easy to test whether an object conforms to an interface.
 
 Developers can perform a strict comparison against an interface by creating an object that specifies the class of each property, or `undefined` for any:
 
@@ -143,64 +82,6 @@ var IPerson = { name: String, age: Number };
 var person = { name: "Foo", age: 69 };
 
 conbo.is(person, IPerson); // true
-```
-
-Alternatively, to enable developers to add and test for functionality that is not included in the prototype chain, interfaces in ConboJS can contain default functionality, which will be used if the class has not implemented the interface in full, and then perform a shallow comparison (property names only), for example:
-
-```javascript
-var ILogger = { logSomething: function() { conbo.log('Something!'); } };
-var logger = Object.assign(new MyOtherClass(), ILogger);
-
-conbo.is(logger, ILogger, false); // true
-
-logger.logSomething(); // Outputs: "Something!"
-```
-
-In this example, a shallow comparison is used, verifying that the expected properties are present, but ignoring their values. Pre-populating a method with `conbo.notImplemented` will ensure that it throws an error when called but not implemented in a class instance.
-
-
-Decoupling & data binding
--------------------------
-
-One of ConboJS's core aims is to enable developers to create highly decoupled, testable code.
-
-To this end, the framework's ever expanding data binding features enable you to separate your HTML from your JavaScript, removing the need for direct references between the them using `cb-*` and custom, developer defined, attributes to automatically bind properties and events in the DOM to your View classes.
-
-In addition, any existing HTML attribute can be bound to a property or function simply by prefixing it with `cb-`, for example `cb-title="myTitle"` or `cb-onclick="myClickHandler"`.
-
-For example:
-
-**In your View class**
-
-```javascript
-class MyView extends conbo.View
-{
-	declarations()
-	{
-		this.myButtonLabel = 'Click me!';
-	}
-	
-	myClickHandler(event)
-	{
-		alert('You clicked a button!');
-	}
-}
-```
-
-**In your HTML**
-
-```html
-<div cb-view="MyView">
-	<button cb-onclick="myClickHandler" cb-text="myButtonLabel"></button>
-</div>
-```
-
-If you prefer, this could also be written using a custom tag (your `Application`, `View` or `Glimpse` class name in kebab-case) and curly brackets:
-
-```html
-<my-view>
-	<button cb-onclick="myClickHandler">{{myButtonLabel}}</button>
-</my-view>
 ```
 
 Consistent, scoped events
@@ -218,14 +99,12 @@ foo.dispatchEvent(new conbo.Event("myEvent"));
 Decorators
 ----------
 
-ConboJS provides a number of class (ES2015 and TypeScript) and property (TypeScript only) decorators to resolve transpilation issues, simplify, enhance or simply provide syntactical sugar while developing applications:
+Conbine provides a number of class (ES2015 and TypeScript) and property (TypeScript only) decorators to resolve transpilation issues, simplify, enhance or simply provide syntactical sugar while developing applications:
 
 ```javascript
-import { Application, Bindable, Inject, Viewable } from 'conbo';
+import { Bindable, Inject } from 'conbine';
 
-// The Viewable decorator enables ConboJS to automatically instantiate views
-@Viewable('MyApp')
-class MyApp extends Application
+class MyClass
 {
 	// Mark a property as injectable so you don't have to set it to undefined in declarations (TypeScript only)
 	@Inject
@@ -236,45 +115,6 @@ class MyApp extends Application
 	public myValue:string = 'Hello, World!';
 }
 ```
-
-Modular namespace declarations
-------------------------------
-
-For developers still using ES5 syntax, ConboJS brings the familiar concepts of packages and imports to JavaScript in the form of modular namespaces, optimised to work as an alternative to the commonly used minification pattern, for example:
-
-```javascript
-// Utils.js
-conbo('com.example.utils', console, function(console)
-{
-	var utils = this;
-	
-	utils.doSomething = function(value)
-	{
-		console.log(value);
-	};
-});
-
-// Constants.js
-conbo('com.example.constants', function()
-{
-	var constants = this;
-
-	constants.BEST_FRAMEWORK = 'ConboJS';
-	constants.SMILE = ':-)';
-});
-
-// Main.js
-conbo('com.example.app', window, document, navigator, function(window, document, navigator, undefined)
-{
-	// Import data from other namespaces
-	var constants = conbo('com.example.constants');
-	var utils = conbo('com.example.utils');
-	
-	utils.doSomething(constants.BEST_FRAMEWORK+' makes me '+constants.SMILE);
-});
-```
-
-For developers using a module bundler (e.g. Webpack), it is recommended practice to use the `"default"` namespace in most circumstances, which is automatically used by `Application`, `conbo()` and `@Viewable()` if a custom namespace isn't specified.
 
 Naming conventions
 ------------------
@@ -294,7 +134,7 @@ Wherever possible, file names should match their contents, for example `ClassNam
 Builds
 ------
 
-**conbo.js** (<20KB minified+gzipped): Includes everything you need to start building your next JavaScript application, including HttpService, RemoteHash and RemoteList classes for working with web services, and History and Router classes for browser integration.
+**conbine.js** (11KB minified+gzipped): Includes everything you need to add ConboJS features to yout next JavaScript application.
 
 Builds are created using Grunt, which requires Node.js; all required modules can be installed by running `npm install` from the command line in the project folder.
 
@@ -303,7 +143,7 @@ You can create a new build from the CLI using `grunt`. Use `grunt watch`, or run
 License
 -------
 
-ConboJS is released under MIT license.
+Conbine is released under MIT license.
 
 **GitHub** https://github.com/mesmotronic/conbo
 

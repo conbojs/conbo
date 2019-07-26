@@ -1,11 +1,9 @@
 {
-	"name": "conbo",
+	"name": "conbine",
 	"version": "4.3.23",
-	"description": "ConboJS is the best JavaScript MVx application framework you've never heard of",
+	"description": "Conbine is a subset of ConboJS for use in combination with your favourite view framework",
 	"keywords": [
-		"attributes",
 		"babel",
-		"binding",
 		"browser",
 		"classes",
 		"client",
@@ -26,15 +24,15 @@
 	"license": "MIT",
 	"author": "Mesmotronic",
 	"files": [
-		"lib/conbo.js",
+		"lib/conbine.js",
 		"typings"
 	],
-	"main": "./lib/conbo.js",
-	"types": "./typings/conbo.d.ts",
+	"main": "./lib/conbine.js",
+	"types": "./typings/conbine.d.ts",
 	"readme": "./README.md",
 	"repository": {
 		"type": "git",
-		"url": "git@github.com:mesmotronic/conbo.git"
+		"url": "git@github.com:mesmotronic/conbo.git#conbine"
 	},
 	"devDependencies": {
 		"chai": "^4.2.0",
