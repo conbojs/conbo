@@ -51,6 +51,6 @@
 		"link-module-alias": "^1.2.0"
 	},
 	"_moduleAliases": {
-		"conbo": "../conbine"
+		"../../conbo": "../conbine"
 	}
 }
