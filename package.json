@@ -24,6 +24,7 @@
 	"license": "MIT",
 	"author": "Mesmotronic",
 	"files": [
+		"conbo-symlink.js",
 		"lib/conbine.js",
 		"typings"
 	],
