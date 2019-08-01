@@ -35,7 +35,7 @@
 		"url": "git@github.com:mesmotronic/conbo.git#conbine"
 	},
 	"scripts": {
-		"postinstall": "link-module-alias"
+		"postinstall": "npm link-module-alias"
 	},
 	"devDependencies": {
 		"chai": "^4.2.0",
