@@ -502,7 +502,17 @@ declare namespace conbo
 
 	interface IInjectable 
 	{
+		/**
+		 * This is your application's event bus and dependency injector
+		 */
 		context: Context;
+	}
+
+	interface IEventListenerOptions
+	{
+		scope?: any;
+		priority?: number;
+		once?: boolean;
 	}
 
 	/**
@@ -513,8 +523,8 @@ declare namespace conbo
 	 * Should be used as the base class for any class that won't be used for
 	 * data binding
 	 */
-	class EventDispatcher extends Class implements IInjectable {
-
+	class EventDispatcher extends Class implements IInjectable
+	{
 		/**
 		 * This is your application's event bus and dependency injector
 		 */
@@ -530,12 +540,21 @@ declare namespace conbo
 		 * Add a listener for a particular event type
 		 * @param 	{string}	type - Type of event ('change') or events ('change blur')
 		 * @param 	{Function}	handler - Function that should be called
-		 * @param 	{any}	[scope] - The scope in which to run the event handler
+		 * @param 	{any}		[scope] - The scope in which to run the event handler
 		 * @param 	{number}	[priority=0] - The event handler's priority when the event is dispatached
 		 * @param 	{boolean}	[once=false] - Should the event listener automatically be removed after it has been called once?
 		 * @returns	{conbo.EventDispatcher}	A reference to this class instance
 		 */
 		addEventListener(type: string, handler: any, scope?: any, priority?: number, once?: boolean):this;
+
+		/**
+		 * Add a listener for a particular event type
+		 * @param 	{string}	type - Type of event ('change') or events ('change blur')
+		 * @param 	{Function}	handler - Function that should be called
+		 * @param 	{IEventListenerOptions}	[options] - Event listener options
+		 * @returns	{conbo.EventDispatcher}	A reference to this class instance
+		 */
+		addEventListener(type: string, handler: any, options?: IEventListenerOptions):this;
 
 		/**
 		 * Remove a listener for a particular event type
@@ -547,6 +566,15 @@ declare namespace conbo
 		removeEventListener(type?: string, handler?: any, scope?: any):this;
 
 		/**
+		 * Remove a listener for a particular event type
+		 * @param 	{string}	[type] - Type of event ('change') or events ('change blur'), if not specified, all listeners will be removed
+		 * @param 	{Function}	[handler] - Function that should be called, if not specified, all listeners of the specified type will be removed
+		 * @param 	{IEventListenerOptions}	[options] - Event listener options
+		 * @returns	{conbo.EventDispatcher}	A reference to this class instance
+		 */
+		removeEventListener(type?: string, handler?: any, options?: IEventListenerOptions):this;
+
+		/**
 		 * Does this object have an event listener of the specified type?
 		 * @param 	{string}	type - Type of event (e.g. 'change')
 		 * @param 	{Function}	[handler] - Function that should be called
@@ -554,6 +582,15 @@ declare namespace conbo
 		 * @returns	{boolean}	True if this object has the specified event listener, false if it does not
 		 */
 		hasEventListener(type: string, handler?: any, scope?: any):boolean;
+
+		/**
+		 * Does this object have an event listener of the specified type?
+		 * @param 	{string}	type - Type of event (e.g. 'change')
+		 * @param 	{Function}	[handler] - Function that should be called
+		 * @param 	{IEventListenerOptions}	[options] - Event listener options
+		 * @returns	{boolean}	True if this object has the specified event listener, false if it does not
+		 */
+		hasEventListener(type: string, handler?: any, options?: IEventListenerOptions):boolean;
 
 		/**
 		 * Dispatch the event to listeners
@@ -568,7 +605,6 @@ declare namespace conbo
 		 * @returns	{conbo.EventDispatcher}	A reference to this class instance
 		 */
 		dispatchChange(...propName: string[]):this;
-
 	}
 
 	/**
@@ -1860,6 +1896,14 @@ declare namespace conbo
 	 * @returns		{boolean}
 	 */
 	function isObject(obj:any):boolean;
+
+	/**
+	 * Is a given variable a plain object (i.e. not an instance of anything)?
+	 * 
+	 * @param		{any}	obj - Value that might be an Object
+	 * @returns		{boolean}
+	 */
+	function isPlainObject(obj:any):boolean;
 
 	/**
 	 * Is the specified object Arguments?
