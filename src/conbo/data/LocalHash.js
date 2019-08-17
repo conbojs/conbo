@@ -40,7 +40,7 @@ conbo.LocalHash = conbo.Hash.extend(
   		{
   			storage.setItem(name, JSON.stringify(this.toJSON()));
   		}, 
-  		this, 1000);
+  		{scope:this, priority:1000});
 		
 		options.source = getLocal();
 		

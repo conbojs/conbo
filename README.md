@@ -2,18 +2,18 @@
 
 ConboJS is the best JavaScript MVx framework you've never heard of.
 
-It is a lightweight application framework that enables developers a take a structured, decoupled, class based approach to application development, in a way that should be familiar to anyone with experience of languages like ActionScript/Flex, C#/XAML or Java.
+It is a lightweight application framework that enables developers a take a structured, decoupled, event-driven approach to application development, in a way that should be familiar to anyone with experience of languages like ActionScript/Flex, C#/XAML or Java.
 
-With features include dependency injection, event bus, data binding and command pattern, supported by an easy to use event model and optional ES2015/TypeScript decorators, ConboJS provides everything you need to start building responsive single page applications (SPA), widgets and media players.
+Featuring dependency injection, event bus, data binding and command pattern, supported by an easy to use event model and optional ES2015/TypeScript decorators, ConboJS provides everything you need to start building responsive single page applications (SPA), widgets and media players.
 
-Alternatively, ConboJS is a fantastic way to add models, commands and services to projects using third party view frameworks like [Phaser](https://github.com/mesmotronic/conbo-example-phaser), [D3](https://www.d3js.org/), [three.js](https://www.threejs.org) and [React](https://github.com/mesmotronic/conbo-example-react), or server-side applications using Node.js.
+It can be used stand-alone, or as a fantastic way to add models, commands and services to projects using third party view frameworks like [React](https://github.com/mesmotronic/conbo-example-react), [Phaser](https://github.com/mesmotronic/conbo-example-phaser), [D3](https://www.d3js.org/) and [three.js](https://www.threejs.org), or server-side applications using Node.js.
 
-ConboJS requires no special IDEs, compilers or transpilers, it just makes regular JavaScript nicer. So at less than 20KB minified and gzipped, what's not to like?
+ConboJS requires no special IDEs, compilers or transpilers, it just makes JavaScript nicer. So at less than 20KB minified and gzipped, what's not to like?
 
 Browser support
 ---------------
 
-ConboJS supports all modern browsers, including Firefox, Chrome (desktop and Android), Safari (desktop and iOS) and Edge, and Internet Explorer 11 (for now).
+ConboJS supports all modern browsers, including Firefox, Chrome (desktop and Android), Safari (desktop and iOS) and Edge... and Internet Explorer 11 (for now).
 
 Class based
 -----------
@@ -23,7 +23,9 @@ There's no messing around with prototypes in ConboJS, all of your classes simply
 **ES2015 / TypeScript**
 
 ```javascript
-class MyClass extends conbo.Class
+import { Class } from 'conbo';
+
+class MyClass extends Class
 {
 	initialize()
 	{
@@ -173,7 +175,9 @@ For example:
 **In your View class**
 
 ```javascript
-class MyView extends conbo.View
+import { View } from 'conbo';
+
+class MyView extends View
 {
 	declarations()
 	{
@@ -206,13 +210,15 @@ If you prefer, this could also be written using a custom tag (your `Application`
 Consistent, scoped events
 -------------------------
 
-With ConboJS you don't have to remember how many arguments each event handler should have or the order they're supposed to be in, because there's a single, consistent DOM-like event model that offers predictable results, even enabling you to set the value to use as `this` when the callback is executed.
+With ConboJS you don't have to remember how many arguments each event handler should have or the order they're supposed to be in, because there's a single, consistent DOM-like event model that offers predictable results.
 
-All events fired by the framework are `conbo.ConboEvent` event objects, and you can easily create events of your own by using or extending the `conbo.Event` class, for example:
+All events fired by the framework are `ConboEvent` event objects, and you can easily create events of your own by using or extending the `Event` class, for example:
 
 ```javascript
-foo.addEventListener("myEvent", this.myFunction, this);
-foo.dispatchEvent(new conbo.Event("myEvent"));
+import { Event } from 'conbo';
+
+foo.addEventListener('myEvent', this.myFunction);
+foo.dispatchEvent(new Event('myEvent'));
 ```
 
 Decorators
@@ -273,8 +279,6 @@ conbo('com.example.app', window, document, navigator, function(window, document,
 	utils.doSomething(constants.BEST_FRAMEWORK+' makes me '+constants.SMILE);
 });
 ```
-
-For developers using a module bundler (e.g. Webpack), it is recommended practice to use the `"default"` namespace in most circumstances, which is automatically used by `Application`, `conbo()` and `@Viewable()` if a custom namespace isn't specified.
 
 Naming conventions
 ------------------

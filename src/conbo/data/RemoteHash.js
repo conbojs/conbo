@@ -37,8 +37,8 @@ conbo.RemoteHash = conbo.Hash.extend(
 		};
 		
 		this._httpService
-			.addEventListener(conbo.ConboEvent.RESULT, resultHandler, this)
-			.addEventListener(conbo.ConboEvent.FAULT, this.dispatchEvent, this);
+			.addEventListener(conbo.ConboEvent.RESULT, resultHandler, {scope:this})
+			.addEventListener(conbo.ConboEvent.FAULT, this.dispatchEvent, {scope:this});
 		
 		__denumerate(this);
 		

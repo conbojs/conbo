@@ -285,21 +285,30 @@ conbo.AttributeBindings = conbo.Class.extend(
 		
 		if (el.cbRepeat.list != values && values instanceof conbo.List)
 		{
+			var changeTimeout;
+
 			if (el.cbRepeat.list)
 			{
-				el.cbRepeat.list.removeEventListener('change', el.cbRepeat.changeHandler, this);
+				el.cbRepeat.list.removeEventListener('change', el.cbRepeat.changeHandler, {scope:this});
 			}
 			
-			// TODO Optimise this
-			el.cbRepeat.changeHandler = function(event)
+			var applyChange = function(event)
 			{
 				event.property === 'length'
 					? options.view.dispatchChange(options.propertyName)
 					: this.cbRepeat.apply(this, args)
 					;
 			};
+
+			// TODO Optimise this
+			el.cbRepeat.changeHandler = function(event)
+			{
+				// Ensure a single when multiple changes
+				clearTimeout(changeTimeout);
+				changeTimeout = setTimeout(applyChange, 0, event);
+			};
 			
-			values.addEventListener('change', el.cbRepeat.changeHandler, this, true);
+			values.addEventListener('change', el.cbRepeat.changeHandler, {scope:this});
 
 			el.cbRepeat.list = values;
 		}
@@ -368,7 +377,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 		{
 			fragment.appendChild(el);
 		});
-		
+	
 		placeholder.parentNode.insertBefore(fragment, placeholder);
 		
 		el.cbRepeat.elements = elements;
@@ -445,7 +454,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 			this.cbInclude(el, states.indexOf(view.currentState) != -1);
 		}).bind(this);
 		
-		view.addEventListener('change:currentState', stateChangeHandler, this);
+		view.addEventListener('change:currentState', stateChangeHandler, {scope:this});
 		stateChangeHandler.call(this);
 	},
 	
@@ -472,7 +481,7 @@ conbo.AttributeBindings = conbo.Class.extend(
 			this.cbExclude(el, states.indexOf(view.currentState) != -1);
 		};
 		
-		view.addEventListener('change:currentState', stateChangeHandler, this);
+		view.addEventListener('change:currentState', stateChangeHandler, {scope:this});
 		stateChangeHandler.call(this);
 	},
 	
