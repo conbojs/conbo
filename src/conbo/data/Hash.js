@@ -27,7 +27,7 @@ conbo.Hash = conbo.EventDispatcher.extend(
 				options.source[event.property] = event.value;
 			};
 
-			this.addEventListener('change', changeHandler, this);
+			this.addEventListener('change', changeHandler, {scope:this});
 		}
 
 		conbo.assign(this, conbo.setDefaults({}, options.source, this._defaults));

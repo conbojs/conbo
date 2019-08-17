@@ -160,7 +160,7 @@ conbo.conbo = conbo;
  * @memberof	conbo
  * @type	 	{string}
  */
-conbo.VERSION = '4.3.24';
+conbo.VERSION = '4.3.25-rc.1';
 	
 /**
  * A string containing the framework name and version number, e.g. "ConboJS v1.2.3"
@@ -2069,6 +2069,24 @@ var __ep = function(el)
 	{
 		return obj === Object(obj);
 	};
+	
+	/**
+	 * Is a given variable a plain object (i.e. not an instance of anything)?
+	 * 
+	 * @memberof	conbo
+	 * @param		{Object}	obj - Value that might be a plain Object
+	 * @returns		{boolean}
+	 */
+	conbo.isPlainObject = function(obj)
+	{
+		if (!!obj &amp;&amp; obj !== Math)
+		{
+			var p = Object.getPrototypeOf(obj);
+			return !p || p === Object.prototype;
+		}
+
+		return false;
+	};
 
 	/**
 	 * Is the specified object Arguments?
@@ -2372,7 +2390,8 @@ var __ep = function(el)
 	conbo.isSupported = 
 		window.addEventListener
 		&amp;&amp; !!Object.defineProperty 
-		&amp;&amp; !!Object.getOwnPropertyDescriptor;
+		&amp;&amp; !!Object.getOwnPropertyDescriptor
+		;
 	
 	/**
 	 * Is this script being run using Node.js?
@@ -3922,7 +3941,7 @@ conbo.ConboEvent = conbo.Event.extend(
 		if (!this.hasEventListener(type, handler, scope))
 		{
 			if (!(type in this.__queue)) this.__queue[type] = [];
-			this.__queue[type].push({handler:handler, scope:scope, once:once, priority:~~priority});
+			this.__queue[type].push({handler:handler, scope:scope, once:!!once, priority:~~priority});
 			this.__queue[type].sort(function(a,b){return b.priority-a.priority;});
 		}
 	};
@@ -3991,9 +4010,9 @@ conbo.ConboEvent = conbo.Event.extend(
 		 * 
 		 * @param 	{string}		type - Type of event ('change') or events ('change blur')
 		 * @param 	{Function}		handler - Function that should be called
-		 * @param 	{Object}		[scope] - The scope in which to run the event handler
-		 * @param 	{number}		[priority=0] - The event handler's priority when the event is dispatached
-		 * @param 	{boolean}		[once=false] - Should the event listener automatically be removed after it has been called once?
+		 * @param 	{Object}		[scope] - Options object (recommended) or the scope in which to run the event handler (deprecated)
+		 * @param 	{number}		[priority=0] - The event handler's priority when the event is dispatached (deprecated)
+		 * @param 	{boolean}		[once=false] - Should the event listener automatically be removed after it has been called once? (deprecated)
 		 * @returns	{conbo.EventDispatcher}	A reference to this class instance 
 		 */
 		addEventListener: function(type, handler, scope, priority, once)
@@ -4001,10 +4020,20 @@ conbo.ConboEvent = conbo.Event.extend(
 			if (!type) throw new Error('Event type undefined');
 			if (!handler || !conbo.isFunction(handler)) throw new Error('Event handler is undefined or not a function');
 	
+			// Options object?
+			if (conbo.isPlainObject(scope))
+			{
+				var options = scope;
+
+				scope = options.scope;
+				priority = options.priority || 0;
+				once = options.once || false;
+			}
+
 			if (conbo.isString(type)) type = type.split(' ');
 			if (conbo.isArray(type)) conbo.forEach(type, function(value, index, list)
 			{
-				EventDispatcher__addEventListener.call(this, value, handler, scope, priority, !!once); 
+				EventDispatcher__addEventListener.call(this, value, handler, scope, priority, once); 
 			},
 			this);
 			
@@ -4014,9 +4043,9 @@ conbo.ConboEvent = conbo.Event.extend(
 		/**
 		 * Remove a listener for a particular event type
 		 * 
-		 * @param {string}		[type] - Type of event ('change') or events ('change blur'), if not specified, all listeners will be removed 
-		 * @param {Function}	[handler] - Function that should be called, if not specified, all listeners of the specified type will be removed
-		 * @param {Object} 		[scope] - The scope in which the handler is set to run
+		 * @param 	{string}		[type] - Type of event ('change') or events ('change blur'), if not specified, all listeners will be removed 
+		 * @param 	{Function}		[handler] - Function that should be called, if not specified, all listeners of the specified type will be removed
+		 * @param 	{Object}		[scope] - Options object (recommended) or the scope in which to run the event handler (deprecated)
 		 * @returns	{conbo.EventDispatcher}	A reference to this class instance 
 		 */
 		removeEventListener: function(type, handler, scope)
@@ -4026,7 +4055,14 @@ conbo.ConboEvent = conbo.Event.extend(
 				__definePrivateProperty(this, '__queue', {});
 				return this;
 			}
-			
+
+			// Options object?
+			if (conbo.isPlainObject(scope))
+			{
+				var options = scope;
+				scope = options.scope;
+			}			
+
 			if (conbo.isString(type)) type = type.split(' ');
 			if (!conbo.isArray(type)) type = [undefined];
 			
@@ -4044,7 +4080,7 @@ conbo.ConboEvent = conbo.Event.extend(
 		 * 
 		 * @param 	{string}	type - Type of event (e.g. 'change') 
 		 * @param 	{Function}	[handler] - Function that should be called
-		 * @param 	{Object} 	[scope] - The scope in which the handler is set to run
+		 * @param 	{Object}	[scope] - Options object (recommended) or the scope in which to run the event handler (deprecated)
 		 * @returns	{boolean}	True if this object has the specified event listener, false if it does not
 		 */
 		hasEventListener: function(type, handler, scope)
@@ -4053,6 +4089,13 @@ conbo.ConboEvent = conbo.Event.extend(
 			{
 				return false;
 			}
+
+			// Options object?
+			if (conbo.isPlainObject(scope))
+			{
+				var options = scope;
+				scope = options.scope;
+			}			
 			
 			var filtered = this.__queue[type].filter(function(queued)
 			{
@@ -4551,7 +4594,7 @@ conbo.Hash = conbo.EventDispatcher.extend(
 				options.source[event.property] = event.value;
 			};
 
-			this.addEventListener('change', changeHandler, this);
+			this.addEventListener('change', changeHandler, {scope:this});
 		}
 
 		conbo.assign(this, conbo.setDefaults({}, options.source, this._defaults));
@@ -4616,7 +4659,7 @@ conbo.LocalHash = conbo.Hash.extend(
   		{
   			storage.setItem(name, JSON.stringify(this.toJSON()));
   		}, 
-  		this, 1000);
+  		{scope:this, priority:1000});
 		
 		options.source = getLocal();
 		
@@ -4674,8 +4717,8 @@ conbo.List = conbo.EventDispatcher.extend(
 	 */
 	__construct: function(options) 
 	{
-		this.addEventListener(conbo.ConboEvent.ADD, this.__updateArrayAccess, this, 9999)
-			.addEventListener(conbo.ConboEvent.REMOVE, this.__updateArrayAccess, this, 9999)
+		this.addEventListener(conbo.ConboEvent.ADD, this.__updateArrayAccess, {scope:this, priority:9999})
+			.addEventListener(conbo.ConboEvent.REMOVE, this.__updateArrayAccess, {scope:this, priority:9999})
 			;
 		
 		var listOptions = ['itemClass'];
@@ -5044,7 +5087,7 @@ conbo.LocalList = conbo.List.extend(
 		{
   			storage.setItem(name, JSON.stringify(this));
 		}, 
-		this, 1000);
+		{scope:this, priority:1000});
 		
 		options.source = getLocal();
 		
@@ -5704,8 +5747,8 @@ conbo.RemoteHash = conbo.Hash.extend(
 		};
 		
 		this._httpService
-			.addEventListener(conbo.ConboEvent.RESULT, resultHandler, this)
-			.addEventListener(conbo.ConboEvent.FAULT, this.dispatchEvent, this);
+			.addEventListener(conbo.ConboEvent.RESULT, resultHandler, {scope:this})
+			.addEventListener(conbo.ConboEvent.FAULT, this.dispatchEvent, {scope:this});
 		
 		__denumerate(this);
 		
@@ -5780,8 +5823,8 @@ conbo.RemoteList = conbo.List.extend(
 		};
 		
 		this._httpService
-			.addEventListener(conbo.ConboEvent.RESULT, resultHandler, this)
-			.addEventListener(conbo.ConboEvent.FAULT, this.dispatchEvent, this)
+			.addEventListener(conbo.ConboEvent.RESULT, resultHandler, {scope:this})
+			.addEventListener(conbo.ConboEvent.FAULT, this.dispatchEvent, {scope:this})
 			;
 		
 		__denumerate(this);
@@ -5840,7 +5883,7 @@ __denumerate(conbo.HttpService.prototype);
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Aug 01 2019 15:36:41 GMT+0100 (British Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Aug 17 2019 10:59:25 GMT+0100 (British Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

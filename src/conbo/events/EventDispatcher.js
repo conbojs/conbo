@@ -80,9 +80,9 @@
 		 * 
 		 * @param 	{string}		type - Type of event ('change') or events ('change blur')
 		 * @param 	{Function}		handler - Function that should be called
-		 * @param 	{Object}		[scope] - Options object or the scope in which to run the event handler
-		 * @param 	{number}		[priority=0] - The event handler's priority when the event is dispatached
-		 * @param 	{boolean}		[once=false] - Should the event listener automatically be removed after it has been called once?
+		 * @param 	{Object}		[scope] - Options object (recommended) or the scope in which to run the event handler (deprecated)
+		 * @param 	{number}		[priority=0] - The event handler's priority when the event is dispatached (deprecated)
+		 * @param 	{boolean}		[once=false] - Should the event listener automatically be removed after it has been called once? (deprecated)
 		 * @returns	{conbo.EventDispatcher}	A reference to this class instance 
 		 */
 		addEventListener: function(type, handler, scope, priority, once)
@@ -96,11 +96,11 @@
 				var options = scope;
 
 				scope = options.scope;
-				priority = options.priority;
-				once = options.once;
+				priority = options.priority || 0;
+				once = options.once || false;
 			}
 
-			if (conbo.isString(type)) type = type.split(' '); // @deprecated
+			if (conbo.isString(type)) type = type.split(' ');
 			if (conbo.isArray(type)) conbo.forEach(type, function(value, index, list)
 			{
 				EventDispatcher__addEventListener.call(this, value, handler, scope, priority, once); 
@@ -113,9 +113,9 @@
 		/**
 		 * Remove a listener for a particular event type
 		 * 
-		 * @param {string}		[type] - Type of event ('change') or events ('change blur'), if not specified, all listeners will be removed 
-		 * @param {Function}	[handler] - Function that should be called, if not specified, all listeners of the specified type will be removed
-		 * @param {Object} 		[scope] - Options object or the scope in which the handler is set to run
+		 * @param 	{string}		[type] - Type of event ('change') or events ('change blur'), if not specified, all listeners will be removed 
+		 * @param 	{Function}		[handler] - Function that should be called, if not specified, all listeners of the specified type will be removed
+		 * @param 	{Object}		[scope] - Options object (recommended) or the scope in which to run the event handler (deprecated)
 		 * @returns	{conbo.EventDispatcher}	A reference to this class instance 
 		 */
 		removeEventListener: function(type, handler, scope)
@@ -133,8 +133,8 @@
 				scope = options.scope;
 			}			
 
-			if (conbo.isString(type)) type = type.split(' '); // @deprecated
-			if (!conbo.isArray(type)) type = [undefined]; // @deprecated
+			if (conbo.isString(type)) type = type.split(' ');
+			if (!conbo.isArray(type)) type = [undefined];
 			
 			conbo.forEach(type, function(value, index, list) 
 			{
@@ -150,7 +150,7 @@
 		 * 
 		 * @param 	{string}	type - Type of event (e.g. 'change') 
 		 * @param 	{Function}	[handler] - Function that should be called
-		 * @param 	{Object} 	[scope] - Options object or the scope in which the handler is set to run
+		 * @param 	{Object}	[scope] - Options object (recommended) or the scope in which to run the event handler (deprecated)
 		 * @returns	{boolean}	True if this object has the specified event listener, false if it does not
 		 */
 		hasEventListener: function(type, handler, scope)

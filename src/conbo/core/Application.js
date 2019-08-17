@@ -42,7 +42,7 @@ conbo.Application = conbo.View.extend(
 		options.app = this;
 		options.context = new this.contextClass(options);
 
-		this.addEventListener(conbo.ConboEvent.CREATION_COMPLETE, this.__creationComplete, this, 0, true);
+		this.addEventListener(conbo.ConboEvent.CREATION_COMPLETE, this.__creationComplete, {scope:this, once:true});
 		
 		conbo.View.prototype.__construct.call(this, options);
 	},
@@ -138,7 +138,7 @@ conbo.Application = conbo.View.extend(
 					.applyViews(this, this.namespace, 'glimpse')
 					;
 			}, 
-			this);
+			{scope:this});
 			
 			this.__mo = mo;
 		}

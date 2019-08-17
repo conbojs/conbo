@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: RemoteList</title>
+    <title>JSDoc: Class: List</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: RemoteList</h1>
+    <h1 class="page-title">Class: List</h1>
 
     
 
@@ -29,7 +29,7 @@
 <header>
     
         <h2><span class="attribs"><span class="type-signature"></span></span>
-            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>RemoteList<span class="signature">(options)</span><span class="type-signature"></span></h2>
+            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>List<span class="signature">(options)</span><span class="type-signature"></span></h2>
         
     
 </header>
@@ -42,7 +42,7 @@
     
 
     
-    <h4 class="name" id="RemoteList"><span class="type-signature"></span>new RemoteList<span class="signature">(options)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="List"><span class="type-signature"></span>new List<span class="signature">(options)</span><span class="type-signature"></span></h4>
     
 
     
@@ -50,7 +50,7 @@
 
 
 <div class="description">
-    Remote ListUsed for syncing remote array data with a local List
+    A bindable Array wrapper that can be used when you don't require web service connectivity.Plain objects will automatically be converted into an instance of the specified `itemClass` when added to a List, and the appropriateevents dispatched if the items it contains are changed or updated.
 </div>
 
 
@@ -102,7 +102,7 @@
 
             
 
-            <td class="description last">Object containing initialisation options, including HttpService options</td>
+            <td class="description last">Object containing optional initialisation options, including `source` (array), `context` (Context) and `itemClass` (Class)</td>
         </tr>
 
     
@@ -150,7 +150,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line5715">line 5715</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4660">line 4660</a>
     </li></ul></dd>
     
 
@@ -172,10 +172,6 @@
     <li><a href="conbo.ConboEvent.html#event:ADD">conbo.ConboEvent#event:ADD</a></li>
 
     <li><a href="conbo.ConboEvent.html#event:REMOVE">conbo.ConboEvent#event:REMOVE</a></li>
-
-    <li><a href="conbo.ConboEvent.html#event:RESULT">conbo.ConboEvent#event:RESULT</a></li>
-
-    <li><a href="conbo.ConboEvent.html#event:FAULT">conbo.ConboEvent#event:FAULT</a></li>
 </ul>
 
 
@@ -201,7 +197,7 @@
 
 
     <ul>
-        <li><a href="conbo.List.html">conbo.List</a></li>
+        <li><a href="conbo.EventDispatcher.html">conbo.EventDispatcher</a></li>
     </ul>
 
 
@@ -244,11 +240,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.List.html#itemClass">conbo.List#itemClass</a>
-    </li></ul></dd>
-    
 
     
 
@@ -271,7 +262,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4641">line 4641</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4684">line 4684</a>
     </li></ul></dd>
     
 
@@ -311,11 +302,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.List.html#length">conbo.List#length</a>
-    </li></ul></dd>
-    
 
     
 
@@ -338,7 +324,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4683">line 4683</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4726">line 4726</a>
     </li></ul></dd>
     
 
@@ -378,11 +364,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.List.html#source">conbo.List#source</a>
-    </li></ul></dd>
-    
 
     
 
@@ -405,7 +386,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4663">line 4663</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4706">line 4706</a>
     </li></ul></dd>
     
 
@@ -472,7 +453,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3267">line 3267</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3286">line 3286</a>
     </li></ul></dd>
     
 
@@ -500,7 +481,7 @@
     
 
     
-    <h4 class="name" id="__construct"><span class="type-signature"></span>__construct<span class="signature">(options<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="__construct"><span class="type-signature"></span>__construct<span class="signature">(options)</span><span class="type-signature"></span></h4>
     
 
     
@@ -508,7 +489,7 @@
 
 
 <div class="description">
-    Constructor
+    Constructor: DO NOT override! (Use initialize instead)
 </div>
 
 
@@ -532,8 +513,6 @@
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
         
 
@@ -551,28 +530,13 @@
 
             <td class="type">
             
-                
-<span class="param-type">Object</span>
-
-
-            
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
 
             
 
-            <td class="description last">Object containing 'source' (Array, optional), 'rootUrl', 'command' and (optionally) 'itemClass' parameters</td>
+            <td class="description last"></td>
         </tr>
 
     
@@ -592,11 +556,6 @@
 
     
 
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="conbo.List.html#__construct">conbo.List#__construct</a>
-    </li></ul></dd>
     
 
     
@@ -618,7 +577,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line5739">line 5739</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4690">line 4690</a>
     </li></ul></dd>
     
 
@@ -800,7 +759,7 @@
                 </td>
             
 
-            <td class="description last">The scope in which to run the event handler</td>
+            <td class="description last">Options object (recommended) or the scope in which to run the event handler (deprecated)</td>
         </tr>
 
     
@@ -839,7 +798,7 @@
                 </td>
             
 
-            <td class="description last">The event handler's priority when the event is dispatached</td>
+            <td class="description last">The event handler's priority when the event is dispatached (deprecated)</td>
         </tr>
 
     
@@ -878,7 +837,7 @@
                 </td>
             
 
-            <td class="description last">Should the event listener automatically be removed after it has been called once?</td>
+            <td class="description last">Should the event listener automatically be removed after it has been called once? (deprecated)</td>
         </tr>
 
     
@@ -924,7 +883,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3971">line 3971</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3990">line 3990</a>
     </li></ul></dd>
     
 
@@ -1100,7 +1059,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3277">line 3277</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3296">line 3296</a>
     </li></ul></dd>
     
 
@@ -1182,11 +1141,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.List.html#clone">conbo.List#clone</a>
-    </li></ul></dd>
-    
 
     
 
@@ -1209,7 +1163,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4840">line 4840</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4883">line 4883</a>
     </li></ul></dd>
     
 
@@ -1357,7 +1311,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3238">line 3238</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3257">line 3257</a>
     </li></ul></dd>
     
 
@@ -1439,12 +1393,12 @@
     
 
     
-
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="conbo.List.html#destroy">conbo.List#destroy</a>
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="conbo.Class.html#destroy">conbo.Class#destroy</a>
     </li></ul></dd>
+    
+
     
 
     
@@ -1466,7 +1420,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3258">line 3258</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3277">line 3277</a>
     </li></ul></dd>
     
 
@@ -1624,7 +1578,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4073">line 4073</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4116">line 4116</a>
     </li></ul></dd>
     
 
@@ -1786,7 +1740,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4042">line 4042</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4085">line 4085</a>
     </li></ul></dd>
     
 
@@ -1872,11 +1826,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.List.html#getItemAt">conbo.List#getItemAt</a>
-    </li></ul></dd>
-    
 
     
 
@@ -1899,7 +1848,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4795">line 4795</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4838">line 4838</a>
     </li></ul></dd>
     
 
@@ -2069,7 +2018,7 @@
 
             
 
-            <td class="description last">The scope in which the handler is set to run</td>
+            <td class="description last">Options object (recommended) or the scope in which to run the event handler (deprecated)</td>
         </tr>
 
     
@@ -2115,7 +2064,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4022">line 4022</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4058">line 4058</a>
     </li></ul></dd>
     
 
@@ -2285,7 +2234,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3252">line 3252</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3271">line 3271</a>
     </li></ul></dd>
     
 
@@ -2367,11 +2316,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.List.html#pop">conbo.List#pop</a>
-    </li></ul></dd>
-    
 
     
 
@@ -2394,7 +2338,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4714">line 4714</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4757">line 4757</a>
     </li></ul></dd>
     
 
@@ -2542,7 +2486,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3245">line 3245</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3264">line 3264</a>
     </li></ul></dd>
     
 
@@ -2624,11 +2568,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.List.html#push">conbo.List#push</a>
-    </li></ul></dd>
-    
 
     
 
@@ -2651,7 +2590,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4696">line 4696</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4739">line 4739</a>
     </li></ul></dd>
     
 
@@ -2823,7 +2762,7 @@
 
             
 
-            <td class="description last">The scope in which the handler is set to run</td>
+            <td class="description last">Options object (recommended) or the scope in which to run the event handler (deprecated)</td>
         </tr>
 
     
@@ -2869,7 +2808,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3994">line 3994</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4023">line 4023</a>
     </li></ul></dd>
     
 
@@ -2955,11 +2894,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.List.html#setItemAt">conbo.List#setItemAt</a>
-    </li></ul></dd>
-    
 
     
 
@@ -2982,7 +2916,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4804">line 4804</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4847">line 4847</a>
     </li></ul></dd>
     
 
@@ -3046,11 +2980,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.List.html#shift">conbo.List#shift</a>
-    </li></ul></dd>
-    
 
     
 
@@ -3073,7 +3002,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4746">line 4746</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4789">line 4789</a>
     </li></ul></dd>
     
 
@@ -3137,11 +3066,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.List.html#slice">conbo.List#slice</a>
-    </li></ul></dd>
-    
 
     
 
@@ -3164,7 +3088,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4762">line 4762</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4805">line 4805</a>
     </li></ul></dd>
     
 
@@ -3289,11 +3213,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.List.html#sort">conbo.List#sort</a>
-    </li></ul></dd>
-    
 
     
 
@@ -3316,7 +3235,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4829">line 4829</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4872">line 4872</a>
     </li></ul></dd>
     
 
@@ -3380,11 +3299,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.List.html#splice">conbo.List#splice</a>
-    </li></ul></dd>
-    
 
     
 
@@ -3407,7 +3321,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4773">line 4773</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4816">line 4816</a>
     </li></ul></dd>
     
 
@@ -3471,11 +3385,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.List.html#toJSON">conbo.List#toJSON</a>
-    </li></ul></dd>
-    
 
     
 
@@ -3498,7 +3407,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4848">line 4848</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4891">line 4891</a>
     </li></ul></dd>
     
 
@@ -3566,7 +3475,7 @@
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="conbo.List.html#toString">conbo.List#toString</a>
+        <a href="conbo.EventDispatcher.html#toString">conbo.EventDispatcher#toString</a>
     </li></ul></dd>
     
 
@@ -3589,7 +3498,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3287">line 3287</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3306">line 3306</a>
     </li></ul></dd>
     
 
@@ -3671,11 +3580,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.List.html#unshift">conbo.List#unshift</a>
-    </li></ul></dd>
-    
 
     
 
@@ -3698,7 +3602,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4730">line 4730</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4773">line 4773</a>
     </li></ul></dd>
     
 
@@ -3748,7 +3652,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Aug 01 2019 15:36:41 GMT+0100 (British Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Aug 17 2019 10:59:26 GMT+0100 (British Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -1744,7 +1744,8 @@
 	conbo.isSupported = 
 		window.addEventListener
 		&& !!Object.defineProperty 
-		&& !!Object.getOwnPropertyDescriptor;
+		&& !!Object.getOwnPropertyDescriptor
+		;
 	
 	/**
 	 * Is this script being run using Node.js?

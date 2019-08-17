@@ -43,7 +43,7 @@ conbo.LocalList = conbo.List.extend(
 		{
   			storage.setItem(name, JSON.stringify(this));
 		}, 
-		this, 1000);
+		{scope:this, priority:1000});
 		
 		options.source = getLocal();
 		

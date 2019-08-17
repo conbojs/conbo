@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: HeadlessApplication</title>
+    <title>JSDoc: Class: EventDispatcher</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: HeadlessApplication</h1>
+    <h1 class="page-title">Class: EventDispatcher</h1>
 
     
 
@@ -29,7 +29,7 @@
 <header>
     
         <h2><span class="attribs"><span class="type-signature"></span></span>
-            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>HeadlessApplication<span class="signature">(options)</span><span class="type-signature"></span></h2>
+            <span class="ancestors"><a href="conbo.html">conbo</a>.</span>EventDispatcher<span class="signature">(options)</span><span class="type-signature"></span></h2>
         
     
 </header>
@@ -42,7 +42,7 @@
     
 
     
-    <h4 class="name" id="HeadlessApplication"><span class="type-signature"></span>new HeadlessApplication<span class="signature">(options)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="EventDispatcher"><span class="type-signature"></span>new EventDispatcher<span class="signature">(options)</span><span class="type-signature"></span></h4>
     
 
     
@@ -50,7 +50,7 @@
 
 
 <div class="description">
-    Headless Application Base class for applications that don't require DOM, e.g. Node.js
+    Event DispatcherEvent model designed to bring events into line with DOM events and those found in HTML DOM, jQuery and ActionScript 2 & 3, offering a more predictable, object based approach to event dispatching and handlingShould be used as the base class for any class that won't be used for data binding
 </div>
 
 
@@ -102,7 +102,7 @@
 
             
 
-            <td class="description last">Object containing initialisation options</td>
+            <td class="description last">Object containing optional initialisation options, including 'context'</td>
         </tr>
 
     
@@ -150,7 +150,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4095">line 4095</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3960">line 3960</a>
     </li></ul></dd>
     
 
@@ -188,7 +188,9 @@
 
 
     <ul>
-        <li><a href="conbo.EventDispatcher.html">conbo.EventDispatcher</a></li>
+        <li><a href="conbo.Class.html">conbo.Class</a></li>
+    
+        <li><a href="conbo.html#.IInjectable">conbo.IInjectable</a></li>
     </ul>
 
 
@@ -206,68 +208,6 @@
 
     
         <h3 class="subsection-title">Members</h3>
-
-        
-            
-<h4 class="name" id="contextClass"><span class="type-signature"></span>contextClass<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    Default context class to useYou'll normally want to override this with your own
-</div>
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4113">line 4113</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
 
         
             
@@ -320,7 +260,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3267">line 3267</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3286">line 3286</a>
     </li></ul></dd>
     
 
@@ -341,136 +281,6 @@
 
     
         <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="__construct"><span class="type-signature"></span>__construct<span class="signature">(options)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Constructor: DO NOT override! (Use initialize instead)
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>options</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4119">line 4119</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         
             
@@ -626,7 +436,7 @@
                 </td>
             
 
-            <td class="description last">The scope in which to run the event handler</td>
+            <td class="description last">Options object (recommended) or the scope in which to run the event handler (deprecated)</td>
         </tr>
 
     
@@ -665,7 +475,7 @@
                 </td>
             
 
-            <td class="description last">The event handler's priority when the event is dispatached</td>
+            <td class="description last">The event handler's priority when the event is dispatached (deprecated)</td>
         </tr>
 
     
@@ -704,7 +514,7 @@
                 </td>
             
 
-            <td class="description last">Should the event listener automatically be removed after it has been called once?</td>
+            <td class="description last">Should the event listener automatically be removed after it has been called once? (deprecated)</td>
         </tr>
 
     
@@ -722,11 +532,6 @@
 
     
 
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.EventDispatcher.html#addEventListener">conbo.EventDispatcher#addEventListener</a>
-    </li></ul></dd>
     
 
     
@@ -750,7 +555,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3971">line 3971</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3990">line 3990</a>
     </li></ul></dd>
     
 
@@ -926,7 +731,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3277">line 3277</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3296">line 3296</a>
     </li></ul></dd>
     
 
@@ -1092,7 +897,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3238">line 3238</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3257">line 3257</a>
     </li></ul></dd>
     
 
@@ -1201,7 +1006,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3258">line 3258</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3277">line 3277</a>
     </li></ul></dd>
     
 
@@ -1332,11 +1137,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.EventDispatcher.html#dispatchChange">conbo.EventDispatcher#dispatchChange</a>
-    </li></ul></dd>
-    
 
     
 
@@ -1359,7 +1159,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4073">line 4073</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4116">line 4116</a>
     </li></ul></dd>
     
 
@@ -1494,11 +1294,6 @@
     
 
     
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.EventDispatcher.html#dispatchEvent">conbo.EventDispatcher#dispatchEvent</a>
-    </li></ul></dd>
-    
 
     
 
@@ -1521,7 +1316,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4042">line 4042</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4085">line 4085</a>
     </li></ul></dd>
     
 
@@ -1713,7 +1508,7 @@
 
             
 
-            <td class="description last">The scope in which the handler is set to run</td>
+            <td class="description last">Options object (recommended) or the scope in which to run the event handler (deprecated)</td>
         </tr>
 
     
@@ -1731,11 +1526,6 @@
 
     
 
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.EventDispatcher.html#hasEventListener">conbo.EventDispatcher#hasEventListener</a>
-    </li></ul></dd>
     
 
     
@@ -1759,7 +1549,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4022">line 4022</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4058">line 4058</a>
     </li></ul></dd>
     
 
@@ -1929,7 +1719,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3252">line 3252</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3271">line 3271</a>
     </li></ul></dd>
     
 
@@ -2095,7 +1885,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3245">line 3245</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3264">line 3264</a>
     </li></ul></dd>
     
 
@@ -2285,7 +2075,7 @@
 
             
 
-            <td class="description last">The scope in which the handler is set to run</td>
+            <td class="description last">Options object (recommended) or the scope in which to run the event handler (deprecated)</td>
         </tr>
 
     
@@ -2303,11 +2093,6 @@
 
     
 
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="conbo.EventDispatcher.html#removeEventListener">conbo.EventDispatcher#removeEventListener</a>
-    </li></ul></dd>
     
 
     
@@ -2331,7 +2116,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3994">line 3994</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line4023">line 4023</a>
     </li></ul></dd>
     
 
@@ -2421,7 +2206,7 @@
     
     <dt class="tag-overrides">Overrides:</dt>
     <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="conbo.EventDispatcher.html#toString">conbo.EventDispatcher#toString</a>
+        <a href="conbo.Class.html#toString">conbo.Class#toString</a>
     </li></ul></dd>
     
 
@@ -2444,7 +2229,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3287">line 3287</a>
+        <a href="conbine.js.html">conbine.js</a>, <a href="conbine.js.html#line3306">line 3306</a>
     </li></ul></dd>
     
 
@@ -2512,7 +2297,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Aug 01 2019 15:36:41 GMT+0100 (British Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Aug 17 2019 10:59:26 GMT+0100 (British Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -538,6 +538,7 @@ declare namespace conbo
 
 		/**
 		 * Add a listener for a particular event type
+		 * @deprecated
 		 * @param 	{string}	type - Type of event ('change') or events ('change blur')
 		 * @param 	{Function}	handler - Function that should be called
 		 * @param 	{any}		[scope] - The scope in which to run the event handler
@@ -558,6 +559,7 @@ declare namespace conbo
 
 		/**
 		 * Remove a listener for a particular event type
+		 * @deprecated
 		 * @param 	{string}	[type] - Type of event ('change') or events ('change blur'), if not specified, all listeners will be removed
 		 * @param 	{Function}	[handler] - Function that should be called, if not specified, all listeners of the specified type will be removed
 		 * @param 	{any} 	[scope] - The scope in which the handler is set to run
@@ -576,6 +578,7 @@ declare namespace conbo
 
 		/**
 		 * Does this object have an event listener of the specified type?
+		 * @deprecated
 		 * @param 	{string}	type - Type of event (e.g. 'change')
 		 * @param 	{Function}	[handler] - Function that should be called
 		 * @param 	{any} 	[scope] - The scope in which the handler is set to run
