@@ -1,7 +1,7 @@
 {
 	"name": "conbine",
-	"version": "4.3.25-rc.1",
-	"description": "Conbine is a subset of ConboJS for use in combination with your favourite view framework",
+	"version": "4.3.25-rc.2",
+	"description": "Conbine is ConboJS for use in combination with your favourite view framework",
 	"keywords": [
 		"babel",
 		"browser",
