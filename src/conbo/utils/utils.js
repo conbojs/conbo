@@ -1423,6 +1423,24 @@
 	{
 		return obj === Object(obj);
 	};
+	
+	/**
+	 * Is a given variable a plain object (i.e. not an instance of anything)?
+	 * 
+	 * @memberof	conbo
+	 * @param		{Object}	obj - Value that might be a plain Object
+	 * @returns		{boolean}
+	 */
+	conbo.isPlainObject = function(obj)
+	{
+		if (!!obj && obj !== Math)
+		{
+			var p = Object.getPrototypeOf(obj);
+			return !p || p === Object.prototype;
+		}
+
+		return false;
+	};
 
 	/**
 	 * Is the specified object Arguments?
@@ -1726,7 +1744,8 @@
 	conbo.isSupported = 
 		window.addEventListener
 		&& !!Object.defineProperty 
-		&& !!Object.getOwnPropertyDescriptor;
+		&& !!Object.getOwnPropertyDescriptor
+		;
 	
 	/**
 	 * Is this script being run using Node.js?

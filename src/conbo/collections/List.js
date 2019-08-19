@@ -30,8 +30,8 @@ conbo.List = conbo.EventDispatcher.extend(
 	 */
 	__construct: function(options) 
 	{
-		this.addEventListener(conbo.ConboEvent.ADD, this.__updateArrayAccess, this, 9999)
-			.addEventListener(conbo.ConboEvent.REMOVE, this.__updateArrayAccess, this, 9999)
+		this.addEventListener(conbo.ConboEvent.ADD, this.__updateArrayAccess, {scope:this, priority:9999})
+			.addEventListener(conbo.ConboEvent.REMOVE, this.__updateArrayAccess, {scope:this, priority:9999})
 			;
 		
 		var listOptions = ['itemClass'];

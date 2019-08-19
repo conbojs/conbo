@@ -45,8 +45,8 @@ conbo.Router = conbo.EventDispatcher.extend(
 			this.__bindRoutes();
 			
 			this.__history
-				.addEventListener(conbo.ConboEvent.FAULT, this.dispatchEvent, this)
-				.addEventListener(conbo.ConboEvent.CHANGE, this.dispatchEvent, this)
+				.addEventListener(conbo.ConboEvent.FAULT, this.dispatchEvent, {scope:this})
+				.addEventListener(conbo.ConboEvent.CHANGE, this.dispatchEvent, {scope:this})
 				.start(options)
 				;
 			

@@ -11,7 +11,7 @@
 		if (!this.hasEventListener(type, handler, scope))
 		{
 			if (!(type in this.__queue)) this.__queue[type] = [];
-			this.__queue[type].push({handler:handler, scope:scope, once:once, priority:~~priority});
+			this.__queue[type].push({handler:handler, scope:scope, once:!!once, priority:~~priority});
 			this.__queue[type].sort(function(a,b){return b.priority-a.priority;});
 		}
 	};
@@ -80,9 +80,9 @@
 		 * 
 		 * @param 	{string}		type - Type of event ('change') or events ('change blur')
 		 * @param 	{Function}		handler - Function that should be called
-		 * @param 	{Object}		[scope] - The scope in which to run the event handler
-		 * @param 	{number}		[priority=0] - The event handler's priority when the event is dispatached
-		 * @param 	{boolean}		[once=false] - Should the event listener automatically be removed after it has been called once?
+		 * @param 	{Object}		[scope] - Options object (recommended) or the scope in which to run the event handler (deprecated)
+		 * @param 	{number}		[priority=0] - The event handler's priority when the event is dispatached (deprecated)
+		 * @param 	{boolean}		[once=false] - Should the event listener automatically be removed after it has been called once? (deprecated)
 		 * @returns	{conbo.EventDispatcher}	A reference to this class instance 
 		 */
 		addEventListener: function(type, handler, scope, priority, once)
@@ -90,10 +90,27 @@
 			if (!type) throw new Error('Event type undefined');
 			if (!handler || !conbo.isFunction(handler)) throw new Error('Event handler is undefined or not a function');
 	
+			if (scope)
+			{
+				// Options object?
+				if (conbo.isPlainObject(scope))
+				{
+					var options = scope;
+
+					scope = options.scope;
+					priority = options.priority || 0;
+					once = options.once || false;
+				}
+				else
+				{
+					__deprecated('addEventListener(type, handler, scope, priority, once)', 'addEventListener(type, handler, options)');
+				}
+			}
+
 			if (conbo.isString(type)) type = type.split(' ');
 			if (conbo.isArray(type)) conbo.forEach(type, function(value, index, list)
 			{
-				EventDispatcher__addEventListener.call(this, value, handler, scope, priority, !!once); 
+				EventDispatcher__addEventListener.call(this, value, handler, scope, priority, once); 
 			},
 			this);
 			
@@ -103,9 +120,9 @@
 		/**
 		 * Remove a listener for a particular event type
 		 * 
-		 * @param {string}		[type] - Type of event ('change') or events ('change blur'), if not specified, all listeners will be removed 
-		 * @param {Function}	[handler] - Function that should be called, if not specified, all listeners of the specified type will be removed
-		 * @param {Object} 		[scope] - The scope in which the handler is set to run
+		 * @param 	{string}		[type] - Type of event ('change') or events ('change blur'), if not specified, all listeners will be removed 
+		 * @param 	{Function}		[handler] - Function that should be called, if not specified, all listeners of the specified type will be removed
+		 * @param 	{Object}		[scope] - Options object (recommended) or the scope in which to run the event handler (deprecated)
 		 * @returns	{conbo.EventDispatcher}	A reference to this class instance 
 		 */
 		removeEventListener: function(type, handler, scope)
@@ -115,7 +132,14 @@
 				__definePrivateProperty(this, '__queue', {});
 				return this;
 			}
-			
+
+			// Options object?
+			if (conbo.isPlainObject(scope))
+			{
+				var options = scope;
+				scope = options.scope;
+			}			
+
 			if (conbo.isString(type)) type = type.split(' ');
 			if (!conbo.isArray(type)) type = [undefined];
 			
@@ -133,7 +157,7 @@
 		 * 
 		 * @param 	{string}	type - Type of event (e.g. 'change') 
 		 * @param 	{Function}	[handler] - Function that should be called
-		 * @param 	{Object} 	[scope] - The scope in which the handler is set to run
+		 * @param 	{Object}	[scope] - Options object (recommended) or the scope in which to run the event handler (deprecated)
 		 * @returns	{boolean}	True if this object has the specified event listener, false if it does not
 		 */
 		hasEventListener: function(type, handler, scope)
@@ -141,6 +165,13 @@
 			if (!this.__queue || !(type in this.__queue) || !this.__queue[type].length)
 			{
 				return false;
+			}
+
+			// Options object?
+			if (conbo.isPlainObject(scope))
+			{
+				var options = scope;
+				scope = options.scope;
 			}
 			
 			var filtered = this.__queue[type].filter(function(queued)

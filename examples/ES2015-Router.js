@@ -69,8 +69,8 @@ class RouterExample extends conbo.Application
 	creationComplete()
 	{
 		this.router
-			.addEventListener(conbo.ConboEvent.FAULT, this.faultHandler, this) // Unrecognised route
-			.addEventListener(conbo.ConboEvent.ROUTE, this.routeHandler, this) // Recognised route
+			.addEventListener(conbo.ConboEvent.FAULT, this.faultHandler) // Unrecognised route
+			.addEventListener(conbo.ConboEvent.ROUTE, this.routeHandler) // Recognised route
 			.start()
 			;
 	}
