@@ -91,8 +91,8 @@ conbo('ns', function()
 		{
 			this.appendView
 			(
-				new ns.OutputView(this.context.addTo()),
-				new ns.InputView(this.context.addTo())
+				new ns.OutputView(this.context),
+				new ns.InputView(this.context)
 			);
 		}
 	});
