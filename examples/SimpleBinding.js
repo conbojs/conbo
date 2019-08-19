@@ -17,7 +17,7 @@ conbo('ns', function()
 		
 		initialize: function()
 		{
-			this.name = "Conbo";
+			this.name = 'Conbo';
 		}
 	});
 	

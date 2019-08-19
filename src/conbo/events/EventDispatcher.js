@@ -90,14 +90,21 @@
 			if (!type) throw new Error('Event type undefined');
 			if (!handler || !conbo.isFunction(handler)) throw new Error('Event handler is undefined or not a function');
 	
-			// Options object?
-			if (conbo.isPlainObject(scope))
+			if (scope)
 			{
-				var options = scope;
+				// Options object?
+				if (conbo.isPlainObject(scope))
+				{
+					var options = scope;
 
-				scope = options.scope;
-				priority = options.priority || 0;
-				once = options.once || false;
+					scope = options.scope;
+					priority = options.priority || 0;
+					once = options.once || false;
+				}
+				else
+				{
+					__deprecated('addEventListener(type, handler, scope, priority, once)', 'addEventListener(type, handler, options)');
+				}
 			}
 
 			if (conbo.isString(type)) type = type.split(' ');
@@ -165,7 +172,7 @@
 			{
 				var options = scope;
 				scope = options.scope;
-			}			
+			}
 			
 			var filtered = this.__queue[type].filter(function(queued)
 			{
