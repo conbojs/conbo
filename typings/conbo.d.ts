@@ -1721,7 +1721,8 @@ declare namespace conbo
 		subcontext: Context;
 
 		/**
-		 * The current view state
+		 * The current view state.
+		 * When set, adds "cb-state-x" CSS class on the View's element, where "x" is the value of currentState.
 		 */
 		currentState: string;
 
