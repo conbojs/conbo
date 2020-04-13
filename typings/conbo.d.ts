@@ -1726,7 +1726,12 @@ declare namespace conbo
 		currentState: string;
 
 		/**
-		 * Convenience method for conbo.ConboEvent.CREATION_COMPLETE event handler Stub
+		 * Convenience method for conbo.ConboEvent.TEMPLATE_COMPLETE event handler
+		 */
+		protected templateComplete(): void;
+
+		/**
+		 * Convenience method for conbo.ConboEvent.CREATION_COMPLETE event handler
 		 */
 		protected creationComplete(): void;
 	
@@ -2447,10 +2452,10 @@ declare namespace conbo
 
 	/**
 	 * Returns the sum of all of the values in an array
-	 * @param 		{ant} 		obj - The list to add together
+	 * @param 		{any} 		obj - The list to add together
 	 * @returns		{number}
 	 */
-	function sum(obj):number;
+	function sum(obj:any):number;
 
 	/**
 	 * Convert anything iterable into an Array
@@ -2464,7 +2469,6 @@ declare namespace conbo
 	/**
 	 * Return the number of elements in an object.
 	 * 
-	 * 
 	 * @param		{any}	obj - The object to count the keys of
 	 * @returns		{number}
 	 */
@@ -2473,7 +2477,6 @@ declare namespace conbo
 	/**
 	 * Get the last element of an array. Passing n will return the last N
 	 * values in the array. The guard check allows it to work with `conbo.map`.
-	 * 
 	 * 
 	 * @param		{any[]}		array - The array to slice
 	 * @param		{Function}	[n] - The number of elements to return (default: 1)
