@@ -77,11 +77,6 @@ conbo.View = conbo.Glimpse.extend(
 	 */
 	
 	/**
-	 * @member		{string}	currentState - The current view state
-	 * @memberof	conbo.View.prototype
-	 */
-	
-	/**
 	 * Constructor: DO NOT override! (Use initialize instead)
 	 * @param options
 	 * @private
@@ -119,7 +114,7 @@ conbo.View = conbo.Glimpse.extend(
 		);
 		
 		conbo.assign(this, conbo.pick(options, viewOptions));
-		conbo.makeBindable(this, ['currentState']);
+		conbo.makeBindable(this);
 		
 		this.context = options.context;
 		this.__setEl(options.el || document.createElement(this.tagName));
@@ -238,7 +233,41 @@ conbo.View = conbo.Glimpse.extend(
 	},
 	
 	/**
-	 * Convenience method for conbo.ConboEvent.CREATION_COMPLETE event handler Stub
+	 * The current view state. When set, adds "cb-state-x" CSS class on the View's element, where "x" is the value of currentState.
+	 * @type	{string}
+	 */
+	get currentState()
+	{
+		return this.__currentState || '';
+	},
+
+	set currentState(value)
+	{
+		// If the view is ready the state class is applied immediately, otherwise it gets set in __setEl()
+		if (this.el)
+		{
+			if (this.currentState)
+			{
+				this.el.classList.remove('cb-state-'+this.currentState);
+			}
+
+			if (value)
+			{
+				this.el.classList.add('cb-state-'+value);
+			}
+		}
+
+		this.__currentState = value;
+		this.dispatchChange('currentState');
+	},
+
+	/**
+	 * Convenience method for conbo.ConboEvent.TEMPLATE_COMPLETE event handler
+	 */
+	templateComplete: function() {},
+	
+	/**
+	 * Convenience method for conbo.ConboEvent.CREATION_COMPLETE event handler
 	 */
 	creationComplete: function() {},
 
@@ -587,6 +616,11 @@ conbo.View = conbo.Glimpse.extend(
 			.setAttributes(attrs)
 			;
 
+		if (this.currentState)
+		{
+			ep.addClass('cb-state-'+this.currentState);			
+		}
+
 		__definePrivateProperty(this, '__el', el);
 		
 		return this;
@@ -605,9 +639,9 @@ conbo.View = conbo.Glimpse.extend(
 		
 		delete this.__content;
 		
-		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.TEMPLATE_COMPLETE))
-			.bindView()
-			;
+		this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.TEMPLATE_COMPLETE));
+		this.templateComplete();
+		this.bindView();
 		
 		conbo.defer(function()
 		{
