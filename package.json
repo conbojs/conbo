@@ -1,6 +1,6 @@
 {
 	"name": "conbo",
-	"version": "4.3.25",
+	"version": "4.3.26",
 	"description": "ConboJS is the best JavaScript application framework you've never heard of",
 	"keywords": [
 		"attributes",
@@ -34,7 +34,7 @@
 	"readme": "./README.md",
 	"repository": {
 		"type": "git",
-		"url": "git@github.com:mesmotronic/conbo.git"
+		"url": "git@github.com:conbojs/conbo.git"
 	},
 	"devDependencies": {
 		"chai": "^4.2.0",
