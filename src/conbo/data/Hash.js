@@ -33,7 +33,7 @@ conbo.Hash = conbo.EventDispatcher.extend(
 		conbo.assign(this, conbo.setDefaults({}, options.source, this._defaults));
 		delete this._defaults;
 	},
-	
+
 	/**
 	 * Returns a version of this object that can easily be converted into JSON
 	 * @function
@@ -44,8 +44,80 @@ conbo.Hash = conbo.EventDispatcher.extend(
 	toString: function()
 	{
 		return 'conbo.Hash';
-	}
+	},
+
+	// Web Storage API
+
+	// /**
+	//  * The read-only length property returns the number of data items stored in this Hash
+	//  */
+	// TODO Can we implement length without messing up JSON values?
+	// get length()
+	// {
+	// 	return conbo.keys(this.toJSON()).length;
+	// },
+
+	/**
+	 * [Web Storage API] When passed a number n, this method will return the name of the nth key in the Hash
+	 * @param {number} index
+	 */
+	key: function(index)
+	{
+		var keys = conbo.keys(this.toJSON()).sort();
+		return keys[index];
+	},
 	
+	/**
+	 * [Web Storage API] When passed a key name, will return that key's value
+	 * @param {string} keyName
+	 */
+	getItem: function(keyName)
+	{
+		return this[keyName];
+	},
+	
+	/**
+	 * [Web Storage API] When passed a key name and value, will add that key to the Hash, or update that key's value if it already exists
+	 * @param {string} keyName
+	 * @param {*} keyValue
+	 */
+	setItem: function(keyName, keyValue)
+	{
+		if (!conbo.isAccessor(this, keyName))
+		{
+			conbo.makeBindable(this, keyName);
+		}
+
+		this[keyName] = keyValue;
+	},
+
+	/**
+	 * [Web Storage API] When passed a key name, will remove that key from the Hash (or set it to undefined if it cannot be deleted)
+	 * @param {string} keyName
+	 */
+	removeItem: function(keyName)
+	{
+		if (!(keyName in this)) return;
+
+		if (!(delete this[keyName]))
+		{
+			this.setItem(keyName, undefined);
+		}
+	},
+
+	/**
+	 * [Web Storage API] When invoked, will empty all keys out of the Hash (or set them to undefined if they cannot be deleted)
+	 */
+	clear: function()
+	{
+		var keys = conbo.keys(this.toJSON());
+
+		for (var keyName in keys)
+		{
+			this.removeItem(keyName);
+		}
+	},
+
 });
 
 __denumerate(conbo.Hash.prototype);

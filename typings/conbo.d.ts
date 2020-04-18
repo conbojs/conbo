@@ -807,6 +807,39 @@ declare namespace conbo
 		 * Returns a version of this object that can easily be converted into JSON
 		 */
 		toJSON():any;
+
+		// Web Storage API
+
+		// /**
+		//  * [Web Storage API] The read-only length property returns the number of data items stored in this Hash
+		//  */
+		// get length:number;
+
+		/**
+		 * [Web Storage API] When passed a number n, this method will return the name of the nth key in the Hash
+		 * @param {number} index
+		 */
+		public key(index:number):string;
+		
+		/**
+		 * [Web Storage API] When passed a key name, will return that key's value
+		 */
+		public getItem(keyName:string):any;
+		
+		/**
+		 * [Web Storage API] When passed a key name and value, will add that key to the Hash, or update that key's value if it already exists
+		 */
+		public setItem(keyName:string, keyValue:any):void;
+
+		/**
+		 * [Web Storage API] When passed a key name, will remove that key from the Hash (or set it to undefined if it cannot be deleted)
+		 */
+		public removeItem(keyName:string):void;
+
+		/**
+		 * [Web Storage API] When invoked, will empty all keys out of the Hash (or set them to undefined if they cannot be deleted)
+		 */
+		public clear():void;
 	}
 
 	/**
@@ -907,7 +940,6 @@ declare namespace conbo
 		 */
 		slice(begin?:number, length?:number):List;
 		
-		
 		/**
 		 * Splice out a sub-array of items from the collection.
 		 */
@@ -915,12 +947,14 @@ declare namespace conbo
 		
 		/**
 		 * Get the item at the given index; similar to array[index]
+		 * @deprecated	Use getItem()
 		 */
-		getItemAt(index:number):any; 
+		getItemAt(index:number):any;
 		
 		/**
 		 * Add (or replace) item at given index with the one specified,
 		 * similar to array[index] = value;
+		 * @deprecated	Use setItem()
 		 */
 		setItemAt(index:number, item:any):any;
 		
@@ -960,7 +994,35 @@ declare namespace conbo
 		without(...args:any[]):any;
 		shuffle(...args:any[]):any;
 		isEmpty(...args:any[]):any;
-		sortOn(...args:any[]):any;    	
+		sortOn(...args:any[]):any;  
+		
+		// Web Storage API
+
+		/**
+		 * [Web Storage API] When passed a number n, this method will return n if that index exists or -1 if it does not
+		 * @param {number} index
+		 */
+		public key(index:number):number;
+		
+		/**
+		 * [Web Storage API] When passed a key name, will return that key's value
+		 */
+		public getItem(keyName:number):any;
+		
+		/**
+		 * [Web Storage API] When passed a key name and value, will add that key to the List (i.e. add a new value at that index), or update that key's value if it already exists
+		 */
+		public setItem(keyName:number, keyValue:any):void;
+
+		/**
+		 * [Web Storage API] When passed an key name, will remove that key from the List, equivalent to List.splice(keyName, 1)
+		 */
+		public removeItem(keyName:number):void;
+
+		/**
+		 * [Web Storage API] When invoked, will empty all items out of the List, reducing its length to zero
+		 */
+		public clear():void;
 	}
 
 	/**

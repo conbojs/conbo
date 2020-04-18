@@ -175,6 +175,7 @@ conbo.List = conbo.EventDispatcher.extend(
 	
 	/**
 	 * Get the item at the given index; similar to array[index]
+	 * @deprecated	Use getItem()
 	 */
 	getItemAt: function(index) 
 	{
@@ -184,6 +185,7 @@ conbo.List = conbo.EventDispatcher.extend(
 	/**
 	 * Add (or replace) item at given index with the one specified,
 	 * similar to array[index] = value;
+	 * @deprecated	Use setItem()
 	 */
 	setItemAt: function(index, item)
 	{
@@ -244,6 +246,62 @@ conbo.List = conbo.EventDispatcher.extend(
 		return 'conbo.List';
 	},
 	
+	// Web Storage API
+
+	// length property already implemented above.
+
+	/**
+	 * [Web Storage API] When passed a number n, this method will return n if that index exists or -1 if it does not
+	 * @param {number} index
+	 */
+	key: function(index)
+	{
+		if (index in this.source)
+		{
+			return index;
+		}
+
+		return -1;
+	},
+	
+	/**
+	 * [Web Storage API] When passed a key name, will return that key's value
+	 * @param {number} keyName
+	 */
+	getItem: function(keyName)
+	{
+		return this.getItemAt(keyName);
+	},
+	
+	/**
+	 * [Web Storage API] When passed a key name and value, will add that key to the List (i.e. add a new value at that index), or update that key's value if it already exists
+	 * @param {number} keyName
+	 * @param {*} keyValue
+	 */
+	setItem: function(keyName, keyValue)
+	{
+		this.setItemAt(keyName, keyValue);
+	},
+
+	/**
+	 * [Web Storage API] When passed an key name, will remove that key from the List, equivalent to List.splice(keyName, 1)
+	 * @param {number} keyName
+	 */
+	removeItem: function(keyName)
+	{
+		this.splice(keyName, 1);
+	},
+
+	/**
+	 * [Web Storage API] When invoked, will empty all items out of the List, reducing its length to zero
+	 */
+	clear: function()
+	{
+		this.splice();
+	},
+
+	// Internal
+
 	/**
 	 * Listen to the events of Bindable values so we can detect changes
 	 * @param 	{any}		models
@@ -321,7 +379,7 @@ conbo.List = conbo.EventDispatcher.extend(
 		}
 		
 		return item;
-	}
+	},
 	
 }).implement(conbo.IInjectable);
 
