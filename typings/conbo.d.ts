@@ -788,7 +788,11 @@ declare namespace conbo
 
 	/**
 	 * conbo.Hash
-	 * A Hash is a bindable object of associated keys and values
+	 * 
+	 * A Hash is a bindable object of associated keys and values.
+	 * 
+	 * This class implements the Web Storage API, with the exception of the `length` property.
+	 * 
 	 * @class		Hash
 	 * 
 	 * @augments	conbo.EventDispatcher
@@ -883,9 +887,13 @@ declare namespace conbo
 	/**
 	 * A bindable Array wrapper that can be used when you don't require
 	 * web service connectivity.
+	 * 
 	 * Plain objects will automatically be converted into an instance of
 	 * the specified `itemClass` when added to a List, and the appropriate
 	 * events dispatched if the items it contains are changed or updated.
+	 * 
+	 * This class implements the Web Storage API.
+	 * 
 	 * @fires		conbo.ConboEvent#CHANGE
 	 * @fires		conbo.ConboEvent#ADD
 	 * @fires		conbo.ConboEvent#REMOVE
@@ -997,6 +1005,8 @@ declare namespace conbo
 		sortOn(...args:any[]):any;  
 		
 		// Web Storage API
+
+		// [Web Storage API] for 'length' property, see above
 
 		/**
 		 * [Web Storage API] When passed a number n, this method will return n if that index exists or -1 if it does not
@@ -3402,7 +3412,6 @@ declare namespace conbo
 	 * Makes the specified properties of an object bindable; if no property 
 	 * names are passed, all variables will be made bindable
 	 * 
-	 * 
 	 * @see 		#makeAllBindable
 	 * 
 	 * @param		{any}		obj
@@ -3410,6 +3419,18 @@ declare namespace conbo
 	 * @returns		{conbo}
 	 */
 	function makeBindable(obj:any, propNames?:string[]):any;
+	
+	/**
+	 * Makes the specified properties of an object bindable; if no property 
+	 * names are passed, all variables will be made bindable
+	 * 
+	 * @see 		#makeAllBindable
+	 * 
+	 * @param		{any}		obj
+	 * @param		{...string}	[propNames]
+	 * @returns		{conbo}
+	 */
+	function makeBindable(obj:any, ...propNames?:string[]):any;
 	
 	/**
 	 * Makes all existing properties of the specified object bindable, and 
@@ -3422,6 +3443,18 @@ declare namespace conbo
 	 * @returns		{conbo}
 	 */
 	function makeAllBindable(obj:any, propNames?:string[]):any;
+	
+	/**
+	 * Makes all existing properties of the specified object bindable, and 
+	 * optionally creates additional bindable properties for each of the property 
+	 * names passed as additional parameters
+	 * 
+	 * @see 		#makeBindable
+	 * @param		{string}		obj
+	 * @param		{...string}		[propNames]
+	 * @returns		{conbo}
+	 */
+	function makeAllBindable(obj:any, ...propNames?:string[]):any;
 	
 	/**
 	 * Is the specified property an accessor (defined using a getter and/or setter)?

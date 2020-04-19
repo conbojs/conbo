@@ -2257,6 +2257,11 @@
 	 */
 	conbo.makeBindable = function(obj, propNames)
 	{
+		if (conbo.isString(propNames))
+		{
+			propNames = conbo.rest(arguments);
+		}
+
 		propNames = conbo.uniq(propNames || conbo.getPublicVariableNames(obj, true));
 
 		propNames.forEach(function(propName)
@@ -2281,6 +2286,11 @@
 	 */
 	conbo.makeAllBindable = function(obj, propNames)
 	{
+		if (conbo.isString(propNames))
+		{
+			propNames = conbo.rest(arguments);
+		}
+		
 		propNames = (propNames || []).concat(conbo.getPublicVariableNames(obj, true));
 		conbo.makeBindable(obj, propNames);
 		
@@ -2464,10 +2474,7 @@
 					});
 				}
 				
-				var keys = conbo.filter(conbo.variables(obj, true), function(key)
-				{
-					return /^[a-z]*$/i.test(key);
-				});
+				var keys = conbo.getPublicVariableNames(obj);
 				
 				return conbo.pick.apply(conbo, [obj].concat(keys));
 			}
