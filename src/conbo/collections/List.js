@@ -6,6 +6,8 @@
  * the specified `itemClass` when added to a List, and the appropriate
  * events dispatched if the items it contains are changed or updated.
  * 
+ * This class implements the Web Storage API.
+ * 
  * @class		List
  * @memberof	conbo
  * @augments	conbo.EventDispatcher
@@ -248,7 +250,7 @@ conbo.List = conbo.EventDispatcher.extend(
 	
 	// Web Storage API
 
-	// length property already implemented above.
+	// [Web Storage API] for 'length' property, see above
 
 	/**
 	 * [Web Storage API] When passed a number n, this method will return n if that index exists or -1 if it does not

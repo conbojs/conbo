@@ -1,6 +1,9 @@
 /**
  * conbo.Hash
- * A Hash is a bindable object of associated keys and values
+ * 
+ * A Hash is a bindable object of associated keys and values.
+ * 
+ * This class implements the Web Storage API, with the exception of the `length` property.
  * 
  * @class		Hash
  * @memberof	conbo
@@ -30,7 +33,7 @@ conbo.Hash = conbo.EventDispatcher.extend(
 			this.addEventListener('change', changeHandler, {scope:this});
 		}
 
-		conbo.assign(this, conbo.setDefaults({}, options.source, this._defaults));
+		conbo.assign(this, conbo.setDefaults({}, options.source || {}, this._defaults));
 		delete this._defaults;
 	},
 
@@ -51,7 +54,7 @@ conbo.Hash = conbo.EventDispatcher.extend(
 	// /**
 	//  * The read-only length property returns the number of data items stored in this Hash
 	//  */
-	// TODO Can we implement length without messing up JSON values?
+	// TODO Can we implement length without messing up JSON?
 	// get length()
 	// {
 	// 	return conbo.keys(this.toJSON()).length;
@@ -85,7 +88,7 @@ conbo.Hash = conbo.EventDispatcher.extend(
 	{
 		if (!conbo.isAccessor(this, keyName))
 		{
-			conbo.makeBindable(this, keyName);
+			conbo.makeBindable(this, [keyName]);
 		}
 
 		this[keyName] = keyValue;

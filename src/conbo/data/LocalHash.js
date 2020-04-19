@@ -44,7 +44,7 @@ conbo.LocalHash = conbo.Hash.extend(
 		
 		options.source = getLocal();
 		
-		conbo.Hash.prototype.__construct.call(this, options);		
+		conbo.Hash.prototype.__construct.call(this, options);
 	},
 	
 	/**
