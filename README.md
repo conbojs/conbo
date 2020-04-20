@@ -92,9 +92,26 @@ conbo().import({ FooApp, BarView });
 Dependency injection
 --------------------
 
-In the majority of circumstances dependency injection occurs automatically, all you need to do is declare the properties and ConboJS takes care of the rest:
+Once mapped in your application's `Context`, dependency injection occurs automatically under most circumstances, all you need to do is declare the properties and ConboJS takes care of the rest:
 
 ```javascript
+class MyContext extends Context
+{
+	initialize()
+	{
+		this.mapSingleton('myModel', MyModel);
+		this.mapSingleton('myService', MyService);
+	}
+}
+
+class MyApp extends Application
+{
+	declarations()
+	{
+		this.contextClass = MyContext;
+	}
+}
+
 // ES2015
 class MyView extends View
 {
