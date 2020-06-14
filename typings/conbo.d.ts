@@ -3430,7 +3430,7 @@ declare namespace conbo
 	 * @param		{...string}	[propNames]
 	 * @returns		{conbo}
 	 */
-	function makeBindable(obj:any, ...propNames?:string[]):any;
+	function makeBindable(obj:any, ...propNames:string[]):any;
 	
 	/**
 	 * Makes all existing properties of the specified object bindable, and 
@@ -3454,7 +3454,7 @@ declare namespace conbo
 	 * @param		{...string}		[propNames]
 	 * @returns		{conbo}
 	 */
-	function makeAllBindable(obj:any, ...propNames?:string[]):any;
+	function makeAllBindable(obj:any, ...propNames:string[]):any;
 	
 	/**
 	 * Is the specified property an accessor (defined using a getter and/or setter)?
