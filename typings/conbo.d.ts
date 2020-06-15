@@ -2219,7 +2219,16 @@ declare namespace conbo
 		 * 			 ...
 		 * 		});
 		 */
-		addRoute(route:string, name:string, callback:Function):void;
+		addRoute(route:string, name?:string, callback?:Function):void;
+
+		/**
+		 * Adds a route with data
+		 * @example
+		 * 		this.addRoute('search/:query/p:num', {name:'search'}, function(query, num) {
+		 * 			 ...
+		 * 		});
+		 */
+		addRoute(route:string, data?:any, callback?:Function):void;
 
 		/**
 		 * Sets the current path, optionally replacing the current path or silently
