@@ -77,6 +77,7 @@ conbo.ConboEvent = conbo.Event.extend(
      * @property		{string} 		name - The name assigned to the route
      * @property		{Array} 		parameters - The parameters extracted from the route
      * @property		{string} 		path - The new path 
+     * @property		{*} 			data - The data associated with this route
 	 */
 	ROUTE:				'route', 			
 

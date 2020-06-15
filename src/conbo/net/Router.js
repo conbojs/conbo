@@ -77,29 +77,20 @@ conbo.Router = conbo.EventDispatcher.extend(
 	},
 	
 	/**
-	 * Adds a named route
+	 * Adds a route
 	 * 
 	 * @example
 	 * 		this.addRoute('search/:query/p:num', 'search', function(query, num) {
 	 * 			 ...
 	 * 		});
 	 */ 
-	addRoute: function(route, name, callback) 
+	addRoute: function(route, nameOrData, callback) 
 	{
+		var name = conbo.isString(nameOrData) ? nameOrData : (('name' in nameOrData) ? nameOrData.name : '');
+		var data = conbo.isString(nameOrData) ? null : nameOrData;
 		var regExp = conbo.isRegExp(route) ? route : this.__routeToRegExp(route);
 		
-		if (!callback) 
-		{
-			callback = this[name];
-		}
-		
-		if (conbo.isFunction(name)) 
-		{
-			callback = name;
-			name = '';
-		}
-		
-		if (!callback) 
+		if (!callback)
 		{
 			callback = this[name];
 		}
@@ -113,19 +104,27 @@ conbo.Router = conbo.EventDispatcher.extend(
 				: {}
 				;
 			
-			callback && callback.apply(this, args);
+			if (conbo.isFunction(callback))
+			{
+				callback.apply(this, args);
+			}
 			
 			var options = 
 			{
 				router:		this,
 				route:		regExp,
 				name:		name,
+				data:		data,
 				parameters:	args,
 				params:		params,
 				path:		path
 			};
 			
-			this.dispatchEvent(new conbo.ConboEvent('route:'+name, options));
+			if (name)
+			{
+				this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ROUTE+':'+name, options));
+			}
+
 			this.dispatchEvent(new conbo.ConboEvent(conbo.ConboEvent.ROUTE, options));
 			
 		}).bind(this));
