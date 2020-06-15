@@ -15,7 +15,9 @@
 		<div cb-repeat="examples">
 			<h2 cb-html="data.name"></h2>
 			<ul>
-				<li cb-repeat="data.urls:ListItemRenderer"><a cb-href="data.href" cb-html="data.name|formatName"></a></li>
+				<li cb-repeat="data.urls:ListItemRenderer">
+					<a cb-href="data.href" cb-html="data.name|formatName"></a>
+				</li>
 			</ul>
 		</div>
 		
@@ -33,6 +35,17 @@
 						
 						this.examples =
 						[
+							{
+								name:'ES2015',
+								
+								urls:
+								[
+									{href:"ES2015-SimpleBinding.html", name:"Simple Binding (cb-bind)"},
+									{href:"ES2015-AdvancedBinding.html", name:"Advanced Binding (cb-bind, Context, Hash)"},
+									{href:"ES2015-Router.html", name:"Router (Router)"}
+								]
+							},
+
 							{
 								name:'ES5',
 								
@@ -61,17 +74,6 @@
 									{href:"ViewContent.html", name:"View Content (cb-content)"},
 									{href:"ViewLifecycle.html", name:"View Lifecycle (View)"},
 									{href:"LoadScript.html", name:"Load Script (loadScript)"}
-								]
-							},
-							
-							{
-								name:'ES2015',
-								
-								urls:
-								[
-									{href:"ES2015-SimpleBinding.html", name:"Simple Binding (cb-bind)"},
-									{href:"ES2015-AdvancedBinding.html", name:"Advanced Binding (cb-bind, Context, Hash)"},
-									{href:"ES2015-Router.html", name:"Router (Router)"}
 								]
 							}
 						];
