@@ -80,7 +80,11 @@
 	 */
 	var BindingUtils__cleanPropertyName = function(value)
 	{
-		return (value || '').trim().replace(/[^\w\._\s]/g, '');
+		return (value || '')
+			.trim()
+			.replace(/\[(.*?)\]/g, '.$1')
+			.replace(/[^\w\._\s]/g, '')
+			;
 	};
 	
 	var BindingUtils_eval = function(obj, strOrArray)
