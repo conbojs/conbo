@@ -2202,6 +2202,11 @@ declare namespace conbo
 		 */  
 		historyClass:any;
 	
+		/** 
+		 * Has the router been started?
+		 */
+		get hasStarted():boolean;
+
 		/**
 		 * Start the router
 		 */
