@@ -33,7 +33,16 @@ conbo.Router = conbo.EventDispatcher.extend(
 		this.historyClass = conbo.History;
 		this.context = options.context;
 	},
-	
+
+	/**
+	 * Has the router been started?
+	 * @type	boolean
+	 */
+	get hasStarted()
+	{
+		return !!this.__history;
+	},
+
 	/**
 	 * Start the router
 	 */
@@ -141,9 +150,14 @@ conbo.Router = conbo.EventDispatcher.extend(
 	 */
 	setPath: function(path, options) 
 	{
+		if (!this.hasStarted)
+		{
+			throw new Error('Path cannot be set until Router started');
+		}
+
 		options = conbo.setDefaults({}, options, {trigger:true});
-		
 		this.__history.setPath(path, options);
+		
 		return this;
 	},
 	
@@ -153,7 +167,7 @@ conbo.Router = conbo.EventDispatcher.extend(
 	 */
 	get path()
 	{
-		return this.__history ? this.__history.getPath() : '';
+		return this.hasStarted ? this.__history.getPath() : '';
 	},
 	
 	set path(value)
