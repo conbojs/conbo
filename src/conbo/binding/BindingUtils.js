@@ -459,12 +459,6 @@
 						// ... otherwise, bind to the native property
 						default:
 						{
-							if (!(source instanceof conbo.EventDispatcher))
-							{
-								conbo.warn('Source is not EventDispatcher');
-								return this;
-							}
-							
 							eventHandler = function()
 							{
 								var value;
@@ -474,25 +468,29 @@
 								
 								element[nativeAttr] = value;
 							};
-						    
-							eventType = 'change:'+propertyName;
-							source.addEventListener(eventType, eventHandler);
+
+							if (source instanceof conbo.EventDispatcher)
+							{
+								eventType = 'change:'+propertyName;
+								source.addEventListener(eventType, eventHandler);
+								
+								bindings.push([source, eventType, eventHandler]);
+							}
+
 							eventHandler();
-							
-							bindings.push([source, eventType, eventHandler]);
 							
 							var ep = new conbo.EventProxy(element);
 							
 							eventHandler = function()
-			     			{
+							{
 								BindingUtils__set.call(source, propertyName, element[nativeAttr]);
-			     			};
+							};
 							
-			     			eventType = 'input change';
+							eventType = 'input change';
 							ep.addEventListener(eventType, eventHandler);
 							
 							bindings.push([ep, eventType, eventHandler]);
-							
+
 							break;
 						}
 					}
