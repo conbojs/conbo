@@ -134,7 +134,7 @@
 		 */
 		bindElement: function(source, propertyName, el, parseFunction)
 		{
-			var isEventDispatcher = source instanceof conbo.EventDispatcher;
+			var sourceIsEventDispatcher = source instanceof conbo.EventDispatcher;
 			
 			if (!el)
 			{
@@ -167,7 +167,7 @@
 						{
 							el.checked = !!source[propertyName];
 							
-							if (isEventDispatcher)
+							if (sourceIsEventDispatcher)
 							{
 								eventType = 'change:'+propertyName;
 								
@@ -200,7 +200,7 @@
 								el.checked = true;
 							}
 							
-							if (isEventDispatcher)
+							if (sourceIsEventDispatcher)
 							{
 								eventType = 'change:'+propertyName;
 								
@@ -223,7 +223,7 @@
 						{
 							el.value = conbo.toValueString(source[propertyName]);
 							
-							if (isEventDispatcher)
+							if (sourceIsEventDispatcher)
 							{
 								eventType = 'change:'+propertyName;
 								
@@ -263,7 +263,7 @@
 					el.parentNode.insertBefore(textNode, el);
 					el.parentNode.removeChild(el);
 					
-					if (isEventDispatcher)
+					if (sourceIsEventDispatcher)
 					{
 						eventType = 'change:'+propertyName;
 						
@@ -283,7 +283,7 @@
 				{
 					el.innerHTML = parseFunction(source[propertyName]);
 					
-					if (isEventDispatcher)
+					if (sourceIsEventDispatcher)
 					{
 						eventType = 'change:'+propertyName;
 						
@@ -383,9 +383,10 @@
 				isConbo = isConboNs && camelCase in BindingUtils__cbAttrs,
 				isCustom = !isConbo && camelCase in BindingUtils__customAttrs,
 				isNative = isConboNs && split.length == 2 && split[1] in element,
-				attrFuncs = BindingUtils__cbAttrs
+				attrFuncs = BindingUtils__cbAttrs,
+				sourceIsEventDispatcher = source instanceof conbo.EventDispatcher
 				;
-			
+
 			parseFunction || (parseFunction = this.defaultParseFunction);
 			
 			switch (true)
@@ -396,12 +397,6 @@
 				
 				case isConbo:
 				{
-					if (!(source instanceof conbo.EventDispatcher))
-					{
-						conbo.warn('Source is not EventDispatcher');
-						return this;
-					}
-					
 					var fn = attrFuncs[camelCase];
 					
 					if (fn.raw)
@@ -415,12 +410,15 @@
 							fn.apply(attrFuncs, [element, parseFunction(source[propertyName])].concat(args));
 						};
 						
-						eventType = 'change:'+propertyName;
-						
-						source.addEventListener(eventType, eventHandler);
+						if (sourceIsEventDispatcher)
+						{
+							eventType = 'change:'+propertyName;
+							source.addEventListener(eventType, eventHandler);
+
+							bindings.push([source, eventType, eventHandler]);
+						}
+
 						eventHandler();
-						
-						bindings.push([source, eventType, eventHandler]);
 					}
 					
 					break;
@@ -469,7 +467,7 @@
 								element[nativeAttr] = value;
 							};
 
-							if (source instanceof conbo.EventDispatcher)
+							if (sourceIsEventDispatcher)
 							{
 								eventType = 'change:'+propertyName;
 								source.addEventListener(eventType, eventHandler);
