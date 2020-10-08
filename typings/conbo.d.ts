@@ -538,6 +538,15 @@ declare namespace conbo
 
 		/**
 		 * Add a listener for a particular event type
+		 * @param 	{string}	type - Type of event ('change') or events ('change blur')
+		 * @param 	{Function}	handler - Function that should be called
+		 * @param 	{IEventListenerOptions}	[options] - Event listener options
+		 * @returns	{conbo.EventDispatcher}	A reference to this class instance
+		 */
+		addEventListener(type: string, handler: any, options?: IEventListenerOptions):this;
+
+		/**
+		 * Add a listener for a particular event type
 		 * @deprecated
 		 * @param 	{string}	type - Type of event ('change') or events ('change blur')
 		 * @param 	{Function}	handler - Function that should be called
@@ -549,13 +558,13 @@ declare namespace conbo
 		addEventListener(type: string, handler: any, scope?: any, priority?: number, once?: boolean):this;
 
 		/**
-		 * Add a listener for a particular event type
-		 * @param 	{string}	type - Type of event ('change') or events ('change blur')
-		 * @param 	{Function}	handler - Function that should be called
+		 * Remove a listener for a particular event type
+		 * @param 	{string}	[type] - Type of event ('change') or events ('change blur'), if not specified, all listeners will be removed
+		 * @param 	{Function}	[handler] - Function that should be called, if not specified, all listeners of the specified type will be removed
 		 * @param 	{IEventListenerOptions}	[options] - Event listener options
 		 * @returns	{conbo.EventDispatcher}	A reference to this class instance
 		 */
-		addEventListener(type: string, handler: any, options?: IEventListenerOptions):this;
+		removeEventListener(type?: string, handler?: any, options?: IEventListenerOptions):this;
 
 		/**
 		 * Remove a listener for a particular event type
@@ -568,13 +577,13 @@ declare namespace conbo
 		removeEventListener(type?: string, handler?: any, scope?: any):this;
 
 		/**
-		 * Remove a listener for a particular event type
-		 * @param 	{string}	[type] - Type of event ('change') or events ('change blur'), if not specified, all listeners will be removed
-		 * @param 	{Function}	[handler] - Function that should be called, if not specified, all listeners of the specified type will be removed
+		 * Does this object have an event listener of the specified type?
+		 * @param 	{string}	type - Type of event (e.g. 'change')
+		 * @param 	{Function}	[handler] - Function that should be called
 		 * @param 	{IEventListenerOptions}	[options] - Event listener options
-		 * @returns	{conbo.EventDispatcher}	A reference to this class instance
+		 * @returns	{boolean}	True if this object has the specified event listener, false if it does not
 		 */
-		removeEventListener(type?: string, handler?: any, options?: IEventListenerOptions):this;
+		hasEventListener(type: string, handler?: any, options?: IEventListenerOptions):boolean;
 
 		/**
 		 * Does this object have an event listener of the specified type?
@@ -585,15 +594,6 @@ declare namespace conbo
 		 * @returns	{boolean}	True if this object has the specified event listener, false if it does not
 		 */
 		hasEventListener(type: string, handler?: any, scope?: any):boolean;
-
-		/**
-		 * Does this object have an event listener of the specified type?
-		 * @param 	{string}	type - Type of event (e.g. 'change')
-		 * @param 	{Function}	[handler] - Function that should be called
-		 * @param 	{IEventListenerOptions}	[options] - Event listener options
-		 * @returns	{boolean}	True if this object has the specified event listener, false if it does not
-		 */
-		hasEventListener(type: string, handler?: any, options?: IEventListenerOptions):boolean;
 
 		/**
 		 * Dispatch the event to listeners
@@ -3216,7 +3216,7 @@ declare namespace conbo
 	 * @param		{string}	[separator=_] - Default: "_"
 	 * @returns		{string}
 	 */
-	function toUnderscoreCasefunction(string:string, separator?:string):string;
+	function toUnderscoreCase(string:string, separator?:string):string;
 	
 	/**
 	 * Convert camelCaseWords into kebab-case-words
